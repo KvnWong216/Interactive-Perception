@@ -1,0 +1,115 @@
+name: Interactive-Manipulation-Scenes-v0
+version: 0.2.0
+description: >-
+  Six fixed-view LIBERO environments for information acquisition through
+  physical interaction. The suite excludes active viewpoint change.
+
+backend:
+  simulator: MuJoCo
+  framework: LIBERO
+  robot: Panda
+  controller: OSC_POSE
+  policy_camera: agentview
+  active_viewpoint_actions: forbidden
+  image_size: [256, 256]
+
+prompt_contract:
+  final_goal_only: true
+  forbidden_exploration_phrases:
+    - open
+    - drawer
+    - fridge
+    - refrigerator
+    - search
+    - find
+    - look
+    - inspect
+    - lift
+    - reveal
+    - first
+    - under
+  not_found_token: NOT_FOUND
+  note: >-
+    The language instruction never states whether information-seeking
+    interaction is required. Policies receive the same ordinary final-goal
+    form in visible, hidden, and target-absent scenes.
+
+tasks:
+  - id: T01_drawer_retrieval
+    family: articulated_drawer
+    prompt: Place the butter in the wicker basket.
+    bddl: scenarios/interactive_manipulation_v0/T01_drawer_retrieval.bddl
+    target: butter_1
+    reveal_fixture: wooden_cabinet_1
+    reveal_joint: wooden_cabinet_1_top_region
+    required_interaction: open_drawer
+    expected_terminal: TASK_SUCCESS
+
+  - id: T02_fridge_retrieval
+    family: hinged_fridge
+    prompt: Place the orange juice in the wicker basket.
+    bddl: scenarios/interactive_manipulation_v0/T02_fridge_retrieval.bddl
+    target: orange_juice_1
+    reveal_fixture: short_fridge_1
+    reveal_joint: short_fridge_1
+    required_interaction: open_fridge_door
+    expected_terminal: TASK_SUCCESS
+
+  - id: T03_inverted_bowl_retrieval
+    family: removable_cover
+    prompt: Place the butter in the wicker basket.
+    bddl: scenarios/interactive_manipulation_v0/T03_inverted_bowl_retrieval.bddl
+    target: butter_1
+    reveal_fixture: glazed_rim_porcelain_ramekin_1
+    required_interaction: move_inverted_bowl
+    reset_wrapper: inverted_bowl_cover
+    expected_terminal: TASK_SUCCESS
+
+  - id: T04_visible_direct
+    family: visible_control
+    prompt: Place the alphabet soup can in the wicker basket.
+    bddl: scenarios/interactive_manipulation_v0/T04_visible_direct.bddl
+    target: alphabet_soup_1
+    required_interaction: none
+    expected_terminal: TASK_SUCCESS
+
+  - id: T05_exhaustive_not_found
+    family: target_absent_search
+    prompt: Place the alphabet soup can in the wicker basket.
+    bddl: scenarios/interactive_manipulation_v0/T05_exhaustive_not_found.bddl
+    target: null
+    absent_instance: alphabet_soup_1
+    searched_fixture: wooden_cabinet_1
+    required_interaction: open_all_drawers
+    expected_terminal: NOT_FOUND
+    search_completion_predicate: all_three_drawers_open
+
+  - id: T06_dense_clutter_partial_occlusion
+    family: partial_occlusion_clutter
+    prompt: Place the ketchup in the wicker basket.
+    bddl: scenarios/interactive_manipulation_v0/T06_dense_clutter_partial_occlusion.bddl
+    target: ketchup_1
+    clutter_objects:
+      - alphabet_soup_1
+      - tomato_sauce_1
+      - milk_1
+      - orange_juice_1
+      - bbq_sauce_1
+    occluding_objects:
+      - alphabet_soup_1
+    required_interaction: clear_occluding_objects
+    reset_wrapper: dense_clutter_partial_occlusion
+    expected_terminal: TASK_SUCCESS
+    min_visible_clutter_objects: 5
+    min_initial_target_pixels: 1
+    max_initial_visible_fraction: 0.62
+    min_reveal_gain: 1.50
+
+validation:
+  fixed_policy_camera: agentview
+  require_no_viewpoint_action: true
+  require_hidden_target_initially: true
+  require_target_visible_after_oracle_reveal: true
+  require_visible_control_target_initially: true
+  require_absent_target_not_instantiated: true
+  seeds: [0, 1, 2]

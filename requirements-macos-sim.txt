@@ -1,0 +1,22 @@
+# Simulation and scenario-authoring subset tested on native Apple silicon.
+# The full historical LIBERO requirements include Linux-only EGL tooling and
+# old tokenizers that are unnecessary for this local simulation workflow.
+torch==1.11.0
+torchvision==0.12.0
+torchaudio==0.11.0
+numpy==1.22.4
+mujoco==2.3.7
+robosuite==1.4.0
+bddl==1.0.1
+hydra-core==1.2.0
+easydict==1.9
+opencv-python==4.6.0.66
+future==0.18.2
+matplotlib==3.5.3
+cloudpickle==2.1.0
+gym==0.25.2
+imageio==2.37.0
+h5py==3.14.0
+termcolor==3.1.0
+pynput==1.8.2
+PyYAML==6.0.3

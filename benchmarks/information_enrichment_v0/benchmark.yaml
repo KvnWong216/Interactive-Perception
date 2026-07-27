@@ -1,0 +1,128 @@
+name: Information-Enrichment-v0
+version: 0.1.0
+description: >-
+  Two controlled wrist-camera LIBERO scenarios that isolate semantic
+  resolution and semantic-surface uncertainty. Active viewpoint change is
+  outside the scope.
+
+backend:
+  simulator: MuJoCo
+  framework: LIBERO
+  robot: Panda
+  controller: OSC_POSE
+  policy_camera: robot0_eye_in_hand
+  evaluator_camera: agentview
+  image_size: [256, 256]
+  active_viewpoint_actions: forbidden
+  reset_sensing_pose:
+    name: natural_oblique_wrist_v1
+    action: [0.0, 0.0, 0.0, 0.0, -0.7, 0.0, 0.0]
+    action_steps: 16
+    settle_steps: 5
+    command_endpoint_downward_degrees_from_horizontal: 34.4866
+    validated_post_layout_settle_range_degrees: [28.8006, 30.0537]
+    validated_post_layout_settle_mean_degrees: 29.4271
+    semantics: >-
+      This deterministic pre-positioning is part of env.reset. It is not
+      selected by the evaluated policy and is never counted as an
+      information-seeking action.
+
+observation_contract:
+  policy_inputs:
+    - robot0_eye_in_hand_rgb
+    - proprioception
+    - language_instruction
+    - observation_action_history
+  evaluator_only:
+    - agentview_rgb
+    - instance_segmentation
+    - object_and_fixture_state
+    - camera_extrinsics
+    - oracle_information_endpoint_images
+
+prompt_contract:
+  final_goal_only: true
+  forbidden_exploration_phrases:
+    - explore
+    - inspect
+    - look
+    - search
+    - open
+    - rotate
+    - move closer
+    - reveal
+    - clear
+    - first
+  note: >-
+    Referring to a product label specifies the final target identity; it
+    does not specify whether or how the robot should acquire more evidence.
+
+uncertainty_contract:
+  latent_hypotheses:
+    - candidate_object_identity
+    - target_location
+    - target_existence
+    - grasp_feasibility
+  information_action_types:
+    DIRECT_ACT: Commit to the final manipulation with current evidence.
+    BRING_CLOSER: Increase projected label resolution.
+    ROTATE_TO_LABEL: Expose a discriminative object surface.
+    CLEAR_OCCLUDER: Increase target visibility and grasp clearance.
+    OPEN_CONTAINER: Reveal a previously unobserved semantic region.
+    NOT_FOUND: Terminate after reasonable hypotheses are exhausted.
+  action_selection_objective: >-
+    Select the action with maximum expected reduction in task-relevant
+    uncertainty plus expected task progress, normalized by interaction cost.
+  benchmark_note: >-
+    Oracle state writes validate causal endpoints only. A learned policy must
+    reach the same endpoints through Panda OSC_POSE actions.
+
+tasks:
+  - id: IE02_resolution_only
+    family: semantic_resolution_enrichment
+    prompt: Place the package labeled Macaroni and Cheese in the wicker basket.
+    bddl: scenarios/information_enrichment_v0/IE02_resolution_only.bddl
+    target: macaroni_and_cheese_1
+    candidate_objects:
+      - macaroni_and_cheese_1
+      - chocolate_pudding_1
+      - cream_cheese_1
+    expected_information_action: BRING_CLOSER
+    oracle_endpoint: target_at_standard_inspection_distance
+    inspection_distance_m: 0.22
+    min_scale_gain: 2.5
+    constraints:
+      target_orientation_changes: false
+      container_interaction: false
+      occluder_interaction: false
+
+  - id: IE03_orientation_only
+    family: semantic_surface_enrichment
+    prompt: Place the bottle labeled Tomato Ketchup in the wicker basket.
+    bddl: scenarios/information_enrichment_v0/IE03_orientation_only.bddl
+    target: ketchup_1
+    candidate_objects:
+      - ketchup_1
+      - bbq_sauce_1
+    expected_information_action: ROTATE_TO_LABEL
+    oracle_endpoint: rotate_target_to_curated_label_facing_pose
+    min_rotation_degrees: 120
+    max_translation_m: 0.000001
+    constraints:
+      target_distance_changes: false
+      container_interaction: false
+      occluder_interaction: false
+
+validation:
+  seeds: [0, 1, 2]
+  require_prompt_match: true
+  reset_order:
+    - place_robot_in_standardized_sensing_pose
+    - construct_canonical_task_layout
+    - settle_and_check_layout_stability
+  require_final_layout_stability: true
+  final_layout_stability_tolerance_m: 0.005
+  require_policy_camera_fixed_after_reset: true
+  camera_position_tolerance_m: 0.001
+  camera_forward_tolerance: 0.002
+  require_no_active_viewpoint_action: true

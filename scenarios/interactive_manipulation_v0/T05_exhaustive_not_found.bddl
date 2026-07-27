@@ -1,0 +1,60 @@
+(define (problem LIBERO_Tabletop_Manipulation)
+  (:domain robosuite)
+  (:language Place the alphabet soup can in the wicker basket.)
+  (:regions
+    (cabinet_region
+      (:target main_table)
+      (:ranges ((0.02 -0.18 0.04 -0.16)))
+      (:yaw_rotation ((2.6613777765410678 2.7242096296128633)))
+    )
+    (basket_region
+      (:target main_table)
+      (:ranges ((0.05 0.19 0.07 0.21)))
+    )
+    (top_region
+      (:target wooden_cabinet_1)
+    )
+    (middle_region
+      (:target wooden_cabinet_1)
+    )
+    (bottom_region
+      (:target wooden_cabinet_1)
+    )
+    (contain_region
+      (:target basket_1)
+    )
+  )
+
+  (:fixtures
+    main_table - table
+    wooden_cabinet_1 - wooden_cabinet
+  )
+
+  (:objects
+    butter_1 - butter
+    basket_1 - basket
+  )
+
+  (:obj_of_interest
+    butter_1
+    basket_1
+    wooden_cabinet_1
+  )
+
+  (:init
+    (In butter_1 wooden_cabinet_1_top_region)
+    (Close wooden_cabinet_1_top_region)
+    (Close wooden_cabinet_1_middle_region)
+    (Close wooden_cabinet_1_bottom_region)
+    (On basket_1 main_table_basket_region)
+    (On wooden_cabinet_1 main_table_cabinet_region)
+  )
+
+  (:goal
+    (And
+      (Open wooden_cabinet_1_top_region)
+      (Open wooden_cabinet_1_middle_region)
+      (Open wooden_cabinet_1_bottom_region)
+    )
+  )
+)

@@ -1,0 +1,47 @@
+(define (problem LIBERO_Tabletop_Manipulation)
+  (:domain robosuite)
+  (:language Place the butter in the wicker basket.)
+  (:regions
+    (target_seed_region
+      (:target main_table)
+      (:ranges ((-0.08 0.02 -0.06 0.04)))
+    )
+    (cover_seed_region
+      (:target main_table)
+      (:ranges ((-0.22 0.20 -0.20 0.22)))
+    )
+    (basket_region
+      (:target main_table)
+      (:ranges ((0.08 0.20 0.10 0.22)))
+    )
+    (contain_region
+      (:target basket_1)
+    )
+  )
+
+  (:fixtures
+    main_table - table
+  )
+
+  (:objects
+    butter_1 - butter
+    glazed_rim_porcelain_ramekin_1 - glazed_rim_porcelain_ramekin
+    basket_1 - basket
+  )
+
+  (:obj_of_interest
+    butter_1
+    glazed_rim_porcelain_ramekin_1
+    basket_1
+  )
+
+  (:init
+    (On butter_1 main_table_target_seed_region)
+    (On glazed_rim_porcelain_ramekin_1 main_table_cover_seed_region)
+    (On basket_1 main_table_basket_region)
+  )
+
+  (:goal
+    (And (In butter_1 basket_1_contain_region))
+  )
+)

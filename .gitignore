@@ -1,0 +1,21 @@
+# Local dependencies and environments
+.conda/
+.libero/
+.cache/
+third_party/
+
+# Generated data
+data/*
+!data/.gitkeep
+outputs/*
+!outputs/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
