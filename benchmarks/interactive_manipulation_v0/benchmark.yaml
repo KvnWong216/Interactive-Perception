@@ -1,8 +1,10 @@
 name: Interactive-Manipulation-Scenes-v0
-version: 0.2.0
+version: 0.3.0
 description: >-
-  Six fixed-view LIBERO environments for information acquisition through
-  physical interaction. The suite excludes active viewpoint change.
+  Six LIBERO environments for information acquisition through physical
+  interaction. Viewpoint change is no longer forbidden by fiat: each scene is
+  instead certified for whether any camera pose could substitute for
+  manipulating the world.
 
 backend:
   simulator: MuJoCo
@@ -10,11 +12,48 @@ backend:
   robot: Panda
   controller: OSC_POSE
   policy_camera: agentview
-  active_viewpoint_actions: forbidden
+  active_viewpoint_actions: permitted_but_certified_insufficient
   image_size: [256, 256]
+  policy_resize: 224
+
+# Viewpoint policy. Version 0.2 forbade active viewpoint change outright, which
+# made the benchmark unfalsifiable: a reader could always object that the robot
+# simply needed to look from elsewhere. Version 0.3 permits it and discharges
+# the objection with evidence instead. `scripts/certify_nbv_insufficiency.py`
+# sweeps a hemisphere of camera poses and records the best target visibility
+# achievable without touching the scene.
+#
+# Scenes that no viewpoint can solve are the core condition. Scenes that a
+# viewpoint could solve are kept as controls, not deleted: the contrast between
+# "needs a better view" and "needs a different world" is the distinction the
+# benchmark is built to measure.
+viewpoint_contract:
+  certifier: scripts/certify_nbv_insufficiency.py
+  visible_threshold: 0
+  verdicts:
+    NBV_INSUFFICIENT: manipulation is necessary; no camera pose reveals the target
+    NBV_SUFFICIENT: some camera pose reveals the target; control condition
+    UNREVEALABLE: neither viewpoint nor the oracle manipulation reveals the target
+  note: >-
+    Certificates are produced per scenario and seed, and must be regenerated
+    whenever a scene's layout changes. The `expected_nbv_verdict` field on each
+    task is the design intent; the certificate is the measurement.
+
+# The coarse action space every method is scored in. See
+# `interaction_uncertainty.v2.primitives.CoarsePrimitive`. Container opening
+# folds into REMOVE_OCCLUDER because a drawer front is an occluder that happens
+# to be mounted on a joint. NOT_FOUND has no continuous-action decoding, which
+# is the measurement behind the claim that a baseline VLA cannot abstain.
+coarse_action_space:
+  - ACT
+  - NOT_FOUND
+  - ROTATE
+  - MOVE_CLOSER
+  - REMOVE_OCCLUDER
 
 prompt_contract:
   final_goal_only: true
+  contract_bound_variant: implicit
   forbidden_exploration_phrases:
     - open
     - drawer
@@ -30,63 +69,182 @@ prompt_contract:
     - under
   not_found_token: NOT_FOUND
   note: >-
-    The language instruction never states whether information-seeking
-    interaction is required. Policies receive the same ordinary final-goal
-    form in visible, hidden, and target-absent scenes.
+    Only the `implicit` variant is bound by the forbidden-phrase list; it is the
+    condition under test. The other variants deliberately violate it in order to
+    act as controls, and are checked for goal identity instead.
+
+# Prompt ladder. Every variant must terminate in the *same* task goal; they
+# differ only in how much of the information step the language gives away.
+# Comparing "place the butter in the basket" against "find the butter in the
+# drawer" would compare two different tasks and measure nothing.
+#
+#   implicit   L0  final goal only; the condition under test
+#   hinted     L1  final goal plus a content-free nudge that interaction may help
+#   explicit   L2  the information step stated, then the same final goal
+#   capability L3  the information step alone, used to test whether the skill
+#                  exists at all
+#
+# L3 is the control that decides whether a failure at L0 is a decision failure
+# or a skill failure. Without it, "the policy never opened the drawer" is
+# uninterpretable.
+prompt_ladder:
+  variants: [implicit, hinted, explicit, capability]
+  hint_text: You may need to interact with the scene before the task is possible.
+  goal_identity_required_for: [implicit, hinted, explicit]
 
 tasks:
   - id: T01_drawer_retrieval
     family: articulated_drawer
     prompt: Place the butter in the wicker basket.
+    prompt_variants:
+      implicit: Place the butter in the wicker basket.
+      hinted: >-
+        Place the butter in the wicker basket. You may need to interact with the
+        scene before the task is possible.
+      explicit: Open the top drawer, then place the butter in the wicker basket.
+      capability: Open the top drawer of the wooden cabinet.
     bddl: scenarios/interactive_manipulation_v0/T01_drawer_retrieval.bddl
     target: butter_1
     reveal_fixture: wooden_cabinet_1
     reveal_joint: wooden_cabinet_1_top_region
+    reveal_joint_name: wooden_cabinet_1_top_level
+    reveal_joint_open_value: -0.15
     required_interaction: open_drawer
+    coarse_primitive: REMOVE_OCCLUDER
     expected_terminal: TASK_SUCCESS
+    expected_nbv_verdict: NBV_INSUFFICIENT
+    # `object` refs resolve through a single free joint; `site` refs through
+    # sim.data.site_xpos. Run `scripts/list_scene_handles.py` to confirm the
+    # exact names in a fresh LIBERO checkout before trusting a new entry.
+    hypothesis_anchors:
+      - {label: butter, role: task_target, kind: object, ref: butter_1}
+      - {label: basket, role: placement, kind: object, ref: basket_1}
+      - {label: drawer_front, role: occluder, kind: site, ref: wooden_cabinet_1_top_region}
 
   - id: T02_fridge_retrieval
     family: hinged_fridge
     prompt: Place the orange juice in the wicker basket.
+    prompt_variants:
+      implicit: Place the orange juice in the wicker basket.
+      hinted: >-
+        Place the orange juice in the wicker basket. You may need to interact
+        with the scene before the task is possible.
+      explicit: Open the refrigerator door, then place the orange juice in the wicker basket.
+      capability: Open the refrigerator door.
     bddl: scenarios/interactive_manipulation_v0/T02_fridge_retrieval.bddl
     target: orange_juice_1
     reveal_fixture: short_fridge_1
     reveal_joint: short_fridge_1
+    reveal_joint_name: short_fridge_1_fridge_door_joint_0
+    reveal_joint_open_value: 2.2
     required_interaction: open_fridge_door
+    coarse_primitive: REMOVE_OCCLUDER
     expected_terminal: TASK_SUCCESS
+    expected_nbv_verdict: NBV_INSUFFICIENT
+    # Confounded by construction: pi05_libero is trained on libero_spatial,
+    # object, goal and 10, none of which contain a refrigerator. Drawer opening
+    # does appear in libero_goal and libero_10. A failure here may therefore be
+    # a missing skill rather than a missing decision, so T02 is a secondary
+    # condition and its `capability` variant must be reported alongside any
+    # claim made from it.
+    skill_confound: refrigerator_absent_from_pi05_libero_training_suites
+    primary_condition: false
+    hypothesis_anchors:
+      - {label: orange_juice, role: task_target, kind: object, ref: orange_juice_1}
+      - {label: basket, role: placement, kind: object, ref: basket_1}
+      - {label: fridge_door, role: occluder, kind: body, ref: short_fridge_1_main}
 
   - id: T03_inverted_bowl_retrieval
     family: removable_cover
     prompt: Place the butter in the wicker basket.
+    prompt_variants:
+      implicit: Place the butter in the wicker basket.
+      hinted: >-
+        Place the butter in the wicker basket. You may need to interact with the
+        scene before the task is possible.
+      explicit: Move the bowl aside, then place the butter in the wicker basket.
+      capability: Move the porcelain bowl to the side of the table.
     bddl: scenarios/interactive_manipulation_v0/T03_inverted_bowl_retrieval.bddl
     target: butter_1
     reveal_fixture: glazed_rim_porcelain_ramekin_1
     required_interaction: move_inverted_bowl
+    coarse_primitive: REMOVE_OCCLUDER
     reset_wrapper: inverted_bowl_cover
     expected_terminal: TASK_SUCCESS
+    expected_nbv_verdict: NBV_INSUFFICIENT
+    hypothesis_anchors:
+      - {label: butter, role: task_target, kind: object, ref: butter_1}
+      - {label: basket, role: placement, kind: object, ref: basket_1}
+      - {label: cover_bowl, role: occluder, kind: object, ref: glazed_rim_porcelain_ramekin_1}
 
   - id: T04_visible_direct
     family: visible_control
     prompt: Place the alphabet soup can in the wicker basket.
+    prompt_variants:
+      implicit: Place the alphabet soup can in the wicker basket.
+      hinted: >-
+        Place the alphabet soup can in the wicker basket. You may need to
+        interact with the scene before the task is possible.
+      explicit: Place the alphabet soup can in the wicker basket.
+      capability: Place the alphabet soup can in the wicker basket.
     bddl: scenarios/interactive_manipulation_v0/T04_visible_direct.bddl
     target: alphabet_soup_1
     required_interaction: none
+    coarse_primitive: ACT
     expected_terminal: TASK_SUCCESS
+    expected_nbv_verdict: NBV_SUFFICIENT
+    # The reference condition for every uncertainty curve. A flat vacuity trace
+    # on a hidden-target scene means nothing on its own; it becomes a result
+    # only against a scene where the evidence genuinely is available. Never
+    # report a curve from T01/T02/T03 without T04 on the same axes.
+    role: uncertainty_reference
+    primary_condition: true
+    hypothesis_anchors:
+      - {label: alphabet_soup, role: task_target, kind: object, ref: alphabet_soup_1}
+      - {label: basket, role: placement, kind: object, ref: basket_1}
 
   - id: T05_exhaustive_not_found
     family: target_absent_search
     prompt: Place the alphabet soup can in the wicker basket.
+    prompt_variants:
+      implicit: Place the alphabet soup can in the wicker basket.
+      hinted: >-
+        Place the alphabet soup can in the wicker basket. You may need to
+        interact with the scene before the task is possible.
+      explicit: >-
+        Open the drawers to look for the alphabet soup can, then place it in the
+        wicker basket.
+      capability: Open the top drawer of the wooden cabinet.
     bddl: scenarios/interactive_manipulation_v0/T05_exhaustive_not_found.bddl
     target: null
     absent_instance: alphabet_soup_1
     searched_fixture: wooden_cabinet_1
     required_interaction: open_all_drawers
+    coarse_primitive: NOT_FOUND
     expected_terminal: NOT_FOUND
     search_completion_predicate: all_three_drawers_open
+    expected_nbv_verdict: NOT_APPLICABLE
+    # The abstention test. A continuous-action policy has no output that means
+    # "not found", so it must terminate by acting on something. The measurement
+    # is the rate at which it commits to a physical target in a scene where the
+    # correct answer is to stop.
+    role: abstention_probe
+    primary_condition: true
+    hypothesis_anchors:
+      - {label: butter, role: distractor, kind: object, ref: butter_1}
+      - {label: basket, role: placement, kind: object, ref: basket_1}
+      - {label: drawer_front, role: occluder, kind: site, ref: wooden_cabinet_1_top_region}
 
   - id: T06_dense_clutter_partial_occlusion
     family: partial_occlusion_clutter
     prompt: Place the ketchup in the wicker basket.
+    prompt_variants:
+      implicit: Place the ketchup in the wicker basket.
+      hinted: >-
+        Place the ketchup in the wicker basket. You may need to interact with
+        the scene before the task is possible.
+      explicit: Move the alphabet soup can aside, then place the ketchup in the wicker basket.
+      capability: Move the alphabet soup can to the side of the table.
     bddl: scenarios/interactive_manipulation_v0/T06_dense_clutter_partial_occlusion.bddl
     target: ketchup_1
     clutter_objects:
@@ -98,12 +256,23 @@ tasks:
     occluding_objects:
       - alphabet_soup_1
     required_interaction: clear_occluding_objects
+    coarse_primitive: REMOVE_OCCLUDER
     reset_wrapper: dense_clutter_partial_occlusion
     expected_terminal: TASK_SUCCESS
+    # Partial occlusion is expected to be viewpoint-solvable, which makes this a
+    # control rather than a core condition under the v0.3 viewpoint policy.
+    expected_nbv_verdict: NBV_SUFFICIENT
+    primary_condition: false
     min_visible_clutter_objects: 5
     min_initial_target_pixels: 1
     max_initial_visible_fraction: 0.62
     min_reveal_gain: 1.50
+    hypothesis_anchors:
+      - {label: ketchup, role: task_target, kind: object, ref: ketchup_1}
+      - {label: basket, role: placement, kind: object, ref: basket_1}
+      - {label: occluding_soup, role: occluder, kind: object, ref: alphabet_soup_1}
+      - {label: tomato_sauce, role: distractor, kind: object, ref: tomato_sauce_1}
+      - {label: milk, role: distractor, kind: object, ref: milk_1}
 
 validation:
   fixed_policy_camera: agentview
@@ -113,3 +282,27 @@ validation:
   require_visible_control_target_initially: true
   require_absent_target_not_instantiated: true
   seeds: [0, 1, 2]
+
+# Rollout protocol for policy evaluation, as distinct from scene validation.
+rollout:
+  max_steps: 400
+  num_steps_wait: 10
+  replan_steps: 5
+  probe_samples: 16
+  probe_every: 20
+  commitment_probability: 0.6
+  note: >-
+    A probe step costs `probe_samples` inferences instead of one, so
+    `probe_every` sets the temporal resolution of the uncertainty curve against
+    the GPU budget. The first sample of each probe is the chunk that gets
+    executed, so probing changes what is measured, not what is done.
+
+# Reproduction gate. The purpose is to confirm the checkpoint and client are
+# wired correctly, not to re-verify the published averages, so one suite at
+# reduced trial count is sufficient and an order of magnitude cheaper.
+reproduction_gate:
+  suite: libero_object
+  trials_per_task: 20
+  reference_success_rate: 0.982
+  tolerance: 0.05
+  reference: openpi examples/libero/README.md, pi05 @ 30k finetuned

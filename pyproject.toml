@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "interactive-perception"
+version = "0.3.0"
+description = "LIBERO scenarios and rollout tooling for measuring what a VLA does when it cannot see enough"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+
+# Deliberately light. The simulation stack is pinned in
+# requirements-linux-gpu.txt (or requirements-macos-sim.txt) because those
+# versions are tied to a specific LIBERO commit and must not be resolved freely.
+dependencies = [
+  "numpy>=1.24",
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+plots = ["matplotlib>=3.7", "imageio>=2.31", "imageio-ffmpeg>=0.4.9"]
+dev = ["pytest>=7.4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
