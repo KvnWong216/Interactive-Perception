@@ -209,6 +209,55 @@ def sweep(
     }
 
 
+def look_at_center(env: Any, task: dict[str, Any]) -> np.ndarray:
+    """Resolve the point the camera sweep aims at.
+
+    Preference order: an explicit ``nbv_look_at_site``, then the fixture that
+    hides the target, looked up as a movable object, a fixture, or a body. The
+    hidden target's own position is never used -- deriving the look-at point
+    from it would leak its location into the sweep geometry and bias the
+    visibility ceiling upward.
+
+    Raises rather than guessing. A sweep aimed at the wrong place undercounts
+    visibility and would manufacture the very verdict this script exists to
+    earn honestly.
+    """
+
+    model = env.env.sim.model
+    data = env.env.sim.data
+
+    site = task.get("nbv_look_at_site")
+    if site:
+        return np.asarray(data.site_xpos[model.site_name2id(site)], dtype=np.float64)
+
+    fixture = task.get("reveal_fixture")
+    if not fixture:
+        raise KeyError(
+            f'{task["id"]}: needs `reveal_fixture` or `nbv_look_at_site` to aim the sweep'
+        )
+
+    for registry in ("objects_dict", "fixtures_dict"):
+        table = getattr(env.env, registry, None)
+        if table and fixture in table:
+            joints = table[fixture].joints
+            if joints:
+                return np.asarray(
+                    data.get_joint_qpos(joints[0]), dtype=np.float64
+                )[:3].copy()
+            break
+
+    try:
+        return np.asarray(
+            data.body_xpos[model.body_name2id(fixture)], dtype=np.float64
+        ).copy()
+    except Exception as error:  # noqa: BLE001 - re-raised with actionable context
+        raise KeyError(
+            f'{task["id"]}: cannot locate reveal_fixture {fixture!r} as an object, '
+            f"fixture, or body. Run scripts/list_scene_handles.py to find the "
+            f"correct name, then set `nbv_look_at_site` on the task."
+        ) from error
+
+
 def certify_task(
     *,
     env_class: Any,
@@ -248,18 +297,12 @@ def certify_task(
         # Aim the sweep at the fixture that hides the target when the target
         # itself is unobservable; a look-at point derived from the hidden object
         # would leak its position into the sweep geometry.
-        center_ref = task.get("nbv_look_at_site") or task.get("reveal_fixture")
-        if center_ref and center_ref in env.env.objects_dict:
-            joint = env.env.objects_dict[center_ref].joints
-            center = (
-                np.asarray(env.env.sim.data.get_joint_qpos(joint[0]), dtype=np.float64)[:3]
-                if joint
-                else np.asarray(env.env.sim.data.body_xpos[
-                    env.env.sim.model.body_name2id(center_ref)
-                ], dtype=np.float64)
-            )
-        else:
-            center = np.array([-0.05, 0.0, 0.95])
+        #
+        # This must never fall back to a guessed centre. A sweep aimed at the
+        # wrong place sees less than it should, which would fabricate an
+        # NBV_INSUFFICIENT verdict -- exactly the conclusion the certificate is
+        # supposed to earn. Failing loudly is the only safe behaviour.
+        center = look_at_center(env, task)
 
         poses = hemisphere_poses(
             center,

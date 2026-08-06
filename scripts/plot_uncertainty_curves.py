@@ -185,7 +185,7 @@ def draw_primitive_figure(
 
     conditions = sorted(totals)
     primitives = sorted({name for bucket in totals.values() for name in bucket})
-    figure, axis = plt.subplots(figsize=(1.6 + 1.1 * len(conditions), 4.6))
+    figure, axis = plt.subplots(figsize=(max(7.5, 1.6 + 1.1 * len(conditions)), 4.6))
     width = 0.8 / max(1, len(primitives))
     positions = np.arange(len(conditions))
 
@@ -256,14 +256,26 @@ def render_video(
 
     scale = 3
     height, width = frames.shape[1] * scale, frames.shape[2] * scale
-    inset = max(120, min(height, width) // 3)
+    margin = 4
+    # The inset must fit inside the frame with margins on both sides. Matplotlib
+    # also rounds figure dimensions, so the rendered panel is cropped to the
+    # destination box rather than assumed to match it.
+    inset = min(max(96, min(height, width) // 3), min(height, width) - 2 * margin)
+    if inset < 32:
+        raise SystemExit(
+            f"frames are {frames.shape[2]}x{frames.shape[1]}px, too small for an "
+            f"uncertainty inset; re-render the scenario at a larger resolution"
+        )
     composed: list[np.ndarray] = []
 
     for index, frame in enumerate(frames):
         canvas = np.repeat(np.repeat(frame, scale, axis=0), scale, axis=1).astype(np.uint8)
         overlay = _curve_inset(steps, upto=index, metric=metric, size=inset)
-        panel_h, panel_w = overlay.shape[:2]
-        canvas[4 : 4 + panel_h, width - panel_w - 4 : width - 4] = overlay
+        panel_h = min(overlay.shape[0], height - 2 * margin)
+        panel_w = min(overlay.shape[1], width - 2 * margin)
+        canvas[margin : margin + panel_h, width - panel_w - margin : width - margin] = (
+            overlay[:panel_h, :panel_w]
+        )
         composed.append(canvas)
 
     output.mkdir(parents=True, exist_ok=True)

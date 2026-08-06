@@ -83,12 +83,19 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def build_policy(args: argparse.Namespace, task: dict[str, Any]) -> Any:
+def build_policy(args: argparse.Namespace) -> Any:
+    """Construct the policy backend once for the whole run.
+
+    The websocket client holds a live connection, so building one per episode
+    would leak a socket per rollout and eventually exhaust the server's
+    connection limit partway through a sweep.
+    """
+
     if args.policy == "pi05":
         return OpenPiWebsocketPolicy(host=args.host, port=args.port, api_key=args.api_key)
-    # The stub drives at the first declared anchor so traces have structure; it
-    # models nothing about the real policy and exists only to test plumbing.
-    return ScriptedStubPolicy(goal_position=(0.0, 0.0, 1.0), seed=abs(hash(task["id"])) % 2**31)
+    # The stub exists only to test plumbing; it models nothing about the real
+    # policy and its output must never be reported.
+    return ScriptedStubPolicy(goal_position=(0.0, 0.0, 1.0), seed=args.seeds[0])
 
 
 def rollout_config(spec: dict[str, Any], args: argparse.Namespace) -> RolloutConfig:
@@ -118,6 +125,7 @@ def main() -> None:
     from libero.libero.envs import SegmentationRenderEnv
 
     config = rollout_config(spec, args)
+    policy = build_policy(args)
     selected = set(args.task_ids or [task["id"] for task in spec["tasks"]])
     ladder = spec.get("prompt_ladder", {}).get("variants", ["implicit", "explicit"])
     for variant in args.variants:
@@ -153,7 +161,6 @@ def main() -> None:
                 )
                 frames: list[np.ndarray] | None = [] if args.save_frames else None
                 try:
-                    policy = build_policy(args, task)
                     outcome, records = run_episode(
                         env=env,
                         policy=policy,
