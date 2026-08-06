@@ -113,6 +113,13 @@ tasks:
     coarse_primitive: REMOVE_OCCLUDER
     expected_terminal: TASK_SUCCESS
     expected_nbv_verdict: NBV_INSUFFICIENT
+    # Measured 2026-08-06, 360-pose sweep: 1 of 360 viewpoints recovers exactly
+    # 1 px, against 2024 px once the drawer opens. A 504-pose sweep over a
+    # different radius set recovers 0. The leak is a seam at the drawer lip at
+    # one specific radius and elevation, not a line of sight into the drawer,
+    # but it does mean the scene does not yet certify at a strict zero. Open
+    # issue: seat the target slightly deeper and re-certify.
+    measured_nbv: {poses_seeing_target: 1, of_poses: 360, max_pre_px: 1, max_post_px: 2024}
     # `object` refs resolve through a single free joint; `site` refs through
     # sim.data.site_xpos. Run `scripts/list_scene_handles.py` to confirm the
     # exact names in a fresh LIBERO checkout before trusting a new entry.
@@ -141,6 +148,10 @@ tasks:
     coarse_primitive: REMOVE_OCCLUDER
     expected_terminal: TASK_SUCCESS
     expected_nbv_verdict: NBV_INSUFFICIENT
+    # Measured clean: 0 of 360 viewpoints recover the target, 2791 px once the
+    # door opens. Ironically the strongest occlusion in the suite sits on the
+    # scene with the weakest skill assumption; see skill_confound below.
+    measured_nbv: {poses_seeing_target: 0, of_poses: 360, max_pre_px: 0, max_post_px: 2791}
     # Confounded by construction: pi05_libero is trained on libero_spatial,
     # object, goal and 10, none of which contain a refrigerator. Drawer opening
     # does appear in libero_goal and libero_10. A failure here may therefore be
@@ -171,7 +182,22 @@ tasks:
     coarse_primitive: REMOVE_OCCLUDER
     reset_wrapper: inverted_bowl_cover
     expected_terminal: TASK_SUCCESS
-    expected_nbv_verdict: NBV_INSUFFICIENT
+    # Measured NBV_SUFFICIENT, not the intended NBV_INSUFFICIENT: 255 of 360
+    # viewpoints recover the target, up to 59 px against 753 revealed, and every
+    # leaking pose sits at low elevation. An inverted ramekin does not seal
+    # against the table over a flat package -- viewers below the rim see
+    # straight underneath it -- and lowering the cover makes matters worse
+    # because the two objects begin to intersect (1190 px at cover_z 0.930).
+    #
+    # The scene therefore does not currently test what it was built to test and
+    # must not be reported as an occlusion condition. It needs a different
+    # container or barrier whose geometry actually encloses the target; until
+    # then it is a viewpoint-solvable control like T06.
+    expected_nbv_verdict: NBV_SUFFICIENT
+    intended_nbv_verdict: NBV_INSUFFICIENT
+    primary_condition: false
+    open_issue: cover_geometry_does_not_seal_replace_container
+    measured_nbv: {poses_seeing_target: 255, of_poses: 360, max_pre_px: 59, max_post_px: 753}
     # Rasterization is platform-dependent here: the inverted bowl leaks exactly
     # one pixel of the butter under EGL on Linux and none under CGL on macOS,
     # reproducibly across seeds (1 px initial versus 232 px after the reveal).
@@ -201,6 +227,7 @@ tasks:
     coarse_primitive: ACT
     expected_terminal: TASK_SUCCESS
     expected_nbv_verdict: NBV_SUFFICIENT
+    measured_nbv: {poses_seeing_target: 334, of_poses: 360, max_pre_px: 1634, max_post_px: 1634}
     # The reference condition for every uncertainty curve. A flat vacuity trace
     # on a hidden-target scene means nothing on its own; it becomes a result
     # only against a scene where the evidence genuinely is available. Never
@@ -270,6 +297,7 @@ tasks:
     # Partial occlusion is expected to be viewpoint-solvable, which makes this a
     # control rather than a core condition under the v0.3 viewpoint policy.
     expected_nbv_verdict: NBV_SUFFICIENT
+    measured_nbv: {poses_seeing_target: 330, of_poses: 360, max_pre_px: 2052, max_post_px: 2056}
     primary_condition: false
     min_visible_clutter_objects: 5
     min_initial_target_pixels: 1

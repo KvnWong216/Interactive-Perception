@@ -63,7 +63,13 @@ def parse_args() -> argparse.Namespace:
         "--visible-threshold",
         type=int,
         default=0,
-        help="target pixels at or below which the target counts as unobservable",
+        help=(
+            "target pixels at or below which the target counts as unobservable. "
+            "Kept at zero deliberately. Raising it would let a scene that leaks "
+            "the target pass by redefining the test rather than by occluding "
+            "properly, and the certificate's whole value is that it cannot be "
+            "satisfied by argument."
+        ),
     )
     parser.add_argument("--strict", action="store_true")
     return parser.parse_args()
@@ -297,6 +303,7 @@ def certify_task(
     args: argparse.Namespace,
     camera: str,
     reveal: Any,
+    reset_wrappers: dict[str, Any],
 ) -> dict[str, Any]:
     target = task.get("target")
     if target is None:
@@ -317,6 +324,18 @@ def certify_task(
         action = np.zeros_like(env.env.action_spec[0])
         for _ in range(args.settle_steps):
             obs, _, _, _ = env.step(action)
+
+        # Scenes whose configuration is applied at reset rather than encoded in
+        # the BDDL must be configured before the sweep. Certifying T03 without
+        # its cover, or T06 without its clutter layout, would sweep a scene that
+        # is not the one under test and report a verdict for the wrong world.
+        wrapper_name = task.get("reset_wrapper")
+        if wrapper_name:
+            if wrapper_name not in reset_wrappers:
+                raise KeyError(
+                    f"{task['id']}: no reset wrapper registered for {wrapper_name!r}"
+                )
+            reset_wrappers[wrapper_name](env)
 
         if target not in env.instance_to_id:
             raise KeyError(f"{target} not instantiated in {task['id']}")
@@ -394,7 +413,18 @@ def main() -> None:
     from libero.libero.envs import SegmentationRenderEnv
 
     sys.path.insert(0, str(root / "scripts"))
-    from validate_interactive_manipulation_v0 import apply_oracle_reveal
+    from validate_interactive_manipulation_v0 import (
+        apply_dense_clutter_reset,
+        apply_inverted_bowl_reset,
+        apply_oracle_reveal,
+    )
+
+    # Reuse the validators' wrappers verbatim so a certificate is issued for
+    # exactly the scene configuration the benchmark validates.
+    reset_wrappers = {
+        "inverted_bowl_cover": apply_inverted_bowl_reset,
+        "dense_clutter_partial_occlusion": apply_dense_clutter_reset,
+    }
 
     with spec_path.open("r", encoding="utf-8") as file:
         spec = yaml.safe_load(file)
@@ -414,6 +444,7 @@ def main() -> None:
                 args=args,
                 camera=camera,
                 reveal=apply_oracle_reveal,
+                reset_wrappers=reset_wrappers,
             )
         except Exception as error:  # noqa: BLE001 - reported, not hidden
             row = {
