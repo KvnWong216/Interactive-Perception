@@ -171,8 +171,13 @@ class ScriptedStubPolicy:
 
     goal_position: tuple[float, float, float] = (0.0, 0.0, 1.0)
     horizon: int = 10
-    step_gain: float = 0.05
-    noise_scale: float = 0.01
+    # Net chunk translation, in the controller's normalized action units rather
+    # than metres. Matched to measured pi05_libero output on these scenes (1.1
+    # to 9.3, median 6.0) so that a stub trace exercises the same decisiveness
+    # regime as a real one; a metre-scale stub would sit far below
+    # AttributionConfig.motion_scale and never register as committed.
+    step_gain: float = 6.0
+    noise_scale: float = 0.3
     grip_distance: float = 0.05
     seed: int = 0
     _rng: np.random.Generator = dataclasses.field(init=False, repr=False)

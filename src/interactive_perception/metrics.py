@@ -56,6 +56,11 @@ class EpisodeOutcome:
     mean_dissonance: float
     mean_predictive_entropy: float
     not_found_evidence: float
+    # Fraction of sampled chunks whose decisiveness hit its ceiling. At 1.0 the
+    # evidence total degenerates to the sample count and vacuity stops
+    # depending on the observation, so the uncertainty columns of this episode
+    # are not interpretable. See `uncertainty_is_informative`.
+    saturated_fraction: float = 0.0
     error: str | None = None
 
     @property
@@ -80,6 +85,19 @@ class EpisodeOutcome:
             and self.expected_terminal != "NOT_FOUND"
         )
 
+    @property
+    def uncertainty_is_informative(self) -> bool:
+        """Whether this episode's uncertainty readings mean anything.
+
+        When every sampled chunk saturates its decisiveness ceiling, the
+        Dirichlet strength is exactly ``K + N`` regardless of what the policy
+        saw, so vacuity is a constant of the sampling budget rather than a
+        measurement. Curves still plot in that regime, which is precisely why
+        the condition has to be reported rather than inferred by eye.
+        """
+
+        return self.saturated_fraction < 0.99
+
     def to_dict(self) -> dict[str, Any]:
         payload = dataclasses.asdict(self)
         payload.update(
@@ -87,6 +105,7 @@ class EpisodeOutcome:
                 "correct_terminal_decision": self.correct_terminal_decision,
                 "premature_commit": self.premature_commit,
                 "false_not_found": self.false_not_found,
+                "uncertainty_is_informative": self.uncertainty_is_informative,
             }
         )
         return payload
@@ -164,6 +183,8 @@ class AggregateReport:
     mean_vacuity: float
     mean_dissonance: float
     mean_not_found_evidence: float
+    mean_saturated_fraction: float
+    uninformative_episodes: int
     errors: int
 
     def to_dict(self) -> dict[str, Any]:
@@ -210,6 +231,12 @@ def aggregate(
         ),
         mean_not_found_evidence=float(
             statistics.fmean([item.not_found_evidence for item in scored])
+        ),
+        mean_saturated_fraction=float(
+            statistics.fmean([item.saturated_fraction for item in scored])
+        ),
+        uninformative_episodes=sum(
+            not item.uncertainty_is_informative for item in scored
         ),
         errors=len(outcomes) - len(scored),
     )

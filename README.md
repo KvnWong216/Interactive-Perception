@@ -58,9 +58,31 @@ certify as `NBV_SUFFICIENT`.
 - figures and demo videos with the uncertainty curve composited over the
   policy view.
 
-**Not yet run.** The v0.3 code paths are written but have not been executed
-end-to-end: this machine has no GPU and no simulator install. Treat every script
-below as unverified until the reproduction gate passes on your hardware.
+### Validation status
+
+The pipeline has been executed end to end on an RTX 4080 SUPER (16 GB, driver
+595.84) with LIBERO under EGL and `pi05_libero` served through openpi.
+
+| Check | Result |
+|---|---|
+| Anchor references resolve in every scene | 6 / 6 tasks |
+| v0.2 scene validators (Linux/EGL) | 18 / 18 (6 tasks × 3 seeds) |
+| Unit tests, both repositories | 132 passed |
+| π0.5 reproduction gate, `libero_object` | **99.0 %** over 100 episodes (published: 98.2 %) |
+| Viewpoint certificate, `T01_drawer_retrieval` | **`NBV_INSUFFICIENT`** — 0 target pixels across every sampled camera pose, 1763 after the drawer opens |
+| Viewpoint certificate, `T04_visible_direct` | **`NBV_SUFFICIENT`** — 1612 pixels, as the control requires |
+
+The reproduction gate matters more than its number suggests. A missing image
+rotation or a mis-ordered state vector would collapse success on the challenge
+scenes in a way indistinguishable from the information-seeking failure the
+benchmark exists to measure, so it is run first and treated as a hard gate.
+
+The T01 certificate is the benchmark's central claim moved from assertion to
+measurement: with the drawer closed, *no* camera pose recovers the target.
+
+**Not yet run at scale.** The full prompt-ladder sweep (6 scenes × 4 rungs ×
+5 seeds) has not been completed; published numbers below the gate line are from
+smoke-scale runs and are not results.
 
 ### From v0.2
 
@@ -259,10 +281,55 @@ one. `probe_every` trades curve resolution against wall-clock and should be set
 from the GPU budget. The first sample of each probe is the chunk that gets
 executed, so probing changes what is measured, not what is done.
 
+### Calibrating `motion_scale`
+
+`AttributionConfig.motion_scale` is the net chunk translation at which a sample
+counts as fully committed, and **it must be calibrated to the policy's action
+units, which are usually not metres.** LIBERO's `OSC_POSE` consumes commands
+normalized to `[-1, 1]` per step, so a ten-step chunk sums to something of order
+one to ten. Measured `pi05_libero` output on these scenes spans 1.1 to 9.3 with
+a median of 6.0, which is the current default.
+
+Miscalibration here is quiet rather than loud. If every sample clears the scale,
+decisiveness saturates at one for all of them, the Dirichlet strength becomes
+exactly `K + N`, and vacuity is a constant of the sampling budget that no longer
+depends on the observation. The curve still plots; it simply measures nothing.
+An earlier default of `0.05`, chosen on the assumption of metre-scale deltas,
+saturated 100 % of samples and produced perfectly flat traces that looked like a
+finding.
+
+Every probe therefore records `saturated_fraction` and `mean_translation_norm`,
+and every episode reports `uncertainty_is_informative`. Check those before
+reading any curve.
+
 ## Evaluating π0.5
 
 `pi05_libero` is the openpi checkpoint reported at 98.8 / 98.2 / 98.0 / 92.4 on
 LIBERO spatial / object / goal / 10.
+
+### Everything in one command
+
+Once the checkpoint is fetched (step 1 below), the whole experiment runs
+unattended:
+
+```bash
+scripts/run_full_experiment.sh              # full sweep, ~120 episodes
+QUICK=1 scripts/run_full_experiment.sh      # two scenes, one seed, smoke test
+```
+
+It runs seven stages in order — preflight, anchor resolution, scene validation,
+policy server, reproduction gate, prompt-ladder sweep, figures and demo videos,
+viewpoint certification — starting and stopping the policy server itself and
+freeing the GPU before the camera sweep. The reproduction gate is a hard stop:
+if it fails the script exits rather than producing uninterpretable results.
+
+Every parameter is overridable from the environment (`SEEDS`, `VARIANTS`,
+`TASKS`, `MAX_STEPS`, `PROBE_EVERY`, `PROBE_SAMPLES`, `SKIP_NBV`, …). Run
+`QUICK=1` first and multiply its wall-clock by the episode count: a probe step
+costs `PROBE_SAMPLES` inferences instead of one, so the sweep is several times
+more expensive per episode than the gate.
+
+The remaining sections describe the same stages run by hand.
 
 ### 1. Fetch the checkpoint (~12.4 GB, no credentials needed)
 
@@ -350,11 +417,43 @@ over adjacent frames within an episode.
 - Panda with `OSC_POSE`;
 - off-screen rendering through `MUJOCO_GL=cgl`.
 
-The scenario files are platform-independent, but the provided dependency lock
-and full regression commands have currently been validated only on native
-Apple silicon. For Linux/RTX systems, start from the official
-[LIBERO installation](https://github.com/Lifelong-Robot-Learning/LIBERO) and
-reuse the `scenarios` and `benchmarks` directories.
+### Linux / CUDA
+
+The v0.3 pipeline was developed and validated on Linux with an RTX 4080 SUPER,
+driver 595.84, MuJoCo under EGL, and Python 3.10:
+
+```bash
+conda create --prefix ../.conda/envs/ipu python=3.10 -y
+conda activate ../.conda/envs/ipu
+python -m pip install -r requirements-linux-gpu.txt
+python -m pip install -e ../Interaction-Uncertainty     # uncertainty math
+python -m pip install -e ../openpi/packages/openpi-client
+python -m pip install -e .
+
+git clone https://github.com/Lifelong-Robot-Learning/LIBERO.git third_party/LIBERO
+git -C third_party/LIBERO checkout 8f1084e3132a39270c3a13ebe37270a43ece2a01
+python scripts/setup_libero_config.py
+```
+
+The policy server needs openpi's own environment, whose JAX pins conflict with
+robosuite's; keep the two apart and let them talk over the websocket:
+
+```bash
+git clone https://github.com/Physical-Intelligence/openpi.git ../openpi
+cd ../openpi && git submodule update --init --recursive && uv sync
+```
+
+Two environment notes, both of which cost time if missed. If ROS is installed,
+`/opt/ros/*/lib/python3.*/site-packages` on `PYTHONPATH` shadows the conda
+environment and breaks imports — prefix commands with `env -u PYTHONPATH`, as
+`scripts/run_full_experiment.sh` does. And `libero.libero.benchmark` needs
+`torch` even though the policy runs in JAX; torch ≥ 2.6 additionally refuses to
+read LIBERO's pickled initial states under its `weights_only` default, which
+`run_repro_gate.py` works around in a scoped, reverted patch.
+
+The two `T03`/`IE` scene tolerances in the spec exist because rasterization
+differs across platforms: the inverted bowl leaks exactly one pixel of the
+target under EGL on Linux and none under CGL on macOS.
 
 ### 1. Clone this repository and the pinned LIBERO source
 

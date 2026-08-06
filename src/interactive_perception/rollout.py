@@ -97,6 +97,13 @@ class StepRecord:
     top_hypothesis: str
     top_probability: float
     mean_gripper_command: float
+    mean_translation_norm: float
+    # Fraction of samples whose decisiveness hit its ceiling. If this sits at
+    # 1.0 for a whole run, `AttributionConfig.motion_scale` is miscalibrated for
+    # this policy's action units: evidence becomes the sample count, S is
+    # exactly K+N, and vacuity is a constant that measures nothing. The curve
+    # still plots, which is why the diagnostic is recorded per probe.
+    saturated_fraction: float
 
     def to_dict(self) -> dict[str, Any]:
         return dataclasses.asdict(self)
@@ -122,15 +129,18 @@ def _record_step(
     joint_value: float | None,
     config: RolloutConfig,
 ) -> StepRecord:
+    attribution = config.decoder.attribution
     belief = action_induced_belief(
         prompt=prompt,
         samples=samples,
         eef_position=tuple(origin.tolist()),
         anchors=[HypothesisAnchor(item.label, item.position) for item in anchors],
-        config=config.decoder.attribution,
+        config=attribution,
         provenance="pi05_action_samples",
     )
     report = summarize_task_uncertainty(belief)
+    norms = np.asarray([sample.translation_norm for sample in samples], dtype=np.float64)
+    saturated = float(np.mean(norms >= attribution.motion_scale))
     probabilities = belief.hypotheses.mean
     top_label = max(probabilities, key=lambda key: probabilities[key])
     evidence = decode_primitive_evidence(
@@ -160,6 +170,8 @@ def _record_step(
         mean_gripper_command=float(
             np.mean([sample.gripper_command for sample in samples])
         ),
+        mean_translation_norm=float(norms.mean()),
+        saturated_fraction=saturated,
     )
 
 
@@ -303,6 +315,11 @@ def run_episode(
         mean_dissonance=_mean("dissonance"),
         mean_predictive_entropy=_mean("predictive_entropy"),
         not_found_evidence=not_found_evidence,
+        saturated_fraction=(
+            float(np.mean([item.saturated_fraction for item in records]))
+            if records
+            else 0.0
+        ),
         error=error,
     )
     return outcome, records
