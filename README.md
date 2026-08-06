@@ -69,16 +69,33 @@ The pipeline has been executed end to end on an RTX 4080 SUPER (16 GB, driver
 | v0.2 scene validators (Linux/EGL) | 18 / 18 (6 tasks × 3 seeds) |
 | Unit tests, both repositories | 132 passed |
 | π0.5 reproduction gate, `libero_object` | **99.0 %** over 100 episodes (published: 98.2 %) |
-| Viewpoint certificate, `T01_drawer_retrieval` | **`NBV_INSUFFICIENT`** — 0 target pixels across every sampled camera pose, 1763 after the drawer opens |
-| Viewpoint certificate, `T04_visible_direct` | **`NBV_SUFFICIENT`** — 1612 pixels, as the control requires |
+| Viewpoint certificates, all six scenes | T01/T02/T03 **`NBV_INSUFFICIENT`**, T04/T06 **`NBV_SUFFICIENT`**, T05 n/a — `--strict` passes |
 
 The reproduction gate matters more than its number suggests. A missing image
 rotation or a mis-ordered state vector would collapse success on the challenge
 scenes in a way indistinguishable from the information-seeking failure the
 benchmark exists to measure, so it is run first and treated as a hard gate.
 
-The T01 certificate is the benchmark's central claim moved from assertion to
-measurement: with the drawer closed, *no* camera pose recovers the target.
+The certificates move the benchmark's central claim from assertion to
+measurement: with the container closed, no camera pose recovers the target.
+
+Two findings came out of that measurement and changed the suite.
+
+**T03 did not occlude at all.** Its original glazed-rim ramekin was recovered by
+255 of 360 viewpoints at up to 59 px, every leaking pose sitting below the rim,
+because a shallow curved rim never meets the table. Lowering it only made the
+meshes intersect. It was rebuilt around `akita_black_bowl`, which is wider and
+deeper, with reset heights chosen from the middle of a measured zero-leak
+plateau; it now measures 2 px against 737 revealed.
+
+**A strict zero-pixel certificate is unattainable**, and chasing one measures
+sweep density rather than occlusion. Rasterizing a mesh container on a mesh
+surface yields isolated single-ray seam hits: under a 2184-pose sweep the sealed
+refrigerator leaks exactly 1 px from 1 ray, and so does the closed drawer. The
+threshold is therefore set at 4 px — above that measured noise floor and roughly
+180x below the smallest post-manipulation visibility in the suite, so it cannot
+rescue a scene that genuinely leaks. The old ramekin would still fail it by an
+order of magnitude.
 
 **Not yet run at scale.** The full prompt-ladder sweep (6 scenes × 4 rungs ×
 5 seeds) has not been completed; published numbers below the gate line are from

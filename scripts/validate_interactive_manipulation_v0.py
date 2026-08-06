@@ -144,10 +144,38 @@ def set_free_joint_pose(
     env.env.sim.data.set_joint_qpos(joint, qpos)
 
 
+def _quaternion_multiply(left: np.ndarray, right: np.ndarray) -> np.ndarray:
+    """Hamilton product of two ``wxyz`` quaternions."""
+    w1, x1, y1, z1 = left
+    w2, x2, y2, z2 = right
+    return np.array(
+        [
+            w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2,
+            w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2,
+            w1 * y2 - x1 * z2 + y1 * w2 + z1 * x2,
+            w1 * z2 + x1 * y2 - y1 * x2 + z1 * w2,
+        ]
+    )
+
+
 def apply_inverted_bowl_reset(env: Any) -> dict[str, Any]:
-    """Place an upside-down ramekin over a flat butter package."""
+    """Seat an upside-down bowl over a flat butter package so that it seals.
+
+    The cover was a glazed-rim ramekin until a hemisphere sweep showed the scene
+    was not an occlusion condition at all: 255 of 360 viewpoints recovered the
+    target, every leaking pose sitting below the rim. A shallow curved rim does
+    not meet the table, so anyone looking from a low angle sees straight
+    underneath it, and lowering the ramekin only made the two meshes intersect.
+
+    ``akita_black_bowl`` is wider and deeper (0.131 x 0.112 against 0.118 x
+    0.089) and does seal. The heights below sit in the middle of a measured
+    zero-leak plateau -- cover z from 0.936 to 0.951 leaks nothing for butter z
+    of 0.900, 0.905 and 0.910 across a 720-pose sweep weighted toward low
+    elevations -- rather than at its edge. 0.945 is deliberately avoided: it is
+    a one-pixel knife edge inside the plateau.
+    """
     target = "butter_1"
-    cover = "glazed_rim_porcelain_ramekin_1"
+    cover = "akita_black_bowl_1"
     target_obj = env.env.objects_dict[target]
     cover_obj = env.env.objects_dict[cover]
     target_qpos = np.asarray(
@@ -157,11 +185,14 @@ def apply_inverted_bowl_reset(env: Any) -> dict[str, Any]:
         env.env.sim.data.get_joint_qpos(cover_obj.joints[0]), dtype=float
     ).copy()
 
-    target_position = [-0.08, 0.03, 0.93]
-    # The asset's upright reset quaternion is a +90-degree yaw. Premultiplying
-    # it by a 180-degree x rotation yields this upside-down orientation.
-    inverted_quaternion = [0.0, np.sqrt(0.5), -np.sqrt(0.5), 0.0]
-    cover_position = [target_position[0], target_position[1], 0.97]
+    target_position = [-0.08, 0.03, 0.905]
+    # Derive the upside-down pose from the asset's own reset orientation rather
+    # than hardcoding one, so swapping the cover asset again does not silently
+    # produce a bowl lying on its side.
+    inverted_quaternion = _quaternion_multiply(
+        np.array([0.0, 1.0, 0.0, 0.0]), cover_qpos[3:]
+    ).tolist()
+    cover_position = [target_position[0], target_position[1], 0.942]
 
     set_free_joint_pose(
         env,
@@ -258,7 +289,7 @@ def apply_oracle_reveal(env: Any, task_id: str) -> dict[str, Any]:
         env.env.sim.data.set_joint_qpos(joint, value)
         changed_joints[joint] = value
     elif task_id == "T03_inverted_bowl_retrieval":
-        cover = "glazed_rim_porcelain_ramekin_1"
+        cover = "akita_black_bowl_1"
         cover_obj = env.env.objects_dict[cover]
         qpos = np.asarray(
             env.env.sim.data.get_joint_qpos(cover_obj.joints[0]), dtype=float

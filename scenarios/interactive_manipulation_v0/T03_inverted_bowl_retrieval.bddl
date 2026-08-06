@@ -25,19 +25,19 @@
 
   (:objects
     butter_1 - butter
-    glazed_rim_porcelain_ramekin_1 - glazed_rim_porcelain_ramekin
+    akita_black_bowl_1 - akita_black_bowl
     basket_1 - basket
   )
 
   (:obj_of_interest
     butter_1
-    glazed_rim_porcelain_ramekin_1
+    akita_black_bowl_1
     basket_1
   )
 
   (:init
     (On butter_1 main_table_target_seed_region)
-    (On glazed_rim_porcelain_ramekin_1 main_table_cover_seed_region)
+    (On akita_black_bowl_1 main_table_cover_seed_region)
     (On basket_1 main_table_basket_region)
   )
 
