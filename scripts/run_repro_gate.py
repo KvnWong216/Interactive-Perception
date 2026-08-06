@@ -74,6 +74,36 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def load_init_states(task_suite: Any, task_id: int) -> Any:
+    """Read a task's initial states across the torch 2.6 pickle change.
+
+    LIBERO stores initial states as pickled numpy arrays written long before
+    torch 2.6 flipped ``torch.load``'s ``weights_only`` default to ``True``, so
+    loading them now fails on an unpickling guard. The guard exists to stop
+    untrusted checkpoints executing code; these files come from the pinned
+    LIBERO checkout in ``third_party/`` and are the same data the benchmark has
+    always shipped, so relaxing it for this one call is safe.
+
+    The patch is scoped to the call and reverted in a ``finally`` block rather
+    than applied globally, so nothing else in the process silently loses the
+    protection.
+    """
+
+    import torch
+
+    original = torch.load
+
+    def permissive(*args: Any, **kwargs: Any) -> Any:
+        kwargs.setdefault("weights_only", False)
+        return original(*args, **kwargs)
+
+    torch.load = permissive
+    try:
+        return task_suite.get_task_init_states(task_id)
+    finally:
+        torch.load = original
+
+
 def run_task(
     *,
     env: Any,
@@ -156,7 +186,7 @@ def main() -> None:
                 env=env,
                 policy=policy,
                 description=str(task.language),
-                initial_states=task_suite.get_task_init_states(task_id),
+                initial_states=load_init_states(task_suite, task_id),
                 trials=trials,
                 max_steps=MAX_STEPS[suite],
                 args=args,

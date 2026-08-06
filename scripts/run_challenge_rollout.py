@@ -80,6 +80,17 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="store policy-view frames as .npy for the demo renderer",
     )
+    parser.add_argument(
+        "--frames-seeds",
+        type=int,
+        nargs="+",
+        default=None,
+        help=(
+            "seeds to store frames for (default: the first seed only). Frames are "
+            "~60 MB per episode, so storing every seed of a full sweep costs "
+            "several GB for footage no demo will use."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -127,6 +138,9 @@ def main() -> None:
     config = rollout_config(spec, args)
     policy = build_policy(args)
     selected = set(args.task_ids or [task["id"] for task in spec["tasks"]])
+    frame_seeds = set(
+        args.frames_seeds if args.frames_seeds is not None else args.seeds[:1]
+    )
     ladder = spec.get("prompt_ladder", {}).get("variants", ["implicit", "explicit"])
     for variant in args.variants:
         if variant not in ladder:
@@ -159,7 +173,9 @@ def main() -> None:
                     camera_heights=args.height,
                     camera_widths=args.width,
                 )
-                frames: list[np.ndarray] | None = [] if args.save_frames else None
+                frames: list[np.ndarray] | None = (
+                    [] if args.save_frames and seed in frame_seeds else None
+                )
                 try:
                     outcome, records = run_episode(
                         env=env,

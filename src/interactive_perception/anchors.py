@@ -89,7 +89,16 @@ def _object_position(env: Any, instance: str) -> np.ndarray:
     obj = env.env.objects_dict[instance]
     if len(obj.joints) != 1:
         raise ValueError(f"{instance} is not a single-free-joint object: {obj.joints}")
-    qpos = np.asarray(env.env.sim.data.get_joint_qpos(obj.joints[0]), dtype=np.float64)
+    qpos = np.asarray(
+        env.env.sim.data.get_joint_qpos(obj.joints[0]), dtype=np.float64
+    ).ravel()
+    if qpos.size < 7:
+        # Fixtures carry slide and hinge joints whose qpos is a scalar, not a
+        # pose. Silently slicing one would yield a meaningless anchor position.
+        raise ValueError(
+            f"{instance}.{obj.joints[0]} has qpos of size {qpos.size}, so it is not "
+            f'a free joint; declare this anchor with kind: "body" or "site" instead'
+        )
     return qpos[:3].copy()
 
 

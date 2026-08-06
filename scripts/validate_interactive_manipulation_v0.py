@@ -505,10 +505,17 @@ def validate_case(
             "hinged_fridge",
             "removable_cover",
         }:
+            # The allowance is normally zero. It exists because rasterization is
+            # platform-dependent: T03's inverted bowl leaks exactly one pixel of
+            # the butter under EGL on Linux while leaking none under CGL on
+            # macOS. Keeping the tolerance in the spec makes the exception
+            # reviewable instead of hiding it in a >= comparison here.
+            max_initial = int(task.get("max_initial_target_pixels", 0))
             visibility_valid = (
-                initial["target_visible_pixels"] == 0
+                isinstance(initial["target_visible_pixels"], int)
+                and initial["target_visible_pixels"] <= max_initial
                 and isinstance(revealed["target_visible_pixels"], int)
-                and revealed["target_visible_pixels"] > 0
+                and revealed["target_visible_pixels"] > initial["target_visible_pixels"]
             )
         elif family == "visible_control":
             visibility_valid = (

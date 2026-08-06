@@ -107,13 +107,17 @@ def main() -> None:
         try:
             env.seed(args.seed)
             env.reset()
-            handles = describe(env, args.filter)
+            # Validation always runs against the complete handle set; --filter
+            # only narrows what gets printed. Checking against a filtered list
+            # would report every anchor outside the filter as missing.
+            handles = describe(env, "")
             problems = check_anchors(task, handles)
             failures += len(problems)
+            shown = describe(env, args.filter) if args.filter else handles
             results[task["id"]] = {"handles": handles, "anchor_problems": problems}
             if not args.json:
                 print(f'\n=== {task["id"]} ===')
-                for key, values in handles.items():
+                for key, values in shown.items():
                     print(f"  {key} ({len(values)}): {values}")
                 if problems:
                     print("  UNRESOLVED ANCHORS:")

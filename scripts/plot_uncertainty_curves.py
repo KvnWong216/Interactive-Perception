@@ -52,6 +52,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--metric", default="vacuity", choices=sorted(METRICS))
     parser.add_argument("--figures", action="store_true")
     parser.add_argument("--video", action="store_true")
+    parser.add_argument(
+        "--all-videos",
+        action="store_true",
+        help="render a video for every episode that stored frames",
+    )
     parser.add_argument("--task-id", default=None, help="task to render as video")
     parser.add_argument("--variant", default="implicit")
     parser.add_argument("--seed", type=int, default=0)
@@ -295,7 +300,7 @@ def main() -> None:
     with Path(args.spec).expanduser().resolve().open("r", encoding="utf-8") as file:
         spec = yaml.safe_load(file)
 
-    if not args.figures and not args.video:
+    if not args.figures and not args.video and not args.all_videos:
         args.figures = True
 
     if args.figures:
@@ -305,6 +310,23 @@ def main() -> None:
         written = draw_figures(loaded, spec=spec, metric=args.metric, output=output)
         primitive = draw_primitive_figure(loaded, output=output)
         for path in written + ([primitive] if primitive else []):
+            print(f"wrote {path}")
+
+    if args.all_videos:
+        cases = sorted(path.parent for path in traces_root.rglob("frames.npy"))
+        if not cases:
+            raise SystemExit(
+                f"no frames.npy under {traces_root}; re-run the rollout with --save-frames"
+            )
+        for case_dir in cases:
+            try:
+                path = render_video(
+                    case_dir=case_dir, metric=args.metric, output=output, fps=args.fps
+                )
+            except SystemExit as error:
+                # One unusable episode must not abandon the remaining demos.
+                print(f"skipped {case_dir}: {error}")
+                continue
             print(f"wrote {path}")
 
     if args.video:

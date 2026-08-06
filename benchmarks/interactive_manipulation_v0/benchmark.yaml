@@ -172,6 +172,14 @@ tasks:
     reset_wrapper: inverted_bowl_cover
     expected_terminal: TASK_SUCCESS
     expected_nbv_verdict: NBV_INSUFFICIENT
+    # Rasterization is platform-dependent here: the inverted bowl leaks exactly
+    # one pixel of the butter under EGL on Linux and none under CGL on macOS,
+    # reproducibly across seeds (1 px initial versus 232 px after the reveal).
+    # Both thresholds sit far below the revealed count, so the scene's meaning
+    # is unchanged; without them the endpoint would register as reached at step
+    # zero on Linux and the metric would silently read as noise.
+    max_initial_target_pixels: 1
+    endpoint_visible_threshold: 8
     hypothesis_anchors:
       - {label: butter, role: task_target, kind: object, ref: butter_1}
       - {label: basket, role: placement, kind: object, ref: basket_1}

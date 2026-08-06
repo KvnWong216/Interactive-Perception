@@ -209,53 +209,84 @@ def sweep(
     }
 
 
+def _body_position(env: Any, name: str) -> np.ndarray | None:
+    try:
+        body_id = env.env.sim.model.body_name2id(name)
+    except Exception:  # noqa: BLE001 - absence is an expected outcome here
+        return None
+    return np.asarray(env.env.sim.data.body_xpos[body_id], dtype=np.float64).copy()
+
+
+def _free_joint_position(env: Any, instance: str) -> np.ndarray | None:
+    """Position of a single-free-joint object, or None if it is not one.
+
+    Fixtures also carry joints, but slide and hinge joints have scalar qpos
+    rather than the seven-vector a free joint uses. Checking the size keeps a
+    cabinet's drawer-slide joint from being read as a position.
+    """
+
+    table = getattr(env.env, "objects_dict", None) or {}
+    if instance not in table or not table[instance].joints:
+        return None
+    qpos = np.asarray(
+        env.env.sim.data.get_joint_qpos(table[instance].joints[0]), dtype=np.float64
+    ).ravel()
+    return qpos[:3].copy() if qpos.size >= 7 else None
+
+
 def look_at_center(env: Any, task: dict[str, Any]) -> np.ndarray:
     """Resolve the point the camera sweep aims at.
 
-    Preference order: an explicit ``nbv_look_at_site``, then the fixture that
-    hides the target, looked up as a movable object, a fixture, or a body. The
-    hidden target's own position is never used -- deriving the look-at point
-    from it would leak its location into the sweep geometry and bias the
-    visibility ceiling upward.
+    Preference order: an explicit ``nbv_look_at_site``; then the fixture that
+    hides or contains the target, tried as ``<fixture>_main``, as a body of the
+    same name, and as a free-joint object; then, only when the scene hides
+    nothing, the target itself.
+
+    For a scene with a hidden target the target's own position is never used.
+    Deriving the look-at point from it would leak its location into the sweep
+    geometry and bias the visibility ceiling upward. A scene with no reveal
+    fixture has nothing to leak -- its target is already in plain view -- so
+    aiming at the target there is both safe and the only sensible choice.
 
     Raises rather than guessing. A sweep aimed at the wrong place undercounts
     visibility and would manufacture the very verdict this script exists to
     earn honestly.
     """
 
-    model = env.env.sim.model
-    data = env.env.sim.data
-
     site = task.get("nbv_look_at_site")
     if site:
-        return np.asarray(data.site_xpos[model.site_name2id(site)], dtype=np.float64)
+        site_id = env.env.sim.model.site_name2id(site)
+        return np.asarray(env.env.sim.data.site_xpos[site_id], dtype=np.float64).copy()
 
-    fixture = task.get("reveal_fixture")
-    if not fixture:
+    fixture = task.get("reveal_fixture") or task.get("searched_fixture")
+    if fixture:
+        for candidate in (
+            _body_position(env, f"{fixture}_main"),
+            _body_position(env, fixture),
+            _free_joint_position(env, fixture),
+        ):
+            if candidate is not None:
+                return candidate
         raise KeyError(
-            f'{task["id"]}: needs `reveal_fixture` or `nbv_look_at_site` to aim the sweep'
+            f"{task['id']}: cannot locate fixture {fixture!r} as a body or object. "
+            f"Run scripts/list_scene_handles.py to find the correct name, then set "
+            f"`nbv_look_at_site` on the task."
         )
 
-    for registry in ("objects_dict", "fixtures_dict"):
-        table = getattr(env.env, registry, None)
-        if table and fixture in table:
-            joints = table[fixture].joints
-            if joints:
-                return np.asarray(
-                    data.get_joint_qpos(joints[0]), dtype=np.float64
-                )[:3].copy()
-            break
+    target = task.get("target")
+    if target:
+        for candidate in (
+            _free_joint_position(env, target),
+            _body_position(env, f"{target}_main"),
+            _body_position(env, target),
+        ):
+            if candidate is not None:
+                return candidate
 
-    try:
-        return np.asarray(
-            data.body_xpos[model.body_name2id(fixture)], dtype=np.float64
-        ).copy()
-    except Exception as error:  # noqa: BLE001 - re-raised with actionable context
-        raise KeyError(
-            f'{task["id"]}: cannot locate reveal_fixture {fixture!r} as an object, '
-            f"fixture, or body. Run scripts/list_scene_handles.py to find the "
-            f"correct name, then set `nbv_look_at_site` on the task."
-        ) from error
+    raise KeyError(
+        f"{task['id']}: nothing to aim the sweep at. Set `nbv_look_at_site`, "
+        f"`reveal_fixture`, or `target`."
+    )
 
 
 def certify_task(

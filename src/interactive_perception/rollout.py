@@ -58,6 +58,13 @@ class RolloutConfig:
     resize_size: int = 224
     camera: str = "agentview"
     commitment_probability: float = 0.6
+    # Pixels above which the target counts as visible. Not always zero: a
+    # renderer can leak a pixel or two of a covered object, and the leak is
+    # platform-dependent (T03 renders 1 px under EGL on Linux and 0 under CGL on
+    # macOS). Treating a 1-px leak as "the information arrived" would mark the
+    # endpoint reached at step 0 and silently void the metric. Tasks may
+    # override this via `endpoint_visible_threshold` in the benchmark spec.
+    endpoint_visible_threshold: int = 0
     decoder: PrimitiveDecoderConfig = dataclasses.field(
         default_factory=PrimitiveDecoderConfig
     )
@@ -179,6 +186,9 @@ def run_episode(
     target = task.get("target")
     reveal_joint = task.get("reveal_joint_name")
     expected_terminal = str(task.get("expected_terminal", "TASK_SUCCESS"))
+    visible_threshold = int(
+        task.get("endpoint_visible_threshold", config.endpoint_visible_threshold)
+    )
 
     env.seed(seed)
     obs = env.reset()
@@ -208,7 +218,7 @@ def run_episode(
             )
             if pixels is not None:
                 max_pixels = max(max_pixels, pixels)
-                if pixels > 0 and steps_to_endpoint is None:
+                if pixels > visible_threshold and steps_to_endpoint is None:
                     steps_to_endpoint = step
 
             if frames is not None:
@@ -255,7 +265,7 @@ def run_episode(
     except Exception as exc:  # noqa: BLE001 - recorded, not silently dropped
         error = f"{type(exc).__name__}: {exc}"
 
-    endpoint_reached = max_pixels > 0
+    endpoint_reached = max_pixels > visible_threshold
     committed_before_endpoint = bool(
         first_committed_step is not None
         and (steps_to_endpoint is None or first_committed_step < steps_to_endpoint)
