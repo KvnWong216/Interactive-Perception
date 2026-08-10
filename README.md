@@ -97,9 +97,85 @@ threshold is therefore set at 4 px — above that measured noise floor and rough
 rescue a scene that genuinely leaks. The old ramekin would still fail it by an
 order of magnitude.
 
-**Not yet run at scale.** The full prompt-ladder sweep (6 scenes × 4 rungs ×
-5 seeds) has not been completed; published numbers below the gate line are from
-smoke-scale runs and are not results.
+### Full prompt-ladder results
+
+The full sweep is complete: 6 scenes × 4 prompt rungs × 5 seeds, for 120
+episodes. The load-bearing contrast does **not** support a decision-failure
+claim in this run. `capability - implicit` information-endpoint rate is
+`+0.000` (30 paired episodes, 95% CI `[-0.167, +0.167]`); both pooled endpoint
+rates are 60%. The instructed capability condition therefore did not
+outperform the final-goal-only condition.
+
+The pooled 60% must not be read as evidence that the policy has the required
+information-acquisition skills. T03, T04, and T06 reach the endpoint in every
+prompt condition, while the capability endpoint rate is only 20% on T01 and
+40% on T02, and 0% on the T05 abstention probe. On the conditions that most
+directly test opening and exhaustive search, this run does not establish a
+high-capability/low-implicit separation. It therefore cannot support a claim
+that the model can perform the information action but fails specifically to
+choose it autonomously.
+
+#### Prompt ladder, pooled over scenes
+
+| Prompt rung | Episodes | Task success | Information endpoint | Correct terminal | Premature commit | False NOT_FOUND |
+|---|---|---|---|---|---|---|
+| `implicit` | 30 | 30% [13, 47] | 60% [43, 77] | 30% | 33% | 0% |
+| `hinted` | 30 | 33% [17, 50] | 57% [40, 73] | 33% | 43% | 0% |
+| `explicit` | 30 | 30% [13, 47] | 67% [50, 83] | 30% | 33% | 0% |
+| `capability` | 30 | 17% [3, 30] | 60% [43, 77] | 17% | 40% | 0% |
+
+#### Decision failure versus skill gap
+
+| Contrast | Paired episodes | Mean difference in endpoint rate | 95% CI |
+|---|---|---|---|
+| `capability` - `implicit` | 30 | +0.000 | [-0.167, +0.167] |
+| `explicit` - `implicit` | 30 | +0.067 | [-0.067, +0.200] |
+
+**Information endpoint rate, per scene**
+
+| Task | `implicit` | `hinted` | `explicit` | `capability` | n |
+|---|---|---|---|---|---|
+| T01_drawer_retrieval | 20% | 0% | 40% | 20% | 5 |
+| T02_fridge_retrieval | 40% | 40% | 60% | 40% | 5 |
+| T03_inverted_bowl_retrieval | 100% | 100% | 100% | 100% | 5 |
+| T04_visible_direct | 100% | 100% | 100% | 100% | 5 |
+| T05_exhaustive_not_found | 0% | 0% | 0% | 0% | 5 |
+| T06_dense_clutter_partial_occlusion | 100% | 100% | 100% | 100% | 5 |
+
+**Task success rate, per scene**
+
+| Task | `implicit` | `hinted` | `explicit` | `capability` | n |
+|---|---|---|---|---|---|
+| T01_drawer_retrieval | 0% | 0% | 0% | 0% | 5 |
+| T02_fridge_retrieval | 0% | 0% | 0% | 0% | 5 |
+| T03_inverted_bowl_retrieval | 100% | 100% | 80% | 0% | 5 |
+| T04_visible_direct | 80% | 100% | 100% | 100% | 5 |
+| T05_exhaustive_not_found | 0% | 0% | 0% | 0% | 5 |
+| T06_dense_clutter_partial_occlusion | 0% | 0% | 0% | 0% | 5 |
+
+#### Are the uncertainty readings interpretable?
+
+| Prompt rung | Mean vacuity | Mean dissonance | Saturated fraction | Uninformative episodes | Errors |
+|---|---|---|---|---|---|
+| `implicit` | 0.383 | 0.304 | 0.20 | 0/30 | 0 |
+| `hinted` | 0.393 | 0.269 | 0.20 | 0/30 | 0 |
+| `explicit` | 0.363 | 0.241 | 0.32 | 0/30 | 0 |
+| `capability` | 0.359 | 0.202 | 0.40 | 0/30 | 0 |
+
+The tracked [result manifest](results/manifest.json) records provenance and file
+sizes; the machine-readable [rollout summary](results/rollout_summary.json)
+contains the full aggregate report. All 24 [demo videos](results/demos) (one per
+scene and prompt condition) and the [uncertainty figures](results/figures) are
+included. Representative paired demos:
+
+- T01 drawer: [implicit](results/demos/T01_drawer_retrieval_implicit_seed000.mp4)
+  · [capability](results/demos/T01_drawer_retrieval_capability_seed000.mp4)
+- T02 refrigerator: [implicit](results/demos/T02_fridge_retrieval_implicit_seed000.mp4)
+  · [capability](results/demos/T02_fridge_retrieval_capability_seed000.mp4)
+- T05 absent target: [implicit](results/demos/T05_exhaustive_not_found_implicit_seed000.mp4)
+  · [capability](results/demos/T05_exhaustive_not_found_capability_seed000.mp4)
+
+![Primitive evidence by prompt condition](results/figures/primitive_evidence.png)
 
 ### From v0.2
 
@@ -246,6 +322,7 @@ Interactive-Perception/
 │   ├── metrics.py                         # graded outcomes, bootstrap CIs
 │   └── rollout.py                         # episode loop + uncertainty probe
 ├── tests/
+├── results/                                 # curated figures, demos, and reports
 └── scripts/
     ├── setup_libero_config.py
     ├── check_install.py
@@ -421,6 +498,18 @@ yet only one supports the claim under test. Every episode therefore also records
 visible, whatever the policy did next -- alongside premature-commit and
 terminal-decision rates. Confidence intervals bootstrap over episodes, never
 over adjacent frames within an episode.
+
+Curate the tracked artifacts and regenerate the Markdown tables after a full
+run with:
+
+```bash
+python scripts/collect_results.py --clean
+python scripts/format_results_tables.py
+```
+
+The first command copies the compact, reviewable subset from gitignored
+`outputs/` into `results/`; the second prints tables derived directly from the
+summary and episode trace headers.
 
 ## Environment setup
 
