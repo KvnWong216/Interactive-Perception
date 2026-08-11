@@ -4,8 +4,8 @@
   (:regions
     (fridge_region
       (:target main_table)
-      (:ranges ((-0.01 -0.31 0.01 -0.29)))
-      (:yaw_rotation ((3.141592653589793 3.141592653589793)))
+      (:ranges ((0.02 -0.16 0.04 -0.14)))
+      (:yaw_rotation ((1.5707963267948966 1.5707963267948966)))
     )
     (basket_region
       (:target main_table)
