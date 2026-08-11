@@ -14,9 +14,7 @@
   },
   "visible_threshold": 4,
   "nbv_insufficient": [
-    "T01_drawer_retrieval",
-    "T02_fridge_retrieval",
-    "T03_inverted_bowl_retrieval"
+    "T01_drawer_retrieval"
   ],
   "nbv_sufficient": [
     "T04_visible_direct",
@@ -27,23 +25,9 @@
     {
       "task_id": "T01_drawer_retrieval",
       "verdict": "NBV_INSUFFICIENT",
-      "max_pre_px": 1,
-      "max_post_px": 2024,
-      "poses_with_visible_target": 1
-    },
-    {
-      "task_id": "T02_fridge_retrieval",
-      "verdict": "NBV_INSUFFICIENT",
       "max_pre_px": 0,
-      "max_post_px": 2791,
+      "max_post_px": 2041,
       "poses_with_visible_target": 0
-    },
-    {
-      "task_id": "T03_inverted_bowl_retrieval",
-      "verdict": "NBV_INSUFFICIENT",
-      "max_pre_px": 2,
-      "max_post_px": 737,
-      "poses_with_visible_target": 16
     },
     {
       "task_id": "T04_visible_direct",
@@ -51,13 +35,6 @@
       "max_pre_px": 1634,
       "max_post_px": 1634,
       "poses_with_visible_target": 334
-    },
-    {
-      "task_id": "T05_exhaustive_not_found",
-      "verdict": "NOT_APPLICABLE",
-      "max_pre_px": null,
-      "max_post_px": null,
-      "poses_with_visible_target": null
     },
     {
       "task_id": "T06_dense_clutter_partial_occlusion",

@@ -2,12 +2,6 @@
   "figures": [
     "T01_drawer_retrieval_dissonance.png",
     "T01_drawer_retrieval_vacuity.png",
-    "T02_fridge_retrieval_dissonance.png",
-    "T02_fridge_retrieval_vacuity.png",
-    "T03_inverted_bowl_retrieval_dissonance.png",
-    "T03_inverted_bowl_retrieval_vacuity.png",
-    "T05_exhaustive_not_found_dissonance.png",
-    "T05_exhaustive_not_found_vacuity.png",
     "T06_dense_clutter_partial_occlusion_dissonance.png",
     "T06_dense_clutter_partial_occlusion_vacuity.png",
     "primitive_evidence.png"
@@ -15,260 +9,183 @@
   "demos": [
     {
       "file": "T01_drawer_retrieval_capability_seed000.mp4",
-      "size_mb": 0.73,
-      "source_mb": 0.73,
-      "transcoded": false
+      "size_mb": 0.22,
+      "source_mb": 0.34,
+      "transcoded": true
     },
     {
       "file": "T01_drawer_retrieval_explicit_seed000.mp4",
-      "size_mb": 0.71,
-      "source_mb": 0.71,
-      "transcoded": false
+      "size_mb": 0.27,
+      "source_mb": 0.43,
+      "transcoded": true
     },
     {
       "file": "T01_drawer_retrieval_hinted_seed000.mp4",
-      "size_mb": 0.63,
-      "source_mb": 0.63,
-      "transcoded": false
+      "size_mb": 0.31,
+      "source_mb": 0.49,
+      "transcoded": true
     },
     {
       "file": "T01_drawer_retrieval_implicit_seed000.mp4",
-      "size_mb": 0.64,
-      "source_mb": 0.64,
-      "transcoded": false
-    },
-    {
-      "file": "T02_fridge_retrieval_capability_seed000.mp4",
-      "size_mb": 0.72,
-      "source_mb": 0.72,
-      "transcoded": false
-    },
-    {
-      "file": "T02_fridge_retrieval_explicit_seed000.mp4",
-      "size_mb": 0.58,
-      "source_mb": 0.58,
-      "transcoded": false
-    },
-    {
-      "file": "T02_fridge_retrieval_hinted_seed000.mp4",
-      "size_mb": 0.47,
-      "source_mb": 0.47,
-      "transcoded": false
-    },
-    {
-      "file": "T02_fridge_retrieval_implicit_seed000.mp4",
-      "size_mb": 0.62,
-      "source_mb": 0.62,
-      "transcoded": false
-    },
-    {
-      "file": "T03_inverted_bowl_retrieval_capability_seed000.mp4",
-      "size_mb": 0.7,
-      "source_mb": 0.7,
-      "transcoded": false
-    },
-    {
-      "file": "T03_inverted_bowl_retrieval_explicit_seed000.mp4",
-      "size_mb": 0.68,
-      "source_mb": 0.68,
-      "transcoded": false
-    },
-    {
-      "file": "T03_inverted_bowl_retrieval_hinted_seed000.mp4",
       "size_mb": 0.28,
-      "source_mb": 0.28,
-      "transcoded": false
-    },
-    {
-      "file": "T03_inverted_bowl_retrieval_implicit_seed000.mp4",
-      "size_mb": 0.28,
-      "source_mb": 0.28,
-      "transcoded": false
+      "source_mb": 0.46,
+      "transcoded": true
     },
     {
       "file": "T04_visible_direct_capability_seed000.mp4",
-      "size_mb": 0.35,
-      "source_mb": 0.35,
-      "transcoded": false
+      "size_mb": 0.22,
+      "source_mb": 0.38,
+      "transcoded": true
     },
     {
       "file": "T04_visible_direct_explicit_seed000.mp4",
-      "size_mb": 0.3,
-      "source_mb": 0.3,
-      "transcoded": false
+      "size_mb": 0.25,
+      "source_mb": 0.44,
+      "transcoded": true
     },
     {
       "file": "T04_visible_direct_hinted_seed000.mp4",
-      "size_mb": 0.35,
-      "source_mb": 0.35,
-      "transcoded": false
+      "size_mb": 0.18,
+      "source_mb": 0.28,
+      "transcoded": true
     },
     {
       "file": "T04_visible_direct_implicit_seed000.mp4",
-      "size_mb": 0.33,
-      "source_mb": 0.33,
-      "transcoded": false
-    },
-    {
-      "file": "T05_exhaustive_not_found_capability_seed000.mp4",
-      "size_mb": 0.58,
-      "source_mb": 0.58,
-      "transcoded": false
-    },
-    {
-      "file": "T05_exhaustive_not_found_explicit_seed000.mp4",
-      "size_mb": 0.62,
-      "source_mb": 0.62,
-      "transcoded": false
-    },
-    {
-      "file": "T05_exhaustive_not_found_hinted_seed000.mp4",
-      "size_mb": 0.58,
-      "source_mb": 0.58,
-      "transcoded": false
-    },
-    {
-      "file": "T05_exhaustive_not_found_implicit_seed000.mp4",
-      "size_mb": 0.6,
-      "source_mb": 0.6,
-      "transcoded": false
-    },
-    {
-      "file": "T06_dense_clutter_partial_occlusion_capability_seed000.mp4",
-      "size_mb": 0.76,
-      "source_mb": 0.76,
-      "transcoded": false
+      "size_mb": 0.12,
+      "source_mb": 0.2,
+      "transcoded": true
     },
     {
       "file": "T06_dense_clutter_partial_occlusion_explicit_seed000.mp4",
-      "size_mb": 0.79,
-      "source_mb": 0.79,
-      "transcoded": false
+      "size_mb": 0.58,
+      "source_mb": 1.05,
+      "transcoded": true
     },
     {
       "file": "T06_dense_clutter_partial_occlusion_hinted_seed000.mp4",
-      "size_mb": 0.61,
-      "source_mb": 0.61,
-      "transcoded": false
+      "size_mb": 0.47,
+      "source_mb": 0.8,
+      "transcoded": true
     },
     {
       "file": "T06_dense_clutter_partial_occlusion_implicit_seed000.mp4",
-      "size_mb": 0.75,
-      "source_mb": 0.75,
-      "transcoded": false
+      "size_mb": 0.33,
+      "source_mb": 0.53,
+      "transcoded": true
     }
   ],
   "skipped": [],
   "conditions": {
     "implicit": {
       "condition": "implicit",
-      "episodes": 30,
-      "success_rate": 0.3,
+      "episodes": 15,
+      "task_success_episodes": 15,
+      "success_rate": 0.2,
       "success_ci95": [
-        0.13333333333333333,
-        0.4666666666666667
+        0.0,
+        0.4
       ],
-      "endpoint_rate": 0.6,
+      "endpoint_rate": 0.3333333333333333,
       "endpoint_ci95": [
-        0.43333333333333335,
-        0.7666666666666667
+        0.13333333333333333,
+        0.6
       ],
-      "correct_terminal_rate": 0.3,
-      "premature_commit_rate": 0.3333333333333333,
+      "correct_terminal_rate": 0.2,
+      "premature_commit_rate": 0.6,
       "false_not_found_rate": 0.0,
-      "mean_vacuity": 0.3828940927895043,
-      "mean_dissonance": 0.3036689005174809,
+      "mean_vacuity": 0.4592308486608515,
+      "mean_dissonance": 0.2488904251335027,
       "mean_not_found_evidence": 0.0,
-      "mean_saturated_fraction": 0.20470568783068782,
+      "mean_saturated_fraction": 0.238234126984127,
       "uninformative_episodes": 0,
       "errors": 0
     },
     "hinted": {
       "condition": "hinted",
-      "episodes": 30,
-      "success_rate": 0.3333333333333333,
+      "episodes": 15,
+      "task_success_episodes": 15,
+      "success_rate": 0.0,
       "success_ci95": [
-        0.16666666666666666,
-        0.5
+        0.0,
+        0.0
       ],
-      "endpoint_rate": 0.5666666666666667,
+      "endpoint_rate": 0.3333333333333333,
       "endpoint_ci95": [
-        0.4,
-        0.7333333333333333
+        0.13333333333333333,
+        0.6
       ],
-      "correct_terminal_rate": 0.3333333333333333,
-      "premature_commit_rate": 0.43333333333333335,
+      "correct_terminal_rate": 0.0,
+      "premature_commit_rate": 0.5333333333333333,
       "false_not_found_rate": 0.0,
-      "mean_vacuity": 0.39252815120034723,
-      "mean_dissonance": 0.2686464285298148,
+      "mean_vacuity": 0.4673059781506764,
+      "mean_dissonance": 0.2496408465187872,
       "mean_not_found_evidence": 0.0,
-      "mean_saturated_fraction": 0.19657407407407407,
+      "mean_saturated_fraction": 0.19666666666666666,
       "uninformative_episodes": 0,
       "errors": 0
     },
     "explicit": {
       "condition": "explicit",
-      "episodes": 30,
-      "success_rate": 0.3,
+      "episodes": 15,
+      "task_success_episodes": 15,
+      "success_rate": 0.13333333333333333,
       "success_ci95": [
-        0.13333333333333333,
-        0.4666666666666667
+        0.0,
+        0.3333333333333333
       ],
-      "endpoint_rate": 0.6666666666666666,
+      "endpoint_rate": 0.4666666666666667,
       "endpoint_ci95": [
-        0.5,
-        0.8333333333333334
+        0.2,
+        0.7333333333333333
       ],
-      "correct_terminal_rate": 0.3,
-      "premature_commit_rate": 0.3333333333333333,
+      "correct_terminal_rate": 0.13333333333333333,
+      "premature_commit_rate": 0.4,
       "false_not_found_rate": 0.0,
-      "mean_vacuity": 0.3634675135249515,
-      "mean_dissonance": 0.24105396609452664,
+      "mean_vacuity": 0.4806580266282407,
+      "mean_dissonance": 0.23775259614102462,
       "mean_not_found_evidence": 0.0,
-      "mean_saturated_fraction": 0.3230423280423281,
+      "mean_saturated_fraction": 0.18926767676767675,
       "uninformative_episodes": 0,
       "errors": 0
     },
     "capability": {
       "condition": "capability",
-      "episodes": 30,
-      "success_rate": 0.16666666666666666,
-      "success_ci95": [
-        0.03333333333333333,
-        0.3
-      ],
-      "endpoint_rate": 0.6,
+      "episodes": 10,
+      "task_success_episodes": 0,
+      "success_rate": null,
+      "success_ci95": null,
+      "endpoint_rate": 0.5,
       "endpoint_ci95": [
-        0.43333333333333335,
-        0.7666666666666667
+        0.2,
+        0.8
       ],
-      "correct_terminal_rate": 0.16666666666666666,
+      "correct_terminal_rate": null,
       "premature_commit_rate": 0.4,
-      "false_not_found_rate": 0.0,
-      "mean_vacuity": 0.35865639420386136,
-      "mean_dissonance": 0.20220177651020896,
+      "false_not_found_rate": null,
+      "mean_vacuity": 0.34954599216907906,
+      "mean_dissonance": 0.3333811624108435,
       "mean_not_found_evidence": 0.0,
-      "mean_saturated_fraction": 0.3957371332371332,
+      "mean_saturated_fraction": 0.21550925925925926,
       "uninformative_episodes": 0,
       "errors": 0
     }
   },
   "capability_minus_implicit": {
-    "pairs": 30,
+    "pairs": 10,
     "attribute": "information_endpoint_reached",
     "mean_difference": 0.0,
     "ci95": [
-      -0.16666666666666666,
-      0.16666666666666666
+      0.0,
+      0.0
     ]
   },
   "explicit_minus_implicit": {
-    "pairs": 30,
+    "pairs": 15,
     "attribute": "information_endpoint_reached",
-    "mean_difference": 0.06666666666666667,
+    "mean_difference": 0.13333333333333333,
     "ci95": [
-      -0.06666666666666667,
-      0.2
+      0.0,
+      0.3333333333333333
     ]
   },
   "reproduction_gate": 1.0
