@@ -1,5 +1,12 @@
 # Interactive Perception
 
+> **Pipeline v0.4 note:** policy and demo cameras are now decoupled; the
+> original T01/T06 have been replaced by multi-drawer search and nine-object
+> clutter; and monolithic, fixed-rule, and RGB-only closed-loop router arms are
+> available. No v0.4 GPU result has been run yet. See
+> [`docs/PIPELINE_V04.md`](docs/PIPELINE_V04.md) and [`HANDOFF.md`](HANDOFF.md)
+> before using the historical result tables below.
+
 Minimal LIBERO scenarios for studying **when a robot should manipulate the
 environment to obtain task-relevant information before acting**.
 

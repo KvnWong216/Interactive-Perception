@@ -96,14 +96,12 @@ class RolloutConfig:
     # endpoint reached at step 0 and silently void the metric. Tasks may
     # override this via `endpoint_visible_threshold` in the benchmark spec.
     endpoint_visible_threshold: int = 0
-    # Optional override of the policy camera's pose, as MuJoCo (pos, wxyz quat).
-    # LIBERO's stock `agentview` sits at (0.5, 0, 1.35) looking down at roughly
-    # 42 degrees, which flattens the depth cue that tells a container from the
-    # things in front of it. Overriding it is not free: pi0.5 was trained on the
-    # stock pose, so any change moves the observation off-distribution and the
-    # reproduction gate has to be re-measured, not assumed.
-    camera_pos: tuple[float, float, float] | None = None
-    camera_quat_wxyz: tuple[float, float, float, float] | None = None
+    # The policy always consumes the environment's stock camera. A separate
+    # pose may be used for saved demo frames, but it is applied only while
+    # rendering that frame and the stock pose is restored before inference.
+    demo_camera: str | None = None
+    demo_camera_pos: tuple[float, float, float] | None = None
+    demo_camera_quat_wxyz: tuple[float, float, float, float] | None = None
     decoder: PrimitiveDecoderConfig = dataclasses.field(
         default_factory=PrimitiveDecoderConfig
     )
@@ -115,6 +113,42 @@ class RolloutConfig:
             raise ValueError("probe_every must be a multiple of replan_steps or larger")
         if not 0.0 < self.commitment_probability <= 1.0:
             raise ValueError("commitment_probability must lie in (0, 1]")
+
+
+def _capture_demo_frame(
+    env: Any, policy_obs: dict[str, Any], config: RolloutConfig
+) -> np.ndarray:
+    """Render a presentation view without changing the policy observation.
+
+    The demo camera may intentionally be the same MuJoCo camera name as the
+    policy camera. In that case its model pose is changed temporarily, a fresh
+    observation is rendered, and both pose arrays are restored before the
+    caller performs inference or advances physics.
+    """
+
+    camera = config.demo_camera or config.camera
+    if config.demo_camera_pos is None and config.demo_camera_quat_wxyz is None:
+        return np.ascontiguousarray(np.flipud(policy_obs[f"{camera}_image"]))
+
+    sim = env.env.sim
+    index = sim.model.camera_name2id(camera)
+    original_pos = np.asarray(sim.model.cam_pos[index], dtype=float).copy()
+    original_quat = np.asarray(sim.model.cam_quat[index], dtype=float).copy()
+    try:
+        demo_obs = set_camera_pose(
+            env,
+            camera=camera,
+            position=config.demo_camera_pos,
+            quaternion_wxyz=config.demo_camera_quat_wxyz,
+        )
+        return np.ascontiguousarray(np.flipud(demo_obs[f"{camera}_image"]))
+    finally:
+        set_camera_pose(
+            env,
+            camera=camera,
+            position=original_pos,
+            quaternion_wxyz=original_quat,
+        )
 
 
 @dataclasses.dataclass
@@ -226,6 +260,9 @@ def run_episode(
     config: RolloutConfig | None = None,
     frames: list[np.ndarray] | None = None,
     post_reset: Callable[[Any], dict[str, Any]] | None = None,
+    prefix_prompt: str | None = None,
+    prefix_steps: int = 0,
+    prompt_router: Any | None = None,
 ) -> tuple[EpisodeOutcome, list[StepRecord]]:
     """Run one scenario under one prompt variant and score it.
 
@@ -235,6 +272,10 @@ def run_episode(
     """
 
     config = config or RolloutConfig()
+    if prefix_steps < 0:
+        raise ValueError("prefix_steps must be non-negative")
+    if prefix_steps and not prefix_prompt:
+        raise ValueError("prefix_prompt is required when prefix_steps is positive")
     target = task.get("target")
     reveal_joint = task.get("reveal_joint_name")
     expected_terminal = str(task.get("expected_terminal", "TASK_SUCCESS"))
@@ -244,13 +285,6 @@ def run_episode(
 
     env.seed(seed)
     obs = env.reset()
-    if config.camera_pos is not None or config.camera_quat_wxyz is not None:
-        obs = set_camera_pose(
-            env,
-            camera=config.camera,
-            position=config.camera_pos,
-            quaternion_wxyz=config.camera_quat_wxyz,
-        )
     # A scenario whose occlusion is created by a reset wrapper is not that
     # scenario until the wrapper has run. Applying it here, inside the one
     # function every arm goes through, is what stops an unconfigured scene from
@@ -265,6 +299,7 @@ def run_episode(
     first_committed_step: int | None = None
     success = False
     error: str | None = None
+    routed_terminal: str | None = None
     plan: list[np.ndarray] = []
     step = 0
     endpoint: EndpointEvaluator | None = None
@@ -299,12 +334,31 @@ def run_episode(
             pixels = observe_endpoint(obs, step)
 
             if frames is not None:
-                frames.append(
-                    np.ascontiguousarray(np.flipud(obs[f"{config.camera}_image"]))
-                )
+                frames.append(_capture_demo_frame(env, obs, config))
 
             if not plan:
-                packet = build_observation(obs, prompt, resize_size=config.resize_size)
+                active_prompt = (
+                    prefix_prompt
+                    if prefix_prompt is not None
+                    and step < config.num_steps_wait + prefix_steps
+                    else prompt
+                )
+                if prompt_router is not None:
+                    routing = prompt_router.decide(
+                        obs=obs,
+                        step=step,
+                        final_prompt=prompt,
+                        camera=config.camera,
+                    )
+                    if routing.terminal is not None:
+                        routed_terminal = routing.terminal
+                        break
+                    if routing.prompt is None:
+                        raise RuntimeError("nonterminal routing decision has no prompt")
+                    active_prompt = routing.prompt
+                packet = build_observation(
+                    obs, active_prompt, resize_size=config.resize_size
+                )
                 is_probe = (step - config.num_steps_wait) % config.probe_every == 0
                 count = config.probe_samples if is_probe else 1
                 chunks, samples = _probe(policy, packet, count)
@@ -314,7 +368,7 @@ def run_episode(
                     anchors = resolve_anchors(env, anchor_specs)
                     record = _record_step(
                         step=step,
-                        prompt=prompt,
+                        prompt=active_prompt,
                         samples=samples,
                         origin=eef_position(obs),
                         anchors=anchors,
@@ -374,7 +428,9 @@ def run_episode(
         # A continuous-action policy has no abstention channel, so it always
         # terminates by acting. Recording this explicitly is the measurement
         # behind the claim that baseline VLAs cannot decline a task.
-        terminal_decision="TASK_SUCCESS" if success else "ACT_NO_ABSTENTION",
+        terminal_decision=(
+            "TASK_SUCCESS" if success else routed_terminal or "ACT_NO_ABSTENTION"
+        ),
         expected_terminal=expected_terminal,
         mean_vacuity=_mean("vacuity"),
         min_vacuity=float(np.min([item.vacuity for item in records])) if records else float("nan"),

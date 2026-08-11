@@ -250,6 +250,32 @@ def apply_dense_clutter_reset(env: Any) -> dict[str, Any]:
     }
 
 
+def apply_severe_clutter_reset(env: Any) -> dict[str, Any]:
+    """Create a nine-object, two-layer occlusion around the ketchup target."""
+    positions_xy = {
+        "ketchup_1": [-0.14, -0.06],
+        "alphabet_soup_1": [-0.09, -0.06],
+        "cream_cheese_1": [-0.075, 0.035],
+        "chocolate_pudding_1": [-0.18, 0.035],
+        "tomato_sauce_1": [-0.02, 0.10],
+        "milk_1": [-0.18, 0.13],
+        "orange_juice_1": [0.02, -0.16],
+        "bbq_sauce_1": [-0.18, -0.17],
+        "cookies_1": [0.06, -0.05],
+    }
+    before: dict[str, list[float]] = {}
+    positions: dict[str, list[float]] = {}
+    for instance, xy in positions_xy.items():
+        obj = env.env.objects_dict[instance]
+        qpos = np.asarray(env.env.sim.data.get_joint_qpos(obj.joints[0]), dtype=float).copy()
+        before[instance] = qpos.tolist()
+        position = [xy[0], xy[1], float(qpos[2])]
+        positions[instance] = position
+        set_free_joint_pose(env, instance, position=position, quaternion_wxyz=qpos[3:].tolist())
+    obs = neutral_steps(env, regenerate_obs(env), 10)
+    return {"obs": obs, "object_qpos_before": before, "object_positions": positions}
+
+
 def apply_oracle_reveal(env: Any, task_id: str) -> dict[str, Any]:
     """Change only the environment state; never move the policy camera."""
     changed_joints: dict[str, float] = {}
@@ -281,8 +307,21 @@ def apply_oracle_reveal(env: Any, task_id: str) -> dict[str, Any]:
             changed_objects[instance] = qpos[:3].tolist()
         changed_joints[joint] = value
 
-    if task_id == "T01_drawer_retrieval":
-        open_drawer_with_contents("top", ["butter_1"])
+    if task_id == "T01_multi_drawer_search":
+        site_name = "wooden_cabinet_1_middle_region"
+        site_id = env.env.sim.model.site_name2id(site_name)
+        before = np.asarray(env.env.sim.data.site_xpos[site_id], dtype=float).copy()
+        joint = "wooden_cabinet_1_middle_level"
+        value = -0.15
+        env.env.sim.data.set_joint_qpos(joint, value)
+        env.env.sim.forward()
+        displacement = np.asarray(env.env.sim.data.site_xpos[site_id], dtype=float) - before
+        obj = env.env.objects_dict["butter_1"]
+        qpos = np.asarray(env.env.sim.data.get_joint_qpos(obj.joints[0]), dtype=float).copy()
+        qpos[:3] += displacement
+        env.env.sim.data.set_joint_qpos(obj.joints[0], qpos)
+        changed_objects["butter_1"] = qpos[:3].tolist()
+        changed_joints[joint] = value
     elif task_id == "T02_fridge_retrieval":
         joint = "short_fridge_1_fridge_door_joint_0"
         value = 2.2
@@ -301,15 +340,15 @@ def apply_oracle_reveal(env: Any, task_id: str) -> dict[str, Any]:
         open_drawer_with_contents("top", ["butter_1"])
         open_drawer_with_contents("middle", [])
         open_drawer_with_contents("bottom", [])
-    elif task_id == "T06_dense_clutter_partial_occlusion":
+    elif task_id == "T06_severe_clutter_occlusion":
         cleared_positions = {
             "alphabet_soup_1": [0.10, -0.18, 0.93],
+            "cream_cheese_1": [0.15, -0.12, 0.93],
+            "chocolate_pudding_1": [0.18, -0.04, 0.93],
         }
         for instance, position in cleared_positions.items():
             obj = env.env.objects_dict[instance]
-            qpos = np.asarray(
-                env.env.sim.data.get_joint_qpos(obj.joints[0]), dtype=float
-            ).copy()
+            qpos = np.asarray(env.env.sim.data.get_joint_qpos(obj.joints[0]), dtype=float).copy()
             qpos[:3] = np.asarray(position, dtype=float)
             env.env.sim.data.set_joint_qpos(obj.joints[0], qpos)
             changed_objects[instance] = position
@@ -441,6 +480,9 @@ def validate_case(
         elif task.get("reset_wrapper") == "dense_clutter_partial_occlusion":
             reset_wrapper_report = apply_dense_clutter_reset(env)
             obs = reset_wrapper_report.pop("obs")
+        elif task.get("reset_wrapper") == "severe_clutter_occlusion":
+            reset_wrapper_report = apply_severe_clutter_reset(env)
+            obs = reset_wrapper_report.pop("obs")
 
         expected_prompt = str(task["prompt"])
         actual_prompt = str(env.language_instruction)
@@ -463,7 +505,7 @@ def validate_case(
         first_person_camera = "robot0_eye_in_hand"
         first_person_key = f"{first_person_camera}_image"
         if (
-            task["id"] == "T06_dense_clutter_partial_occlusion"
+            task["id"] == "T06_severe_clutter_occlusion"
             and first_person_key in obs
         ):
             first_person_path = output_dir / "initial_first_person.png"
@@ -533,6 +575,7 @@ def validate_case(
         family = task["family"]
         if family in {
             "articulated_drawer",
+            "multi_container_search",
             "hinged_fridge",
             "removable_cover",
         }:

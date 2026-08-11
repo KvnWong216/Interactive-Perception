@@ -1,5 +1,26 @@
 # Handoff
 
+## Update after the 8269d65 evidence snapshot
+
+Pipeline v0.4 now keeps pi0.5 on stock `agentview` and uses the horizontal pose
+only for temporarily rendered demo frames. It adds three executable arms:
+`monolithic`, `fixed-rule`, and `uncertainty-router`. The last arm calls an
+RGB-only public-evidence service, emits bounded primitive sub-prompts, observes
+again after execution, updates searched/cleared state, and can terminate with
+`NOT_FOUND` or a low-confidence safe stop. See `docs/PIPELINE_V04.md`.
+
+The original T01 and T06 were replaced. `T01_multi_drawer_search` has three
+candidate drawers with the highest prior deliberately assigned to the wrong
+drawer; its 360-pose certificate is `NBV_INSUFFICIENT` (0 -> 1235 px).
+`T06_severe_clutter_occlusion` has nine objects and three declared occluders;
+its certificate is `NBV_SUFFICIENT` (2060 -> 2064 px). Both replacements pass
+scene validation on seeds 0, 1, and 2.
+
+No new GPU result exists yet. Before interpreting one, freeze and record the
+public vision model/checkpoint, run the reproduction gate, and require T04 to
+recover under the stock policy camera. The RGB evidence service must never be
+implemented with simulator segmentation or `task_target` anchors.
+
 Paste the block at the bottom into a fresh agent session. Everything above it
 is the evidence behind that block, kept so the claims can be checked rather
 than trusted.

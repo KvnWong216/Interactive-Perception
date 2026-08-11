@@ -94,7 +94,7 @@ def test_anchor_spec_rejects_unknown_kinds() -> None:
 
 def _outcome(**overrides):
     base = dict(
-        task_id="T01_drawer_retrieval",
+        task_id="T01_multi_drawer_search",
         prompt_variant="implicit",
         seed=0,
         steps=200,

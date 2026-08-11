@@ -27,6 +27,7 @@ results are diagnostic only and must never be reported.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 import sys
 from pathlib import Path
@@ -40,6 +41,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 import _bootstrap  # noqa: F401,E402
 
 from interactive_perception.anchors import AnchorSpec  # noqa: E402
+from interactive_perception.closed_loop import (  # noqa: E402
+    ClosedLoopPromptRouter,
+    RemotePublicPerception,
+)
 from interactive_perception.metrics import aggregate, paired_difference  # noqa: E402
 from interactive_perception.policy_client import (  # noqa: E402
     OpenPiWebsocketPolicy,
@@ -73,6 +78,28 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--probe-samples", type=int, default=None)
     parser.add_argument("--probe-every", type=int, default=None)
     parser.add_argument("--max-steps", type=int, default=None)
+    parser.add_argument(
+        "--arm",
+        choices=["monolithic", "fixed-rule", "uncertainty-router"],
+        default="monolithic",
+        help=(
+            "monolithic sends one ladder prompt; fixed-rule executes the declared "
+            "information skill for a bounded prefix, then the unchanged final goal"
+        ),
+    )
+    parser.add_argument(
+        "--information-skill-steps",
+        type=int,
+        default=120,
+        help="bounded prefix length for --arm fixed-rule",
+    )
+    parser.add_argument(
+        "--perception-endpoint",
+        default=None,
+        help="RGB-only evidence service required by --arm uncertainty-router",
+    )
+    parser.add_argument("--perception-timeout", type=float, default=30.0)
+    parser.add_argument("--minimum-perception-confidence", type=float, default=0.5)
     parser.add_argument("--width", type=int, default=256)
     parser.add_argument("--height", type=int, default=256)
     parser.add_argument(
@@ -111,10 +138,11 @@ def build_policy(args: argparse.Namespace) -> Any:
 
 def rollout_config(spec: dict[str, Any], args: argparse.Namespace) -> RolloutConfig:
     defaults = spec.get("rollout", {}) or {}
-    pose = spec["backend"].get("camera_pose") or {}
+    pose = spec["backend"].get("demo_camera_pose") or {}
     return RolloutConfig(
-        camera_pos=tuple(pose["position"]) if pose.get("position") else None,
-        camera_quat_wxyz=(
+        demo_camera=str(spec["backend"].get("demo_camera", spec["backend"]["policy_camera"])),
+        demo_camera_pos=tuple(pose["position"]) if pose.get("position") else None,
+        demo_camera_quat_wxyz=(
             tuple(pose["quaternion_wxyz"]) if pose.get("quaternion_wxyz") else None
         ),
         max_steps=args.max_steps or int(defaults.get("max_steps", 400)),
@@ -148,14 +176,18 @@ def main() -> None:
     from validate_interactive_manipulation_v0 import (
         apply_dense_clutter_reset,
         apply_inverted_bowl_reset,
+        apply_severe_clutter_reset,
     )
 
     reset_wrappers = {
         "inverted_bowl_cover": apply_inverted_bowl_reset,
         "dense_clutter_partial_occlusion": apply_dense_clutter_reset,
+        "severe_clutter_occlusion": apply_severe_clutter_reset,
     }
 
     config = rollout_config(spec, args)
+    if args.arm == "uncertainty-router" and not args.perception_endpoint:
+        raise SystemExit("--arm uncertainty-router requires --perception-endpoint")
     policy = build_policy(args)
     selected = set(args.task_ids or [task["id"] for task in spec["tasks"]])
     frame_seeds = set(
@@ -210,6 +242,29 @@ def main() -> None:
                     else None
                 )
                 try:
+                    prefix_prompt = None
+                    prefix_steps = 0
+                    if (
+                        args.arm == "fixed-rule"
+                        and task.get("required_interaction") != "none"
+                    ):
+                        prefix_prompt = variants.get("capability") or variants.get("explicit")
+                        if not prefix_prompt:
+                            raise SystemExit(
+                                f'{task["id"]}: fixed-rule arm needs a capability or explicit prompt'
+                            )
+                        prefix_prompt = " ".join(str(prefix_prompt).split())
+                        prefix_steps = args.information_skill_steps
+                    prompt_router = None
+                    if args.arm == "uncertainty-router":
+                        prompt_router = ClosedLoopPromptRouter(
+                            task=task,
+                            perception=RemotePublicPerception(
+                                args.perception_endpoint,
+                                timeout_s=args.perception_timeout,
+                            ),
+                            minimum_confidence=args.minimum_perception_confidence,
+                        )
                     outcome, records = run_episode(
                         post_reset=post_reset,
                         env=env,
@@ -221,6 +276,9 @@ def main() -> None:
                         seed=seed,
                         config=config,
                         frames=frames,
+                        prefix_prompt=prefix_prompt,
+                        prefix_steps=prefix_steps,
+                        prompt_router=prompt_router,
                     )
                 finally:
                     env.close()
@@ -233,6 +291,25 @@ def main() -> None:
                     metadata={
                         "prompt": prompt,
                         "policy": args.policy,
+                        "arm": args.arm,
+                        "prefix_prompt": prefix_prompt,
+                        "prefix_steps": prefix_steps,
+                        "routing_decisions": (
+                            [
+                                {
+                                    "prompt": item.prompt,
+                                    "primitive": item.primitive,
+                                    "target": item.target,
+                                    "terminal": item.terminal,
+                                    "reason": item.reason,
+                                    "risks": dict(item.risks),
+                                    "evidence": dataclasses.asdict(item.evidence),
+                                }
+                                for item in prompt_router.decisions
+                            ]
+                            if prompt_router is not None
+                            else []
+                        ),
                         "expected_nbv_verdict": task.get("expected_nbv_verdict"),
                         "primary_condition": task.get("primary_condition"),
                         "skill_confound": task.get("skill_confound"),
@@ -251,6 +328,7 @@ def main() -> None:
     summary: dict[str, Any] = {
         "spec": str(args.spec),
         "policy": args.policy,
+        "arm": args.arm,
         "seeds": args.seeds,
         "variants": args.variants,
         "conditions": {},

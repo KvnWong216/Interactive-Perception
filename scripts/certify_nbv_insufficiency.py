@@ -425,6 +425,7 @@ def main() -> None:
         apply_dense_clutter_reset,
         apply_inverted_bowl_reset,
         apply_oracle_reveal,
+        apply_severe_clutter_reset,
     )
 
     # Reuse the validators' wrappers verbatim so a certificate is issued for
@@ -432,6 +433,7 @@ def main() -> None:
     reset_wrappers = {
         "inverted_bowl_cover": apply_inverted_bowl_reset,
         "dense_clutter_partial_occlusion": apply_dense_clutter_reset,
+        "severe_clutter_occlusion": apply_severe_clutter_reset,
     }
 
     with spec_path.open("r", encoding="utf-8") as file:

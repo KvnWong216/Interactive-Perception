@@ -37,6 +37,8 @@ SEEDS="${SEEDS:-0 1 2 3 4}"
 VARIANTS="${VARIANTS:-implicit hinted explicit capability}"
 TASKS="${TASKS:-}"                      # empty means every task in the spec
 MAX_STEPS="${MAX_STEPS:-300}"
+ARM="${ARM:-monolithic}"
+INFORMATION_SKILL_STEPS="${INFORMATION_SKILL_STEPS:-120}"
 PROBE_EVERY="${PROBE_EVERY:-25}"
 PROBE_SAMPLES="${PROBE_SAMPLES:-12}"
 GATE_TRIALS="${GATE_TRIALS:-10}"
@@ -50,7 +52,7 @@ SKIP_NBV="${SKIP_NBV:-0}"
 SKIP_SCENES="${SKIP_SCENES:-0}"
 
 if [ "${QUICK:-0}" = "1" ]; then
-  TASKS="T01_drawer_retrieval T04_visible_direct"
+  TASKS="T01_multi_drawer_search T04_visible_direct"
   SEEDS="0"
   VARIANTS="implicit capability"
   MAX_STEPS=150
@@ -103,6 +105,7 @@ note "checkpoint: $CHECKPOINT_DIR"
 note "tasks:      ${TASKS:-<all>}"
 note "variants:   $VARIANTS"
 note "seeds:      $SEEDS"
+note "arm:        $ARM"
 note "log:        $RUN_LOG"
 
 TASK_ARG=()
@@ -165,6 +168,8 @@ run python scripts/run_challenge_rollout.py \
   --variants $VARIANTS \
   --seeds $SEEDS \
   --max-steps "$MAX_STEPS" \
+  --arm "$ARM" \
+  --information-skill-steps "$INFORMATION_SKILL_STEPS" \
   --probe-every "$PROBE_EVERY" \
   --probe-samples "$PROBE_SAMPLES" \
   --save-frames 2>&1 | tee -a "$RUN_LOG" | grep -E "rollout\]|success=|skip" || true

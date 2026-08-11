@@ -13,6 +13,7 @@ policy behaves in a real scene.
 
 from __future__ import annotations
 
+import dataclasses
 import json
 from typing import Any
 
@@ -29,12 +30,19 @@ RESOLUTION = 32
 class _FakeModel:
     def __init__(self, sites: dict[str, int]) -> None:
         self._sites = sites
+        self.cam_pos = np.array([[0.5, 0.0, 1.35]], dtype=float)
+        self.cam_quat = np.array([[0.7, 0.0, 0.0, 0.7]], dtype=float)
 
     def site_name2id(self, name: str) -> int:
         return self._sites[name]
 
     def body_name2id(self, name: str) -> int:
         raise KeyError(name)
+
+    def camera_name2id(self, name: str) -> int:
+        if name != "agentview":
+            raise KeyError(name)
+        return 0
 
 
 class _FakeData:
@@ -101,8 +109,10 @@ class FakeLiberoEnv:
             and self.steps >= self.target_visible_after
         ):
             segmentation[:4, :4, 0] = 7
+        camera_height = self.env.sim.model.cam_pos[0, 2]
+        image_value = 200 if camera_height == pytest.approx(1.2) else 120
         return {
-            "agentview_image": np.full((RESOLUTION, RESOLUTION, 3), 120, dtype=np.uint8),
+            "agentview_image": np.full((RESOLUTION, RESOLUTION, 3), image_value, dtype=np.uint8),
             "robot0_eye_in_hand_image": np.full(
                 (RESOLUTION, RESOLUTION, 3), 90, dtype=np.uint8
             ),
@@ -116,6 +126,12 @@ class FakeLiberoEnv:
         self.steps = 0
         return self._obs()
 
+    def get_sim_state(self) -> np.ndarray:
+        return np.array([self.steps], dtype=float)
+
+    def regenerate_obs_from_state(self, state: np.ndarray) -> dict[str, Any]:
+        return self._obs()
+
     def step(self, action) -> tuple[dict[str, Any], float, bool, dict[str, Any]]:
         self.steps += 1
         self._eef = self._eef + np.asarray(action, dtype=np.float64)[:3]
@@ -126,10 +142,14 @@ class FakeLiberoEnv:
 
 
 TASK = {
-    "id": "T01_drawer_retrieval",
+    "id": "T01_multi_drawer_search",
     "target": "butter_1",
     "reveal_joint_name": "drawer_joint",
     "expected_terminal": "TASK_SUCCESS",
+    "information_endpoint": {
+        "type": "visible_target",
+        "min_target_visible_pixels": 1,
+    },
 }
 
 ANCHORS = [
@@ -213,6 +233,59 @@ def test_frames_are_captured_for_the_demo_renderer() -> None:
     _run(FakeLiberoEnv(), frames=frames)
     assert len(frames) == CONFIG.max_steps
     assert frames[0].shape == (RESOLUTION, RESOLUTION, 3)
+
+
+def test_demo_pose_does_not_change_policy_camera() -> None:
+    env = FakeLiberoEnv()
+    frames: list[np.ndarray] = []
+    config = dataclasses.replace(
+        CONFIG,
+        demo_camera="agentview",
+        demo_camera_pos=(0.8, 0.0, 1.2),
+        demo_camera_quat_wxyz=(0.58, 0.40, 0.40, 0.58),
+    )
+    run_episode(
+        env=env,
+        policy=ScriptedStubPolicy(goal_position=(0.3, 0.0, 0.9), seed=0),
+        task=TASK,
+        prompt="Place the butter in the wicker basket.",
+        prompt_variant="implicit",
+        anchor_specs=ANCHORS,
+        seed=0,
+        config=config,
+        frames=frames,
+    )
+    assert frames and np.all(frames[0] == 200)
+    assert env.env.sim.model.cam_pos[0].tolist() == pytest.approx([0.5, 0.0, 1.35])
+
+
+def test_fixed_rule_prefix_switches_back_to_final_goal() -> None:
+    class RecordingPolicy(ScriptedStubPolicy):
+        prompts: list[str]
+
+        def __init__(self) -> None:
+            super().__init__(goal_position=(0.3, 0.0, 0.9), seed=0)
+            self.prompts = []
+
+        def sample_chunks(self, packet, count):
+            self.prompts.append(packet.prompt)
+            return super().sample_chunks(packet, count)
+
+    policy = RecordingPolicy()
+    run_episode(
+        env=FakeLiberoEnv(),
+        policy=policy,
+        task=TASK,
+        prompt="Place the butter in the wicker basket.",
+        prompt_variant="implicit",
+        anchor_specs=ANCHORS,
+        seed=0,
+        config=CONFIG,
+        prefix_prompt="Open the top drawer.",
+        prefix_steps=15,
+    )
+    assert policy.prompts[0] == "Open the top drawer."
+    assert "Place the butter in the wicker basket." in policy.prompts
 
 
 def test_trace_round_trips_as_jsonl(tmp_path) -> None:

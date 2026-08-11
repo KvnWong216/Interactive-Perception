@@ -1,5 +1,5 @@
 name: Interactive-Manipulation-Scenes-v0
-version: 0.3.0
+version: 0.4.0
 description: >-
   Six LIBERO environments for information acquisition through physical
   interaction. Viewpoint change is no longer forbidden by fiat: each scene is
@@ -12,6 +12,7 @@ backend:
   robot: Panda
   controller: OSC_POSE
   policy_camera: agentview
+  demo_camera: agentview
   active_viewpoint_actions: permitted_but_certified_insufficient
   image_size: [256, 256]
   policy_resize: 224
@@ -28,7 +29,7 @@ backend:
   # reproduction gate. T04 must therefore be run as an in-distribution control:
   # if the visible-target scene also collapses, the camera is the cause and no
   # claim about information seeking can be read from the other scenes.
-  camera_pose:
+  demo_camera_pose:
     position: [0.80, 0.0, 1.20]
     quaternion_wxyz: [0.5813436265249455, 0.402541411408596, 0.402541411408596, 0.5813436265249455]
 
@@ -133,46 +134,6 @@ evaluation_protocol:
   endpoint_visibility_noise_floor_pixels: 4
 
 tasks:
-  - id: T01_drawer_retrieval
-    family: articulated_drawer
-    prompt: Place the butter in the wicker basket.
-    prompt_variants:
-      implicit: Fetch the butter and move inside the basket.
-      hinted: >-
-        Fetch the butter and move inside the basket. The butter is somewhere
-        inside the drawer.
-      explicit: >-
-        Open the top layer of the drawer, grasp the butter, and place into the
-        basket.
-      capability: Open the top layer of the drawer.
-    bddl: scenarios/interactive_manipulation_v0/T01_drawer_retrieval.bddl
-    target: butter_1
-    reveal_fixture: wooden_cabinet_1
-    reveal_joint: wooden_cabinet_1_top_region
-    reveal_joint_name: wooden_cabinet_1_top_level
-    reveal_joint_open_value: -0.15
-    required_interaction: open_drawer
-    coarse_primitive: REMOVE_OCCLUDER
-    information_endpoint:
-      type: articulated_reveal
-      min_target_visible_pixels: 5
-      joints:
-        - {name: wooden_cabinet_1_top_level, operator: lt, threshold: -0.14}
-    expected_terminal: TASK_SUCCESS
-    expected_nbv_verdict: NBV_INSUFFICIENT
-    # Measured 1 px against 2024 once the drawer opens. That single pixel comes
-    # from one grazing ray out of 2184 and is the rasterizer's seam noise floor,
-    # not a line of sight: the sealed refrigerator produces exactly the same
-    # signature. No geometry change removes it, so none was made.
-    measured_nbv: {max_pre_px: 1, max_post_px: 2024, dense_sweep_leaks: 1, dense_sweep_poses: 2184}
-    # `object` refs resolve through a single free joint; `site` refs through
-    # sim.data.site_xpos. Run `scripts/list_scene_handles.py` to confirm the
-    # exact names in a fresh LIBERO checkout before trusting a new entry.
-    hypothesis_anchors:
-      - {label: butter, role: task_target, kind: object, ref: butter_1}
-      - {label: basket, role: placement, kind: object, ref: basket_1}
-      - {label: drawer_front, role: occluder, kind: site, ref: wooden_cabinet_1_top_region}
-
   - id: T02_fridge_retrieval
     family: hinged_fridge
     prompt: Place the orange juice in the wicker basket.
@@ -312,6 +273,10 @@ tasks:
         - {name: wooden_cabinet_1_bottom_level, operator: lt, threshold: -0.14}
     expected_terminal: NOT_FOUND
     search_completion_predicate: all_three_drawers_open
+    search_locations:
+      - {label: top_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_top_level, prior: 0.50, action_prompt: Open the top drawer of the wooden cabinet.}
+      - {label: middle_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_middle_level, prior: 0.30, action_prompt: Open the middle drawer of the wooden cabinet.}
+      - {label: bottom_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_bottom_level, prior: 0.20, action_prompt: Open the bottom drawer of the wooden cabinet.}
     expected_nbv_verdict: NOT_APPLICABLE
     # The abstention test. A continuous-action policy has no output that means
     # "not found", so it must terminate by acting on something. The measurement
@@ -324,19 +289,59 @@ tasks:
       - {label: basket, role: placement, kind: object, ref: basket_1}
       - {label: drawer_front, role: occluder, kind: site, ref: wooden_cabinet_1_top_region}
 
-  - id: T06_dense_clutter_partial_occlusion
+  # A harder ordering condition: three closed drawers. Unlike T01, "open the
+  # highest-prior container" is not
+  # sufficient unless the prior and search-state update select the right one.
+  - id: T01_multi_drawer_search
+    family: multi_container_search
+    prompt: Place the butter in the wicker basket.
+    prompt_variants:
+      implicit: Fetch the butter and move it inside the basket.
+      hinted: >-
+        Fetch the butter and move it inside the basket. You may need to inspect
+        more than one possible storage location.
+      explicit: >-
+        Search the cabinet drawers until the butter is visible, then place it
+        into the basket.
+      capability: Open the middle drawer of the wooden cabinet.
+    bddl: scenarios/interactive_manipulation_v0/T01_multi_drawer_search.bddl
+    target: butter_1
+    required_interaction: ordered_multi_container_search
+    coarse_primitive: REMOVE_OCCLUDER
+    information_endpoint:
+      type: articulated_reveal
+      min_target_visible_pixels: 5
+      joints:
+        - {name: wooden_cabinet_1_middle_level, operator: lt, threshold: -0.14}
+    expected_terminal: TASK_SUCCESS
+    expected_nbv_verdict: NBV_INSUFFICIENT
+    primary_condition: true
+    benchmark_extension: multi_container_ambiguity
+    max_initial_target_pixels: 4
+    search_locations:
+      - {label: top_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_top_level, prior: 0.55, action_prompt: Open the top drawer of the wooden cabinet.}
+      - {label: middle_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_middle_level, prior: 0.30, action_prompt: Open the middle drawer of the wooden cabinet.}
+      - {label: bottom_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_bottom_level, prior: 0.15, action_prompt: Open the bottom drawer of the wooden cabinet.}
+    hypothesis_anchors:
+      - {label: butter, role: task_target, kind: object, ref: butter_1}
+      - {label: basket, role: placement, kind: object, ref: basket_1}
+      - {label: top_drawer, role: occluder, kind: site, ref: wooden_cabinet_1_top_region}
+      - {label: middle_drawer, role: occluder, kind: site, ref: wooden_cabinet_1_middle_region}
+      - {label: bottom_drawer, role: occluder, kind: site, ref: wooden_cabinet_1_bottom_region}
+
+  - id: T06_severe_clutter_occlusion
     family: partial_occlusion_clutter
     prompt: Place the ketchup in the wicker basket.
     prompt_variants:
-      implicit: Find the ketchup bottle and move it inside the basket.
+      implicit: Pick up the ketchup and place it in the basket.
       hinted: >-
-        Find the ketchup bottles and move it inside the basket. The ketchup is
-        behind some other bottles.
+        Pick up the ketchup and place it in the basket. You may need to
+        interact with several nearby objects first.
       explicit: >-
-        Move away the cans on the first line and see what is behind. If not
-        sure, move closer and check the labels. Once you find the ketchup
-        bottol, move it inside the basket.
-    bddl: scenarios/interactive_manipulation_v0/T06_dense_clutter_partial_occlusion.bddl
+        Clear the objects blocking the ketchup, then pick up the ketchup and
+        place it in the basket.
+      capability: Move the soup can, cream cheese, and pudding away from the cluster.
+    bddl: scenarios/interactive_manipulation_v0/T06_severe_clutter_occlusion.bddl
     target: ketchup_1
     clutter_objects:
       - alphabet_soup_1
@@ -344,34 +349,38 @@ tasks:
       - milk_1
       - orange_juice_1
       - bbq_sauce_1
-    occluding_objects:
-      - alphabet_soup_1
-    required_interaction: clear_occluding_objects
+      - cream_cheese_1
+      - chocolate_pudding_1
+      - cookies_1
+    occluding_objects: [alphabet_soup_1, cream_cheese_1, chocolate_pudding_1]
+    occluder_actions:
+      - {label: soup_occluder, action_prompt: Move the alphabet soup can away from the ketchup.}
+      - {label: cheese_occluder, action_prompt: Move the cream cheese box away from the ketchup.}
+      - {label: pudding_occluder, action_prompt: Move the chocolate pudding away from the ketchup.}
+    required_interaction: clear_multiple_occluding_objects
     coarse_primitive: REMOVE_OCCLUDER
     information_endpoint:
       type: object_visibility_gain
       object: alphabet_soup_1
       min_object_displacement: 0.05
       min_target_visible_pixels: 5
-      min_visibility_gain_pixels: 50
-      min_visibility_ratio: 1.50
-    reset_wrapper: dense_clutter_partial_occlusion
+      min_visibility_gain_pixels: 80
+      min_visibility_ratio: 1.8
+    reset_wrapper: severe_clutter_occlusion
     expected_terminal: TASK_SUCCESS
-    # Partial occlusion is expected to be viewpoint-solvable, which makes this a
-    # control rather than a core condition under the v0.3 viewpoint policy.
     expected_nbv_verdict: NBV_SUFFICIENT
-    measured_nbv: {poses_seeing_target: 330, of_poses: 360, max_pre_px: 2052, max_post_px: 2056}
     primary_condition: false
-    min_visible_clutter_objects: 5
+    benchmark_extension: severe_multi_occluder_clutter
+    min_visible_clutter_objects: 7
     min_initial_target_pixels: 1
-    max_initial_visible_fraction: 0.62
-    min_reveal_gain: 1.50
+    max_initial_visible_fraction: 0.55
+    min_reveal_gain: 1.8
     hypothesis_anchors:
       - {label: ketchup, role: task_target, kind: object, ref: ketchup_1}
       - {label: basket, role: placement, kind: object, ref: basket_1}
-      - {label: occluding_soup, role: occluder, kind: object, ref: alphabet_soup_1}
-      - {label: tomato_sauce, role: distractor, kind: object, ref: tomato_sauce_1}
-      - {label: milk, role: distractor, kind: object, ref: milk_1}
+      - {label: soup_occluder, role: occluder, kind: object, ref: alphabet_soup_1}
+      - {label: cheese_occluder, role: occluder, kind: object, ref: cream_cheese_1}
+      - {label: pudding_occluder, role: occluder, kind: object, ref: chocolate_pudding_1}
 
 validation:
   fixed_policy_camera: agentview
