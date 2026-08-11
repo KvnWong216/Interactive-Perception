@@ -111,7 +111,12 @@ def build_policy(args: argparse.Namespace) -> Any:
 
 def rollout_config(spec: dict[str, Any], args: argparse.Namespace) -> RolloutConfig:
     defaults = spec.get("rollout", {}) or {}
+    pose = spec["backend"].get("camera_pose") or {}
     return RolloutConfig(
+        camera_pos=tuple(pose["position"]) if pose.get("position") else None,
+        camera_quat_wxyz=(
+            tuple(pose["quaternion_wxyz"]) if pose.get("quaternion_wxyz") else None
+        ),
         max_steps=args.max_steps or int(defaults.get("max_steps", 400)),
         num_steps_wait=int(defaults.get("num_steps_wait", 10)),
         replan_steps=int(defaults.get("replan_steps", 5)),
@@ -134,6 +139,21 @@ def main() -> None:
         spec = yaml.safe_load(file)
 
     from libero.libero.envs import SegmentationRenderEnv
+
+    # Reuse the validators' wrappers verbatim, exactly as the NBV certifier
+    # does. A scene that is occluded only after a wrapper runs is not the
+    # scenario it claims to be until then, and evaluating the raw BDDL layout
+    # silently measures a different, far easier task.
+    sys.path.insert(0, str(root / "scripts"))
+    from validate_interactive_manipulation_v0 import (
+        apply_dense_clutter_reset,
+        apply_inverted_bowl_reset,
+    )
+
+    reset_wrappers = {
+        "inverted_bowl_cover": apply_inverted_bowl_reset,
+        "dense_clutter_partial_occlusion": apply_dense_clutter_reset,
+    }
 
     config = rollout_config(spec, args)
     policy = build_policy(args)
@@ -176,8 +196,22 @@ def main() -> None:
                 frames: list[np.ndarray] | None = (
                     [] if args.save_frames and seed in frame_seeds else None
                 )
+                wrapper_name = task.get("reset_wrapper")
+                if wrapper_name is not None and wrapper_name not in reset_wrappers:
+                    raise SystemExit(
+                        f'{task["id"]} declares reset_wrapper {wrapper_name!r}, which '
+                        "is not registered here. Refusing to run: the scene would be "
+                        "evaluated in its unconfigured layout and the result would "
+                        "look like an easy success rather than a missing occluder."
+                    )
+                post_reset = (
+                    (lambda env, _fn=reset_wrappers[wrapper_name]: _fn(env).pop("obs"))
+                    if wrapper_name is not None
+                    else None
+                )
                 try:
                     outcome, records = run_episode(
+                        post_reset=post_reset,
                         env=env,
                         policy=policy,
                         task=task,

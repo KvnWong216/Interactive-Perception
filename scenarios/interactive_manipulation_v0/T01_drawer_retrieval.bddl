@@ -4,8 +4,8 @@
   (:regions
     (cabinet_region
       (:target main_table)
-      (:ranges ((0.02 -0.18 0.04 -0.16)))
-      (:yaw_rotation ((2.6613777765410678 2.7242096296128633)))
+      (:ranges ((-0.01 -0.31 0.01 -0.29)))
+      (:yaw_rotation ((3.141592653589793 3.141592653589793)))
     )
     (basket_region
       (:target main_table)

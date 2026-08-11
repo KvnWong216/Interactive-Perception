@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import dataclasses
 import json
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from pathlib import Path
 from typing import Any
 
@@ -39,13 +39,44 @@ from .anchors import (
     resolve_anchors,
     visible_pixels,
 )
+from .endpoints import EndpointEvaluator
 from .metrics import EpisodeOutcome
 from .policy_client import PolicyBackend, build_observation
 from .primitive_decoder import PrimitiveDecoderConfig, decode_primitive_evidence
 
-__all__ = ["RolloutConfig", "StepRecord", "run_episode", "write_trace"]
+__all__ = [
+    "RolloutConfig",
+    "StepRecord",
+    "run_episode",
+    "set_camera_pose",
+    "write_trace",
+]
 
 LIBERO_DUMMY_ACTION = [0.0] * 6 + [-1.0]
+
+
+def set_camera_pose(
+    env: Any,
+    *,
+    camera: str,
+    position: Sequence[float] | None = None,
+    quaternion_wxyz: Sequence[float] | None = None,
+) -> dict[str, Any]:
+    """Move a fixed camera and re-render the observation from the new pose.
+
+    The observation has to be regenerated afterwards: the frames already in
+    ``obs`` were rendered from the old pose, and returning them would silently
+    pair a new camera with old pixels.
+    """
+
+    sim = env.env.sim
+    index = sim.model.camera_name2id(camera)
+    if position is not None:
+        sim.model.cam_pos[index] = np.asarray(position, dtype=float)
+    if quaternion_wxyz is not None:
+        sim.model.cam_quat[index] = np.asarray(quaternion_wxyz, dtype=float)
+    sim.forward()
+    return env.regenerate_obs_from_state(env.get_sim_state())
 
 
 @dataclasses.dataclass(frozen=True)
@@ -65,6 +96,14 @@ class RolloutConfig:
     # endpoint reached at step 0 and silently void the metric. Tasks may
     # override this via `endpoint_visible_threshold` in the benchmark spec.
     endpoint_visible_threshold: int = 0
+    # Optional override of the policy camera's pose, as MuJoCo (pos, wxyz quat).
+    # LIBERO's stock `agentview` sits at (0.5, 0, 1.35) looking down at roughly
+    # 42 degrees, which flattens the depth cue that tells a container from the
+    # things in front of it. Overriding it is not free: pi0.5 was trained on the
+    # stock pose, so any change moves the observation off-distribution and the
+    # reproduction gate has to be re-measured, not assumed.
+    camera_pos: tuple[float, float, float] | None = None
+    camera_quat_wxyz: tuple[float, float, float, float] | None = None
     decoder: PrimitiveDecoderConfig = dataclasses.field(
         default_factory=PrimitiveDecoderConfig
     )
@@ -186,6 +225,7 @@ def run_episode(
     seed: int,
     config: RolloutConfig | None = None,
     frames: list[np.ndarray] | None = None,
+    post_reset: Callable[[Any], dict[str, Any]] | None = None,
 ) -> tuple[EpisodeOutcome, list[StepRecord]]:
     """Run one scenario under one prompt variant and score it.
 
@@ -204,6 +244,19 @@ def run_episode(
 
     env.seed(seed)
     obs = env.reset()
+    if config.camera_pos is not None or config.camera_quat_wxyz is not None:
+        obs = set_camera_pose(
+            env,
+            camera=config.camera,
+            position=config.camera_pos,
+            quaternion_wxyz=config.camera_quat_wxyz,
+        )
+    # A scenario whose occlusion is created by a reset wrapper is not that
+    # scenario until the wrapper has run. Applying it here, inside the one
+    # function every arm goes through, is what stops an unconfigured scene from
+    # being measured as if it were configured.
+    if post_reset is not None:
+        obs = post_reset(env)
 
     records: list[StepRecord] = []
     max_pixels = 0
@@ -214,6 +267,26 @@ def run_episode(
     error: str | None = None
     plan: list[np.ndarray] = []
     step = 0
+    endpoint: EndpointEvaluator | None = None
+    endpoint_evidence: dict[str, Any] = {}
+    initial_target_pixels: int | None = None
+
+    def observe_endpoint(current_obs: dict[str, Any], current_step: int) -> int | None:
+        nonlocal endpoint, endpoint_evidence, initial_target_pixels
+        nonlocal max_pixels, steps_to_endpoint
+        if endpoint is None:
+            endpoint = EndpointEvaluator(env, current_obs, task, camera=config.camera)
+            initial_target_pixels = endpoint.initial_pixels
+        measurement = endpoint.observe(current_obs)
+        pixels = measurement.target_visible_pixels
+        if pixels is not None:
+            max_pixels = max(max_pixels, pixels)
+        if measurement.reached and steps_to_endpoint is None:
+            steps_to_endpoint = current_step
+            endpoint_evidence = measurement.evidence
+        elif not endpoint_evidence:
+            endpoint_evidence = measurement.evidence
+        return pixels
 
     try:
         total_steps = config.max_steps + config.num_steps_wait
@@ -223,15 +296,7 @@ def run_episode(
                 step += 1
                 continue
 
-            pixels = (
-                visible_pixels(env, obs, camera=config.camera, instance=target)
-                if target is not None and target in env.instance_to_id
-                else None
-            )
-            if pixels is not None:
-                max_pixels = max(max_pixels, pixels)
-                if pixels > visible_threshold and steps_to_endpoint is None:
-                    steps_to_endpoint = step
+            pixels = observe_endpoint(obs, step)
 
             if frames is not None:
                 frames.append(
@@ -271,13 +336,14 @@ def run_episode(
 
             obs, _, done, _ = env.step(plan.pop(0).tolist())
             step += 1
+            observe_endpoint(obs, step)
             if done:
                 success = True
                 break
     except Exception as exc:  # noqa: BLE001 - recorded, not silently dropped
         error = f"{type(exc).__name__}: {exc}"
 
-    endpoint_reached = max_pixels > visible_threshold
+    endpoint_reached = steps_to_endpoint is not None
     committed_before_endpoint = bool(
         first_committed_step is not None
         and (steps_to_endpoint is None or first_committed_step < steps_to_endpoint)
@@ -321,6 +387,14 @@ def run_episode(
             else 0.0
         ),
         error=error,
+        task_success_eligible=prompt_variant in {"implicit", "hinted", "explicit"},
+        decision_contrast_eligible=bool(
+            task.get("primary_condition", True)
+            and task.get("required_interaction") != "none"
+        ),
+        endpoint_type=endpoint.endpoint_type if endpoint is not None else "uninitialized",
+        initial_target_visible_pixels=initial_target_pixels,
+        endpoint_evidence=endpoint_evidence,
     )
     return outcome, records
 

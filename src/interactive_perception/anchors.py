@@ -25,6 +25,7 @@ __all__ = [
     "ResolvedAnchor",
     "drawer_joint_value",
     "eef_position",
+    "object_position",
     "resolve_anchors",
     "visible_pixels",
 ]
@@ -85,7 +86,7 @@ class ResolvedAnchor:
         }
 
 
-def _object_position(env: Any, instance: str) -> np.ndarray:
+def object_position(env: Any, instance: str) -> np.ndarray:
     obj = env.env.objects_dict[instance]
     if len(obj.joints) != 1:
         raise ValueError(f"{instance} is not a single-free-joint object: {obj.joints}")
@@ -116,7 +117,7 @@ def resolve_anchors(env: Any, specs: Sequence[AnchorSpec]) -> list[ResolvedAncho
     """Look up current world positions for every declared anchor."""
 
     resolvers = {
-        "object": _object_position,
+        "object": object_position,
         "site": _site_position,
         "body": _body_position,
     }

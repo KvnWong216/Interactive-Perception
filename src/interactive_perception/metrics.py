@@ -62,6 +62,11 @@ class EpisodeOutcome:
     # are not interpretable. See `uncertainty_is_informative`.
     saturated_fraction: float = 0.0
     error: str | None = None
+    task_success_eligible: bool = True
+    decision_contrast_eligible: bool = True
+    endpoint_type: str = "legacy_visibility"
+    initial_target_visible_pixels: int | None = None
+    endpoint_evidence: dict[str, Any] = dataclasses.field(default_factory=dict)
 
     @property
     def correct_terminal_decision(self) -> bool:
@@ -173,13 +178,14 @@ def paired_difference(
 class AggregateReport:
     condition: str
     episodes: int
-    success_rate: float
-    success_ci95: tuple[float, float]
+    task_success_episodes: int
+    success_rate: float | None
+    success_ci95: tuple[float, float] | None
     endpoint_rate: float
     endpoint_ci95: tuple[float, float]
-    correct_terminal_rate: float
+    correct_terminal_rate: float | None
     premature_commit_rate: float
-    false_not_found_rate: float
+    false_not_found_rate: float | None
     mean_vacuity: float
     mean_dissonance: float
     mean_not_found_evidence: float
@@ -207,23 +213,29 @@ def aggregate(
     if not scored:
         raise ValueError(f"every episode in condition {condition!r} errored")
 
-    successes = [float(item.task_success) for item in scored]
+    success_scored = [item for item in scored if item.task_success_eligible]
+    successes = [float(item.task_success) for item in success_scored]
     endpoints = [float(item.information_endpoint_reached) for item in scored]
     return AggregateReport(
         condition=condition,
         episodes=len(scored),
-        success_rate=float(statistics.fmean(successes)),
-        success_ci95=bootstrap_interval(successes, seed=seed),
+        task_success_episodes=len(success_scored),
+        success_rate=float(statistics.fmean(successes)) if successes else None,
+        success_ci95=bootstrap_interval(successes, seed=seed) if successes else None,
         endpoint_rate=float(statistics.fmean(endpoints)),
         endpoint_ci95=bootstrap_interval(endpoints, seed=seed),
-        correct_terminal_rate=float(
-            statistics.fmean([float(item.correct_terminal_decision) for item in scored])
+        correct_terminal_rate=(
+            float(statistics.fmean([float(item.correct_terminal_decision) for item in success_scored]))
+            if success_scored
+            else None
         ),
         premature_commit_rate=float(
             statistics.fmean([float(item.premature_commit) for item in scored])
         ),
-        false_not_found_rate=float(
-            statistics.fmean([float(item.false_not_found) for item in scored])
+        false_not_found_rate=(
+            float(statistics.fmean([float(item.false_not_found) for item in success_scored]))
+            if success_scored
+            else None
         ),
         mean_vacuity=float(statistics.fmean([item.mean_vacuity for item in scored])),
         mean_dissonance=float(

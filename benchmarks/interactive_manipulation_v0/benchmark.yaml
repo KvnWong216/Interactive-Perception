@@ -15,6 +15,22 @@ backend:
   active_viewpoint_actions: permitted_but_certified_insufficient
   image_size: [256, 256]
   policy_resize: 224
+  # Stock `agentview` sits at (0.5, 0, 1.35) looking down ~42 degrees. That is
+  # steep enough to flatten the depth ordering the clutter scenes depend on: an
+  # object behind another projects beside it rather than behind it, so the
+  # occlusion the task is built from stops being legible in the policy's own
+  # input. This pose is a shallow 20.6-degree tilt from horizontal, chosen by
+  # rendering the tilt sweep and looking: it keeps the tabletop visible while
+  # preserving "behind".
+  #
+  # This is not free. pi0.5's LIBERO weights were trained on the stock pose, so
+  # every result under this camera is off-distribution relative to the
+  # reproduction gate. T04 must therefore be run as an in-distribution control:
+  # if the visible-target scene also collapses, the camera is the cause and no
+  # claim about information seeking can be read from the other scenes.
+  camera_pose:
+    position: [0.80, 0.0, 1.20]
+    quaternion_wxyz: [0.5813436265249455, 0.402541411408596, 0.402541411408596, 0.5813436265249455]
 
 # Viewpoint policy. Version 0.2 forbade active viewpoint change outright, which
 # made the benchmark unfalsifiable: a reader could always object that the robot
@@ -98,18 +114,37 @@ prompt_ladder:
   variants: [implicit, hinted, explicit, capability]
   hint_text: You may need to interact with the scene before the task is possible.
   goal_identity_required_for: [implicit, hinted, explicit]
+  # Capability changes the commanded goal to isolate the prerequisite skill.
+  # It is therefore scored on the information endpoint only, never on the
+  # original BDDL task-success predicate.
+  task_success_variants: [implicit, hinted, explicit]
+
+evaluation_protocol:
+  reference: openpi/examples/libero/main.py
+  success_definition: environment_done_from_bddl_goal
+  image_resolution: 256
+  policy_resize: 224
+  image_rotation_degrees: 180
+  num_steps_wait: 10
+  replan_steps: 5
+  # These custom multi-stage tasks are closest to LIBERO-10 in horizon. openpi
+  # uses 520 there (longest training demonstration: 505 steps).
+  max_steps: 520
+  endpoint_visibility_noise_floor_pixels: 4
 
 tasks:
   - id: T01_drawer_retrieval
     family: articulated_drawer
     prompt: Place the butter in the wicker basket.
     prompt_variants:
-      implicit: Place the butter in the wicker basket.
+      implicit: Fetch the butter and move inside the basket.
       hinted: >-
-        Place the butter in the wicker basket. You may need to interact with the
-        scene before the task is possible.
-      explicit: Open the top drawer, then place the butter in the wicker basket.
-      capability: Open the top drawer of the wooden cabinet.
+        Fetch the butter and move inside the basket. The butter is somewhere
+        inside the drawer.
+      explicit: >-
+        Open the top layer of the drawer, grasp the butter, and place into the
+        basket.
+      capability: Open the top layer of the drawer.
     bddl: scenarios/interactive_manipulation_v0/T01_drawer_retrieval.bddl
     target: butter_1
     reveal_fixture: wooden_cabinet_1
@@ -118,6 +153,11 @@ tasks:
     reveal_joint_open_value: -0.15
     required_interaction: open_drawer
     coarse_primitive: REMOVE_OCCLUDER
+    information_endpoint:
+      type: articulated_reveal
+      min_target_visible_pixels: 5
+      joints:
+        - {name: wooden_cabinet_1_top_level, operator: lt, threshold: -0.14}
     expected_terminal: TASK_SUCCESS
     expected_nbv_verdict: NBV_INSUFFICIENT
     # Measured 1 px against 2024 once the drawer opens. That single pixel comes
@@ -137,12 +177,14 @@ tasks:
     family: hinged_fridge
     prompt: Place the orange juice in the wicker basket.
     prompt_variants:
-      implicit: Place the orange juice in the wicker basket.
+      implicit: Fetch the orange juice and move inside the basket.
       hinted: >-
-        Place the orange juice in the wicker basket. You may need to interact
-        with the scene before the task is possible.
-      explicit: Open the refrigerator door, then place the orange juice in the wicker basket.
-      capability: Open the refrigerator door.
+        Fetch the orange juice and move inside the basket. The juice is
+        somewhere inside the fridge.
+      explicit: >-
+        Open the fridge door, grasp the orange juice and place it into the
+        basket.
+      capability: Open the fridge door.
     bddl: scenarios/interactive_manipulation_v0/T02_fridge_retrieval.bddl
     target: orange_juice_1
     reveal_fixture: short_fridge_1
@@ -151,6 +193,11 @@ tasks:
     reveal_joint_open_value: 2.2
     required_interaction: open_fridge_door
     coarse_primitive: REMOVE_OCCLUDER
+    information_endpoint:
+      type: articulated_reveal
+      min_target_visible_pixels: 5
+      joints:
+        - {name: short_fridge_1_fridge_door_joint_0, operator: gt, threshold: 2.0}
     expected_terminal: TASK_SUCCESS
     expected_nbv_verdict: NBV_INSUFFICIENT
     # The strongest occlusion in the suite: 0 px on the 360-pose sweep, and 1 px
@@ -175,17 +222,23 @@ tasks:
     family: removable_cover
     prompt: Place the butter in the wicker basket.
     prompt_variants:
-      implicit: Place the butter in the wicker basket.
+      implicit: Find the butter and move it inside the basket.
       hinted: >-
-        Place the butter in the wicker basket. You may need to interact with the
-        scene before the task is possible.
-      explicit: Move the bowl aside, then place the butter in the wicker basket.
-      capability: Move the porcelain bowl to the side of the table.
+        Find the butter and move it inside the basket. The butter is under the
+        black bowl.
+      explicit: >-
+        Locate and move away the black bowl, grasp the butter revealed and place
+        it into the basket.
     bddl: scenarios/interactive_manipulation_v0/T03_inverted_bowl_retrieval.bddl
     target: butter_1
     reveal_fixture: akita_black_bowl_1
     required_interaction: move_inverted_bowl
     coarse_primitive: REMOVE_OCCLUDER
+    information_endpoint:
+      type: object_reveal
+      object: akita_black_bowl_1
+      min_object_displacement: 0.08
+      min_target_visible_pixels: 5
     reset_wrapper: inverted_bowl_cover
     expected_terminal: TASK_SUCCESS
     expected_nbv_verdict: NBV_INSUFFICIENT
@@ -217,6 +270,9 @@ tasks:
     target: alphabet_soup_1
     required_interaction: none
     coarse_primitive: ACT
+    information_endpoint:
+      type: visible_target
+      min_target_visible_pixels: 5
     expected_terminal: TASK_SUCCESS
     expected_nbv_verdict: NBV_SUFFICIENT
     measured_nbv: {poses_seeing_target: 334, of_poses: 360, max_pre_px: 1634, max_post_px: 1634}
@@ -234,20 +290,26 @@ tasks:
     family: target_absent_search
     prompt: Place the alphabet soup can in the wicker basket.
     prompt_variants:
-      implicit: Place the alphabet soup can in the wicker basket.
+      implicit: Fetch the alphabet soup can and move inside the basket.
       hinted: >-
-        Place the alphabet soup can in the wicker basket. You may need to
-        interact with the scene before the task is possible.
+        Fetch the alphabet soup can and move inside the basket. The alphabet
+        soup can is somewhere inside the drawer.
       explicit: >-
-        Open the drawers to look for the alphabet soup can, then place it in the
-        wicker basket.
-      capability: Open the top drawer of the wooden cabinet.
+        Open the top layer of the drawer, grasp the alphabet soup can, and place
+        into the basket.
+      capability: Open the top layer of the drawer.
     bddl: scenarios/interactive_manipulation_v0/T05_exhaustive_not_found.bddl
     target: null
     absent_instance: alphabet_soup_1
     searched_fixture: wooden_cabinet_1
     required_interaction: open_all_drawers
     coarse_primitive: NOT_FOUND
+    information_endpoint:
+      type: all_joints_open
+      joints:
+        - {name: wooden_cabinet_1_top_level, operator: lt, threshold: -0.14}
+        - {name: wooden_cabinet_1_middle_level, operator: lt, threshold: -0.14}
+        - {name: wooden_cabinet_1_bottom_level, operator: lt, threshold: -0.14}
     expected_terminal: NOT_FOUND
     search_completion_predicate: all_three_drawers_open
     expected_nbv_verdict: NOT_APPLICABLE
@@ -266,12 +328,14 @@ tasks:
     family: partial_occlusion_clutter
     prompt: Place the ketchup in the wicker basket.
     prompt_variants:
-      implicit: Place the ketchup in the wicker basket.
+      implicit: Find the ketchup bottle and move it inside the basket.
       hinted: >-
-        Place the ketchup in the wicker basket. You may need to interact with
-        the scene before the task is possible.
-      explicit: Move the alphabet soup can aside, then place the ketchup in the wicker basket.
-      capability: Move the alphabet soup can to the side of the table.
+        Find the ketchup bottles and move it inside the basket. The ketchup is
+        behind some other bottles.
+      explicit: >-
+        Move away the cans on the first line and see what is behind. If not
+        sure, move closer and check the labels. Once you find the ketchup
+        bottol, move it inside the basket.
     bddl: scenarios/interactive_manipulation_v0/T06_dense_clutter_partial_occlusion.bddl
     target: ketchup_1
     clutter_objects:
@@ -284,6 +348,13 @@ tasks:
       - alphabet_soup_1
     required_interaction: clear_occluding_objects
     coarse_primitive: REMOVE_OCCLUDER
+    information_endpoint:
+      type: object_visibility_gain
+      object: alphabet_soup_1
+      min_object_displacement: 0.05
+      min_target_visible_pixels: 5
+      min_visibility_gain_pixels: 50
+      min_visibility_ratio: 1.50
     reset_wrapper: dense_clutter_partial_occlusion
     expected_terminal: TASK_SUCCESS
     # Partial occlusion is expected to be viewpoint-solvable, which makes this a
@@ -313,7 +384,7 @@ validation:
 
 # Rollout protocol for policy evaluation, as distinct from scene validation.
 rollout:
-  max_steps: 400
+  max_steps: 520
   num_steps_wait: 10
   replan_steps: 5
   probe_samples: 16
