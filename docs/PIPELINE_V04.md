@@ -1,5 +1,31 @@
 # Pipeline v0.4
 
+## G4 revision: semantic conformal intent sets
+
+The raw VLM confidence cutoff is deprecated as a paper method. Repeated π0.5
+action chunks are decoded into the fixed primitive space and normalized only
+after semantically equivalent chunks have been grouped. A split-conformal
+calibrator then returns a set such as `{ACT}`, `{REMOVE_OCCLUDER}`, or
+`{ACT, REMOVE_OCCLUDER}`.
+
+The intended control rule is:
+
+1. singleton `ACT`: execute the final task;
+2. singleton information primitive: execute it, observe again, and replan;
+3. ambiguous set containing an information primitive: acquire the cheapest
+   information that can separate the candidates;
+4. calibrated `NOT_FOUND` only after public search state is exhaustive;
+5. otherwise safe-stop or ask for help.
+
+`scripts/calibrate_semantic_intents.py` writes a versioned artifact with alpha,
+policy ID, split ID, sample count, and finite-sample resolution. It refuses
+fewer than 30 held-out samples by default. Current traces are test-set traces,
+so G4 remains NOT-GO until a disjoint calibration collection is run.
+
+Online decoding must exclude `role: task_target` before anchor resolution.
+Those anchors reveal hidden simulator state and are permitted only in the
+evaluator. Conformalizing an oracle-derived score does not remove the leak.
+
 ## What changed
 
 The rollout now preserves stock `agentview` pixels for pi0.5 inference. The

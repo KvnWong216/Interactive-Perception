@@ -134,6 +134,64 @@ Distribution-Free Uncertainty Quantification", 2021**, and **Vovk, Gammerman
 and Shafer, *Algorithmic Learning in a Random World*, Springer 2005.** *Take:*
 the machinery and the calibration protocol.
 
+### Prompt-induced and semantic uncertainty
+
+**Xiao and Wang, "Quantifying Uncertainties in Natural Language Processing
+Tasks", AAAI 2019.** Token/distribution uncertainty is a useful baseline, but
+continuous trajectory spread has the same weakness as token entropy: multiple
+numerically different outputs may implement one intent.
+
+**Kuhn, Gal and Farquhar, "Semantic Uncertainty: Linguistic Invariances for
+Uncertainty Estimation in Natural Language Generation", 2023.** *Take:* group
+samples by meaning before measuring uncertainty. Our corresponding object is a
+coarse action intent, not an action coordinate: several chunks that all mean
+`REMOVE_OCCLUDER` should contribute one semantic mode.
+
+**Kadavath et al., "Language Models (Mostly) Know What They Know", 2022.**
+Self-evaluation can be informative, but its calibration degrades on new tasks.
+*Take:* VLM self-probes may be an evidence channel. *Do not transfer:* a stated
+confidence is not a calibrated probability and cannot set our stopping rule.
+
+**Schuster et al., "Confident Adaptive Language Modeling", NeurIPS 2022.**
+Confidence can control computation. *Does not transfer:* CALM calibrates early
+exit in token generation; it does not decide whether a physical action will
+reveal missing state.
+
+**Quach et al., "Conformal Language Modeling", 2023**, and **Kumar et al.,
+"Conformal Prediction with Large Language Models for Multi-Choice Question
+Answering", 2023.** *Take:* set-valued output and held-out calibration rather
+than a hand-set threshold. *Difference:* our output space is a fixed semantic
+primitive set and our label is the information action required by the scene.
+
+### Closest embodied conformal work
+
+**Ren et al. (KnowNo), CoRL 2023** is the closest language-planning precedent:
+execute a singleton conformal action set and ask for help otherwise. Our gap is
+different: ambiguity can sometimes be resolved autonomously by changing the
+world, so a non-singleton set should route to `REMOVE_OCCLUDER` or viewpoint
+acquisition before asking a human.
+
+**Dixit et al., "Adaptive Conformal Prediction for Motion Planning among
+Dynamic Agents", L4DC 2023.** Shows how delayed observations can update
+conformal uncertainty online under shift. This is relevant if repeated search
+steps violate a static exchangeability assumption, but its trajectory safety
+sets are not semantic action sets.
+
+**PlanCP, "Conformal Prediction for Uncertainty-Aware Planning", 2023.**
+Conformalizes diffusion-planning uncertainty. It is relevant to π0.5's sampled
+action distribution, but it operates on plan/dynamics uncertainty rather than
+the distinction between `ACT`, information acquisition, and `NOT_FOUND`.
+
+**CoFineLLM, "Conformal Finetuning of LLMs for Language-Instructed Robot
+Planning", L4DC 2026.** Reduces conformal set size through finetuning. We keep
+π0.5 frozen, so it is a future upper bound rather than a transferable method.
+
+The paper's defensible novelty is therefore not "the first conformal robot".
+It is the combination of (i) semantic uncertainty over sampled VLA action
+chunks, (ii) a distinction between viewpoint-resolvable and
+manipulation-resolvable uncertainty, and (iii) autonomous physical information
+acquisition as the response to a non-singleton action set.
+
 ## 7. Base policy and benchmark
 
 **Black et al., "π0: A Vision-Language-Action Flow Model for General Robot

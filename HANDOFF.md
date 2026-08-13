@@ -1,5 +1,33 @@
 # Handoff
 
+## 2026-08-12 pure-policy debug result
+
+The wrapper confound has been removed from the capability test. The new
+`scripts/run_pure_pi05_scenario_sr.py` uses `OffScreenRenderEnv` and the stock
+openpi observation/action contract; only the BDDL scene and instruction change.
+On T01 (five seeds), direct middle-layer opening reaches the joint endpoint in
+3/5, explicit search-and-retrieve succeeds in 0/5 (drawer endpoint 1/5), and
+final-goal-only retrieval succeeds in 0/5. Stock drawer opening remains 5/5.
+
+Conclusion: earlier failures included prompt/geometry/context and evaluation
+path defects, but the corrected policy is still context- and
+composition-sensitive. Say "consistent with shortcut dependence or
+overfitting", not "proves π0.5 is overfit". G4 calibration is NOT-GO because no
+frozen public VLM or held-out calibration split exists. Do not publish router
+numbers until that changes. The policy server was stopped after the run and
+GPU memory was released. See `results/PURE_PI05_DEBUG.md` and the two new T01
+demos in `results/demos/`.
+
+G4 now has an executable replacement for the raw VLM-confidence threshold:
+`src/interactive_perception/semantic_conformal.py` and
+`scripts/calibrate_semantic_intents.py` conformalize the distribution over
+decoded action intents. The CLI requires an explicit policy ID, split ID, and
+at least 30 held-out examples. Do not lower that requirement merely to pass the
+gate; collect a disjoint calibration split instead.
+Online intent decoding must also filter out every `role: task_target` anchor
+before resolution. Existing trace-time decoding is evaluator-only and cannot
+be copied into the controller unchanged without leaking the hidden pose.
+
 ## Update after the 8269d65 evidence snapshot
 
 Pipeline v0.4 now keeps pi0.5 on stock `agentview` and uses the horizontal pose
@@ -20,6 +48,20 @@ No new GPU result exists yet. Before interpreting one, freeze and record the
 public vision model/checkpoint, run the reproduction gate, and require T04 to
 recover under the stock policy camera. The RGB evidence service must never be
 implemented with simulator segmentation or `task_target` anchors.
+
+**Calibration blocker:** the current closed-loop defaults (`confidence=0.5`,
+initial absence mass `0.05`, false-absence loss `4.0`, clutter split
+`1.9/0.1`, and the fixed-rule 120-step prefix) were introduced to test control
+flow. They are not justified method parameters. Do not run or publish the main
+three-arm experiment until they are estimated on a disjoint calibration set,
+replaced by task-measured costs, or covered by a preregistered sensitivity
+analysis. A smoke test may be used only to validate wiring.
+
+**Corrected drawer reference:** direct inspection of LIBERO's
+`open_the_middle_drawer_of_the_cabinet` task places the cabinet at x=0.02--0.04,
+y=-0.25---0.23 and uses the instruction "Open the middle layer of the drawer".
+The earlier handoff statement that stock geometry was y=-0.30 was too broad and
+is not valid for this capability control.
 
 Paste the block at the bottom into a fresh agent session. Everything above it
 is the evidence behind that block, kept so the claims can be checked rather

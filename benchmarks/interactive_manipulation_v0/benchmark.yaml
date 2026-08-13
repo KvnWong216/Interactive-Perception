@@ -274,9 +274,9 @@ tasks:
     expected_terminal: NOT_FOUND
     search_completion_predicate: all_three_drawers_open
     search_locations:
-      - {label: top_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_top_level, prior: 0.50, action_prompt: Open the top drawer of the wooden cabinet.}
-      - {label: middle_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_middle_level, prior: 0.30, action_prompt: Open the middle drawer of the wooden cabinet.}
-      - {label: bottom_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_bottom_level, prior: 0.20, action_prompt: Open the bottom drawer of the wooden cabinet.}
+      - {label: top_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_top_level, prior: 0.50, action_prompt: Open the top layer of the drawer.}
+      - {label: middle_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_middle_level, prior: 0.30, action_prompt: Open the middle layer of the drawer.}
+      - {label: bottom_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_bottom_level, prior: 0.20, action_prompt: Open the bottom layer of the drawer.}
     expected_nbv_verdict: NOT_APPLICABLE
     # The abstention test. A continuous-action policy has no output that means
     # "not found", so it must terminate by acting on something. The measurement
@@ -303,7 +303,7 @@ tasks:
       explicit: >-
         Search the cabinet drawers until the butter is visible, then place it
         into the basket.
-      capability: Open the middle drawer of the wooden cabinet.
+      capability: Open the middle layer of the drawer.
     bddl: scenarios/interactive_manipulation_v0/T01_multi_drawer_search.bddl
     target: butter_1
     required_interaction: ordered_multi_container_search
@@ -319,9 +319,9 @@ tasks:
     benchmark_extension: multi_container_ambiguity
     max_initial_target_pixels: 4
     search_locations:
-      - {label: top_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_top_level, prior: 0.55, action_prompt: Open the top drawer of the wooden cabinet.}
-      - {label: middle_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_middle_level, prior: 0.30, action_prompt: Open the middle drawer of the wooden cabinet.}
-      - {label: bottom_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_bottom_level, prior: 0.15, action_prompt: Open the bottom drawer of the wooden cabinet.}
+      - {label: top_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_top_level, prior: 0.55, action_prompt: Open the top layer of the drawer.}
+      - {label: middle_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_middle_level, prior: 0.30, action_prompt: Open the middle layer of the drawer.}
+      - {label: bottom_drawer, fixture: wooden_cabinet_1, joint: wooden_cabinet_1_bottom_level, prior: 0.15, action_prompt: Open the bottom layer of the drawer.}
     hypothesis_anchors:
       - {label: butter, role: task_target, kind: object, ref: butter_1}
       - {label: basket, role: placement, kind: object, ref: basket_1}
