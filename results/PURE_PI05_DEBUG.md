@@ -14,7 +14,7 @@ the router. Only the BDDL scene and instruction change.
 |---|---|---:|---|
 | G1 | stock LIBERO reproduction | 20/20 | GO |
 | G2 | visible-target camera control | 5/5 | GO |
-| G3 | T01, open middle layer | 3/5 | skill exists, unstable |
+| G3 | T01, open middle layer | 3/5 | skill observed; reliability not certified |
 | G4 | calibration audit | missing frozen VLM and held-out calibration | NOT-GO |
 | G5 | T01, explicit search then retrieval | 0/5 | composition fails |
 | G5 | T01, final goal only | 0/5 | task fails |
@@ -22,6 +22,12 @@ the router. Only the BDDL scene and instruction change.
 The explicit condition opened the middle drawer in 1/5 episodes but completed
 retrieval in 0/5. The final-goal condition completed retrieval in 0/5. The
 capability condition opened the middle drawer in 3/5.
+
+The exact one-sided 95% binomial lower bound for 3/5 is 0.189. This debug
+sample therefore cannot certify a high-reliability executor requirement. For
+example, a preregistered 0.8 requirement fails. Required reliability is a
+paper-level risk choice and is deliberately a required CLI argument, not a
+code default.
 
 ## Debug conclusion
 
@@ -69,3 +75,8 @@ drawer fronts, occluders, and placement regions. The existing evaluator traces
 also contain `task_target` anchors for scoring; those reveal the hidden target
 pose and must never enter the controller. A conformal layer does not make that
 oracle input permissible.
+
+The pipeline now treats these as separate gates: semantic conformal coverage
+says whether the correct intent is in the set; `check_capability_gate.py` says
+whether π0.5 can reliably realize the selected intent in context. Both must
+pass before an autonomous information action is authorized.

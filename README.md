@@ -39,6 +39,10 @@ task-preserving context change and does not compose that skill into retrieval.
 This supports a context-sensitive transfer failure, not a claim that π0.5
 cannot open drawers. Five trials are a debug gate, not final statistics.
 
+Semantic intent coverage and physical skill reliability are separate gates. A
+singleton conformal intent set is executed only when the corresponding
+capability lower confidence bound also passes a preregistered requirement.
+
 ## Evidence
 
 - [Debug and gate report](results/PURE_PI05_DEBUG.md)

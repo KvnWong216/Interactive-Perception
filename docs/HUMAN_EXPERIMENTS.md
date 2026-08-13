@@ -45,6 +45,11 @@ Measure action time, collision/contact failures, false `NOT_FOUND` cost, and
 failed manipulation cost. Convert them to a common unit before using Bayes
 risk. Do not tune loss ratios on T01–T06 success rate.
 
+Also preregister the minimum acceptable executor reliability for each physical
+primitive. Apply `check_capability_gate.py`; it uses a one-sided exact binomial
+lower bound. The current T01 result, 3/5, has a 95% lower bound of 0.189 and
+cannot certify reliable drawer execution.
+
 ## 4. Run the preregistered paper experiment
 
 Required arms:
@@ -54,6 +59,16 @@ Required arms:
 - semantic uncertainty without conformal calibration;
 - conformal semantic router;
 - oracle information action as an upper bound.
+
+Required uncertainty baselines, where the model API permits them:
+
+- raw action/trajectory spread;
+- token entropy for a discrete-action VLA (`Ask Before You Act` style);
+- diffusion/flow training-loss OOD score (`Diff-DAgger` style), which requires
+  a versioned white-box π0.5 server change;
+- task-success confidence head (`VLAConf` style), if internal representations
+  and training data are available;
+- the proposed semantic conformal intent set plus capability gate.
 
 Required controls:
 

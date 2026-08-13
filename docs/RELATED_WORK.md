@@ -186,11 +186,59 @@ the distinction between `ACT`, information acquisition, and `NOT_FOUND`.
 Planning", L4DC 2026.** Reduces conformal set size through finetuning. We keep
 π0.5 frozen, so it is a future upper bound rather than a transferable method.
 
-The paper's defensible novelty is therefore not "the first conformal robot".
-It is the combination of (i) semantic uncertainty over sampled VLA action
-chunks, (ii) a distinction between viewpoint-resolvable and
-manipulation-resolvable uncertainty, and (iii) autonomous physical information
-acquisition as the response to a non-singleton action set.
+**Lee and Kuo, "Diff-DAgger: Uncertainty Estimation with Diffusion Policy for
+Robotic Manipulation", 2024.** This is the verified diffusion-policy work most
+directly relevant to our action sampling. It shows why ensemble/action variance
+confuses legitimate multimodality with OOD failure, and instead scores a
+generated action using the diffusion training loss. *Take:* semantic modes and
+executor OOD must be separated. *Current limitation:* the π0.5 websocket API
+returns actions but not its flow-matching training loss or intermediate vector
+field, so this score cannot be reproduced without a versioned server change.
+
+**Li et al., "Spatial Memory for Out-of-Vision Manipulation in
+Vision-Language-Action" (SOMA), ICML 2026.** SOMA constructs persistent memory
+from multi-view head-camera scans and retrieves instruction-relevant spatial
+cues. It is a strong baseline for `VIEWPOINT_BLOCKED`. It does not, from the
+paper's stated method, establish the circulated Bayesian containment model, and
+a view scan cannot reveal the interior of a closed drawer. Our
+`NBV_INSUFFICIENT` condition is the boundary where SOMA-style viewing stops and
+physical information acquisition begins.
+
+**Karli, Kurumisawa and Fitzgerald, "Ask Before You Act: Token-Level
+Uncertainty for Intervention in Vision-Language-Action Models", RSS OOD
+Robotics Workshop 2025.** Uses entropy/perplexity from a fine-tuned π0-FAST to
+request human correction. It is a direct VLA uncertainty baseline, but depends
+on discrete action-token probabilities and responds with human intervention;
+π0.5 exposes neither those logits nor that fallback.
+
+**Yang et al., "UAOR: Uncertainty-aware Observation Reinjection for
+Vision-Language-Action Models", 2026.** Uses layer-wise action entropy to
+reinject visual features. *Take:* uncertainty can change perception rather than
+only stop execution. *Difference:* it requires white-box hidden layers, retains
+task/architecture-calibrated thresholds, and re-reads the same image rather
+than physically revealing an occluded state.
+
+**Huang et al., "VLAConf: Calibrated Task-Success Confidence for
+Vision-Language-Action Models", 2026.** Learns a one-class confidence head on
+frozen VLA internal representations and post-hoc calibrates task-success
+confidence. This is the closest executor-competence baseline to our capability
+gate. It is more sample-efficient than repeated action draws but requires
+white-box representations and training; our exact binomial capability gate is
+black-box and primitive-specific.
+
+**Valle et al., "Evaluating Uncertainty and Quality of
+Vision-Language-Action-enabled Robots", 2025.** Evaluates action and trajectory
+quality metrics against human labels. *Take:* report execution quality beside
+binary success. *Caution:* correlation with human ratings is not calibrated
+semantic intent coverage.
+
+The paper's defensible novelty is therefore not "the first conformal robot" or
+"the first uncertain VLA". Subject to a final systematic literature review, it
+is the combination of (i) semantic uncertainty over sampled VLA action chunks,
+(ii) a distinction between viewpoint-resolvable and manipulation-resolvable
+uncertainty, (iii) a separate executor-reliability gate, and (iv) autonomous
+physical information acquisition as the response to a non-singleton action
+set.
 
 ## 7. Base policy and benchmark
 
@@ -231,4 +279,7 @@ should enter a bibliography without a direct check.
 | HOV-SG, "...for **Active Object Search**" | Real work, but subtitled for **language-grounded navigation** |
 | "Map Space Belief Prediction for Manipulation-Enhanced Mapping", RSS 2025 | Plausible, **unverified** |
 | "Language-Conditioned Conformal Prediction for Embodied Search", 2024/25 | **Could not be located** |
-| "SOMA (Spatial Memory for VLA)" | **Could not be located** |
+| "SOMA (Spatial Memory for VLA)" | Now verified as Li et al., ICML 2026; earlier 2024/25 dating was wrong |
+| "KnowNo-3D Series" | No distinct paper/series located; cite KnowNo only unless a primary source is supplied |
+| "Conformalized VLA Trajectory Sets for Safe Manipulation", 2024 | Could not be located under this title |
+| "Quantifying Uncertainty in Diffusion Policies for Robotic Manipulation", RA-L 2024 | Could not be located under this title; Diff-DAgger is the verified nearby work |

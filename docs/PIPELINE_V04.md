@@ -26,6 +26,28 @@ Online decoding must exclude `role: task_target` before anchor resolution.
 Those anchors reveal hidden simulator state and are permitted only in the
 evaluator. Conformalizing an oracle-derived score does not remove the leak.
 
+### Two uncertainty axes, not one score
+
+The literature and the T01 control require two independent checks:
+
+- **intent ambiguity:** do repeated chunks imply one semantic primitive or
+  several? This is the conformal semantic set above;
+- **executor competence:** can the frozen policy reliably realize the selected
+  primitive in this visual context? This is measured by capability episodes and
+  an exact binomial lower confidence bound.
+
+A singleton `{REMOVE_OCCLUDER}` does not authorize execution when the
+capability reliability gate fails. T01 demonstrates the distinction directly:
+the requested intent is unambiguous, yet drawer opening reaches its endpoint in
+only 3/5 trials. Flow/diffusion training loss would be a useful third OOD signal
+(as in Diff-DAgger), but openpi's current websocket response does not expose it.
+Adding it requires a separately versioned policy-server protocol and a fresh
+reproduction gate.
+
+SOMA-style spatial memory belongs only to the `VIEWPOINT_BLOCKED` branch. If
+the NBV certificate says a target cannot be revealed by any tested view, camera
+scanning cannot replace `REMOVE_OCCLUDER`.
+
 ## What changed
 
 The rollout now preserves stock `agentview` pixels for pi0.5 inference. The
