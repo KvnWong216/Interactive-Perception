@@ -76,10 +76,19 @@ def run_episode(
     policy: OpenPiWebsocketPolicy,
     prompt: str,
     endpoint: dict[str, Any] | None,
+    diagnostic_joints: list[str],
     args: argparse.Namespace,
     video_path: Path | None = None,
 ) -> dict[str, Any]:
     obs = env.reset()
+    joint_history = {name: [] for name in diagnostic_joints}
+
+    def record_joints() -> None:
+        for name in diagnostic_joints:
+            value = env.env.sim.data.get_joint_qpos(name)
+            joint_history[name].append(float(np.asarray(value).reshape(-1)[0]))
+
+    record_joints()
     video = None
     if video_path is not None:
         video_path.parent.mkdir(parents=True, exist_ok=True)
@@ -102,6 +111,7 @@ def run_episode(
                         raise ValueError(f"policy returned {len(chunk)} actions")
                     plan.extend(chunk[: args.replan_steps])
                 obs, _, done, _ = env.step(plan.popleft().tolist())
+                record_joints()
                 endpoint_success = endpoint_success or joint_endpoint(env, endpoint)
                 if done or (args.variant == "capability" and endpoint_success):
                     break
@@ -118,6 +128,16 @@ def run_episode(
         "information_endpoint_success": bool(endpoint_success),
         "steps": step,
         "error": error,
+        "joint_diagnostics": {
+            name: {
+                "initial": values[0],
+                "minimum": min(values),
+                "maximum": max(values),
+                "final": values[-1],
+            }
+            for name, values in joint_history.items()
+            if values
+        },
     }
 
 
@@ -145,6 +165,9 @@ def main() -> None:
         task = tasks[task_id]
         prompt = task["prompt_variants"][args.variant]
         endpoint = task.get("information_endpoint")
+        diagnostic_joints = [
+            str(item["joint"]) for item in task.get("search_locations", []) if item.get("joint")
+        ]
         bddl = ROOT / task["bddl"]
         rows = []
         print(f"[pure-pi05] {task_id}: {prompt}", flush=True)
@@ -159,7 +182,9 @@ def main() -> None:
                     video_path = args.video_dir / f"{task_id}_{args.variant}_seed{seed:03d}.mp4"
                 row = {
                     "seed": seed,
-                    **run_episode(env, policy, prompt, endpoint, args, video_path),
+                    **run_episode(
+                        env, policy, prompt, endpoint, diagnostic_joints, args, video_path
+                    ),
                 }
             finally:
                 env.close()

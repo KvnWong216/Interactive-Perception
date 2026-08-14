@@ -1,5 +1,22 @@
 # Handoff
 
+## 2026-08-14 frozen T01 executor gate
+
+The preregistered 30-seed pure-π0.5 capability run is complete. Directly
+commanding "Open the middle layer of the drawer" succeeds in 15/30 episodes.
+The exact one-sided 95% lower reliability bound is 0.3389, so the frozen 0.90
+executor gate is NOT-GO. In successful runs middle-layer displacement is
+0.1420–0.1492; in failures it is at most 0.0000071. This rules out an endpoint
+threshold artifact. One failure partially opens the bottom layer (0.0725);
+otherwise failures do not pull a drawer. Raw results are in
+`results/capability/`.
+
+Do not run the main router with this executor and call it an autonomous method.
+The next paper decision is to freeze a more reliable executor, or explicitly
+make retry/assistance part of the method and calibrate that composite action.
+The server was stopped after collection; port 8000 no longer accepts
+connections.
+
 ## 2026-08-14 G4-v1 calibration
 
 The owner froze alpha=0.1 and minimum executor reliability=0.9. A new
@@ -10,8 +27,8 @@ validation. G4-v1 reaches 20/20 coverage with mean set size 1.0. Dataset hash:
 `6873f44e46c903ebecf2b5aa10b8f91ff740dea3629e189f3ac81e1a2dd5db86`.
 
 Do not broaden this result: three primitives remain uncalibrated, and the
-separate executor gate still fails because T01 drawer opening is only 3/5
-(one-sided 95% lower bound 0.189, required reliability 0.9). Calibration-only
+separate executor gate fails because T01 drawer opening is 15/30
+(one-sided 95% lower bound 0.339, required reliability 0.9). Calibration-only
 scenes and samples are permanently excluded from the paper test set. The
 policy server was stopped after collection and GPU model memory was released.
 

@@ -53,8 +53,10 @@ risk. Do not tune loss ratios on T01–T06 success rate.
 
 Also preregister the minimum acceptable executor reliability for each physical
 primitive. Apply `check_capability_gate.py`; it uses a one-sided exact binomial
-lower bound. The current T01 result, 3/5, has a 95% lower bound of 0.189 and
-cannot certify reliable drawer execution.
+lower bound. The frozen T01 result is 15/30 with a 95% lower bound of 0.339,
+so it fails the preregistered 0.90 requirement. Before the main experiment,
+freeze either a different executor, or a bounded retry/assistance protocol and
+calibrate the reliability of that whole protocol.
 
 ## 4. Run the preregistered paper experiment
 

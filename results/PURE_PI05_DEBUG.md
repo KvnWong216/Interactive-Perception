@@ -14,33 +14,37 @@ the router. Only the BDDL scene and instruction change.
 |---|---|---:|---|
 | G1 | stock LIBERO reproduction | 20/20 | GO |
 | G2 | visible-target camera control | 5/5 | GO |
-| G3 | T01, open middle layer | 3/5 | skill observed; reliability not certified |
+| G3 | T01, open middle layer | 15/30 | NOT-GO: 0.90 reliability not certified |
 | G4-v1 | LIBERO ACT vs REMOVE_OCCLUDER | validation 20/20, mean set 1.0 | GO in binary scope |
 | G5 | T01, explicit search then retrieval | 0/5 | composition fails |
 | G5 | T01, final goal only | 0/5 | task fails |
 
 The explicit condition opened the middle drawer in 1/5 episodes but completed
 retrieval in 0/5. The final-goal condition completed retrieval in 0/5. The
-capability condition opened the middle drawer in 3/5.
+capability condition opened the middle drawer in 15/30.
 
-The exact one-sided 95% binomial lower bound for 3/5 is 0.189. This debug
-sample therefore cannot certify a high-reliability executor requirement. For
-example, a preregistered 0.8 requirement fails. Required reliability is a
-paper-level risk choice and is deliberately a required CLI argument, not a
-code default.
+The exact one-sided 95% binomial lower bound for 15/30 is 0.339. It fails the
+preregistered 0.90 minimum reliability requirement. This is a hard NOT-GO, not
+a threshold to tune after seeing the result.
+
+Joint traces rule out a scoring-boundary explanation. Across the 15 successes,
+middle-layer displacement is 0.1420–0.1492 (median 0.1450). Across the 15
+failures it is 0.0000005–0.0000071 (median 0.0000028). One failed seed moves
+the bottom layer by 0.0725; the other failures do not pull a drawer. Raw
+episodes and the gate report are frozen under `results/capability/`.
 
 ## Debug conclusion
 
 The earlier 0/5 drawer result combined prompt mismatch, cabinet geometry,
 missing visual context, and a wrapper-dependent evaluation path. These were
 code and experiment-design problems. After fixing them, pure π0.5 opens the
-drawer in 3/5 trials, so neither a broken action client nor an over-strict
+drawer in 15/30 trials, so neither a broken action client nor an over-strict
 endpoint explains the remaining failures.
 
 The remaining failure is best described as context-sensitive and
 composition-sensitive transfer. Stock drawer opening is 5/5, while the custom
-scene is 3/5 under a direct command and 0/5 on the full task. This is consistent
-with shortcut dependence or overfitting, but five seeds cannot establish broad
+scene is 15/30 under a direct command and 0/5 on the full task. This is
+consistent with context shortcut dependence, but does not establish broad
 model overfitting.
 
 `SegmentationRenderEnv` is not required for policy execution. It remains useful

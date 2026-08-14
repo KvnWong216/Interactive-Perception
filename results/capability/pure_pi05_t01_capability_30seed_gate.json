@@ -1,0 +1,10 @@
+{
+  "successes": 15,
+  "trials": 30,
+  "confidence": 0.95,
+  "required_reliability": 0.9,
+  "empirical_rate": 0.5,
+  "lower_bound": 0.33889266160951503,
+  "passed": false,
+  "interpretation": "executor competence in the evaluated context; not semantic-intent coverage"
+}

@@ -30,14 +30,15 @@ scene, pure π0.5 obtains:
 
 | Instruction | Success |
 |---|---:|
-| Open the middle layer | 3/5 |
+| Open the middle layer | 15/30 |
 | Search, then place the butter | 0/5 |
 | Final goal only | 0/5 |
 
-The policy has the drawer-opening skill, but it is unreliable after a
-task-preserving context change and does not compose that skill into retrieval.
-This supports a context-sensitive transfer failure, not a claim that π0.5
-cannot open drawers. Five trials are a debug gate, not final statistics.
+The direct executor fails the preregistered 0.90 reliability gate: its
+one-sided 95% lower bound is 0.339. Successful runs move the middle layer by
+0.142–0.149 joint units; failed runs move it by at most 0.000007. Thus the
+failure is not an endpoint artifact. This is a context-sensitive transfer
+failure, not proof of broad overfitting.
 
 Semantic intent coverage and physical skill reliability are separate gates. A
 singleton conformal intent set is executed only when the corresponding
@@ -63,5 +64,6 @@ env -u PYTHONPATH ../.conda/envs/ipu/bin/python \
 G4-v1 is frozen and passes held-out validation for the LIBERO binary intent
 scope (`ACT` versus `REMOVE_OCCLUDER`): coverage 20/20 at error rate 0.1, with
 mean set size 1.0. It does not cover `NOT_FOUND`, `ROTATE`, or `MOVE_CLOSER`,
-and it does not guarantee physical task success. The main three-arm experiment
-remains blocked on those missing classes and the 0.90 executor-reliability gate.
+and it does not guarantee physical task success. The main experiment is blocked
+until the missing classes are calibrated and the drawer primitive is replaced
+by an executor (or retry protocol) that passes the 0.90 gate.

@@ -9,4 +9,5 @@ def test_pure_pi05_runner_has_no_oracle_wrapper() -> None:
     assert "LIBERO_DUMMY_ACTION" in source
     assert "interactive_perception.rollout" not in source
     assert "get_joint_qpos" in source
+    assert "joint_diagnostics" in source
     assert "agentview_image" in source
