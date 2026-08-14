@@ -15,7 +15,7 @@ the router. Only the BDDL scene and instruction change.
 | G1 | stock LIBERO reproduction | 20/20 | GO |
 | G2 | visible-target camera control | 5/5 | GO |
 | G3 | T01, open middle layer | 3/5 | skill observed; reliability not certified |
-| G4 | calibration audit | missing frozen VLM and held-out calibration | NOT-GO |
+| G4-v1 | LIBERO ACT vs REMOVE_OCCLUDER | validation 20/20, mean set 1.0 | GO in binary scope |
 | G5 | T01, explicit search then retrieval | 0/5 | composition fails |
 | G5 | T01, final goal only | 0/5 | task fails |
 
@@ -64,11 +64,16 @@ split-conformal quantile. The artifact records the policy ID, split ID, alpha,
 sample count, and attainable coverage resolution. The CLI refuses fewer than
 30 held-out examples by default.
 
-This is the intended solution to G4, but G4 remains NOT-GO today: existing
-traces are test-set traces and cannot be reused as calibration data. The next
-GPU collection must use disjoint stock/control scenes with evaluator-provided
-true intent labels. Conformal coverage is a guarantee about semantic intent
-sets under exchangeability, not a guarantee of robot task success.
+G4-v1 was fit on a newly collected, frozen 100-observation LIBERO dataset: 40
+samples learn black-box action prototypes, 40 separate samples calibrate at
+alpha 0.1, and 20 held-out samples validate the artifact. Validation coverage
+is 1.0 (20/20) with mean prediction-set size 1.0. Dataset SHA-256 is
+`6873f44e46c903ebecf2b5aa10b8f91ff740dea3629e189f3ac81e1a2dd5db86`.
+
+This is GO only for `ACT` versus `REMOVE_OCCLUDER` under the collected LIBERO
+distribution. `NOT_FOUND`, `ROTATE`, and `MOVE_CLOSER` remain uncalibrated.
+Conformal coverage is a guarantee about semantic intent sets under
+exchangeability, not a guarantee of robot task success.
 
 For online routing, semantic decoding must resolve only public anchors such as
 drawer fronts, occluders, and placement regions. The existing evaluator traces

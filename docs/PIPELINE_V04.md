@@ -19,8 +19,10 @@ The intended control rule is:
 
 `scripts/calibrate_semantic_intents.py` writes a versioned artifact with alpha,
 policy ID, split ID, sample count, and finite-sample resolution. It refuses
-fewer than 30 held-out samples by default. Current traces are test-set traces,
-so G4 remains NOT-GO until a disjoint calibration collection is run.
+fewer than 30 held-out samples by default. G4-v1 is now GO for the frozen
+binary LIBERO scope: 40 prototype-training, 40 conformal-calibration, and 20
+held-out validation observations yield 1.0 coverage and mean set size 1.0 at
+alpha 0.1. It remains NOT-GO for `NOT_FOUND`, `ROTATE`, and `MOVE_CLOSER`.
 
 Online decoding must exclude `role: task_target` before anchor resolution.
 Those anchors reveal hidden simulator state and are permitted only in the

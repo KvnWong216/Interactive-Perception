@@ -1,5 +1,20 @@
 # Handoff
 
+## 2026-08-14 G4-v1 calibration
+
+The owner froze alpha=0.1 and minimum executor reliability=0.9. A new
+oracle-free LIBERO dataset contains 100 observations and 800 independent π0.5
+action chunks for the binary intent scope `ACT` vs `REMOVE_OCCLUDER`. Seeds
+0–19 per class learn prototypes, 20–39 calibrate, and 40–49 are held-out
+validation. G4-v1 reaches 20/20 coverage with mean set size 1.0. Dataset hash:
+`6873f44e46c903ebecf2b5aa10b8f91ff740dea3629e189f3ac81e1a2dd5db86`.
+
+Do not broaden this result: three primitives remain uncalibrated, and the
+separate executor gate still fails because T01 drawer opening is only 3/5
+(one-sided 95% lower bound 0.189, required reliability 0.9). Calibration-only
+scenes and samples are permanently excluded from the paper test set. The
+policy server was stopped after collection and GPU model memory was released.
+
 ## 2026-08-12 pure-policy debug result
 
 The wrapper confound has been removed from the capability test. The new

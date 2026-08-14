@@ -60,5 +60,8 @@ env -u PYTHONPATH ../.conda/envs/ipu/bin/python \
   scripts/run_pure_pi05_scenario_sr.py --variant implicit
 ```
 
-The main three-arm experiment remains blocked until a frozen public vision
-model and a disjoint calibration split replace the current hand-set constants.
+G4-v1 is frozen and passes held-out validation for the LIBERO binary intent
+scope (`ACT` versus `REMOVE_OCCLUDER`): coverage 20/20 at error rate 0.1, with
+mean set size 1.0. It does not cover `NOT_FOUND`, `ROTATE`, or `MOVE_CLOSER`,
+and it does not guarantee physical task success. The main three-arm experiment
+remains blocked on those missing classes and the 0.90 executor-reliability gate.

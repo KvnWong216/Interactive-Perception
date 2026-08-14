@@ -1,0 +1,23 @@
+{
+  "schema_version": "interactive-perception.intent-calibration-manifest.v1",
+  "dataset": "data/calibration/libero_intents_v1.jsonl",
+  "dataset_sha256": "6873f44e46c903ebecf2b5aa10b8f91ff740dea3629e189f3ac81e1a2dd5db86",
+  "policy": "pi05_libero",
+  "openpi_commit": "15a9616a00943ada6c20a0f158e3adb39df2ccac",
+  "checkpoint_metadata_sha256": "303a4e354814928e1d29b75e310f2c1ac7e7e29b62f48395b631045ca1cffc73",
+  "server_metadata": {},
+  "samples": 100,
+  "chunks_per_sample": 8,
+  "labels": [
+    "ACT",
+    "REMOVE_OCCLUDER"
+  ],
+  "split_rule": "seed 0:20 train, 20:40 calibration, 40:50 validation, per class",
+  "oracle_inputs": [],
+  "policy_inputs": [
+    "agentview RGB",
+    "wrist RGB",
+    "robot state",
+    "prompt"
+  ]
+}

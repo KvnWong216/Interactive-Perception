@@ -13,17 +13,23 @@ Record immutable identifiers for:
 
 Do not choose these after viewing test performance.
 
-## 2. Collect the G4 calibration split
+## 2. Extend the completed G4-v1 calibration split
 
-Use scenes and task instances disjoint from T01–T06. Collect at least 30
+G4-v1 is complete for `ACT` versus `REMOVE_OCCLUDER`: 100 observations, alpha
+0.1, held-out coverage 20/20, mean set size 1.0. Its frozen samples may never
+enter the paper test set.
+
+For the remaining primitive classes, use scenes and task instances disjoint
+from T01–T06. Collect at least 30
 independent episodes; 100+ is preferable for a 90% coverage target because the
 finite-sample resolution is `1/(n+1)`. For each episode:
 
 1. freeze one RGB observation and task prompt;
 2. draw the preregistered number of independent π0.5 action chunks;
-3. decode only against public anchors—never `task_target`;
+3. use anchor-free action features, or decode only against public anchors—never
+   `task_target`;
 4. label the correct coarse intent from the task construction;
-5. save `primitive_evidence`, `true_intent`, task, seed, checkpoint, and split.
+5. save action evidence, `true_intent`, task, seed, checkpoint, and split.
 
 Fit with:
 

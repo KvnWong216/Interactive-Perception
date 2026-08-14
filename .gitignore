@@ -7,6 +7,9 @@ third_party/
 # Generated data
 data/*
 !data/.gitkeep
+!data/calibration/
+!data/calibration/libero_intents_v1.jsonl
+!data/calibration/libero_intents_v1.manifest.json
 outputs/*
 !outputs/.gitkeep
 

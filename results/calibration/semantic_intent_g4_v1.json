@@ -1,0 +1,138 @@
+{
+  "schema_version": "interactive-perception.semantic-conformal.v1",
+  "alpha": 0.1,
+  "threshold": 0.0030906547380815663,
+  "labels": [
+    "ACT",
+    "REMOVE_OCCLUDER"
+  ],
+  "calibration_size": 40,
+  "policy_id": "pi05_libero",
+  "split_id": "libero_intents_v1_seed_frozen",
+  "finite_sample_resolution": 0.024390243902439025,
+  "guarantee": "marginal semantic-intent coverage under exchangeability",
+  "non_guarantee": "robot task success",
+  "scope": "LIBERO ACT vs REMOVE_OCCLUDER only",
+  "feature": "mean black-box action-chunk temporal statistics",
+  "prototype_scale": 0.5848151539052988,
+  "prototypes": {
+    "ACT": [
+      0.5107215854520073,
+      0.3813068005468489,
+      0.007809160583587614,
+      -0.0015598512886044573,
+      0.007944454914146434,
+      -2.0968164780975265e-05,
+      0.2361407752007691,
+      0.15415313638204334,
+      0.011824671988616952,
+      0.001715190934579721,
+      0.007173614301704788,
+      0.0025906171367874606,
+      5.1072158545200725,
+      3.8130680054684896,
+      0.07809160583587613,
+      -0.015598512886044571,
+      0.07944454914146434,
+      -0.00020968164780975075,
+      0.6404310974891565,
+      0.012588654082418905,
+      -0.9994526446919837,
+      0.0017563863504735816
+    ],
+    "REMOVE_OCCLUDER": [
+      0.5296634621046038,
+      -0.07871527087444477,
+      0.035473185018631545,
+      -0.024621409232877957,
+      0.05938500370801005,
+      0.055590927260567705,
+      0.22328999745598202,
+      0.053265089012540234,
+      0.019223145344482186,
+      0.016489692669601375,
+      0.03035676671417458,
+      0.03766025292180871,
+      5.296634621046039,
+      -0.7871527087444479,
+      0.35473185018631537,
+      -0.24621409232877958,
+      0.5938500370801005,
+      0.5559092726056771,
+      0.5397478001629891,
+      0.09475752999408465,
+      -0.9979297086304977,
+      0.0019158652204545451
+    ]
+  },
+  "split_counts": {
+    "prototype_train": 40,
+    "conformal_calibration": 40,
+    "heldout_validation": 20
+  },
+  "validation_coverage": 1.0,
+  "validation_mean_set_size": 1.0,
+  "validation_predictions": [
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ]
+  ],
+  "g4_v1_passed": true
+}
