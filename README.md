@@ -48,6 +48,7 @@ capability lower confidence bound also passes a preregistered requirement.
 
 - [Debug and gate report](results/PURE_PI05_DEBUG.md)
 - [Capability demo](results/demos/T01_multi_drawer_search_capability_seed000.mp4)
+- [Typical capability failure](results/demos/T01_multi_drawer_search_capability_seed001.mp4)
 - [Final-goal demo](results/demos/T01_multi_drawer_search_implicit_seed000.mp4)
 - [Pipeline](docs/PIPELINE_V04.md)
 - [Remaining human experiments](docs/HUMAN_EXPERIMENTS.md)

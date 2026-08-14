@@ -33,6 +33,11 @@ failures it is 0.0000005–0.0000071 (median 0.0000028). One failed seed moves
 the bottom layer by 0.0725; the other failures do not pull a drawer. Raw
 episodes and the gate report are frozen under `results/capability/`.
 
+A replay of typical failure seed 1 is stored at
+`results/demos/T01_multi_drawer_search_capability_seed001.mp4`. It again runs
+530 steps without opening a layer; middle-layer displacement is 0.00000393.
+The matching replay record is frozen under `results/capability/`.
+
 ## Debug conclusion
 
 The earlier 0/5 drawer result combined prompt mismatch, cabinet geometry,

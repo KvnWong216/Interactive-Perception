@@ -1,0 +1,49 @@
+{
+  "policy": "pi0.5-libero checkpoint",
+  "environment": "libero.envs.OffScreenRenderEnv",
+  "policy_path": "stock openpi observation/action contract",
+  "variant": "capability",
+  "seeds": [
+    1
+  ],
+  "server_metadata": {},
+  "tasks": {
+    "T01_multi_drawer_search": {
+      "bddl": "scenarios/interactive_manipulation_v0/T01_multi_drawer_search.bddl",
+      "prompt": "Open the middle layer of the drawer.",
+      "episodes": 1,
+      "successes": 0,
+      "success_rate": 0.0,
+      "rows": [
+        {
+          "seed": 1,
+          "success": false,
+          "task_success": false,
+          "information_endpoint_success": false,
+          "steps": 530,
+          "error": null,
+          "joint_diagnostics": {
+            "wooden_cabinet_1_top_level": {
+              "initial": 0.0,
+              "minimum": 0.0,
+              "maximum": 0.0016620652284417164,
+              "final": 0.0016594721346108489
+            },
+            "wooden_cabinet_1_middle_level": {
+              "initial": 0.004390587181954727,
+              "minimum": 0.004386659510433849,
+              "maximum": 0.004390684553723801,
+              "final": 0.004386659510433849
+            },
+            "wooden_cabinet_1_bottom_level": {
+              "initial": 0.0,
+              "minimum": 0.0,
+              "maximum": 0.0,
+              "final": 0.0
+            }
+          }
+        }
+      ]
+    }
+  }
+}
