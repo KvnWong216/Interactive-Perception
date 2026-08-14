@@ -139,11 +139,20 @@ def build_policy(args: argparse.Namespace) -> Any:
 def rollout_config(spec: dict[str, Any], args: argparse.Namespace) -> RolloutConfig:
     defaults = spec.get("rollout", {}) or {}
     pose = spec["backend"].get("demo_camera_pose") or {}
+    reset_pose = spec["backend"].get("reset_sensing_pose") or {}
+    wrist_initialization = spec["backend"].get("wrist_camera_initialization") or {}
     return RolloutConfig(
         demo_camera=str(spec["backend"].get("demo_camera", spec["backend"]["policy_camera"])),
         demo_camera_pos=tuple(pose["position"]) if pose.get("position") else None,
         demo_camera_quat_wxyz=(
             tuple(pose["quaternion_wxyz"]) if pose.get("quaternion_wxyz") else None
+        ),
+        demo_split_view=bool(spec["backend"].get("demo_split_view", False)),
+        demo_labels=tuple(
+            spec["backend"].get(
+                "demo_labels",
+                ["FIRST-PERSON / WRIST", "THIRD-PERSON / GLOBAL"],
+            )
         ),
         max_steps=args.max_steps or int(defaults.get("max_steps", 400)),
         num_steps_wait=int(defaults.get("num_steps_wait", 10)),
@@ -151,6 +160,22 @@ def rollout_config(spec: dict[str, Any], args: argparse.Namespace) -> RolloutCon
         probe_samples=args.probe_samples or int(defaults.get("probe_samples", 16)),
         probe_every=args.probe_every or int(defaults.get("probe_every", 20)),
         camera=spec["backend"]["policy_camera"],
+        primary_image_camera=str(
+            spec["backend"].get("policy_primary_camera", "agentview")
+        ),
+        wrist_image_camera=str(
+            spec["backend"].get("policy_wrist_camera", "robot0_eye_in_hand")
+        ),
+        reset_sensing_action=(
+            tuple(reset_pose["action"]) if reset_pose.get("action") else None
+        ),
+        reset_sensing_action_steps=int(reset_pose.get("action_steps", 0)),
+        reset_sensing_settle_steps=int(reset_pose.get("settle_steps", 0)),
+        wrist_camera_look_at=(
+            tuple(wrist_initialization["look_at"])
+            if wrist_initialization.get("look_at")
+            else None
+        ),
         resize_size=int(spec["backend"].get("policy_resize", 224)),
         commitment_probability=float(defaults.get("commitment_probability", 0.6)),
         decoder=PrimitiveDecoderConfig(),

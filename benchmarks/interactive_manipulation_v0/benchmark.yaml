@@ -11,27 +11,27 @@ backend:
   framework: LIBERO
   robot: Panda
   controller: OSC_POSE
-  policy_camera: agentview
+  policy_camera: robot0_eye_in_hand
+  policy_primary_camera: agentview
+  policy_wrist_camera: robot0_eye_in_hand
   demo_camera: agentview
+  demo_split_view: true
+  demo_labels: [FIRST-PERSON / WRIST, THIRD-PERSON / GLOBAL]
   active_viewpoint_actions: permitted_but_certified_insufficient
   image_size: [256, 256]
   policy_resize: 224
-  # Stock `agentview` sits at (0.5, 0, 1.35) looking down ~42 degrees. That is
-  # steep enough to flatten the depth ordering the clutter scenes depend on: an
-  # object behind another projects beside it rather than behind it, so the
-  # occlusion the task is built from stops being legible in the policy's own
-  # input. This pose is a shallow 20.6-degree tilt from horizontal, chosen by
-  # rendering the tilt sweep and looking: it keeps the tabletop visible while
-  # preserving "behind".
-  #
-  # This is not free. pi0.5's LIBERO weights were trained on the stock pose, so
-  # every result under this camera is off-distribution relative to the
-  # reproduction gate. T04 must therefore be run as an in-distribution control:
-  # if the visible-target scene also collapses, the camera is the cause and no
-  # claim about information seeking can be read from the other scenes.
+  # The wrist camera is the information view. The frozen checkpoint keeps its
+  # trained stock agentview slot; replacing both slots with wrist pixels fails
+  # the visible-target control (0/30). Agentview is moved to BEV only during
+  # demo rendering and restored before policy inference.
+  wrist_camera_initialization:
+    name: task_facing_mount_v1
+    camera: robot0_eye_in_hand
+    look_at: [0.30, 0.0, 0.93]
+    robot_motion_steps: 0
   demo_camera_pose:
-    position: [0.80, 0.0, 1.20]
-    quaternion_wxyz: [0.5813436265249455, 0.402541411408596, 0.402541411408596, 0.5813436265249455]
+    position: [0.0, 0.0, 2.40]
+    quaternion_wxyz: [1.0, 0.0, 0.0, 0.0]
 
 # Viewpoint policy. Version 0.2 forbade active viewpoint change outright, which
 # made the benchmark unfalsifiable: a reader could always object that the robot
@@ -383,7 +383,7 @@ tasks:
       - {label: pudding_occluder, role: occluder, kind: object, ref: chocolate_pudding_1}
 
 validation:
-  fixed_policy_camera: agentview
+  fixed_policy_camera: robot0_eye_in_hand
   require_no_viewpoint_action: true
   require_hidden_target_initially: true
   require_target_visible_after_oracle_reveal: true

@@ -1,0 +1,141 @@
+{
+  "policy": "pi0.5-libero checkpoint",
+  "environment": "libero.envs.OffScreenRenderEnv",
+  "policy_path": "stock openpi observation/action contract",
+  "variant": "capability",
+  "seeds": [
+    0,
+    1,
+    4
+  ],
+  "server_metadata": {},
+  "camera_mode": "stock",
+  "tasks": {
+    "T01_multi_drawer_search": {
+      "bddl": "scenarios/interactive_manipulation_v0/T01_multi_drawer_search.bddl",
+      "prompt": "Open the middle layer of the drawer.",
+      "episodes": 3,
+      "successes": 1,
+      "success_rate": 0.3333333333333333,
+      "rows": [
+        {
+          "seed": 0,
+          "success": true,
+          "task_success": false,
+          "information_endpoint_success": true,
+          "steps": 181,
+          "error": null,
+          "joint_diagnostics": {
+            "wooden_cabinet_1_top_level": {
+              "initial": 0.0,
+              "minimum": 0.0,
+              "maximum": 0.0016627846125861741,
+              "final": 0.0016504997947510316
+            },
+            "wooden_cabinet_1_middle_level": {
+              "initial": 0.0019172075941288886,
+              "minimum": -0.14358419051207338,
+              "maximum": 0.0019172075941288886,
+              "final": -0.14358419051207338
+            },
+            "wooden_cabinet_1_bottom_level": {
+              "initial": 0.0,
+              "minimum": 0.0,
+              "maximum": 0.0,
+              "final": 0.0
+            }
+          },
+          "contact_diagnostics": {
+            "min_eef_to_handle_m": 0.02415951125064149,
+            "gripper_middle_contact_steps": 82,
+            "two_finger_middle_contact_steps": 61,
+            "max_contact_force_n": 224.9092125103806,
+            "max_middle_joint_constraint_force_n": 6.856094468791804,
+            "max_opening_force_n": 6.856094468791804,
+            "max_closing_force_n": 2.285699432202322,
+            "near_handle_pull_alignment_mean": 0.38238374202237396,
+            "near_handle_wrong_direction_fraction": 0.3541666666666667
+          }
+        },
+        {
+          "seed": 1,
+          "success": false,
+          "task_success": false,
+          "information_endpoint_success": false,
+          "steps": 310,
+          "error": null,
+          "joint_diagnostics": {
+            "wooden_cabinet_1_top_level": {
+              "initial": 0.0,
+              "minimum": 0.0,
+              "maximum": 0.0016875343259606125,
+              "final": 0.0016595148986340762
+            },
+            "wooden_cabinet_1_middle_level": {
+              "initial": 0.004390587181954727,
+              "minimum": 0.004390370029770252,
+              "maximum": 0.004390879186712298,
+              "final": 0.004390370029770252
+            },
+            "wooden_cabinet_1_bottom_level": {
+              "initial": 0.0,
+              "minimum": 0.0,
+              "maximum": 0.0,
+              "final": 0.0
+            }
+          },
+          "contact_diagnostics": {
+            "min_eef_to_handle_m": 0.018881844177526197,
+            "gripper_middle_contact_steps": 213,
+            "two_finger_middle_contact_steps": 135,
+            "max_contact_force_n": 464.2431238051178,
+            "max_middle_joint_constraint_force_n": 0.0028013643575945935,
+            "max_opening_force_n": 0.0009123983350818321,
+            "max_closing_force_n": 0.0028013643575945935,
+            "near_handle_pull_alignment_mean": -0.07287097886645247,
+            "near_handle_wrong_direction_fraction": 0.5458515283842795
+          }
+        },
+        {
+          "seed": 4,
+          "success": false,
+          "task_success": false,
+          "information_endpoint_success": false,
+          "steps": 310,
+          "error": null,
+          "joint_diagnostics": {
+            "wooden_cabinet_1_top_level": {
+              "initial": 0.0,
+              "minimum": 0.0,
+              "maximum": 0.0016660389795136704,
+              "final": 0.0014999294170115886
+            },
+            "wooden_cabinet_1_middle_level": {
+              "initial": 0.004917003385876564,
+              "minimum": 0.004917003385876564,
+              "maximum": 0.004917200096627736,
+              "final": 0.004917192299283696
+            },
+            "wooden_cabinet_1_bottom_level": {
+              "initial": 0.0,
+              "minimum": 0.0,
+              "maximum": 0.0,
+              "final": 0.0
+            }
+          },
+          "contact_diagnostics": {
+            "min_eef_to_handle_m": 0.019104068091422198,
+            "gripper_middle_contact_steps": 208,
+            "two_finger_middle_contact_steps": 198,
+            "max_contact_force_n": 322.52380321412,
+            "max_middle_joint_constraint_force_n": 0.00027818947757651813,
+            "max_opening_force_n": 0.00027818947757651813,
+            "max_closing_force_n": 1.0246490488086124e-05,
+            "near_handle_pull_alignment_mean": -0.10659672352814341,
+            "near_handle_wrong_direction_fraction": 0.7048458149779736
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,70 +1,57 @@
 # Interactive Perception
 
-Can a frozen vision-language-action policy change the scene when the task
-cannot be solved from the current image?
-
-## Benchmark
-
-Six LIBERO-derived tasks test hidden targets, removable occluders, multiple
-containers, absence, and severe clutter. Simulator state and segmentation are
-used only for evaluation. The policy receives the stock LIBERO RGB cameras and
-robot state.
+We study when a frozen vision-language-action policy should gather information
+before committing to a task action.
 
 ## Method
 
-The method separates four states: visible, recoverable by viewpoint change,
-recoverable by manipulation, and absent. It compares the risk of acting,
-acquiring information, and stopping, then sends a short instruction to a frozen
-π0.5 policy and observes again.
+The controller maintains beliefs over four states: visible, recoverable by a
+viewpoint change, recoverable by physical interaction, and absent. Repeated
+policy samples are grouped by semantic intent. Split conformal prediction
+calibrates the intent set; a risk router chooses `ACT`, `MOVE_CLOSER`,
+`ROTATE`, `REMOVE_OCCLUDER`, or `NOT_FOUND`.
 
-Repeated action chunks are grouped into coarse semantic intents. A
-split-conformal calibrator turns their evidence into an intent prediction set;
-large sets trigger information gathering instead of treating trajectory spread
-as semantic uncertainty. The router is not paper-ready until this calibrator is
-fit on held-out data.
+Simulator state and segmentation are evaluation-only. Calibration scenes are
+disjoint from test scenes.
 
-## Current result
+## Gates
 
-The stock checkpoint and camera path pass their controls. On the custom T01
-scene, pure π0.5 obtains:
+| Gate | Result | Decision |
+|---|---:|---|
+| Stock π0.5/LIBERO control | 5/5 | GO |
+| T01 direct middle-layer opening | 15/30; 95% lower bound 0.339 | NOT-GO (required 0.90) |
+| Four-intent conformal calibration | 40/40 coverage; mean set size 1.0 | GO for intent prediction only |
+| Task-facing wrist camera, visible control | 0/5 | NOT-GO |
+| `MOVE_CLOSER`, task-facing camera | 0/30 | NOT-GO |
+| `ROTATE`, task-facing camera | 0/30 | NOT-GO |
 
-| Instruction | Success |
-|---|---:|
-| Open the middle layer | 15/30 |
-| Search, then place the butter | 0/5 |
-| Final goal only | 0/5 |
+Changing only the wrist-camera extrinsics breaks a visible control. Therefore
+the information-action failures do not establish a missing π0.5 skill; they
+establish that this camera protocol is out of distribution. The next valid
+ability test must preserve stock camera extrinsics and place the scene inside
+the native wrist field of view.
 
-The direct executor fails the preregistered 0.90 reliability gate: its
-one-sided 95% lower bound is 0.339. Successful runs move the middle layer by
-0.142–0.149 joint units; failed runs move it by at most 0.000007. Thus the
-failure is not an endpoint artifact. This is a context-sensitive transfer
-failure, not proof of broad overfitting.
-
-Semantic intent coverage and physical skill reliability are separate gates. A
-singleton conformal intent set is executed only when the corresponding
-capability lower confidence bound also passes a preregistered requirement.
+T01 contact diagnostics show a more specific failure. Failed seeds reach the
+handle region (1.9 cm), make sustained two-finger contact, and produce large
+contact forces (323–464 N), but generate almost no opening-axis joint force
+(less than 0.001 N). Their near-handle motion points away from the opening axis
+on 55–70% of steps. The dominant failure is pull direction, not failure to
+reach the handle.
 
 ## Evidence
 
-- [Debug and gate report](results/PURE_PI05_DEBUG.md)
-- [Capability demo](results/demos/T01_multi_drawer_search_capability_seed000.mp4)
-- [Typical capability failure](results/demos/T01_multi_drawer_search_capability_seed001.mp4)
-- [Final-goal demo](results/demos/T01_multi_drawer_search_implicit_seed000.mp4)
+- [Calibration artifact](results/calibration/semantic_intent_g4_v3.json)
+- [Information-action ability test](results/capability/information_actions_task_facing_30seed.json)
+- [T01 contact mechanics](results/diagnostics/t01_contact_mechanics_force_3seed.json)
+- [MOVE_CLOSER demo](results/demos/information_actions_v3/IE02_resolution_only_seed000.mp4)
+- [ROTATE demo](results/demos/information_actions_v3/IE03_orientation_only_seed000.mp4)
 - [Pipeline](docs/PIPELINE_V04.md)
-- [Remaining human experiments](docs/HUMAN_EXPERIMENTS.md)
-- [Environment](env/README.md)
+- [Human experiments](docs/HUMAN_EXPERIMENTS.md)
 
 ## Run
 
 ```bash
 bash scripts/serve_pi05.sh
 env -u PYTHONPATH ../.conda/envs/ipu/bin/python \
-  scripts/run_pure_pi05_scenario_sr.py --variant implicit
+  scripts/run_pure_pi05_scenario_sr.py --variant capability
 ```
-
-G4-v1 is frozen and passes held-out validation for the LIBERO binary intent
-scope (`ACT` versus `REMOVE_OCCLUDER`): coverage 20/20 at error rate 0.1, with
-mean set size 1.0. It does not cover `NOT_FOUND`, `ROTATE`, or `MOVE_CLOSER`,
-and it does not guarantee physical task success. The main experiment is blocked
-until the missing classes are calibrated and the drawer primitive is replaced
-by an executor (or retry protocol) that passes the 0.90 gate.

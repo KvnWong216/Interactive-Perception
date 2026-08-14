@@ -48,7 +48,7 @@ def quat2axisangle(quat: Sequence[float]) -> np.ndarray:
 
     quat = np.asarray(quat, dtype=np.float64).copy()
     if quat.shape != (4,):
-        raise ValueError("quaternion must have shape (4,) in xyzw order")
+        raise ValueError("quaternion must have shape (4,) in xyzw order, now with {0} (shape: {1})".format(quat, quat.shape))
     quat[3] = float(np.clip(quat[3], -1.0, 1.0))
     den = math.sqrt(1.0 - quat[3] * quat[3])
     if math.isclose(den, 0.0):
@@ -83,6 +83,8 @@ def build_observation(
     prompt: str,
     *,
     resize_size: int = DEFAULT_RESIZE,
+    primary_camera: str = "agentview",
+    wrist_camera: str = "robot0_eye_in_hand",
 ) -> ObservationPacket:
     """Convert a raw LIBERO observation into the policy's input format.
 
@@ -93,8 +95,8 @@ def build_observation(
 
     from openpi_client import image_tools  # imported lazily; CPU-only paths skip it
 
-    image = np.ascontiguousarray(obs["agentview_image"][::-1, ::-1])
-    wrist = np.ascontiguousarray(obs["robot0_eye_in_hand_image"][::-1, ::-1])
+    image = np.ascontiguousarray(obs[f"{primary_camera}_image"][::-1, ::-1])
+    wrist = np.ascontiguousarray(obs[f"{wrist_camera}_image"][::-1, ::-1])
     image = image_tools.convert_to_uint8(
         image_tools.resize_with_pad(image, resize_size, resize_size)
     )
@@ -162,9 +164,9 @@ class OpenPiWebsocketPolicy:
 class ScriptedStubPolicy:
     """A CPU stand-in that exercises the pipeline without a model server.
 
-    This is **not** a baseline and must never appear in reported results.  It
+    This is NOT a baseline and must NEVER appear in reported results.  It
     exists so the rollout loop, trace schema, metrics, and plots can be
-    validated on a machine with no GPU.  It drives toward a supplied world
+    VALIDATED on a machine with no GPU.  It drives toward a supplied world
     position with Gaussian noise, which is enough to produce traces with
     realistic structure.
     """

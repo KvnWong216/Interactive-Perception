@@ -1,0 +1,27 @@
+{
+  "schema_version": "interactive-perception.intent-calibration-manifest.v1",
+  "dataset": "data/calibration/libero_core_task_facing_v3.jsonl",
+  "dataset_sha256": "f4b48b2a3737d6628cbcc231f9f56ec6e8e17f03d9b1c6ebb57805dc62e8cfa7",
+  "policy": "pi05_libero",
+  "samples": 100,
+  "chunks_per_sample": 8,
+  "labels": [
+    "ACT",
+    "REMOVE_OCCLUDER"
+  ],
+  "split_rule": "seed 0:20 train, 20:40 calibration, 40:50 validation, per class",
+  "calibration_only": true,
+  "oracle_inputs": [],
+  "policy_inputs": [
+    "stock agentview RGB",
+    "forward-facing wrist RGB",
+    "robot state",
+    "prompt"
+  ],
+  "semantic_definition": {
+    "ACT": "execute the final visible-object task",
+    "REMOVE_OCCLUDER": "manipulate a physical occluder or container",
+    "ROTATE": "grasp, wrist-rotate for a new object view, then place down",
+    "MOVE_CLOSER": "grasp and move the end effector toward the camera for inspection"
+  }
+}

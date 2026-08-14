@@ -1,0 +1,278 @@
+{
+  "schema_version": "interactive-perception.semantic-conformal.v1",
+  "alpha": 0.1,
+  "threshold": 0.07357255820145714,
+  "labels": [
+    "ACT",
+    "MOVE_CLOSER",
+    "REMOVE_OCCLUDER",
+    "ROTATE"
+  ],
+  "calibration_size": 80,
+  "policy_id": "pi05_libero",
+  "split_id": "libero_task_facing_intents_v3_seed_frozen",
+  "finite_sample_resolution": 0.012345679012345678,
+  "guarantee": "marginal semantic-intent coverage under exchangeability",
+  "non_guarantee": "robot task success",
+  "scope": "task-facing wrist plus stock agentview: ACT, REMOVE_OCCLUDER, ROTATE, MOVE_CLOSER",
+  "datasets": [
+    "data/calibration/libero_core_task_facing_v3.jsonl",
+    "data/calibration/libero_routes_task_facing_v3.jsonl"
+  ],
+  "dataset_sha256": {
+    "data/calibration/libero_core_task_facing_v3.jsonl": "f4b48b2a3737d6628cbcc231f9f56ec6e8e17f03d9b1c6ebb57805dc62e8cfa7",
+    "data/calibration/libero_routes_task_facing_v3.jsonl": "e79f0c968419861d4c908e27aa8e5335fed58ed361d515d074edd665b38bd82a"
+  },
+  "feature": "mean black-box action-chunk temporal statistics",
+  "prototype_scale": 0.7987775933862558,
+  "prototypes": {
+    "ACT": [
+      0.6095451627208358,
+      0.5765064519989995,
+      -0.1272850344464625,
+      -0.001270511572691973,
+      0.0028189748965131846,
+      0.016236546730212527,
+      0.07974555802925107,
+      0.0475269571708842,
+      0.14264174568977445,
+      0.0017147930570140114,
+      0.005967793273370424,
+      0.005959071800146495,
+      6.09545162720836,
+      5.765064519989996,
+      -1.2728503444646249,
+      -0.012705115726919732,
+      0.02818974896513185,
+      0.16236546730212525,
+      0.8736697742165491,
+      0.019523840612076113,
+      -0.39185871780549625,
+      0.07134334364079445
+    ],
+    "MOVE_CLOSER": [
+      0.5990764025077551,
+      0.0012282523415590256,
+      -0.09599770322905868,
+      0.004318963035755531,
+      -0.00415850858997519,
+      -0.0076518699143543565,
+      0.12820418224263178,
+      0.11928350006806561,
+      0.11819855370086418,
+      0.008202714800020772,
+      0.0071152013947684166,
+      0.003184050387838247,
+      5.990764025077551,
+      0.012282523415590264,
+      -0.9599770322905868,
+      0.04318963035755531,
+      -0.041585085899751885,
+      -0.07651869914354356,
+      0.6461734487166109,
+      0.0155993311178589,
+      0.4244716682180121,
+      0.09569278344833579
+    ],
+    "REMOVE_OCCLUDER": [
+      0.6615802956219238,
+      -0.4121848746006613,
+      -0.0695421617055323,
+      0.004108678325330846,
+      0.00468463079619391,
+      0.06995125574620922,
+      0.09868130207670092,
+      0.054153889443252654,
+      0.14035551161654913,
+      0.004631804379204484,
+      0.0076874136372558095,
+      0.00669450131826974,
+      6.615802956219238,
+      -4.121848746006613,
+      -0.6954216170553231,
+      0.04108678325330847,
+      0.0468463079619391,
+      0.6995125574620922,
+      0.8109256377136784,
+      0.07231419718039579,
+      -0.5189922567711298,
+      0.07825991560612794
+    ],
+    "ROTATE": [
+      0.3506190954063061,
+      -0.24003925912104132,
+      -0.06488332584324688,
+      0.018409031239417183,
+      0.003518080408612323,
+      -0.021316925167649416,
+      0.09639709570879659,
+      0.1176301069717612,
+      0.12625426395252212,
+      0.014209950697207041,
+      0.004181461009381432,
+      0.006046467191435985,
+      3.5061909540630602,
+      -2.400392591210413,
+      -0.6488332584324688,
+      0.18409031239417184,
+      0.03518080408612323,
+      -0.21316925167649411,
+      0.47055909939682117,
+      0.031889847436897,
+      0.7825948704919385,
+      0.07489401098804901
+    ]
+  },
+  "split_counts": {
+    "heldout_validation": 40,
+    "conformal_calibration": 80,
+    "prototype_train": 80
+  },
+  "validation_coverage": 1.0,
+  "validation_mean_set_size": 1.0,
+  "validation_per_class": {
+    "ACT": {
+      "count": 10,
+      "coverage": 1.0,
+      "mean_set_size": 1.0
+    },
+    "MOVE_CLOSER": {
+      "count": 10,
+      "coverage": 1.0,
+      "mean_set_size": 1.0
+    },
+    "REMOVE_OCCLUDER": {
+      "count": 10,
+      "coverage": 1.0,
+      "mean_set_size": 1.0
+    },
+    "ROTATE": {
+      "count": 10,
+      "coverage": 1.0,
+      "mean_set_size": 1.0
+    }
+  },
+  "validation_predictions": [
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "ACT"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "REMOVE_OCCLUDER"
+    ],
+    [
+      "ROTATE"
+    ],
+    [
+      "ROTATE"
+    ],
+    [
+      "ROTATE"
+    ],
+    [
+      "ROTATE"
+    ],
+    [
+      "ROTATE"
+    ],
+    [
+      "ROTATE"
+    ],
+    [
+      "ROTATE"
+    ],
+    [
+      "ROTATE"
+    ],
+    [
+      "ROTATE"
+    ],
+    [
+      "ROTATE"
+    ],
+    [
+      "MOVE_CLOSER"
+    ],
+    [
+      "MOVE_CLOSER"
+    ],
+    [
+      "MOVE_CLOSER"
+    ],
+    [
+      "MOVE_CLOSER"
+    ],
+    [
+      "MOVE_CLOSER"
+    ],
+    [
+      "MOVE_CLOSER"
+    ],
+    [
+      "MOVE_CLOSER"
+    ],
+    [
+      "MOVE_CLOSER"
+    ],
+    [
+      "MOVE_CLOSER"
+    ],
+    [
+      "MOVE_CLOSER"
+    ]
+  ],
+  "g4_passed": true
+}

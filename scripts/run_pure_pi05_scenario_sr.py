@@ -29,6 +29,7 @@ from interactive_perception.policy_client import (  # noqa: E402
     OpenPiWebsocketPolicy,
     build_observation,
 )
+from interactive_perception.camera_views import initialize_attached_camera_look_at  # noqa: E402
 
 # Copied from openpi/examples/libero/main.py. Keeping it local prevents this
 # pure-policy evaluator from importing the benchmark's rollout machinery.
@@ -55,6 +56,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--video-dir", type=Path, default=None)
     parser.add_argument("--video-seeds", type=int, nargs="+", default=[0])
     parser.add_argument("--video-stride", type=int, default=2)
+    parser.add_argument(
+        "--camera-mode", choices=["stock", "benchmark"], default="stock"
+    )
+    parser.add_argument("--contact-diagnostics", action="store_true")
     return parser.parse_args()
 
 
@@ -79,9 +84,20 @@ def run_episode(
     diagnostic_joints: list[str],
     args: argparse.Namespace,
     video_path: Path | None = None,
+    backend: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     obs = env.reset()
+    backend = backend or {}
+    if args.camera_mode == "benchmark":
+        initialization = backend["wrist_camera_initialization"]
+        initialize_attached_camera_look_at(
+            env,
+            camera=str(initialization["camera"]),
+            target=initialization["look_at"],
+        )
+        obs = env.regenerate_obs_from_state(env.get_sim_state())
     joint_history = {name: [] for name in diagnostic_joints}
+    contact_diagnostics = DrawerContactDiagnostics(env) if args.contact_diagnostics else None
 
     def record_joints() -> None:
         for name in diagnostic_joints:
@@ -101,17 +117,30 @@ def run_episode(
     try:
         while step < args.max_steps + args.num_steps_wait:
             if video is not None and step % args.video_stride == 0:
-                video.append_data(np.ascontiguousarray(obs["agentview_image"][::-1, ::-1]))
+                if args.camera_mode == "benchmark":
+                    video.append_data(capture_split_frame(env, obs, backend))
+                else:
+                    video.append_data(np.ascontiguousarray(obs["agentview_image"][::-1, ::-1]))
             if step < args.num_steps_wait:
                 obs, _, _, _ = env.step(LIBERO_DUMMY_ACTION)
             else:
                 if not plan:
-                    chunk = policy.sample_chunks(build_observation(obs, prompt), 1)[0]
+                    build_kwargs = {}
+                    if args.camera_mode == "benchmark":
+                        build_kwargs = {
+                            "primary_camera": backend["policy_primary_camera"],
+                            "wrist_camera": backend["policy_wrist_camera"],
+                        }
+                    chunk = policy.sample_chunks(
+                        build_observation(obs, prompt, **build_kwargs), 1
+                    )[0]
                     if len(chunk) < args.replan_steps:
                         raise ValueError(f"policy returned {len(chunk)} actions")
                     plan.extend(chunk[: args.replan_steps])
                 obs, _, done, _ = env.step(plan.popleft().tolist())
                 record_joints()
+                if contact_diagnostics is not None:
+                    contact_diagnostics.record(obs)
                 endpoint_success = endpoint_success or joint_endpoint(env, endpoint)
                 if done or (args.variant == "capability" and endpoint_success):
                     break
@@ -122,7 +151,7 @@ def run_episode(
         if video is not None:
             video.close()
     success = endpoint_success if args.variant == "capability" else bool(done)
-    return {
+    result = {
         "success": bool(success),
         "task_success": bool(done),
         "information_endpoint_success": bool(endpoint_success),
@@ -139,6 +168,153 @@ def run_episode(
             if values
         },
     }
+    if contact_diagnostics is not None:
+        result["contact_diagnostics"] = contact_diagnostics.summary()
+    return result
+
+
+class DrawerContactDiagnostics:
+    """Measure whether the gripper reaches, contacts, and pulls the middle handle."""
+
+    HANDLE_LOCAL_POS = np.asarray([-0.00278, -0.10161, 0.11041])
+
+    def __init__(self, env: Any) -> None:
+        self.sim = env.env.sim
+        model = self.sim.model
+        self.middle_body_id = model.body_name2id("wooden_cabinet_1_cabinet_middle")
+        self.cabinet_root_body_id = model.body_name2id("wooden_cabinet_1_main")
+        self.grip_site_id = model.site_name2id("gripper0_grip_site")
+        self.joint_id = model.joint_name2id("wooden_cabinet_1_middle_level")
+        self.dof_id = int(model.jnt_dofadr[self.joint_id])
+        self.middle_geoms = {
+            geom_id
+            for geom_id in range(model.ngeom)
+            if self._descends_from(int(model.geom_bodyid[geom_id]), self.middle_body_id)
+        }
+        self.gripper_geoms = {
+            geom_id
+            for geom_id in range(model.ngeom)
+            if "gripper" in (model.body_id2name(int(model.geom_bodyid[geom_id])) or "")
+        }
+        self.min_handle_distance = float("inf")
+        self.contact_steps = 0
+        self.two_finger_contact_steps = 0
+        self.max_contact_force = 0.0
+        self.max_opening_force = 0.0
+        self.max_closing_force = 0.0
+        self.max_joint_constraint_force = 0.0
+        self.pull_alignment: list[float] = []
+        self.previous_eef: np.ndarray | None = None
+
+    def _descends_from(self, body_id: int, ancestor: int) -> bool:
+        while body_id > 0:
+            if body_id == ancestor:
+                return True
+            body_id = int(self.sim.model.body_parentid[body_id])
+        return False
+
+    def _opening_axis(self) -> np.ndarray:
+        root_rotation = np.asarray(self.sim.data.body_xmat[self.cabinet_root_body_id]).reshape(3, 3)
+        axis = -(root_rotation @ np.asarray([0.0, 1.0, 0.0]))
+        return axis / np.linalg.norm(axis)
+
+    def _contact_force(self, contact_id: int) -> float:
+        force = np.zeros(6, dtype=np.float64)
+        try:
+            import mujoco
+
+            mujoco.mj_contactForce(
+                self.sim.model._model, self.sim.data._data, contact_id, force
+            )
+        except Exception:  # pragma: no cover - binding varies across MuJoCo builds
+            return 0.0
+        return float(np.linalg.norm(force[:3]))
+
+    def record(self, obs: dict[str, Any]) -> None:
+        data = self.sim.data
+        middle_rotation = np.asarray(data.body_xmat[self.middle_body_id]).reshape(3, 3)
+        handle = np.asarray(data.body_xpos[self.middle_body_id]) + middle_rotation @ self.HANDLE_LOCAL_POS
+        eef = np.asarray(data.site_xpos[self.grip_site_id]).copy()
+        self.min_handle_distance = min(self.min_handle_distance, float(np.linalg.norm(eef - handle)))
+        if self.previous_eef is not None:
+            displacement = eef - self.previous_eef
+            norm = float(np.linalg.norm(displacement))
+            if norm > 1e-6 and np.linalg.norm(eef - handle) < 0.08:
+                self.pull_alignment.append(float(displacement @ self._opening_axis() / norm))
+        self.previous_eef = eef
+
+        touching_fingers: set[int] = set()
+        contact_force = 0.0
+        for contact_id in range(int(data.ncon)):
+            contact = data.contact[contact_id]
+            pair = {int(contact.geom1), int(contact.geom2)}
+            gripper = pair & self.gripper_geoms
+            if gripper and pair & self.middle_geoms:
+                touching_fingers.update(gripper)
+                contact_force += self._contact_force(contact_id)
+        if touching_fingers:
+            self.contact_steps += 1
+            self.max_contact_force = max(self.max_contact_force, contact_force)
+        if len(touching_fingers) >= 2:
+            self.two_finger_contact_steps += 1
+        generalized_force = float(data.qfrc_constraint[self.dof_id])
+        self.max_joint_constraint_force = max(
+            self.max_joint_constraint_force, abs(generalized_force)
+        )
+        opening_component = max(0.0, -generalized_force)
+        closing_component = max(0.0, generalized_force)
+        self.max_opening_force = max(self.max_opening_force, opening_component)
+        self.max_closing_force = max(self.max_closing_force, closing_component)
+
+    def summary(self) -> dict[str, Any]:
+        alignments = np.asarray(self.pull_alignment, dtype=float)
+        return {
+            "min_eef_to_handle_m": self.min_handle_distance,
+            "gripper_middle_contact_steps": self.contact_steps,
+            "two_finger_middle_contact_steps": self.two_finger_contact_steps,
+            "max_contact_force_n": self.max_contact_force,
+            "max_middle_joint_constraint_force_n": self.max_joint_constraint_force,
+            "max_opening_force_n": self.max_opening_force,
+            "max_closing_force_n": self.max_closing_force,
+            "near_handle_pull_alignment_mean": (
+                float(np.mean(alignments)) if alignments.size else None
+            ),
+            "near_handle_wrong_direction_fraction": (
+                float(np.mean(alignments < 0.0)) if alignments.size else None
+            ),
+        }
+
+
+def capture_split_frame(env: Any, obs: dict[str, Any], backend: dict[str, Any]) -> np.ndarray:
+    """Compose synchronized wrist/global panels without changing policy pixels."""
+
+    from PIL import Image, ImageDraw
+
+    left = np.ascontiguousarray(obs["robot0_eye_in_hand_image"][::-1, ::-1])
+    camera = str(backend["demo_camera"])
+    pose = backend["demo_camera_pose"]
+    sim = env.env.sim
+    camera_id = sim.model.camera_name2id(camera)
+    original_pos = np.asarray(sim.model.cam_pos[camera_id], dtype=float).copy()
+    original_quat = np.asarray(sim.model.cam_quat[camera_id], dtype=float).copy()
+    try:
+        sim.model.cam_pos[camera_id] = np.asarray(pose["position"], dtype=float)
+        sim.model.cam_quat[camera_id] = np.asarray(pose["quaternion_wxyz"], dtype=float)
+        sim.forward()
+        global_obs = env.regenerate_obs_from_state(env.get_sim_state())
+        right = np.ascontiguousarray(global_obs[f"{camera}_image"][::-1, ::-1])
+    finally:
+        sim.model.cam_pos[camera_id] = original_pos
+        sim.model.cam_quat[camera_id] = original_quat
+        sim.forward()
+    panels = []
+    for frame, label in zip((left, right), backend["demo_labels"], strict=True):
+        panel = Image.fromarray(frame)
+        draw = ImageDraw.Draw(panel)
+        draw.rectangle((0, 0, panel.width, max(20, panel.height // 12)), fill=(0, 0, 0))
+        draw.text((8, 4), str(label), fill=(255, 255, 255))
+        panels.append(np.asarray(panel))
+    return np.ascontiguousarray(np.concatenate(panels, axis=1))
 
 
 def main() -> None:
@@ -159,6 +335,7 @@ def main() -> None:
         "variant": args.variant,
         "seeds": args.seeds,
         "server_metadata": policy.server_metadata,
+        "camera_mode": args.camera_mode,
         "tasks": {},
     }
     for task_id in args.task_ids:
@@ -183,7 +360,14 @@ def main() -> None:
                 row = {
                     "seed": seed,
                     **run_episode(
-                        env, policy, prompt, endpoint, diagnostic_joints, args, video_path
+                        env,
+                        policy,
+                        prompt,
+                        endpoint,
+                        diagnostic_joints,
+                        args,
+                        video_path,
+                        spec["backend"],
                     ),
                 }
             finally:

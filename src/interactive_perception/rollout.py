@@ -43,6 +43,7 @@ from .endpoints import EndpointEvaluator
 from .metrics import EpisodeOutcome
 from .policy_client import PolicyBackend, build_observation
 from .primitive_decoder import PrimitiveDecoderConfig, decode_primitive_evidence
+from .camera_views import initialize_attached_camera_look_at
 
 __all__ = [
     "RolloutConfig",
@@ -88,6 +89,12 @@ class RolloutConfig:
     probe_every: int = 20
     resize_size: int = 224
     camera: str = "agentview"
+    primary_image_camera: str = "agentview"
+    wrist_image_camera: str = "robot0_eye_in_hand"
+    reset_sensing_action: tuple[float, ...] | None = None
+    reset_sensing_action_steps: int = 0
+    reset_sensing_settle_steps: int = 0
+    wrist_camera_look_at: tuple[float, float, float] | None = None
     commitment_probability: float = 0.6
     # Pixels above which the target counts as visible. Not always zero: a
     # renderer can leak a pixel or two of a covered object, and the leak is
@@ -102,6 +109,11 @@ class RolloutConfig:
     demo_camera: str | None = None
     demo_camera_pos: tuple[float, float, float] | None = None
     demo_camera_quat_wxyz: tuple[float, float, float, float] | None = None
+    demo_split_view: bool = False
+    demo_labels: tuple[str, str] = (
+        "FIRST-PERSON / WRIST",
+        "THIRD-PERSON / GLOBAL",
+    )
     decoder: PrimitiveDecoderConfig = dataclasses.field(
         default_factory=PrimitiveDecoderConfig
     )
@@ -113,6 +125,8 @@ class RolloutConfig:
             raise ValueError("probe_every must be a multiple of replan_steps or larger")
         if not 0.0 < self.commitment_probability <= 1.0:
             raise ValueError("commitment_probability must lie in (0, 1]")
+        if self.reset_sensing_action is not None and len(self.reset_sensing_action) != 7:
+            raise ValueError("reset sensing action must contain seven OSC values")
 
 
 def _capture_demo_frame(
@@ -127,8 +141,12 @@ def _capture_demo_frame(
     """
 
     camera = config.demo_camera or config.camera
+    first_person = np.ascontiguousarray(
+        np.flipud(policy_obs[f"{config.camera}_image"])
+    )
     if config.demo_camera_pos is None and config.demo_camera_quat_wxyz is None:
-        return np.ascontiguousarray(np.flipud(policy_obs[f"{camera}_image"]))
+        third_person = np.ascontiguousarray(np.flipud(policy_obs[f"{camera}_image"]))
+        return _compose_demo_views(first_person, third_person, config)
 
     sim = env.env.sim
     index = sim.model.camera_name2id(camera)
@@ -141,7 +159,8 @@ def _capture_demo_frame(
             position=config.demo_camera_pos,
             quaternion_wxyz=config.demo_camera_quat_wxyz,
         )
-        return np.ascontiguousarray(np.flipud(demo_obs[f"{camera}_image"]))
+        third_person = np.ascontiguousarray(np.flipud(demo_obs[f"{camera}_image"]))
+        return _compose_demo_views(first_person, third_person, config)
     finally:
         set_camera_pose(
             env,
@@ -149,6 +168,30 @@ def _capture_demo_frame(
             position=original_pos,
             quaternion_wxyz=original_quat,
         )
+
+
+def _compose_demo_views(
+    first_person: np.ndarray,
+    third_person: np.ndarray,
+    config: RolloutConfig,
+) -> np.ndarray:
+    if not config.demo_split_view:
+        return third_person
+    from PIL import Image, ImageDraw
+
+    if first_person.shape != third_person.shape:
+        raise ValueError("first- and third-person demo frames must have equal shape")
+    panels = []
+    for frame, label in zip(
+        (first_person, third_person), config.demo_labels, strict=True
+    ):
+        panel = Image.fromarray(np.asarray(frame, dtype=np.uint8))
+        draw = ImageDraw.Draw(panel)
+        box_height = max(20, panel.height // 12)
+        draw.rectangle((0, 0, panel.width, box_height), fill=(0, 0, 0))
+        draw.text((8, 4), label, fill=(255, 255, 255))
+        panels.append(np.asarray(panel))
+    return np.ascontiguousarray(np.concatenate(panels, axis=1))
 
 
 @dataclasses.dataclass
@@ -291,6 +334,19 @@ def run_episode(
     # being measured as if it were configured.
     if post_reset is not None:
         obs = post_reset(env)
+    look_at = task.get("wrist_camera_look_at") or config.wrist_camera_look_at
+    if look_at is not None:
+        initialize_attached_camera_look_at(
+            env, camera=config.wrist_image_camera, target=look_at
+        )
+        obs = env.regenerate_obs_from_state(env.get_sim_state())
+    if config.reset_sensing_action is not None:
+        reset_action = np.asarray(config.reset_sensing_action, dtype=float)
+        for _ in range(config.reset_sensing_action_steps):
+            obs, _, _, _ = env.step(reset_action)
+        neutral = np.zeros(7, dtype=float)
+        for _ in range(config.reset_sensing_settle_steps):
+            obs, _, _, _ = env.step(neutral)
 
     records: list[StepRecord] = []
     max_pixels = 0
@@ -357,7 +413,11 @@ def run_episode(
                         raise RuntimeError("nonterminal routing decision has no prompt")
                     active_prompt = routing.prompt
                 packet = build_observation(
-                    obs, active_prompt, resize_size=config.resize_size
+                    obs,
+                    active_prompt,
+                    resize_size=config.resize_size,
+                    primary_camera=config.primary_image_camera,
+                    wrist_camera=config.wrist_image_camera,
                 )
                 is_probe = (step - config.num_steps_wait) % config.probe_every == 0
                 count = config.probe_samples if is_probe else 1

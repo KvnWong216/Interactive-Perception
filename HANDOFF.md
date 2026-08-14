@@ -1,5 +1,43 @@
 # Handoff
 
+## 2026-08-14 task-facing camera and unit-action gate
+
+The desired protocol was implemented without moving the robot: the attached
+wrist camera is aimed at the task workspace, while the policy's primary image
+remains `agentview`; demos place wrist view on the left and a global view on
+the right. This is mechanically correct but not a valid π0.5 evaluation
+protocol. A visible T04 control fell to 0/5 when only the wrist-camera
+extrinsics changed. `MOVE_CLOSER` and `ROTATE` each reached 0/30. For
+`MOVE_CLOSER`, the robot moved the wrist toward the stationary object but never
+lifted it. For `ROTATE`, a few seeds bumped or rotated the object, but none
+completed grasp--wrist rotation--put-down. These zeros demonstrate camera
+distribution shift, not absence of the unit skills.
+
+G4-v3 calibrates four intents (`ACT`, `REMOVE_OCCLUDER`, `MOVE_CLOSER`,
+`ROTATE`) using 200 calibration-only observations and 1600 π0.5 chunks.
+Prototype/calibration/validation seeds are 0--19/20--39/40--49 per class.
+At alpha=0.1 it covers 40/40 held-out labels with mean set size 1.0. This is a
+GO for semantic intent prediction only; the physical executor gate remains a
+hard NOT-GO.
+
+T01 physics instrumentation now records the handle distance, named-geometry
+contacts, MuJoCo contact force, drawer generalized constraint force, and
+end-effector alignment with the opening axis. In one success and two typical
+failures, all runs reached 1.9--2.4 cm from the handle. Failed seeds maintained
+two-finger drawer contact for 135/198 steps and reached 464/323 N peak contact
+force, but transmitted less than 0.001 N along the drawer opening coordinate.
+Their near-handle motion had negative mean opening alignment and ran in the
+wrong half-plane on 55%/70% of steps. The successful seed had positive mean
+alignment 0.382 and opened the layer fully. Therefore the dominant observed
+failure is wrong pull direction after contact, not an over-strict endpoint or
+failure to approach the handle.
+
+Next experiment: do not rotate the camera or pre-move the arm. Preserve both
+stock π0.5 camera extrinsics and the stock robot reset, translate the
+calibration-only scene so the occluder lies in the native wrist field of view,
+and rerun the visible grasp control before testing information primitives.
+Only if that control passes may the unit-action results be interpreted.
+
 ## 2026-08-14 frozen T01 executor gate
 
 The preregistered 30-seed pure-π0.5 capability run is complete. Directly

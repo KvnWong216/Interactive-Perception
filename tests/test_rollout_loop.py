@@ -120,6 +120,7 @@ class FakeLiberoEnv:
             "robot0_eef_quat": np.array([0.0, 0.0, 0.0, 1.0]),
             "robot0_gripper_qpos": np.array([0.02, -0.02]),
             "agentview_segmentation_instance": segmentation,
+            "robot0_eye_in_hand_segmentation_instance": segmentation,
         }
 
     def reset(self) -> dict[str, Any]:
@@ -257,6 +258,31 @@ def test_demo_pose_does_not_change_policy_camera() -> None:
     )
     assert frames and np.all(frames[0] == 200)
     assert env.env.sim.model.cam_pos[0].tolist() == pytest.approx([0.5, 0.0, 1.35])
+
+
+def test_split_demo_places_first_person_left_and_global_view_right() -> None:
+    env = FakeLiberoEnv()
+    frames: list[np.ndarray] = []
+    config = dataclasses.replace(
+        CONFIG,
+        camera="robot0_eye_in_hand",
+        demo_camera="agentview",
+        demo_split_view=True,
+    )
+    run_episode(
+        env=env,
+        policy=ScriptedStubPolicy(goal_position=(0.3, 0.0, 0.9), seed=0),
+        task=TASK,
+        prompt="Place the butter in the wicker basket.",
+        prompt_variant="implicit",
+        anchor_specs=ANCHORS,
+        seed=0,
+        config=config,
+        frames=frames,
+    )
+    assert frames[0].shape == (RESOLUTION, RESOLUTION * 2, 3)
+    assert np.all(frames[0][-1, :RESOLUTION] == 90)
+    assert np.all(frames[0][-1, RESOLUTION:] == 120)
 
 
 def test_fixed_rule_prefix_switches_back_to_final_goal() -> None:

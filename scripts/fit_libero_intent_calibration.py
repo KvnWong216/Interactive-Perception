@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Fit prototypes, conformalize intent scores, and validate frozen G4-v1."""
+"""Fit prototypes, conformalize intent scores, and validate a frozen G4 artifact."""
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -28,12 +29,19 @@ def evidence(value, prototypes, scale):
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("dataset", type=Path)
+    parser.add_argument("datasets", type=Path, nargs="+")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--alpha", type=float, default=0.1)
     parser.add_argument("--minimum-validation-coverage", type=float, default=0.9)
+    parser.add_argument("--split-id", required=True)
+    parser.add_argument("--scope", required=True)
     args = parser.parse_args()
-    rows = [json.loads(line) for line in args.dataset.read_text().splitlines() if line]
+    rows = [
+        json.loads(line)
+        for dataset in args.datasets
+        for line in dataset.read_text().splitlines()
+        if line
+    ]
     labels = sorted({row["true_intent"] for row in rows})
     train = [row for row in rows if row["split"] == "prototype_train"]
     calibration = [row for row in rows if row["split"] == "conformal_calibration"]
@@ -49,24 +57,54 @@ def main() -> None:
         examples,
         alpha=args.alpha,
         policy_id="pi05_libero",
-        split_id="libero_intents_v1_seed_frozen",
+        split_id=args.split_id,
     )
     predictions = [calibrator.predict(evidence(vector(row), prototypes, scale)) for row in validation]
     covered = [row["true_intent"] in prediction for row, prediction in zip(validation, predictions, strict=True)]
     coverage = float(np.mean(covered))
     mean_size = float(np.mean([len(value) for value in predictions]))
+    per_class = {
+        label: {
+            "count": sum(row["true_intent"] == label for row in validation),
+            "coverage": float(
+                np.mean(
+                    [
+                        row["true_intent"] in prediction
+                        for row, prediction in zip(validation, predictions, strict=True)
+                        if row["true_intent"] == label
+                    ]
+                )
+            ),
+            "mean_set_size": float(
+                np.mean(
+                    [
+                        len(prediction)
+                        for row, prediction in zip(validation, predictions, strict=True)
+                        if row["true_intent"] == label
+                    ]
+                )
+            ),
+        }
+        for label in labels
+    }
     passed = coverage >= args.minimum_validation_coverage
     artifact = {
         **calibrator.to_dict(),
-        "scope": "LIBERO ACT vs REMOVE_OCCLUDER only",
+        "scope": args.scope,
+        "datasets": [str(path) for path in args.datasets],
+        "dataset_sha256": {
+            str(path): hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in args.datasets
+        },
         "feature": "mean black-box action-chunk temporal statistics",
         "prototype_scale": scale,
         "prototypes": {label: center.tolist() for label, center in prototypes.items()},
         "split_counts": {name: sum(row["split"] == name for row in rows) for name in {row["split"] for row in rows}},
         "validation_coverage": coverage,
         "validation_mean_set_size": mean_size,
+        "validation_per_class": per_class,
         "validation_predictions": predictions,
-        "g4_v1_passed": passed,
+        "g4_passed": passed,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(artifact, indent=2) + "\n")

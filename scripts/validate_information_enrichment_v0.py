@@ -458,12 +458,17 @@ def validate_task(
             instance: object_qpos(env, instance)
             for instance in movable_instances(env)
         }
-        obs, reset_pose = apply_natural_reset_pose(
-            env,
-            obs,
-            spec["backend"]["reset_sensing_pose"],
-            float("inf"),
-        )
+        from interactive_perception.camera_views import initialize_attached_camera_look_at
+
+        initialization = spec["backend"]["wrist_camera_initialization"]
+        reset_pose = {
+            **initialize_attached_camera_look_at(
+                env,
+                camera=str(initialization["camera"]),
+                target=initialization["look_at"],
+            ),
+            "robot_motion_steps": 0,
+        }
         base_quaternions, layout_report = canonicalize_scene(
             env,
             task["id"],
@@ -736,11 +741,7 @@ def validate_task(
         result["passed"] = bool(
             result["prompt_matches"]
             and result["canonical_layout"]["layout_stable"]
-            and 25.0
-            <= result["initial_camera"][
-                "downward_degrees_from_horizontal"
-            ]
-            <= 45.0
+            and result["reset_pose"]["robot_motion_steps"] == 0
             and result["camera_fixed_after_reset"]
             and not result["initial_goal_success"]
             and result["task_structure_valid"]

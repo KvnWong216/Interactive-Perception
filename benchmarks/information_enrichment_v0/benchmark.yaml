@@ -11,21 +11,22 @@ backend:
   robot: Panda
   controller: OSC_POSE
   policy_camera: robot0_eye_in_hand
+  policy_primary_camera: agentview
+  policy_wrist_camera: robot0_eye_in_hand
   evaluator_camera: agentview
+  evaluator_camera_pose:
+    position: [0.0, 0.0, 2.40]
+    quaternion_wxyz: [1.0, 0.0, 0.0, 0.0]
   image_size: [256, 256]
   active_viewpoint_actions: forbidden
-  reset_sensing_pose:
-    name: natural_oblique_wrist_v1
-    action: [0.0, 0.0, 0.0, 0.0, -0.7, 0.0, 0.0]
-    action_steps: 16
-    settle_steps: 5
-    command_endpoint_downward_degrees_from_horizontal: 34.4866
-    validated_post_layout_settle_range_degrees: [28.8006, 30.0537]
-    validated_post_layout_settle_mean_degrees: 29.4271
+  wrist_camera_initialization:
+    name: task_facing_mount_v1
+    camera: robot0_eye_in_hand
+    look_at: [0.25, 0.0, 0.93]
+    robot_motion_steps: 0
     semantics: >-
-      This deterministic pre-positioning is part of env.reset. It is not
-      selected by the evaluated policy and is never counted as an
-      information-seeking action.
+      The simulated wrist-camera mount is aimed at the task workspace after
+      reset. Robot qpos and task state are unchanged.
 
 observation_contract:
   policy_inputs:

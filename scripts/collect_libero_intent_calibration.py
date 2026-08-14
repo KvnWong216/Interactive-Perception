@@ -47,12 +47,49 @@ def chunk_features(chunk: np.ndarray) -> list[float]:
     ).tolist()
 
 
-def collect_condition(*, env, policy, prompt, label, seed, samples, wait_steps):
+def collect_condition(
+    *,
+    env,
+    policy,
+    prompt,
+    label,
+    seed,
+    samples,
+    wait_steps,
+    primary_camera="agentview",
+    wrist_camera="robot0_eye_in_hand",
+    reset_sensing_pose=None,
+    wrist_camera_initialization=None,
+):
     env.seed(seed)
     obs = env.reset()
+    if reset_sensing_pose:
+        action = np.asarray(reset_sensing_pose["action"], dtype=float)
+        for _ in range(int(reset_sensing_pose["action_steps"])):
+            obs, _, _, _ = env.step(action)
+        neutral = np.zeros(7, dtype=float)
+        for _ in range(int(reset_sensing_pose["settle_steps"])):
+            obs, _, _, _ = env.step(neutral)
+    if wrist_camera_initialization:
+        from interactive_perception.camera_views import initialize_attached_camera_look_at
+
+        initialize_attached_camera_look_at(
+            env,
+            camera=str(wrist_camera_initialization["camera"]),
+            target=wrist_camera_initialization["look_at"],
+        )
+        obs = env.regenerate_obs_from_state(env.get_sim_state())
     for _ in range(wait_steps):
         obs, _, _, _ = env.step(DUMMY_ACTION)
-    chunks = policy.sample_chunks(build_observation(obs, prompt), samples)
+    chunks = policy.sample_chunks(
+        build_observation(
+            obs,
+            prompt,
+            primary_camera=primary_camera,
+            wrist_camera=wrist_camera,
+        ),
+        samples,
+    )
     return {
         "schema_version": "interactive-perception.intent-calibration-sample.v1",
         "condition": label.lower(),

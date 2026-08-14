@@ -98,6 +98,20 @@ def camera_extrinsics(env: Any, camera: str) -> dict[str, list[float]]:
     }
 
 
+def camera_world_geometry(env: Any, camera: str) -> dict[str, Any]:
+    camera_id = env.env.sim.model.camera_name2id(camera)
+    position = np.asarray(env.env.sim.data.cam_xpos[camera_id], dtype=float)
+    rotation = np.asarray(env.env.sim.data.cam_xmat[camera_id], dtype=float).reshape(3, 3)
+    forward = -rotation[:, 2]
+    return {
+        "position": position.tolist(),
+        "forward": forward.tolist(),
+        "downward_degrees_from_horizontal": float(
+            np.degrees(np.arcsin(np.clip(-forward[2], -1.0, 1.0)))
+        ),
+    }
+
+
 def camera_unchanged(
     before: dict[str, list[float]],
     after: dict[str, list[float]],
@@ -253,15 +267,15 @@ def apply_dense_clutter_reset(env: Any) -> dict[str, Any]:
 def apply_severe_clutter_reset(env: Any) -> dict[str, Any]:
     """Create a nine-object, two-layer occlusion around the ketchup target."""
     positions_xy = {
-        "ketchup_1": [-0.14, -0.06],
-        "alphabet_soup_1": [-0.09, -0.06],
-        "cream_cheese_1": [-0.075, 0.035],
-        "chocolate_pudding_1": [-0.18, 0.035],
-        "tomato_sauce_1": [-0.02, 0.10],
-        "milk_1": [-0.18, 0.13],
-        "orange_juice_1": [0.02, -0.16],
-        "bbq_sauce_1": [-0.18, -0.17],
-        "cookies_1": [0.06, -0.05],
+        "ketchup_1": [0.44, -0.06],
+        "alphabet_soup_1": [0.382, -0.06],
+        "cream_cheese_1": [0.36, 0.00],
+        "chocolate_pudding_1": [0.36, -0.12],
+        "tomato_sauce_1": [0.48, 0.14],
+        "milk_1": [0.20, 0.16],
+        "orange_juice_1": [0.48, -0.18],
+        "bbq_sauce_1": [0.20, -0.18],
+        "cookies_1": [0.18, 0.06],
     }
     before: dict[str, list[float]] = {}
     positions: dict[str, list[float]] = {}
@@ -342,9 +356,9 @@ def apply_oracle_reveal(env: Any, task_id: str) -> dict[str, Any]:
         open_drawer_with_contents("bottom", [])
     elif task_id == "T06_severe_clutter_occlusion":
         cleared_positions = {
-            "alphabet_soup_1": [0.10, -0.18, 0.93],
-            "cream_cheese_1": [0.15, -0.12, 0.93],
-            "chocolate_pudding_1": [0.18, -0.04, 0.93],
+            "alphabet_soup_1": [0.46, 0.20, 0.93],
+            "cream_cheese_1": [0.40, 0.22, 0.93],
+            "chocolate_pudding_1": [0.32, 0.22, 0.93],
         }
         for instance, position in cleared_positions.items():
             obj = env.env.objects_dict[instance]
@@ -463,6 +477,7 @@ def validate_case(
     width: int,
     height: int,
     settle_steps: int,
+    wrist_camera_initialization: dict[str, Any] | None,
 ) -> dict[str, Any]:
     env = env_class(
         bddl_file_name=str(bddl_path),
@@ -484,6 +499,16 @@ def validate_case(
             reset_wrapper_report = apply_severe_clutter_reset(env)
             obs = reset_wrapper_report.pop("obs")
 
+        if wrist_camera_initialization:
+            from interactive_perception.camera_views import initialize_attached_camera_look_at
+
+            initialize_attached_camera_look_at(
+                env,
+                camera=str(wrist_camera_initialization["camera"]),
+                target=wrist_camera_initialization["look_at"],
+            )
+            obs = regenerate_obs(env)
+
         expected_prompt = str(task["prompt"])
         actual_prompt = str(env.language_instruction)
         target = task.get("target")
@@ -493,6 +518,7 @@ def validate_case(
             )
 
         camera_before = camera_extrinsics(env, camera)
+        camera_world_before = camera_world_geometry(env, camera)
         initial = save_snapshot(
             env,
             obs,
@@ -564,6 +590,7 @@ def validate_case(
             else None
         )
         camera_after = camera_extrinsics(env, camera)
+        camera_world_after = camera_world_geometry(env, camera)
         revealed_bddl_success = bool(env.env._check_success())
 
         absent_instance = task.get("absent_instance")
@@ -641,6 +668,13 @@ def validate_case(
             "policy_camera": camera,
             "camera_before": camera_before,
             "camera_after": camera_after,
+            "camera_world_before": camera_world_before,
+            "camera_world_after": camera_world_after,
+            "horizontal_wrist": (
+                True
+                if wrist_camera_initialization
+                else None
+            ),
             "camera_unchanged": camera_unchanged(
                 camera_before, camera_after
             ),
@@ -685,6 +719,7 @@ def validate_case(
         result["passed"] = bool(
             result["prompt_matches"]
             and result["camera_unchanged"]
+            and result["horizontal_wrist"] is not False
             and not result["initial_bddl_success"]
             and result["visibility_or_absence_valid"]
         )
@@ -736,6 +771,9 @@ def main() -> None:
                     width=args.width,
                     height=args.height,
                     settle_steps=args.settle_steps,
+                    wrist_camera_initialization=spec["backend"].get(
+                        "wrist_camera_initialization"
+                    ),
                 )
             except Exception as error:
                 row = {
