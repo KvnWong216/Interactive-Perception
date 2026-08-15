@@ -1,0 +1,62 @@
+{
+  "schema_version": "interactive-perception.g5-executor-gate.v1",
+  "required_reliability": 0.9,
+  "confidence": 0.95,
+  "gates": {
+    "ACT": {
+      "successes": 100,
+      "trials": 100,
+      "confidence": 0.95,
+      "required_reliability": 0.9,
+      "empirical_rate": 1.0,
+      "lower_bound": 0.9704869503929601,
+      "passed": true,
+      "interpretation": "executor competence in the evaluated context; not semantic-intent coverage"
+    },
+    "REMOVE_OCCLUDER": {
+      "successes": 15,
+      "trials": 30,
+      "confidence": 0.95,
+      "required_reliability": 0.9,
+      "empirical_rate": 0.5,
+      "lower_bound": 0.33889266160951503,
+      "passed": false,
+      "interpretation": "executor competence in the evaluated context; not semantic-intent coverage"
+    },
+    "MOVE_CLOSER": {
+      "successes": 30,
+      "trials": 30,
+      "confidence": 0.95,
+      "required_reliability": 0.9,
+      "empirical_rate": 1.0,
+      "lower_bound": 0.9049661471446959,
+      "passed": true,
+      "interpretation": "executor competence in the evaluated context; not semantic-intent coverage"
+    },
+    "ROTATE": {
+      "successes": 0,
+      "trials": 30,
+      "confidence": 0.95,
+      "required_reliability": 0.9,
+      "empirical_rate": 0.0,
+      "lower_bound": 0.0,
+      "passed": false,
+      "interpretation": "executor competence in the evaluated context; not semantic-intent coverage"
+    }
+  },
+  "authorized_primitives": [
+    "ACT",
+    "MOVE_CLOSER"
+  ],
+  "blocked_primitives": [
+    "REMOVE_OCCLUDER",
+    "ROTATE"
+  ],
+  "g5_full_passed": false,
+  "router_rule": "A conformal singleton is executable only if its matching G5 gate passes.",
+  "source_sha256": {
+    "results/repro_libero_object.json": "8ef7a7bf6dc3b0b6f3848a14ee46c3b801c03f1bacfc6722650c0ed52e422915",
+    "results/capability/pure_pi05_t01_capability_30seed.json": "137926efbab2870d4b60297ca8ba7ac117a3f8727de8561fcf414aa668254e58",
+    "results/capability/stock_aligned_unit_actions_30episode.json": "980b4d36a293a4d7d47dc819609a765d26d4ce5977e7bcc5a2a7ae1bbb924922"
+  }
+}

@@ -1,5 +1,31 @@
 # Handoff
 
+## 2026-08-14 final stock-aligned G4/G5 audit
+
+The camera confound is removed by returning to the exact `libero_object[4]`
+task. Stock reproduction is 100/100. A paired benchmark keeps the task and
+changes only existing distractor placements: visible 5/5, one blocker 5/5,
+dual-camera occlusion 2/5. The dual scene passes oracle reveal validation on
+seeds 0--2.
+
+Physical unit gates use 30 stored LIBERO initial states. `MOVE_CLOSER` is
+30/30 and passes the 0.90 requirement with one-sided 95% lower bound 0.905.
+`ROTATE` is 0/30: every episode grasps and releases, but none reaches 60
+degrees, so this is specifically a wrist-rotation failure. Container opening
+remains 15/30 (lower bound 0.339).
+
+G4 was recollected with stock cameras: 200 observations, 1600 chunks, four
+classes. The original marginal method reaches only 0.825 held-out coverage.
+Mondrian class-conditional calibration was frozen and tested once on new seeds
+50--59. Overall audit coverage is 0.90, worst-class coverage is 0.80, and mean
+set size is 2.1. G4 is NOT-GO. G5 authorizes only `ACT` and `MOVE_CLOSER`; the
+full executor set is NOT-GO. See `results/G4_G5_STOCK_ALIGNED.md`.
+
+Do not relabel requested prompt intent as achieved behavior. The data show
+that `ACT`, `MOVE_CLOSER`, and `ROTATE` prompts induce overlapping initial
+chunks, while the physical outcomes differ. The next valid method needs an
+outcome-trained semantic critic or closed-loop behavior labels.
+
 ## 2026-08-14 task-facing camera and unit-action gate
 
 The desired protocol was implemented without moving the robot: the attached

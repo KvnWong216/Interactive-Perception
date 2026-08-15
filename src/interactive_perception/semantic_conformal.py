@@ -101,3 +101,84 @@ class SemanticConformalCalibrator:
             "guarantee": "marginal semantic-intent coverage under exchangeability",
             "non_guarantee": "robot task success",
         }
+
+
+@dataclasses.dataclass(frozen=True)
+class MondrianSemanticConformalCalibrator:
+    """Class-conditional conformal sets with one finite-sample quantile per intent."""
+
+    alpha: float
+    thresholds: Mapping[str, float]
+    labels: tuple[str, ...]
+    calibration_size_per_class: Mapping[str, int]
+    policy_id: str
+    split_id: str
+
+    @classmethod
+    def fit(
+        cls,
+        examples: Sequence[tuple[Mapping[str, float], str]],
+        *,
+        alpha: float,
+        policy_id: str,
+        split_id: str,
+    ) -> "MondrianSemanticConformalCalibrator":
+        if not 0.0 < alpha < 1.0:
+            raise ValueError("alpha must lie in (0, 1)")
+        if not policy_id or not split_id or not examples:
+            raise ValueError("examples, policy_id, and split_id are required")
+        labels = tuple(sorted(intent_probabilities(examples[0][0])))
+        scores: dict[str, list[float]] = {label: [] for label in labels}
+        for evidence, truth in examples:
+            probabilities = intent_probabilities(evidence)
+            if tuple(sorted(probabilities)) != labels or truth not in scores:
+                raise ValueError("inconsistent intent labels")
+            scores[truth].append(1.0 - probabilities[truth])
+        if any(not values for values in scores.values()):
+            raise ValueError("every intent requires calibration examples")
+        thresholds = {}
+        for label, values in scores.items():
+            n = len(values)
+            rank = min(n, math.ceil((n + 1) * (1.0 - alpha)))
+            thresholds[label] = float(np.partition(np.asarray(values), rank - 1)[rank - 1])
+        return cls(
+            alpha=alpha,
+            thresholds=thresholds,
+            labels=labels,
+            calibration_size_per_class={label: len(values) for label, values in scores.items()},
+            policy_id=policy_id,
+            split_id=split_id,
+        )
+
+    def predict(self, evidence: Mapping[str, float]) -> tuple[str, ...]:
+        probabilities = intent_probabilities(evidence)
+        if tuple(sorted(probabilities)) != self.labels:
+            raise ValueError("intent labels differ from the calibration artifact")
+        result = tuple(
+            label
+            for label in self.labels
+            if 1.0 - probabilities[label] <= self.thresholds[label]
+        )
+        if result:
+            return result
+        maximum = max(probabilities.values())
+        return tuple(
+            label for label in self.labels if np.isclose(probabilities[label], maximum)
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "schema_version": "interactive-perception.semantic-mondrian-conformal.v1",
+            "alpha": self.alpha,
+            "thresholds": dict(self.thresholds),
+            "labels": list(self.labels),
+            "calibration_size_per_class": dict(self.calibration_size_per_class),
+            "finite_sample_resolution_per_class": {
+                label: 1.0 / (count + 1)
+                for label, count in self.calibration_size_per_class.items()
+            },
+            "policy_id": self.policy_id,
+            "split_id": self.split_id,
+            "guarantee": "class-conditional semantic-intent coverage under within-class exchangeability",
+            "non_guarantee": "robot task success",
+        }

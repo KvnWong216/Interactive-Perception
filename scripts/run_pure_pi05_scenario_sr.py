@@ -63,8 +63,27 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def joint_endpoint(env: Any, endpoint: dict[str, Any] | None) -> bool:
-    if not endpoint or endpoint.get("type") != "articulated_reveal":
+def information_endpoint(
+    env: Any,
+    endpoint: dict[str, Any] | None,
+    initial_objects: dict[str, np.ndarray],
+) -> bool:
+    if not endpoint:
+        return False
+    if endpoint.get("type") == "object_displacement":
+        return all(
+            float(
+                np.linalg.norm(
+                    np.asarray(env.env.sim.data.get_joint_qpos(
+                        env.env.objects_dict[item["name"]].joints[0]
+                    ))[:3]
+                    - initial_objects[item["name"]][:3]
+                )
+            )
+            >= float(item["minimum_m"])
+            for item in endpoint.get("objects", [])
+        ) and bool(endpoint.get("objects"))
+    if endpoint.get("type") != "articulated_reveal":
         return False
     for condition in endpoint.get("joints", []):
         value = float(np.asarray(env.env.sim.data.get_joint_qpos(condition["name"])).reshape(-1)[0])
@@ -97,6 +116,14 @@ def run_episode(
         )
         obs = env.regenerate_obs_from_state(env.get_sim_state())
     joint_history = {name: [] for name in diagnostic_joints}
+    initial_objects = {
+        str(item["name"]): np.asarray(
+            env.env.sim.data.get_joint_qpos(
+                env.env.objects_dict[str(item["name"])].joints[0]
+            )
+        ).copy()
+        for item in (endpoint or {}).get("objects", [])
+    }
     contact_diagnostics = DrawerContactDiagnostics(env) if args.contact_diagnostics else None
 
     def record_joints() -> None:
@@ -141,7 +168,9 @@ def run_episode(
                 record_joints()
                 if contact_diagnostics is not None:
                     contact_diagnostics.record(obs)
-                endpoint_success = endpoint_success or joint_endpoint(env, endpoint)
+                endpoint_success = endpoint_success or information_endpoint(
+                    env, endpoint, initial_objects
+                )
                 if done or (args.variant == "capability" and endpoint_success):
                     break
             step += 1

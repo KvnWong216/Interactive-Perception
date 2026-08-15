@@ -1,57 +1,65 @@
 # Interactive Perception
 
 We study when a frozen vision-language-action policy should gather information
-before committing to a task action.
+before acting.
 
 ## Method
 
-The controller maintains beliefs over four states: visible, recoverable by a
-viewpoint change, recoverable by physical interaction, and absent. Repeated
-policy samples are grouped by semantic intent. Split conformal prediction
-calibrates the intent set; a risk router chooses `ACT`, `MOVE_CLOSER`,
-`ROTATE`, `REMOVE_OCCLUDER`, or `NOT_FOUND`.
+The controller separates semantic intent uncertainty from physical executor
+reliability. Repeated π0.5 action chunks produce a conformal intent set over
+`ACT`, `MOVE_CLOSER`, `ROTATE`, and `REMOVE_OCCLUDER`. A primitive is executed
+only when its calibrated set and its independent capability gate both pass.
 
-Simulator state and segmentation are evaluation-only. Calibration scenes are
-disjoint from test scenes.
+Simulator state and segmentation are evaluation-only. Calibration and test
+scenes are disjoint.
+
+## Stock-aligned benchmark
+
+The new benchmark copies the original LIBERO ketchup task. Cameras, robot
+reset, controller, prompt, objects, and goal remain unchanged. Only existing
+distractors are moved onto the two policy-camera rays.
+
+| Condition | Success |
+|---|---:|
+| Original visible task | 5/5 |
+| One blocker | 5/5 |
+| Two-camera occlusion | 2/5 |
+
+Removing both blockers restores target pixels in both cameras on all three
+validation seeds.
 
 ## Gates
 
 | Gate | Result | Decision |
 |---|---:|---|
-| Stock π0.5/LIBERO control | 5/5 | GO |
-| T01 direct middle-layer opening | 15/30; 95% lower bound 0.339 | NOT-GO (required 0.90) |
-| Four-intent conformal calibration | 40/40 coverage; mean set size 1.0 | GO for intent prediction only |
-| Task-facing wrist camera, visible control | 0/5 | NOT-GO |
-| `MOVE_CLOSER`, task-facing camera | 0/30 | NOT-GO |
-| `ROTATE`, task-facing camera | 0/30 | NOT-GO |
+| Stock π0.5 reproduction | 100/100 | GO |
+| `MOVE_CLOSER` | 30/30; 95% lower bound 0.905 | GO |
+| `ROTATE` | 0/30 | NOT-GO |
+| Open hidden container | 15/30; lower bound 0.339 | NOT-GO |
+| G4 marginal conformal | coverage 0.825 | NOT-GO |
+| G4 class-conditional audit | overall 0.90; worst class 0.80 | NOT-GO |
+| G5 complete executor set | 2/4 primitives authorized | NOT-GO |
 
-Changing only the wrist-camera extrinsics breaks a visible control. Therefore
-the information-action failures do not establish a missing π0.5 skill; they
-establish that this camera protocol is out of distribution. The next valid
-ability test must preserve stock camera extrinsics and place the scene inside
-the native wrist field of view.
-
-T01 contact diagnostics show a more specific failure. Failed seeds reach the
-handle region (1.9 cm), make sustained two-finger contact, and produce large
-contact forces (323–464 N), but generate almost no opening-axis joint force
-(less than 0.001 N). Their near-handle motion points away from the opening axis
-on 55–70% of steps. The dominant failure is pull direction, not failure to
-reach the handle.
+π0.5 reliably grasps, brings an object closer, and releases it. It does not
+produce the requested wrist rotation. `ACT`, `MOVE_CLOSER`, and `ROTATE` also
+generate overlapping initial action chunks, so trajectory statistics alone do
+not identify semantic intent reliably.
 
 ## Evidence
 
-- [Calibration artifact](results/calibration/semantic_intent_g4_v3.json)
-- [Information-action ability test](results/capability/information_actions_task_facing_30seed.json)
-- [T01 contact mechanics](results/diagnostics/t01_contact_mechanics_force_3seed.json)
-- [MOVE_CLOSER demo](results/demos/information_actions_v3/IE02_resolution_only_seed000.mp4)
-- [ROTATE demo](results/demos/information_actions_v3/IE03_orientation_only_seed000.mp4)
-- [Pipeline](docs/PIPELINE_V04.md)
-- [Human experiments](docs/HUMAN_EXPERIMENTS.md)
+- [G4/G5 report](results/G4_G5_STOCK_ALIGNED.md)
+- [G4 independent audit](results/calibration/semantic_intent_g4_stock_aligned_mondrian_audit_v4.json)
+- [G5 executor gate](results/capability/g5_executor_gate_stock_aligned_v1.json)
+- [30-trial unit actions](results/capability/stock_aligned_unit_actions_30episode.json)
+- [Two-camera occlusion validation](results/validation/stock_aligned_v1.json)
+- [MOVE_CLOSER demo](results/demos/stock_aligned_units_30/move_closer_episode000.mp4)
+- [ROTATE failure demo](results/demos/stock_aligned_units_30/rotate_episode000.mp4)
 
 ## Run
 
 ```bash
 bash scripts/serve_pi05.sh
 env -u PYTHONPATH ../.conda/envs/ipu/bin/python \
-  scripts/run_pure_pi05_scenario_sr.py --variant capability
+  scripts/run_stock_aligned_unit_actions.py \
+  --episodes 0 1 2 3 4 --output /tmp/unit_actions.json
 ```

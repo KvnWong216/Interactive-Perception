@@ -1,0 +1,35 @@
+{
+  "schema_version": "interactive-perception.intent-calibration-manifest.v1",
+  "dataset": "data/calibration/libero_stock_aligned_intents_v4.jsonl",
+  "dataset_sha256": "e524f6325687943ec36344a83e57f8581beb04f2cd4640abec6469faf4439e01",
+  "policy": "pi05_libero",
+  "samples": 200,
+  "chunks_per_sample": 8,
+  "labels": [
+    "ACT",
+    "REMOVE_OCCLUDER",
+    "MOVE_CLOSER",
+    "ROTATE"
+  ],
+  "seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49],
+  "split_counts_per_class": {
+    "prototype_train": 20,
+    "conformal_calibration": 20,
+    "heldout_validation": 10
+  },
+  "calibration_only": true,
+  "oracle_inputs": [],
+  "camera_protocol": "stock_unmodified",
+  "policy_inputs": [
+    "stock agentview RGB",
+    "stock wrist RGB",
+    "robot state",
+    "prompt"
+  ],
+  "semantic_definition": {
+    "ACT": "execute the final visible-object task",
+    "REMOVE_OCCLUDER": "manipulate a physical occluder or container",
+    "ROTATE": "grasp, wrist-rotate for a new object view, then place down",
+    "MOVE_CLOSER": "grasp and move the end effector toward the camera for inspection"
+  }
+}

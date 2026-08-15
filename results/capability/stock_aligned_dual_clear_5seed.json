@@ -1,0 +1,71 @@
+{
+  "policy": "pi0.5-libero checkpoint",
+  "environment": "libero.envs.OffScreenRenderEnv",
+  "policy_path": "stock openpi observation/action contract",
+  "variant": "capability",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "server_metadata": {},
+  "camera_mode": "stock",
+  "tasks": {
+    "T06_dual_camera_occluded_ketchup": {
+      "bddl": "scenarios/stock_aligned_v1/T06_dual_camera_occluded_ketchup.bddl",
+      "prompt": "Move the milk and salad dressing away from the ketchup.",
+      "episodes": 5,
+      "successes": 0,
+      "success_rate": 0.0,
+      "rows": [
+        {
+          "seed": 0,
+          "success": false,
+          "task_success": false,
+          "information_endpoint_success": false,
+          "steps": 290,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 1,
+          "success": false,
+          "task_success": false,
+          "information_endpoint_success": false,
+          "steps": 290,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 2,
+          "success": false,
+          "task_success": false,
+          "information_endpoint_success": false,
+          "steps": 290,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 3,
+          "success": false,
+          "task_success": false,
+          "information_endpoint_success": false,
+          "steps": 290,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 4,
+          "success": false,
+          "task_success": false,
+          "information_endpoint_success": false,
+          "steps": 290,
+          "error": null,
+          "joint_diagnostics": {}
+        }
+      ]
+    }
+  }
+}

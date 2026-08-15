@@ -1,6 +1,7 @@
 import pytest
 
 from interactive_perception.semantic_conformal import (
+    MondrianSemanticConformalCalibrator,
     SemanticConformalCalibrator,
     intent_probabilities,
 )
@@ -49,3 +50,24 @@ def test_artifact_records_scope_and_non_guarantee() -> None:
     assert artifact["policy_id"] == "pi05"
     assert artifact["split_id"] == "heldout"
     assert artifact["non_guarantee"] == "robot task success"
+
+
+def test_mondrian_uses_class_specific_thresholds() -> None:
+    examples = [
+        (evidence(ACT=9, REMOVE_OCCLUDER=1), "ACT"),
+        (evidence(ACT=8, REMOVE_OCCLUDER=2), "ACT"),
+        (evidence(ACT=4, REMOVE_OCCLUDER=6), "REMOVE_OCCLUDER"),
+        (evidence(ACT=3, REMOVE_OCCLUDER=7), "REMOVE_OCCLUDER"),
+        (evidence(NOT_FOUND=9, ACT=1), "NOT_FOUND"),
+        (evidence(NOT_FOUND=8, ACT=2), "NOT_FOUND"),
+    ]
+    calibrator = MondrianSemanticConformalCalibrator.fit(
+        examples, alpha=0.25, policy_id="pi05", split_id="mondrian-v1"
+    )
+    artifact = calibrator.to_dict()
+    assert set(artifact["thresholds"]) == set(LABELS)
+    assert artifact["calibration_size_per_class"] == {
+        "ACT": 2,
+        "NOT_FOUND": 2,
+        "REMOVE_OCCLUDER": 2,
+    }

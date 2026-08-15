@@ -1,0 +1,23 @@
+schema_version: interactive-perception.intent-calibration-spec.v1
+calibration_only: true
+policy_primary_camera: agentview
+policy_wrist_camera: robot0_eye_in_hand
+wrist_camera_initialization: null
+source_distribution: stock LIBERO scenes, cameras, robot reset, and controller
+conditions:
+  - label: ACT
+    prompt: Pick the ketchup and place it in the basket
+    suite: libero_object
+    bddl: pick_up_the_ketchup_and_place_it_in_the_basket.bddl
+  - label: REMOVE_OCCLUDER
+    prompt: Open the middle layer of the drawer
+    suite: libero_goal
+    bddl: open_the_middle_drawer_of_the_cabinet.bddl
+  - label: MOVE_CLOSER
+    prompt: Pick up the ketchup, bring it closer to the wrist camera to inspect it, then put it down.
+    suite: libero_object
+    bddl: pick_up_the_ketchup_and_place_it_in_the_basket.bddl
+  - label: ROTATE
+    prompt: Pick up the ketchup, rotate it with the wrist to inspect it, then put it down.
+    suite: libero_object
+    bddl: pick_up_the_ketchup_and_place_it_in_the_basket.bddl

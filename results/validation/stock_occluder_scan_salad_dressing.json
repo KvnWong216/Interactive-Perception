@@ -1,0 +1,2694 @@
+{
+  "best": {
+    "dx": 0.0,
+    "dy": 0.037500000000000006,
+    "x": -0.12,
+    "y": -0.20249999999999999,
+    "agentview_target_pixels": 321,
+    "agentview_occluder_pixels": 317,
+    "robot0_eye_in_hand_target_pixels": 23,
+    "robot0_eye_in_hand_occluder_pixels": 848
+  },
+  "rows": [
+    {
+      "dx": -0.1,
+      "dy": -0.1,
+      "x": -0.22,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 306,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.1,
+      "dy": -0.08750000000000001,
+      "x": -0.22,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 305,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.1,
+      "dy": -0.07500000000000001,
+      "x": -0.22,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 300,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.1,
+      "dy": -0.0625,
+      "x": -0.22,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 270,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.1,
+      "dy": -0.05,
+      "x": -0.22,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 227,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 61
+    },
+    {
+      "dx": -0.1,
+      "dy": -0.037500000000000006,
+      "x": -0.22,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 177,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 166
+    },
+    {
+      "dx": -0.1,
+      "dy": -0.024999999999999994,
+      "x": -0.22,
+      "y": -0.265,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 140,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 295
+    },
+    {
+      "dx": -0.1,
+      "dy": -0.012499999999999997,
+      "x": -0.22,
+      "y": -0.2525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 158,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 437
+    },
+    {
+      "dx": -0.1,
+      "dy": 0.0,
+      "x": -0.22,
+      "y": -0.24,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 206,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 583
+    },
+    {
+      "dx": -0.1,
+      "dy": 0.012499999999999997,
+      "x": -0.22,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 249,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 729
+    },
+    {
+      "dx": -0.1,
+      "dy": 0.024999999999999994,
+      "x": -0.22,
+      "y": -0.215,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 284,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 884
+    },
+    {
+      "dx": -0.1,
+      "dy": 0.037500000000000006,
+      "x": -0.22,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 293,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1036
+    },
+    {
+      "dx": -0.1,
+      "dy": 0.05000000000000002,
+      "x": -0.22,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 294,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1199
+    },
+    {
+      "dx": -0.1,
+      "dy": 0.0625,
+      "x": -0.22,
+      "y": -0.1775,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 295,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1321
+    },
+    {
+      "dx": -0.1,
+      "dy": 0.07500000000000001,
+      "x": -0.22,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 296,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1245
+    },
+    {
+      "dx": -0.1,
+      "dy": 0.0875,
+      "x": -0.22,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 297,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1079
+    },
+    {
+      "dx": -0.1,
+      "dy": 0.1,
+      "x": -0.22,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 283,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 903
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": -0.1,
+      "x": -0.20750000000000002,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 314,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": -0.08750000000000001,
+      "x": -0.20750000000000002,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 315,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": -0.07500000000000001,
+      "x": -0.20750000000000002,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 311,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": -0.0625,
+      "x": -0.20750000000000002,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 284,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": -0.05,
+      "x": -0.20750000000000002,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 237,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 59
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": -0.037500000000000006,
+      "x": -0.20750000000000002,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 181,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 158
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": -0.024999999999999994,
+      "x": -0.20750000000000002,
+      "y": -0.265,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 131,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 283
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": -0.012499999999999997,
+      "x": -0.20750000000000002,
+      "y": -0.2525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 138,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 421
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": 0.0,
+      "x": -0.20750000000000002,
+      "y": -0.24,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 187,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 567
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": 0.012499999999999997,
+      "x": -0.20750000000000002,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 242,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 710
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": 0.024999999999999994,
+      "x": -0.20750000000000002,
+      "y": -0.215,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 286,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 850
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": 0.037500000000000006,
+      "x": -0.20750000000000002,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 306,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1001
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": 0.05000000000000002,
+      "x": -0.20750000000000002,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 309,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1167
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": 0.0625,
+      "x": -0.20750000000000002,
+      "y": -0.1775,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 308,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1305
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": 0.07500000000000001,
+      "x": -0.20750000000000002,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 303,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1246
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": 0.0875,
+      "x": -0.20750000000000002,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 303,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1090
+    },
+    {
+      "dx": -0.08750000000000001,
+      "dy": 0.1,
+      "x": -0.20750000000000002,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 295,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 902
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": -0.1,
+      "x": -0.195,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 317,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": -0.08750000000000001,
+      "x": -0.195,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 316,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": -0.07500000000000001,
+      "x": -0.195,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 315,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": -0.0625,
+      "x": -0.195,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 293,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": -0.05,
+      "x": -0.195,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 246,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 55
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": -0.037500000000000006,
+      "x": -0.195,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 188,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 154
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": -0.024999999999999994,
+      "x": -0.195,
+      "y": -0.265,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 131,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 274
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": -0.012499999999999997,
+      "x": -0.195,
+      "y": -0.2525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 116,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 410
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": 0.0,
+      "x": -0.195,
+      "y": -0.24,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 167,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 552
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": 0.012499999999999997,
+      "x": -0.195,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 225,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 689
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": 0.024999999999999994,
+      "x": -0.195,
+      "y": -0.215,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 275,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 827
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": 0.037500000000000006,
+      "x": -0.195,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 300,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 978
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": 0.05000000000000002,
+      "x": -0.195,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 307,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1129
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": 0.0625,
+      "x": -0.195,
+      "y": -0.1775,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 308,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1272
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": 0.07500000000000001,
+      "x": -0.195,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 308,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1263
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": 0.0875,
+      "x": -0.195,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 305,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1128
+    },
+    {
+      "dx": -0.07500000000000001,
+      "dy": 0.1,
+      "x": -0.195,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 299,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 960
+    },
+    {
+      "dx": -0.0625,
+      "dy": -0.1,
+      "x": -0.1825,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 320,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.0625,
+      "dy": -0.08750000000000001,
+      "x": -0.1825,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 323,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.0625,
+      "dy": -0.07500000000000001,
+      "x": -0.1825,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 322,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.0625,
+      "dy": -0.0625,
+      "x": -0.1825,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 300,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.0625,
+      "dy": -0.05,
+      "x": -0.1825,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 260,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 48
+    },
+    {
+      "dx": -0.0625,
+      "dy": -0.037500000000000006,
+      "x": -0.1825,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 197,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 147
+    },
+    {
+      "dx": -0.0625,
+      "dy": -0.024999999999999994,
+      "x": -0.1825,
+      "y": -0.265,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 128,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 264
+    },
+    {
+      "dx": -0.0625,
+      "dy": -0.012499999999999997,
+      "x": -0.1825,
+      "y": -0.2525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 86,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 397
+    },
+    {
+      "dx": -0.0625,
+      "dy": 0.0,
+      "x": -0.1825,
+      "y": -0.24,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 141,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 534
+    },
+    {
+      "dx": -0.0625,
+      "dy": 0.012499999999999997,
+      "x": -0.1825,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 208,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 672
+    },
+    {
+      "dx": -0.0625,
+      "dy": 0.024999999999999994,
+      "x": -0.1825,
+      "y": -0.215,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 270,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 805
+    },
+    {
+      "dx": -0.0625,
+      "dy": 0.037500000000000006,
+      "x": -0.1825,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 300,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 946
+    },
+    {
+      "dx": -0.0625,
+      "dy": 0.05000000000000002,
+      "x": -0.1825,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 313,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1094
+    },
+    {
+      "dx": -0.0625,
+      "dy": 0.0625,
+      "x": -0.1825,
+      "y": -0.1775,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 315,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1243
+    },
+    {
+      "dx": -0.0625,
+      "dy": 0.07500000000000001,
+      "x": -0.1825,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 314,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1274
+    },
+    {
+      "dx": -0.0625,
+      "dy": 0.0875,
+      "x": -0.1825,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 314,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1174
+    },
+    {
+      "dx": -0.0625,
+      "dy": 0.1,
+      "x": -0.1825,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 305,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1030
+    },
+    {
+      "dx": -0.05,
+      "dy": -0.1,
+      "x": -0.16999999999999998,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 330,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.05,
+      "dy": -0.08750000000000001,
+      "x": -0.16999999999999998,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 332,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.05,
+      "dy": -0.07500000000000001,
+      "x": -0.16999999999999998,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 329,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.05,
+      "dy": -0.0625,
+      "x": -0.16999999999999998,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 310,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.05,
+      "dy": -0.05,
+      "x": -0.16999999999999998,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 274,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 46
+    },
+    {
+      "dx": -0.05,
+      "dy": -0.037500000000000006,
+      "x": -0.16999999999999998,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 208,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 141
+    },
+    {
+      "dx": -0.05,
+      "dy": -0.024999999999999994,
+      "x": -0.16999999999999998,
+      "y": -0.265,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 136,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 256
+    },
+    {
+      "dx": -0.05,
+      "dy": -0.012499999999999997,
+      "x": -0.16999999999999998,
+      "y": -0.2525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 70,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 384
+    },
+    {
+      "dx": -0.05,
+      "dy": 0.0,
+      "x": -0.16999999999999998,
+      "y": -0.24,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 116,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 521
+    },
+    {
+      "dx": -0.05,
+      "dy": 0.012499999999999997,
+      "x": -0.16999999999999998,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 186,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 653
+    },
+    {
+      "dx": -0.05,
+      "dy": 0.024999999999999994,
+      "x": -0.16999999999999998,
+      "y": -0.215,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 256,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 783
+    },
+    {
+      "dx": -0.05,
+      "dy": 0.037500000000000006,
+      "x": -0.16999999999999998,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 297,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 920
+    },
+    {
+      "dx": -0.05,
+      "dy": 0.05000000000000002,
+      "x": -0.16999999999999998,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 319,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1070
+    },
+    {
+      "dx": -0.05,
+      "dy": 0.0625,
+      "x": -0.16999999999999998,
+      "y": -0.1775,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 322,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1217
+    },
+    {
+      "dx": -0.05,
+      "dy": 0.07500000000000001,
+      "x": -0.16999999999999998,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 321,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1262
+    },
+    {
+      "dx": -0.05,
+      "dy": 0.0875,
+      "x": -0.16999999999999998,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 322,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1211
+    },
+    {
+      "dx": -0.05,
+      "dy": 0.1,
+      "x": -0.16999999999999998,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 323,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1116
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": -0.1,
+      "x": -0.1575,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 327,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": -0.08750000000000001,
+      "x": -0.1575,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 329,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": -0.07500000000000001,
+      "x": -0.1575,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 329,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": -0.0625,
+      "x": -0.1575,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 314,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": -0.05,
+      "x": -0.1575,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 282,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 41
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": -0.037500000000000006,
+      "x": -0.1575,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 218,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 121
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": -0.024999999999999994,
+      "x": -0.1575,
+      "y": -0.265,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 144,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 218
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": -0.012499999999999997,
+      "x": -0.1575,
+      "y": -0.2525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 63,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 332
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": 0.0,
+      "x": -0.1575,
+      "y": -0.24,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 84,
+      "robot0_eye_in_hand_target_pixels": 473,
+      "robot0_eye_in_hand_occluder_pixels": 463
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": 0.012499999999999997,
+      "x": -0.1575,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 162,
+      "robot0_eye_in_hand_target_pixels": 468,
+      "robot0_eye_in_hand_occluder_pixels": 609
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": 0.024999999999999994,
+      "x": -0.1575,
+      "y": -0.215,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 238,
+      "robot0_eye_in_hand_target_pixels": 466,
+      "robot0_eye_in_hand_occluder_pixels": 758
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": 0.037500000000000006,
+      "x": -0.1575,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 288,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 894
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": 0.05000000000000002,
+      "x": -0.1575,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 311,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1042
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": 0.0625,
+      "x": -0.1575,
+      "y": -0.1775,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 324,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1185
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": 0.07500000000000001,
+      "x": -0.1575,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 320,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1244
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": 0.0875,
+      "x": -0.1575,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 318,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1196
+    },
+    {
+      "dx": -0.037500000000000006,
+      "dy": 0.1,
+      "x": -0.1575,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 320,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1150
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": -0.1,
+      "x": -0.145,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 339,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": -0.08750000000000001,
+      "x": -0.145,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 340,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": -0.07500000000000001,
+      "x": -0.145,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 340,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": -0.0625,
+      "x": -0.145,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 330,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": -0.05,
+      "x": -0.145,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 297,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 19
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": -0.037500000000000006,
+      "x": -0.145,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 236,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 68
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": -0.024999999999999994,
+      "x": -0.145,
+      "y": -0.265,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 152,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 135
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": 0.024999999999999994,
+      "x": -0.145,
+      "y": -0.215,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 218,
+      "robot0_eye_in_hand_target_pixels": 334,
+      "robot0_eye_in_hand_occluder_pixels": 728
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": 0.037500000000000006,
+      "x": -0.145,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 283,
+      "robot0_eye_in_hand_target_pixels": 349,
+      "robot0_eye_in_hand_occluder_pixels": 877
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": 0.05000000000000002,
+      "x": -0.145,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 317,
+      "robot0_eye_in_hand_target_pixels": 384,
+      "robot0_eye_in_hand_occluder_pixels": 1024
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": 0.0625,
+      "x": -0.145,
+      "y": -0.1775,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 331,
+      "robot0_eye_in_hand_target_pixels": 425,
+      "robot0_eye_in_hand_occluder_pixels": 1155
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": 0.07500000000000001,
+      "x": -0.145,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 332,
+      "robot0_eye_in_hand_target_pixels": 465,
+      "robot0_eye_in_hand_occluder_pixels": 1228
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": 0.0875,
+      "x": -0.145,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 332,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1186
+    },
+    {
+      "dx": -0.024999999999999994,
+      "dy": 0.1,
+      "x": -0.145,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 330,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1135
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": -0.1,
+      "x": -0.1325,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 347,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": -0.08750000000000001,
+      "x": -0.1325,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 346,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": -0.07500000000000001,
+      "x": -0.1325,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 345,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": -0.0625,
+      "x": -0.1325,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 335,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": -0.05,
+      "x": -0.1325,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 306,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": -0.037500000000000006,
+      "x": -0.1325,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 252,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 14
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": 0.037500000000000006,
+      "x": -0.1325,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 361,
+      "agentview_occluder_pixels": 284,
+      "robot0_eye_in_hand_target_pixels": 176,
+      "robot0_eye_in_hand_occluder_pixels": 862
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": 0.05000000000000002,
+      "x": -0.1325,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 367,
+      "agentview_occluder_pixels": 320,
+      "robot0_eye_in_hand_target_pixels": 201,
+      "robot0_eye_in_hand_occluder_pixels": 1002
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": 0.0625,
+      "x": -0.1325,
+      "y": -0.1775,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 336,
+      "robot0_eye_in_hand_target_pixels": 229,
+      "robot0_eye_in_hand_occluder_pixels": 1142
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": 0.07500000000000001,
+      "x": -0.1325,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 335,
+      "robot0_eye_in_hand_target_pixels": 279,
+      "robot0_eye_in_hand_occluder_pixels": 1218
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": 0.0875,
+      "x": -0.1325,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 334,
+      "robot0_eye_in_hand_target_pixels": 374,
+      "robot0_eye_in_hand_occluder_pixels": 1168
+    },
+    {
+      "dx": -0.012499999999999997,
+      "dy": 0.1,
+      "x": -0.1325,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 334,
+      "robot0_eye_in_hand_target_pixels": 447,
+      "robot0_eye_in_hand_occluder_pixels": 1115
+    },
+    {
+      "dx": 0.0,
+      "dy": -0.1,
+      "x": -0.12,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 350,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0,
+      "dy": -0.08750000000000001,
+      "x": -0.12,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 353,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0,
+      "dy": -0.07500000000000001,
+      "x": -0.12,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 348,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0,
+      "dy": -0.0625,
+      "x": -0.12,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 347,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0,
+      "dy": -0.05,
+      "x": -0.12,
+      "y": -0.29,
+      "agentview_target_pixels": 369,
+      "agentview_occluder_pixels": 322,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0,
+      "dy": -0.037500000000000006,
+      "x": -0.12,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 353,
+      "agentview_occluder_pixels": 291,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0,
+      "dy": 0.037500000000000006,
+      "x": -0.12,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 321,
+      "agentview_occluder_pixels": 317,
+      "robot0_eye_in_hand_target_pixels": 23,
+      "robot0_eye_in_hand_occluder_pixels": 848
+    },
+    {
+      "dx": 0.0,
+      "dy": 0.05000000000000002,
+      "x": -0.12,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 351,
+      "agentview_occluder_pixels": 332,
+      "robot0_eye_in_hand_target_pixels": 36,
+      "robot0_eye_in_hand_occluder_pixels": 990
+    },
+    {
+      "dx": 0.0,
+      "dy": 0.0625,
+      "x": -0.12,
+      "y": -0.1775,
+      "agentview_target_pixels": 369,
+      "agentview_occluder_pixels": 346,
+      "robot0_eye_in_hand_target_pixels": 42,
+      "robot0_eye_in_hand_occluder_pixels": 1132
+    },
+    {
+      "dx": 0.0,
+      "dy": 0.07500000000000001,
+      "x": -0.12,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 344,
+      "robot0_eye_in_hand_target_pixels": 80,
+      "robot0_eye_in_hand_occluder_pixels": 1213
+    },
+    {
+      "dx": 0.0,
+      "dy": 0.0875,
+      "x": -0.12,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 339,
+      "robot0_eye_in_hand_target_pixels": 232,
+      "robot0_eye_in_hand_occluder_pixels": 1155
+    },
+    {
+      "dx": 0.0,
+      "dy": 0.1,
+      "x": -0.12,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 338,
+      "robot0_eye_in_hand_target_pixels": 372,
+      "robot0_eye_in_hand_occluder_pixels": 1101
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": -0.1,
+      "x": -0.1075,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 355,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": -0.08750000000000001,
+      "x": -0.1075,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 354,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": -0.07500000000000001,
+      "x": -0.1075,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 355,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": -0.0625,
+      "x": -0.1075,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 353,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": -0.05,
+      "x": -0.1075,
+      "y": -0.29,
+      "agentview_target_pixels": 359,
+      "agentview_occluder_pixels": 347,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 3
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": -0.037500000000000006,
+      "x": -0.1075,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 331,
+      "agentview_occluder_pixels": 333,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 23
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": 0.037500000000000006,
+      "x": -0.1075,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 283,
+      "agentview_occluder_pixels": 344,
+      "robot0_eye_in_hand_target_pixels": 97,
+      "robot0_eye_in_hand_occluder_pixels": 834
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": 0.05000000000000002,
+      "x": -0.1075,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 339,
+      "agentview_occluder_pixels": 342,
+      "robot0_eye_in_hand_target_pixels": 78,
+      "robot0_eye_in_hand_occluder_pixels": 974
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": 0.0625,
+      "x": -0.1075,
+      "y": -0.1775,
+      "agentview_target_pixels": 368,
+      "agentview_occluder_pixels": 343,
+      "robot0_eye_in_hand_target_pixels": 59,
+      "robot0_eye_in_hand_occluder_pixels": 1120
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": 0.07500000000000001,
+      "x": -0.1075,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 343,
+      "robot0_eye_in_hand_target_pixels": 73,
+      "robot0_eye_in_hand_occluder_pixels": 1216
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": 0.0875,
+      "x": -0.1075,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 339,
+      "robot0_eye_in_hand_target_pixels": 219,
+      "robot0_eye_in_hand_occluder_pixels": 1163
+    },
+    {
+      "dx": 0.012499999999999997,
+      "dy": 0.1,
+      "x": -0.1075,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 326,
+      "robot0_eye_in_hand_target_pixels": 360,
+      "robot0_eye_in_hand_occluder_pixels": 1108
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": -0.1,
+      "x": -0.095,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 367,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": -0.08750000000000001,
+      "x": -0.095,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 365,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": -0.07500000000000001,
+      "x": -0.095,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 363,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": -0.0625,
+      "x": -0.095,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 362,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": -0.05,
+      "x": -0.095,
+      "y": -0.29,
+      "agentview_target_pixels": 362,
+      "agentview_occluder_pixels": 361,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 13
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": -0.037500000000000006,
+      "x": -0.095,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 330,
+      "agentview_occluder_pixels": 359,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 68
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": -0.024999999999999994,
+      "x": -0.095,
+      "y": -0.265,
+      "agentview_target_pixels": 265,
+      "agentview_occluder_pixels": 356,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 136
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": 0.024999999999999994,
+      "x": -0.095,
+      "y": -0.215,
+      "agentview_target_pixels": 180,
+      "agentview_occluder_pixels": 360,
+      "robot0_eye_in_hand_target_pixels": 278,
+      "robot0_eye_in_hand_occluder_pixels": 706
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": 0.037500000000000006,
+      "x": -0.095,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 274,
+      "agentview_occluder_pixels": 352,
+      "robot0_eye_in_hand_target_pixels": 270,
+      "robot0_eye_in_hand_occluder_pixels": 832
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": 0.05000000000000002,
+      "x": -0.095,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 338,
+      "agentview_occluder_pixels": 354,
+      "robot0_eye_in_hand_target_pixels": 264,
+      "robot0_eye_in_hand_occluder_pixels": 968
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": 0.0625,
+      "x": -0.095,
+      "y": -0.1775,
+      "agentview_target_pixels": 367,
+      "agentview_occluder_pixels": 356,
+      "robot0_eye_in_hand_target_pixels": 257,
+      "robot0_eye_in_hand_occluder_pixels": 1110
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": 0.07500000000000001,
+      "x": -0.095,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 351,
+      "robot0_eye_in_hand_target_pixels": 272,
+      "robot0_eye_in_hand_occluder_pixels": 1206
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": 0.0875,
+      "x": -0.095,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 342,
+      "robot0_eye_in_hand_target_pixels": 348,
+      "robot0_eye_in_hand_occluder_pixels": 1157
+    },
+    {
+      "dx": 0.024999999999999994,
+      "dy": 0.1,
+      "x": -0.095,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 323,
+      "robot0_eye_in_hand_target_pixels": 430,
+      "robot0_eye_in_hand_occluder_pixels": 1107
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": -0.1,
+      "x": -0.08249999999999999,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 371,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": -0.08750000000000001,
+      "x": -0.08249999999999999,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 371,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": -0.07500000000000001,
+      "x": -0.08249999999999999,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 368,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": -0.0625,
+      "x": -0.08249999999999999,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 370,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": -0.05,
+      "x": -0.08249999999999999,
+      "y": -0.29,
+      "agentview_target_pixels": 369,
+      "agentview_occluder_pixels": 366,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 19
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": -0.037500000000000006,
+      "x": -0.08249999999999999,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 346,
+      "agentview_occluder_pixels": 365,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 105
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": -0.024999999999999994,
+      "x": -0.08249999999999999,
+      "y": -0.265,
+      "agentview_target_pixels": 291,
+      "agentview_occluder_pixels": 367,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 203
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": -0.012499999999999997,
+      "x": -0.08249999999999999,
+      "y": -0.2525,
+      "agentview_target_pixels": 209,
+      "agentview_occluder_pixels": 364,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 306
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": 0.0,
+      "x": -0.08249999999999999,
+      "y": -0.24,
+      "agentview_target_pixels": 128,
+      "agentview_occluder_pixels": 364,
+      "robot0_eye_in_hand_target_pixels": 457,
+      "robot0_eye_in_hand_occluder_pixels": 437
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": 0.012499999999999997,
+      "x": -0.08249999999999999,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 111,
+      "agentview_occluder_pixels": 362,
+      "robot0_eye_in_hand_target_pixels": 438,
+      "robot0_eye_in_hand_occluder_pixels": 575
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": 0.024999999999999994,
+      "x": -0.08249999999999999,
+      "y": -0.215,
+      "agentview_target_pixels": 181,
+      "agentview_occluder_pixels": 359,
+      "robot0_eye_in_hand_target_pixels": 435,
+      "robot0_eye_in_hand_occluder_pixels": 701
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": 0.037500000000000006,
+      "x": -0.08249999999999999,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 262,
+      "agentview_occluder_pixels": 364,
+      "robot0_eye_in_hand_target_pixels": 442,
+      "robot0_eye_in_hand_occluder_pixels": 822
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": 0.05000000000000002,
+      "x": -0.08249999999999999,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 333,
+      "agentview_occluder_pixels": 359,
+      "robot0_eye_in_hand_target_pixels": 448,
+      "robot0_eye_in_hand_occluder_pixels": 956
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": 0.0625,
+      "x": -0.08249999999999999,
+      "y": -0.1775,
+      "agentview_target_pixels": 367,
+      "agentview_occluder_pixels": 357,
+      "robot0_eye_in_hand_target_pixels": 449,
+      "robot0_eye_in_hand_occluder_pixels": 1101
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": 0.07500000000000001,
+      "x": -0.08249999999999999,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 365,
+      "robot0_eye_in_hand_target_pixels": 456,
+      "robot0_eye_in_hand_occluder_pixels": 1212
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": 0.0875,
+      "x": -0.08249999999999999,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 343,
+      "robot0_eye_in_hand_target_pixels": 471,
+      "robot0_eye_in_hand_occluder_pixels": 1174
+    },
+    {
+      "dx": 0.037500000000000006,
+      "dy": 0.1,
+      "x": -0.08249999999999999,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 324,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1124
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": -0.1,
+      "x": -0.06999999999999998,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 380,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": -0.08750000000000001,
+      "x": -0.06999999999999998,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 377,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": -0.07500000000000001,
+      "x": -0.06999999999999998,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 378,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": -0.0625,
+      "x": -0.06999999999999998,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 375,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": -0.05,
+      "x": -0.06999999999999998,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 372,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 14
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": -0.037500000000000006,
+      "x": -0.06999999999999998,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 359,
+      "agentview_occluder_pixels": 375,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 98
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": -0.024999999999999994,
+      "x": -0.06999999999999998,
+      "y": -0.265,
+      "agentview_target_pixels": 317,
+      "agentview_occluder_pixels": 371,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 207
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": -0.012499999999999997,
+      "x": -0.06999999999999998,
+      "y": -0.2525,
+      "agentview_target_pixels": 240,
+      "agentview_occluder_pixels": 371,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 326
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": 0.0,
+      "x": -0.06999999999999998,
+      "y": -0.24,
+      "agentview_target_pixels": 165,
+      "agentview_occluder_pixels": 374,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 451
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": 0.012499999999999997,
+      "x": -0.06999999999999998,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 130,
+      "agentview_occluder_pixels": 370,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 579
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": 0.024999999999999994,
+      "x": -0.06999999999999998,
+      "y": -0.215,
+      "agentview_target_pixels": 175,
+      "agentview_occluder_pixels": 370,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 703
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": 0.037500000000000006,
+      "x": -0.06999999999999998,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 256,
+      "agentview_occluder_pixels": 368,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 825
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": 0.05000000000000002,
+      "x": -0.06999999999999998,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 326,
+      "agentview_occluder_pixels": 367,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 963
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": 0.0625,
+      "x": -0.06999999999999998,
+      "y": -0.1775,
+      "agentview_target_pixels": 368,
+      "agentview_occluder_pixels": 369,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1114
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": 0.07500000000000001,
+      "x": -0.06999999999999998,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 366,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1229
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": 0.0875,
+      "x": -0.06999999999999998,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 349,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1189
+    },
+    {
+      "dx": 0.05000000000000002,
+      "dy": 0.1,
+      "x": -0.06999999999999998,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 321,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1131
+    },
+    {
+      "dx": 0.0625,
+      "dy": -0.1,
+      "x": -0.057499999999999996,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 388,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0625,
+      "dy": -0.08750000000000001,
+      "x": -0.057499999999999996,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 387,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0625,
+      "dy": -0.07500000000000001,
+      "x": -0.057499999999999996,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 385,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0625,
+      "dy": -0.0625,
+      "x": -0.057499999999999996,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 384,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0625,
+      "dy": -0.05,
+      "x": -0.057499999999999996,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 384,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 10
+    },
+    {
+      "dx": 0.0625,
+      "dy": -0.037500000000000006,
+      "x": -0.057499999999999996,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 369,
+      "agentview_occluder_pixels": 380,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 94
+    },
+    {
+      "dx": 0.0625,
+      "dy": -0.024999999999999994,
+      "x": -0.057499999999999996,
+      "y": -0.265,
+      "agentview_target_pixels": 338,
+      "agentview_occluder_pixels": 382,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 206
+    },
+    {
+      "dx": 0.0625,
+      "dy": -0.012499999999999997,
+      "x": -0.057499999999999996,
+      "y": -0.2525,
+      "agentview_target_pixels": 269,
+      "agentview_occluder_pixels": 379,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 322
+    },
+    {
+      "dx": 0.0625,
+      "dy": 0.0,
+      "x": -0.057499999999999996,
+      "y": -0.24,
+      "agentview_target_pixels": 196,
+      "agentview_occluder_pixels": 379,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 448
+    },
+    {
+      "dx": 0.0625,
+      "dy": 0.012499999999999997,
+      "x": -0.057499999999999996,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 150,
+      "agentview_occluder_pixels": 378,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 577
+    },
+    {
+      "dx": 0.0625,
+      "dy": 0.024999999999999994,
+      "x": -0.057499999999999996,
+      "y": -0.215,
+      "agentview_target_pixels": 172,
+      "agentview_occluder_pixels": 378,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 705
+    },
+    {
+      "dx": 0.0625,
+      "dy": 0.037500000000000006,
+      "x": -0.057499999999999996,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 248,
+      "agentview_occluder_pixels": 376,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 829
+    },
+    {
+      "dx": 0.0625,
+      "dy": 0.05000000000000002,
+      "x": -0.057499999999999996,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 316,
+      "agentview_occluder_pixels": 378,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 969
+    },
+    {
+      "dx": 0.0625,
+      "dy": 0.0625,
+      "x": -0.057499999999999996,
+      "y": -0.1775,
+      "agentview_target_pixels": 368,
+      "agentview_occluder_pixels": 372,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1117
+    },
+    {
+      "dx": 0.0625,
+      "dy": 0.07500000000000001,
+      "x": -0.057499999999999996,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 377,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1234
+    },
+    {
+      "dx": 0.0625,
+      "dy": 0.0875,
+      "x": -0.057499999999999996,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 356,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1205
+    },
+    {
+      "dx": 0.0625,
+      "dy": 0.1,
+      "x": -0.057499999999999996,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 321,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1154
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": -0.1,
+      "x": -0.044999999999999984,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 394,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": -0.08750000000000001,
+      "x": -0.044999999999999984,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 388,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": -0.07500000000000001,
+      "x": -0.044999999999999984,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 389,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": -0.0625,
+      "x": -0.044999999999999984,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 390,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": -0.05,
+      "x": -0.044999999999999984,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 394,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 7
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": -0.037500000000000006,
+      "x": -0.044999999999999984,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 387,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 88
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": -0.024999999999999994,
+      "x": -0.044999999999999984,
+      "y": -0.265,
+      "agentview_target_pixels": 354,
+      "agentview_occluder_pixels": 386,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 198
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": -0.012499999999999997,
+      "x": -0.044999999999999984,
+      "y": -0.2525,
+      "agentview_target_pixels": 295,
+      "agentview_occluder_pixels": 384,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 320
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": 0.0,
+      "x": -0.044999999999999984,
+      "y": -0.24,
+      "agentview_target_pixels": 227,
+      "agentview_occluder_pixels": 385,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 445
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": 0.012499999999999997,
+      "x": -0.044999999999999984,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 176,
+      "agentview_occluder_pixels": 385,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 575
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": 0.024999999999999994,
+      "x": -0.044999999999999984,
+      "y": -0.215,
+      "agentview_target_pixels": 181,
+      "agentview_occluder_pixels": 382,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 703
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": 0.037500000000000006,
+      "x": -0.044999999999999984,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 240,
+      "agentview_occluder_pixels": 383,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 832
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": 0.05000000000000002,
+      "x": -0.044999999999999984,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 309,
+      "agentview_occluder_pixels": 378,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 974
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": 0.0625,
+      "x": -0.044999999999999984,
+      "y": -0.1775,
+      "agentview_target_pixels": 361,
+      "agentview_occluder_pixels": 382,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1130
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": 0.07500000000000001,
+      "x": -0.044999999999999984,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 382,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1252
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": 0.0875,
+      "x": -0.044999999999999984,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 363,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1231
+    },
+    {
+      "dx": 0.07500000000000001,
+      "dy": 0.1,
+      "x": -0.044999999999999984,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 326,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1185
+    },
+    {
+      "dx": 0.0875,
+      "dy": -0.1,
+      "x": -0.0325,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 402,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0875,
+      "dy": -0.08750000000000001,
+      "x": -0.0325,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 398,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0875,
+      "dy": -0.07500000000000001,
+      "x": -0.0325,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 399,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0875,
+      "dy": -0.0625,
+      "x": -0.0325,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 393,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.0875,
+      "dy": -0.05,
+      "x": -0.0325,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 394,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 5
+    },
+    {
+      "dx": 0.0875,
+      "dy": -0.037500000000000006,
+      "x": -0.0325,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 394,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 83
+    },
+    {
+      "dx": 0.0875,
+      "dy": -0.024999999999999994,
+      "x": -0.0325,
+      "y": -0.265,
+      "agentview_target_pixels": 367,
+      "agentview_occluder_pixels": 393,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 193
+    },
+    {
+      "dx": 0.0875,
+      "dy": -0.012499999999999997,
+      "x": -0.0325,
+      "y": -0.2525,
+      "agentview_target_pixels": 315,
+      "agentview_occluder_pixels": 393,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 318
+    },
+    {
+      "dx": 0.0875,
+      "dy": 0.0,
+      "x": -0.0325,
+      "y": -0.24,
+      "agentview_target_pixels": 253,
+      "agentview_occluder_pixels": 392,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 447
+    },
+    {
+      "dx": 0.0875,
+      "dy": 0.012499999999999997,
+      "x": -0.0325,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 197,
+      "agentview_occluder_pixels": 389,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 581
+    },
+    {
+      "dx": 0.0875,
+      "dy": 0.024999999999999994,
+      "x": -0.0325,
+      "y": -0.215,
+      "agentview_target_pixels": 193,
+      "agentview_occluder_pixels": 391,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 710
+    },
+    {
+      "dx": 0.0875,
+      "dy": 0.037500000000000006,
+      "x": -0.0325,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 239,
+      "agentview_occluder_pixels": 384,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 841
+    },
+    {
+      "dx": 0.0875,
+      "dy": 0.05000000000000002,
+      "x": -0.0325,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 297,
+      "agentview_occluder_pixels": 389,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 985
+    },
+    {
+      "dx": 0.0875,
+      "dy": 0.0625,
+      "x": -0.0325,
+      "y": -0.1775,
+      "agentview_target_pixels": 356,
+      "agentview_occluder_pixels": 386,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1145
+    },
+    {
+      "dx": 0.0875,
+      "dy": 0.07500000000000001,
+      "x": -0.0325,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 389,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1278
+    },
+    {
+      "dx": 0.0875,
+      "dy": 0.0875,
+      "x": -0.0325,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 370,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1269
+    },
+    {
+      "dx": 0.0875,
+      "dy": 0.1,
+      "x": -0.0325,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 327,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1219
+    },
+    {
+      "dx": 0.1,
+      "dy": -0.1,
+      "x": -0.01999999999999999,
+      "y": -0.33999999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 411,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.1,
+      "dy": -0.08750000000000001,
+      "x": -0.01999999999999999,
+      "y": -0.3275,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 408,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.1,
+      "dy": -0.07500000000000001,
+      "x": -0.01999999999999999,
+      "y": -0.315,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 409,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.1,
+      "dy": -0.0625,
+      "x": -0.01999999999999999,
+      "y": -0.3025,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 404,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.1,
+      "dy": -0.05,
+      "x": -0.01999999999999999,
+      "y": -0.29,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 404,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 0
+    },
+    {
+      "dx": 0.1,
+      "dy": -0.037500000000000006,
+      "x": -0.01999999999999999,
+      "y": -0.27749999999999997,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 402,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 80
+    },
+    {
+      "dx": 0.1,
+      "dy": -0.024999999999999994,
+      "x": -0.01999999999999999,
+      "y": -0.265,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 403,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 188
+    },
+    {
+      "dx": 0.1,
+      "dy": -0.012499999999999997,
+      "x": -0.01999999999999999,
+      "y": -0.2525,
+      "agentview_target_pixels": 334,
+      "agentview_occluder_pixels": 395,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 317
+    },
+    {
+      "dx": 0.1,
+      "dy": 0.0,
+      "x": -0.01999999999999999,
+      "y": -0.24,
+      "agentview_target_pixels": 275,
+      "agentview_occluder_pixels": 385,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 449
+    },
+    {
+      "dx": 0.1,
+      "dy": 0.012499999999999997,
+      "x": -0.01999999999999999,
+      "y": -0.22749999999999998,
+      "agentview_target_pixels": 219,
+      "agentview_occluder_pixels": 384,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 589
+    },
+    {
+      "dx": 0.1,
+      "dy": 0.024999999999999994,
+      "x": -0.01999999999999999,
+      "y": -0.215,
+      "agentview_target_pixels": 211,
+      "agentview_occluder_pixels": 378,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 720
+    },
+    {
+      "dx": 0.1,
+      "dy": 0.037500000000000006,
+      "x": -0.01999999999999999,
+      "y": -0.20249999999999999,
+      "agentview_target_pixels": 234,
+      "agentview_occluder_pixels": 384,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 848
+    },
+    {
+      "dx": 0.1,
+      "dy": 0.05000000000000002,
+      "x": -0.01999999999999999,
+      "y": -0.18999999999999997,
+      "agentview_target_pixels": 294,
+      "agentview_occluder_pixels": 389,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 997
+    },
+    {
+      "dx": 0.1,
+      "dy": 0.0625,
+      "x": -0.01999999999999999,
+      "y": -0.1775,
+      "agentview_target_pixels": 345,
+      "agentview_occluder_pixels": 396,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1164
+    },
+    {
+      "dx": 0.1,
+      "dy": 0.07500000000000001,
+      "x": -0.01999999999999999,
+      "y": -0.16499999999999998,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 397,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1305
+    },
+    {
+      "dx": 0.1,
+      "dy": 0.0875,
+      "x": -0.01999999999999999,
+      "y": -0.1525,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 379,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1302
+    },
+    {
+      "dx": 0.1,
+      "dy": 0.1,
+      "x": -0.01999999999999999,
+      "y": -0.13999999999999999,
+      "agentview_target_pixels": 372,
+      "agentview_occluder_pixels": 336,
+      "robot0_eye_in_hand_target_pixels": 475,
+      "robot0_eye_in_hand_occluder_pixels": 1257
+    }
+  ]
+}

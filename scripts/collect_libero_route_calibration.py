@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import collections
 import hashlib
 import json
 import sys
@@ -35,6 +36,7 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--samples-per-observation", type=int, default=8)
     parser.add_argument("--wait-steps", type=int, default=10)
+    parser.add_argument("--seeds", type=int, nargs="+", default=list(SPLIT_BY_SEED))
     parser.add_argument(
         "--output", type=Path, default=ROOT / "data/calibration/libero_routes_v2.jsonl"
     )
@@ -50,7 +52,7 @@ def main() -> None:
     policy = OpenPiWebsocketPolicy(host=args.host, port=args.port)
     bddl_root = Path(get_libero_path("bddl_files"))
     rows = []
-    total = len(conditions) * len(SPLIT_BY_SEED)
+    total = len(conditions) * len(args.seeds)
     for condition in conditions:
         label = str(condition["label"])
         prompt = str(condition["prompt"])
@@ -62,7 +64,7 @@ def main() -> None:
             bddl_file_name=str(bddl), camera_heights=256, camera_widths=256
         )
         try:
-            for seed in SPLIT_BY_SEED:
+            for seed in args.seeds:
                 row = collect_condition(
                     env=env,
                     policy=policy,
@@ -97,10 +99,16 @@ def main() -> None:
         "samples": len(rows),
         "chunks_per_sample": args.samples_per_observation,
         "labels": [str(item["label"]) for item in conditions],
-        "split_rule": "seed 0:20 train, 20:40 calibration, 40:50 validation, per class",
+        "seeds": args.seeds,
+        "split_counts_per_class": dict(collections.Counter(SPLIT_BY_SEED[seed] for seed in args.seeds)),
         "calibration_only": True,
         "oracle_inputs": [],
-        "policy_inputs": ["stock agentview RGB", "forward-facing wrist RGB", "robot state", "prompt"],
+        "camera_protocol": (
+            "stock_unmodified"
+            if spec.get("wrist_camera_initialization") is None
+            else "custom_wrist_extrinsics"
+        ),
+        "policy_inputs": ["stock agentview RGB", "stock wrist RGB", "robot state", "prompt"],
         "semantic_definition": {
             "ACT": "execute the final visible-object task",
             "REMOVE_OCCLUDER": "manipulate a physical occluder or container",

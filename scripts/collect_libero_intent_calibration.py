@@ -24,6 +24,7 @@ SPLIT_BY_SEED = {
     **{seed: "prototype_train" for seed in range(20)},
     **{seed: "conformal_calibration" for seed in range(20, 40)},
     **{seed: "heldout_validation" for seed in range(40, 50)},
+    **{seed: "heldout_audit" for seed in range(50, 60)},
 }
 
 

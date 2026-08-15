@@ -1,0 +1,125 @@
+{
+  "policy": "pi0.5-libero checkpoint",
+  "environment": "libero.envs.OffScreenRenderEnv",
+  "policy_path": "stock openpi observation/action contract",
+  "variant": "implicit",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "server_metadata": {},
+  "camera_mode": "stock",
+  "tasks": {
+    "T04_stock_visible_ketchup": {
+      "bddl": "third_party/LIBERO/libero/libero/bddl_files/libero_object/pick_up_the_ketchup_and_place_it_in_the_basket.bddl",
+      "prompt": "Pick the ketchup and place it in the basket",
+      "episodes": 5,
+      "successes": 5,
+      "success_rate": 1.0,
+      "rows": [
+        {
+          "seed": 0,
+          "success": true,
+          "task_success": true,
+          "information_endpoint_success": false,
+          "steps": 146,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "task_success": true,
+          "information_endpoint_success": false,
+          "steps": 148,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 2,
+          "success": true,
+          "task_success": true,
+          "information_endpoint_success": false,
+          "steps": 167,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 3,
+          "success": true,
+          "task_success": true,
+          "information_endpoint_success": false,
+          "steps": 147,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 4,
+          "success": true,
+          "task_success": true,
+          "information_endpoint_success": false,
+          "steps": 144,
+          "error": null,
+          "joint_diagnostics": {}
+        }
+      ]
+    },
+    "T06_single_occluder_ketchup": {
+      "bddl": "scenarios/stock_aligned_v1/T06_occluded_ketchup.bddl",
+      "prompt": "Pick the ketchup and place it in the basket",
+      "episodes": 5,
+      "successes": 5,
+      "success_rate": 1.0,
+      "rows": [
+        {
+          "seed": 0,
+          "success": true,
+          "task_success": true,
+          "information_endpoint_success": false,
+          "steps": 135,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "task_success": true,
+          "information_endpoint_success": false,
+          "steps": 142,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 2,
+          "success": true,
+          "task_success": true,
+          "information_endpoint_success": false,
+          "steps": 171,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 3,
+          "success": true,
+          "task_success": true,
+          "information_endpoint_success": false,
+          "steps": 157,
+          "error": null,
+          "joint_diagnostics": {}
+        },
+        {
+          "seed": 4,
+          "success": true,
+          "task_success": true,
+          "information_endpoint_success": false,
+          "steps": 164,
+          "error": null,
+          "joint_diagnostics": {}
+        }
+      ]
+    }
+  }
+}
