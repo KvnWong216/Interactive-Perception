@@ -35,6 +35,19 @@ This result supports reliable action selection and target reveal. It does not
 support full retrieval: `OPEN_CONTAINER → ACT` completes the final butter task
 in 0/5 trials. `ROTATE` is also blocked at 0/30.
 
+## Product gate
+
+| Milestone | Decision |
+|---|---:|
+| T01 reveal prototype | GO |
+| Method-paper ready | NOT-GO |
+| Final product ready | NOT-GO |
+
+The final product requires a prompt-conditioned belief, calibrated action-
+effect model, expected-risk optimizer, prompt counterfactuals, final task
+completion, abstention, and held-out generalization. `PARTIAL` never counts as
+GO. See the [frozen product gate](benchmarks/final_product_v1/gates.yaml).
+
 ## Evidence
 
 - [100-trial T01 result](results/capability/t01_conformal_reveal_100seed_v1.json)
@@ -43,6 +56,7 @@ in 0/5 trials. `ROTATE` is also blocked at 0/30.
 - [Monolithic control](results/capability/t01_monolithic_screen_5seed.json)
 - [Two-stage retrieval control](results/capability/t01_stock_chain_screen_5seed.json)
 - [Bi-view demo](results/demos/t01_conformal_reveal_30seed_v1/t01_conformal_reveal_seed090.mp4)
+- [Final-product gate](results/final_product_gate_v1.json)
 
 ## Run
 

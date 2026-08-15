@@ -1,5 +1,20 @@
 # Handoff
 
+## 2026-08-15 final-product gate reset
+
+The strict product registry is `benchmarks/final_product_v1/gates.yaml`.
+`PARTIAL` counts as NOT-GO. The T01 reveal prototype is GO, but method-paper
+readiness and final-product readiness are both NOT-GO. The blocking core is no
+longer called "G4 classification": FP2 requires prompt-conditioned target
+belief, FP3 requires calibrated action effects, and FP4 requires explicit
+expected-risk optimization without a tuned confidence-routing threshold.
+
+Final completion remains a separate hard gate (FP8) and is currently 0/5.
+Other blockers cover oracle-free closed-loop operation, prompt-swap
+counterfactuals, at least three information-action families, NOT_FOUND,
+held-out scene/policy generalization, and a one-command release. Run
+`scripts/summarize_final_product_gate.py` to regenerate the decision.
+
 ## 2026-08-15 T01 conformal reveal gate
 
 T01 was rebuilt as a one-variable ladder around the stock LIBERO middle-drawer

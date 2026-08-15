@@ -1,0 +1,152 @@
+{
+  "schema_version": "interactive-perception.final-product-gate-summary.v1",
+  "name": "Prompt-Conditioned Interactive Perception Final Product",
+  "gate_count": 12,
+  "status_counts": {
+    "GO": 2,
+    "PARTIAL": 3,
+    "NOT_GO": 7
+  },
+  "blocking_gate_ids": [
+    "FP0",
+    "FP1",
+    "FP2",
+    "FP3",
+    "FP4",
+    "FP5",
+    "FP6",
+    "FP7",
+    "FP8",
+    "FP9",
+    "FP10",
+    "FP11"
+  ],
+  "blocking_failures": [
+    "FP2",
+    "FP3",
+    "FP4",
+    "FP5",
+    "FP6",
+    "FP7",
+    "FP8",
+    "FP9",
+    "FP10",
+    "FP11"
+  ],
+  "final_product_go": false,
+  "milestones": {
+    "t01_reveal_prototype": "GO",
+    "method_paper_ready": "NOT_GO",
+    "final_product_ready": "NOT_GO"
+  },
+  "gates": [
+    {
+      "id": "FP0",
+      "name": "Stock policy reproduction",
+      "blocking": true,
+      "status": "GO",
+      "pass_condition": "Reproduce the frozen checkpoint before any custom scene is interpreted.",
+      "evidence": "results/repro_libero_object.json",
+      "current": "100/100."
+    },
+    {
+      "id": "FP1",
+      "name": "Primitive capability",
+      "blocking": true,
+      "status": "GO",
+      "pass_condition": "Every action exposed in the current core product scope has a one-sided 95% reliability lower bound of at least 0.90 in its declared context.",
+      "evidence": "results/capability/g5_executor_gate_stock_aligned_v2.json",
+      "current": "ACT 100/100; REMOVE_OCCLUDER 97/100. ROTATE is excluded and remains 0/30."
+    },
+    {
+      "id": "FP2",
+      "name": "Prompt-conditioned belief",
+      "blocking": true,
+      "status": "NOT_GO",
+      "pass_condition": "An RGB-only model represents where prompt-relevant uncertainty lies and passes scene-disjoint prompt-swap calibration tests without target-pose, segmentation, or simulator-state inputs.",
+      "evidence": null,
+      "current": "Not implemented. The present G4 predicts action labels, not target belief."
+    },
+    {
+      "id": "FP3",
+      "name": "Calibrated action-effect model",
+      "blocking": true,
+      "status": "NOT_GO",
+      "pass_condition": "For every enabled information action, predict the post-action observable effect from (prompt, observation, action), with class-conditional conformal coverage at least 0.90 on disjoint scenes.",
+      "evidence": null,
+      "current": "No outcome-labelled transition dataset or effect predictor exists."
+    },
+    {
+      "id": "FP4",
+      "name": "Expected-risk optimizer",
+      "blocking": true,
+      "status": "NOT_GO",
+      "pass_condition": "Select ACT, information acquisition, or NOT_FOUND by minimizing expected prompt-conditioned task risk. Decision costs come from measured action cost and reliability or a preregistered sensitivity analysis; no tuned confidence-routing threshold is permitted.",
+      "evidence": null,
+      "current": "Not implemented. The current router is a conformal action classifier."
+    },
+    {
+      "id": "FP5",
+      "name": "Oracle-free closed loop",
+      "blocking": true,
+      "status": "PARTIAL",
+      "pass_condition": "Audit the complete controller and show zero reads of simulator joints, segmentation, hidden target poses, or task predicates for routing, stopping, belief updates, and NOT_FOUND.",
+      "evidence": "results/capability/t01_conformal_reveal_100seed_v1.json",
+      "current": "T01 routing is oracle-free, but the future belief and outcome critic are not built."
+    },
+    {
+      "id": "FP6",
+      "name": "Prompt-alignment counterfactuals",
+      "blocking": true,
+      "status": "NOT_GO",
+      "pass_condition": "On the same scene with different prompts, and the same prompt with different resolvable causes, the correct-decision reliability lower bound is at least 0.90 and the method beats prompt-blind fixed rules.",
+      "evidence": null,
+      "current": "No frozen counterfactual benchmark has been run."
+    },
+    {
+      "id": "FP7",
+      "name": "Multi-action information acquisition",
+      "blocking": true,
+      "status": "PARTIAL",
+      "pass_condition": "Reliably acquire the required information in at least three disjoint action families, with a one-sided 95% lower bound of at least 0.90 for each family.",
+      "evidence": "results/capability/t01_conformal_reveal_100seed_v1.json",
+      "current": "Drawer reveal passes at 97/100; move/rotate/other-occluder families are not certified."
+    },
+    {
+      "id": "FP8",
+      "name": "Final task completion",
+      "blocking": true,
+      "status": "NOT_GO",
+      "pass_condition": "After information acquisition, complete the original final task with a one-sided 95% reliability lower bound of at least 0.90 and a positive paired improvement over the monolithic VLA.",
+      "evidence": "results/capability/t01_stock_chain_screen_5seed.json",
+      "current": "OPEN_CONTAINER -> ACT is 0/5; direct open-drawer retrieval is 0/5."
+    },
+    {
+      "id": "FP9",
+      "name": "Abstention and exhaustion",
+      "blocking": true,
+      "status": "NOT_GO",
+      "pass_condition": "Correctly return NOT_FOUND only after calibrated search exhaustion, with at least 0.90 lower-bound reliability on both target-present and target-absent cases.",
+      "evidence": null,
+      "current": "NOT_FOUND has no certified executor or outcome calibration."
+    },
+    {
+      "id": "FP10",
+      "name": "Scene and policy generalization",
+      "blocking": true,
+      "status": "NOT_GO",
+      "pass_condition": "Pass object-, clutter-, occlusion-, and container-held-out tests and reproduce the decision benefit with a second frozen policy.",
+      "evidence": null,
+      "current": "Only the T01 pi0.5 reveal path is certified."
+    },
+    {
+      "id": "FP11",
+      "name": "Release and reproducibility",
+      "blocking": true,
+      "status": "PARTIAL",
+      "pass_condition": "One-command evaluation, pinned environment, frozen calibration hashes, complete failure demos, automated gate report, and clean GPU shutdown.",
+      "evidence": "README.md",
+      "current": "Core artifacts and scripts exist; the complete final-product runner does not."
+    }
+  ]
+}
