@@ -1,65 +1,55 @@
 # Interactive Perception
 
-We study when a frozen vision-language-action policy should gather information
-before acting.
+We study when a frozen VLA should interact with an occluder before acting.
 
 ## Method
 
-The controller separates semantic intent uncertainty from physical executor
-reliability. Repeated π0.5 action chunks produce a conformal intent set over
-`ACT`, `MOVE_CLOSER`, `ROTATE`, and `REMOVE_OCCLUDER`. A primitive is executed
-only when its calibrated set and its independent capability gate both pass.
+Given a final-goal prompt, π0.5 samples eight action chunks. A Mondrian
+conformal calibrator returns a set over `ACT` and `REMOVE_OCCLUDER`. The router
+executes a primitive only when the set is a singleton and the corresponding
+physical executor passes an independent reliability gate.
 
-Simulator state and segmentation are evaluation-only. Calibration and test
-scenes are disjoint.
+Policy inputs are the stock LIBERO `agentview`, wrist RGB, robot state, and
+prompt. Simulator joints and the BEV camera are evaluation-only.
 
-## Stock-aligned benchmark
+## T01
 
-The new benchmark copies the original LIBERO ketchup task. Cameras, robot
-reset, controller, prompt, objects, and goal remain unchanged. Only existing
-distractors are moved onto the two policy-camera rays.
+T01 copies the stock LIBERO middle-drawer layout. Butter is hidden in the
+closed middle layer and a basket is added to the table.
 
-| Condition | Success |
+| Test | Result |
 |---|---:|
-| Original visible task | 5/5 |
-| One blocker | 5/5 |
-| Two-camera occlusion | 2/5 |
+| Stock drawer control | 30/30 |
+| Hidden butter added | 30/30 |
+| Hidden butter + basket | 30/30 |
+| G4 audit, `ACT` vs `REMOVE_OCCLUDER` | 20/20 |
+| Monolithic final prompt: drawer revealed | 0/5 |
+| Conformal router: correct route | 100/100 |
+| Conformal router: physical reveal | 97/100 |
 
-Removing both blockers restores target pixels in both cameras on all three
-validation seeds.
+The reveal rate has a one-sided 95% lower bound of 0.924 and passes the frozen
+0.90 requirement. Failures are seeds 110, 127, and 186; all are executor
+failures, not routing errors.
 
-## Gates
-
-| Gate | Result | Decision |
-|---|---:|---|
-| Stock π0.5 reproduction | 100/100 | GO |
-| `MOVE_CLOSER` | 30/30; 95% lower bound 0.905 | GO |
-| `ROTATE` | 0/30 | NOT-GO |
-| Open hidden container | 15/30; lower bound 0.339 | NOT-GO |
-| G4 marginal conformal | coverage 0.825 | NOT-GO |
-| G4 class-conditional audit | overall 0.90; worst class 0.80 | NOT-GO |
-| G5 complete executor set | 2/4 primitives authorized | NOT-GO |
-
-π0.5 reliably grasps, brings an object closer, and releases it. It does not
-produce the requested wrist rotation. `ACT`, `MOVE_CLOSER`, and `ROTATE` also
-generate overlapping initial action chunks, so trajectory statistics alone do
-not identify semantic intent reliably.
+This result supports reliable action selection and target reveal. It does not
+support full retrieval: `OPEN_CONTAINER → ACT` completes the final butter task
+in 0/5 trials. `ROTATE` is also blocked at 0/30.
 
 ## Evidence
 
-- [G4/G5 report](results/G4_G5_STOCK_ALIGNED.md)
-- [G4 independent audit](results/calibration/semantic_intent_g4_stock_aligned_mondrian_audit_v4.json)
-- [G5 executor gate](results/capability/g5_executor_gate_stock_aligned_v1.json)
-- [30-trial unit actions](results/capability/stock_aligned_unit_actions_30episode.json)
-- [Two-camera occlusion validation](results/validation/stock_aligned_v1.json)
-- [MOVE_CLOSER demo](results/demos/stock_aligned_units_30/move_closer_episode000.mp4)
-- [ROTATE failure demo](results/demos/stock_aligned_units_30/rotate_episode000.mp4)
+- [100-trial T01 result](results/capability/t01_conformal_reveal_100seed_v1.json)
+- [G4 artifact](results/calibration/semantic_intent_g4_t01_binary_audit_v5.json)
+- [G5 executor gate](results/capability/g5_executor_gate_stock_aligned_v2.json)
+- [Monolithic control](results/capability/t01_monolithic_screen_5seed.json)
+- [Two-stage retrieval control](results/capability/t01_stock_chain_screen_5seed.json)
+- [Bi-view demo](results/demos/t01_conformal_reveal_30seed_v1/t01_conformal_reveal_seed090.mp4)
 
 ## Run
 
 ```bash
 bash scripts/serve_pi05.sh
 env -u PYTHONPATH ../.conda/envs/ipu/bin/python \
-  scripts/run_stock_aligned_unit_actions.py \
-  --episodes 0 1 2 3 4 --output /tmp/unit_actions.json
+  scripts/run_t01_conformal_reveal.py \
+  --seeds 190 191 192 193 194 \
+  --output /tmp/t01_reveal.json
 ```

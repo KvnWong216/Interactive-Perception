@@ -1,0 +1,1643 @@
+{
+  "schema_version": "interactive-perception.t01-conformal-reveal-summary.v1",
+  "claim_scope": "route and physically reveal the hidden target",
+  "non_claim": "retrieve the revealed target and complete the final placement task",
+  "required_reliability": 0.9,
+  "confidence": 0.95,
+  "test_seeds": [
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165,
+    166,
+    167,
+    168,
+    169,
+    170,
+    171,
+    172,
+    173,
+    174,
+    175,
+    176,
+    177,
+    178,
+    179,
+    180,
+    181,
+    182,
+    183,
+    184,
+    185,
+    186,
+    187,
+    188,
+    189
+  ],
+  "test_seed_count": 100,
+  "route_gate": {
+    "successes": 100,
+    "trials": 100,
+    "confidence": 0.95,
+    "required_reliability": 0.9,
+    "empirical_rate": 1.0,
+    "lower_bound": 0.9704869503929601,
+    "passed": true,
+    "interpretation": "correct singleton conformal route on the target scene"
+  },
+  "reveal_gate": {
+    "successes": 97,
+    "trials": 100,
+    "confidence": 0.95,
+    "required_reliability": 0.9,
+    "empirical_rate": 0.97,
+    "lower_bound": 0.92428920625017,
+    "passed": true,
+    "interpretation": "executor competence in the evaluated context; not semantic-intent coverage"
+  },
+  "pipeline_go": true,
+  "failure_seeds": [
+    110,
+    127,
+    186
+  ],
+  "controller_joint_reads": 0,
+  "source_sha256": {
+    "results/capability/t01_conformal_reveal_30seed_v1.json": "42398d5820c25ec4283dc80f9d16e6d5c183e2a659d73399598f2b5bc7a78724",
+    "results/capability/t01_conformal_reveal_70seed_extension_v1.json": "a98642a7e060612ac0e5ffbe14ddbe556d10cc544e3c7ecc73af40f2292a2860"
+  },
+  "rows": [
+    {
+      "seed": 90,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.005648748464505448,
+        "REMOVE_OCCLUDER": 0.9943512515354945
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16106897414639532,
+      "reveal_success": true,
+      "video": "results/demos/t01_conformal_reveal_30seed_v1/t01_conformal_reveal_seed090.mp4"
+    },
+    {
+      "seed": 91,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.009556368866306944,
+        "REMOVE_OCCLUDER": 0.990443631133693
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16125091254717497,
+      "reveal_success": true,
+      "video": "results/demos/t01_conformal_reveal_30seed_v1/t01_conformal_reveal_seed091.mp4"
+    },
+    {
+      "seed": 92,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.009890968631085705,
+        "REMOVE_OCCLUDER": 0.9901090313689144
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.160950634028452,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 93,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.00819601255236943,
+        "REMOVE_OCCLUDER": 0.9918039874476305
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1610567284832294,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 94,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.00575536546416551,
+        "REMOVE_OCCLUDER": 0.9942446345358344
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16109658084219544,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 95,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.009531556870833036,
+        "REMOVE_OCCLUDER": 0.9904684431291669
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16125277179218975,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 96,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0047794297367863125,
+        "REMOVE_OCCLUDER": 0.9952205702632138
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16046410900722585,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 97,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.006572754577053882,
+        "REMOVE_OCCLUDER": 0.9934272454229462
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16118841031739892,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 98,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.006694273341995643,
+        "REMOVE_OCCLUDER": 0.9933057266580043
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16093193181288928,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 99,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.004347074552980087,
+        "REMOVE_OCCLUDER": 0.9956529254470199
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1504992005346181,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 100,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.014193808023503318,
+        "REMOVE_OCCLUDER": 0.9858061919764968
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1609386493826762,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 101,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.012814913421022344,
+        "REMOVE_OCCLUDER": 0.9871850865789776
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16127389336649264,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 102,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.015186846860374229,
+        "REMOVE_OCCLUDER": 0.9848131531396258
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16146133601848922,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 103,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0027823690257386484,
+        "REMOVE_OCCLUDER": 0.9972176309742614
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16118022799086637,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 104,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.008080337765680045,
+        "REMOVE_OCCLUDER": 0.9919196622343199
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1613301452879716,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 105,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.010289065750585734,
+        "REMOVE_OCCLUDER": 0.9897109342494143
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16098528657972122,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 106,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.012255475786956878,
+        "REMOVE_OCCLUDER": 0.9877445242130432
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16104696184633008,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 107,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0044965121364346815,
+        "REMOVE_OCCLUDER": 0.9955034878635654
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16090673335396197,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 108,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.006364519143360909,
+        "REMOVE_OCCLUDER": 0.9936354808566391
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16093077358576885,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 109,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.004490393516429053,
+        "REMOVE_OCCLUDER": 0.9955096064835709
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16099307703130591,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 110,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.004375847074494966,
+        "REMOVE_OCCLUDER": 0.995624152925505
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -5.572716426212236e-09,
+      "reveal_success": false,
+      "video": null
+    },
+    {
+      "seed": 111,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.008484639709418804,
+        "REMOVE_OCCLUDER": 0.9915153602905812
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16081983578821113,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 112,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.008989716377108456,
+        "REMOVE_OCCLUDER": 0.9910102836228916
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16089841403762023,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 113,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.00575717918066003,
+        "REMOVE_OCCLUDER": 0.99424282081934
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1610898199743547,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 114,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.02373764366396316,
+        "REMOVE_OCCLUDER": 0.9762623563360369
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16140115284752443,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 115,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.010571179860994564,
+        "REMOVE_OCCLUDER": 0.9894288201390055
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16141311183748183,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 116,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.006335350680395869,
+        "REMOVE_OCCLUDER": 0.9936646493196041
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16124960209673267,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 117,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.004069836739324126,
+        "REMOVE_OCCLUDER": 0.995930163260676
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16105165084775178,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 118,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.007960039531615103,
+        "REMOVE_OCCLUDER": 0.9920399604683848
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1610495829106181,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 119,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.02150529619759176,
+        "REMOVE_OCCLUDER": 0.9784947038024082
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16115451843660672,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 120,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.009194463414883117,
+        "REMOVE_OCCLUDER": 0.9908055365851168
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1609461538156738,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 121,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.01210673971486858,
+        "REMOVE_OCCLUDER": 0.9878932602851314
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16131248007992416,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 122,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.020180562391739792,
+        "REMOVE_OCCLUDER": 0.9798194376082602
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16104651632898107,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 123,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.01495610757462306,
+        "REMOVE_OCCLUDER": 0.9850438924253769
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16119334112676104,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 124,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.018382445686686514,
+        "REMOVE_OCCLUDER": 0.9816175543133135
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1612523537707706,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 125,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0036664827510162483,
+        "REMOVE_OCCLUDER": 0.9963335172489837
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1612718785541837,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 126,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.009802384368507513,
+        "REMOVE_OCCLUDER": 0.9901976156314924
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16111311869093708,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 127,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0045265747620734445,
+        "REMOVE_OCCLUDER": 0.9954734252379265
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -5.572716426212222e-09,
+      "reveal_success": false,
+      "video": null
+    },
+    {
+      "seed": 128,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.008631468940430306,
+        "REMOVE_OCCLUDER": 0.9913685310595697
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16121498382415125,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 129,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.009186214554130793,
+        "REMOVE_OCCLUDER": 0.9908137854458693
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16075787266683148,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 130,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0073630090747755835,
+        "REMOVE_OCCLUDER": 0.9926369909252244
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1605862257509465,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 131,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.00983798782373314,
+        "REMOVE_OCCLUDER": 0.9901620121762669
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16076283752386877,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 132,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.006419548708851907,
+        "REMOVE_OCCLUDER": 0.9935804512911481
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16082478384685542,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 133,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.010375337260113715,
+        "REMOVE_OCCLUDER": 0.9896246627398864
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1613553277044359,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 134,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.005611325780848212,
+        "REMOVE_OCCLUDER": 0.9943886742191518
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16136322240230266,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 135,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.01578506423137452,
+        "REMOVE_OCCLUDER": 0.9842149357686254
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1609932607944942,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 136,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.005726981373506121,
+        "REMOVE_OCCLUDER": 0.9942730186264939
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16086524955469841,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 137,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.040927166895903026,
+        "REMOVE_OCCLUDER": 0.959072833104097
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16079272449075419,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 138,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.011552724398955374,
+        "REMOVE_OCCLUDER": 0.9884472756010446
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16109704695539734,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 139,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.008437514565552608,
+        "REMOVE_OCCLUDER": 0.9915624854344475
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16106097941139333,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 140,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.025582436759890262,
+        "REMOVE_OCCLUDER": 0.9744175632401096
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16093089279013764,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 141,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.007181067782250494,
+        "REMOVE_OCCLUDER": 0.9928189322177494
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16077489684716517,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 142,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.035730887783759706,
+        "REMOVE_OCCLUDER": 0.9642691122162403
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16092815682398212,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 143,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.018651888857285616,
+        "REMOVE_OCCLUDER": 0.9813481111427145
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16095672124996876,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 144,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.009666770248731619,
+        "REMOVE_OCCLUDER": 0.9903332297512685
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1611836079889622,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 145,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0032410975759840726,
+        "REMOVE_OCCLUDER": 0.996758902424016
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16124843063900215,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 146,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.009026647985518162,
+        "REMOVE_OCCLUDER": 0.9909733520144819
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16119760873618716,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 147,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.004878009848793554,
+        "REMOVE_OCCLUDER": 0.9951219901512065
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1611593458982447,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 148,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.008324808590719547,
+        "REMOVE_OCCLUDER": 0.9916751914092804
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16097748790693,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 149,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.006747853962063177,
+        "REMOVE_OCCLUDER": 0.9932521460379368
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16126065252724983,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 150,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.005677935205146009,
+        "REMOVE_OCCLUDER": 0.994322064794854
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16106069790205244,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 151,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0059452081361258645,
+        "REMOVE_OCCLUDER": 0.9940547918638741
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1604784948085256,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 152,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.01864937890424422,
+        "REMOVE_OCCLUDER": 0.9813506210957559
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16073027445413635,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 153,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.004372643727255164,
+        "REMOVE_OCCLUDER": 0.9956273562727448
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16115554201102278,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 154,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0037582973491319767,
+        "REMOVE_OCCLUDER": 0.996241702650868
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1608334913823915,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 155,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.01355398206145214,
+        "REMOVE_OCCLUDER": 0.9864460179385479
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1612256940948264,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 156,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.005569184764133228,
+        "REMOVE_OCCLUDER": 0.9944308152358668
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16124938857104137,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 157,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.008427596924531391,
+        "REMOVE_OCCLUDER": 0.9915724030754686
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16135184750828324,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 158,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.008102985625002978,
+        "REMOVE_OCCLUDER": 0.991897014374997
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16140631640133835,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 159,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.011848763455087822,
+        "REMOVE_OCCLUDER": 0.9881512365449122
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16143432587954712,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 160,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0097220725446451,
+        "REMOVE_OCCLUDER": 0.9902779274553549
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16069088175000096,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 161,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.006500972565225082,
+        "REMOVE_OCCLUDER": 0.9934990274347749
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16116702812237346,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 162,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.014950779668733979,
+        "REMOVE_OCCLUDER": 0.985049220331266
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1609004198307358,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 163,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.004339789622619692,
+        "REMOVE_OCCLUDER": 0.9956602103773804
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16113489811085913,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 164,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0045468801269235425,
+        "REMOVE_OCCLUDER": 0.9954531198730764
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1611961119355227,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 165,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.01655183237404242,
+        "REMOVE_OCCLUDER": 0.9834481676259577
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16058698266356972,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 166,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.015494610658006258,
+        "REMOVE_OCCLUDER": 0.9845053893419937
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16092474241965393,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 167,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.003764218735991192,
+        "REMOVE_OCCLUDER": 0.9962357812640087
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16136164372169368,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 168,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.017363729834831927,
+        "REMOVE_OCCLUDER": 0.982636270165168
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16067231653952047,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 169,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.014575593908476278,
+        "REMOVE_OCCLUDER": 0.9854244060915237
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1613630215990234,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 170,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0124672427324446,
+        "REMOVE_OCCLUDER": 0.9875327572675554
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16119435377902913,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 171,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.016520278334967785,
+        "REMOVE_OCCLUDER": 0.9834797216650322
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16111458032639622,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 172,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.005214905651811643,
+        "REMOVE_OCCLUDER": 0.9947850943481885
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1613442651026907,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 173,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.006452993332246603,
+        "REMOVE_OCCLUDER": 0.9935470066677533
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16123991790771317,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 174,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.00431935692309505,
+        "REMOVE_OCCLUDER": 0.995680643076905
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16117425057038692,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 175,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.003031028206737094,
+        "REMOVE_OCCLUDER": 0.9969689717932629
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16103993982458129,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 176,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.01972024608132047,
+        "REMOVE_OCCLUDER": 0.9802797539186795
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16143413068419007,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 177,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.008641671991971231,
+        "REMOVE_OCCLUDER": 0.9913583280080287
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1614146540654638,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 178,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.00797887875440993,
+        "REMOVE_OCCLUDER": 0.9920211212455902
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16103348859605143,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 179,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.007171477510065045,
+        "REMOVE_OCCLUDER": 0.992828522489935
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16113713851759146,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 180,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.0027419039788454847,
+        "REMOVE_OCCLUDER": 0.9972580960211544
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16063214301107626,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 181,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.006407758669232608,
+        "REMOVE_OCCLUDER": 0.9935922413307674
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16114659647009882,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 182,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.011041042854621465,
+        "REMOVE_OCCLUDER": 0.9889589571453785
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16089575977755033,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 183,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.005594999265577754,
+        "REMOVE_OCCLUDER": 0.9944050007344223
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.160521044220733,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 184,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.005717167114720722,
+        "REMOVE_OCCLUDER": 0.9942828328852793
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16117339530709396,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 185,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.005224884714213703,
+        "REMOVE_OCCLUDER": 0.9947751152857862
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16149063705773375,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 186,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.07107984491825799,
+        "REMOVE_OCCLUDER": 0.9289201550817421
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -3.3342285706716376e-09,
+      "reveal_success": false,
+      "video": null
+    },
+    {
+      "seed": 187,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.01063054064889384,
+        "REMOVE_OCCLUDER": 0.9893694593511062
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16111516779019558,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 188,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.005151968630475975,
+        "REMOVE_OCCLUDER": 0.994848031369524
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.1611139181868338,
+      "reveal_success": true,
+      "video": null
+    },
+    {
+      "seed": 189,
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "probabilities": {
+        "ACT": 0.01758402069949514,
+        "REMOVE_OCCLUDER": 0.9824159793005048
+      },
+      "routed": true,
+      "executor_steps": 300,
+      "middle_joint_minimum": -0.16095062032078294,
+      "reveal_success": true,
+      "video": null
+    }
+  ]
+}

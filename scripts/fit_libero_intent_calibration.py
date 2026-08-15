@@ -40,6 +40,12 @@ def main() -> None:
     parser.add_argument("--scope", required=True)
     parser.add_argument("--method", choices=["marginal", "mondrian"], default="marginal")
     parser.add_argument("--validation-split", default="heldout_validation")
+    parser.add_argument(
+        "--labels",
+        nargs="+",
+        default=None,
+        help="Optional preregistered action scope; rows outside it are excluded.",
+    )
     args = parser.parse_args()
     rows = [
         json.loads(line)
@@ -47,6 +53,13 @@ def main() -> None:
         for line in dataset.read_text().splitlines()
         if line
     ]
+    available_labels = sorted({row["true_intent"] for row in rows})
+    if args.labels is not None:
+        requested = set(args.labels)
+        unknown = requested - set(available_labels)
+        if unknown:
+            raise ValueError(f"unknown labels: {sorted(unknown)}")
+        rows = [row for row in rows if row["true_intent"] in requested]
     labels = sorted({row["true_intent"] for row in rows})
     train = [row for row in rows if row["split"] == "prototype_train"]
     calibration = [row for row in rows if row["split"] == "conformal_calibration"]
@@ -107,6 +120,8 @@ def main() -> None:
     artifact = {
         **calibrator.to_dict(),
         "scope": args.scope,
+        "action_scope": labels,
+        "excluded_labels": sorted(set(available_labels) - set(labels)),
         "datasets": [str(path) for path in args.datasets],
         "dataset_sha256": {
             str(path): hashlib.sha256(path.read_bytes()).hexdigest()

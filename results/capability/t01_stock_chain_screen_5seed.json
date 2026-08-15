@@ -1,0 +1,77 @@
+{
+  "policy": "pi05_libero",
+  "scene": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+  "camera_protocol": "stock policy cameras; BEV evaluator-only",
+  "phases": [
+    {
+      "primitive": "OPEN_CONTAINER",
+      "prompt": "Open the middle layer of the drawer"
+    },
+    {
+      "primitive": "ACT",
+      "prompt": "Place the butter in the basket"
+    }
+  ],
+  "episodes": 5,
+  "open_successes": 5,
+  "task_successes": 0,
+  "chain_successes": 0,
+  "chain_success_rate": 0.0,
+  "rows": [
+    {
+      "seed": 0,
+      "open_reached": true,
+      "open_step": 116,
+      "task_success": false,
+      "success": false,
+      "terminal_phase": "ACT",
+      "total_steps": 516,
+      "middle_joint_final": -0.14437823576011002,
+      "video": "results/demos/t01_stock_chain_screen_v1/t01_chain_seed000.mp4"
+    },
+    {
+      "seed": 1,
+      "open_reached": true,
+      "open_step": 124,
+      "task_success": false,
+      "success": false,
+      "terminal_phase": "ACT",
+      "total_steps": 524,
+      "middle_joint_final": -0.15978362535721424,
+      "video": "results/demos/t01_stock_chain_screen_v1/t01_chain_seed001.mp4"
+    },
+    {
+      "seed": 2,
+      "open_reached": true,
+      "open_step": 127,
+      "task_success": false,
+      "success": false,
+      "terminal_phase": "ACT",
+      "total_steps": 527,
+      "middle_joint_final": -0.15591727771366073,
+      "video": null
+    },
+    {
+      "seed": 3,
+      "open_reached": true,
+      "open_step": 116,
+      "task_success": false,
+      "success": false,
+      "terminal_phase": "ACT",
+      "total_steps": 516,
+      "middle_joint_final": -0.15624232435597674,
+      "video": null
+    },
+    {
+      "seed": 4,
+      "open_reached": true,
+      "open_step": 121,
+      "task_success": false,
+      "success": false,
+      "terminal_phase": "ACT",
+      "total_steps": 521,
+      "middle_joint_final": -0.15992946957274118,
+      "video": null
+    }
+  ]
+}

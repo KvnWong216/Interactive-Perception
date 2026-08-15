@@ -1,5 +1,35 @@
 # Handoff
 
+## 2026-08-15 T01 conformal reveal gate
+
+T01 was rebuilt as a one-variable ladder around the stock LIBERO middle-drawer
+task. The exact stock task is 30/30. Adding only hidden butter is 30/30, and
+adding hidden butter plus a basket is also 30/30. All policy rollouts preserve
+the stock `agentview` and wrist-camera inputs; BEV is rendered only for the
+right half of demo videos.
+
+The four-class G4 claim remains invalid. For the T01-required action scope,
+`ACT` versus `REMOVE_OCCLUDER`, a Mondrian artifact at alpha 0.1 covers the
+independent audit at 20/20 with mean set size 1.0. A target-scene probe on new
+seeds 60--89 returns the singleton `REMOVE_OCCLUDER` on 30/30 observations.
+
+The frozen routed reveal test uses seeds 90--189. G4 routes 100/100 correctly;
+the explicit drawer executor physically reveals the target in 97/100. The
+one-sided 95% lower bound is 0.9243, above the required 0.90. Seeds 110, 127,
+and 186 are executor failures with no drawer motion. The controller never
+reads the drawer joint; it executes a fixed 300-step option, while the joint is
+logged only by the evaluator. See `results/T01_CONFORMAL_REVEAL.md`.
+
+Do not broaden this GO. Monolithic final-goal execution opens the drawer in
+0/5, but the routed `OPEN_CONTAINER -> ACT` chain also completes the final
+butter placement in 0/5. Starting directly from an open drawer is 0/5 as well.
+Thus the paper currently supports calibrated action selection and physical
+reveal, not end-to-end hidden-object retrieval. `ROTATE` remains 0/30.
+
+The next required module is an RGB-only action-outcome critic or a reliable
+post-reveal executor. The fixed 300-step option horizon is an explicit current
+limitation, not a learned stopping rule.
+
 ## 2026-08-14 final stock-aligned G4/G5 audit
 
 The camera confound is removed by returning to the exact `libero_object[4]`

@@ -1,0 +1,62 @@
+name: T01-Stock-Ladder-v1
+version: 1.0.0
+description: One-variable capability ladder derived from the stock LIBERO drawer task.
+
+backend:
+  policy_primary_camera: agentview
+  policy_wrist_camera: robot0_eye_in_hand
+  demo_camera: agentview
+  demo_labels: [FIRST-PERSON / WRIST, THIRD-PERSON / BEV]
+  demo_camera_pose:
+    position: [0.0, 0.0, 2.40]
+    quaternion_wxyz: [1.0, 0.0, 0.0, 0.0]
+  wrist_camera_initialization:
+    camera: robot0_eye_in_hand
+    look_at: [0.30, 0.0, 0.93]
+
+tasks:
+  - id: T01A_stock_drawer
+    bddl: scenarios/t01_stock_ladder_v1/T01A_stock_drawer.bddl
+    prompt_variants: &drawer_prompts
+      implicit: Open the middle layer of the drawer
+      hinted: Open the middle layer of the drawer
+      explicit: Open the middle layer of the drawer
+      capability: Open the middle layer of the drawer
+    search_locations:
+      - joint: wooden_cabinet_1_middle_level
+
+  - id: T01B_hidden_butter
+    bddl: scenarios/t01_stock_ladder_v1/T01B_hidden_butter.bddl
+    prompt_variants: *drawer_prompts
+    search_locations:
+      - joint: wooden_cabinet_1_middle_level
+
+  - id: T01C_hidden_butter_basket
+    bddl: scenarios/t01_stock_ladder_v1/T01C_hidden_butter_basket.bddl
+    prompt_variants: *drawer_prompts
+    search_locations:
+      - joint: wooden_cabinet_1_middle_level
+
+  - id: T01D_hidden_butter_retrieval
+    bddl: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+    prompt_variants:
+      implicit: Place the butter in the basket
+      hinted: Interact with the scene if needed, then place the butter in the basket
+      explicit: Open the middle layer of the drawer, then place the butter in the basket
+      capability: Open the middle layer of the drawer
+    information_endpoint:
+      type: articulated_reveal
+      joints:
+        - {name: wooden_cabinet_1_middle_level, operator: lt, threshold: -0.14}
+    search_locations:
+      - joint: wooden_cabinet_1_middle_level
+
+  - id: T01E_open_drawer_retrieval
+    bddl: scenarios/t01_stock_ladder_v1/T01E_open_drawer_retrieval.bddl
+    prompt_variants:
+      implicit: Place the butter in the basket
+      hinted: Place the butter in the basket
+      explicit: Place the butter in the basket
+      capability: Place the butter in the basket
+    search_locations:
+      - joint: wooden_cabinet_1_middle_level

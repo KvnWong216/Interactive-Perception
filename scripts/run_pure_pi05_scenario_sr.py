@@ -59,6 +59,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--camera-mode", choices=["stock", "benchmark"], default="stock"
     )
+    parser.add_argument(
+        "--demo-mode",
+        choices=["policy", "split"],
+        default="policy",
+        help="Rendering only; split never changes the pixels sent to the policy.",
+    )
     parser.add_argument("--contact-diagnostics", action="store_true")
     return parser.parse_args()
 
@@ -144,7 +150,7 @@ def run_episode(
     try:
         while step < args.max_steps + args.num_steps_wait:
             if video is not None and step % args.video_stride == 0:
-                if args.camera_mode == "benchmark":
+                if args.demo_mode == "split":
                     video.append_data(capture_split_frame(env, obs, backend))
                 else:
                     video.append_data(np.ascontiguousarray(obs["agentview_image"][::-1, ::-1]))
@@ -365,6 +371,7 @@ def main() -> None:
         "seeds": args.seeds,
         "server_metadata": policy.server_metadata,
         "camera_mode": args.camera_mode,
+        "demo_mode": args.demo_mode,
         "tasks": {},
     }
     for task_id in args.task_ids:
