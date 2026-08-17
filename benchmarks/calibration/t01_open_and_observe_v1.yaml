@@ -1,0 +1,61 @@
+schema_version: interactive-perception.open-and-observe-protocol.v1
+calibration_only: true
+policy: pi05_libero
+action: OPEN_AND_OBSERVE
+context: t01_stock_middle_drawer_search
+executor:
+  open_container:
+    implementation: frozen pi05_libero
+    prompt: Open the middle layer of the drawer
+    steps: 300
+  return_to_observe:
+    implementation: versioned proprioceptive OSC controller
+    target_pose_source: stock T01 reset pose, identical over development seeds
+    module: src/interactive_perception/observation_option.py
+fairness_rule: Every router and baseline receives the identical composite option.
+required_ablation: OPEN_CONTAINER versus OPEN_AND_OBSERVE
+
+policy_inputs: [stock agentview RGB, stock wrist RGB, robot state, prompt]
+return_controller_inputs: [robot0_eef_pos, robot0_eef_quat, robot0_gripper_qpos]
+online_forbidden_inputs: [drawer joint, instance segmentation, hidden target pose, task predicate]
+evaluator_only_labels: [drawer joint, target instance pixels, frozen target location]
+
+outcomes:
+  REVEALED: The full option completes and the target occupies at least 5 pixels in one policy camera.
+  EMPTY: >-
+    The full option completes, the layer opens, and its seed-matched
+    target-present counterpart reaches REVEALED.
+  FAILED: Opening, return-to-observe, or prompt-relevant visual acquisition fails.
+
+seed_contract:
+  version_1_audit_untouched: 500-599
+  development: 600-659
+  future_frozen_audit: 700-799
+  rule: The future audit is collected once only after the new outcome artifact is frozen.
+
+frozen_statistics:
+  conformal_error_rate: 0.10
+  confidence: 0.95
+  minimum_reliability_lower_bound: 0.90
+  minimum_revealed_target_pixels: 5
+
+diagnostics_before_collection:
+  open_home_camera_coverage:
+    evidence: results/diagnostics/t01_open_home_visibility_v1.json
+    result: 60/60
+    lower_bound: 0.951297
+    authorizes_executor: false
+  perturbed_pose_return:
+    evidence: results/diagnostics/t01_return_to_observe_perturbation_v1.json
+    result: 30/30
+    lower_bound: 0.904966
+    authorizes_executor: false
+    limitation: Start poses are evaluator-constructed rather than real pi0.5 post-open states.
+
+gates:
+  - Run the three-episode seed-600 smoke stage before development.
+  - Full-executor REVEALED and EMPTY lower bounds must each reach 0.90.
+  - Return-controller timeouts count as FAILED.
+  - The artifact is frozen before seeds 700-799 are collected.
+  - Simulator-only values may label outcomes but never change execution.
+  - Audit seeds 500-599 remain sealed for the version-1 critic and are never reused.

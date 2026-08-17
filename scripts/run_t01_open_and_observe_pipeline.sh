@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# Collect the versioned OPEN_AND_OBSERVE physical-effect data and always stop
+# the local pi0.5 server on exit.
+set -euo pipefail
+
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+WORKSPACE="$(dirname "$REPO")"
+IPU_PYTHON="${IPU_PYTHON:-$WORKSPACE/.conda/envs/ipu/bin/python}"
+PORT="${PORT:-8000}"
+MODE="${1:-smoke}"
+SERVER_PID=""
+
+case "$MODE" in
+  smoke|development|audit) ;;
+  *) echo "usage: $0 [smoke|development|audit]" >&2; exit 2 ;;
+esac
+
+cleanup() {
+  if [ -n "$SERVER_PID" ] && kill -0 "$SERVER_PID" 2>/dev/null; then
+    echo "Stopping pi0.5 server (pid $SERVER_PID)"
+    kill "$SERVER_PID" 2>/dev/null || true
+    wait "$SERVER_PID" 2>/dev/null || true
+  fi
+}
+trap cleanup EXIT INT TERM
+
+extra=()
+dataset="$REPO/data/calibration/t01_open_and_observe_effect_v1.jsonl"
+if [ "$MODE" = "smoke" ]; then
+  extra=(--smoke)
+  dataset="$REPO/data/calibration/t01_open_and_observe_effect_v1_smoke.jsonl"
+elif [ "$MODE" = "audit" ]; then
+  artifact="${OPEN_AND_OBSERVE_ARTIFACT:-}"
+  [ -n "$artifact" ] || {
+    echo "Set OPEN_AND_OBSERVE_ARTIFACT to the frozen development artifact." >&2
+    exit 1
+  }
+  extra=(--audit --artifact "$artifact")
+  dataset="$REPO/data/calibration/t01_open_and_observe_effect_v1_audit.jsonl"
+else
+  extra=()
+fi
+
+manifest="${dataset%.jsonl}.manifest.json"
+if [ -f "$manifest" ]; then
+  "$IPU_PYTHON" "$REPO/scripts/verify_dataset_manifest.py" "$manifest"
+  exit 0
+fi
+
+mkdir -p "$REPO/outputs/logs"
+PORT="$PORT" bash "$REPO/scripts/serve_pi05.sh" \
+  >"$REPO/outputs/logs/t01_open_and_observe_server.log" 2>&1 &
+SERVER_PID=$!
+
+deadline=$((SECONDS + 180))
+while ! "$IPU_PYTHON" -c \
+  "import socket; socket.create_connection(('127.0.0.1', int('$PORT')), timeout=1).close()" \
+  >/dev/null 2>&1; do
+  if ! kill -0 "$SERVER_PID" 2>/dev/null; then
+    set +e
+    wait "$SERVER_PID"
+    server_status=$?
+    set -e
+    echo "pi0.5 server exited during startup (status $server_status)" >&2
+    tail -n 60 "$REPO/outputs/logs/t01_open_and_observe_server.log" >&2
+    exit "$server_status"
+  fi
+  if [ "$SECONDS" -ge "$deadline" ]; then
+    echo "pi0.5 server did not become ready" >&2
+    exit 1
+  fi
+  sleep 1
+done
+
+resume=()
+[ -f "$dataset" ] && resume=(--resume)
+if [ "$MODE" = "smoke" ]; then
+  env -u PYTHONPATH NUMBA_DISABLE_JIT=1 "$IPU_PYTHON" \
+    "$REPO/scripts/collect_t01_open_and_observe_effect.py" \
+    "${extra[@]}" "${resume[@]}" --port "$PORT"
+else
+  env -u PYTHONPATH NUMBA_DISABLE_JIT=1 "$IPU_PYTHON" \
+    "$REPO/scripts/collect_t01_open_and_observe_effect.py" \
+    "${extra[@]}" "${resume[@]}" --fresh-policy-server --port "$PORT"
+fi
+
+"$IPU_PYTHON" "$REPO/scripts/verify_dataset_manifest.py" "$manifest"

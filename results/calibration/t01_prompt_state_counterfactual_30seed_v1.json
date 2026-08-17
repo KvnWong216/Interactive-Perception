@@ -1,0 +1,1789 @@
+{
+  "schema_version": "interactive-perception.prompt-state-counterfactual.v1",
+  "claim": "router response to prompt target and public drawer state",
+  "non_claim": "calibrated target belief or downstream task success",
+  "artifact": "results/calibration/semantic_intent_g4_t01_binary_audit_v5.json",
+  "artifact_sha256": "276bea7d71106cc7f471b28d073174221d0e0bd5959e8598a2bf841802313640",
+  "seeds": [
+    190,
+    191,
+    192,
+    193,
+    194,
+    195,
+    196,
+    197,
+    198,
+    199,
+    200,
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    211,
+    212,
+    213,
+    214,
+    215,
+    216,
+    217,
+    218,
+    219
+  ],
+  "samples_per_observation": 8,
+  "policy_inputs": [
+    "agentview RGB",
+    "wrist RGB",
+    "robot state",
+    "prompt"
+  ],
+  "controller_oracle_inputs": [],
+  "conditions": {
+    "closed_hidden_butter": {
+      "contrast": "same prompt, closed drawer",
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "trials": 30,
+      "coverage": 1.0,
+      "singleton_accuracy": 1.0,
+      "mean_prediction_set_size": 1.0
+    },
+    "closed_visible_cream_cheese": {
+      "contrast": "same closed scene, visible target named by prompt",
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "trials": 30,
+      "coverage": 0.0,
+      "singleton_accuracy": 0.0,
+      "mean_prediction_set_size": 1.0
+    },
+    "open_visible_butter": {
+      "contrast": "same prompt, open drawer",
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "trials": 30,
+      "coverage": 0.0,
+      "singleton_accuracy": 0.0,
+      "mean_prediction_set_size": 1.0
+    }
+  },
+  "overall_singleton_accuracy": 0.3333333333333333,
+  "rows": [
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 190,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 6.008841670475859,
+        "REMOVE_OCCLUDER": 1.6038342470602143
+      },
+      "probabilities": {
+        "ACT": 0.01206858569722896,
+        "REMOVE_OCCLUDER": 0.987931414302771
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 191,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 10.10720076202294,
+        "REMOVE_OCCLUDER": 6.035760491092212
+      },
+      "probabilities": {
+        "ACT": 0.016766887594370356,
+        "REMOVE_OCCLUDER": 0.9832331124056297
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 192,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 11.167059382441028,
+        "REMOVE_OCCLUDER": 6.401248138822049
+      },
+      "probabilities": {
+        "ACT": 0.00844406742427576,
+        "REMOVE_OCCLUDER": 0.9915559325757242
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 193,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 10.016229430634558,
+        "REMOVE_OCCLUDER": 4.654610342937574
+      },
+      "probabilities": {
+        "ACT": 0.00467137690827957,
+        "REMOVE_OCCLUDER": 0.9953286230917204
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 194,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 10.10387434259436,
+        "REMOVE_OCCLUDER": 7.2592474015444814
+      },
+      "probabilities": {
+        "ACT": 0.05495972293909351,
+        "REMOVE_OCCLUDER": 0.9450402770609064
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 195,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 11.068405425033477,
+        "REMOVE_OCCLUDER": 6.778561331493
+      },
+      "probabilities": {
+        "ACT": 0.013521719106149235,
+        "REMOVE_OCCLUDER": 0.9864782808938508
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 196,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 11.054214552065995,
+        "REMOVE_OCCLUDER": 7.176996643173834
+      },
+      "probabilities": {
+        "ACT": 0.020288221896835778,
+        "REMOVE_OCCLUDER": 0.9797117781031642
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 197,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 12.27737829283773,
+        "REMOVE_OCCLUDER": 7.136611080646458
+      },
+      "probabilities": {
+        "ACT": 0.005819136789880823,
+        "REMOVE_OCCLUDER": 0.9941808632101192
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 198,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 9.506276307078007,
+        "REMOVE_OCCLUDER": 6.8526864087485
+      },
+      "probabilities": {
+        "ACT": 0.0657680924839764,
+        "REMOVE_OCCLUDER": 0.9342319075160237
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 199,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 10.560159061101933,
+        "REMOVE_OCCLUDER": 5.0874961443466775
+      },
+      "probabilities": {
+        "ACT": 0.004182466418641433,
+        "REMOVE_OCCLUDER": 0.9958175335813585
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 200,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 7.793689417128199,
+        "REMOVE_OCCLUDER": 2.9065799566973323
+      },
+      "probabilities": {
+        "ACT": 0.007486721099747958,
+        "REMOVE_OCCLUDER": 0.992513278900252
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 201,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 10.749838522884609,
+        "REMOVE_OCCLUDER": 6.182098399482424
+      },
+      "probabilities": {
+        "ACT": 0.010274727900063754,
+        "REMOVE_OCCLUDER": 0.9897252720999363
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 202,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 11.358714169851622,
+        "REMOVE_OCCLUDER": 6.866947787832725
+      },
+      "probabilities": {
+        "ACT": 0.01107677219250119,
+        "REMOVE_OCCLUDER": 0.9889232278074988
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 203,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 9.831027189249356,
+        "REMOVE_OCCLUDER": 6.79997446059066
+      },
+      "probabilities": {
+        "ACT": 0.04604256630309725,
+        "REMOVE_OCCLUDER": 0.9539574336969028
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 204,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 12.530674406626328,
+        "REMOVE_OCCLUDER": 7.490576053473332
+      },
+      "probabilities": {
+        "ACT": 0.006431479948350334,
+        "REMOVE_OCCLUDER": 0.9935685200516496
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 205,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 11.31072522129137,
+        "REMOVE_OCCLUDER": 6.378310437566731
+      },
+      "probabilities": {
+        "ACT": 0.007157475124391724,
+        "REMOVE_OCCLUDER": 0.9928425248756082
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 206,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 11.56181257115711,
+        "REMOVE_OCCLUDER": 6.4733470642658375
+      },
+      "probabilities": {
+        "ACT": 0.00612967197168007,
+        "REMOVE_OCCLUDER": 0.99387032802832
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 207,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 6.28036205035689,
+        "REMOVE_OCCLUDER": 1.3551833449048554
+      },
+      "probabilities": {
+        "ACT": 0.007209080285897808,
+        "REMOVE_OCCLUDER": 0.9927909197141022
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 208,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 10.178305940083467,
+        "REMOVE_OCCLUDER": 5.267760810043569
+      },
+      "probabilities": {
+        "ACT": 0.007314573244845127,
+        "REMOVE_OCCLUDER": 0.9926854267551549
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 209,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 8.329214330433661,
+        "REMOVE_OCCLUDER": 3.132799054832282
+      },
+      "probabilities": {
+        "ACT": 0.0055058925832986525,
+        "REMOVE_OCCLUDER": 0.9944941074167014
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 210,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 11.68632107325058,
+        "REMOVE_OCCLUDER": 7.398710608382756
+      },
+      "probabilities": {
+        "ACT": 0.013551545613368948,
+        "REMOVE_OCCLUDER": 0.9864484543866311
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 211,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 10.28227793886637,
+        "REMOVE_OCCLUDER": 4.613913796894004
+      },
+      "probabilities": {
+        "ACT": 0.0034416244252603702,
+        "REMOVE_OCCLUDER": 0.9965583755747397
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 212,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 10.874108934020628,
+        "REMOVE_OCCLUDER": 5.966332831558064
+      },
+      "probabilities": {
+        "ACT": 0.00733470680317896,
+        "REMOVE_OCCLUDER": 0.9926652931968211
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 213,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 9.008666828196777,
+        "REMOVE_OCCLUDER": 5.309758572314277
+      },
+      "probabilities": {
+        "ACT": 0.024152739791705475,
+        "REMOVE_OCCLUDER": 0.9758472602082945
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 214,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 11.342378345103846,
+        "REMOVE_OCCLUDER": 6.212919372115495
+      },
+      "probabilities": {
+        "ACT": 0.005884925001282348,
+        "REMOVE_OCCLUDER": 0.9941150749987178
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 215,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 12.126570031575682,
+        "REMOVE_OCCLUDER": 8.571651136067624
+      },
+      "probabilities": {
+        "ACT": 0.027789370257621012,
+        "REMOVE_OCCLUDER": 0.972210629742379
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 216,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 10.437622575216354,
+        "REMOVE_OCCLUDER": 5.724115266353458
+      },
+      "probabilities": {
+        "ACT": 0.008893447237690083,
+        "REMOVE_OCCLUDER": 0.99110655276231
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 217,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 11.810458711557397,
+        "REMOVE_OCCLUDER": 6.252222863786022
+      },
+      "probabilities": {
+        "ACT": 0.0038407638752456746,
+        "REMOVE_OCCLUDER": 0.9961592361247543
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 218,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 5.554113658912495,
+        "REMOVE_OCCLUDER": 2.6596115451619746
+      },
+      "probabilities": {
+        "ACT": 0.05242601336053691,
+        "REMOVE_OCCLUDER": 0.9475739866394631
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 219,
+      "prompt": "Place the butter in the basket",
+      "required_route": "REMOVE_OCCLUDER",
+      "distances": {
+        "ACT": 9.72942377026863,
+        "REMOVE_OCCLUDER": 6.785895055873859
+      },
+      "probabilities": {
+        "ACT": 0.05004325529186337,
+        "REMOVE_OCCLUDER": 0.9499567447081365
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 190,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 12.961178084687166,
+        "REMOVE_OCCLUDER": 6.9958463346099355
+      },
+      "probabilities": {
+        "ACT": 0.0025596246402146724,
+        "REMOVE_OCCLUDER": 0.9974403753597854
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 191,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.570245075204204,
+        "REMOVE_OCCLUDER": 5.931713214127795
+      },
+      "probabilities": {
+        "ACT": 0.009579237580387371,
+        "REMOVE_OCCLUDER": 0.9904207624196126
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 192,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.718417027100918,
+        "REMOVE_OCCLUDER": 6.7688508038814135
+      },
+      "probabilities": {
+        "ACT": 0.007036617350185911,
+        "REMOVE_OCCLUDER": 0.992963382649814
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 193,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.800167936385234,
+        "REMOVE_OCCLUDER": 5.29046774079217
+      },
+      "probabilities": {
+        "ACT": 0.004031005832932151,
+        "REMOVE_OCCLUDER": 0.9959689941670679
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 194,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.624993350690966,
+        "REMOVE_OCCLUDER": 6.974008605196879
+      },
+      "probabilities": {
+        "ACT": 0.025308400279657934,
+        "REMOVE_OCCLUDER": 0.974691599720342
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 195,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.281340728709827,
+        "REMOVE_OCCLUDER": 6.73689997799465
+      },
+      "probabilities": {
+        "ACT": 0.010514386633472397,
+        "REMOVE_OCCLUDER": 0.9894856133665276
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 196,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.705418595480868,
+        "REMOVE_OCCLUDER": 6.48270694765201
+      },
+      "probabilities": {
+        "ACT": 0.014447063738925387,
+        "REMOVE_OCCLUDER": 0.9855529362610745
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 197,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 12.586688636989471,
+        "REMOVE_OCCLUDER": 6.9240047294482325
+      },
+      "probabilities": {
+        "ACT": 0.0034611614306216164,
+        "REMOVE_OCCLUDER": 0.9965388385693783
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 198,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.626956489172171,
+        "REMOVE_OCCLUDER": 6.798188833100376
+      },
+      "probabilities": {
+        "ACT": 0.021273966686389353,
+        "REMOVE_OCCLUDER": 0.9787260333136105
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 199,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.910131815584815,
+        "REMOVE_OCCLUDER": 6.250696135933292
+      },
+      "probabilities": {
+        "ACT": 0.003472383248597072,
+        "REMOVE_OCCLUDER": 0.996527616751403
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 200,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.7074968886174,
+        "REMOVE_OCCLUDER": 5.157509111460184
+      },
+      "probabilities": {
+        "ACT": 0.00387245058944766,
+        "REMOVE_OCCLUDER": 0.9961275494105524
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 201,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.711285201181585,
+        "REMOVE_OCCLUDER": 6.611222681816435
+      },
+      "probabilities": {
+        "ACT": 0.006059424944055889,
+        "REMOVE_OCCLUDER": 0.9939405750559441
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 202,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.087947903063608,
+        "REMOVE_OCCLUDER": 6.001098219273753
+      },
+      "probabilities": {
+        "ACT": 0.006139523585645284,
+        "REMOVE_OCCLUDER": 0.9938604764143547
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 203,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.073861265687077,
+        "REMOVE_OCCLUDER": 6.309789326733593
+      },
+      "probabilities": {
+        "ACT": 0.022663574747566258,
+        "REMOVE_OCCLUDER": 0.9773364252524337
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 204,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 12.532998935335776,
+        "REMOVE_OCCLUDER": 7.2092037586858035
+      },
+      "probabilities": {
+        "ACT": 0.004850577271075984,
+        "REMOVE_OCCLUDER": 0.995149422728924
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 205,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 12.28269746278393,
+        "REMOVE_OCCLUDER": 6.545641514870944
+      },
+      "probabilities": {
+        "ACT": 0.003213884310375991,
+        "REMOVE_OCCLUDER": 0.9967861156896239
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 206,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.634132407884676,
+        "REMOVE_OCCLUDER": 6.331266371935197
+      },
+      "probabilities": {
+        "ACT": 0.004952657397860483,
+        "REMOVE_OCCLUDER": 0.9950473426021396
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 207,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.884052077647244,
+        "REMOVE_OCCLUDER": 6.214823501002582
+      },
+      "probabilities": {
+        "ACT": 0.0034386608770802436,
+        "REMOVE_OCCLUDER": 0.9965613391229199
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 208,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.55546932128596,
+        "REMOVE_OCCLUDER": 6.469756132214334
+      },
+      "probabilities": {
+        "ACT": 0.006146462176700124,
+        "REMOVE_OCCLUDER": 0.9938535378232999
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 209,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.022999272862048,
+        "REMOVE_OCCLUDER": 4.517016050571533
+      },
+      "probabilities": {
+        "ACT": 0.004045956120561655,
+        "REMOVE_OCCLUDER": 0.9959540438794383
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 210,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.474234771322461,
+        "REMOVE_OCCLUDER": 6.674088402130891
+      },
+      "probabilities": {
+        "ACT": 0.008161386241746019,
+        "REMOVE_OCCLUDER": 0.991838613758254
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 211,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.228467595410995,
+        "REMOVE_OCCLUDER": 5.203810606405176
+      },
+      "probabilities": {
+        "ACT": 0.0024125464998561454,
+        "REMOVE_OCCLUDER": 0.9975874535001438
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 212,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.925077806666541,
+        "REMOVE_OCCLUDER": 6.0696494769307785
+      },
+      "probabilities": {
+        "ACT": 0.007725844259292472,
+        "REMOVE_OCCLUDER": 0.9922741557407074
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 213,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.565874135639033,
+        "REMOVE_OCCLUDER": 6.118414113182251
+      },
+      "probabilities": {
+        "ACT": 0.01157277086968482,
+        "REMOVE_OCCLUDER": 0.9884272291303152
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 214,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 12.231905819177548,
+        "REMOVE_OCCLUDER": 6.524785063934926
+      },
+      "probabilities": {
+        "ACT": 0.0033112236566141314,
+        "REMOVE_OCCLUDER": 0.9966887763433858
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 215,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.823721229465699,
+        "REMOVE_OCCLUDER": 7.317705200853476
+      },
+      "probabilities": {
+        "ACT": 0.010921763031203935,
+        "REMOVE_OCCLUDER": 0.989078236968796
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 216,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.775123580157034,
+        "REMOVE_OCCLUDER": 5.6393052741177945
+      },
+      "probabilities": {
+        "ACT": 0.005847837704081156,
+        "REMOVE_OCCLUDER": 0.9941521622959189
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 217,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.820940260505981,
+        "REMOVE_OCCLUDER": 6.398162933690442
+      },
+      "probabilities": {
+        "ACT": 0.004395462685551354,
+        "REMOVE_OCCLUDER": 0.9956045373144486
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 218,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.58963316474431,
+        "REMOVE_OCCLUDER": 5.584236680004966
+      },
+      "probabilities": {
+        "ACT": 0.006657070127684096,
+        "REMOVE_OCCLUDER": 0.9933429298723159
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 219,
+      "prompt": "Place the cream cheese in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 9.804950644274921,
+        "REMOVE_OCCLUDER": 6.110344161285094
+      },
+      "probabilities": {
+        "ACT": 0.024254337745991394,
+        "REMOVE_OCCLUDER": 0.9757456622540086
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 190,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.839236715803752,
+        "REMOVE_OCCLUDER": 6.338820804897834
+      },
+      "probabilities": {
+        "ACT": 0.010982424166202414,
+        "REMOVE_OCCLUDER": 0.9890175758337977
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 191,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 6.924086247289398,
+        "REMOVE_OCCLUDER": 4.461493986310413
+      },
+      "probabilities": {
+        "ACT": 0.07852256448415695,
+        "REMOVE_OCCLUDER": 0.921477435515843
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 192,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 8.152068457174002,
+        "REMOVE_OCCLUDER": 5.352711964928406
+      },
+      "probabilities": {
+        "ACT": 0.05735895975226124,
+        "REMOVE_OCCLUDER": 0.9426410402477388
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 193,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 6.514496240554058,
+        "REMOVE_OCCLUDER": 4.689314559808425
+      },
+      "probabilities": {
+        "ACT": 0.1388132732520453,
+        "REMOVE_OCCLUDER": 0.8611867267479548
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 194,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 6.334036283862349,
+        "REMOVE_OCCLUDER": 2.4774059583432195
+      },
+      "probabilities": {
+        "ACT": 0.02070150024502003,
+        "REMOVE_OCCLUDER": 0.97929849975498
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 195,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 7.176347943130479,
+        "REMOVE_OCCLUDER": 2.996843952146572
+      },
+      "probabilities": {
+        "ACT": 0.01507535282424451,
+        "REMOVE_OCCLUDER": 0.9849246471757555
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 196,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 6.117205698696296,
+        "REMOVE_OCCLUDER": 3.398619460071935
+      },
+      "probabilities": {
+        "ACT": 0.061885492319278125,
+        "REMOVE_OCCLUDER": 0.9381145076807219
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 197,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 5.790153471222964,
+        "REMOVE_OCCLUDER": 2.2652074064849894
+      },
+      "probabilities": {
+        "ACT": 0.028610713238806745,
+        "REMOVE_OCCLUDER": 0.9713892867611933
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 198,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.847425700801123,
+        "REMOVE_OCCLUDER": 6.0647366814446695
+      },
+      "probabilities": {
+        "ACT": 0.008303919815155889,
+        "REMOVE_OCCLUDER": 0.9916960801848441
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 199,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 8.516125587940694,
+        "REMOVE_OCCLUDER": 4.079109501823707
+      },
+      "probabilities": {
+        "ACT": 0.011692848844343844,
+        "REMOVE_OCCLUDER": 0.9883071511556563
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 200,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.95606453704124,
+        "REMOVE_OCCLUDER": 6.797203113894524
+      },
+      "probabilities": {
+        "ACT": 0.015384943495427364,
+        "REMOVE_OCCLUDER": 0.9846150565045726
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 201,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.106831001439193,
+        "REMOVE_OCCLUDER": 6.089001012308122
+      },
+      "probabilities": {
+        "ACT": 0.017673975808251433,
+        "REMOVE_OCCLUDER": 0.9823260241917486
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 202,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 9.927142761483553,
+        "REMOVE_OCCLUDER": 6.211694320698381
+      },
+      "probabilities": {
+        "ACT": 0.02376595088598842,
+        "REMOVE_OCCLUDER": 0.9762340491140115
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 203,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.317483861092866,
+        "REMOVE_OCCLUDER": 6.6123299953190635
+      },
+      "probabilities": {
+        "ACT": 0.00896738031621504,
+        "REMOVE_OCCLUDER": 0.9910326196837849
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 204,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 9.02360707967128,
+        "REMOVE_OCCLUDER": 4.38785898035941
+      },
+      "probabilities": {
+        "ACT": 0.009605684541424957,
+        "REMOVE_OCCLUDER": 0.990394315458575
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 205,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 6.435878402355692,
+        "REMOVE_OCCLUDER": 5.232924301588745
+      },
+      "probabilities": {
+        "ACT": 0.23095011531543072,
+        "REMOVE_OCCLUDER": 0.7690498846845693
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 206,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.413615992911796,
+        "REMOVE_OCCLUDER": 7.208398580862616
+      },
+      "probabilities": {
+        "ACT": 0.014698280243342278,
+        "REMOVE_OCCLUDER": 0.9853017197566577
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 207,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.111508251661713,
+        "REMOVE_OCCLUDER": 6.579072322963914
+      },
+      "probabilities": {
+        "ACT": 0.028403287205278294,
+        "REMOVE_OCCLUDER": 0.9715967127947217
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 208,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 8.88439802031384,
+        "REMOVE_OCCLUDER": 4.220409464477745
+      },
+      "probabilities": {
+        "ACT": 0.009340708599574877,
+        "REMOVE_OCCLUDER": 0.9906592914004252
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 209,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 7.776538203985531,
+        "REMOVE_OCCLUDER": 3.805738332358658
+      },
+      "probabilities": {
+        "ACT": 0.018509288342020182,
+        "REMOVE_OCCLUDER": 0.9814907116579799
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 210,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 6.261903040724625,
+        "REMOVE_OCCLUDER": 3.067135049447273
+      },
+      "probabilities": {
+        "ACT": 0.039363087954915645,
+        "REMOVE_OCCLUDER": 0.9606369120450843
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 211,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 6.914114278644598,
+        "REMOVE_OCCLUDER": 4.039633262623654
+      },
+      "probabilities": {
+        "ACT": 0.05342957125545926,
+        "REMOVE_OCCLUDER": 0.9465704287445408
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 212,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 11.193956426651033,
+        "REMOVE_OCCLUDER": 6.250501445932034
+      },
+      "probabilities": {
+        "ACT": 0.007079446126715905,
+        "REMOVE_OCCLUDER": 0.992920553873284
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 213,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 5.9234048883805945,
+        "REMOVE_OCCLUDER": 2.35467776770797
+      },
+      "probabilities": {
+        "ACT": 0.027418734345311623,
+        "REMOVE_OCCLUDER": 0.9725812656546884
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 214,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 9.084306592581028,
+        "REMOVE_OCCLUDER": 4.185318733043872
+      },
+      "probabilities": {
+        "ACT": 0.007398971027907012,
+        "REMOVE_OCCLUDER": 0.992601028972093
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 215,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 8.866347488927627,
+        "REMOVE_OCCLUDER": 5.547699969947387
+      },
+      "probabilities": {
+        "ACT": 0.034936980635293616,
+        "REMOVE_OCCLUDER": 0.9650630193647064
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 216,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 9.668553074714701,
+        "REMOVE_OCCLUDER": 5.694548948456117
+      },
+      "probabilities": {
+        "ACT": 0.018451167346642,
+        "REMOVE_OCCLUDER": 0.9815488326533579
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 217,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.662684934335886,
+        "REMOVE_OCCLUDER": 6.096035563198334
+      },
+      "probabilities": {
+        "ACT": 0.010285825859121031,
+        "REMOVE_OCCLUDER": 0.989714174140879
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 218,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 8.748134639332843,
+        "REMOVE_OCCLUDER": 4.871695991901066
+      },
+      "probabilities": {
+        "ACT": 0.02030371676445346,
+        "REMOVE_OCCLUDER": 0.9796962832355465
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 219,
+      "prompt": "Place the butter in the basket",
+      "required_route": "ACT",
+      "distances": {
+        "ACT": 10.156209501976285,
+        "REMOVE_OCCLUDER": 6.156676157543858
+      },
+      "probabilities": {
+        "ACT": 0.01799445421655137,
+        "REMOVE_OCCLUDER": 0.9820055457834486
+      },
+      "prediction_set": [
+        "REMOVE_OCCLUDER"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    }
+  ]
+}

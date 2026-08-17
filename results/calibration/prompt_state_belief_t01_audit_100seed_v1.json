@@ -1,0 +1,4273 @@
+{
+  "schema_version": "interactive-perception.prompt-state-belief-audit.v1",
+  "claim": "T01 prompt/state counterfactual discrimination",
+  "non_claim": "scene-disjoint target belief or physical task completion",
+  "artifact": "results/calibration/prompt_state_belief_t01_v1.json",
+  "artifact_sha256": "5991dec1a7439427e6d8afedda7745446beb9f3395616e3a8e9bc139627bab16",
+  "embeddings": [
+    "outputs/t01_prompt_state_v1_audit/pi05_prefix_embeddings.npz",
+    "outputs/t01_prompt_state_v1_audit_extension/pi05_prefix_embeddings.npz"
+  ],
+  "embeddings_sha256": {
+    "outputs/t01_prompt_state_v1_audit/pi05_prefix_embeddings.npz": "1fba04c1ebf43bb0eb5194d827615811b5d9ce8a2f1163d064db6021b9d5f99f",
+    "outputs/t01_prompt_state_v1_audit_extension/pi05_prefix_embeddings.npz": "5e77e4355c026c1b70d263b9a0a00dfcc565e66de21911cdb9668bdea3995afe"
+  },
+  "audit_manifests": [
+    "data/calibration/t01_prompt_state_v1_audit.manifest.json",
+    "data/calibration/t01_prompt_state_v1_audit_extension.manifest.json"
+  ],
+  "audit_dataset_sha256": [
+    "d89bada6fe932ed4e5138aa69975baec1838d5b0e65f4431992771555cb6a4fb",
+    "7255e08414c2f374da7278e2c30ece8827a4d66154427ba018bcc635a87bd271"
+  ],
+  "required_reliability": 0.9,
+  "confidence": 0.95,
+  "controller_oracle_inputs": [],
+  "by_condition": {
+    "closed_hidden_butter": {
+      "coverage": 0.97,
+      "mean_set_size": 1.0,
+      "singleton_correct_gate": {
+        "successes": 97,
+        "trials": 100,
+        "empirical_rate": 0.97,
+        "confidence": 0.95,
+        "lower_bound": 0.92428920625017,
+        "required_reliability": 0.9,
+        "passed": true,
+        "interpretation": "prompt-state singleton reliability in this counterfactual condition"
+      }
+    },
+    "closed_visible_cream_cheese": {
+      "coverage": 1.0,
+      "mean_set_size": 1.0,
+      "singleton_correct_gate": {
+        "successes": 100,
+        "trials": 100,
+        "empirical_rate": 1.0,
+        "confidence": 0.95,
+        "lower_bound": 0.9704869503929601,
+        "required_reliability": 0.9,
+        "passed": true,
+        "interpretation": "prompt-state singleton reliability in this counterfactual condition"
+      }
+    },
+    "open_visible_butter": {
+      "coverage": 0.99,
+      "mean_set_size": 1.0,
+      "singleton_correct_gate": {
+        "successes": 99,
+        "trials": 100,
+        "empirical_rate": 0.99,
+        "confidence": 0.95,
+        "lower_bound": 0.9534401885464611,
+        "required_reliability": 0.9,
+        "passed": true,
+        "interpretation": "prompt-state singleton reliability in this counterfactual condition"
+      }
+    }
+  },
+  "audit_passed": true,
+  "rows": [
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 280,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999911157712,
+        "OBSERVED": 8.884228890462863e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 281,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999998894,
+        "OBSERVED": 1.1052532526189976e-13
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 282,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999053433577465,
+        "OBSERVED": 9.465664225344141e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 283,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999164288199,
+        "OBSERVED": 8.35711800172502e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 284,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999996512081,
+        "OBSERVED": 3.4879183890030775e-10
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 285,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999980573508,
+        "OBSERVED": 1.942649191327249e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 286,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9937031767250366,
+        "OBSERVED": 0.006296823274963363
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 287,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9889907102306721,
+        "OBSERVED": 0.011009289769327895
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 288,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999924214426,
+        "OBSERVED": 7.578557610841669e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 289,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999999125,
+        "OBSERVED": 8.745223808775475e-14
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 290,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0,
+        "OBSERVED": 7.93328412384289e-17
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 291,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999998245614513,
+        "OBSERVED": 1.7543854865028153e-07
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 292,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999966061743,
+        "OBSERVED": 3.3938256234046324e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 293,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999403308,
+        "OBSERVED": 5.966912228726318e-11
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 294,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999901967,
+        "OBSERVED": 9.80321172194715e-12
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 295,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999736115781,
+        "OBSERVED": 2.638842192945908e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 296,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.10304621220207782,
+        "OBSERVED": 0.8969537877979221
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 297,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999749587551375,
+        "OBSERVED": 2.504124486237197e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 298,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0,
+        "OBSERVED": 6.295720211715736e-18
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 299,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999988343,
+        "OBSERVED": 1.1657378813844106e-12
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 300,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999959326,
+        "OBSERVED": 4.067459870715304e-12
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 301,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999188649,
+        "OBSERVED": 8.113518195079556e-11
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 302,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999998819119738,
+        "OBSERVED": 1.1808802626563982e-07
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 303,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999498207469,
+        "OBSERVED": 5.017925311692124e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 304,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999778913749646,
+        "OBSERVED": 2.2108625035278318e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 305,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999931168544,
+        "OBSERVED": 6.883145562975271e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 306,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.999977322968305,
+        "OBSERVED": 2.2677031694987465e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 307,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999997373581,
+        "OBSERVED": 2.6264181931012607e-10
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 308,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999872029,
+        "OBSERVED": 1.2797199211225926e-11
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 309,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9503176325181178,
+        "OBSERVED": 0.04968236748188213
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 280,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.0044513286927239555,
+        "OBSERVED": 0.995548671307276
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 281,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.9677701604613056e-05,
+        "OBSERVED": 0.9999503222983954
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 282,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 6.1670867398591605e-09,
+        "OBSERVED": 0.9999999938329132
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 283,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.262563650404672e-08,
+        "OBSERVED": 0.9999999573743634
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 284,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.579911370423015e-10,
+        "OBSERVED": 0.9999999994420088
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 285,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.984301819554364e-08,
+        "OBSERVED": 0.9999999701569817
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 286,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 6.837896480552935e-13,
+        "OBSERVED": 0.9999999999993161
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 287,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.3961543837155174e-07,
+        "OBSERVED": 0.9999998603845617
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 288,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.2213691961034612e-08,
+        "OBSERVED": 0.999999987786308
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 289,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 6.476977481166789e-09,
+        "OBSERVED": 0.9999999935230224
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 290,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.829297940014044e-07,
+        "OBSERVED": 0.9999997170702061
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 291,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.132117649809444e-06,
+        "OBSERVED": 0.9999958678823503
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 292,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 9.71868616163944e-09,
+        "OBSERVED": 0.9999999902813138
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 293,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.1047754493424723e-10,
+        "OBSERVED": 0.9999999998895224
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 294,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.6867638792168314e-06,
+        "OBSERVED": 0.9999983132361209
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 295,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 6.42443921549788e-12,
+        "OBSERVED": 0.9999999999935756
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 296,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 7.250238797364876e-13,
+        "OBSERVED": 0.999999999999275
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 297,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.334837414108653e-09,
+        "OBSERVED": 0.9999999956651626
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 298,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.202559742563258e-06,
+        "OBSERVED": 0.9999957974402575
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 299,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 9.523256209706875e-11,
+        "OBSERVED": 0.9999999999047675
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 300,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.298529309579412e-14,
+        "OBSERVED": 0.9999999999999769
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 301,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.2767056990899954e-05,
+        "OBSERVED": 0.9999572329430092
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 302,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.3148978623453563e-05,
+        "OBSERVED": 0.9999868510213765
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 303,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.0859212053732193e-09,
+        "OBSERVED": 0.9999999969140787
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 304,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.0001280978708577747,
+        "OBSERVED": 0.9998719021291421
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 305,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.908162573916867e-11,
+        "OBSERVED": 0.9999999999109184
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 306,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 6.16463125700785e-08,
+        "OBSERVED": 0.9999999383536875
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 307,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.9537881735943685e-06,
+        "OBSERVED": 0.9999960462118264
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 308,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 9.563887197113147e-09,
+        "OBSERVED": 0.9999999904361129
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 309,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 9.475081807789804e-12,
+        "OBSERVED": 0.9999999999905249
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 280,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.3662524410036945e-09,
+        "OBSERVED": 0.9999999966337476
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 281,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.786312631708891e-05,
+        "OBSERVED": 0.999962136873683
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 282,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.3108777697367943e-05,
+        "OBSERVED": 0.9999768912223026
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 283,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.276152759101095e-08,
+        "OBSERVED": 0.9999999472384723
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 284,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.433367872245826e-08,
+        "OBSERVED": 0.9999999856663213
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 285,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.460287632593234e-06,
+        "OBSERVED": 0.9999975397123674
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 286,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.534144173008994e-06,
+        "OBSERVED": 0.9999954658558269
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 287,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.01178621326326373,
+        "OBSERVED": 0.9882137867367363
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 288,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.688988266377821e-08,
+        "OBSERVED": 0.9999999531101174
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 289,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.0022593520978448625,
+        "OBSERVED": 0.9977406479021552
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 290,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.402087711848341e-07,
+        "OBSERVED": 0.9999994597912288
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 291,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.262321843751869e-05,
+        "OBSERVED": 0.9999873767815626
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 292,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.0011750003141790082,
+        "OBSERVED": 0.998824999685821
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 293,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.5507727815911714e-11,
+        "OBSERVED": 0.9999999999844922
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 294,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 9.93641450615567e-05,
+        "OBSERVED": 0.9999006358549384
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 295,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.0757479457251444e-05,
+        "OBSERVED": 0.9999592425205428
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 296,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.1605743446731212e-06,
+        "OBSERVED": 0.9999978394256552
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 297,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0737907320792893e-09,
+        "OBSERVED": 0.9999999989262092
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 298,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.066842495294932e-08,
+        "OBSERVED": 0.9999999693315751
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 299,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.299015716624884e-09,
+        "OBSERVED": 0.9999999947009843
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 300,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.144830394070924e-09,
+        "OBSERVED": 0.9999999958551695
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 301,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0087708165828147e-12,
+        "OBSERVED": 0.9999999999989913
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 302,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.0003628671443946149,
+        "OBSERVED": 0.9996371328556055
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 303,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.0012133514556546229,
+        "OBSERVED": 0.9987866485443453
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 304,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.64985098561259e-08,
+        "OBSERVED": 0.9999999435014902
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 305,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 6.247651830704053e-07,
+        "OBSERVED": 0.9999993752348169
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 306,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 9.38727660915682e-09,
+        "OBSERVED": 0.9999999906127234
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 307,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.00020513195687137635,
+        "OBSERVED": 0.9997948680431286
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 308,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.089014046418152e-07,
+        "OBSERVED": 0.9999996910985952
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 309,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.6284011860250887e-06,
+        "OBSERVED": 0.999997371598814
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 310,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999689105881143,
+        "OBSERVED": 3.1089411885769185e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 311,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.999999999999992,
+        "OBSERVED": 8.067390675592229e-15
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 312,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.999998805355177,
+        "OBSERVED": 1.1946448230323918e-06
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 313,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999928151118,
+        "OBSERVED": 7.1848882171502535e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 314,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.4455176198012791,
+        "OBSERVED": 0.5544823801987209
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 315,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9998586100015997,
+        "OBSERVED": 0.00014138999840026124
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 316,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999317369443,
+        "OBSERVED": 6.826305569792022e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 317,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999991979820237,
+        "OBSERVED": 8.020179762967035e-07
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 318,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999642518269,
+        "OBSERVED": 3.574817320557887e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 319,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.08349519573577859,
+        "OBSERVED": 0.9165048042642214
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 320,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999890357,
+        "OBSERVED": 1.096444363569206e-11
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 321,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999626528114,
+        "OBSERVED": 3.7347188541495634e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 322,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.7214864106736291,
+        "OBSERVED": 0.2785135893263708
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 323,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999563488916035,
+        "OBSERVED": 4.365110839654735e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 324,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.999999995818901,
+        "OBSERVED": 4.181099063355775e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 325,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999220646069,
+        "OBSERVED": 7.79353932022632e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 326,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.999974860977718,
+        "OBSERVED": 2.5139022282008847e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 327,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9954565023118737,
+        "OBSERVED": 0.004543497688126452
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 328,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999873996,
+        "OBSERVED": 1.2600255055315908e-11
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 329,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9998936832860271,
+        "OBSERVED": 0.0001063167139729122
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 330,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999994258,
+        "OBSERVED": 5.742302076489859e-13
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 331,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999112566246,
+        "OBSERVED": 8.874337536615606e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 332,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9959986805041521,
+        "OBSERVED": 0.004001319495847969
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 333,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999996545,
+        "OBSERVED": 3.4550689290402767e-13
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 334,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999985476782,
+        "OBSERVED": 1.4523218977398367e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 335,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999730687602474,
+        "OBSERVED": 2.6931239752727325e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 336,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9990268024463054,
+        "OBSERVED": 0.0009731975536947299
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 337,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999971765205,
+        "OBSERVED": 2.8234794529313086e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 338,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999990332,
+        "OBSERVED": 9.668118597357612e-13
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 339,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999168614,
+        "OBSERVED": 8.313871637566151e-11
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 340,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999724083349133,
+        "OBSERVED": 2.7591665086639314e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 341,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999998440736996,
+        "OBSERVED": 1.5592630043723255e-07
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 342,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.7702658220632244,
+        "OBSERVED": 0.22973417793677564
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 343,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999959062680829,
+        "OBSERVED": 4.093731917224117e-06
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 344,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999965013087,
+        "OBSERVED": 3.498691306077368e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 345,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999873042955912,
+        "OBSERVED": 1.2695704408732083e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 346,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999239770475132,
+        "OBSERVED": 7.602295248671195e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 347,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.998229228888008,
+        "OBSERVED": 0.0017707711119920241
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 348,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999416132285,
+        "OBSERVED": 5.8386771473841965e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 349,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999885795752353,
+        "OBSERVED": 1.1420424764589905e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 350,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999705989331343,
+        "OBSERVED": 2.940106686560085e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 351,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.999999996193689,
+        "OBSERVED": 3.8063111317438735e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 352,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999230088744,
+        "OBSERVED": 7.699112544435778e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 353,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999989433485551,
+        "OBSERVED": 1.056651444956318e-06
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 354,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.939608615776031,
+        "OBSERVED": 0.060391384223969086
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 355,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999980046631597,
+        "OBSERVED": 1.995336840319527e-06
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 356,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999794865237175,
+        "OBSERVED": 2.051347628245669e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 357,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999998966894528,
+        "OBSERVED": 1.0331054716390708e-07
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 358,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.999999979117083,
+        "OBSERVED": 2.088291691284955e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 359,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.914989328096633,
+        "OBSERVED": 0.08501067190336696
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 360,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999995624291166,
+        "OBSERVED": 4.3757088339614613e-07
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 361,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999869393021,
+        "OBSERVED": 1.3060697879155027e-08
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 362,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9997575612537853,
+        "OBSERVED": 0.0002424387462146293
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 363,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999933069,
+        "OBSERVED": 6.693047048056632e-12
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 364,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999910188652,
+        "OBSERVED": 8.9811349707945e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 365,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999997374030613,
+        "OBSERVED": 2.625969387947343e-07
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 366,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999804061,
+        "OBSERVED": 1.9593859687802794e-11
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 367,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999966719548,
+        "OBSERVED": 3.3280452162137934e-09
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 368,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9996914877329078,
+        "OBSERVED": 0.00030851226709227743
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 369,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999154393454508,
+        "OBSERVED": 8.456065454934428e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 370,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999995461015749,
+        "OBSERVED": 4.538984251585672e-07
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 371,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0,
+        "OBSERVED": 1.9972042917409273e-20
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 372,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999971076028893,
+        "OBSERVED": 2.8923971107357853e-06
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 373,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999999985063,
+        "OBSERVED": 1.493653228297414e-12
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 374,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999993534287526,
+        "OBSERVED": 6.46571247476901e-07
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 375,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9819201934674314,
+        "OBSERVED": 0.01807980653256849
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 376,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.999967009596684,
+        "OBSERVED": 3.299040331582252e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 377,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999999995672197,
+        "OBSERVED": 4.327802489881624e-10
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 378,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9999160393548329,
+        "OBSERVED": 8.396064516718999e-05
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_hidden_butter",
+      "seed": 379,
+      "true_state": "MANIPULATION_ONLY",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.9992767536910773,
+        "OBSERVED": 0.0007232463089227225
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 310,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.8241579858050256e-10,
+        "OBSERVED": 0.9999999996175841
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 311,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.0022519661916485835,
+        "OBSERVED": 0.9977480338083513
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 312,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.512284569232669e-16,
+        "OBSERVED": 0.9999999999999998
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 313,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.471357725816781e-10,
+        "OBSERVED": 0.9999999997528641
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 314,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.039676560272993e-08,
+        "OBSERVED": 0.9999999196032343
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 315,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.019127877144344e-11,
+        "OBSERVED": 0.9999999999798088
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 316,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 9.809488370721407e-12,
+        "OBSERVED": 0.9999999999901905
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 317,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 7.613792066412181e-10,
+        "OBSERVED": 0.9999999992386208
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 318,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.7797265006320086e-11,
+        "OBSERVED": 0.9999999999622027
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 319,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.185349443659958e-13,
+        "OBSERVED": 0.9999999999998814
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 320,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.166743640322504e-06,
+        "OBSERVED": 0.9999988332563595
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 321,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 7.57504527646969e-11,
+        "OBSERVED": 0.9999999999242495
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 322,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.086197288466684e-07,
+        "OBSERVED": 0.9999995913802711
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 323,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.5271404168997073e-08,
+        "OBSERVED": 0.9999999847285959
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 324,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 7.092283929664176e-11,
+        "OBSERVED": 0.9999999999290772
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 325,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.510715893964198e-09,
+        "OBSERVED": 0.9999999914892842
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 326,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.712912052065822e-08,
+        "OBSERVED": 0.9999999828708795
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 327,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.4290362773265436e-09,
+        "OBSERVED": 0.9999999985709638
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 328,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.5476639491567466e-06,
+        "OBSERVED": 0.9999974523360509
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 329,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.592617412746901e-13,
+        "OBSERVED": 0.9999999999998408
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 330,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.634310695982871e-06,
+        "OBSERVED": 0.9999943656893039
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 331,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.4638593198475682e-05,
+        "OBSERVED": 0.9999753614068017
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 332,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.708659612205229e-13,
+        "OBSERVED": 0.9999999999991291
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 333,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.3671363081220326e-08,
+        "OBSERVED": 0.999999966328637
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 334,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.4297311659438066e-06,
+        "OBSERVED": 0.9999985702688341
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 335,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.1574161038582447e-12,
+        "OBSERVED": 0.9999999999978426
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 336,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.8978490763603498e-10,
+        "OBSERVED": 0.9999999998102151
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 337,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.426507361394517e-06,
+        "OBSERVED": 0.9999975734926385
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 338,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.9296516990272634e-12,
+        "OBSERVED": 0.9999999999970703
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 339,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.959901701785774e-10,
+        "OBSERVED": 0.9999999995040099
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 340,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.909649480150405e-13,
+        "OBSERVED": 0.999999999999609
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 341,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.4065036747357685e-06,
+        "OBSERVED": 0.9999975934963253
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 342,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.739969919625064e-10,
+        "OBSERVED": 0.999999999726003
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 343,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.0388366714999746e-08,
+        "OBSERVED": 0.9999999496116333
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 344,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0925901901339641e-11,
+        "OBSERVED": 0.9999999999890741
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 345,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.392242203566462e-12,
+        "OBSERVED": 0.9999999999976077
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 346,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.242009695473269e-10,
+        "OBSERVED": 0.9999999995757991
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 347,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.507526284403361e-11,
+        "OBSERVED": 0.9999999999849247
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 348,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.910333807042038e-11,
+        "OBSERVED": 0.9999999999508966
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 349,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 9.208977697309837e-13,
+        "OBSERVED": 0.9999999999990792
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 350,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.6423101592066168e-09,
+        "OBSERVED": 0.9999999973576899
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 351,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.996084435598835e-12,
+        "OBSERVED": 0.9999999999910039
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 352,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0414364769664264e-10,
+        "OBSERVED": 0.9999999998958564
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 353,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.0086204589108292e-07,
+        "OBSERVED": 0.999999799137954
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 354,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 7.944758636879661e-10,
+        "OBSERVED": 0.9999999992055242
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 355,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.93843550984795e-10,
+        "OBSERVED": 0.9999999997061564
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 356,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0060902802999336e-10,
+        "OBSERVED": 0.9999999998993909
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 357,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.6166497530915063e-06,
+        "OBSERVED": 0.9999983833502469
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 358,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.4505976314452755e-12,
+        "OBSERVED": 0.9999999999945495
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 359,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 6.410499974806134e-13,
+        "OBSERVED": 0.999999999999359
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 360,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.1874196717014396e-09,
+        "OBSERVED": 0.9999999988125803
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 361,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.530629573065195e-11,
+        "OBSERVED": 0.9999999999646938
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 362,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.7190169738387442e-10,
+        "OBSERVED": 0.9999999998280984
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 363,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.1460958502882396e-07,
+        "OBSERVED": 0.9999995853904149
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 364,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.968797647985373e-11,
+        "OBSERVED": 0.999999999910312
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 365,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.509784983318825e-08,
+        "OBSERVED": 0.9999999149021502
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 366,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.07197883803174607,
+        "OBSERVED": 0.9280211619682539
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 367,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.6338749245049034e-06,
+        "OBSERVED": 0.9999963661250756
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 368,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.577559448619762e-07,
+        "OBSERVED": 0.9999996422440552
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 369,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.470925592109075e-10,
+        "OBSERVED": 0.9999999998529074
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 370,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.4329963273911016e-07,
+        "OBSERVED": 0.9999998567003673
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 371,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.397411915394136e-09,
+        "OBSERVED": 0.9999999966025881
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 372,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 9.101999017941539e-15,
+        "OBSERVED": 0.9999999999999909
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 373,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.005492734821056e-09,
+        "OBSERVED": 0.9999999989945072
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 374,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.689366253493188e-09,
+        "OBSERVED": 0.9999999913106338
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 375,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.150974635168678e-12,
+        "OBSERVED": 0.9999999999988489
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 376,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.8917815236271705e-07,
+        "OBSERVED": 0.9999997108218476
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 377,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 6.245749617021275e-06,
+        "OBSERVED": 0.999993754250383
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 378,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 7.988503362721704e-11,
+        "OBSERVED": 0.999999999920115
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "closed_visible_cream_cheese",
+      "seed": 379,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.4231642164955504e-10,
+        "OBSERVED": 0.9999999996576836
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 310,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.0003675716273647558,
+        "OBSERVED": 0.9996324283726352
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 311,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0460187963131367e-05,
+        "OBSERVED": 0.9999895398120369
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 312,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.23779534431486873,
+        "OBSERVED": 0.7622046556851312
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 313,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 6.503358823458815e-05,
+        "OBSERVED": 0.9999349664117654
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 314,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0586656596644077e-05,
+        "OBSERVED": 0.9999894133434034
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 315,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.001164420230684701,
+        "OBSERVED": 0.9988355797693154
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 316,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.10916460388947971,
+        "OBSERVED": 0.8908353961105202
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 317,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.786403812892018e-06,
+        "OBSERVED": 0.9999942135961871
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 318,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.5524080607143802e-05,
+        "OBSERVED": 0.9999844759193928
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 319,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.334177158415702e-08,
+        "OBSERVED": 0.9999999766582285
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 320,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 9.419750687326281e-07,
+        "OBSERVED": 0.9999990580249312
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 321,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.8461793367594034e-05,
+        "OBSERVED": 0.9999415382066325
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 322,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.132831703537724e-09,
+        "OBSERVED": 0.9999999978671683
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 323,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.881366176727628e-08,
+        "OBSERVED": 0.9999999111863381
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 324,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.271521566864206e-08,
+        "OBSERVED": 0.9999999472847844
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 325,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.0428755909344954e-10,
+        "OBSERVED": 0.9999999995957125
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 326,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.242327274905341e-09,
+        "OBSERVED": 0.9999999987576726
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 327,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.1347183596483637e-08,
+        "OBSERVED": 0.9999999886528165
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 328,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 6.764620930494939e-07,
+        "OBSERVED": 0.999999323537907
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 329,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.9425176667026723e-08,
+        "OBSERVED": 0.9999999705748233
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 330,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.24839019377819e-09,
+        "OBSERVED": 0.9999999987516097
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 331,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.478636171409601e-10,
+        "OBSERVED": 0.9999999994521365
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 332,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.87800719068365e-07,
+        "OBSERVED": 0.999999812199281
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 333,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.4581601887116783e-05,
+        "OBSERVED": 0.9999854183981128
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 334,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.002992249890288113,
+        "OBSERVED": 0.9970077501097119
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 335,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.321640420077916e-09,
+        "OBSERVED": 0.9999999976783596
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 336,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.407750069793444e-05,
+        "OBSERVED": 0.9999159224993021
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 337,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.274394687362884e-05,
+        "OBSERVED": 0.9999672560531265
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 338,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 6.84965571501505e-07,
+        "OBSERVED": 0.9999993150344284
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 339,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 7.745367133877096e-06,
+        "OBSERVED": 0.9999922546328661
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 340,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.5860330157289317e-08,
+        "OBSERVED": 0.9999999741396699
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 341,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.6236440664561877e-11,
+        "OBSERVED": 0.9999999999837637
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 342,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.583657485608866e-07,
+        "OBSERVED": 0.9999996416342515
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 343,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.2745510771054115e-11,
+        "OBSERVED": 0.9999999999872544
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 344,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.491810822172521e-07,
+        "OBSERVED": 0.9999995508189178
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 345,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.2549440276038673e-06,
+        "OBSERVED": 0.9999967450559725
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 346,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.085223149053686e-09,
+        "OBSERVED": 0.9999999979147769
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 347,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.400469590296672e-07,
+        "OBSERVED": 0.999999859953041
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 348,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.514187009838513e-09,
+        "OBSERVED": 0.999999995485813
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 349,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.465548449795094e-07,
+        "OBSERVED": 0.9999995534451549
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 350,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.995737698737344e-10,
+        "OBSERVED": 0.9999999991004263
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 351,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.0602163369228366e-06,
+        "OBSERVED": 0.999997939783663
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 352,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0350949039871713e-05,
+        "OBSERVED": 0.9999896490509602
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 353,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.005099814437967383,
+        "OBSERVED": 0.9949001855620326
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 354,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.646405491204545e-10,
+        "OBSERVED": 0.9999999991353594
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 355,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.032605187222655e-06,
+        "OBSERVED": 0.9999959673948128
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 356,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.149144600653803e-09,
+        "OBSERVED": 0.9999999988508554
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 357,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.7763017312819837,
+        "OBSERVED": 0.22369826871801624
+      },
+      "prediction_set": [
+        "MANIPULATION_ONLY"
+      ],
+      "covered": false,
+      "singleton_correct": false
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 358,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.88007596194603e-06,
+        "OBSERVED": 0.9999951199240381
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 359,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.046288914121765085,
+        "OBSERVED": 0.9537110858782349
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 360,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.580578852101867e-07,
+        "OBSERVED": 0.9999994419421149
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 361,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 7.209043923455101e-06,
+        "OBSERVED": 0.9999927909560764
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 362,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.0509757388894458e-11,
+        "OBSERVED": 0.9999999999794902
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 363,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.16823312650167005,
+        "OBSERVED": 0.83176687349833
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 364,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 8.514160087878095e-07,
+        "OBSERVED": 0.9999991485839911
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 365,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 4.4652548022641465e-11,
+        "OBSERVED": 0.9999999999553475
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 366,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 5.985403031215e-06,
+        "OBSERVED": 0.9999940145969687
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 367,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.817663943489848e-10,
+        "OBSERVED": 0.9999999997182336
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 368,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.3311116699675936e-07,
+        "OBSERVED": 0.999999866888833
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 369,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.3087757529679075e-05,
+        "OBSERVED": 0.9999769122424703
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 370,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.7449044901842568e-07,
+        "OBSERVED": 0.999999825509551
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 371,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.00014359446626353796,
+        "OBSERVED": 0.9998564055337363
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 372,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.0719294402580107e-07,
+        "OBSERVED": 0.9999998928070558
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 373,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 9.9205694893723e-07,
+        "OBSERVED": 0.9999990079430511
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 374,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 1.6840178834901899e-06,
+        "OBSERVED": 0.9999983159821166
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 375,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 7.65483634681801e-11,
+        "OBSERVED": 0.9999999999234517
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 376,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.0006720912582812771,
+        "OBSERVED": 0.9993279087417186
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 377,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 3.934534359983028e-05,
+        "OBSERVED": 0.9999606546564002
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 378,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 2.7444527774743314e-07,
+        "OBSERVED": 0.9999997255547222
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    },
+    {
+      "condition": "open_visible_butter",
+      "seed": 379,
+      "true_state": "OBSERVED",
+      "probabilities": {
+        "MANIPULATION_ONLY": 0.016126206644215425,
+        "OBSERVED": 0.9838737933557846
+      },
+      "prediction_set": [
+        "OBSERVED"
+      ],
+      "covered": true,
+      "singleton_correct": true
+    }
+  ]
+}

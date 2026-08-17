@@ -1,0 +1,163 @@
+schema_version: interactive-perception.rss-method-gates.v1
+name: Prompt-Aligned Action-Resolvable Uncertainty — RSS Evidence Ladder
+
+decision_rule: GO only if every blocking gate is GO; PARTIAL counts as NOT-GO
+frozen_statistics:
+  conformal_error_rate: 0.10
+  confidence: 0.95
+  minimum_reliability_lower_bound: 0.90
+
+paper_claim: >-
+  A lightweight wrapper around a frozen VLA represents prompt-relevant hidden
+  state, predicts which physical or viewpoint action can resolve it, and
+  selects information actions by minimizing calibrated expected task risk.
+
+milestones:
+  t01_prompt_state_decision:
+    status: GO
+    evidence: results/t01_expected_risk_router_v1.json
+    scope: One LIBERO layout family, ACT versus REMOVE_OCCLUDER.
+  rss_method_ready:
+    status: NOT_GO
+
+gates:
+  - id: RP0
+    name: Frozen-policy reproduction
+    blocking: true
+    status: GO
+    evidence: results/repro_libero_object.json
+    pass_condition: Exact public pi05_libero wiring reproduces stock behavior.
+    current: 100/100.
+
+  - id: RP1
+    name: Primitive capability before decision claims
+    blocking: true
+    status: GO
+    evidence: results/capability/g5_executor_gate_stock_aligned_v2.json
+    pass_condition: Every enabled action has a context-declared lower bound at least 0.90.
+    current: >-
+      ACT 100/100; T01 drawer-joint opening 97/100. The separate visual
+      information-effect gate is RP3. Other actions remain disabled.
+
+  - id: RP2
+    name: Prompt-aligned typed belief
+    blocking: true
+    status: PARTIAL
+    evidence: results/calibration/prompt_state_belief_t01_audit_100seed_v1.json
+    pass_condition: >-
+      Calibrated OBSERVED, VIEWPOINT_BLOCKED, MANIPULATION_ONLY, and ABSENT
+      belief passes prompt, cause, and scene-disjoint counterfactuals.
+    current: >-
+      T01 OBSERVED versus MANIPULATION_ONLY passes 97/100, 100/100, and 99/100;
+      two states and scene-disjoint tests remain missing.
+
+  - id: RP3
+    name: Calibrated action-effect branches
+    blocking: true
+    status: NOT_GO
+    evidence: results/T01_ACTION_OUTCOME_DEVELOPMENT.md
+    pass_condition: >-
+      Before/after RGB critic recognizes FAILED, REVEALED, and EMPTY, while
+      full-executor effect rates pass context-disjoint reliability gates.
+    current: >-
+      Strict policy-camera effects are REVEALED 57/60 (lower 0.876) and EMPTY
+      56/60 (lower 0.854). Frozen RGB critics v1-v3 all fail development; v3 is
+      20/21 coverage and 15/21 singleton-correct. Failure diagnosis shows fully
+      opened drawers but arm-occluded terminal views. OPEN_AND_OBSERVE is now
+      implemented; static open-home visibility is 60/60 (lower 0.951) and its
+      proprioceptive return controller is 30/30 (lower 0.905) on diagnostic
+      perturbations. Neither authorizes the unrun composite executor. Seeds
+      500-599 remain untouched; new development/audit seeds are 600-659/700-799.
+
+  - id: RP4
+    name: Expected-risk optimization
+    blocking: true
+    status: PARTIAL
+    evidence: results/t01_expected_risk_router_v1.json
+    pass_condition: >-
+      ACT, information actions, and NOT_FOUND are selected from measured costs
+      and effects, with no tuned confidence threshold and with preregistered sensitivity.
+    current: >-
+      Finite-horizon planner and cost sweep pass target-observability routing
+      at 296/300. Context-specific terminal ACT effects, multi-action history,
+      and NOT_FOUND are not yet physically tested.
+
+  - id: RP5
+    name: Oracle-free history-dependent closed loop
+    blocking: true
+    status: NOT_GO
+    evidence: null
+    pass_condition: >-
+      The deployed loop uses only policy RGB, prompt, action, and public history
+      for routing, outcome recognition, stopping, retry, and belief update.
+    current: >-
+      The closed-loop runner exists but correctly refuses to run because the
+      action-outcome critic and physical visual-effect gate have not passed.
+
+  - id: RP6
+    name: Decision benefit and ablations
+    blocking: true
+    status: PARTIAL
+    evidence: results/t01_expected_risk_router_v1.json
+    pass_condition: >-
+      Beat monolithic, prompt-blind, action-spread, CoMe-style binary
+      information-sufficiency, uncalibrated typed-belief, visual-only-history,
+      no-history, and no-effect baselines on a frozen held-out paper test set.
+    current: T01 beats three fixed rules; the paper test set and key ablations are missing.
+
+  - id: RP7
+    name: Active-perception breadth
+    blocking: true
+    status: NOT_GO
+    evidence: null
+    pass_condition: >-
+      Demonstrate viewpoint discovery, manipulation discovery, and information
+      enrichment with independently capable actions.
+    current: Only manipulation discovery by middle-layer opening is certified.
+
+  - id: RP8
+    name: Final task benefit
+    blocking: true
+    status: NOT_GO
+    evidence: results/t01_final_task_risk_readiness_v1.json
+    pass_condition: Information acquisition improves final task success, not only target visibility.
+    current: OPEN_CONTAINER then ACT is 0/5; direct open-drawer retrieval is 0/5.
+
+  - id: RP9
+    name: Held-out generalization
+    blocking: true
+    status: NOT_GO
+    evidence: null
+    pass_condition: >-
+      Hold out objects, clutter, occlusion severity, containers, and scenes;
+      reproduce the decision benefit with a second frozen policy.
+    current: Only T01 pi05_libero is supported.
+
+  - id: RP10
+    name: Reproducible paper release
+    blocking: true
+    status: PARTIAL
+    evidence: README.md
+    pass_condition: >-
+      One-command experiment, frozen hashes, automatic gate report, failure
+      demos, concise README, and verified GPU shutdown.
+    current: >-
+      Immutable runners, hashes, and strict failure reports exist; the complete
+      paper runner and final artifacts do not. The post-run GPU check found no
+      project process; only the desktop service remained.
+
+  - id: RP11
+    name: Prompt-safe temporal task compliance
+    blocking: true
+    status: PARTIAL
+    evidence: tests/test_temporal_belief.py
+    pass_condition: >-
+      A specification frozen before paper testing contains only generic task
+      predicates, maintains a calibrated belief over finite-trace progress,
+      and achieves a one-sided 95% lower bound of at least 0.90 for trajectory
+      satisfaction without premature commit or false NOT_FOUND.
+    current: >-
+      An exact product-belief automaton, logic-risk term, and explicit
+      SAFE_STOP branch are implemented and unit-tested. The proposition
+      calibration, logic/deferral losses, deployed trace monitor, and held-out
+      trajectory evidence are not yet frozen or measured.

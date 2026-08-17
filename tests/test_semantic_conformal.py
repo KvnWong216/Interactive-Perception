@@ -71,3 +71,5 @@ def test_mondrian_uses_class_specific_thresholds() -> None:
         "NOT_FOUND": 2,
         "REMOVE_OCCLUDER": 2,
     }
+    restored = MondrianSemanticConformalCalibrator.from_dict(artifact)
+    assert restored.predict(evidence(ACT=9, REMOVE_OCCLUDER=1)) == ("ACT",)

@@ -19,6 +19,14 @@ def test_actual_final_product_registry_is_strict_not_go() -> None:
     assert {"FP2", "FP3", "FP4", "FP8"} <= set(summary["blocking_failures"])
 
 
+def test_actual_rss_registry_is_strict_not_go() -> None:
+    spec = yaml.safe_load((ROOT / "benchmarks/rss_v1/gates.yaml").read_text())
+    summary = summarize_product_gates(spec)
+    assert summary["milestones"]["t01_prompt_state_decision"] == "GO"
+    assert summary["final_product_go"] is False
+    assert {"RP2", "RP3", "RP5", "RP8"} <= set(summary["blocking_failures"])
+
+
 def test_partial_is_a_blocking_failure() -> None:
     spec = {
         "gates": [

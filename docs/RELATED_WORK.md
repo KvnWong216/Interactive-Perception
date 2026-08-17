@@ -30,8 +30,11 @@ object when "I have not looked" must be distinguishable from "it is ambiguous".
 
 **Kendall and Gal, "What Uncertainties Do We Need in Bayesian Deep Learning for
 Computer Vision?", NeurIPS 2017.** Aleatoric/epistemic split. *Take:* framing.
-*Caution:* our hidden-target uncertainty is neither in their sense — it is
-*resolvable by action*, a third category their taxonomy does not name.
+*Caution:* a hidden target can be called epistemic uncertainty about world
+state, but their taxonomy does not say whether a particular embodied action can
+resolve it or whether doing so is worth the cost. We treat action resolvability
+as an orthogonal decision property, not as a claim of a new statistical source
+of uncertainty.
 
 ## 2. Interactive perception — the reason action enters at all
 
@@ -57,6 +60,35 @@ found it" is a matching problem rather than a semantic one.
 Objects in Clutter", IROS 2020.** *Take:* comparison point for learned
 search policies.
 
+**Li et al., "Act, Sense, Act: Learning Active Perception from Large-Scale
+Egocentric Human Data" (CoMe-VLA), 2026.** It formalizes active perception
+through information-seeking action and history-dependent decision branching,
+then learns a cognitive subtask-transition head plus dual-track temporal memory
+from egocentric human and robot data. Its viewpoint discovery, manipulation
+discovery, and information-enrichment taxonomy maps cleanly to our required
+action breadth. *Take:* an information action must change the next observation,
+the controller must branch on that observed effect, and observation and action
+history both matter. *Difference:* its "ambiguity" is not an explicit calibrated
+belief: a manually supervised binary cognitive score crosses a fixed deployment
+threshold before the prompt switches, while downstream branches are learned
+implicitly. We keep the base VLA frozen and expose typed ambiguity,
+context-scoped physical effect calibration, `FAILED/REVEALED/EMPTY` branches,
+conformal sets, and an explicit Bayes-risk decision. See
+<https://arxiv.org/abs/2602.04600>.
+
+Its concrete memory window is the current frame plus five frames sampled over
+five seconds. Its cognitive token cross-attends to preceding tokens before a
+small MLP; deployment uses a score above 0.7 for three consecutive steps.
+Robot/human completion labels are manually assigned to the final 90/30 frames
+of each subtask. These details motivate temporal, prompt-attended outcome
+features in our wrapper, while also showing why CoMe-VLA's binary score is not
+a calibrated uncertainty or physical-effect model.
+
+CoMe-VLA's embodiment also has a controllable head/chassis viewpoint in its
+action vector. LIBERO pi0.5 does not control its external `agentview`; our
+viewpoint-discovery arm must act through the trained wrist-camera motion or a
+second camera-controllable policy, not through evaluator-side camera changes.
+
 ## 3. Active vision — why viewpoint alone is not enough
 
 **Bajcsy, "Active Perception", Proceedings of the IEEE, 1988** and **Aloimonos,
@@ -70,6 +102,34 @@ Our benchmark's contribution here is negative and measurable: a hemisphere
 sweep showing zero recoverable pixels from 360 poses proves the task is outside
 what viewpoint selection can solve. Cite them to establish that the obvious
 alternative was tested rather than assumed away.
+
+**Liu et al., "ActiveVLA: Injecting Active Perception into Vision-Language-
+Action Models for Precise 3D Robotic Manipulation", 2026.** It localizes a
+critical 3D region, selects views for relevance/diversity/low occlusion, and
+zooms in. *Take:* coarse-to-fine viewpoint selection is a strong
+`VIEWPOINT_BLOCKED` baseline. *Does not transfer:* it assumes point clouds and
+controllable views, and it does not decide between viewing and changing a
+closed container.
+
+**Liu et al., "SaPaVe: Towards Active Perception and Manipulation in
+Vision-Language Action Models for Robotics", CVPR 2026.** It decouples camera
+and manipulation actions, first learns semantic camera control from 200k
+image-language-pose pairs, then jointly trains active-view execution. *Take:*
+viewpoint and manipulation executors should be separately represented and
+capability-gated. *Does not transfer:* it retrains an embodiment with an active
+head; stock LIBERO pi0.5 cannot move its external camera.
+
+**Li et al., "LIBERO-Occ: Evaluating and Improving Vision-Language-Action
+Models under Scene-Induced Occlusion via Viewpoint Imagination", 2026.** It
+adds 2,000 physically placed occlusion variants across manipulated-object,
+receptacle, and dual occlusion, stratified by segmentation visibility loss.
+Its VIM model generates a complementary view and conditions action prediction
+on observed and imagined evidence. *Take:* adopt its occlusion axes and include
+passive viewpoint imagination as a baseline. *Boundary:* its generator can
+infer plausible missing appearance, but two closed opaque drawers with
+identical RGB and different contents are observationally indistinguishable.
+Our paired present/absent container test isolates where a physical information
+action is necessary and imagined evidence must not be treated as observation.
 
 ## 4. Decision making — choosing the primitive
 
@@ -87,6 +147,33 @@ Regularization", NeurIPS 2013.** *Take:* if one-step Bayes risk proves too
 myopic — specifically on multi-container ordering — these are the standard
 upgrades. *Note:* we deliberately start myopic; adopt only if measurement
 shows the myopic router losing.
+
+### Temporal task structure under partial observability
+
+**Xie, Zhou and Soh, "Embedding Symbolic Temporal Knowledge into Deep
+Sequential Models", ICRA 2021 (T-LEAF).** It compiles temporal logic into an
+automaton, embeds the automaton and traces with a GNN, and uses embedding
+distance as a differentiable training loss. *Take:* a finite-trace automaton is
+the right task-progress skeleton, and satisfying/violating traces can provide
+data-efficient supervision. *Does not transfer:* its propositions are treated
+as known labels; it does not quantify observation uncertainty, predict action
+effects, or optimize information value. Our main runtime uses an exact
+probabilistic automaton; a learned T-LEAF regularizer is an ablation.
+
+**Garrett et al., "Online Replanning in Belief Space for Partially Observable
+Task and Motion Problems", 2019.** It explicitly handles opening drawers and
+moving objects to observe hidden state, then replans in a hybrid belief space.
+*Take:* physical observation actions and outcome-dependent replanning are the
+classical systems foundation. *Difference:* our hidden propositions are
+prompt-conditioned and open vocabulary, with conformal evidence and measured
+VLA option effects.
+
+**Wang et al., "Conformal Temporal Logic Planning using Large Language Models",
+2023 (HERACLEs).** It uses conformal prediction as an interface between temporal
+logic task plans and LLM-generated actions. *Take:* conformal sets and temporal
+logic can coexist without collapsing uncertainty to one score. *Does not
+transfer:* its uncertainty concerns language action generation for declared
+subtasks, not whether a physical observation reveals a hidden proposition.
 
 ## 5. Language-grounded priors — where `omega_k` and `a_k` come from
 
@@ -233,12 +320,13 @@ binary success. *Caution:* correlation with human ratings is not calibrated
 semantic intent coverage.
 
 The paper's defensible novelty is therefore not "the first conformal robot" or
-"the first uncertain VLA". Subject to a final systematic literature review, it
-is the combination of (i) semantic uncertainty over sampled VLA action chunks,
-(ii) a distinction between viewpoint-resolvable and manipulation-resolvable
-uncertainty, (iii) a separate executor-reliability gate, and (iv) autonomous
-physical information acquisition as the response to a non-singleton action
-set.
+"the first uncertain VLA". The action-chunk semantic classifier also failed
+our prompt/state counterfactual and is no longer the main method. Subject to a
+final systematic literature review, the stronger claim is the combination of
+(i) a typed prompt-conditioned belief over what information is missing, (ii)
+class-conditional conformal calibration, (iii) context-scoped physical effect
+and executor calibration, and (iv) explicit Bayes-risk selection of autonomous
+physical information acquisition around a frozen VLA.
 
 ## 7. Base policy and benchmark
 

@@ -159,6 +159,26 @@ class OpenPiWebsocketPolicy:
             chunks.append(chunk)
         return chunks
 
+    def encode_prefix(self, packet: ObservationPacket) -> np.ndarray:
+        """Read frozen multimodal prefix features from the extended server.
+
+        Prefix requests do not sample an action and therefore must not advance
+        the server-side flow-matching PRNG.  The stock OpenPI server does not
+        implement this request; launch ``serve_pi05_with_prefix.py``.
+        """
+
+        payload = {**packet.to_openpi(), "__request_type": "prefix"}
+        response = self._client.infer(payload)
+        if "prefix_features" not in response:
+            raise RuntimeError(
+                "policy server does not expose frozen prefix features; use the "
+                "versioned extended server"
+            )
+        features = np.asarray(response["prefix_features"], dtype=np.float32)
+        if features.shape != (8192,) or not np.all(np.isfinite(features)):
+            raise ValueError(f"unexpected prefix feature shape/value: {features.shape}")
+        return features
+
 
 @dataclasses.dataclass
 class ScriptedStubPolicy:

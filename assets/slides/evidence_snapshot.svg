@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <style>
+      .title{font-family:Arial,sans-serif;font-size:44px;font-weight:700;fill:#111827}
+      .subtitle{font-family:Arial,sans-serif;font-size:22px;font-weight:400;fill:#526077}
+      .label{font-family:Arial,sans-serif;font-size:22px;font-weight:600;fill:#1F2937}
+      .value{font-family:Arial,sans-serif;font-size:21px;font-weight:700;fill:#111827}
+      .small{font-family:Arial,sans-serif;font-size:17px;font-weight:400;fill:#526077}
+      .axis{stroke:#CBD5E1;stroke-width:2}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#F8FAFC"/>
+  <text x="75" y="70" class="title">Latest evidence: opening is not the same as seeing</text>
+  <text x="75" y="108" class="subtitle">T01 calibration-only development · frozen π0.5 · stock cameras · required lower bound = 0.90</text>
+
+  <line x1="575" y1="180" x2="1450" y2="180" class="axis"/>
+  <line x1="575" y1="180" x2="575" y2="600" class="axis"/>
+  <line x1="925" y1="180" x2="925" y2="600" stroke="#E2E8F0" stroke-width="2"/>
+  <line x1="1362.5" y1="165" x2="1362.5" y2="610" stroke="#D94B4B" stroke-width="4" stroke-dasharray="10 8"/>
+  <text x="1362.5" y="150" text-anchor="middle" class="small" fill="#D94B4B">required lower bound 90%</text>
+  <text x="575" y="635" text-anchor="middle" class="small">0%</text>
+  <text x="925" y="635" text-anchor="middle" class="small">40%</text>
+  <text x="1450" y="635" text-anchor="middle" class="small">100%</text>
+
+  <text x="75" y="235" class="label">Drawer joint opened</text>
+  <rect x="575" y="205" width="848.75" height="48" rx="10" fill="#2C9A69"/>
+  <circle cx="1387.6" cy="229" r="10" fill="#102A43"/>
+  <text x="600" y="236" class="value" style="fill:#FFFFFF">97/100</text>
+  <text x="1387.6" y="198" class="small" text-anchor="middle">LB 92.4%</text>
+  <text x="75" y="267" class="small">motor capability only</text>
+
+  <text x="75" y="345" class="label">Target visible after opening</text>
+  <rect x="575" y="315" width="831.25" height="48" rx="10" fill="#F0A33A"/>
+  <circle cx="1341.9" cy="339" r="10" fill="#102A43"/>
+  <text x="600" y="346" class="value" style="fill:#FFFFFF">57/60</text>
+  <text x="1341.9" y="308" class="small" text-anchor="middle">LB 87.6%</text>
+  <text x="75" y="377" class="small">prompt-relevant information effect</text>
+
+  <text x="75" y="455" class="label">Empty layer visually certified</text>
+  <rect x="575" y="425" width="816.4" height="48" rx="10" fill="#F0A33A"/>
+  <circle cx="1322.3" cy="449" r="10" fill="#102A43"/>
+  <text x="600" y="456" class="value" style="fill:#FFFFFF">56/60</text>
+  <text x="1322.3" y="418" class="small" text-anchor="middle">LB 85.4%</text>
+  <text x="75" y="487" class="small">paired counterfactual; no simulator-absence shortcut</text>
+
+  <text x="75" y="565" class="label">Best RGB outcome head</text>
+  <rect x="575" y="535" width="833" height="24" rx="7" fill="#3972C9"/>
+  <rect x="575" y="568" width="624.8" height="24" rx="7" fill="#7655C9"/>
+  <text x="1440" y="555" class="value" text-anchor="end">coverage 20/21</text>
+  <text x="1440" y="589" class="value" text-anchor="end">singleton 15/21</text>
+
+  <rect x="75" y="690" width="1450" height="145" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+  <text x="110" y="738" class="label">Breakthrough</text>
+  <text x="110" y="779" class="subtitle">The pipeline now separates motor success, information gain, and outcome recognition.</text>
+  <text x="110" y="813" class="subtitle">Conclusion: decision prototype GO · action-effect closed loop NOT-GO · audit seeds 500–599 untouched.</text>
+</svg>

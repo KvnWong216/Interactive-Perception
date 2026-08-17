@@ -1,0 +1,1155 @@
+{
+  "schema_version": "interactive-perception.return-to-observe-diagnostic.v1",
+  "diagnostic_only": true,
+  "authorizes_executor": false,
+  "reason_not_authorizing": "drawer opening and arm perturbation are evaluator constructed; the start state is not a pi0.5 post-open trajectory",
+  "online_controller_inputs": [
+    "robot0_eef_pos",
+    "robot0_eef_quat",
+    "robot0_gripper_qpos"
+  ],
+  "online_oracle_inputs": [],
+  "controller_config": {
+    "pose": {
+      "position": [
+        -0.2084646605658236,
+        0.0,
+        1.1732794757296403
+      ],
+      "quaternion_xyzw": [
+        0.9995966048795359,
+        0.00024621283188763776,
+        -0.028400120485872867,
+        -6.995295959032546e-06
+      ]
+    },
+    "release_steps": 8,
+    "maximum_return_steps": 160,
+    "settled_steps": 5,
+    "position_tolerance": 0.012,
+    "orientation_tolerance_radians": 0.08,
+    "position_output_scale": 0.05,
+    "orientation_output_scale": 0.5,
+    "maximum_normalized_translation": 0.6,
+    "maximum_normalized_rotation": 0.5,
+    "gripper_release_command": -1.0
+  },
+  "seeds": [
+    600,
+    601,
+    602,
+    603,
+    604,
+    605,
+    606,
+    607,
+    608,
+    609,
+    610,
+    611,
+    612,
+    613,
+    614,
+    615,
+    616,
+    617,
+    618,
+    619,
+    620,
+    621,
+    622,
+    623,
+    624,
+    625,
+    626,
+    627,
+    628,
+    629
+  ],
+  "successes": 30,
+  "trials": 30,
+  "empirical_rate": 1.0,
+  "one_sided_95_lower_bound": 0.9049661471446959,
+  "rows": [
+    {
+      "seed": 600,
+      "perturbation": [
+        0.45,
+        0.35,
+        -0.2,
+        0.2,
+        -0.15,
+        0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.1808778737894573,
+        0.024771506863550338,
+        1.1647941419286874
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9977962613253979,
+        0.03929274042306392,
+        0.010802443177558756,
+        -0.05236419250308322
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.007874752453659362,
+        "orientation_error_radians": 0.013431993927327215,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 322,
+        "robot0_eye_in_hand": 866
+      },
+      "passed": true
+    },
+    {
+      "seed": 601,
+      "perturbation": [
+        0.45,
+        -0.35,
+        -0.2,
+        -0.2,
+        0.15,
+        -0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19531807876576354,
+        -0.0249057227952404,
+        1.1527490146608228
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9966440443881432,
+        -0.038936712090650034,
+        -0.04798534753725008,
+        0.053684147184659935
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.0046134929869612725,
+        "orientation_error_radians": 0.00932862077350441,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 321,
+        "robot0_eye_in_hand": 932
+      },
+      "passed": true
+    },
+    {
+      "seed": 602,
+      "perturbation": [
+        0.35,
+        0.0,
+        -0.35,
+        0.2,
+        0.0,
+        -0.2,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19190857183662258,
+        0.002685297432493544,
+        1.1510166019945587
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9971078555162188,
+        -0.050125829006902656,
+        -0.02068424187389535,
+        -0.05324929926600562
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 18,
+        "position_error_metres": 0.004495786674651689,
+        "orientation_error_radians": 0.013971901266355988,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 313,
+        "robot0_eye_in_hand": 789
+      },
+      "passed": true
+    },
+    {
+      "seed": 603,
+      "perturbation": [
+        0.45,
+        0.35,
+        -0.2,
+        0.2,
+        -0.15,
+        0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.1808778737894573,
+        0.024771506863550338,
+        1.1647941419286874
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9977962613253979,
+        0.03929274042306392,
+        0.010802443177558756,
+        -0.05236419250308322
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.007874752453659362,
+        "orientation_error_radians": 0.013431993927327215,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 329,
+        "robot0_eye_in_hand": 738
+      },
+      "passed": true
+    },
+    {
+      "seed": 604,
+      "perturbation": [
+        0.45,
+        -0.35,
+        -0.2,
+        -0.2,
+        0.15,
+        -0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19531807876576354,
+        -0.0249057227952404,
+        1.1527490146608228
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9966440443881432,
+        -0.038936712090650034,
+        -0.04798534753725008,
+        0.053684147184659935
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.004613492986961085,
+        "orientation_error_radians": 0.009328620773504331,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 318,
+        "robot0_eye_in_hand": 877
+      },
+      "passed": true
+    },
+    {
+      "seed": 605,
+      "perturbation": [
+        0.35,
+        0.0,
+        -0.35,
+        0.2,
+        0.0,
+        -0.2,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19190857183662258,
+        0.002685297432493544,
+        1.1510166019945587
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9971078555162188,
+        -0.050125829006902656,
+        -0.02068424187389535,
+        -0.05324929926600562
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 18,
+        "position_error_metres": 0.004495786674651689,
+        "orientation_error_radians": 0.013971901266355988,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 311,
+        "robot0_eye_in_hand": 1027
+      },
+      "passed": true
+    },
+    {
+      "seed": 606,
+      "perturbation": [
+        0.45,
+        0.35,
+        -0.2,
+        0.2,
+        -0.15,
+        0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.1808778737894573,
+        0.024771506863550338,
+        1.1647941419286874
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9977962613253979,
+        0.03929274042306392,
+        0.010802443177558756,
+        -0.05236419250308322
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.007874752453659133,
+        "orientation_error_radians": 0.013431993927327992,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 326,
+        "robot0_eye_in_hand": 693
+      },
+      "passed": true
+    },
+    {
+      "seed": 607,
+      "perturbation": [
+        0.45,
+        -0.35,
+        -0.2,
+        -0.2,
+        0.15,
+        -0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19531807876576354,
+        -0.0249057227952404,
+        1.1527490146608228
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9966440443881432,
+        -0.038936712090650034,
+        -0.04798534753725008,
+        0.053684147184659935
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.004613492986961085,
+        "orientation_error_radians": 0.009328620773504331,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 320,
+        "robot0_eye_in_hand": 849
+      },
+      "passed": true
+    },
+    {
+      "seed": 608,
+      "perturbation": [
+        0.35,
+        0.0,
+        -0.35,
+        0.2,
+        0.0,
+        -0.2,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19190857183662258,
+        0.002685297432493544,
+        1.1510166019945587
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9971078555162188,
+        -0.050125829006902656,
+        -0.02068424187389535,
+        -0.05324929926600562
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 18,
+        "position_error_metres": 0.004495786674651689,
+        "orientation_error_radians": 0.013971901266355988,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 330,
+        "robot0_eye_in_hand": 674
+      },
+      "passed": true
+    },
+    {
+      "seed": 609,
+      "perturbation": [
+        0.45,
+        0.35,
+        -0.2,
+        0.2,
+        -0.15,
+        0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.1808778737894573,
+        0.024771506863550338,
+        1.1647941419286874
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9977962613253979,
+        0.03929274042306392,
+        0.010802443177558756,
+        -0.05236419250308322
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.007874752453659133,
+        "orientation_error_radians": 0.013431993927327992,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 317,
+        "robot0_eye_in_hand": 737
+      },
+      "passed": true
+    },
+    {
+      "seed": 610,
+      "perturbation": [
+        0.45,
+        -0.35,
+        -0.2,
+        -0.2,
+        0.15,
+        -0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19531807876576354,
+        -0.0249057227952404,
+        1.1527490146608228
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9966440443881432,
+        -0.038936712090650034,
+        -0.04798534753725008,
+        0.053684147184659935
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.004613492986961085,
+        "orientation_error_radians": 0.009328620773504331,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 329,
+        "robot0_eye_in_hand": 867
+      },
+      "passed": true
+    },
+    {
+      "seed": 611,
+      "perturbation": [
+        0.35,
+        0.0,
+        -0.35,
+        0.2,
+        0.0,
+        -0.2,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19190857183662258,
+        0.002685297432493544,
+        1.1510166019945587
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9971078555162188,
+        -0.050125829006902656,
+        -0.02068424187389535,
+        -0.05324929926600562
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 18,
+        "position_error_metres": 0.004495786674652422,
+        "orientation_error_radians": 0.013971901266355278,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 314,
+        "robot0_eye_in_hand": 897
+      },
+      "passed": true
+    },
+    {
+      "seed": 612,
+      "perturbation": [
+        0.45,
+        0.35,
+        -0.2,
+        0.2,
+        -0.15,
+        0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.1808778737894573,
+        0.024771506863550338,
+        1.1647941419286874
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9977962613253979,
+        0.03929274042306392,
+        0.010802443177558756,
+        -0.05236419250308322
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.007874752453659362,
+        "orientation_error_radians": 0.013431993927327215,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 321,
+        "robot0_eye_in_hand": 670
+      },
+      "passed": true
+    },
+    {
+      "seed": 613,
+      "perturbation": [
+        0.45,
+        -0.35,
+        -0.2,
+        -0.2,
+        0.15,
+        -0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19531807876576354,
+        -0.0249057227952404,
+        1.1527490146608228
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9966440443881432,
+        -0.038936712090650034,
+        -0.04798534753725008,
+        0.053684147184659935
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.004613492986961097,
+        "orientation_error_radians": 0.009328620773503583,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 330,
+        "robot0_eye_in_hand": 784
+      },
+      "passed": true
+    },
+    {
+      "seed": 614,
+      "perturbation": [
+        0.35,
+        0.0,
+        -0.35,
+        0.2,
+        0.0,
+        -0.2,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19190857183662258,
+        0.002685297432493544,
+        1.1510166019945587
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9971078555162188,
+        -0.050125829006902656,
+        -0.02068424187389535,
+        -0.05324929926600562
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 18,
+        "position_error_metres": 0.004495786674651689,
+        "orientation_error_radians": 0.013971901266355988,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 324,
+        "robot0_eye_in_hand": 768
+      },
+      "passed": true
+    },
+    {
+      "seed": 615,
+      "perturbation": [
+        0.45,
+        0.35,
+        -0.2,
+        0.2,
+        -0.15,
+        0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.1808778737894573,
+        0.024771506863550338,
+        1.1647941419286874
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9977962613253979,
+        0.03929274042306392,
+        0.010802443177558756,
+        -0.05236419250308322
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.007874752453659133,
+        "orientation_error_radians": 0.013431993927327992,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 324,
+        "robot0_eye_in_hand": 668
+      },
+      "passed": true
+    },
+    {
+      "seed": 616,
+      "perturbation": [
+        0.45,
+        -0.35,
+        -0.2,
+        -0.2,
+        0.15,
+        -0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19531807876576354,
+        -0.0249057227952404,
+        1.1527490146608228
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9966440443881432,
+        -0.038936712090650034,
+        -0.04798534753725008,
+        0.053684147184659935
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.004613492986961039,
+        "orientation_error_radians": 0.009328620773504362,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 322,
+        "robot0_eye_in_hand": 874
+      },
+      "passed": true
+    },
+    {
+      "seed": 617,
+      "perturbation": [
+        0.35,
+        0.0,
+        -0.35,
+        0.2,
+        0.0,
+        -0.2,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19190857183662258,
+        0.002685297432493544,
+        1.1510166019945587
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9971078555162188,
+        -0.050125829006902656,
+        -0.02068424187389535,
+        -0.05324929926600562
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 18,
+        "position_error_metres": 0.004495786674652186,
+        "orientation_error_radians": 0.013971901266355464,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 326,
+        "robot0_eye_in_hand": 933
+      },
+      "passed": true
+    },
+    {
+      "seed": 618,
+      "perturbation": [
+        0.45,
+        0.35,
+        -0.2,
+        0.2,
+        -0.15,
+        0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.1808778737894573,
+        0.024771506863550338,
+        1.1647941419286874
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9977962613253979,
+        0.03929274042306392,
+        0.010802443177558756,
+        -0.05236419250308322
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.007874752453659133,
+        "orientation_error_radians": 0.013431993927327992,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 314,
+        "robot0_eye_in_hand": 1018
+      },
+      "passed": true
+    },
+    {
+      "seed": 619,
+      "perturbation": [
+        0.45,
+        -0.35,
+        -0.2,
+        -0.2,
+        0.15,
+        -0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19531807876576354,
+        -0.0249057227952404,
+        1.1527490146608228
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9966440443881432,
+        -0.038936712090650034,
+        -0.04798534753725008,
+        0.053684147184659935
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.0046134929869612725,
+        "orientation_error_radians": 0.00932862077350441,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 313,
+        "robot0_eye_in_hand": 986
+      },
+      "passed": true
+    },
+    {
+      "seed": 620,
+      "perturbation": [
+        0.35,
+        0.0,
+        -0.35,
+        0.2,
+        0.0,
+        -0.2,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19190857183662258,
+        0.002685297432493544,
+        1.1510166019945587
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9971078555162188,
+        -0.050125829006902656,
+        -0.02068424187389535,
+        -0.05324929926600562
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 18,
+        "position_error_metres": 0.004495786674652422,
+        "orientation_error_radians": 0.013971901266355278,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 321,
+        "robot0_eye_in_hand": 902
+      },
+      "passed": true
+    },
+    {
+      "seed": 621,
+      "perturbation": [
+        0.45,
+        0.35,
+        -0.2,
+        0.2,
+        -0.15,
+        0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.1808778737894573,
+        0.024771506863550338,
+        1.1647941419286874
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9977962613253979,
+        0.03929274042306392,
+        0.010802443177558756,
+        -0.05236419250308322
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.007874752453659362,
+        "orientation_error_radians": 0.013431993927327215,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 325,
+        "robot0_eye_in_hand": 705
+      },
+      "passed": true
+    },
+    {
+      "seed": 622,
+      "perturbation": [
+        0.45,
+        -0.35,
+        -0.2,
+        -0.2,
+        0.15,
+        -0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19531807876576354,
+        -0.0249057227952404,
+        1.1527490146608228
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9966440443881432,
+        -0.038936712090650034,
+        -0.04798534753725008,
+        0.053684147184659935
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.004613492986961085,
+        "orientation_error_radians": 0.009328620773504331,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 311,
+        "robot0_eye_in_hand": 1062
+      },
+      "passed": true
+    },
+    {
+      "seed": 623,
+      "perturbation": [
+        0.35,
+        0.0,
+        -0.35,
+        0.2,
+        0.0,
+        -0.2,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19190857183662258,
+        0.002685297432493544,
+        1.1510166019945587
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9971078555162188,
+        -0.050125829006902656,
+        -0.02068424187389535,
+        -0.05324929926600562
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 18,
+        "position_error_metres": 0.004495786674651689,
+        "orientation_error_radians": 0.013971901266355988,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 320,
+        "robot0_eye_in_hand": 996
+      },
+      "passed": true
+    },
+    {
+      "seed": 624,
+      "perturbation": [
+        0.45,
+        0.35,
+        -0.2,
+        0.2,
+        -0.15,
+        0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.1808778737894573,
+        0.024771506863550338,
+        1.1647941419286874
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9977962613253979,
+        0.03929274042306392,
+        0.010802443177558756,
+        -0.05236419250308322
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.007874752453659362,
+        "orientation_error_radians": 0.013431993927327215,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 322,
+        "robot0_eye_in_hand": 764
+      },
+      "passed": true
+    },
+    {
+      "seed": 625,
+      "perturbation": [
+        0.45,
+        -0.35,
+        -0.2,
+        -0.2,
+        0.15,
+        -0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19531807876576354,
+        -0.0249057227952404,
+        1.1527490146608228
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9966440443881432,
+        -0.038936712090650034,
+        -0.04798534753725008,
+        0.053684147184659935
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.004613492986961085,
+        "orientation_error_radians": 0.009328620773504331,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 314,
+        "robot0_eye_in_hand": 1002
+      },
+      "passed": true
+    },
+    {
+      "seed": 626,
+      "perturbation": [
+        0.35,
+        0.0,
+        -0.35,
+        0.2,
+        0.0,
+        -0.2,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19190857183662258,
+        0.002685297432493544,
+        1.1510166019945587
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9971078555162188,
+        -0.050125829006902656,
+        -0.02068424187389535,
+        -0.05324929926600562
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 18,
+        "position_error_metres": 0.004495786674652535,
+        "orientation_error_radians": 0.013971901266355957,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 311,
+        "robot0_eye_in_hand": 981
+      },
+      "passed": true
+    },
+    {
+      "seed": 627,
+      "perturbation": [
+        0.45,
+        0.35,
+        -0.2,
+        0.2,
+        -0.15,
+        0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.1808778737894573,
+        0.024771506863550338,
+        1.1647941419286874
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9977962613253979,
+        0.03929274042306392,
+        0.010802443177558756,
+        -0.05236419250308322
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.007874752453659362,
+        "orientation_error_radians": 0.013431993927327215,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 320,
+        "robot0_eye_in_hand": 760
+      },
+      "passed": true
+    },
+    {
+      "seed": 628,
+      "perturbation": [
+        0.45,
+        -0.35,
+        -0.2,
+        -0.2,
+        0.15,
+        -0.15,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19531807876576354,
+        -0.0249057227952404,
+        1.1527490146608228
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9966440443881432,
+        -0.038936712090650034,
+        -0.04798534753725008,
+        0.053684147184659935
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 19,
+        "position_error_metres": 0.004613492986961039,
+        "orientation_error_radians": 0.009328620773504362,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 325,
+        "robot0_eye_in_hand": 788
+      },
+      "passed": true
+    },
+    {
+      "seed": 629,
+      "perturbation": [
+        0.35,
+        0.0,
+        -0.35,
+        0.2,
+        0.0,
+        -0.2,
+        -1.0
+      ],
+      "perturbation_steps": 5,
+      "perturbed_eef_position": [
+        -0.19190857183662258,
+        0.002685297432493544,
+        1.1510166019945587
+      ],
+      "perturbed_eef_quaternion_xyzw": [
+        0.9971078555162188,
+        -0.050125829006902656,
+        -0.02068424187389535,
+        -0.05324929926600562
+      ],
+      "return_status": {
+        "phase": "COMPLETE",
+        "commands_issued": 18,
+        "position_error_metres": 0.004495786674651689,
+        "orientation_error_radians": 0.013971901266355988,
+        "consecutive_settled_steps": 5
+      },
+      "final_target_pixels": {
+        "agentview": 322,
+        "robot0_eye_in_hand": 917
+      },
+      "passed": true
+    }
+  ]
+}

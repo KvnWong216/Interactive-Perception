@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#25324A"/>
+    </marker>
+    <style>
+      .title{font-family:Arial,sans-serif;font-size:44px;font-weight:700;fill:#111827}
+      .subtitle{font-family:Arial,sans-serif;font-size:23px;font-weight:400;fill:#526077}
+      .head{font-family:Arial,sans-serif;font-size:24px;font-weight:700;fill:#111827}
+      .body{font-family:Arial,sans-serif;font-size:20px;font-weight:400;fill:#374151}
+      .small{font-family:Arial,sans-serif;font-size:17px;font-weight:400;fill:#526077}
+      .box{stroke-width:3;rx:22;ry:22}
+      .arrow{stroke:#25324A;stroke-width:4;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#F8FAFC"/>
+  <text x="80" y="72" class="title">Prompt-Aligned Action-Resolvable Uncertainty</text>
+  <text x="80" y="112" class="subtitle">A calibrated decision wrapper around a frozen VLA</text>
+
+  <rect x="70" y="185" width="245" height="190" class="box" fill="#E8F1FF" stroke="#3972C9"/>
+  <text x="193" y="232" text-anchor="middle" class="head">Observation</text>
+  <text x="193" y="278" text-anchor="middle" class="body">policy RGB</text>
+  <text x="193" y="310" text-anchor="middle" class="body">task prompt</text>
+  <text x="193" y="342" text-anchor="middle" class="body">public history</text>
+
+  <rect x="385" y="165" width="280" height="230" class="box" fill="#F1ECFF" stroke="#7655C9"/>
+  <text x="525" y="212" text-anchor="middle" class="head">Typed belief</text>
+  <text x="525" y="255" text-anchor="middle" class="body">OBSERVED</text>
+  <text x="525" y="287" text-anchor="middle" class="body">VIEWPOINT_BLOCKED</text>
+  <text x="525" y="319" text-anchor="middle" class="body">MANIPULATION_ONLY</text>
+  <text x="525" y="351" text-anchor="middle" class="body">ABSENT</text>
+  <text x="525" y="380" text-anchor="middle" class="small">prompt-conditioned</text>
+
+  <rect x="735" y="185" width="250" height="190" class="box" fill="#FFF4D8" stroke="#D89A1D"/>
+  <text x="860" y="232" text-anchor="middle" class="head">Conformal set</text>
+  <text x="860" y="278" text-anchor="middle" class="body">keep every</text>
+  <text x="860" y="310" text-anchor="middle" class="body">plausible state</text>
+  <text x="860" y="342" text-anchor="middle" class="small">α = 0.10, class-conditional</text>
+
+  <rect x="1055" y="165" width="300" height="230" class="box" fill="#E7F7EF" stroke="#26845B"/>
+  <text x="1205" y="212" text-anchor="middle" class="head">Action effects</text>
+  <text x="1205" y="255" text-anchor="middle" class="body">FAILED</text>
+  <text x="1205" y="287" text-anchor="middle" class="body">REVEALED</text>
+  <text x="1205" y="319" text-anchor="middle" class="body">EMPTY</text>
+  <text x="1205" y="351" text-anchor="middle" class="small">measured reliability + cost</text>
+  <text x="1205" y="380" text-anchor="middle" class="small">before / after / action history</text>
+
+  <path d="M315 280 H375" class="arrow"/>
+  <path d="M665 280 H725" class="arrow"/>
+  <path d="M985 280 H1045" class="arrow"/>
+
+  <rect x="430" y="475" width="740" height="150" class="box" fill="#FFFFFF" stroke="#1E293B"/>
+  <text x="800" y="522" text-anchor="middle" class="head">Finite-horizon expected-risk planner</text>
+  <text x="800" y="566" text-anchor="middle" class="body">U_res(a | b) = V_stop(b) − Q(b, a)</text>
+  <text x="800" y="603" text-anchor="middle" class="small">interact only when expected risk reduction exceeds action cost and failure risk</text>
+  <path d="M1205 395 V455 H800 V465" class="arrow"/>
+  <path d="M525 395 V435 H750 V465" class="arrow"/>
+
+  <rect x="280" y="710" width="1040" height="110" class="box" fill="#EAF0F7" stroke="#526077"/>
+  <text x="800" y="752" text-anchor="middle" class="head">ACT   ·   VIEW   ·   REMOVE_OCCLUDER   ·   ENRICH   ·   NOT_FOUND</text>
+  <text x="800" y="790" text-anchor="middle" class="small">each motor option is executed by the unchanged π0.5 action expert</text>
+  <path d="M800 625 V700" class="arrow"/>
+
+  <path d="M1320 765 H1480 V280 H1365" class="arrow"/>
+  <text x="1495" y="530" transform="rotate(-90 1495 530)" text-anchor="middle" class="small">act → sense → update → branch</text>
+
+  <rect x="70" y="710" width="165" height="110" class="box" fill="#FFFFFF" stroke="#94A3B8"/>
+  <text x="153" y="753" text-anchor="middle" class="head">Frozen</text>
+  <text x="153" y="786" text-anchor="middle" class="body">π0.5</text>
+  <path d="M235 765 H270" class="arrow"/>
+
+  <text x="80" y="870" class="small">No simulator joints, segmentation, hidden poses, task predicates, or BEV images enter the controller.</text>
+</svg>

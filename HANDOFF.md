@@ -1,5 +1,100 @@
 # Handoff
 
+## 2026-08-16 OPEN_AND_OBSERVE implementation and diagnostic
+
+The 57/60 strict reveal failures are now localized. Seeds 416, 436, and 438
+fully open the middle layer (joint approximately -0.161) but finish with zero
+target pixels in both policy views. This is post-open arm/self-occlusion, not a
+drawer endpoint error. With the drawer evaluator-opened and the arm left at the
+unchanged stock reset pose, the target is visible in 60/60 development seeds
+(one-sided 95% lower bound 0.951). Camera extrinsics and the VLA encoder do not
+need to change first.
+
+`OPEN_AND_OBSERVE` is implemented as frozen `pi05_libero` opening followed by
+an explicit `RETURN_TO_OBSERVE` controller. The return stage reads only
+`robot0_eef_pos`, `robot0_eef_quat`, and `robot0_gripper_qpos`; it cannot see
+drawer joints, segmentation, target pose, or labels. In MuJoCo it recovered
+the stock pose and target visibility from three fixed perturbation patterns on
+30/30 seeds 600--629, lower bound 0.905. This is diagnostic-only because those
+start poses were evaluator-constructed rather than real pi0.5 post-open states.
+
+The full composite collector and automatic server cleanup are ready in
+`scripts/run_t01_open_and_observe_pipeline.sh`. Run `smoke` first, then the
+immutable 600--659 development split. Version-1 audit seeds 500--599 stay
+sealed; the composite executor reserves 700--799 for its later one-time audit.
+Do not mark RP3/FP3 GO until continuous `pi0.5 OPEN -> RETURN -> OBSERVE`
+trajectories independently pass both `REVEALED` and conservative `EMPTY`
+effect gates. No model server or GPU process was active during this diagnostic.
+
+Two smoke launch attempts on 2026-08-16 were stopped during Orbax checkpoint
+restore by external `SIGTERM` (exit 143), once with a background child and once
+with the server as the foreground process. The old server log shows the same
+checkpoint previously restored in 4.34 seconds, and current failures contain
+no Python, CUDA, or OOM exception. No smoke JSONL or manifest was created, seed
+600 remains unconsumed, and the model process released GPU memory. Treat this
+as an execution-infrastructure block, not a physical or method result.
+
+## 2026-08-15 action-resolvable uncertainty method
+
+The paper claim is now narrower and more rigorous: a frozen VLA may possess an
+information action without knowing when it is worth using. A lightweight
+prompt-state head, class-conditional conformal set, context-scoped physical
+effect registry, and finite-horizon risk planner sit before the frozen
+`pi05_libero` action decoder. No new VLA encoder or decoder is trained.
+
+The method's central quantity is no longer entropy or a tuned confidence
+threshold. Action-resolvable uncertainty is
+`U_res(a|b) = V_stop(b) - Q(b,a)`: the expected task risk removed by an
+information action after paying its cost and accounting for measured failures.
+The router explores only when this value is positive. `RiskDecision` now emits
+this quantity explicitly.
+
+The current prompt-state audit distinguishes hidden butter from both a visible
+prompt-swapped object and already-revealed butter on seed-disjoint observations:
+97/100, 100/100, and 99/100 singleton-correct respectively. The offline
+target-observability router is 296/300; this is not final-task risk, because
+open-drawer butter retrieval remains 0/5. A strict final-task readiness audit
+blocks that transfer.
+
+The next live gate is a paired-before/after RGB action-outcome critic with
+`FAILED`, `REVEALED`, and `EMPTY` branches. Development uses seeds 400--459;
+the critic must be frozen before the one-time seeds 500--599 audit. A fresh
+OpenPI server with `jax.random.key(0)` and a frozen infer-call order is required
+because LIBERO environment seeds alone do not reproduce flow-matching action
+samples. Simulator segmentation and drawer joints create offline labels only;
+they never enter the policy or critic input.
+
+That development gate is now a strict NOT-GO. The earlier 97/100 number is
+drawer-joint opening, not visual information acquisition. On the paired
+calibration set, policy-camera `REVEALED` is 57/60 (one-sided lower 0.876) and
+conservative `EMPTY` is 56/60 (lower 0.854). Global v1, spatial v2, and
+target-subtask v3 outcome heads all fail; v3 reaches 20/21 coverage and 15/21
+singleton-correct, with only 2/7 singleton `REVEALED`. Audit seeds 500--599
+have not been collected. See `results/T01_ACTION_OUTCOME_DEVELOPMENT.md`.
+
+CoMe-VLA (`arXiv:2602.04600v2`) confirms the importance of information-seeking
+actions, outcome-dependent branching, and separate visual/proprioceptive
+history. It handles ambiguity with a manually supervised binary cognitive head
+and a deployment threshold of 0.7 sustained for three frames; it does not
+calibrate typed beliefs, physical effects, or action cost. We adopt its
+branching/history lesson, not its end-to-end retraining. The frozen ablation
+contract now includes a CoMe-style binary sufficiency baseline, visual-only
+history, and no-history variants in `benchmarks/rss_v1/ablations.yaml`.
+It uses the current frame plus five historical frames over five seconds, while
+its cognitive token cross-attends to preceding tokens. That directly motivates
+the next outcome head: short visual history plus proprioceptive/action history,
+with a prompt-conditioned attention readout. A two-frame global mean is not
+enough. A parameter-free attention prototype was implemented as v4, but two
+GPU extraction attempts were externally terminated before any artifact was
+written; no result is claimed and GPU memory was released.
+
+The segmentation-wrapper confound is closed: for both target-present and empty
+T01 scenes over seeds 400--409, `OffScreenRenderEnv` and
+`SegmentationRenderEnv` produced bit-identical agentview RGB, wrist RGB, and
+robot state in 20/20 pairs. The wrapper only exposes evaluator labels; it does
+not explain the critic failure. See
+`results/calibration/segmentation_wrapper_rgb_audit_v1.json`.
+
 ## 2026-08-15 final-product gate reset
 
 The strict product registry is `benchmarks/final_product_v1/gates.yaml`.

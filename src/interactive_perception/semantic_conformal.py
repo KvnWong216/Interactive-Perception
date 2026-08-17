@@ -102,7 +102,6 @@ class SemanticConformalCalibrator:
             "non_guarantee": "robot task success",
         }
 
-
 @dataclasses.dataclass(frozen=True)
 class MondrianSemanticConformalCalibrator:
     """Class-conditional conformal sets with one finite-sample quantile per intent."""
@@ -182,3 +181,20 @@ class MondrianSemanticConformalCalibrator:
             "guarantee": "class-conditional semantic-intent coverage under within-class exchangeability",
             "non_guarantee": "robot task success",
         }
+
+    @classmethod
+    def from_dict(cls, value: Mapping[str, Any]) -> "MondrianSemanticConformalCalibrator":
+        return cls(
+            alpha=float(value["alpha"]),
+            thresholds={
+                str(label): float(threshold)
+                for label, threshold in value["thresholds"].items()
+            },
+            labels=tuple(str(label) for label in value["labels"]),
+            calibration_size_per_class={
+                str(label): int(count)
+                for label, count in value["calibration_size_per_class"].items()
+            },
+            policy_id=str(value["policy_id"]),
+            split_id=str(value["split_id"]),
+        )

@@ -1,0 +1,37 @@
+{
+  "schema_version": "interactive-perception.pi05-transition-spatial-embedding.v2",
+  "dataset": "data/calibration/t01_action_effect_v1.jsonl",
+  "dataset_sha256": "4e7dc079496c1e5340358457858317c7acd3dc67843aa54380cb1c6acc894e8e",
+  "checkpoint": "pi05_libero",
+  "checkpoint_metadata_sha256": "303a4e354814928e1d29b75e310f2c1ac7e7e29b62f48395b631045ca1cffc73",
+  "openpi_commit": "15a9616a00943ada6c20a0f158e3adb39df2ccac",
+  "feature_per_frame": "8192-D global prefix plus two 8x8x64 frozen-projection maps and two 16x16 prompt-cosine maps per real camera",
+  "spatial_v2": true,
+  "spatial_projection": {
+    "type": "fixed Rademacher",
+    "seed": 260204600,
+    "input_dimension": 2048,
+    "output_dimension": 64,
+    "scale": "1/sqrt(64)",
+    "learned": false
+  },
+  "shape_per_phase": [
+    180,
+    17408
+  ],
+  "dtype": "float32",
+  "output": "outputs/t01_action_effect_v3/pi05_transition_target_query_spatial_embeddings.npz",
+  "output_sha256": "ef66821067a457afb0035871b7d5c09e637d18fbe76aba670ef3afe1bd1d4aec",
+  "encoder_inputs": [
+    "paired stock agentview RGB",
+    "paired stock wrist RGB",
+    "prompt"
+  ],
+  "encoder_prompt": "Find the butter",
+  "encoder_oracle_inputs": [],
+  "evaluator_only_diagnostics": [
+    "drawer_opened",
+    "after_max_target_pixels",
+    "physical_outcome_subtype"
+  ]
+}

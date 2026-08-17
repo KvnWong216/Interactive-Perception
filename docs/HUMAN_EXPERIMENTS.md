@@ -1,104 +1,129 @@
-# Experiments that still require a human decision or new data
+# Decisions and data that still require collaborators
 
-Everything below is blocked by scientific input, not unfinished plumbing.
+Automated plumbing is tracked by `benchmarks/rss_v1/gates.yaml`. The items
+below require a scientific choice, manual annotation, or a new external model;
+code should not silently decide them after seeing test results.
 
-## 1. Freeze the paper configuration
+## 1. Freeze the paper test distribution
 
-Record immutable identifiers for:
+All T01 prompt-state and action-effect scenes collected so far are
+calibration-only. Before any paper comparison, collaborators must freeze:
 
-- π0.5 checkpoint and openpi commit;
-- second VLA checkpoint (OpenVLA or Octo);
-- public RGB perception model, if retained;
-- benchmark commit and calibration/test split.
+- held-out objects and prompts;
+- held-out container layouts;
+- clutter and occlusion severity bins;
+- scene seeds and trial counts;
+- primary and secondary metrics;
+- which failures count as unsafe, incomplete, or `NOT_FOUND`.
 
-Do not choose these after viewing test performance.
+The test set must not reuse seeds 220--379, 400--459, 500--599, 600--659, or
+700--799. The last two ranges are reserved for `OPEN_AND_OBSERVE` development
+and its one-time audit respectively.
 
-## 2. Extend the completed G4-v1 calibration split
+## 2. Choose final-task losses
 
-G4-v1 is complete for `ACT` versus `REMOVE_OCCLUDER`: 100 observations, alpha
-0.1, held-out coverage 20/20, mean set size 1.0. Its frozen samples may never
-enter the paper test set.
+The target-observability experiment reports a full information-cost sweep. A
+final-task claim needs costs in a shared unit:
 
-For the remaining primitive classes, use scenes and task instances disjoint
-from T01–T06. Collect at least 30
-independent episodes; 100+ is preferable for a 90% coverage target because the
-finite-sample resolution is `1/(n+1)`. For each episode:
+- execution time or energy;
+- contact/collision penalty;
+- failed manipulation penalty;
+- false-commit penalty;
+- false-`NOT_FOUND` penalty;
+- human-assistance penalty, if assistance is allowed.
+- temporal-logic violation penalty;
+- `SAFE_STOP` / deferral cost, which must remain distinct from `NOT_FOUND`.
 
-1. freeze one RGB observation and task prompt;
-2. draw the preregistered number of independent π0.5 action chunks;
-3. use anchor-free action features, or decode only against public anchors—never
-   `task_target`;
-4. label the correct coarse intent from the task construction;
-5. save action evidence, `true_intent`, task, seed, checkpoint, and split.
+Freeze these values from task requirements or independent measurements. Do not
+choose them from paper test success.
 
-Fit with:
+## 3. Freeze the prompt-to-temporal-specification contract
 
-```bash
-env -u PYTHONPATH ../.conda/envs/ipu/bin/python \
-  scripts/calibrate_semantic_intents.py calibration.jsonl \
-  --output artifacts/semantic_conformal.json \
-  --alpha 0.1 \
-  --policy-id <checkpoint-and-commit> \
-  --split-id <frozen-split-name>
-```
+The runtime automaton may contain generic rules such as “commit only after
+sufficient evidence” and “NOT_FOUND only after search exhaustion.” It must not
+contain benchmark answers such as `T01 -> OPEN_DRAWER` or object-specific search
+orders. Collaborators must freeze:
 
-Before the main experiment, verify empirical coverage and mean prediction-set
-size on a validation split that is separate from both calibration and test.
+- the allowed atomic propositions;
+- the generic finite-trace rules;
+- how calibrated proposition sets induce a progress-state distribution;
+- which violation classes are safety-critical;
+- whether `SAFE_STOP` means wait, ask for help, or terminate without a task
+  claim.
 
-## 3. Choose physical losses
+Do this before the paper test tasks are revealed. T-LEAF-style learned logic is
+an optional sample-efficiency arm, not permission to learn scenario answers
+from the test set.
 
-Measure action time, collision/contact failures, false `NOT_FOUND` cost, and
-failed manipulation cost. Convert them to a common unit before using Bayes
-risk. Do not tune loss ratios on T01–T06 success rate.
+## 4. Choose the post-reveal executor contract
 
-Also preregister the minimum acceptable executor reliability for each physical
-primitive. Apply `check_capability_gate.py`; it uses a one-sided exact binomial
-lower bound. The frozen T01 result is 15/30 with a 95% lower bound of 0.339,
-so it fails the preregistered 0.90 requirement. Before the main experiment,
-freeze either a different executor, or a bounded retry/assistance protocol and
-calibrate the reliability of that whole protocol.
+Open-drawer butter retrieval is 0/5. Collaborators must choose one scope before
+more final-task trials:
 
-## 4. Run the preregistered paper experiment
+- keep pure final-goal `pi05_libero` and report the capability boundary;
+- use a preregistered decomposition into training-aligned unit prompts;
+- replace the executor with another frozen policy;
+- train an executor and narrow the paper claim accordingly.
 
-Required arms:
+Whichever contract is chosen must pass its own context-specific 0.90 lower-
+bound gate. Stock LIBERO object success cannot be transferred to an open drawer.
 
-- monolithic final-goal π0.5;
-- fixed interaction rule;
-- semantic uncertainty without conformal calibration;
-- conformal semantic router;
+## 5. Freeze the paper-scale `EMPTY` certificate
+
+Simulator knowledge that the target was placed elsewhere is not observable
+evidence that a container is empty. T01 development uses a conservative
+seed-paired target-present counterfactual only as a calibration proxy.
+Collaborators must freeze one paper-scale certificate before `NOT_FOUND` tests:
+
+- depth-based visible/occluded container volume;
+- geometry-grounded visibility with independently validated RGB prediction; or
+- a deliberately instrumented container protocol whose coverage transfers to
+  the uninstrumented test scenes.
+
+The chosen certificate must reject `OPENED_UNOBSERVED`: an opened drawer whose
+interior is still blocked by the arm or outside both policy cameras.
+
+## 6. Select the second frozen policy
+
+The generality gate requires a second VLA. Freeze checkpoint, commit, camera
+contract, prompt form, and supported action family before running custom
+scenes. OpenVLA or Octo are candidates only after a stock reproduction gate.
+
+## 7. Qualitative audit
+
+Two collaborators should independently inspect a preregistered sample of
+success and failure videos and label:
+
+- correct target reference;
+- correct information action;
+- physical action success;
+- whether new prompt-relevant information entered a policy camera;
+- final-task completion;
+- safety/contact failure.
+
+Resolve disagreements without access to method identity. The simulator labels
+remain useful, but they do not replace this failure-taxonomy audit.
+
+## Required paper arms
+
+- monolithic frozen VLA;
+- prompt-blind fixed rule;
+- raw action spread;
+- CoMe-style binary information-sufficiency head;
+- uncalibrated belief head;
+- visual-only history;
+- no-history outcome critic;
+- no-effect risk planner;
+- no temporal-progress state;
+- deterministic argmax automaton;
+- complete method;
 - oracle information action as an upper bound.
 
-Required uncertainty baselines, where the model API permits them:
-
-- raw action/trajectory spread;
-- token entropy for a discrete-action VLA (`Ask Before You Act` style);
-- diffusion/flow training-loss OOD score (`Diff-DAgger` style), which requires
-  a versioned white-box π0.5 server change;
-- task-success confidence head (`VLAConf` style), if internal representations
-  and training data are available;
-- the proposed semantic conformal intent set plus capability gate.
-
-Required controls:
-
-- stock LIBERO reproduction;
-- T04 visible target;
-- capability prompt for every physical information skill;
-- policy-visible RGB audit proving no segmentation or hidden pose is consumed.
-
-Report task success, information-endpoint rate, conformal coverage, set size,
-interactions, time, and failure taxonomy with confidence intervals. Use enough
-seeds to distinguish the expected effect; five seeds remain a debug gate.
-
-## 5. Generality and robustness
-
-Repeat the frozen protocol with a second VLA. Sweep clutter and occlusion
-severity without moving thresholds. Re-run scene validation and NBV
-certification after every geometry change.
-
-## Claims not yet permitted
+## Claims still forbidden
 
 - π0.5 is broadly overfit;
-- the router improves task success;
-- conformal calibration guarantees robot success;
-- the method generalizes across VLAs;
-- segmentation wrapper caused the failures.
+- the method improves final task success;
+- conformal coverage guarantees physical success;
+- the method generalizes across scenes or VLAs;
+- `VIEWPOINT_BLOCKED`, `ABSENT`, or `NOT_FOUND` is solved;
+- the paired-RGB critic is reliable before its frozen audit passes.
