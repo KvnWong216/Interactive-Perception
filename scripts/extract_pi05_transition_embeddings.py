@@ -60,12 +60,26 @@ def main() -> None:
             "This mirrors a cognitive query without training the VLA."
         ),
     )
+    parser.add_argument(
+        "--temporal-v5",
+        action="store_true",
+        help=(
+            "Encode the frozen six-point policy-visible RGB/proprioceptive "
+            "history saved by OPEN_AND_OBSERVE."
+        ),
+    )
     args = parser.parse_args()
     if args.batch_size < 1:
         raise ValueError("batch-size must be positive")
     if args.cognitive_query_v4 and (not args.spatial_v2 or not args.query_prompt):
         raise ValueError(
             "--cognitive-query-v4 requires --spatial-v2 and --query-prompt"
+        )
+    if args.temporal_v5 and (
+        not args.spatial_v2 or not args.cognitive_query_v4 or not args.query_prompt
+    ):
+        raise ValueError(
+            "--temporal-v5 requires --spatial-v2, --cognitive-query-v4, and --query-prompt"
         )
 
     from flax import nnx
@@ -192,9 +206,9 @@ def main() -> None:
     encoder = PrefixEncoder(policy._model)
     encode = nnx_utils.module_jit(encoder.encode)
 
-    def transformed(row: dict, phase: str):
-        base = imageio.imread(root / row["image_paths"][phase]["agentview"])
-        wrist = imageio.imread(root / row["image_paths"][phase]["wrist"])
+    def transformed_paths(row: dict, paths: dict):
+        base = imageio.imread(root / paths["agentview"])
+        wrist = imageio.imread(root / paths["wrist"])
         value = policy._input_transform(
             {
                 "observation/image": base,
@@ -205,29 +219,67 @@ def main() -> None:
         )
         return jax.tree.map(jnp.asarray, value)
 
-    def embed_phase(phase: str) -> np.ndarray:
+    def transformed(row: dict, phase: str):
+        return transformed_paths(row, row["image_paths"][phase])
+
+    def embed_items(items, *, label: str) -> np.ndarray:
         features = []
-        for start in range(0, len(rows), args.batch_size):
-            batch_rows = rows[start : start + args.batch_size]
-            real_size = len(batch_rows)
+        for start in range(0, len(items), args.batch_size):
+            batch_items = items[start : start + args.batch_size]
+            real_size = len(batch_items)
             if real_size < args.batch_size:
-                batch_rows += [batch_rows[-1]] * (args.batch_size - real_size)
-            values = [transformed(row, phase) for row in batch_rows]
-            batch = jax.tree.map(lambda *items: jnp.stack(items), *values)
+                batch_items += [batch_items[-1]] * (args.batch_size - real_size)
+            values = [item() for item in batch_items]
+            batch = jax.tree.map(lambda *parts: jnp.stack(parts), *values)
             observation = model_lib.Observation.from_dict(batch)
             features.append(
                 np.asarray(encode(observation), dtype=np.float32)[:real_size]
             )
-            print(
-                f"{phase}: embedded {start + real_size}/{len(rows)}", flush=True
-            )
+            print(f"{label}: embedded {start + real_size}/{len(items)}", flush=True)
         return np.concatenate(features, axis=0)
 
-    before = embed_phase("before")
-    after = embed_phase("after")
+    def embed_phase(phase: str) -> np.ndarray:
+        items = [
+            (lambda row=row, phase=phase: transformed(row, phase)) for row in rows
+        ]
+        return embed_items(items, label=phase)
+
+    history = None
+    robot_state_history = None
+    if args.temporal_v5:
+        history_lengths = {len(row.get("public_history", ())) for row in rows}
+        if history_lengths != {6}:
+            raise ValueError(
+                f"temporal-v5 requires exactly six public history points, got {history_lengths}"
+            )
+        items = []
+        for row in rows:
+            for point in row["public_history"]:
+                items.append(
+                    lambda row=row, point=point: transformed_paths(
+                        row, point["image_paths"]
+                    )
+                )
+        flat_history = embed_items(items, label="public-history")
+        history = flat_history.reshape(len(rows), 6, flat_history.shape[-1])
+        robot_state_history = np.asarray(
+            [
+                [point["robot_state"] for point in row["public_history"]]
+                for row in rows
+            ],
+            dtype=np.float32,
+        )
+        if robot_state_history.shape != (len(rows), 6, 8):
+            raise ValueError(
+                f"expected [N,6,8] public robot history, got {robot_state_history.shape}"
+            )
+        before = history[:, 0]
+        after = history[:, -1]
+    else:
+        before = embed_phase("before")
+        after = embed_phase("after")
     output.parent.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(
-        output,
+    payload = dict(
         before_features=before,
         after_features=after,
         regime=np.asarray([row["regime"] for row in rows]),
@@ -259,10 +311,16 @@ def main() -> None:
             ]
         ),
     )
+    if history is not None:
+        payload["history_features"] = history
+        payload["robot_state_history"] = robot_state_history
+    np.savez_compressed(output, **payload)
     metadata = checkpoint / "params/_METADATA"
     report = {
         "schema_version": (
-            "interactive-perception.pi05-transition-cognitive-query-embedding.v4"
+            "interactive-perception.pi05-transition-temporal-embedding.v5"
+            if args.temporal_v5
+            else "interactive-perception.pi05-transition-cognitive-query-embedding.v4"
             if args.cognitive_query_v4
             else "interactive-perception.pi05-transition-spatial-embedding.v2"
             if args.spatial_v2
@@ -286,6 +344,7 @@ def main() -> None:
         ),
         "spatial_v2": args.spatial_v2,
         "cognitive_query_v4": args.cognitive_query_v4,
+        "temporal_v5": args.temporal_v5,
         "cognitive_query_readout": (
             "parameter-free scaled dot-product attention from prompt-mean to "
             "each camera's frozen visual tokens"
@@ -305,10 +364,26 @@ def main() -> None:
             else None
         ),
         "shape_per_phase": list(before.shape),
+        "history_shape": list(history.shape) if history is not None else None,
+        "robot_state_history_shape": (
+            list(robot_state_history.shape)
+            if robot_state_history is not None
+            else None
+        ),
         "dtype": str(before.dtype),
         "output": str(output.relative_to(root)),
         "output_sha256": digest(output),
-        "encoder_inputs": ["paired stock agentview RGB", "paired stock wrist RGB", "prompt"],
+        "encoder_inputs": (
+            [
+                "six stock agentview RGB frames",
+                "six stock wrist RGB frames",
+                "six policy-visible robot-state vectors",
+                "prompt",
+                "executed option role",
+            ]
+            if args.temporal_v5
+            else ["paired stock agentview RGB", "paired stock wrist RGB", "prompt"]
+        ),
         "encoder_prompt": args.query_prompt or "dataset final_prompt",
         "encoder_oracle_inputs": [],
         "evaluator_only_diagnostics": [

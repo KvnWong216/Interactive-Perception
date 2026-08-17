@@ -25,10 +25,10 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 extra=()
-dataset="$REPO/data/calibration/t01_open_and_observe_effect_v1.jsonl"
+dataset="$REPO/data/calibration/t01_open_and_observe_effect_v3.jsonl"
 if [ "$MODE" = "smoke" ]; then
   extra=(--smoke)
-  dataset="$REPO/data/calibration/t01_open_and_observe_effect_v1_smoke.jsonl"
+  dataset="$REPO/data/calibration/t01_open_and_observe_effect_v3_smoke.jsonl"
 elif [ "$MODE" = "audit" ]; then
   artifact="${OPEN_AND_OBSERVE_ARTIFACT:-}"
   [ -n "$artifact" ] || {
@@ -36,7 +36,7 @@ elif [ "$MODE" = "audit" ]; then
     exit 1
   }
   extra=(--audit --artifact "$artifact")
-  dataset="$REPO/data/calibration/t01_open_and_observe_effect_v1_audit.jsonl"
+  dataset="$REPO/data/calibration/t01_open_and_observe_effect_v3_audit.jsonl"
 else
   extra=()
 fi

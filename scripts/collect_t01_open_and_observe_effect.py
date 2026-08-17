@@ -6,8 +6,11 @@ controller then releases the handle and returns the end effector / wrist camera
 to the stock observation pose.  Simulator joints and segmentation are used
 only after actions for evaluator labels; they cannot affect execution.
 
-Version-1 action-effect seeds 500--599 remain sealed.  This new executor uses
-600--659 for development and reserves 700--799 for a future frozen audit.
+Earlier files remain immutable. Version 4 uses untouched 660--699 as a clean
+development extension, seed 1399 for wiring smoke, and reserves 900--999 for a
+new frozen audit. The
+previous 700--799 audit was opened before a final-frame-only label bug was
+found, so it is debug-only and is never reused as an audit.
 """
 
 from __future__ import annotations
@@ -19,23 +22,26 @@ import math
 import sys
 from pathlib import Path
 
+import numpy as np
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT / "scripts"), str(ROOT / "src")]
 import _bootstrap  # noqa: F401,E402
 from collect_t01_action_effect_transitions import (  # noqa: E402
     DUMMY_ACTION,
     FINAL_PROMPT,
-    MIN_TARGET_PIXELS,
     MIDDLE_JOINT,
     OPEN_LIMIT,
     OPEN_PROMPT,
-    development_split,
     digest,
     policy_visibility,
     save_packet_images,
 )
 from interactive_perception.action_options import execute_open_and_observe  # noqa: E402
-from interactive_perception.action_outcome import label_effect_outcome  # noqa: E402
+from interactive_perception.action_outcome import (  # noqa: E402
+    PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
+    label_temporal_information_outcome,
+)
 from interactive_perception.observation_option import (  # noqa: E402
     ObservationReturnConfig,
 )
@@ -45,10 +51,70 @@ from interactive_perception.policy_client import (  # noqa: E402
 )
 
 
+def save_public_history_point(
+    observation: dict,
+    *,
+    directory: Path,
+    name: str,
+    option_phase: str,
+    step: int,
+) -> dict:
+    """Save one policy-visible temporal sample without evaluator state."""
+
+    packet = build_observation(observation, FINAL_PROMPT)
+    paths, hashes = save_packet_images(packet, directory, name)
+    return {
+        "name": name,
+        "option_phase": option_phase,
+        "step": int(step),
+        "image_paths": paths,
+        "image_sha256": hashes,
+        "robot_state": [float(value) for value in packet.state],
+        "action_role": "INFORMATION",
+    }
+
+
+def open_and_observe_development_split(offset: int) -> str:
+    """Seed-grouped split with at least 30 conformal examples per class."""
+
+    if offset < 20:
+        return "prototype_train"
+    if offset < 53:
+        return "conformal_calibration"
+    return "heldout_development"
+
+
+def target_qpos(env) -> list[float]:
+    obj = env.env.objects_dict["butter_1"]
+    return np.asarray(
+        env.env.sim.data.get_joint_qpos(obj.joints[0]), dtype=float
+    ).tolist()
+
+
+def counterfactual_target_visibility(env, qpos) -> dict[str, int]:
+    """Render a target at a declared pose, then restore exact simulator state."""
+
+    original_state = np.asarray(env.get_sim_state(), dtype=float).copy()
+    obj = env.env.objects_dict["butter_1"]
+    try:
+        env.env.sim.data.set_joint_qpos(obj.joints[0], np.asarray(qpos, dtype=float))
+        env.env.sim.forward()
+        observation = env.regenerate_obs_from_state(
+            np.asarray(env.get_sim_state(), dtype=float).copy()
+        )
+        return policy_visibility(env, observation)
+    finally:
+        env.regenerate_obs_from_state(original_state)
+        restored_state = np.asarray(env.get_sim_state(), dtype=float)
+        if not np.array_equal(restored_state, original_state):
+            raise RuntimeError("counterfactual evaluator did not restore simulator state")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--audit", action="store_true")
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument("--extension", action="store_true")
     parser.add_argument("--fresh-policy-server", action="store_true")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--seeds", type=int, nargs="+", default=None)
@@ -61,30 +127,48 @@ def main() -> None:
     parser.add_argument("--image-dir", type=Path, default=None)
     args = parser.parse_args()
 
-    if args.audit and args.smoke:
-        raise ValueError("audit and smoke modes are mutually exclusive")
+    if sum((args.audit, args.smoke, args.extension)) > 1:
+        raise ValueError("audit, smoke, and extension modes are mutually exclusive")
     if not args.smoke and not args.fresh_policy_server:
         raise ValueError("non-smoke collection requires --fresh-policy-server")
     expected = (
-        [600]
+        [1399]
         if args.smoke
-        else list(range(700, 800))
+        else list(range(900, 1000))
         if args.audit
+        else list(range(660, 700))
+        if args.extension
         else list(range(600, 660))
     )
     if args.seeds is None:
         args.seeds = expected
     if args.seeds != expected:
         raise ValueError(
-            f"frozen {'audit' if args.audit else 'smoke' if args.smoke else 'development'} "
+            f"frozen {'audit' if args.audit else 'smoke' if args.smoke else 'extension' if args.extension else 'development'} "
             f"seeds are {expected[0]}-{expected[-1]}"
         )
     if args.output is None:
-        suffix = "_audit" if args.audit else "_smoke" if args.smoke else ""
-        args.output = ROOT / f"data/calibration/t01_open_and_observe_effect_v1{suffix}.jsonl"
+        suffix = (
+            "_audit"
+            if args.audit
+            else "_smoke"
+            if args.smoke
+            else "_extension"
+            if args.extension
+            else ""
+        )
+        args.output = ROOT / f"data/calibration/t01_open_and_observe_effect_v4{suffix}.jsonl"
     if args.image_dir is None:
-        suffix = "_audit" if args.audit else "_smoke" if args.smoke else ""
-        args.image_dir = ROOT / f"outputs/t01_open_and_observe_effect_v1{suffix}/images"
+        suffix = (
+            "_audit"
+            if args.audit
+            else "_smoke"
+            if args.smoke
+            else "_extension"
+            if args.extension
+            else ""
+        )
+        args.image_dir = ROOT / f"outputs/t01_open_and_observe_effect_v4{suffix}/images"
     for name in ("output", "image_dir", "artifact"):
         value = getattr(args, name)
         if value is not None and not value.is_absolute():
@@ -174,11 +258,68 @@ def main() -> None:
                     raise RuntimeError(
                         f"seed {seed} violates hidden-target precondition: {before_visibility}"
                     )
+                counterpart = None
+                counterpart_target_qpos = {}
+                if regime["intended"] == "EMPTY":
+                    counterpart = next(
+                        (
+                            row
+                            for row in rows
+                            if row["regime"] == "revealed_full"
+                            and int(row["seed"]) == seed
+                        ),
+                        None,
+                    )
+                    if counterpart is None:
+                        raise RuntimeError(
+                            "EMPTY requires earlier paired target-present row"
+                        )
+                    counterpart_target_qpos = {
+                        point["name"]: point["qpos"]
+                        for point in counterpart["evaluator_only"][
+                            "target_qpos_history"
+                        ]
+                    }
                 directory = args.image_dir / regime["id"] / f"seed{seed:03d}"
                 before_paths, before_hashes = save_packet_images(
                     build_observation(obs, FINAL_PROMPT), directory, "before"
                 )
+                public_history = [
+                    {
+                        "name": "before",
+                        "option_phase": "BEFORE",
+                        "step": -1,
+                        "image_paths": before_paths,
+                        "image_sha256": before_hashes,
+                        "robot_state": [
+                            float(value)
+                            for value in build_observation(obs, FINAL_PROMPT).state
+                        ],
+                        "action_role": "INFORMATION",
+                    }
+                ]
+                visibility_history = [
+                    {"name": "before", "target_pixels": before_visibility}
+                ]
+                target_qpos_history = [
+                    {"name": "before", "qpos": target_qpos(env)}
+                ]
+                counterfactual_visibility_history = []
+                if counterpart is not None:
+                    counterfactual_visibility_history.append(
+                        {
+                            "name": "before",
+                            "target_pixels": counterfactual_target_visibility(
+                                env, counterpart_target_qpos["before"]
+                            ),
+                        }
+                    )
                 minimum_joint = float(env.env.sim.data.get_joint_qpos(MIDDLE_JOINT))
+
+                open_history_steps = {
+                    max(0, round(regime["open_steps"] * fraction) - 1): index
+                    for index, fraction in enumerate((0.25, 0.50, 0.75, 1.00), start=1)
+                }
 
                 def observe_step(phase, step, current_obs):
                     nonlocal minimum_joint
@@ -186,6 +327,36 @@ def main() -> None:
                         minimum_joint,
                         float(env.env.sim.data.get_joint_qpos(MIDDLE_JOINT)),
                     )
+                    if phase == "OPEN" and step in open_history_steps:
+                        index = open_history_steps[step]
+                        public_history.append(
+                            save_public_history_point(
+                                current_obs,
+                                directory=directory,
+                                name=f"history_{index:02d}",
+                                option_phase="OPEN",
+                                step=step,
+                            )
+                        )
+                        visibility_history.append(
+                            {
+                                "name": f"history_{index:02d}",
+                                "target_pixels": policy_visibility(env, current_obs),
+                            }
+                        )
+                        name = f"history_{index:02d}"
+                        target_qpos_history.append(
+                            {"name": name, "qpos": target_qpos(env)}
+                        )
+                        if counterpart is not None:
+                            counterfactual_visibility_history.append(
+                                {
+                                    "name": name,
+                                    "target_pixels": counterfactual_target_visibility(
+                                        env, counterpart_target_qpos[name]
+                                    ),
+                                }
+                            )
 
                 obs, execution = execute_open_and_observe(
                     env=env,
@@ -201,37 +372,73 @@ def main() -> None:
                 after_paths, after_hashes = save_packet_images(
                     build_observation(obs, FINAL_PROMPT), directory, "after"
                 )
-                opened = minimum_joint < OPEN_LIMIT
-                outcome = label_effect_outcome(
-                    opened=opened,
-                    target_in_resolved_location=regime["target_in_middle"],
-                    target_pixels=tuple(after_visibility.values()),
-                    minimum_target_pixels=MIN_TARGET_PIXELS,
-                ).value
-                if not execution.executor_completed:
-                    outcome = "FAILED"
-
+                public_history.append(
+                    {
+                        "name": "after",
+                        "option_phase": "AFTER_RETURN",
+                        "step": execution.return_steps,
+                        "image_paths": after_paths,
+                        "image_sha256": after_hashes,
+                        "robot_state": [
+                            float(value)
+                            for value in build_observation(obs, FINAL_PROMPT).state
+                        ],
+                        "action_role": "INFORMATION",
+                    }
+                )
+                visibility_history.append(
+                    {"name": "after", "target_pixels": after_visibility}
+                )
+                target_qpos_history.append(
+                    {"name": "after", "qpos": target_qpos(env)}
+                )
+                if counterpart is not None:
+                    counterfactual_visibility_history.append(
+                        {
+                            "name": "after",
+                            "target_pixels": counterfactual_target_visibility(
+                                env, counterpart_target_qpos["after"]
+                            ),
+                        }
+                    )
+                if (
+                    len(public_history) != 6
+                    or len(visibility_history) != 6
+                    or len(target_qpos_history) != 6
+                    or (
+                        counterpart is not None
+                        and len(counterfactual_visibility_history) != 6
+                    )
+                ):
+                    raise RuntimeError(
+                        "expected six aligned public/evaluator history points"
+                    )
+                final_joint = float(env.env.sim.data.get_joint_qpos(MIDDLE_JOINT))
+                opened = final_joint < OPEN_LIMIT
                 empty_counterfactual_reveal_certified = None
                 if regime["intended"] == "EMPTY":
-                    counterpart = next(
-                        (
-                            row
-                            for row in rows
-                            if row["regime"] == "revealed_full"
-                            and int(row["seed"]) == seed
-                        ),
-                        None,
+                    empty_counterfactual_reveal_certified = any(
+                        max(point["target_pixels"].values()) >= MIN_TARGET_PIXELS
+                        for point in counterfactual_visibility_history
                     )
-                    if counterpart is None:
-                        raise RuntimeError("EMPTY requires earlier paired target-present row")
-                    empty_counterfactual_reveal_certified = (
-                        counterpart["outcome"] == "REVEALED"
-                    )
-                    if outcome == "EMPTY" and not empty_counterfactual_reveal_certified:
-                        outcome = "FAILED"
+                outcome = label_temporal_information_outcome(
+                    full_executor=bool(regime["full_executor"]),
+                    opened=opened,
+                    return_complete=(
+                        execution.return_status.phase.value == "COMPLETE"
+                    ),
+                    target_pixel_history=tuple(
+                        tuple(point["target_pixels"].values())
+                        for point in visibility_history
+                    ),
+                    minimum_target_pixels=PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
+                    empty_coverage_certified=bool(
+                        empty_counterfactual_reveal_certified
+                    ),
+                ).value
 
                 row = {
-                    "schema_version": "interactive-perception.open-and-observe-effect.v1",
+                    "schema_version": "interactive-perception.open-and-observe-effect.v4",
                     "regime": regime["id"],
                     "seed": seed,
                     "split": (
@@ -239,7 +446,9 @@ def main() -> None:
                         if args.audit
                         else "smoke_only"
                         if args.smoke
-                        else development_split(offset)
+                        else "heldout_development_extension"
+                        if args.extension
+                        else open_and_observe_development_split(offset)
                     ),
                     "context": "t01_stock_middle_drawer_search",
                     "final_prompt": FINAL_PROMPT,
@@ -257,11 +466,11 @@ def main() -> None:
                     "bddl": str(regime["bddl"].relative_to(ROOT)),
                     "image_paths": {"before": before_paths, "after": after_paths},
                     "image_sha256": {"before": before_hashes, "after": after_hashes},
+                    "public_history": public_history,
                     "critic_inputs": [
-                        "before agentview RGB",
-                        "before wrist RGB",
-                        "after agentview RGB",
-                        "after wrist RGB",
+                        "six stock agentview RGB frames",
+                        "six stock wrist RGB frames",
+                        "six public robot-state vectors",
                         "final prompt",
                         "action label",
                     ],
@@ -279,10 +488,18 @@ def main() -> None:
                     },
                     "evaluator_only": {
                         "middle_joint_minimum": minimum_joint,
+                        "middle_joint_final": final_joint,
                         "drawer_opened": opened,
                         "before_target_pixels": before_visibility,
                         "after_target_pixels": after_visibility,
-                        "minimum_revealed_target_pixels": MIN_TARGET_PIXELS,
+                        "visibility_history": visibility_history,
+                        "target_qpos_history": target_qpos_history,
+                        "counterfactual_visibility_history": (
+                            counterfactual_visibility_history
+                        ),
+                        "minimum_revealed_target_pixels": (
+                            PI05_PATCH_EQUIVALENT_TARGET_PIXELS
+                        ),
                         "frozen_target_in_middle": regime["target_in_middle"],
                         "empty_counterfactual_reveal_certified": (
                             empty_counterfactual_reveal_certified
@@ -305,15 +522,38 @@ def main() -> None:
     if len(rows) != len(regimes) * len(args.seeds):
         raise RuntimeError("incomplete dataset")
     manifest = {
-        "schema_version": "interactive-perception.open-and-observe-manifest.v1",
+        "schema_version": "interactive-perception.open-and-observe-manifest.v4",
         "dataset": str(args.output.relative_to(ROOT)),
         "dataset_sha256": digest(args.output),
-        "phase": "heldout_audit" if args.audit else "smoke" if args.smoke else "development",
+        "phase": (
+            "heldout_audit"
+            if args.audit
+            else "smoke"
+            if args.smoke
+            else "heldout_development_extension"
+            if args.extension
+            else "development"
+        ),
         "seeds": args.seeds,
         "samples": len(rows),
         "regimes": [regime["id"] for regime in regimes],
         "action": "OPEN_AND_OBSERVE",
         "frozen_executor": "pi05_libero + versioned proprioceptive return controller",
+        "public_history_points_per_trial": 6,
+        "outcome_label": "temporal prompt-resolvability v4",
+        "minimum_resolvable_target_pixels": PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
+        "threshold_derivation": "(256 policy pixels / 16 visual tokens per side)^2",
+        "empty_coverage_certificate": (
+            "same-camera-pose counterfactual rendering of seed-matched target trajectory"
+        ),
+        "public_history_layout": [
+            "before",
+            "open 25%",
+            "open 50%",
+            "open 75%",
+            "open 100%",
+            "after return-to-observe",
+        ],
         "audit_artifact": str(args.artifact.relative_to(ROOT)) if args.artifact else None,
         "audit_artifact_sha256": frozen_artifact_sha,
         "online_oracle_inputs": [],

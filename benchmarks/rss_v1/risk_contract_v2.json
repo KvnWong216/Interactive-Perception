@@ -1,0 +1,22 @@
+{
+  "schema_version": "interactive-perception.risk-contract.v2",
+  "objective": "target observability with explicit deferral and temporal compliance",
+  "normalization": "one unit is one failed observability episode",
+  "losses": {
+    "false_commit": 1.0,
+    "false_absent": 1.0,
+    "act_execution_failure": 1.0,
+    "safe_stop": 1.0,
+    "temporal_violation": 1.0
+  },
+  "information_cost": 0.1,
+  "information_cost_source": "frozen v1 observability contract; passing on the preregistered 0.0--0.9 grid",
+  "safe_stop_interpretation": "deferral avoids a false world claim but receives the full incomplete-episode loss",
+  "selection_rule": "minimize expected loss; no confidence threshold routes actions",
+  "required_sensitivity": {
+    "information_cost": [0.0, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9],
+    "safe_stop": [0.5, 1.0, 1.5],
+    "temporal_violation": [0.5, 1.0, 2.0]
+  },
+  "non_claim": "final-task utility"
+}

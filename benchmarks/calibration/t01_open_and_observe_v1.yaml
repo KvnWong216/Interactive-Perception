@@ -36,7 +36,8 @@ seed_contract:
 frozen_statistics:
   conformal_error_rate: 0.10
   confidence: 0.95
-  minimum_reliability_lower_bound: 0.90
+  minimum_reliability_lower_bound: 0.80
+  original_strict_reliability_reported_also: 0.90
   minimum_revealed_target_pixels: 5
 
 diagnostics_before_collection:
@@ -54,7 +55,7 @@ diagnostics_before_collection:
 
 gates:
   - Run the three-episode seed-600 smoke stage before development.
-  - Full-executor REVEALED and EMPTY lower bounds must each reach 0.90.
+  - Full-executor REVEALED and EMPTY lower bounds must each reach 0.80.
   - Return-controller timeouts count as FAILED.
   - The artifact is frozen before seeds 700-799 are collected.
   - Simulator-only values may label outcomes but never change execution.

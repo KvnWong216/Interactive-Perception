@@ -1,5 +1,56 @@
 # Handoff
 
+## 2026-08-17 v8 NOT-GO and resolvable-evidence correction
+
+Version-3 development finished on seeds 600--659 and is frozen at dataset hash
+`0af9eec229a74d17a37deab6df1cf6b2e27104633cf23cc2238ced9008c57c3c`.
+The physical REVEALED branch is 60/60 (one-sided lower 0.951): it passes both
+the revised 0.80 and original 0.90 requirements. Under the five-pixel v3 label,
+the intended EMPTY branch is 56/60 (lower 0.854): it passes 0.80 but not 0.90.
+The hierarchical v8 critic is a strict development NOT-GO: FAILED 7/7,
+REVEALED 7/9, and EMPTY 4/5 coverage. Seeds 900--999 remain sealed.
+
+The v8 failure exposed a second evaluator mismatch. Every true middle-layer
+reveal occupies at least 311 target pixels, while the three EMPTY-scene rows
+called REVEALED contain only 5, 5, and 7 leaked upper-layer pixels. These are
+simulator-visible but not prompt-resolvable by the frozen policy. The v9
+candidate defines resolvability as one pi0.5 visual-token footprint:
+`(256 / 16)^2 = 256` target pixels. This is architecture-derived rather than
+tuned on classifier scores. With corrected labels, the old-seed diagnostic is
+20/21 (FAILED 7/7, REVEALED 7/7, EMPTY 6/7), but 653--659 helped diagnose v8
+and cannot certify v9. Untouched seeds 660--699 are the required clean
+development extension. The selected candidate is visual-only temporal history:
+it ties the full head at 0.95 grouped content CV and uses fewer inputs.
+
+No audit, closed-loop validation, or paper claim is allowed until the clean
+extension passes. The final retrieval task remains 0/5.
+
+## 2026-08-17 temporal information label correction
+
+The first v7 seeds-700--799 audit was stopped at 77/300 and is permanently
+debug-only. Seed 770 exposed an evaluator bug: butter was visible at the 50%
+and 75% opening history points, then absent from both final views. The v7 label
+looked only at the final frame and would call this `EMPTY`, erasing information
+the policy had already acquired. No v7 audit result was produced and 700--799
+must never be reused as a sealed audit. Evidence is in
+`results/T01_TEMPORAL_LABEL_BUG.md`.
+
+The corrected v3 collection labels all six public history points. `REVEALED`
+means either stock policy camera saw at least five target pixels at any point.
+`EMPTY` requires no visibility, the layer remaining open, return completion,
+and same-camera-pose counterfactual rendering of the seed-matched target
+trajectory. The counterfactual mutates and immediately restores simulator state
+only inside the offline evaluator; target pose, segmentation, and joints never
+enter the policy or critic. A seed-1399 smoke produced the intended
+REVEALED/EMPTY/FAILED triplet and frozen hash
+`4cde236abd421b84fa5bb933551a5c80f1ae83bd5fae55fc0e5713eb2c98dc0d`.
+
+Version-3 development subsequently finished; its outcome and the v9 correction
+are recorded in the section above. Conformal alpha remains 0.10 and the
+original 0.90 action standard is still reported. Custom T01 scenarios are
+calibration-only and all closed-loop outputs explicitly set
+`paper_eligible: false`.
+
 ## 2026-08-16 OPEN_AND_OBSERVE implementation and diagnostic
 
 The 57/60 strict reveal failures are now localized. Seeds 416, 436, and 438

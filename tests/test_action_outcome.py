@@ -5,11 +5,24 @@ from interactive_perception.action_outcome import (
     ActionOutcomePredictor,
     BalancedRidgeMulticlass,
     FeatureStandardizer,
+    HierarchicalActionOutcomePredictor,
+    PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
+    PI05_POLICY_IMAGE_SIDE,
+    PI05_VISUAL_TOKEN_GRID_SIDE,
     label_effect_outcome,
+    label_observable_information_outcome,
+    label_temporal_information_outcome,
+    temporal_history_feature_block,
     transition_feature_block,
 )
 from interactive_perception.active_risk import EffectOutcome
 from interactive_perception.semantic_conformal import MondrianSemanticConformalCalibrator
+
+
+def test_pi05_resolvable_target_area_is_one_visual_token_footprint() -> None:
+    assert PI05_POLICY_IMAGE_SIDE == 256
+    assert PI05_VISUAL_TOKEN_GRID_SIDE == 16
+    assert PI05_PATCH_EQUIVALENT_TARGET_PIXELS == 256
 
 
 def test_multiclass_ridge_separates_three_outcomes_and_roundtrips() -> None:
@@ -51,6 +64,27 @@ def test_generic_and_spatial_transition_features() -> None:
     assert transition_feature_block(before, after, "spatial_history").shape == (2, 21168)
 
 
+def test_temporal_history_separates_full_visual_robot_and_ablations() -> None:
+    visual = np.arange(2 * 6 * 10, dtype=float).reshape(2, 6, 10)
+    robot = np.arange(2 * 6 * 8, dtype=float).reshape(2, 6, 8)
+    no_history = temporal_history_feature_block(visual, robot, "no_history")
+    visual_only = temporal_history_feature_block(
+        visual, robot, "visual_only_history"
+    )
+    full = temporal_history_feature_block(visual, robot, "temporal_history")
+    assert no_history.shape == (2, 10)
+    assert visual_only.shape == (2, 60)
+    assert full.shape == (2, 148)
+    assert np.array_equal(no_history, visual[:, -1])
+
+
+def test_temporal_history_rejects_wrong_public_contract() -> None:
+    with pytest.raises(ValueError, match="6"):
+        temporal_history_feature_block(
+            np.zeros((1, 5, 10)), np.zeros((1, 6, 8)), "temporal_history"
+        )
+
+
 def test_transition_feature_rejects_wrong_shape() -> None:
     with pytest.raises(ValueError, match="8192"):
         transition_feature_block(np.zeros((1, 2)), np.zeros((1, 2)), "after_prompt")
@@ -89,6 +123,57 @@ def test_opened_wrong_location_is_empty() -> None:
         target_pixels=(0, 0),
         minimum_target_pixels=5,
     ) is EffectOutcome.EMPTY
+
+
+def test_observable_empty_does_not_read_hidden_target_location() -> None:
+    assert label_observable_information_outcome(
+        full_executor=True,
+        opened=True,
+        return_complete=True,
+        target_pixels=(0, 0),
+        minimum_target_pixels=5,
+    ) is EffectOutcome.EMPTY
+    assert label_observable_information_outcome(
+        full_executor=True,
+        opened=True,
+        return_complete=False,
+        target_pixels=(0, 0),
+        minimum_target_pixels=5,
+    ) is EffectOutcome.FAILED
+
+
+def test_temporal_label_retains_evidence_seen_before_final_frame() -> None:
+    assert label_temporal_information_outcome(
+        full_executor=True,
+        opened=True,
+        return_complete=False,
+        target_pixel_history=((0, 0), (12, 0), (0, 0)),
+        minimum_target_pixels=5,
+        empty_coverage_certified=False,
+    ) is EffectOutcome.REVEALED
+
+
+def test_temporal_empty_requires_an_independent_coverage_certificate() -> None:
+    common = {
+        "full_executor": True,
+        "opened": True,
+        "return_complete": True,
+        "target_pixel_history": ((0, 0), (0, 0), (0, 0)),
+        "minimum_target_pixels": 5,
+    }
+    assert label_temporal_information_outcome(
+        **common, empty_coverage_certified=False
+    ) is EffectOutcome.FAILED
+    assert label_temporal_information_outcome(
+        **common, empty_coverage_certified=True
+    ) is EffectOutcome.EMPTY
+    assert label_observable_information_outcome(
+        full_executor=False,
+        opened=True,
+        return_complete=True,
+        target_pixels=(100, 0),
+        minimum_target_pixels=5,
+    ) is EffectOutcome.FAILED
 
 
 def test_action_outcome_predictor_consumes_paired_prefixes() -> None:
@@ -143,3 +228,48 @@ def test_action_outcome_predictor_applies_frozen_standardizer() -> None:
     }
     restored = ActionOutcomePredictor.from_artifact(artifact)
     assert predictor.predict(before, after) == restored.predict(before, after)
+
+
+def test_hierarchical_predictor_separates_completion_from_content() -> None:
+    levels = np.asarray([-5.0, -4.0, 2.0, 3.0, 7.0, 8.0])
+    history = np.repeat(levels[:, None, None], 6, axis=1)
+    robot = np.zeros((len(levels), 6, 8))
+    raw = temporal_history_feature_block(history, robot, "temporal_history")
+    scaler = FeatureStandardizer.fit(raw)
+    values = scaler.transform(raw)
+    effect_labels = np.asarray(
+        ["FAILED", "FAILED", "COMPLETED", "COMPLETED", "COMPLETED", "COMPLETED"]
+    )
+    content_labels = np.asarray(
+        ["REVEALED", "REVEALED", "REVEALED", "REVEALED", "EMPTY", "EMPTY"]
+    )
+    effect = BalancedRidgeMulticlass.fit(values, effect_labels, regularization=1e-3)
+    content = BalancedRidgeMulticlass.fit(values, content_labels, regularization=1e-3)
+    effect_conformal = MondrianSemanticConformalCalibrator.fit(
+        list(zip(effect.evidence(values), effect_labels, strict=True)),
+        alpha=0.1,
+        policy_id="test-effect",
+        split_id="test",
+    )
+    content_conformal = MondrianSemanticConformalCalibrator.fit(
+        list(zip(content.evidence(values), content_labels, strict=True)),
+        alpha=0.1,
+        policy_id="test-content",
+        split_id="test",
+    )
+    predictor = HierarchicalActionOutcomePredictor(
+        input_dimension=1,
+        block="temporal_history",
+        standardizer=scaler,
+        effect_critic=effect,
+        effect_conformal=effect_conformal,
+        content_critic=content,
+        content_conformal=content_conformal,
+    )
+    assert predictor.predict_history(history[0], robot[0]).prediction_set == (
+        "FAILED",
+    )
+    revealed_set = predictor.predict_history(history[2], robot[2]).prediction_set
+    empty_set = predictor.predict_history(history[-1], robot[-1]).prediction_set
+    assert "FAILED" not in revealed_set and "REVEALED" in revealed_set
+    assert "FAILED" not in empty_set and "EMPTY" in empty_set

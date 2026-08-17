@@ -1,0 +1,57 @@
+schema_version: interactive-perception.open-and-observe-protocol.v2
+calibration_only: true
+policy: pi05_libero
+action: OPEN_AND_OBSERVE
+context: t01_stock_middle_drawer_search
+
+executor:
+  open_container:
+    implementation: frozen pi05_libero
+    prompt: Open the middle layer of the drawer
+    steps: 300
+  return_to_observe:
+    implementation: versioned proprioceptive OSC controller
+    inputs: [robot0_eef_pos, robot0_eef_quat, robot0_gripper_qpos]
+
+critic_inputs:
+  - six stock agentview RGB frames
+  - six stock wrist RGB frames
+  - six public robot-state vectors
+  - final prompt
+  - executed option role
+online_forbidden: [drawer joint, instance segmentation, hidden target pose, task predicate, global demo view]
+
+outcomes:
+  REVEALED: Target reaches at least 5 pixels in either policy camera at any public history point.
+  EMPTY: >-
+    Target is never visible, the searched layer remains open, return-to-observe
+    completes, and same-camera-pose counterfactual rendering of the seed-matched
+    target trajectory certifies that the location is observable.
+  FAILED: Neither prompt-relevant information result is certified.
+
+seed_contract:
+  wiring_smoke: 1399
+  development:
+    prototype_train: 600-619
+    conformal_calibration: 620-652
+    heldout_development: 653-659
+  invalidated_final_frame_debug: 700-799
+  invalidated_cross_trajectory_proxy_debug: 600-608 in v2
+  sealed_audit: 900-999
+  closed_loop_validation: 800-899
+  rule: >-
+    700-799 was viewed while diagnosing the final-frame-only evaluator bug and
+    can never be reused as an audit. 900-999 is opened once only after v8 freezes.
+
+frozen_statistics:
+  conformal_error_rate: 0.10
+  confidence: 0.95
+  minimum_action_reliability_lower_bound: 0.80
+  original_strict_action_reliability_reported_also: 0.90
+  minimum_revealed_target_pixels: 5
+
+hard_stops:
+  - Never derive EMPTY from the final frame alone.
+  - Never put evaluator-only visibility or joint values into the critic input.
+  - Preserve ambiguous conformal outcomes and route them to SAFE_STOP.
+  - Custom T01 scenes are calibration-only and not paper-eligible.

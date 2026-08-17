@@ -42,30 +42,34 @@ is positive. No confidence threshold decides whether to open the drawer.
 |---|---:|
 | Stock π0.5 reproduction | 100/100 |
 | T01 drawer opening (joint only) | 97/100 |
-| T01 target visible after opening | 57/60 |
-| T01 empty layer visually certified | 56/60 |
-| Open drawer at stock observation pose (diagnostic) | 60/60 |
-| Return to observation pose from perturbations (diagnostic) | 30/30 |
-| Evaluator wrapper preserves policy packet | 20/20 |
 | Hidden-target belief | 97/100 |
 | Same RGB, visible-target prompt | 100/100 |
 | Same prompt, target already visible | 99/100 |
 | Target-observability risk routing | 296/300 |
-| Always-ACT baseline | 200/300 |
-| Drawer-state rule | 200/300 |
+| Temporal outcome critic v8 | NOT-GO: FAILED 7/7, REVEALED 7/9, EMPTY 4/5 |
+| Patch-resolvable v9 diagnostic | 20/21; clean extension still required |
+| Sealed outcome audit | NOT RUN; new seeds 900–999 |
 | Final retrieval after reveal | 0/5 |
 
-The 97/100 result proves joint motion, not information acquisition. Under the
-policy-camera endpoint, the one-sided lower bounds are 0.876 for `REVEALED` and
-0.854 for `EMPTY`; both fail the frozen 0.90 requirement. The best paired-RGB
-critic reaches 20/21 coverage but only 15/21 singleton-correct on a development
-diagnostic. Open-drawer retrieval is separately 0/5. The strict closed loop is
-therefore blocked.
+The v7 outcome head is invalidated. It checked only the final frame: debug seed
+770 saw the target during opening and lost it after return. Version 3 therefore
+checks all six public history points and requires same-camera-pose visibility
+coverage before calling a result `EMPTY`. Its 180-example development set is
+now frozen. The v8 head failed development and the sealed audit remains
+untouched.
 
-The measured failure is post-open self-occlusion. `OPEN_AND_OBSERVE` now
-combines frozen π0.5 opening with a proprioceptive return to the stock
-observation pose. Its return controller passes a 30/30 simulator diagnostic,
-but the full composite action has not yet been run and is not authorized.
+Version 3 also exposed a second evaluator problem: true middle-layer reveals
+occupy at least 311 target pixels, while three supposed reveals in the empty
+layer contain only 5--7 leaked pixels from the upper layer. Version 9 therefore
+uses one pi0.5 visual-token footprint (256 pixels) as an architecture-derived
+resolvability definition. Its old-seed diagnostic is 20/21, but those seeds
+helped diagnose v8 and cannot certify v9. Untouched seeds 660--699 are reserved
+for the clean development extension.
+
+The action reliability lower bound is 0.80; the original 0.90 result is always
+reported. Conformal error remains 0.10. These are evidence gates, not online
+confidence triggers. Open-drawer retrieval remains 0/5, so target evidence is
+not reported as final task success.
 
 | Milestone | Decision |
 |---|---:|
@@ -77,23 +81,21 @@ but the full composite action has not yet been run and is not authorized.
 
 ## Reproduce
 
-Run the immutable paired-RGB development diagnostics. Do not run the audit
-until a development critic passes:
+Run the dependency-gated experiment:
 
 ```bash
-bash scripts/run_t01_action_effect_pipeline.sh development
-bash scripts/run_t01_action_effect_pipeline.sh development-v2
-bash scripts/run_t01_action_effect_pipeline.sh development-v3
-bash scripts/run_t01_open_and_observe_pipeline.sh smoke
+bash scripts/run_rss_experiment_ladder.sh preflight
+bash scripts/run_rss_experiment_ladder.sh smoke
+bash scripts/run_rss_experiment_ladder.sh development
 ```
 
-Render the strict decisions:
+The audit is intentionally explicit and can run only after development passes:
 
 ```bash
-../.conda/envs/ipu/bin/python scripts/summarize_rss_gate.py
-../.conda/envs/ipu/bin/python scripts/summarize_final_product_gate.py
+ALLOW_SEALED_AUDIT=1 bash scripts/run_rss_experiment_ladder.sh audit
 ```
 
 See [method](docs/RSS_METHOD_V1.md), [RSS gates](benchmarks/rss_v1/gates.yaml),
-[final-product gates](benchmarks/final_product_v1/gates.yaml), and the
-[weekly slide kit](docs/SLIDES_WEEK_2026-08-16.md).
+[experiment](benchmarks/rss_v1/experiment_v1.yaml),
+[threshold register](docs/THRESHOLD_REGISTER.md), and
+[temporal-label failure](results/T01_TEMPORAL_LABEL_BUG.md).

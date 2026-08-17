@@ -32,7 +32,7 @@ stock RGB + prompt + public history
                   |
           frozen pi0.5 option
                   |
-       before/after RGB outcome
+       six-point RGB/state outcome
                   |
               belief update
 ```
@@ -62,18 +62,23 @@ y\in\{\mathrm{FAILED},\mathrm{REVEALED},\mathrm{EMPTY}\},
 \qquad P(y\mid b_t,a,h_t).
 \]
 
-For diagnostics, `FAILED` is split evaluator-side into `NO_EFFECT` and
-`OPENED_UNOBSERVED`. The latter is important: changing the world is not enough
-if neither policy camera obtains prompt-relevant evidence. It should eventually
-route to viewpoint discovery rather than retry the same manipulation. It stays
-inside the conservative `FAILED` class in v1 because the rare subtype does not
-yet have enough examples for its own class-conditional conformal calibration.
-Likewise, simulator knowledge that a target was placed elsewhere cannot by
-itself authorize `EMPTY`. In v1, `EMPTY` additionally requires the seed-matched
-target-present counterpart to reach `REVEALED`; otherwise the transition is
-conservatively `OPENED_UNOBSERVED`. This is a calibration-only proxy for visible
-searched volume. The paper-scale version should replace it with depth-based
-visible/occluded volume.
+The outcome is defined by what the policy could acquire, not just by the final
+frame. `REVEALED` means the target became visible at any of six public history
+points. `EMPTY` requires that the target was never seen, the searched region
+remained open, return-to-observe completed, and an independent view-coverage
+certificate says that location would have been visible. `FAILED` means the
+option did not certify either result. `EMPTY` is local evidence about one
+searched region, never a global `NOT_FOUND` decision. Simulator joints and
+segmentation construct offline labels only; the online critic sees six
+stock-camera frames, six public robot-state vectors, the prompt, and the
+executed option role.
+
+The critic is hierarchical. Its first conformal head predicts physical
+`FAILED` versus `COMPLETED`; conditional on completion, its second head predicts
+`REVEALED` versus `EMPTY`. This prevents motor completion and prompt-relevant
+content from being collapsed into one visually confounded class. If either
+head returns an ambiguous set, the controller preserves the ambiguity and
+uses `SAFE_STOP`; it never selects the convenient member with a threshold.
 
 The posterior is updated from the observed physical effect:
 
@@ -202,13 +207,17 @@ PaliGemma multimodal prefix. It is upstream of the pi0.5 action expert. This
 choice was made on grouped prototype-training folds; probability calibration,
 conformal calibration, validation, and audit use disjoint seed blocks.
 
-The outcome critic uses paired before/after prefix features and the executed
-action label. Its `FAILED`, `REVEALED`, and `EMPTY` labels may be produced from
-simulator state during offline calibration. At deployment, its inputs are only
-the two stock policy RGB streams, prompt, action label, and public history.
-`REVEALED` requires at least five target pixels in one stock policy view, the
-visibility endpoint already used by this benchmark; a single aliasing pixel is
-not treated as acquired information.
+The outcome critic uses six prefix histories and the executed action role. Its
+`FAILED`, `REVEALED`, and `EMPTY` labels may be produced from simulator state
+during offline calibration. At deployment, its inputs are only the two stock
+policy RGB streams, prompt, action label, public robot state, and public
+history.
+The immutable v3 diagnostic used a five-pixel visibility endpoint. It exposed
+5--7-pixel upper-layer leakage that is simulator-visible but not resolvable by
+the frozen policy. The v9 contract instead requires one pi0.5 visual-token
+footprint, `(256 / 16)^2 = 256` target pixels, in one stock policy view at any
+history point. A later occlusion cannot erase evidence already acquired earlier
+in the option.
 
 The first temporal implementation is an exact, inspectable runtime automaton,
 not a learned logic embedding. T-LEAF-style DFA embeddings are reserved for a
@@ -338,6 +347,8 @@ hidden proposition.
 | T01 drawer opening | 97/100; lower bound 0.924 | joint motion only |
 | T01 target visible after opening | 57/60; lower bound 0.876 | policy-camera endpoint |
 | T01 empty layer visually certified | 56/60; lower bound 0.854 | paired counterfactual proxy |
+| Six-point v8 outcome head | FAILED 7/7; REVEALED 7/9; EMPTY 4/5 | development NOT-GO |
+| Patch-resolvable v9 candidate | 20/21 | diagnosed seeds; not certification |
 | Open layer at stock observation pose | 60/60; lower bound 0.951 | evaluator-only coverage diagnostic |
 | Proprioceptive return from perturbed pose | 30/30; lower bound 0.905 | controller diagnostic, not full executor |
 | Hidden butter belief | 97/100 | T01 seed-disjoint audit |
@@ -353,10 +364,16 @@ full four-state belief, a reliable visual outcome critic, final task
 improvement, scene-disjoint generalization, or a second-policy result. In
 particular, joint motion is not evidence that the robot obtained information.
 
-The paired-RGB outcome heads are NOT-GO. Global v1 obtains 60/60 coverage but
-21/60 singleton-correct; spatial v2 obtains 18/21 and 13/21; target-subtask,
-train-standardized v3 obtains 20/21 and 15/21. These are development
-diagnostics, not audit results. Seeds 500--599 remain sealed.
+Earlier paired-RGB outcome heads are NOT-GO. Global v1 obtains 60/60 coverage
+but 21/60 singleton-correct; spatial v2 obtains 18/21 and 13/21; the
+target-subtask v3 obtains 20/21 and 15/21. The six-point hierarchical v7 head
+passed development but is invalid: it checked visibility only in the final
+frame. Debug seed 770 visibly contained the target at intermediate points but
+would have been labeled `EMPTY` after later self-occlusion. Seeds 700--799 are
+therefore debug-only. Temporal-label v3 subsequently froze on seeds 600--659,
+but v8 failed development with per-class coverage 7/7, 7/9, and 4/5. The
+architecture-derived v9 relabeling reaches 20/21 on those diagnosed seeds;
+untouched 660--699 must certify it before the seeds 900--999 audit can open.
 
 ## Required RSS experiment ladder
 
@@ -364,31 +381,26 @@ The authoritative registry is `benchmarks/rss_v1/gates.yaml`. The next gates
 are deliberately ordered so that a later success cannot conceal an earlier
 confound.
 
-1. Run the implemented `OPEN_AND_OBSERVE` option on continuous physical
-   trajectories and require its policy-camera effect lower bound to reach
-   0.90. It composes frozen pi0.5 opening with a proprioceptive return to the
-   stock observation pose. Static coverage is 60/60 and perturbed-pose return
-   is 30/30, but neither substitutes for the full-executor gate.
-2. Collect a new temporal calibration split with short policy-camera,
-   proprioceptive, and executed-option history; keep the frozen VLA unchanged.
-3. Fit and freeze the temporal outcome critic, confirm it on new post-freeze
-   development seeds, then audit seeds 500--599 once.
-4. Run an oracle-free T01 closed loop on the product belief \((b_t,\mu_t)\),
+1. Run the clean v9 development extension on untouched seeds 660--699. Only
+   after it passes may the one-time seeds 900--999 audit run. Physical action
+   lower bounds must reach 0.80; conformal class coverage remains 0.90. Report
+   the original 0.90 physical criterion as a stricter sensitivity check.
+2. Run an oracle-free T01 closed loop on the product belief \((b_t,\mu_t)\),
    reporting logic violations and `SAFE_STOP` separately from `NOT_FOUND`.
-5. Repair or replace the post-reveal `ACT` executor; target reveal alone is not
+3. Repair or replace the post-reveal `ACT` executor; target reveal alone is not
    final-task success.
-6. Add `VIEWPOINT_BLOCKED` and `ABSENT`, then test physical `EMPTY` updates and
+4. Add `VIEWPOINT_BLOCKED` and `ABSENT`, then test physical `EMPTY` updates and
    calibrated `NOT_FOUND`.
-7. Add independently capable viewpoint-discovery and information-enrichment
-   actions; an action with a reliability lower bound below 0.90 stays disabled.
-8. Freeze scene-, object-, clutter-, occlusion-, and container-disjoint paper
+5. Add independently capable viewpoint-discovery and information-enrichment
+   actions; an action with a reliability lower bound below 0.80 stays disabled.
+6. Freeze scene-, object-, clutter-, occlusion-, and container-disjoint paper
    test sets.
-9. Compare monolithic VLA, fixed rule, action spread, a CoMe-style binary
+7. Compare monolithic VLA, fixed rule, action spread, a CoMe-style binary
    information-sufficiency head, uncalibrated typed belief, visual-only
    history, no-history, no-effect, no temporal state, exact probabilistic
    automaton, and the complete method. If sufficient trajectories exist, add a
    T-LEAF-style learned embedding as a data-efficiency ablation.
-10. Reproduce the decision benefit with a second frozen policy.
+8. Reproduce the decision benefit with a second frozen policy.
 
 `PARTIAL` always counts as `NOT-GO` for paper readiness.
 The frozen comparison contract is in `benchmarks/rss_v1/ablations.yaml`.

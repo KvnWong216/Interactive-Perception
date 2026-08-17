@@ -13,6 +13,17 @@ from .active_risk import EffectOutcome
 from .semantic_conformal import MondrianSemanticConformalCalibrator
 
 
+# pi0.5 receives 256x256 policy images and represents each real camera with a
+# 16x16 visual-token grid.  Evaluator masks smaller than one token footprint
+# are useful visibility diagnostics, but are not treated as action-resolvable
+# semantic evidence.
+PI05_POLICY_IMAGE_SIDE = 256
+PI05_VISUAL_TOKEN_GRID_SIDE = 16
+PI05_PATCH_EQUIVALENT_TARGET_PIXELS = (
+    PI05_POLICY_IMAGE_SIDE // PI05_VISUAL_TOKEN_GRID_SIDE
+) ** 2
+
+
 @dataclasses.dataclass(frozen=True)
 class FeatureStandardizer:
     """Train-split-only centering and scaling for heterogeneous frozen features."""
@@ -84,6 +95,66 @@ def label_effect_outcome(
     if opened and target_in_resolved_location and max(pixels) >= minimum_target_pixels:
         return EffectOutcome.REVEALED
     if opened and not target_in_resolved_location:
+        return EffectOutcome.EMPTY
+    return EffectOutcome.FAILED
+
+
+def label_observable_information_outcome(
+    *,
+    full_executor: bool,
+    opened: bool,
+    return_complete: bool,
+    target_pixels: Sequence[int],
+    minimum_target_pixels: int,
+) -> EffectOutcome:
+    """Legacy final-frame evaluator label kept for artifact reproduction.
+
+    New temporal datasets must use :func:`label_temporal_information_outcome`;
+    otherwise a final occlusion can erase evidence acquired earlier.
+    """
+
+    pixels = [int(value) for value in target_pixels]
+    if not pixels or any(value < 0 for value in pixels):
+        raise ValueError("target_pixels must be non-negative and non-empty")
+    if minimum_target_pixels < 1:
+        raise ValueError("minimum_target_pixels must be positive")
+    if not full_executor:
+        return EffectOutcome.FAILED
+    if max(pixels) >= minimum_target_pixels:
+        return EffectOutcome.REVEALED
+    if opened and return_complete:
+        return EffectOutcome.EMPTY
+    return EffectOutcome.FAILED
+
+
+def label_temporal_information_outcome(
+    *,
+    full_executor: bool,
+    opened: bool,
+    return_complete: bool,
+    target_pixel_history: Sequence[Sequence[int]],
+    minimum_target_pixels: int,
+    empty_coverage_certified: bool,
+) -> EffectOutcome:
+    """Label information acquired anywhere along a public option history.
+
+    A final frame cannot erase evidence acquired earlier. Conversely, absence
+    of target pixels is not positive ``EMPTY`` evidence unless the searched
+    region's visibility has an independently declared coverage certificate.
+    """
+
+    history = [[int(value) for value in point] for point in target_pixel_history]
+    if not history or any(not point for point in history):
+        raise ValueError("target_pixel_history must contain non-empty view counts")
+    if any(value < 0 for point in history for value in point):
+        raise ValueError("target pixel counts must be non-negative")
+    if minimum_target_pixels < 1:
+        raise ValueError("minimum_target_pixels must be positive")
+    if not full_executor:
+        return EffectOutcome.FAILED
+    if max(value for point in history for value in point) >= minimum_target_pixels:
+        return EffectOutcome.REVEALED
+    if opened and return_complete and empty_coverage_certified:
         return EffectOutcome.EMPTY
     return EffectOutcome.FAILED
 
@@ -219,6 +290,64 @@ def transition_feature_block(
     raise ValueError(f"unknown transition feature block {block!r}")
 
 
+def temporal_history_feature_block(
+    history: np.ndarray,
+    robot_state_history: np.ndarray,
+    block: str,
+) -> np.ndarray:
+    """Summarize the frozen six-point visual/proprioceptive option history."""
+
+    visual = np.asarray(history, dtype=np.float64)
+    robot = np.asarray(robot_state_history, dtype=np.float64)
+    if visual.ndim != 3 or visual.shape[0] < 1 or visual.shape[1] != 6:
+        raise ValueError("history must have shape [N, 6, D]")
+    if robot.shape != (visual.shape[0], 6, 8):
+        raise ValueError("robot_state_history must have shape [N, 6, 8]")
+    if not np.all(np.isfinite(visual)) or not np.all(np.isfinite(robot)):
+        raise ValueError("temporal history features must be finite")
+
+    if block == "no_history":
+        return visual[:, -1]
+    if block == "visual_only_history":
+        selected = visual
+    elif block == "global_visual_history":
+        if visual.shape[2] < 8192:
+            raise ValueError("global visual history requires at least 8192 features")
+        selected = visual[:, :, :8192]
+    elif block == "temporal_history":
+        selected = visual
+    else:
+        raise ValueError(f"unknown temporal feature block {block!r}")
+
+    visual_summary = np.concatenate(
+        [
+            selected[:, 0],
+            selected[:, -1],
+            selected[:, -1] - selected[:, 0],
+            np.mean(selected, axis=1),
+            np.std(selected, axis=1),
+            np.max(np.abs(np.diff(selected, axis=1)), axis=1),
+        ],
+        axis=1,
+    )
+    if block != "temporal_history":
+        return visual_summary
+
+    robot_summary = np.concatenate(
+        [
+            robot[:, 0],
+            robot[:, -1],
+            robot[:, -1] - robot[:, 0],
+            np.mean(robot, axis=1),
+            np.std(robot, axis=1),
+            np.ptp(robot, axis=1),
+            np.diff(robot, axis=1).reshape(robot.shape[0], -1),
+        ],
+        axis=1,
+    )
+    return np.concatenate([visual_summary, robot_summary], axis=1)
+
+
 @dataclasses.dataclass(frozen=True)
 class ActionOutcomePrediction:
     evidence: dict[str, float]
@@ -267,3 +396,117 @@ class ActionOutcomePredictor:
             evidence=evidence,
             prediction_set=self.conformal.predict(evidence),
         )
+
+    def predict_history(
+        self,
+        history_features: np.ndarray,
+        robot_state_history: np.ndarray,
+    ) -> ActionOutcomePrediction:
+        """Predict from the v5 policy-visible history and executed option."""
+
+        history = np.asarray(history_features, dtype=np.float64)
+        if history.shape != (6, self.input_dimension):
+            raise ValueError(
+                "history_features must have shape "
+                f"{(6, self.input_dimension)}, got {history.shape}"
+            )
+        robot = np.asarray(robot_state_history, dtype=np.float64)
+        if robot.shape != (6, 8):
+            raise ValueError("robot_state_history must have shape (6, 8)")
+        values = temporal_history_feature_block(
+            history[None, :], robot[None, :], self.block
+        )
+        if self.standardizer is not None:
+            values = self.standardizer.transform(values)
+        evidence = self.critic.evidence(values)[0]
+        return ActionOutcomePrediction(
+            evidence=evidence,
+            prediction_set=self.conformal.predict(evidence),
+        )
+
+
+@dataclasses.dataclass(frozen=True)
+class HierarchicalActionOutcomePredictor:
+    """First recognize physical completion, then prompt-relevant content."""
+
+    input_dimension: int
+    block: str
+    standardizer: FeatureStandardizer
+    effect_critic: BalancedRidgeMulticlass
+    effect_conformal: MondrianSemanticConformalCalibrator
+    content_critic: BalancedRidgeMulticlass
+    content_conformal: MondrianSemanticConformalCalibrator
+
+    @classmethod
+    def from_artifact(
+        cls, artifact: dict[str, Any]
+    ) -> "HierarchicalActionOutcomePredictor":
+        return cls(
+            input_dimension=int(artifact["input_feature_dimension"]),
+            block=str(artifact["model_selection"]["block"]),
+            standardizer=FeatureStandardizer.from_dict(
+                artifact["feature_standardizer"]
+            ),
+            effect_critic=BalancedRidgeMulticlass.from_dict(
+                artifact["effect_head"]["critic"]
+            ),
+            effect_conformal=MondrianSemanticConformalCalibrator.from_dict(
+                artifact["effect_head"]["conformal"]
+            ),
+            content_critic=BalancedRidgeMulticlass.from_dict(
+                artifact["content_head"]["critic"]
+            ),
+            content_conformal=MondrianSemanticConformalCalibrator.from_dict(
+                artifact["content_head"]["conformal"]
+            ),
+        )
+
+    def predict_history(
+        self,
+        history_features: np.ndarray,
+        robot_state_history: np.ndarray,
+    ) -> ActionOutcomePrediction:
+        history = np.asarray(history_features, dtype=np.float64)
+        robot = np.asarray(robot_state_history, dtype=np.float64)
+        if history.shape != (6, self.input_dimension):
+            raise ValueError(
+                f"history_features must have shape {(6, self.input_dimension)}"
+            )
+        if robot.shape != (6, 8):
+            raise ValueError("robot_state_history must have shape (6, 8)")
+        values = temporal_history_feature_block(
+            history[None, :], robot[None, :], self.block
+        )
+        values = self.standardizer.transform(values)
+        effect_evidence = self.effect_critic.evidence(values)[0]
+        effect_set = self.effect_conformal.predict(effect_evidence)
+        content_evidence = self.content_critic.evidence(values)[0]
+        content_set = self.content_conformal.predict(content_evidence)
+        outcomes = []
+        if EffectOutcome.FAILED.value in effect_set:
+            outcomes.append(EffectOutcome.FAILED.value)
+        if "COMPLETED" in effect_set:
+            outcomes.extend(
+                label
+                for label in content_set
+                if label in {EffectOutcome.REVEALED.value, EffectOutcome.EMPTY.value}
+            )
+        ordered = tuple(
+            label
+            for label in (
+                EffectOutcome.FAILED.value,
+                EffectOutcome.REVEALED.value,
+                EffectOutcome.EMPTY.value,
+            )
+            if label in outcomes
+        )
+        if not ordered:
+            # A malformed or distribution-shifted pair of sets must defer.
+            ordered = tuple(item.value for item in EffectOutcome)
+        evidence = {
+            f"effect/{key}": value for key, value in effect_evidence.items()
+        }
+        evidence.update(
+            {f"content/{key}": value for key, value in content_evidence.items()}
+        )
+        return ActionOutcomePrediction(evidence=evidence, prediction_set=ordered)

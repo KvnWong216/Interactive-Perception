@@ -45,3 +45,23 @@ def test_effect_registry_requires_unique_trial_ids() -> None:
         EffectRegistry.fit(
             [duplicate, duplicate], confidence=0.95, required_reliability=0.9
         )
+
+
+def test_revealed_and_empty_both_count_as_information_completion() -> None:
+    rows = [
+        EffectTrial("drawer", "OPEN", EffectOutcome.REVEALED, "present-0"),
+        EffectTrial("drawer", "OPEN", EffectOutcome.REVEALED, "present-1"),
+        EffectTrial("drawer", "OPEN", EffectOutcome.EMPTY, "empty-0"),
+        EffectTrial("drawer", "OPEN", EffectOutcome.EMPTY, "empty-1"),
+    ]
+    entry = EffectRegistry.fit(
+        rows, confidence=0.95, required_reliability=0.5
+    ).get("drawer", "OPEN")
+    assert entry.information_completion_lower_bound() > entry.lower_bound(
+        EffectOutcome.REVEALED
+    )
+    effect = entry.planner_effect(
+        resolves=("drawer",), cost=0.1, desired_outcome=None
+    )
+    assert effect.reliability == entry.information_completion_lower_bound()
+    assert "informative completion" in effect.source

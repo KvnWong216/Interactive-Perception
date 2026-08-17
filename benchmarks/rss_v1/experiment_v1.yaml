@@ -1,0 +1,157 @@
+schema_version: interactive-perception.rss-experiment.v1
+name: Prompt-aligned action-resolvable uncertainty
+
+claim: >-
+  A frozen VLA may possess an information action without knowing when it is
+  useful. A calibrated wrapper chooses that action only when its expected
+  reduction in prompt-relevant task risk exceeds its measured cost.
+
+frozen_contract:
+  policy: pi05_libero
+  policy_weights: frozen
+  policy_observation: [stock agentview RGB, stock wrist RGB, robot state, prompt]
+  conformal_error_rate: 0.10
+  confidence: 0.95
+  minimum_action_reliability_lower_bound: 0.80
+  original_strict_reliability_reported_also: 0.90
+  minimum_resolvable_target_pixels: 256
+  resolvability_derivation: (256 policy pixels / 16 visual tokens per side)^2
+  forbidden_online: [segmentation, object pose, drawer joint, task predicate, demo global view]
+  custom_scenario_scope: calibration_only
+
+method_factorization:
+  prompt_to_proposition:
+    output: [OBSERVED, VIEWPOINT_BLOCKED, MANIPULATION_ONLY, ABSENT]
+    note: The prompt names the final goal, never the benchmark-specific answer action.
+  spatial_evidence:
+    output: prompt-attended policy-camera tokens over six public history points
+    inspiration: LERF-TOGO object-first then part/region-conditioned evidence
+  action_candidates:
+    output: capability-gated ACT and information options
+    inspiration: TaskGrasp separates executable candidates from task-conditioned ranking
+  action_effect_reasoning:
+    output: [FAILED, REVEALED, EMPTY]
+    label_rule: REVEALED at any public history point; EMPTY requires independent view-coverage evidence.
+    inspiration: ShapeGrasp separates grounded part/state identification from task utility
+  decision:
+    output: ACT, information option, NOT_FOUND, or SAFE_STOP
+    rule: finite-horizon expected risk on world belief x temporal-progress belief
+
+t01_development:
+  action: OPEN_AND_OBSERVE
+  regimes: [revealed_full, empty_full, failed_truncated_control]
+  seeds:
+    prototype_train: 600-619
+    conformal_calibration: 620-652
+    heldout_development: 653-659
+  samples_per_regime: 60
+  history:
+    points: 6
+    layout: [before, open_25, open_50, open_75, open_100, after_return]
+    inputs_per_point: [agentview RGB, wrist RGB, public robot state]
+  pass_conditions:
+    - REVEALED full-option one-sided lower bound >= 0.80.
+    - EMPTY full-option one-sided lower bound >= 0.80.
+    - Every outcome class has development coverage >= 0.90.
+    - Every outcome class has development singleton accuracy >= 0.80.
+  frozen_result:
+    status: NOT_GO
+    physical_revealed: 60/60; lower 0.951
+    physical_empty_under_v3_five_pixel_label: 56/60; lower 0.854
+    critic: {FAILED: 7/7, REVEALED: 7/9, EMPTY: 4/5}
+
+t01_v9_clean_extension:
+  seeds: 660-699
+  purpose: >-
+    Untouched development after v8 diagnosis and the architecture-derived
+    resolvability correction. Seeds 653-659 are diagnostic-only for v9.
+  selected_input: visual-only six-point temporal history
+  selection_rule: tied full temporal history at 0.95 grouped content CV and uses fewer inputs
+  pass_conditions:
+    - Every outcome class has coverage >= 0.90.
+    - Every outcome class has singleton accuracy >= 0.80.
+    - Both full physical branches have one-sided lower bound >= 0.80.
+
+t01_sealed_audit:
+  seeds: 900-999
+  collection_rule: Collect once, only after the frozen v9 artifact passes the clean extension.
+  samples_per_regime: 100
+  pass_conditions:
+    - Per-class conformal coverage >= 0.90.
+    - Per-class singleton-correct one-sided lower bound >= 0.80.
+    - REVEALED and EMPTY physical-effect lower bounds >= 0.80.
+  reporting_rule: Also report whether each branch passes the original 0.90 standard.
+
+closed_loop_test:
+  seeds: 800-899
+  prerequisite: The sealed action-effect/outcome audit passes.
+  objective: target observability; final task completion is reported separately
+  eligibility: held-out custom-scenario pipeline validation; not paper-eligible
+  primary_metrics:
+    - correct terminal decision
+    - physical information acquired
+    - false ACT
+    - false NOT_FOUND
+    - SAFE_STOP
+    - interaction cost
+    - temporal-logic violation
+    - action-resolvable uncertainty before and after the option
+    - evidence-retention accuracy when the target was seen in history but absent from the final frame
+
+paper_stages:
+  mechanism:
+    status: calibration_only_validation_ready_after_t01_audit
+    question: Does calibrated prompt-aligned uncertainty improve target-observability decisions?
+    benchmark: T01 stock-aligned middle-layer search
+    test_seeds: 800-899
+    paper_eligible: false
+  breadth:
+    status: blocked_by_primitive_capability
+    question: Does the same decision rule transfer across uncertainty causes and information actions?
+    strata:
+      viewpoint_discovery: wrist MOVE_CLOSER
+      manipulation_discovery: OPEN_AND_OBSERVE and physical occluder removal
+      information_enrichment: grasp-ROTATE-put-down
+      exhaustion: multi-container NOT_FOUND
+    rule: Each option gets a disjoint calibration set and passes its own 0.80 action lower bound before use.
+  final_task:
+    status: blocked_by_post_reveal_act
+    question: Does information acquisition improve completion of the user's original task?
+    rule: Report paired final-task success; target visibility is not a substitute.
+  generalization:
+    status: blocked
+    held_out_axes: [object, clutter, occlusion_severity, container, scene, base_policy]
+    rule: Freeze these splits only after all enabled options pass capability and effect audits.
+  final_paper_test:
+    status: not_frozen
+    requirement: >-
+      Use a benchmark protocol authorized for paper evaluation; custom scenarios
+      introduced in this project remain calibration-only.
+
+methods:
+  - monolithic_vla
+  - fixed_action_order
+  - action_chunk_spread
+  - come_style_binary_sufficiency
+  - uncalibrated_typed_belief
+  - no_history
+  - no_return_to_observe
+  - visual_only_history
+  - global_pooling_only
+  - flat_outcome_critic
+  - no_effect_model
+  - no_temporal_progress
+  - full_method
+
+statistics:
+  pairing: Same initial states, policy call order, option executor, and observation contract across methods.
+  uncertainty: Exact binomial intervals for gates; paired bootstrap and McNemar test for method differences.
+  reporting: Report all seeds and failures; PARTIAL is NOT-GO.
+
+hard_stop_rules:
+  - Never open the sealed audit when development fails.
+  - Never call joint motion visual information acquisition.
+  - Never enable an option whose context-specific reliability lower bound is below 0.80.
+  - Never report final-task benefit while post-reveal ACT remains incapable.
+  - Never infer EMPTY from a target-free final frame without a searched-volume coverage certificate.
+  - Always stop project-owned model servers after every stage.

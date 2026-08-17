@@ -69,6 +69,19 @@ class CalibratedEffectDistribution:
             self.outcome_counts[outcome.value], self.trials, self.confidence
         )
 
+    def information_completion_lower_bound(self) -> float:
+        """Bound the chance that the option returns usable information.
+
+        ``REVEALED`` and ``EMPTY`` are both successful information effects;
+        their difference is the hidden target state, not executor quality.
+        """
+
+        successes = (
+            self.outcome_counts[EffectOutcome.REVEALED.value]
+            + self.outcome_counts[EffectOutcome.EMPTY.value]
+        )
+        return exact_binomial_lower_bound(successes, self.trials, self.confidence)
+
     def passes(self, outcome: EffectOutcome) -> bool:
         return self.lower_bound(outcome) >= self.required_reliability
 
@@ -77,18 +90,29 @@ class CalibratedEffectDistribution:
         *,
         resolves: tuple[str, ...],
         cost: float,
-        desired_outcome: EffectOutcome = EffectOutcome.REVEALED,
+        desired_outcome: EffectOutcome | None = EffectOutcome.REVEALED,
     ) -> ActionEffect:
         """Use a conservative, measured outcome bound in Bayes-risk planning."""
+
+        if desired_outcome is None:
+            reliability = self.information_completion_lower_bound()
+            count = (
+                self.outcome_counts[EffectOutcome.REVEALED.value]
+                + self.outcome_counts[EffectOutcome.EMPTY.value]
+            )
+            label = "informative completion"
+        else:
+            reliability = self.lower_bound(desired_outcome)
+            count = self.outcome_counts[desired_outcome.value]
+            label = desired_outcome.value
 
         return ActionEffect(
             action=self.action,
             resolves=resolves,
-            reliability=self.lower_bound(desired_outcome),
+            reliability=reliability,
             cost=cost,
             source=(
-                f"{self.context}: {self.outcome_counts[desired_outcome.value]}/"
-                f"{self.trials} {desired_outcome.value}, one-sided "
+                f"{self.context}: {count}/{self.trials} {label}, one-sided "
                 f"{self.confidence:.3f} lower bound"
             ),
         )
@@ -109,6 +133,17 @@ class CalibratedEffectDistribution:
             "confidence": self.confidence,
             "required_reliability": self.required_reliability,
             "outcomes": outcomes,
+            "information_completion": {
+                "count": (
+                    self.outcome_counts[EffectOutcome.REVEALED.value]
+                    + self.outcome_counts[EffectOutcome.EMPTY.value]
+                ),
+                "one_sided_lower_bound": self.information_completion_lower_bound(),
+                "passes_required_reliability": (
+                    self.information_completion_lower_bound()
+                    >= self.required_reliability
+                ),
+            },
             "source_ids": list(self.source_ids),
         }
 

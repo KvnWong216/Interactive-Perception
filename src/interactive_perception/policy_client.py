@@ -159,7 +159,12 @@ class OpenPiWebsocketPolicy:
             chunks.append(chunk)
         return chunks
 
-    def encode_prefix(self, packet: ObservationPacket) -> np.ndarray:
+    def encode_prefix(
+        self,
+        packet: ObservationPacket,
+        *,
+        feature_schema: str = "global_v1",
+    ) -> np.ndarray:
         """Read frozen multimodal prefix features from the extended server.
 
         Prefix requests do not sample an action and therefore must not advance
@@ -167,7 +172,14 @@ class OpenPiWebsocketPolicy:
         implement this request; launch ``serve_pi05_with_prefix.py``.
         """
 
-        payload = {**packet.to_openpi(), "__request_type": "prefix"}
+        dimensions = {"global_v1": 8192, "cognitive_spatial_v5": 21504}
+        if feature_schema not in dimensions:
+            raise ValueError(f"unknown prefix feature schema {feature_schema!r}")
+        payload = {
+            **packet.to_openpi(),
+            "__request_type": "prefix",
+            "__feature_schema": feature_schema,
+        }
         response = self._client.infer(payload)
         if "prefix_features" not in response:
             raise RuntimeError(
@@ -175,7 +187,8 @@ class OpenPiWebsocketPolicy:
                 "versioned extended server"
             )
         features = np.asarray(response["prefix_features"], dtype=np.float32)
-        if features.shape != (8192,) or not np.all(np.isfinite(features)):
+        expected = (dimensions[feature_schema],)
+        if features.shape != expected or not np.all(np.isfinite(features)):
             raise ValueError(f"unexpected prefix feature shape/value: {features.shape}")
         return features
 

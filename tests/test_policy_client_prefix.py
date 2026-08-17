@@ -37,6 +37,16 @@ def test_prefix_request_is_explicit_and_has_frozen_shape() -> None:
     value = policy_with(fake).encode_prefix(packet())
     assert value.shape == (8192,)
     assert fake.payload["__request_type"] == "prefix"
+    assert fake.payload["__feature_schema"] == "global_v1"
+
+
+def test_cognitive_spatial_v5_request_has_frozen_shape() -> None:
+    fake = FakeClient({"prefix_features": np.ones(21504, dtype=np.float32)})
+    value = policy_with(fake).encode_prefix(
+        packet(), feature_schema="cognitive_spatial_v5"
+    )
+    assert value.shape == (21504,)
+    assert fake.payload["__feature_schema"] == "cognitive_spatial_v5"
 
 
 def test_stock_server_is_rejected_for_prefix_request() -> None:

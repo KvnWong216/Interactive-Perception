@@ -35,6 +35,22 @@ methods:
   - id: no_history
     description: Judge the outcome from the final frame only.
 
+  - id: no_return_to_observe
+    description: >-
+      Stop after the frozen VLA opening option. This tests whether temporal
+      evidence alone is enough for REVEALED and whether viewpoint recovery is
+      still needed to certify EMPTY.
+
+  - id: global_pooling_only
+    description: >-
+      Remove prompt-attended spatial tokens and retain only globally pooled
+      prefix features. This tests whether prompt-to-region grounding matters.
+
+  - id: flat_outcome_critic
+    description: >-
+      Predict FAILED, REVEALED, and EMPTY with one three-way head instead of
+      separating physical completion from prompt-relevant observed content.
+
   - id: no_effect_model
     description: Assume every enabled information action succeeds with probability one.
 
@@ -75,6 +91,9 @@ primary_comparisons:
   - full_method vs come_style_binary_sufficiency tests whether typed causes, effects, and costs matter.
   - full_method vs uncalibrated_typed_belief tests whether conformalization matters.
   - full_method vs visual_only_history and no_history tests whether action-conditioned memory matters.
+  - full_method vs no_return_to_observe tests the value of explicit viewpoint recovery.
+  - full_method vs global_pooling_only tests whether prompt-conditioned spatial grounding matters.
+  - full_method vs flat_outcome_critic tests whether effect/content factorization matters.
   - full_method vs no_effect_model tests whether physical reliability calibration matters.
   - full_method vs no_temporal_progress tests whether sequence structure prevents premature commit and false NOT_FOUND.
   - full_method vs hard_progress_automaton tests whether progress uncertainty matters beyond a deterministic state machine.
