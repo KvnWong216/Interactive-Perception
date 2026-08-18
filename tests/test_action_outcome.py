@@ -9,13 +9,18 @@ from interactive_perception.action_outcome import (
     PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
     PI05_POLICY_IMAGE_SIDE,
     PI05_VISUAL_TOKEN_GRID_SIDE,
+    TemporalTargetEvidencePredictor,
+    combine_v10_outcome_sets,
     label_effect_outcome,
     label_observable_information_outcome,
     label_temporal_information_outcome,
+    label_temporal_information_outcome_v10,
     temporal_history_feature_block,
+    temporal_target_score_summary,
     transition_feature_block,
 )
 from interactive_perception.active_risk import EffectOutcome
+from interactive_perception.prompt_state import BalancedRidgeBinary
 from interactive_perception.semantic_conformal import MondrianSemanticConformalCalibrator
 
 
@@ -72,10 +77,16 @@ def test_temporal_history_separates_full_visual_robot_and_ablations() -> None:
         visual, robot, "visual_only_history"
     )
     full = temporal_history_feature_block(visual, robot, "temporal_history")
+    extrema = temporal_history_feature_block(
+        visual, robot, "visual_extrema_history"
+    )
     assert no_history.shape == (2, 10)
     assert visual_only.shape == (2, 60)
     assert full.shape == (2, 148)
+    assert extrema.shape == (2, 80)
     assert np.array_equal(no_history, visual[:, -1])
+    assert np.array_equal(extrema[:, -20:-10], np.max(visual, axis=1))
+    assert np.array_equal(extrema[:, -10:], np.min(visual, axis=1))
 
 
 def test_temporal_history_rejects_wrong_public_contract() -> None:
@@ -83,6 +94,64 @@ def test_temporal_history_rejects_wrong_public_contract() -> None:
         temporal_history_feature_block(
             np.zeros((1, 5, 10)), np.zeros((1, 6, 8)), "temporal_history"
         )
+
+
+def test_temporal_target_evidence_uses_all_six_frame_scores_and_roundtrips() -> None:
+    history = np.zeros((4, 6, 2), dtype=float)
+    history[0, 2, 0] = 4.0
+    history[1, 4, 0] = 3.0
+    frame_values = history[:, :, :1].reshape(-1, 1)
+    frame_labels = np.where(frame_values[:, 0] > 1.0, "VISIBLE", "NOT_VISIBLE")
+    frame_standardizer = FeatureStandardizer.fit(frame_values)
+    frame_probe = BalancedRidgeBinary.fit(
+        frame_standardizer.transform(frame_values),
+        frame_labels,
+        negative_label="NOT_VISIBLE",
+        positive_label="VISIBLE",
+        regularization=1e-3,
+    )
+    frame_scores = frame_probe.score(
+        frame_standardizer.transform(frame_values)
+    ).reshape(4, 6)
+    episode_values = np.stack(
+        [temporal_target_score_summary(row) for row in frame_scores]
+    )
+    episode_labels = np.asarray(
+        ["REVEALED", "REVEALED", "NOT_REVEALED", "NOT_REVEALED"]
+    )
+    episode_standardizer = FeatureStandardizer.fit(episode_values)
+    scaled = episode_standardizer.transform(episode_values)
+    episode_critic = BalancedRidgeMulticlass.fit(
+        scaled, episode_labels, regularization=1e-3
+    )
+    episode_conformal = MondrianSemanticConformalCalibrator.fit(
+        list(zip(episode_critic.evidence(scaled), episode_labels, strict=True)),
+        alpha=0.1,
+        policy_id="test-target-evidence",
+        split_id="test",
+    )
+    predictor = TemporalTargetEvidencePredictor(
+        input_dimension=2,
+        feature_start=0,
+        feature_end=1,
+        frame_standardizer=frame_standardizer,
+        frame_probe=frame_probe,
+        episode_standardizer=episode_standardizer,
+        episode_critic=episode_critic,
+        episode_conformal=episode_conformal,
+    )
+    assert "REVEALED" in predictor.predict_history(history[0]).prediction_set
+    artifact = {
+        "input_feature_dimension": 2,
+        "frame_feature_slice": {"start": 0, "end": 1},
+        "frame_standardizer": frame_standardizer.to_dict(),
+        "frame_probe": frame_probe.to_dict(),
+        "episode_standardizer": episode_standardizer.to_dict(),
+        "episode_critic": episode_critic.to_dict(),
+        "episode_conformal": episode_conformal.to_dict(),
+    }
+    restored = TemporalTargetEvidencePredictor.from_artifact(artifact)
+    assert restored.predict_history(history[0]) == predictor.predict_history(history[0])
 
 
 def test_transition_feature_rejects_wrong_shape() -> None:
@@ -176,6 +245,37 @@ def test_temporal_empty_requires_an_independent_coverage_certificate() -> None:
     ) is EffectOutcome.FAILED
 
 
+def test_v10_empty_evidence_persists_after_motor_reclosure() -> None:
+    assert label_temporal_information_outcome_v10(
+        full_executor=True,
+        target_pixel_history=((0, 0), (0, 0), (0, 0)),
+        minimum_target_pixels=5,
+        searched_region_coverage_history=(False, True, False),
+    ) is EffectOutcome.EMPTY
+
+
+def test_v10_requires_temporally_aligned_coverage_or_target_evidence() -> None:
+    common = {
+        "target_pixel_history": ((0, 0), (0, 0), (0, 0)),
+        "minimum_target_pixels": 5,
+        "searched_region_coverage_history": (False, False, False),
+    }
+    assert label_temporal_information_outcome_v10(
+        full_executor=True, **common
+    ) is EffectOutcome.FAILED
+    assert label_temporal_information_outcome_v10(
+        full_executor=False,
+        target_pixel_history=((0, 0), (10, 0), (0, 0)),
+        minimum_target_pixels=5,
+        searched_region_coverage_history=(False, True, False),
+    ) is EffectOutcome.FAILED
+    with pytest.raises(ValueError, match="align"):
+        label_temporal_information_outcome_v10(
+            full_executor=True,
+            target_pixel_history=((0, 0), (0, 0)),
+            minimum_target_pixels=5,
+            searched_region_coverage_history=(True,),
+        )
 def test_action_outcome_predictor_consumes_paired_prefixes() -> None:
     values = np.zeros((4, 2048))
     values[0, 0] = 3.0
@@ -273,3 +373,21 @@ def test_hierarchical_predictor_separates_completion_from_content() -> None:
     empty_set = predictor.predict_history(history[-1], robot[-1]).prediction_set
     assert "FAILED" not in revealed_set and "REVEALED" in revealed_set
     assert "FAILED" not in empty_set and "EMPTY" in empty_set
+    assert predictor.predict_effect_history(
+        history[0], robot[0]
+    ).prediction_set == ("FAILED",)
+
+
+def test_v10_composite_preserves_reveal_and_propagates_ambiguity() -> None:
+    assert combine_v10_outcome_sets(("REVEALED",), ("FAILED",)) == (
+        "REVEALED",
+    )
+    assert combine_v10_outcome_sets(("NOT_REVEALED",), ("COMPLETED",)) == (
+        "EMPTY",
+    )
+    assert combine_v10_outcome_sets(("NOT_REVEALED",), ("FAILED",)) == (
+        "FAILED",
+    )
+    assert combine_v10_outcome_sets(
+        ("REVEALED", "NOT_REVEALED"), ("FAILED", "COMPLETED")
+    ) == ("FAILED", "REVEALED", "EMPTY")

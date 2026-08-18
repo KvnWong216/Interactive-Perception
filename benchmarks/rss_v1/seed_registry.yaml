@@ -79,9 +79,13 @@ blocks:
 
   - id: t01_open_observe_clean_extension
     seeds: 660-699
-    role: frozen_clean_development
-    status: untouched
-    open_condition: disposable smoke passes and the v9 candidate is frozen
+    role: v9_clean_development
+    status: consumed_not_go_then_v10_diagnostic
+    evidence: results/calibration/t01_open_and_observe_clean_extension_v9.json
+    note: >-
+      V9 was NOT-GO because EMPTY physical completion was 36/40. Subsequent
+      inspection and v10 model selection contaminated the whole block; it is
+      retained only as a reproducible non-claim diagnostic.
 
   - id: t01_open_observe_final_frame_debug
     seeds: 700-799
@@ -120,6 +124,15 @@ blocks:
       - results/smoke/piu_v0_end_to_end_v3_seed1399.json
       - results/smoke/piu_v0_full_pipeline_v4_seed1399.json
     paper_eligible: false
+
+  - id: t01_open_observe_v10_clean_development
+    seeds: 1400-1439
+    role: frozen_clean_development
+    status: untouched
+    paper_eligible: true
+    open_condition: >-
+      v10 composite artifact is frozen with target temporal-OR separated from
+      observation completion and the local GPU preflight passes
 
   - id: piu_counterfactual_prototype_train
     seeds: 1500-1599

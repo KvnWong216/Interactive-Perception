@@ -30,6 +30,7 @@ __all__ = [
     "ObservationReturnPhase",
     "ObservationReturnStatus",
     "T01_STOCK_OBSERVATION_POSE",
+    "T01_STOCK_FALLBACK_OBSERVATION_POSE",
     "relative_axis_angle_xyzw",
 ]
 
@@ -64,6 +65,25 @@ T01_STOCK_OBSERVATION_POSE = ObservationPose(
 """Reset pose shared exactly by all 60 T01 development seeds."""
 
 
+T01_STOCK_FALLBACK_OBSERVATION_POSE = ObservationPose(
+    position=(-0.23453280793819298, -0.01205518782332799, 1.073280694904323),
+    quaternion_xyzw=(
+        -0.9979046609481735,
+        0.019745268102984766,
+        -0.05845915123224168,
+        0.019466373125417828,
+    ),
+)
+"""Second T01 observation pose found from the v9 clean-development failures.
+
+The direct controller converged to this pose in three otherwise successful
+drawer-opening trials.  Post-controller, seed-matched evaluator replay showed
+310--316 prompt-resolvable agentview pixels at this pose.  It is therefore a
+versioned observation endpoint, not a relaxed tolerance around the reset pose.
+It cannot certify content online; it only terminates the proprioceptive return.
+"""
+
+
 @dataclasses.dataclass(frozen=True)
 class ObservationReturnConfig:
     """Controller settings, kept separate from uncertainty-routing losses.
@@ -74,9 +94,13 @@ class ObservationReturnConfig:
     """
 
     pose: ObservationPose = T01_STOCK_OBSERVATION_POSE
+    alternative_completion_poses: tuple[ObservationPose, ...] = (
+        T01_STOCK_FALLBACK_OBSERVATION_POSE,
+    )
     release_steps: int = 8
     maximum_return_steps: int = 160
     settled_steps: int = 5
+    alternative_settled_steps: int = 3
     position_tolerance: float = 0.012
     orientation_tolerance_radians: float = 0.08
     position_output_scale: float = 0.05
@@ -86,12 +110,21 @@ class ObservationReturnConfig:
     gripper_release_command: float = -1.0
 
     def __post_init__(self) -> None:
+        if not isinstance(self.alternative_completion_poses, tuple) or not all(
+            isinstance(pose, ObservationPose)
+            for pose in self.alternative_completion_poses
+        ):
+            raise ValueError(
+                "alternative_completion_poses must be a tuple of ObservationPose"
+            )
         if self.release_steps < 0:
             raise ValueError("release_steps must be nonnegative")
         if self.maximum_return_steps < 1:
             raise ValueError("maximum_return_steps must be positive")
         if self.settled_steps < 1:
             raise ValueError("settled_steps must be positive")
+        if self.alternative_settled_steps < 1:
+            raise ValueError("alternative_settled_steps must be positive")
         for name in (
             "position_tolerance",
             "orientation_tolerance_radians",
@@ -125,6 +158,7 @@ class ObservationReturnStatus:
     position_error_metres: float
     orientation_error_radians: float
     consecutive_settled_steps: int
+    completion_pose_index: int | None
 
     @property
     def terminal(self) -> bool:
@@ -230,6 +264,8 @@ class ObservationReturnController:
         )
         self._last_position_error = math.inf
         self._last_orientation_error = math.inf
+        self._completion_pose_index: int | None = None
+        self._last_matched_pose_index: int | None = None
 
     @property
     def allowed_observation_keys(self) -> frozenset[str]:
@@ -242,6 +278,7 @@ class ObservationReturnController:
             position_error_metres=self._last_position_error,
             orientation_error_radians=self._last_orientation_error,
             consecutive_settled_steps=self._settled,
+            completion_pose_index=self._completion_pose_index,
         )
 
     def _release_action(self) -> np.ndarray:
@@ -282,12 +319,50 @@ class ObservationReturnController:
                 self._phase = ObservationReturnPhase.RETURN
             return action
 
-        reached = (
-            self._last_position_error <= self.config.position_tolerance
-            and self._last_orientation_error
-            <= self.config.orientation_tolerance_radians
+        completion_poses = (self.config.pose, *self.config.alternative_completion_poses)
+        completion_errors = []
+        for completion_pose in completion_poses:
+            completion_errors.append(
+                (
+                    float(
+                        np.linalg.norm(
+                            np.asarray(completion_pose.position, dtype=np.float64)
+                            - position
+                        )
+                    ),
+                    float(
+                        np.linalg.norm(
+                            relative_axis_angle_xyzw(
+                                quaternion, completion_pose.quaternion_xyzw
+                            )
+                        )
+                    ),
+                )
+            )
+        matched = next(
+            (
+                index
+                for index, (position_norm, orientation_norm) in enumerate(
+                    completion_errors
+                )
+                if position_norm <= self.config.position_tolerance
+                and orientation_norm <= self.config.orientation_tolerance_radians
+            ),
+            None,
         )
-        self._settled = self._settled + 1 if reached else 0
+        reached = matched is not None
+        self._completion_pose_index = matched
+        if matched is not None:
+            self._last_position_error, self._last_orientation_error = completion_errors[
+                matched
+            ]
+        if reached and matched == self._last_matched_pose_index:
+            self._settled += 1
+        elif reached:
+            self._settled = 1
+        else:
+            self._settled = 0
+        self._last_matched_pose_index = matched
 
         action = self._release_action()
         if not reached:
@@ -304,7 +379,12 @@ class ObservationReturnController:
 
         self._commands_issued += 1
         self._return_commands += 1
-        if self._settled >= self.config.settled_steps:
+        required_settled = (
+            self.config.settled_steps
+            if matched in {None, 0}
+            else self.config.alternative_settled_steps
+        )
+        if self._settled >= required_settled:
             self._phase = ObservationReturnPhase.COMPLETE
         elif self._return_commands >= self.config.maximum_return_steps:
             self._phase = ObservationReturnPhase.TIMED_OUT

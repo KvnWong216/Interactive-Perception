@@ -61,7 +61,7 @@ b_t(z)=P(z_t=z\mid x,h_t).
 \]
 
 A Mondrian split-conformal calibrator returns a class-conditional plausible
-set \(\Gamma_\alpha(x,h_t)\), with \(\alpha=0.1\) frozen before audit. The set
+set \(\Gamma_\alpha(x,h_t)\), with \(\alpha=0.05\) frozen before v10 clean development. The set
 is a coverage object, not a claim that the discriminative head's softmax is a
 calibrated probability.
 
@@ -358,7 +358,8 @@ hidden proposition.
 | T01 target visible after opening | 57/60; lower bound 0.876 | policy-camera endpoint |
 | T01 empty layer visually certified | 56/60; lower bound 0.854 | paired counterfactual proxy |
 | Six-point v8 outcome head | FAILED 7/7; REVEALED 7/9; EMPTY 4/5 | development NOT-GO |
-| Patch-resolvable v9 candidate | 20/21 | diagnosed seeds; not certification |
+| Patch-resolvable v9 clean development | critic passed; physical EMPTY 36/40, lower 0.786 | NOT-GO |
+| Separated v10 target/effect composite | 120/120 on seeds 660--699 | contaminated model-selection diagnostic |
 | Open layer at stock observation pose | 60/60; lower bound 0.951 | evaluator-only coverage diagnostic |
 | Proprioceptive return from perturbed pose | 30/30; lower bound 0.905 | controller diagnostic, not full executor |
 | Hidden butter belief | 97/100 | T01 seed-disjoint audit |
@@ -382,8 +383,10 @@ frame. Debug seed 770 visibly contained the target at intermediate points but
 would have been labeled `EMPTY` after later self-occlusion. Seeds 700--799 are
 therefore debug-only. Temporal-label v3 subsequently froze on seeds 600--659,
 but v8 failed development with per-class coverage 7/7, 7/9, and 4/5. The
-architecture-derived v9 relabeling reaches 20/21 on those diagnosed seeds;
-untouched 660--699 must certify it before the seeds 900--999 audit can open.
+architecture-derived v9 relabeling did not pass the physical EMPTY gate on
+660--699. The v10 redesign separates frame-level target evidence from
+observation completion and reaches 120/120 only as a contaminated diagnostic;
+fresh 1400--1439 must certify it before the seeds 900--999 audit can open.
 
 ## Required RSS experiment ladder
 
@@ -391,7 +394,7 @@ The authoritative registry is `benchmarks/rss_v1/gates.yaml`. The next gates
 are deliberately ordered so that a later success cannot conceal an earlier
 confound.
 
-1. Run the clean v9 development extension on untouched seeds 660--699. Only
+1. Run the clean v10 development extension on untouched seeds 1400--1439. Only
    after it passes may the one-time seeds 900--999 audit run. Physical action
    lower bounds must reach 0.80; conformal class coverage remains 0.90. Report
    the original 0.90 physical criterion as a stricter sensitivity check.

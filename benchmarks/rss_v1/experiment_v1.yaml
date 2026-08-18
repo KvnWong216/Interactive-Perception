@@ -1,7 +1,7 @@
 schema_version: interactive-perception.rss-experiment.v1
 name: Prompt-aligned action-resolvable uncertainty
 seed_registry: benchmarks/rss_v1/seed_registry.yaml
-outcome_data_protocol: benchmarks/rss_v1/outcome_data_protocol_v1.yaml
+outcome_data_protocol: benchmarks/calibration/t01_open_and_observe_v10.yaml
 
 claim: >-
   A frozen VLA may possess an information action without knowing when it is
@@ -12,7 +12,7 @@ frozen_contract:
   policy: pi05_libero
   policy_weights: frozen
   policy_observation: [stock agentview RGB, stock wrist RGB, robot state, prompt]
-  conformal_error_rate: 0.10
+  conformal_error_rate: 0.05
   confidence: 0.95
   minimum_action_reliability_lower_bound: 0.80
   original_strict_reliability_reported_also: 0.90
@@ -84,10 +84,28 @@ t01_v9_clean_extension:
     - Every outcome class has coverage >= 0.90.
     - Every outcome class has singleton accuracy >= 0.80.
     - Both full physical branches have one-sided lower bound >= 0.80.
+  result: NOT_GO
+  provenance: consumed; subsequently contaminated by v10 diagnosis
+
+t01_v10_clean_development:
+  seeds: 1400-1439
+  purpose: >-
+    Fresh development for the frozen v10 composite: per-frame agentview target
+    evidence with temporal OR, followed only when target evidence is absent by
+    a FAILED-vs-COMPLETED observation-effect head.
+  selected_target_input: six stock agentview RGB frames
+  selected_effect_input: visual-only six-point pi0.5 history features
+  pass_conditions:
+    - Every outcome class has correct-label retention >= 0.90.
+    - Every outcome class has singleton-correct one-sided 95% lower bound >= 0.80.
+    - False singleton EMPTY equals zero.
+    - False singleton REVEALED equals zero.
+    - REVEALED and local EMPTY information-acquisition lower bounds are each >= 0.80.
+  sealed_effect: 900-999 remains closed unless every condition passes.
 
 t01_sealed_audit:
   seeds: 900-999
-  collection_rule: Collect once, only after the frozen v9 artifact passes the clean extension.
+  collection_rule: Collect once, only after the frozen v10 artifact passes seeds 1400-1439.
   samples_per_regime: 100
   pass_conditions:
     - Per-class conformal coverage >= 0.90.

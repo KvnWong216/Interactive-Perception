@@ -50,7 +50,9 @@ decides whether to open the drawer.
 | Same prompt, target already visible | 99/100 |
 | Target-observability risk routing | 296/300 |
 | Temporal outcome critic v8 | NOT-GO: FAILED 7/7, REVEALED 7/9, EMPTY 4/5 |
-| Patch-resolvable v9 diagnostic | 20/21; clean extension still required |
+| Patch-resolvable v9 clean development | NOT-GO: critic passed; EMPTY physical 36/40, lower 0.786 |
+| v10 separated target/effect diagnostic | 120/120 on contaminated seeds 660–699; non-claim |
+| v10 fresh clean development | NOT RUN; frozen seeds 1400–1439 |
 | v4 OPEN_AND_OBSERVE disposable smoke | 3/3: REVEALED / EMPTY / FAILED |
 | PIU V0 learned-head diagnostics | belief 27/30; outcome 20/21 contaminated diagnostic |
 | PIU V0 end-to-end disposable smoke | 5/5 routes and outcomes; non-paper |
@@ -76,9 +78,19 @@ Version 3 also exposed a second evaluator problem: true middle-layer reveals
 occupy at least 311 target pixels, while three supposed reveals in the empty
 layer contain only 5--7 leaked pixels from the upper layer. Version 9 therefore
 uses one pi0.5 visual-token footprint (256 pixels) as an architecture-derived
-resolvability definition. Its old-seed diagnostic is 20/21, but those seeds
-helped diagnose v8 and cannot certify v9. Untouched seeds 660--699 are reserved
-for the clean development extension.
+resolvability definition. The v9 critic passed its class gates on seeds
+660--699, but the old endpoint incorrectly required the drawer to remain open
+and the wrist to return to one exact pose; the resulting EMPTY physical branch
+was only 36/40 (one-sided 95% lower 0.786), so v9 is NOT-GO.
+
+Version 10 separates two questions. A per-frame public-agentview RGB head with
+a temporal OR asks whether the butter was ever prompt-resolvable. Only when it
+returns singleton `NOT_REVEALED` does a second public-history head classify the
+observation effect as `FAILED` or `COMPLETED`; `COMPLETED` then means local
+`EMPTY`. This preserves acquired information after later reclosure or
+reocclusion. The frozen combination is 120/120 on now-contaminated seeds
+660--699, which is model-selection evidence only. Fresh seeds 1400--1439 are
+the sole v10 clean-development block; sealed seeds 900--999 remain closed.
 
 The action reliability lower bound is 0.80; the original 0.90 result is always
 reported. Conformal error remains 0.10. These are evidence gates, not online
@@ -111,11 +123,12 @@ not override this registry.
 | 600–619 | outcome prototype train | consumed |
 | 620–652 | conformal calibration | consumed |
 | 653–659 | v8/v9 diagnosis | contaminated; diagnostic only |
-| 660–699 | v9 clean development extension | frozen and untouched |
+| 660–699 | v9 clean development; later v10 diagnosis | consumed, NOT-GO, contaminated |
 | 700–799 | final-frame-bug debugging | whole block quarantined |
 | 800–899 | later closed-loop validation | frozen; audit-gated; non-paper |
 | 900–999 | one-time sealed outcome audit | sealed |
 | 1300, 1399 | wiring smoke | disposable; never claim-bearing |
+| 1400–1439 | v10 fresh clean development | frozen and untouched |
 | 1500–1599 | future PIU counterfactual prototype train | untouched |
 | 1600–1699 | future PIU conformal calibration | untouched |
 | 1700–1799 | future scene-disjoint clean development | untouched |
@@ -132,6 +145,7 @@ Run the dependency-gated experiment:
 bash scripts/run_rss_experiment_ladder.sh preflight
 bash scripts/run_rss_experiment_ladder.sh smoke
 bash scripts/run_rss_experiment_ladder.sh development
+bash scripts/run_t01_open_and_observe_pipeline.sh v10-clean
 ```
 
 Run the local PIU V0 path:

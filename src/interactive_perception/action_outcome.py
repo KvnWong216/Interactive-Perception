@@ -159,6 +159,45 @@ def label_temporal_information_outcome(
     return EffectOutcome.FAILED
 
 
+def label_temporal_information_outcome_v10(
+    *,
+    full_executor: bool,
+    target_pixel_history: Sequence[Sequence[int]],
+    minimum_target_pixels: int,
+    searched_region_coverage_history: Sequence[bool],
+) -> EffectOutcome:
+    """Evaluator-only information label with temporal evidence persistence.
+
+    Version 9 incorrectly required the drawer to remain open *and* the arm to
+    reach one exact return pose before certifying ``EMPTY``.  Those are motor
+    diagnostics, not information endpoints.  Version 10 applies the same
+    persistence rule to positive and negative information: once a public
+    history point reveals the target, or independently certifies coverage of
+    the searched region, later re-occlusion cannot erase the observation.
+
+    ``searched_region_coverage_history`` is constructed offline with a
+    seed-matched same-camera-pose counterfactual.  It is never an online input.
+    """
+
+    history = [[int(value) for value in point] for point in target_pixel_history]
+    coverage = [bool(value) for value in searched_region_coverage_history]
+    if not history or any(not point for point in history):
+        raise ValueError("target_pixel_history must contain non-empty view counts")
+    if len(coverage) != len(history):
+        raise ValueError("coverage history must align with target pixel history")
+    if any(value < 0 for point in history for value in point):
+        raise ValueError("target pixel counts must be non-negative")
+    if minimum_target_pixels < 1:
+        raise ValueError("minimum_target_pixels must be positive")
+    if not full_executor:
+        return EffectOutcome.FAILED
+    if max(value for point in history for value in point) >= minimum_target_pixels:
+        return EffectOutcome.REVEALED
+    if any(coverage):
+        return EffectOutcome.EMPTY
+    return EffectOutcome.FAILED
+
+
 @dataclasses.dataclass(frozen=True)
 class BalancedRidgeMulticlass:
     """One-vs-rest ridge heads with equal positive/negative class mass.
@@ -308,7 +347,7 @@ def temporal_history_feature_block(
 
     if block == "no_history":
         return visual[:, -1]
-    if block == "visual_only_history":
+    if block in {"visual_only_history", "visual_extrema_history"}:
         selected = visual
     elif block == "global_visual_history":
         if visual.shape[2] < 8192:
@@ -319,17 +358,19 @@ def temporal_history_feature_block(
     else:
         raise ValueError(f"unknown temporal feature block {block!r}")
 
-    visual_summary = np.concatenate(
-        [
-            selected[:, 0],
-            selected[:, -1],
-            selected[:, -1] - selected[:, 0],
-            np.mean(selected, axis=1),
-            np.std(selected, axis=1),
-            np.max(np.abs(np.diff(selected, axis=1)), axis=1),
-        ],
-        axis=1,
-    )
+    summary_parts = [
+        selected[:, 0],
+        selected[:, -1],
+        selected[:, -1] - selected[:, 0],
+        np.mean(selected, axis=1),
+        np.std(selected, axis=1),
+        np.max(np.abs(np.diff(selected, axis=1)), axis=1),
+    ]
+    if block == "visual_extrema_history":
+        summary_parts.extend(
+            [np.max(selected, axis=1), np.min(selected, axis=1)]
+        )
+    visual_summary = np.concatenate(summary_parts, axis=1)
     if block != "temporal_history":
         return visual_summary
 
@@ -352,6 +393,91 @@ def temporal_history_feature_block(
 class ActionOutcomePrediction:
     evidence: dict[str, float]
     prediction_set: tuple[str, ...]
+
+
+def temporal_target_score_summary(frame_scores: Sequence[float]) -> np.ndarray:
+    """Preserve six frame scores and explicit temporal-OR statistics."""
+
+    values = np.asarray(frame_scores, dtype=np.float64)
+    if values.shape != (6,) or not np.all(np.isfinite(values)):
+        raise ValueError("frame_scores must contain six finite values")
+    ordered = np.sort(values)
+    return np.concatenate(
+        [
+            values,
+            np.asarray(
+                [
+                    ordered[-1],
+                    ordered[-2],
+                    float(np.mean(values)),
+                    float(np.std(values)),
+                    float(np.ptp(values)),
+                ]
+            ),
+        ]
+    )
+
+
+@dataclasses.dataclass(frozen=True)
+class TemporalTargetEvidencePredictor:
+    """Frame-level prompt evidence followed by an episode-level temporal OR."""
+
+    input_dimension: int
+    feature_start: int
+    feature_end: int
+    frame_standardizer: FeatureStandardizer
+    frame_probe: BalancedRidgeBinary
+    episode_standardizer: FeatureStandardizer
+    episode_critic: BalancedRidgeMulticlass
+    episode_conformal: MondrianSemanticConformalCalibrator
+
+    def __post_init__(self) -> None:
+        if not 0 <= self.feature_start < self.feature_end <= self.input_dimension:
+            raise ValueError("target-evidence feature slice is invalid")
+
+    @classmethod
+    def from_artifact(
+        cls, artifact: dict[str, Any]
+    ) -> "TemporalTargetEvidencePredictor":
+        feature_slice = artifact["frame_feature_slice"]
+        return cls(
+            input_dimension=int(artifact["input_feature_dimension"]),
+            feature_start=int(feature_slice["start"]),
+            feature_end=int(feature_slice["end"]),
+            frame_standardizer=FeatureStandardizer.from_dict(
+                artifact["frame_standardizer"]
+            ),
+            frame_probe=BalancedRidgeBinary.from_dict(artifact["frame_probe"]),
+            episode_standardizer=FeatureStandardizer.from_dict(
+                artifact["episode_standardizer"]
+            ),
+            episode_critic=BalancedRidgeMulticlass.from_dict(
+                artifact["episode_critic"]
+            ),
+            episode_conformal=MondrianSemanticConformalCalibrator.from_dict(
+                artifact["episode_conformal"]
+            ),
+        )
+
+    def predict_history(self, history_features: np.ndarray) -> ActionOutcomePrediction:
+        history = np.asarray(history_features, dtype=np.float64)
+        if history.shape != (6, self.input_dimension):
+            raise ValueError(
+                f"history_features must have shape {(6, self.input_dimension)}"
+            )
+        frame_values = history[:, self.feature_start : self.feature_end]
+        frame_values = self.frame_standardizer.transform(frame_values)
+        frame_scores = self.frame_probe.score(frame_values)
+        episode_values = temporal_target_score_summary(frame_scores)[None, :]
+        episode_values = self.episode_standardizer.transform(episode_values)
+        evidence = self.episode_critic.evidence(episode_values)[0]
+        return ActionOutcomePrediction(
+            evidence={
+                **evidence,
+                "maximum_frame_score": float(np.max(frame_scores)),
+            },
+            prediction_set=self.episode_conformal.predict(evidence),
+        )
 
 
 @dataclasses.dataclass(frozen=True)
@@ -510,3 +636,73 @@ class HierarchicalActionOutcomePredictor:
             {f"content/{key}": value for key, value in content_evidence.items()}
         )
         return ActionOutcomePrediction(evidence=evidence, prediction_set=ordered)
+
+    def predict_effect_history(
+        self,
+        history_features: np.ndarray,
+        robot_state_history: np.ndarray,
+    ) -> ActionOutcomePrediction:
+        """Classify whether the option produced a certifiable observation.
+
+        This exposes the first hierarchical head for the v10 composite critic.
+        Target evidence is handled by an independent per-frame RGB detector;
+        only histories without singleton target evidence reach this head.
+        """
+
+        history = np.asarray(history_features, dtype=np.float64)
+        robot = np.asarray(robot_state_history, dtype=np.float64)
+        if history.shape != (6, self.input_dimension):
+            raise ValueError(
+                f"history_features must have shape {(6, self.input_dimension)}"
+            )
+        if robot.shape != (6, 8):
+            raise ValueError("robot_state_history must have shape (6, 8)")
+        values = temporal_history_feature_block(
+            history[None, :], robot[None, :], self.block
+        )
+        values = self.standardizer.transform(values)
+        evidence = self.effect_critic.evidence(values)[0]
+        return ActionOutcomePrediction(
+            evidence=evidence,
+            prediction_set=self.effect_conformal.predict(evidence),
+        )
+
+
+def combine_v10_outcome_sets(
+    target_evidence_set: Sequence[str],
+    observation_effect_set: Sequence[str],
+) -> tuple[str, ...]:
+    """Combine target temporal-OR and observation-effect conformal sets.
+
+    Ambiguity in either hierarchy level is preserved as a multi-label outcome,
+    which the online controller maps to SAFE_STOP.  A singleton REVEALED result
+    persists even if a later motor or return phase fails.
+    """
+
+    target = tuple(target_evidence_set)
+    effect = tuple(observation_effect_set)
+    valid_target = {"REVEALED", "NOT_REVEALED"}
+    valid_effect = {"FAILED", "COMPLETED"}
+    if not target or not set(target).issubset(valid_target):
+        raise ValueError("invalid target-evidence prediction set")
+    if not effect or not set(effect).issubset(valid_effect):
+        raise ValueError("invalid observation-effect prediction set")
+    if target == ("REVEALED",):
+        return (EffectOutcome.REVEALED.value,)
+    outcomes: set[str] = set()
+    if "REVEALED" in target:
+        outcomes.add(EffectOutcome.REVEALED.value)
+    if "NOT_REVEALED" in target:
+        if "FAILED" in effect:
+            outcomes.add(EffectOutcome.FAILED.value)
+        if "COMPLETED" in effect:
+            outcomes.add(EffectOutcome.EMPTY.value)
+    return tuple(
+        label
+        for label in (
+            EffectOutcome.FAILED.value,
+            EffectOutcome.REVEALED.value,
+            EffectOutcome.EMPTY.value,
+        )
+        if label in outcomes
+    )

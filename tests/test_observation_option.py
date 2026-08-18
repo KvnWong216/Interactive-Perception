@@ -83,12 +83,32 @@ def test_timeout_is_explicit_failure_not_false_completion() -> None:
         pose=ObservationPose((1.0, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)),
         release_steps=0,
         maximum_return_steps=2,
+        alternative_completion_poses=(),
     )
     controller = ObservationReturnController(config)
     controller.act(_observation())
     controller.act(_observation())
     assert controller.status().phase is ObservationReturnPhase.TIMED_OUT
     assert not controller.status().succeeded
+
+
+def test_registered_alternative_pose_is_an_explicit_completion_endpoint() -> None:
+    alternative = ObservationPose(
+        (0.1, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)
+    )
+    controller = ObservationReturnController(
+        ObservationReturnConfig(
+            pose=ObservationPose((1.0, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)),
+            alternative_completion_poses=(alternative,),
+            release_steps=0,
+            settled_steps=2,
+            alternative_settled_steps=2,
+        )
+    )
+    controller.act(_observation(position=(0.1, 0.0, 0.0)))
+    controller.act(_observation(position=(0.1, 0.0, 0.0)))
+    assert controller.status().succeeded
+    assert controller.status().completion_pose_index == 1
 
 
 class _NoOracleObservation(dict):
@@ -121,3 +141,5 @@ def test_configuration_rejects_routing_like_or_invalid_values() -> None:
         ObservationReturnConfig(maximum_normalized_translation=1.1)
     with pytest.raises(ValueError, match="normalized"):
         ObservationPose((0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 2.0))
+    with pytest.raises(ValueError, match="alternative_completion_poses"):
+        ObservationReturnConfig(alternative_completion_poses=[])

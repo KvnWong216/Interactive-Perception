@@ -74,6 +74,7 @@ def _config(**overrides):
         "release_steps": 1,
         "settled_steps": 2,
         "maximum_return_steps": 30,
+        "alternative_completion_poses": (),
     }
     values.update(overrides)
     return ObservationReturnConfig(**values)

@@ -13,8 +13,8 @@ EXPERIMENT_ALLOW_LOCAL_RUSTDESK="${EXPERIMENT_ALLOW_LOCAL_RUSTDESK:-1}"
 SERVER_PID=""
 
 case "$MODE" in
-  smoke|extension|audit) ;;
-  *) echo "usage: $0 [smoke|extension|audit]" >&2; exit 2 ;;
+  smoke|extension|v10-clean|audit) ;;
+  *) echo "usage: $0 [smoke|extension|v10-clean|audit]" >&2; exit 2 ;;
 esac
 
 cleanup() {
@@ -39,13 +39,21 @@ elif [ "$MODE" = "audit" ]; then
   }
   extra=(--audit --artifact "$artifact")
   dataset="$REPO/data/calibration/t01_open_and_observe_effect_v4_audit.jsonl"
-else
+elif [ "$MODE" = "extension" ]; then
   artifact="${OPEN_AND_OBSERVE_ARTIFACT:-$REPO/results/calibration/t01_open_and_observe_outcome_critic_v9_candidate_visual.json}"
   [ -f "$artifact" ] || {
     echo "missing frozen v9 candidate for clean extension: $artifact" >&2
     exit 1
   }
   extra=(--extension --artifact "$artifact")
+else
+  artifact="${OPEN_AND_OBSERVE_ARTIFACT:-$REPO/results/calibration/t01_open_and_observe_outcome_v10_composite_candidate.json}"
+  [ -f "$artifact" ] || {
+    echo "missing frozen v10 candidate for clean development: $artifact" >&2
+    exit 1
+  }
+  extra=(--v10-clean --artifact "$artifact")
+  dataset="$REPO/data/calibration/t01_open_and_observe_effect_v10_clean.jsonl"
 fi
 
 manifest="${dataset%.jsonl}.manifest.json"

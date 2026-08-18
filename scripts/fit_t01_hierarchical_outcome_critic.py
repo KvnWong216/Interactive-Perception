@@ -20,6 +20,7 @@ from interactive_perception.action_outcome import (  # noqa: E402
     HierarchicalActionOutcomePredictor,
     PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
     label_temporal_information_outcome,
+    label_temporal_information_outcome_v10,
     temporal_history_feature_block,
 )
 from interactive_perception.semantic_conformal import (  # noqa: E402
@@ -103,12 +104,16 @@ def main() -> None:
         choices=(
             "temporal_history",
             "visual_only_history",
+            "visual_extrema_history",
             "global_visual_history",
             "no_history",
         ),
         default="temporal_history",
     )
     parser.add_argument("--alpha", type=float, default=0.1)
+    parser.add_argument(
+        "--label-version", choices=("v9", "v10"), default="v9"
+    )
     args = parser.parse_args()
     for name in ("dataset", "embeddings", "output"):
         value = getattr(args, name)
@@ -127,25 +132,45 @@ def main() -> None:
     corrected_outcomes = []
     correction_reasons = []
     for row in rows:
-        outcome = label_temporal_information_outcome(
-            full_executor=bool(row["full_executor"]),
-            opened=bool(row["evaluator_only"]["drawer_opened"]),
-            return_complete=row["return_status"]["phase"] == "COMPLETE",
-            target_pixel_history=tuple(
-                tuple(point["target_pixels"].values())
-                for point in row["evaluator_only"]["visibility_history"]
-            ),
-            minimum_target_pixels=PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
-            empty_coverage_certified=bool(
-                row["evaluator_only"]["empty_counterfactual_reveal_certified"]
-            ),
-        ).value
+        evaluator = row["evaluator_only"]
+        target_history = tuple(
+            tuple(point["target_pixels"].values())
+            for point in evaluator["visibility_history"]
+        )
+        if args.label_version == "v10":
+            counterfactual = evaluator["counterfactual_visibility_history"]
+            coverage_history = tuple(
+                max(point["target_pixels"].values())
+                >= PI05_PATCH_EQUIVALENT_TARGET_PIXELS
+                for point in counterfactual
+            )
+            if not coverage_history:
+                coverage_history = (False,) * len(target_history)
+            outcome = label_temporal_information_outcome_v10(
+                full_executor=bool(row["full_executor"]),
+                target_pixel_history=target_history,
+                minimum_target_pixels=PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
+                searched_region_coverage_history=coverage_history,
+            ).value
+        else:
+            outcome = label_temporal_information_outcome(
+                full_executor=bool(row["full_executor"]),
+                opened=bool(evaluator["drawer_opened"]),
+                return_complete=row["return_status"]["phase"] == "COMPLETE",
+                target_pixel_history=target_history,
+                minimum_target_pixels=PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
+                empty_coverage_certified=bool(
+                    evaluator["empty_counterfactual_reveal_certified"]
+                ),
+            ).value
         corrected_outcomes.append(outcome)
         if outcome == "REVEALED":
             correction_reasons.append("target visibly acquired")
         elif outcome == "EMPTY":
             correction_reasons.append(
-                "opened searched region plus completed calibrated observation return with no target evidence"
+                "temporally persistent searched-region coverage with no target evidence"
+                if args.label_version == "v10"
+                else "opened searched region plus completed calibrated observation return with no target evidence"
             )
         else:
             correction_reasons.append("no certified prompt-relevant information")
@@ -186,7 +211,7 @@ def main() -> None:
             )
         ),
         alpha=args.alpha,
-        policy_id="pi05_libero_hierarchical_effect_v9",
+        policy_id=f"pi05_libero_hierarchical_effect_{args.label_version}",
         split_id="t01_effect_seed620_652",
     )
     content_conformal = MondrianSemanticConformalCalibrator.fit(
@@ -198,7 +223,7 @@ def main() -> None:
             )
         ),
         alpha=args.alpha,
-        policy_id="pi05_libero_hierarchical_content_v9",
+        policy_id=f"pi05_libero_hierarchical_content_{args.label_version}",
         split_id="t01_content_seed620_652",
     )
     if min(effect_conformal.calibration_size_per_class.values()) < 30:
@@ -207,8 +232,16 @@ def main() -> None:
         raise ValueError("content head requires at least 30 examples per class")
 
     artifact = {
-        "schema_version": "interactive-perception.action-outcome-critic.v9-candidate",
-        "claim": "hierarchical physical completion then prompt-resolvable content",
+        "schema_version": (
+            "interactive-perception.action-outcome-critic.v10-candidate"
+            if args.label_version == "v10"
+            else "interactive-perception.action-outcome-critic.v9-candidate"
+        ),
+        "claim": (
+            "hierarchical observation completion then prompt-resolvable content"
+            if args.label_version == "v10"
+            else "hierarchical physical completion then prompt-resolvable content"
+        ),
         "dataset": str(args.dataset.relative_to(ROOT)),
         "dataset_sha256": digest(args.dataset),
         "embeddings": str(args.embeddings.relative_to(ROOT)),
@@ -238,13 +271,21 @@ def main() -> None:
                 "target occupies at least one pi0.5 visual-token footprint "
                 "at any public history point"
             ),
-            "EMPTY": "target never visible; region open; return complete; visibility coverage certified",
+            "EMPTY": (
+                "target never visible; searched-region coverage certified at any public history point"
+                if args.label_version == "v10"
+                else "target never visible; region open; return complete; visibility coverage certified"
+            ),
             "FAILED": "no certified prompt-relevant information",
             "minimum_resolvable_target_pixels": PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
             "threshold_derivation": "(256 policy pixels / 16 visual tokens per side)^2",
             "change_from_v8": (
                 "five-pixel simulator visibility is retained as a diagnostic but "
                 "does not count as prompt-resolvable evidence"
+            ),
+            "version": args.label_version,
+            "motor_diagnostics_are_information_preconditions": (
+                args.label_version != "v10"
             ),
             "corrected_rows": [
                 {
@@ -329,7 +370,7 @@ def main() -> None:
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     if args.output.exists():
-        raise FileExistsError(f"frozen v8 artifact exists: {args.output}")
+        raise FileExistsError(f"frozen candidate exists: {args.output}")
     args.output.write_text(json.dumps(artifact, indent=2) + "\n")
     print(
         json.dumps(

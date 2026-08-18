@@ -1,0 +1,55 @@
+{
+  "schema_version": "interactive-perception.action-outcome-composite.v10-candidate",
+  "status": "FROZEN_FOR_FRESH_CLEAN_DEVELOPMENT",
+  "claim_eligible": false,
+  "target_evidence": {
+    "artifact": {
+      "path": "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json",
+      "sha256": "27aa131e2a575580b58fef6195f453ad47d5ff9849cf2b128629dffae5e9464a"
+    },
+    "checkpoint": {
+      "path": "results/models/t01_rgb_target_evidence_v2_candidate_agentview.pt",
+      "sha256": "c15173ea66099a37fcc73a67870b543da5529bd1d5020d7cd3ce9ccf326d0478"
+    },
+    "online_inputs": [
+      "six stock agentview RGB frames"
+    ],
+    "temporal_rule": "maximum selected-camera frame logit over the six public history points"
+  },
+  "observation_effect": {
+    "artifact": {
+      "path": "results/calibration/t01_open_and_observe_outcome_critic_v10_candidate_visual.json",
+      "sha256": "371ea188ac296697ea0e9e881cd221d3d5cca2e8ce5f85146b6beb28673d1d27"
+    },
+    "head": "effect_head only: FAILED vs COMPLETED",
+    "online_inputs": [
+      "six stock policy RGB pairs",
+      "six public robot-state vectors",
+      "final prompt",
+      "executed option role"
+    ]
+  },
+  "decision_rule": [
+    "singleton REVEALED -> REVEALED, regardless of later reocclusion or motor endpoint",
+    "singleton NOT_REVEALED + singleton COMPLETED -> EMPTY",
+    "singleton NOT_REVEALED + singleton FAILED -> FAILED",
+    "any multi-label level -> preserve all compatible labels; controller SAFE_STOP"
+  ],
+  "offline_only_labels": [
+    "target segmentation pixels for frame supervision and final scoring",
+    "seed-matched same-camera target rendering for searched-region coverage supervision and scoring",
+    "drawer joint and hidden task state for motor diagnostics only"
+  ],
+  "online_oracle_inputs": [],
+  "fresh_clean_seed_block": "t01_open_observe_v10_clean_development",
+  "sealed_seed_block": "t01_open_observe_sealed_audit",
+  "sealed_open_condition": "fresh v10 clean development passes every registered gate",
+  "gates": {
+    "per_class_correct_label_retention": 0.9,
+    "per_class_singleton_one_sided_95_lower": 0.8,
+    "also_report_original_singleton_lower": 0.9,
+    "false_singleton_EMPTY": 0,
+    "false_singleton_REVEALED": 0,
+    "partially_passed_is_not_go": true
+  }
+}

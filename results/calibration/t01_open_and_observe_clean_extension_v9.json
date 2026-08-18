@@ -1,0 +1,374 @@
+{
+  "schema_version": "interactive-perception.v9-clean-extension.v1",
+  "status": "NOT_GO",
+  "paper_eligible": false,
+  "candidate": "results/calibration/t01_open_and_observe_outcome_critic_v9_candidate_visual.json",
+  "candidate_sha256": "d11e308249a50bae6599fe7c49b5aa789b6a257f764f2b04fb5f613c72eb8f76",
+  "effect_candidate": "results/calibration/t01_open_and_observe_effect_v3.json",
+  "effect_candidate_sha256": "55b4058bc78f508efd50a122cf60a347b093e10df2d6bac6fab52b2fc1ad0723",
+  "dataset": "data/calibration/t01_open_and_observe_effect_v4_extension.jsonl",
+  "dataset_sha256": "e723d1685176592027d81473914a7119d26e3eba4bbc41d39a3e0f9ff5c1f7e3",
+  "manifest": "data/calibration/t01_open_and_observe_effect_v4_extension.manifest.json",
+  "manifest_sha256": "b0993a80736a3a5db8f599b0f6a0587e3b27453e19bff2adf02e339958416103",
+  "embeddings": "outputs/t01_open_and_observe_effect_v4_extension/pi05_temporal_embeddings_v5.npz",
+  "embeddings_sha256": "3f028c3b35faa49c22e48b39bbcc6b9527afc2c31acc647dad8253ca5ab2fdb1",
+  "seed_registry": "benchmarks/rss_v1/seed_registry.yaml",
+  "seed_blocks": [
+    "t01_open_observe_clean_extension"
+  ],
+  "seeds": [
+    660,
+    661,
+    662,
+    663,
+    664,
+    665,
+    666,
+    667,
+    668,
+    669,
+    670,
+    671,
+    672,
+    673,
+    674,
+    675,
+    676,
+    677,
+    678,
+    679,
+    680,
+    681,
+    682,
+    683,
+    684,
+    685,
+    686,
+    687,
+    688,
+    689,
+    690,
+    691,
+    692,
+    693,
+    694,
+    695,
+    696,
+    697,
+    698,
+    699
+  ],
+  "critic": {
+    "FAILED": {
+      "trials": 44,
+      "covered": 40,
+      "coverage": 0.9090909090909091,
+      "singleton_correct": 40,
+      "singleton_rate": 0.9090909090909091,
+      "singleton_one_sided_95_lower": 0.8039215031874396,
+      "mean_prediction_set_size": 1.0,
+      "prediction_set_histogram": {
+        "EMPTY": 4,
+        "FAILED": 40
+      },
+      "passed": true
+    },
+    "REVEALED": {
+      "trials": 40,
+      "covered": 39,
+      "coverage": 0.975,
+      "singleton_correct": 39,
+      "singleton_rate": 0.975,
+      "singleton_one_sided_95_lower": 0.8868116390552625,
+      "mean_prediction_set_size": 1.0,
+      "prediction_set_histogram": {
+        "EMPTY": 1,
+        "REVEALED": 39
+      },
+      "passed": true
+    },
+    "EMPTY": {
+      "trials": 36,
+      "covered": 36,
+      "coverage": 1.0,
+      "singleton_correct": 36,
+      "singleton_rate": 1.0,
+      "singleton_one_sided_95_lower": 0.9201534904801056,
+      "mean_prediction_set_size": 1.0,
+      "prediction_set_histogram": {
+        "EMPTY": 36
+      },
+      "passed": true
+    }
+  },
+  "selected_input": "visual-only six-point temporal history",
+  "ablations": {
+    "full_visual_plus_robot_history": {
+      "artifact": "results/calibration/t01_open_and_observe_outcome_critic_v9_candidate.json",
+      "artifact_sha256": "6872050215aea7742bedfb5d580c454d459ae5736b3553204e926e662625ee09",
+      "per_class": {
+        "FAILED": {
+          "trials": 44,
+          "covered": 40,
+          "coverage": 0.9090909090909091,
+          "singleton_correct": 40,
+          "singleton_rate": 0.9090909090909091,
+          "singleton_one_sided_95_lower": 0.8039215031874396,
+          "mean_prediction_set_size": 1.0,
+          "prediction_set_histogram": {
+            "EMPTY": 4,
+            "FAILED": 40
+          },
+          "passed": true
+        },
+        "REVEALED": {
+          "trials": 40,
+          "covered": 39,
+          "coverage": 0.975,
+          "singleton_correct": 39,
+          "singleton_rate": 0.975,
+          "singleton_one_sided_95_lower": 0.8868116390552625,
+          "mean_prediction_set_size": 1.0,
+          "prediction_set_histogram": {
+            "EMPTY": 1,
+            "REVEALED": 39
+          },
+          "passed": true
+        },
+        "EMPTY": {
+          "trials": 36,
+          "covered": 36,
+          "coverage": 1.0,
+          "singleton_correct": 36,
+          "singleton_rate": 1.0,
+          "singleton_one_sided_95_lower": 0.9201534904801056,
+          "mean_prediction_set_size": 1.0,
+          "prediction_set_histogram": {
+            "EMPTY": 36
+          },
+          "passed": true
+        }
+      },
+      "mean_prediction_set_size": 1.0,
+      "ambiguous_safe_stop_count": 0,
+      "ambiguous_safe_stop_rate": 0.0,
+      "false_empty": 5,
+      "false_revealed": 0,
+      "passed": true
+    },
+    "global_visual_history": {
+      "artifact": "results/calibration/t01_open_and_observe_outcome_critic_v9_candidate_global.json",
+      "artifact_sha256": "d701de4bf7d1f40c59219a1ea5a32a424f2c532ba1cecd31bfdff7055aed2606",
+      "per_class": {
+        "FAILED": {
+          "trials": 44,
+          "covered": 40,
+          "coverage": 0.9090909090909091,
+          "singleton_correct": 40,
+          "singleton_rate": 0.9090909090909091,
+          "singleton_one_sided_95_lower": 0.8039215031874396,
+          "mean_prediction_set_size": 1.0,
+          "prediction_set_histogram": {
+            "EMPTY": 4,
+            "FAILED": 40
+          },
+          "passed": true
+        },
+        "REVEALED": {
+          "trials": 40,
+          "covered": 38,
+          "coverage": 0.95,
+          "singleton_correct": 38,
+          "singleton_rate": 0.95,
+          "singleton_one_sided_95_lower": 0.850848038726787,
+          "mean_prediction_set_size": 1.0,
+          "prediction_set_histogram": {
+            "EMPTY": 2,
+            "REVEALED": 38
+          },
+          "passed": true
+        },
+        "EMPTY": {
+          "trials": 36,
+          "covered": 35,
+          "coverage": 0.9722222222222222,
+          "singleton_correct": 35,
+          "singleton_rate": 0.9722222222222222,
+          "singleton_one_sided_95_lower": 0.8748837951609478,
+          "mean_prediction_set_size": 1.0,
+          "prediction_set_histogram": {
+            "EMPTY": 35,
+            "REVEALED": 1
+          },
+          "passed": true
+        }
+      },
+      "mean_prediction_set_size": 1.0,
+      "ambiguous_safe_stop_count": 0,
+      "ambiguous_safe_stop_rate": 0.0,
+      "false_empty": 6,
+      "false_revealed": 1,
+      "passed": true
+    },
+    "no_history_final_frame": {
+      "artifact": "results/calibration/t01_open_and_observe_outcome_critic_v9_candidate_no_history.json",
+      "artifact_sha256": "3039cf8f697bef477395b0e8ad3eb893c0d525e5c8bec42323396999b146944c",
+      "per_class": {
+        "FAILED": {
+          "trials": 44,
+          "covered": 41,
+          "coverage": 0.9318181818181818,
+          "singleton_correct": 41,
+          "singleton_rate": 0.9318181818181818,
+          "singleton_one_sided_95_lower": 0.8331011583163923,
+          "mean_prediction_set_size": 1.0,
+          "prediction_set_histogram": {
+            "EMPTY": 3,
+            "FAILED": 41
+          },
+          "passed": true
+        },
+        "REVEALED": {
+          "trials": 40,
+          "covered": 39,
+          "coverage": 0.975,
+          "singleton_correct": 39,
+          "singleton_rate": 0.975,
+          "singleton_one_sided_95_lower": 0.8868116390552625,
+          "mean_prediction_set_size": 1.0,
+          "prediction_set_histogram": {
+            "EMPTY": 1,
+            "REVEALED": 39
+          },
+          "passed": true
+        },
+        "EMPTY": {
+          "trials": 36,
+          "covered": 36,
+          "coverage": 1.0,
+          "singleton_correct": 36,
+          "singleton_rate": 1.0,
+          "singleton_one_sided_95_lower": 0.9201534904801056,
+          "mean_prediction_set_size": 1.0,
+          "prediction_set_histogram": {
+            "EMPTY": 36
+          },
+          "passed": true
+        }
+      },
+      "mean_prediction_set_size": 1.0,
+      "ambiguous_safe_stop_count": 0,
+      "ambiguous_safe_stop_rate": 0.0,
+      "false_empty": 4,
+      "false_revealed": 0,
+      "passed": true
+    }
+  },
+  "visibility_by_history_point": {
+    "before": {
+      "all_rows": 0,
+      "revealed_full_rows": 0,
+      "trials": 120
+    },
+    "history_01": {
+      "all_rows": 0,
+      "revealed_full_rows": 0,
+      "trials": 120
+    },
+    "history_02": {
+      "all_rows": 40,
+      "revealed_full_rows": 40,
+      "trials": 120
+    },
+    "history_03": {
+      "all_rows": 39,
+      "revealed_full_rows": 39,
+      "trials": 120
+    },
+    "history_04": {
+      "all_rows": 39,
+      "revealed_full_rows": 39,
+      "trials": 120
+    },
+    "after": {
+      "all_rows": 39,
+      "revealed_full_rows": 39,
+      "trials": 120
+    }
+  },
+  "final_frame_only_evaluator_endpoint_baseline": {
+    "per_class": {
+      "FAILED": {
+        "trials": 44,
+        "covered": 44,
+        "coverage": 1.0,
+        "singleton_correct": 44,
+        "singleton_rate": 1.0,
+        "singleton_one_sided_95_lower": 0.934181228855066,
+        "mean_prediction_set_size": 1.0,
+        "prediction_set_histogram": {
+          "FAILED": 44
+        },
+        "passed": true
+      },
+      "REVEALED": {
+        "trials": 40,
+        "covered": 34,
+        "coverage": 0.85,
+        "singleton_correct": 34,
+        "singleton_rate": 0.85,
+        "singleton_one_sided_95_lower": 0.7252554949860295,
+        "mean_prediction_set_size": 1.0,
+        "prediction_set_histogram": {
+          "FAILED": 6,
+          "REVEALED": 34
+        },
+        "passed": false
+      },
+      "EMPTY": {
+        "trials": 36,
+        "covered": 36,
+        "coverage": 1.0,
+        "singleton_correct": 36,
+        "singleton_rate": 1.0,
+        "singleton_one_sided_95_lower": 0.9201534904801056,
+        "mean_prediction_set_size": 1.0,
+        "prediction_set_histogram": {
+          "EMPTY": 36
+        },
+        "passed": true
+      }
+    },
+    "mean_prediction_set_size": 1.0,
+    "ambiguous_safe_stop_count": 0,
+    "ambiguous_safe_stop_rate": 0.0,
+    "false_empty": 0,
+    "false_revealed": 0,
+    "passed": false
+  },
+  "physical": {
+    "REVEALED": {
+      "successes": 40,
+      "trials": 40,
+      "empirical_rate": 1.0,
+      "one_sided_95_lower": 0.9278424754944854,
+      "passes_0.80": true,
+      "passes_original_0.90": true
+    },
+    "EMPTY": {
+      "successes": 36,
+      "trials": 40,
+      "empirical_rate": 0.9,
+      "one_sided_95_lower": 0.7856023614838554,
+      "passes_0.80": false,
+      "passes_original_0.90": false
+    }
+  },
+  "mean_prediction_set_size": 1.0,
+  "ambiguous_safe_stop_count": 0,
+  "ambiguous_safe_stop_rate": 0.0,
+  "false_empty": 5,
+  "false_revealed": 0,
+  "online_oracle_inputs": [],
+  "sealed_audit_opened": false
+}

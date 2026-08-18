@@ -6,9 +6,9 @@ controller then releases the handle and returns the end effector / wrist camera
 to the stock observation pose.  Simulator joints and segmentation are used
 only after actions for evaluator labels; they cannot affect execution.
 
-Earlier files remain immutable. Version 4 uses untouched 660--699 as a clean
-development extension, seed 1399 for wiring smoke, and reserves 900--999 for a
-new frozen audit. The
+Earlier files remain immutable. Version 10 uses untouched 1400--1439 for fresh
+clean development after separating temporal target evidence from observation
+completion. Seed 1399 remains wiring smoke and 900--999 remain sealed. The
 previous 700--799 audit was opened before a final-frame-only label bug was
 found, so it is debug-only and is never reused as an audit.
 """
@@ -43,6 +43,7 @@ from interactive_perception.action_options import execute_open_and_observe  # no
 from interactive_perception.action_outcome import (  # noqa: E402
     PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
     label_temporal_information_outcome,
+    label_temporal_information_outcome_v10,
 )
 from interactive_perception.observation_option import (  # noqa: E402
     ObservationReturnConfig,
@@ -231,6 +232,7 @@ def main() -> None:
     parser.add_argument("--audit", action="store_true")
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--extension", action="store_true")
+    parser.add_argument("--v10-clean", action="store_true")
     parser.add_argument("--fresh-policy-server", action="store_true")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--seeds", type=int, nargs="+", default=None)
@@ -243,8 +245,10 @@ def main() -> None:
     parser.add_argument("--image-dir", type=Path, default=None)
     args = parser.parse_args()
 
-    if sum((args.audit, args.smoke, args.extension)) > 1:
-        raise ValueError("audit, smoke, and extension modes are mutually exclusive")
+    if sum((args.audit, args.smoke, args.extension, args.v10_clean)) > 1:
+        raise ValueError(
+            "audit, smoke, extension, and v10-clean modes are mutually exclusive"
+        )
     if not args.smoke and not args.fresh_policy_server:
         raise ValueError("non-smoke collection requires --fresh-policy-server")
     seed_registry = load_seed_registry(SEED_REGISTRY)
@@ -255,6 +259,8 @@ def main() -> None:
         if args.audit
         else ["t01_open_observe_clean_extension"]
         if args.extension
+        else ["t01_open_observe_v10_clean_development"]
+        if args.v10_clean
         else [
             "t01_open_observe_prototype_train",
             "t01_open_observe_conformal_calibration",
@@ -266,7 +272,7 @@ def main() -> None:
         args.seeds = expected
     if args.seeds != expected:
         raise ValueError(
-            f"frozen {'audit' if args.audit else 'smoke' if args.smoke else 'extension' if args.extension else 'development'} "
+            f"frozen {'audit' if args.audit else 'smoke' if args.smoke else 'extension' if args.extension else 'v10 clean development' if args.v10_clean else 'development'} "
             f"seeds are {expected[0]}-{expected[-1]}"
         )
     if args.output is None:
@@ -277,9 +283,15 @@ def main() -> None:
             if args.smoke
             else "_extension"
             if args.extension
+            else "_v10_clean"
+            if args.v10_clean
             else ""
         )
-        args.output = ROOT / f"data/calibration/t01_open_and_observe_effect_v4{suffix}.jsonl"
+        args.output = ROOT / (
+            "data/calibration/t01_open_and_observe_effect_v10_clean.jsonl"
+            if args.v10_clean
+            else f"data/calibration/t01_open_and_observe_effect_v4{suffix}.jsonl"
+        )
     if args.image_dir is None:
         suffix = (
             "_audit"
@@ -288,14 +300,20 @@ def main() -> None:
             if args.smoke
             else "_extension"
             if args.extension
+            else "_v10_clean"
+            if args.v10_clean
             else ""
         )
-        args.image_dir = ROOT / f"outputs/t01_open_and_observe_effect_v4{suffix}/images"
+        args.image_dir = ROOT / (
+            "outputs/t01_open_and_observe_effect_v10_clean/images"
+            if args.v10_clean
+            else f"outputs/t01_open_and_observe_effect_v4{suffix}/images"
+        )
     for name in ("output", "image_dir", "artifact"):
         value = getattr(args, name)
         if value is not None and not value.is_absolute():
             setattr(args, name, ROOT / value)
-    if (args.audit or args.extension) and (
+    if (args.audit or args.extension or args.v10_clean) and (
         args.artifact is None or not args.artifact.exists()
     ):
         raise FileNotFoundError(
@@ -499,24 +517,45 @@ def main() -> None:
                         >= PI05_PATCH_EQUIVALENT_TARGET_PIXELS
                         for point in counterfactual_visibility_history
                     )
-                outcome = label_temporal_information_outcome(
-                    full_executor=bool(regime["full_executor"]),
-                    opened=opened,
-                    return_complete=(
-                        execution.return_status.phase.value == "COMPLETE"
-                    ),
-                    target_pixel_history=tuple(
-                        tuple(point["target_pixels"].values())
-                        for point in visibility_history
-                    ),
-                    minimum_target_pixels=PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
-                    empty_coverage_certified=bool(
-                        empty_counterfactual_reveal_certified
-                    ),
-                ).value
+                target_pixel_history = tuple(
+                    tuple(point["target_pixels"].values())
+                    for point in visibility_history
+                )
+                if args.v10_clean:
+                    coverage_history = tuple(
+                        max(point["target_pixels"].values())
+                        >= PI05_PATCH_EQUIVALENT_TARGET_PIXELS
+                        for point in counterfactual_visibility_history
+                    )
+                    coverage_history = coverage_history or (False,) * len(
+                        target_pixel_history
+                    )
+                    outcome = label_temporal_information_outcome_v10(
+                        full_executor=bool(regime["full_executor"]),
+                        target_pixel_history=target_pixel_history,
+                        minimum_target_pixels=PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
+                        searched_region_coverage_history=coverage_history,
+                    ).value
+                else:
+                    outcome = label_temporal_information_outcome(
+                        full_executor=bool(regime["full_executor"]),
+                        opened=opened,
+                        return_complete=(
+                            execution.return_status.phase.value == "COMPLETE"
+                        ),
+                        target_pixel_history=target_pixel_history,
+                        minimum_target_pixels=PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
+                        empty_coverage_certified=bool(
+                            empty_counterfactual_reveal_certified
+                        ),
+                    ).value
 
                 row = {
-                    "schema_version": "interactive-perception.open-and-observe-effect.v4",
+                    "schema_version": (
+                        "interactive-perception.open-and-observe-effect.v10"
+                        if args.v10_clean
+                        else "interactive-perception.open-and-observe-effect.v4"
+                    ),
                     "regime": regime["id"],
                     "seed": seed,
                     "split": (
@@ -526,6 +565,8 @@ def main() -> None:
                         if args.smoke
                         else "heldout_development_extension"
                         if args.extension
+                        else "fresh_v10_clean_development"
+                        if args.v10_clean
                         else open_and_observe_development_split(offset)
                     ),
                     "context": "t01_stock_middle_drawer_search",
@@ -631,7 +672,11 @@ def main() -> None:
     if len(rows) != len(regimes) * len(args.seeds):
         raise RuntimeError("incomplete dataset")
     manifest = {
-        "schema_version": "interactive-perception.open-and-observe-manifest.v4",
+        "schema_version": (
+            "interactive-perception.open-and-observe-manifest.v10"
+            if args.v10_clean
+            else "interactive-perception.open-and-observe-manifest.v4"
+        ),
         "dataset": str(args.output.relative_to(ROOT)),
         "dataset_sha256": digest(args.output),
         "phase": (
@@ -641,6 +686,8 @@ def main() -> None:
             if args.smoke
             else "heldout_development_extension"
             if args.extension
+            else "fresh_v10_clean_development"
+            if args.v10_clean
             else "development"
         ),
         "seeds": args.seeds,
@@ -649,7 +696,11 @@ def main() -> None:
         "action": "OPEN_AND_OBSERVE",
         "frozen_executor": "pi05_libero + versioned proprioceptive return controller",
         "public_history_points_per_trial": 6,
-        "outcome_label": "temporal prompt-resolvability v4",
+        "outcome_label": (
+            "v10 temporal target evidence then temporal searched-region coverage"
+            if args.v10_clean
+            else "temporal prompt-resolvability v4"
+        ),
         "minimum_resolvable_target_pixels": PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
         "threshold_derivation": "(256 policy pixels / 16 visual tokens per side)^2",
         "empty_coverage_certificate": (

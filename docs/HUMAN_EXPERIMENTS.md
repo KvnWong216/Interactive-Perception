@@ -19,8 +19,9 @@ calibration-only. Before any paper comparison, collaborators must freeze:
 The test set must not reuse any block in the authoritative
 `benchmarks/rss_v1/seed_registry.yaml`. In particular, 500--599 is a legacy
 quarantine, 600--659 has been consumed by development/diagnosis, and 700--799
-is permanently debug-only. Seeds 660--699 are the frozen clean development
-extension, 800--899 are later non-paper closed-loop validation, and 900--999
+is permanently debug-only. Seeds 660--699 were consumed by the v9 NOT-GO run
+and later contaminated by v10 diagnosis. Seeds 1400--1439 are the frozen clean
+development extension, 800--899 are later non-paper closed-loop validation, and 900--999
 are the one-time sealed audit.
 
 ## 2. Choose final-task losses

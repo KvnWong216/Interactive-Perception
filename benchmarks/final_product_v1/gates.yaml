@@ -90,13 +90,14 @@ gates:
       the target during opening and lost it after return; v7 would call this
       EMPTY. The first audit stopped at 77/300 and is debug-only. Temporal-label
       v3 later froze, but v8 failed development: FAILED 7/7, REVEALED 7/9,
-      EMPTY 4/5. The architecture-derived v9 correction is 20/21 on diagnosed
-      seeds; untouched 660-699 must pass before seeds 900-999 can be opened.
+      EMPTY 4/5. V9 then failed its physical EMPTY gate at 36/40 (lower 0.786)
+      on 660-699. V10 separates temporal target evidence from observation
+      completion; fresh seeds 1400-1439 must pass before 900-999 can be opened.
       The v4 collector runs the controller in OffScreenRenderEnv and reads
       evaluator truth only by replay after controller termination. Local v4
       disposable smoke now passes REVEALED/EMPTY/FAILED, and the PIU smoke
-      predicts all three singleton outcomes. This is not clean validation;
-      seeds 660-699 remain untouched.
+      predicts all three singleton outcomes. The 120/120 v10 result on
+      contaminated 660-699 is model-selection evidence, not clean validation.
 
   - id: FP4
     name: Expected-risk optimizer

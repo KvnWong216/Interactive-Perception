@@ -3,7 +3,7 @@ name: Prompt-Aligned Action-Resolvable Uncertainty — RSS Evidence Ladder
 
 decision_rule: GO only if every blocking gate is GO; PARTIAL counts as NOT-GO
 frozen_statistics:
-  conformal_error_rate: 0.10
+  conformal_error_rate: 0.05
   confidence: 0.95
   minimum_action_reliability_lower_bound: 0.80
   original_strict_action_reliability_reported_also: 0.90
@@ -77,14 +77,16 @@ gates:
       stopped at 77/300; 700-799 are debug-only. Temporal-label v3 then froze
       on 600-659, but v8 failed development: FAILED 7/7, REVEALED 7/9, EMPTY
       4/5. A five-pixel label mismatch motivated an architecture-derived
-      256-pixel resolvability contract. Its old-seed v9 diagnostic is 20/21;
-      untouched 660-699 must pass before the sealed 900-999 audit. The physical
-      lower bound is 0.80; conformal alpha remains 0.10. The v4 collector now
+      256-pixel resolvability contract. V9 then passed critic gates on 660-699,
+      but the physical EMPTY branch was 36/40 (lower 0.786), hence NOT-GO.
+      V10 separates per-frame target temporal-OR from FAILED-vs-COMPLETED
+      observation effect and is 120/120 only on the now-contaminated 660-699.
+      Fresh 1400-1439 must pass before the sealed 900-999 audit. The physical
+      lower bound is 0.80; conformal alpha is 0.05. The collector now
       separates the OffScreen controller from post-termination evaluator
       replay. Local seed-1399 disposable smoke passes REVEALED, EMPTY, and
       FAILED, and the PIU six-frame head predicts all five end-to-end smoke
-      branches correctly. These are reused non-claim diagnostics; untouched
-      660-699 must still pass before the sealed 900-999 audit.
+      branches correctly. These are reused non-claim diagnostics.
 
   - id: RP4
     name: Expected-risk optimization
