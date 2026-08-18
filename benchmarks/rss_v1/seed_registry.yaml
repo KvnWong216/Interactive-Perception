@@ -118,6 +118,7 @@ blocks:
     evidence:
       - data/calibration/t01_open_and_observe_effect_v4_smoke.manifest.json
       - results/smoke/piu_v0_end_to_end_v3_seed1399.json
+      - results/smoke/piu_v0_full_pipeline_v4_seed1399.json
     paper_eligible: false
 
   - id: piu_counterfactual_prototype_train

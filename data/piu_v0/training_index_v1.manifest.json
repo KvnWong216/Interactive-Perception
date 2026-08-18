@@ -1,0 +1,35 @@
+{
+  "schema_version": "interaction-uncertainty.piu-training-manifest.v0",
+  "repository_commit": "eccca25af75016c28f5e5648ea2e56179b447cd9",
+  "dataset": "data/piu_v0/training_index_v1.jsonl",
+  "dataset_sha256": "59a7c65c651bf7e2e8a70d51e2d0ea9c59cdcfa42c2be91e61d5f3c3c4ec7eed",
+  "samples": 330,
+  "sample_types": {
+    "INITIAL_TASK_BELIEF": 150,
+    "ACTION_EFFECT_AND_OUTCOME": 180
+  },
+  "splits": {
+    "prototype_train": 120,
+    "conformal_calibration": 159,
+    "heldout_validation": 30,
+    "heldout_development": 21
+  },
+  "sources": {
+    "data/calibration/t01_prompt_state_v1.jsonl": "194da40a45a10c1e16965a36e2b7c5d74c541333e45684cc9d3f96b0996d764f",
+    "data/calibration/t01_open_and_observe_effect_v3.jsonl": "0af9eec229a74d17a37deab6df1cf6b2e27104633cf23cc2238ced9008c57c3c"
+  },
+  "policy_input_contract": [
+    "stock agentview RGB",
+    "stock wrist RGB",
+    "public robot state",
+    "prompt",
+    "public action/history"
+  ],
+  "online_oracle_inputs": [],
+  "label_only_privileged_inputs": [
+    "segmentation visibility after controller termination",
+    "drawer joint after controller termination",
+    "registered simulator scenario condition"
+  ],
+  "claim_status": "prototype/development index; no clean or sealed evidence"
+}

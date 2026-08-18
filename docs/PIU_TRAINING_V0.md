@@ -52,10 +52,15 @@ The current v0.3 model uses old development blocks 220–259 and 600–652. Seed
 ../.conda/envs/ipu/bin/python scripts/build_piu_v0_dataset.py
 ../.conda/envs/ipu/bin/python scripts/train_piu_v0.py \
   --epochs 500 \
-  --output results/models/piu_v0_3_sidecar.pt \
-  --report results/training/piu_v0_3_training.json
+  --output results/models/piu_v0_4_sidecar.pt \
+  --report results/training/piu_v0_4_training.json
 EXPERIMENT_GPU_INDEX=0 bash scripts/run_piu_v0_smoke.sh \
-  --output results/smoke/piu_v0_end_to_end_v3_seed1399.json
+  --model results/models/piu_v0_4_sidecar.pt \
+  --output results/smoke/piu_v0_full_pipeline_v4_seed1399.json \
+  --asset-dir results/assets/piu_v0_full_pipeline_v4_seed1399/raw
+../.conda/envs/ipu/bin/python scripts/render_piu_v0_assets.py \
+  --report results/smoke/piu_v0_full_pipeline_v4_seed1399.json \
+  --output-dir results/assets/piu_v0_full_pipeline_v4_seed1399/visualizations_v1
 ```
 
 These are the exact recorded arguments. Artifacts are immutable, so a rerun

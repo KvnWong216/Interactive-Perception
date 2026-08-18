@@ -1,5 +1,5 @@
 schema_version: interaction-uncertainty.piu-gates.v0
-generated_for_commit: de55641d191c728b08a2ca3c6a185c953c681869
+generated_for_commit: 655bab4770c601e4e5dd4cc62e143f836e3652c1
 interpretation:
   partial_is_not_go: true
   smoke_is_not_clean_validation: true
@@ -25,17 +25,18 @@ gates:
     name: End-to-end PIU inference wiring
     status: GO
     evidence:
-      - results/smoke/piu_v0_end_to_end_v3_seed1399.json
-      - results/audits/piu_v0_privileged_input_audit.json
+      - results/smoke/piu_v0_full_pipeline_v4_seed1399.json
+      - results/audits/piu_v0_full_pipeline_v4_privileged_input_audit.json
+      - results/assets/piu_v0_full_pipeline_v4_seed1399/visualizations_v1/assets_manifest.json
     scope: Five disposable cases; DIRECT_ACT is a semantic handoff only.
 
   - id: PIU3
     name: Frozen-encoder learning path
     status: GO
     evidence:
-      - data/piu_v0/training_index.manifest.json
-      - results/training/piu_v0_3_training.json
-      - results/models/piu_v0_3_sidecar.pt
+      - data/piu_v0/training_index_v1.manifest.json
+      - results/training/piu_v0_4_training.json
+      - results/models/piu_v0_4_sidecar.pt
     scope: Prototype and contaminated diagnostic data only; not a generalization claim.
 
   - id: PIU4

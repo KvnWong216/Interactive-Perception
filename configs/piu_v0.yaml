@@ -42,7 +42,7 @@ encoder:
   trainable: false
 
 sidecar:
-  artifact: results/models/piu_v0_3_sidecar.pt
+  artifact: results/models/piu_v0_4_sidecar.pt
   projected_dimension: 256
   hidden_dimension: 128
   heads:
@@ -87,5 +87,5 @@ outcome:
 
 smoke:
   seed: 1399
-  report: results/smoke/piu_v0_end_to_end_v3_seed1399.json
+  report: results/smoke/piu_v0_full_pipeline_v4_seed1399.json
   paper_eligible: false

@@ -1,0 +1,1351 @@
+{
+  "schema_version": "interaction-uncertainty.piu-v0-smoke.v1",
+  "claim_status": "non-paper end-to-end inference smoke",
+  "endpoint": "semantic DIRECT_ACT handoff after prompt-relevant information acquisition; not final manipulation success",
+  "repository_commit": "eccca25af75016c28f5e5648ea2e56179b447cd9",
+  "model": "results/models/piu_v0_4_sidecar.pt",
+  "model_sha256": "21956470369bae6137f165b53769fe8850bf6c79e3f0a620d1a498fbcc9bda02",
+  "policy": "frozen pi05_libero action + prefix server",
+  "seed": 1399,
+  "cases": 5,
+  "initial_correct": 5,
+  "outcome_correct": 5,
+  "online_oracle_inputs": [],
+  "asset_root": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw",
+  "asset_contract": {
+    "raw_keyframes": "stock policy RGB only",
+    "actions": "public executed 7D action history",
+    "global_demo_view": "must be rendered by post-terminal evaluator replay",
+    "global_view_available_to_controller": false
+  },
+  "direct_act_limitation": "DIRECT_ACT is a semantic handoff only; context-specific physical reliability is not yet trained or evaluated",
+  "perception_limitation": "V0 uses registered public drawer affordances and a pi05-prefix visible-target proxy; Grounding DINO/SAM object grounding is V1",
+  "utility_contract": "physical information actions use effect-head EIG/progress; rank-head readiness is used only by the DIRECT semantic handoff",
+  "open_execution_reliability": {
+    "trials": 100,
+    "successes": 97,
+    "point_estimate": 0.97,
+    "one_sided_95_lower_bound": 0.924,
+    "optimizer_uses": "minimum of learned forecast and lower bound"
+  },
+  "rows": [
+    {
+      "case": "hidden_butter",
+      "seed": 1399,
+      "scenario": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+      "prompt": "Place the butter in the basket",
+      "initial_expected": "OPEN_TO_INSPECT",
+      "initial_selected": "OPEN_TO_INSPECT",
+      "initial_correct": true,
+      "outcome_expected": "REVEALED",
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "outcome_correct": true,
+      "terminal": "INFORMATION_ACQUIRED_AND_DIRECT_HANDOFF",
+      "trace": [
+        {
+          "event": "INITIAL_DECISION",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.021493909880518913,
+                  "middle_drawer": 0.9785031676292419,
+                  "other_unsearched_region": 1.3405465324467514e-06,
+                  "absent": 1.5935759165586205e-06
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.07490458811177225
+              }
+            ],
+            "task_uncertainty": 0.07490458811177225,
+            "node_uncertainty": {
+              "drawer_middle_interior": 0.9785031676292419
+            },
+            "model_stamp": "piu-sidecar-v0:21956470369bae61",
+            "conformal_sets": {
+              "target_location": [
+                "middle_drawer"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "open_to_inspect:drawer_middle",
+              "primitive": "OPEN_TO_INSPECT",
+              "target_id": "drawer_middle",
+              "subtask": "Open the middle layer of the drawer",
+              "stop_condition": "the opening attempt ends and six public observations are available",
+              "cost": 0.18,
+              "physical_risk": 0.05
+            },
+            "utilities": {
+              "open_to_inspect:drawer_middle": {
+                "expected_information_gain": 0.06574960726151538,
+                "expected_task_progress": 0.8503462672233582,
+                "execution_success_probability": 0.924,
+                "cost": 0.18,
+                "physical_risk": 0.05,
+                "utility": 1.0278325634812147
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.07490458811177225,
+            "valid_candidate_ids": [
+              "open_to_inspect:drawer_middle",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": {
+            "open_to_inspect:drawer_middle": {
+              "outcomes": {
+                "FAILED": 0.00030857344972901046,
+                "REVEALED": 0.7086635828018188,
+                "EMPTY": 0.2910277843475342
+              },
+              "expected_future_uncertainty": 0.009154980850256872,
+              "execution_success_probability": 0.924,
+              "expected_task_progress": 0.8503462672233582
+            }
+          }
+        },
+        {
+          "event": "POST_OUTCOME_REPLAN",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.9741834402084351,
+                  "middle_drawer": 0.0258084237575531,
+                  "other_unsearched_region": 4.200454441161128e-06,
+                  "absent": 3.917666617780924e-06
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.08653572894546276
+              }
+            ],
+            "task_uncertainty": 0.08653572894546276,
+            "node_uncertainty": {
+              "drawer_middle_interior": 0.0258084237575531
+            },
+            "model_stamp": "piu-sidecar-v0:21956470369bae61",
+            "conformal_sets": {
+              "target_location": [
+                "visible_workspace"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "direct_act:prompt_target",
+              "primitive": "DIRECT_ACT",
+              "target_id": "prompt_target",
+              "subtask": "Pick up the butter",
+              "stop_condition": "target is grasped or the action visibly fails",
+              "cost": 0.1,
+              "physical_risk": 0.1
+            },
+            "utilities": {
+              "direct_act:prompt_target": {
+                "expected_information_gain": 0.06763391209832169,
+                "expected_task_progress": 0.9580572843551636,
+                "execution_success_probability": 0.9741834402084351,
+                "cost": 0.1,
+                "physical_risk": 0.1,
+                "utility": 1.3344190089996029
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.08653572894546276,
+            "valid_candidate_ids": [
+              "direct_act:prompt_target",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": [
+            "direct_act:prompt_target"
+          ]
+        },
+        {
+          "event": "OUTCOME",
+          "prediction_set": [
+            "REVEALED"
+          ],
+          "memory": {
+            "observation_count": 2,
+            "belief_count": 2,
+            "searched_regions": [],
+            "attempt_counts": {
+              "open_to_inspect:drawer_middle": 1
+            },
+            "observed_outcomes": [
+              {
+                "candidate_id": "open_to_inspect:drawer_middle",
+                "prediction_set": [
+                  "REVEALED"
+                ]
+              }
+            ]
+          },
+          "terminal": "INFORMATION_ACQUIRED_AND_DIRECT_HANDOFF"
+        }
+      ],
+      "executor": {
+        "open_steps": 300,
+        "return_steps": 42,
+        "return_phase": "COMPLETE"
+      },
+      "assets": {
+        "public_keyframes": [
+          {
+            "name": "00_before",
+            "phase": "BEFORE",
+            "step": -1,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/00_before_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/00_before_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "348ed88340787eeb365594a15f17cd7d433bff73434553311a4de4d904b2faf2",
+              "wrist": "6f7ce7ff522a1b61e3e498e1803b60e5a40912b0cbb15cd50cfbd939e13b8594"
+            },
+            "robot_state": [
+              -0.20846466056582375,
+              2.48906260668901e-12,
+              1.17327947572964,
+              3.140339335468503,
+              0.0007735038743553738,
+              -0.08922200721618072,
+              0.038729201417156356,
+              -0.038729141314950595
+            ]
+          },
+          {
+            "name": "01_open",
+            "phase": "OPEN",
+            "step": 74,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/01_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/01_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "9fad72e39038a117e3bc5872d42cc26e493ec1ea3f67d6aa1ae70111d708551c",
+              "wrist": "a280c2ea431b2fac97e18829dbe66ffe6c20edf7afdf1fcf242c9192eef7fb7a"
+            },
+            "robot_state": [
+              0.02532425460827988,
+              -0.10931936261439308,
+              1.070395862833677,
+              1.7238010779597002,
+              1.7400820848958085,
+              -0.7831920437547714,
+              0.039930743180582234,
+              -0.03996652447586782
+            ]
+          },
+          {
+            "name": "02_open",
+            "phase": "OPEN",
+            "step": 149,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/02_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/02_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "ce0a58007a4e0d9fb985de5063bc194b563126854aa894e9bfa4382b34ab0924",
+              "wrist": "126cbcce6f2bfb9e477ed3bd8dcc80c8aaeb66855f3d7616a18c250cb5aae313"
+            },
+            "robot_state": [
+              0.02476992277220564,
+              0.03394414114078087,
+              1.0351775677129798,
+              1.6701577109533332,
+              1.6364627422808002,
+              -0.8306048819849763,
+              0.03997562623484144,
+              -0.04001106397922557
+            ]
+          },
+          {
+            "name": "03_open",
+            "phase": "OPEN",
+            "step": 224,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/03_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/03_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "20ad3dd6c32bdaadfa6d9b126fc4d4ec19233e15cd3b4a1f3e45e8994106fbb6",
+              "wrist": "06b476f5f9522da3f65349c74d1cf740dd6d5cc3c60a44d220f2897a686ead57"
+            },
+            "robot_state": [
+              0.02687903574580769,
+              0.02895021334999799,
+              1.0430290072747583,
+              1.6474649786728517,
+              1.4696163761363752,
+              -1.0217068863727161,
+              0.03999929315479276,
+              -0.039997088674758145
+            ]
+          },
+          {
+            "name": "04_open",
+            "phase": "OPEN",
+            "step": 299,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/04_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/04_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "cbb4e45e838ec3d20b3beba6bbe8915d766201b91dd352594ee080b01b12bd51",
+              "wrist": "8b813766e6b1d382b464740940add97aa9eab62352d4cb60984e1399c4dff9f2"
+            },
+            "robot_state": [
+              0.011977398940255417,
+              -0.09243455059510743,
+              1.1137129332250497,
+              1.6691294609141447,
+              1.2787497980186018,
+              -0.6462730482535205,
+              0.039869519856369516,
+              -0.04001281606705855
+            ]
+          },
+          {
+            "name": "05_returned",
+            "phase": "AFTER_RETURN",
+            "step": 42,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/05_returned_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_keyframes/05_returned_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "ae17a73971958d87db4f41cef8c5b920ea35962bfb94224c6ef863c833014e95",
+              "wrist": "9c460f14477e7e41f483979d9a150f11244b9b272deeb17d54193e5f56ccc7bc"
+            },
+            "robot_state": [
+              -0.20888287464145627,
+              -0.0006542797223296289,
+              1.1661468786985492,
+              3.1406292572798273,
+              0.002281724198906605,
+              -0.05698671709747389,
+              0.039851950826101205,
+              -0.04000007508127224
+            ]
+          }
+        ],
+        "public_action_history": {
+          "path": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/hidden_butter/public_action_history.json",
+          "sha256": "062542e1ec2ca8c740d7ce67798f2c41addf514b0450611682388909e40ed310",
+          "steps": 342
+        },
+        "global_view_available_to_controller": false
+      },
+      "evaluator_only": {
+        "revealed_any_history": true,
+        "visibility_history": [
+          {
+            "name": "before",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_01",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_02",
+            "target_pixels": {
+              "agentview": 308,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_03",
+            "target_pixels": {
+              "agentview": 309,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_04",
+            "target_pixels": {
+              "agentview": 305,
+              "wrist": 4978
+            }
+          },
+          {
+            "name": "after",
+            "target_pixels": {
+              "agentview": 305,
+              "wrist": 1017
+            }
+          }
+        ]
+      },
+      "online_oracle_inputs": []
+    },
+    {
+      "case": "same_rgb_visible_cream_cheese",
+      "seed": 1399,
+      "scenario": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+      "prompt": "Place the cream cheese in the basket",
+      "initial_expected": "DIRECT_ACT",
+      "initial_selected": "DIRECT_ACT",
+      "initial_correct": true,
+      "outcome_expected": null,
+      "outcome_prediction_set": null,
+      "outcome_correct": true,
+      "terminal": "DIRECT_ACT_HANDOFF",
+      "trace": [
+        {
+          "event": "INITIAL_DECISION",
+          "belief": {
+            "prompt": "Place the cream cheese in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.9999991655349731,
+                  "middle_drawer": 7.946005666781275e-07,
+                  "other_unsearched_region": 4.662739172545116e-08,
+                  "absent": 2.179691271919637e-08
+                },
+                "importance": 1.0,
+                "normalized_entropy": 9.497708085457951e-06
+              }
+            ],
+            "task_uncertainty": 9.497708085457951e-06,
+            "node_uncertainty": {
+              "drawer_middle_interior": 7.946005666781275e-07
+            },
+            "model_stamp": "piu-sidecar-v0:21956470369bae61",
+            "conformal_sets": {
+              "target_location": [
+                "visible_workspace"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "direct_act:prompt_target",
+              "primitive": "DIRECT_ACT",
+              "target_id": "prompt_target",
+              "subtask": "Pick up the cream cheese",
+              "stop_condition": "target is grasped or the action visibly fails",
+              "cost": 0.1,
+              "physical_risk": 0.1
+            },
+            "utilities": {
+              "direct_act:prompt_target": {
+                "expected_information_gain": -0.017099957696128834,
+                "expected_task_progress": 0.9999996423721313,
+                "execution_success_probability": 0.9999991655349731,
+                "cost": 0.1,
+                "physical_risk": 0.1,
+                "utility": 1.3578980598180355
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 9.497708085457951e-06,
+            "valid_candidate_ids": [
+              "direct_act:prompt_target",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": {
+            "direct_act:prompt_target": {
+              "outcomes": {
+                "HANDOFF_READY": 0.9999991655349731,
+                "HANDOFF_UNSUPPORTED": 8.344650268554688e-07
+              },
+              "expected_future_uncertainty": 0.017109455404214293,
+              "execution_success_probability": 0.9999991655349731,
+              "expected_task_progress": 0.9999996423721313
+            }
+          }
+        },
+        {
+          "event": "OUTCOME",
+          "prediction_set": null,
+          "memory": {
+            "observation_count": 1,
+            "belief_count": 1,
+            "searched_regions": [],
+            "attempt_counts": {},
+            "observed_outcomes": []
+          },
+          "terminal": "DIRECT_ACT_HANDOFF"
+        }
+      ],
+      "executor": null,
+      "assets": {
+        "public_keyframes": [
+          {
+            "name": "00_before",
+            "phase": "BEFORE",
+            "step": -1,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/same_rgb_visible_cream_cheese/public_keyframes/00_before_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/same_rgb_visible_cream_cheese/public_keyframes/00_before_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "348ed88340787eeb365594a15f17cd7d433bff73434553311a4de4d904b2faf2",
+              "wrist": "6f7ce7ff522a1b61e3e498e1803b60e5a40912b0cbb15cd50cfbd939e13b8594"
+            },
+            "robot_state": [
+              -0.20846466056582375,
+              2.48906260668901e-12,
+              1.17327947572964,
+              3.140339335468503,
+              0.0007735038743553738,
+              -0.08922200721618072,
+              0.038729201417156356,
+              -0.038729141314950595
+            ]
+          }
+        ],
+        "public_action_history": {
+          "path": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/same_rgb_visible_cream_cheese/public_action_history.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "steps": 0
+        },
+        "global_view_available_to_controller": false
+      },
+      "evaluator_only": {
+        "revealed_any_history": false,
+        "visibility_history": [
+          {
+            "name": "before",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          }
+        ]
+      },
+      "online_oracle_inputs": []
+    },
+    {
+      "case": "open_visible_butter",
+      "seed": 1399,
+      "scenario": "scenarios/t01_stock_ladder_v1/T01E_open_drawer_retrieval.bddl",
+      "prompt": "Place the butter in the basket",
+      "initial_expected": "DIRECT_ACT",
+      "initial_selected": "DIRECT_ACT",
+      "initial_correct": true,
+      "outcome_expected": null,
+      "outcome_prediction_set": null,
+      "outcome_correct": true,
+      "terminal": "DIRECT_ACT_HANDOFF",
+      "trace": [
+        {
+          "event": "INITIAL_DECISION",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.999947190284729,
+                  "middle_drawer": 5.2195558964740485e-05,
+                  "other_unsearched_region": 3.756143485134089e-07,
+                  "absent": 2.534891621053248e-07
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.00041613845825493566
+              }
+            ],
+            "task_uncertainty": 0.00041613845825493566,
+            "node_uncertainty": {
+              "drawer_middle_interior": 5.2195558964740485e-05
+            },
+            "model_stamp": "piu-sidecar-v0:21956470369bae61",
+            "conformal_sets": {
+              "target_location": [
+                "visible_workspace"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "direct_act:prompt_target",
+              "primitive": "DIRECT_ACT",
+              "target_id": "prompt_target",
+              "subtask": "Pick up the butter",
+              "stop_condition": "target is grasped or the action visibly fails",
+              "cost": 0.1,
+              "physical_risk": 0.1
+            },
+            "utilities": {
+              "direct_act:prompt_target": {
+                "expected_information_gain": -0.016692449645219522,
+                "expected_task_progress": 0.9999402761459351,
+                "execution_success_probability": 0.999947190284729,
+                "cost": 0.1,
+                "physical_risk": 0.1,
+                "utility": 1.3581264338264714
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.00041613845825493566,
+            "valid_candidate_ids": [
+              "direct_act:prompt_target",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": {
+            "direct_act:prompt_target": {
+              "outcomes": {
+                "HANDOFF_READY": 0.999947190284729,
+                "HANDOFF_UNSUPPORTED": 5.2809715270996094e-05
+              },
+              "expected_future_uncertainty": 0.017108588103474456,
+              "execution_success_probability": 0.999947190284729,
+              "expected_task_progress": 0.9999402761459351
+            }
+          }
+        },
+        {
+          "event": "OUTCOME",
+          "prediction_set": null,
+          "memory": {
+            "observation_count": 1,
+            "belief_count": 1,
+            "searched_regions": [],
+            "attempt_counts": {},
+            "observed_outcomes": []
+          },
+          "terminal": "DIRECT_ACT_HANDOFF"
+        }
+      ],
+      "executor": null,
+      "assets": {
+        "public_keyframes": [
+          {
+            "name": "00_before",
+            "phase": "BEFORE",
+            "step": -1,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/open_visible_butter/public_keyframes/00_before_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/open_visible_butter/public_keyframes/00_before_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "1f4505533d636a699909b6230c974e946057e5a078fccb31fda5d5597ad10138",
+              "wrist": "fa3e99922a21af3a515490ffc54abc87ef891155036cc1589cff4687fa590d1a"
+            },
+            "robot_state": [
+              -0.20846466056582366,
+              2.4888780938095195e-12,
+              1.17327947572964,
+              3.140339335468502,
+              0.000773503874355548,
+              -0.0892220072161807,
+              0.03872920141715636,
+              -0.0387291413149506
+            ]
+          }
+        ],
+        "public_action_history": {
+          "path": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/open_visible_butter/public_action_history.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "steps": 0
+        },
+        "global_view_available_to_controller": false
+      },
+      "evaluator_only": {
+        "revealed_any_history": true,
+        "visibility_history": [
+          {
+            "name": "before",
+            "target_pixels": {
+              "agentview": 323,
+              "wrist": 849
+            }
+          }
+        ]
+      },
+      "online_oracle_inputs": []
+    },
+    {
+      "case": "middle_drawer_empty",
+      "seed": 1399,
+      "scenario": "scenarios/t01_stock_ladder_v1/T01F_middle_drawer_empty_calibration.bddl",
+      "prompt": "Place the butter in the basket",
+      "initial_expected": "OPEN_TO_INSPECT",
+      "initial_selected": "OPEN_TO_INSPECT",
+      "initial_correct": true,
+      "outcome_expected": "EMPTY",
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "outcome_correct": true,
+      "terminal": "LOCAL_EMPTY_SAFE_STOP",
+      "trace": [
+        {
+          "event": "INITIAL_DECISION",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.021493909880518913,
+                  "middle_drawer": 0.9785031676292419,
+                  "other_unsearched_region": 1.3405465324467514e-06,
+                  "absent": 1.5935759165586205e-06
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.07490458811177225
+              }
+            ],
+            "task_uncertainty": 0.07490458811177225,
+            "node_uncertainty": {
+              "drawer_middle_interior": 0.9785031676292419
+            },
+            "model_stamp": "piu-sidecar-v0:21956470369bae61",
+            "conformal_sets": {
+              "target_location": [
+                "middle_drawer"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "open_to_inspect:drawer_middle",
+              "primitive": "OPEN_TO_INSPECT",
+              "target_id": "drawer_middle",
+              "subtask": "Open the middle layer of the drawer",
+              "stop_condition": "the opening attempt ends and six public observations are available",
+              "cost": 0.18,
+              "physical_risk": 0.05
+            },
+            "utilities": {
+              "open_to_inspect:drawer_middle": {
+                "expected_information_gain": 0.06574960726151538,
+                "expected_task_progress": 0.8503462672233582,
+                "execution_success_probability": 0.924,
+                "cost": 0.18,
+                "physical_risk": 0.05,
+                "utility": 1.0278325634812147
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.07490458811177225,
+            "valid_candidate_ids": [
+              "open_to_inspect:drawer_middle",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": {
+            "open_to_inspect:drawer_middle": {
+              "outcomes": {
+                "FAILED": 0.00030857344972901046,
+                "REVEALED": 0.7086635828018188,
+                "EMPTY": 0.2910277843475342
+              },
+              "expected_future_uncertainty": 0.009154980850256872,
+              "execution_success_probability": 0.924,
+              "expected_task_progress": 0.8503462672233582
+            }
+          }
+        },
+        {
+          "event": "OUTCOME",
+          "prediction_set": [
+            "EMPTY"
+          ],
+          "memory": {
+            "observation_count": 1,
+            "belief_count": 1,
+            "searched_regions": [
+              "drawer_middle_interior"
+            ],
+            "attempt_counts": {
+              "open_to_inspect:drawer_middle": 1
+            },
+            "observed_outcomes": [
+              {
+                "candidate_id": "open_to_inspect:drawer_middle",
+                "prediction_set": [
+                  "EMPTY"
+                ]
+              }
+            ]
+          },
+          "terminal": "LOCAL_EMPTY_SAFE_STOP"
+        }
+      ],
+      "executor": {
+        "open_steps": 300,
+        "return_steps": 46,
+        "return_phase": "COMPLETE"
+      },
+      "assets": {
+        "public_keyframes": [
+          {
+            "name": "00_before",
+            "phase": "BEFORE",
+            "step": -1,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/00_before_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/00_before_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "348ed88340787eeb365594a15f17cd7d433bff73434553311a4de4d904b2faf2",
+              "wrist": "6f7ce7ff522a1b61e3e498e1803b60e5a40912b0cbb15cd50cfbd939e13b8594"
+            },
+            "robot_state": [
+              -0.20846466056582372,
+              2.4890706942023464e-12,
+              1.17327947572964,
+              3.1403393354685036,
+              0.0007735038743551996,
+              -0.08922200721618073,
+              0.03872920141715636,
+              -0.0387291413149506
+            ]
+          },
+          {
+            "name": "01_open",
+            "phase": "OPEN",
+            "step": 74,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/01_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/01_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "f31ad07740e248f2e92bb2e95d2a9981cedfd8e0deaf2087ce0ffed52344652e",
+              "wrist": "92bb00addc2a7251e66aa0d0a76bf117009f92617c523905581bdae1271ac9b6"
+            },
+            "robot_state": [
+              0.0009588372436178673,
+              -0.11204348098004643,
+              1.0554315399420975,
+              1.6556722742474885,
+              1.77529912259793,
+              -0.776627545890737,
+              0.03993305807486486,
+              -0.03997027828928438
+            ]
+          },
+          {
+            "name": "02_open",
+            "phase": "OPEN",
+            "step": 149,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/02_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/02_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "d98d414cc46fae60ec5f092a2f23180fed3303a7250af292a05b980ea672c154",
+              "wrist": "1f960ef299d903066a4e21f136780516be83c6c3a49a1320f7e68b09545734f6"
+            },
+            "robot_state": [
+              0.01254988001389956,
+              0.0501559636506798,
+              1.1012888751850256,
+              1.5880129743585034,
+              1.5531165093597734,
+              -0.7774108849229948,
+              0.03939881931226506,
+              -0.040004667641250324
+            ]
+          },
+          {
+            "name": "03_open",
+            "phase": "OPEN",
+            "step": 224,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/03_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/03_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "9f4eabeb594ace42396efe67af9a11cb36ff461e4ac038bcb98a6a02df2b4bde",
+              "wrist": "d2f30b3f66cfb9b44c90bc4f4da11f89a20c4667779a95362cb8195f98252e4b"
+            },
+            "robot_state": [
+              0.009117015747171837,
+              -0.007935344094411448,
+              1.0918303580384212,
+              1.386637990338363,
+              1.534255510936112,
+              -0.8116408915910437,
+              0.039870612168215115,
+              -0.04000356476007134
+            ]
+          },
+          {
+            "name": "04_open",
+            "phase": "OPEN",
+            "step": 299,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/04_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/04_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "b709f843f2351ba736de3e9183789d2d3f346da82d1299ff107c1a8d5dc54b57",
+              "wrist": "6458869b8ec53ff8dd188f7d5884c9d4f62f56ca01090021515f52a7afefd73d"
+            },
+            "robot_state": [
+              -0.022667779204471224,
+              0.06240046062304354,
+              1.072915393663556,
+              1.2286566168827755,
+              1.5057080307412778,
+              -0.8833848289189621,
+              0.03994694998289653,
+              -0.04000147418601616
+            ]
+          },
+          {
+            "name": "05_returned",
+            "phase": "AFTER_RETURN",
+            "step": 46,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/05_returned_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_keyframes/05_returned_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "b2bac2671f76468b6b616a9e74e9acb861f26d550d7fd31944b40faac0678756",
+              "wrist": "ad7cb6d4cf474fc944847afbd5d5be0de11917ab7dc2f54c0b81ce67ebea2776"
+            },
+            "robot_state": [
+              -0.21639945827812912,
+              -0.0009581147271224978,
+              1.1661471693376906,
+              3.1398936493987657,
+              0.0033935799034749583,
+              -0.08508709254280325,
+              0.039910477982853715,
+              -0.04000009052416265
+            ]
+          }
+        ],
+        "public_action_history": {
+          "path": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/middle_drawer_empty/public_action_history.json",
+          "sha256": "80fee85afe056e6270cfab0df99a7fb71ad8a044f26e9025f00e580c278cdce1",
+          "steps": 346
+        },
+        "global_view_available_to_controller": false
+      },
+      "evaluator_only": {
+        "revealed_any_history": false,
+        "visibility_history": [
+          {
+            "name": "before",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_01",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_02",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_03",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_04",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "after",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          }
+        ]
+      },
+      "online_oracle_inputs": []
+    },
+    {
+      "case": "drawer_action_failed_control",
+      "seed": 1399,
+      "scenario": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+      "prompt": "Place the butter in the basket",
+      "initial_expected": "OPEN_TO_INSPECT",
+      "initial_selected": "OPEN_TO_INSPECT",
+      "initial_correct": true,
+      "outcome_expected": "FAILED",
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "outcome_correct": true,
+      "terminal": "ACTION_FAILED_SAFE_STOP",
+      "trace": [
+        {
+          "event": "INITIAL_DECISION",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.021493909880518913,
+                  "middle_drawer": 0.9785031676292419,
+                  "other_unsearched_region": 1.3405465324467514e-06,
+                  "absent": 1.5935759165586205e-06
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.07490458811177225
+              }
+            ],
+            "task_uncertainty": 0.07490458811177225,
+            "node_uncertainty": {
+              "drawer_middle_interior": 0.9785031676292419
+            },
+            "model_stamp": "piu-sidecar-v0:21956470369bae61",
+            "conformal_sets": {
+              "target_location": [
+                "middle_drawer"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "open_to_inspect:drawer_middle",
+              "primitive": "OPEN_TO_INSPECT",
+              "target_id": "drawer_middle",
+              "subtask": "Open the middle layer of the drawer",
+              "stop_condition": "the opening attempt ends and six public observations are available",
+              "cost": 0.18,
+              "physical_risk": 0.05
+            },
+            "utilities": {
+              "open_to_inspect:drawer_middle": {
+                "expected_information_gain": 0.06574960726151538,
+                "expected_task_progress": 0.8503462672233582,
+                "execution_success_probability": 0.924,
+                "cost": 0.18,
+                "physical_risk": 0.05,
+                "utility": 1.0278325634812147
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.07490458811177225,
+            "valid_candidate_ids": [
+              "open_to_inspect:drawer_middle",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": {
+            "open_to_inspect:drawer_middle": {
+              "outcomes": {
+                "FAILED": 0.00030857344972901046,
+                "REVEALED": 0.7086635828018188,
+                "EMPTY": 0.2910277843475342
+              },
+              "expected_future_uncertainty": 0.009154980850256872,
+              "execution_success_probability": 0.924,
+              "expected_task_progress": 0.8503462672233582
+            }
+          }
+        },
+        {
+          "event": "OUTCOME",
+          "prediction_set": [
+            "FAILED"
+          ],
+          "memory": {
+            "observation_count": 1,
+            "belief_count": 1,
+            "searched_regions": [],
+            "attempt_counts": {
+              "open_to_inspect:drawer_middle": 1
+            },
+            "observed_outcomes": [
+              {
+                "candidate_id": "open_to_inspect:drawer_middle",
+                "prediction_set": [
+                  "FAILED"
+                ]
+              }
+            ]
+          },
+          "terminal": "ACTION_FAILED_SAFE_STOP"
+        }
+      ],
+      "executor": {
+        "open_steps": 25,
+        "return_steps": 31,
+        "return_phase": "COMPLETE"
+      },
+      "assets": {
+        "public_keyframes": [
+          {
+            "name": "00_before",
+            "phase": "BEFORE",
+            "step": -1,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/00_before_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/00_before_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "348ed88340787eeb365594a15f17cd7d433bff73434553311a4de4d904b2faf2",
+              "wrist": "6f7ce7ff522a1b61e3e498e1803b60e5a40912b0cbb15cd50cfbd939e13b8594"
+            },
+            "robot_state": [
+              -0.20846466056582375,
+              2.48906260668901e-12,
+              1.17327947572964,
+              3.140339335468503,
+              0.0007735038743553738,
+              -0.08922200721618072,
+              0.038729201417156356,
+              -0.038729141314950595
+            ]
+          },
+          {
+            "name": "01_open",
+            "phase": "OPEN",
+            "step": 5,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/01_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/01_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "02127161efc9c220fa608471e14250aa945dca5e4b47b6d94052c37c75500003",
+              "wrist": "582343fdae5bf671c272916420019778e31ec61ac156dcd6b299b6e32ef493db"
+            },
+            "robot_state": [
+              -0.19679288443911944,
+              -0.0034152845403721513,
+              1.1693820332286355,
+              3.1375897000938724,
+              0.023848891336570515,
+              -0.09492358033375886,
+              0.03908646530983568,
+              -0.03909446405094383
+            ]
+          },
+          {
+            "name": "02_open",
+            "phase": "OPEN",
+            "step": 11,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/02_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/02_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "9299337df305c600476d4a0f8b423a59771637cce0e9faab2a31e241ad888344",
+              "wrist": "e648706ef7fb9d399b13a5db0bc5e602cecbe935ea4bb60be0c529e8ead9528d"
+            },
+            "robot_state": [
+              -0.15111156830007028,
+              -0.013306164272317091,
+              1.1651698223034852,
+              3.1065133256177386,
+              0.15967701662918193,
+              -0.10548164507051767,
+              0.03929360512891198,
+              -0.039308124096278874
+            ]
+          },
+          {
+            "name": "03_open",
+            "phase": "OPEN",
+            "step": 18,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/03_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/03_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "39db05a13e4474289c5f047072e5e4aff36c158a27881c6475f82f54db2501f7",
+              "wrist": "6bcca488ddf3005d268b88e12cd46f859e1abb52f3a2fe995f448de1cbb96a55"
+            },
+            "robot_state": [
+              -0.1110904505319637,
+              -0.021249220108806956,
+              1.1650165792699831,
+              3.015425215835182,
+              0.4090647056777353,
+              -0.1423968503627332,
+              0.03946601575310776,
+              -0.03950572418180662
+            ]
+          },
+          {
+            "name": "04_open",
+            "phase": "OPEN",
+            "step": 24,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/04_open_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/04_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "676449665682ca93c545e4e330ce77b27ef2fca75b6a856c009e1d0a9c26982a",
+              "wrist": "90d0ab13950a4168dd0267140624250debd63f7b40460e0652c8dd70b4ab60be"
+            },
+            "robot_state": [
+              -0.08930975971213226,
+              -0.025456776010319704,
+              1.1558782949678528,
+              2.888127525751129,
+              0.6367916031033114,
+              -0.19401771254155467,
+              0.03956196669661367,
+              -0.03964829032047605
+            ]
+          },
+          {
+            "name": "05_returned",
+            "phase": "AFTER_RETURN",
+            "step": 31,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/05_returned_agentview.png",
+              "wrist": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_keyframes/05_returned_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "fce76d5fb2d7e6e5f6912d7dac78195cf2120dd9ec1b72faec0001f97144c300",
+              "wrist": "3fb4dc50328216dbf7133bd8cacb1cac3511fcc995bb57dd15743ccaac82b20b"
+            },
+            "robot_state": [
+              -0.21283104404666892,
+              0.0004450343742555652,
+              1.1652915909828934,
+              3.1407024527006033,
+              0.0026215773893442486,
+              -0.05596354564521564,
+              0.039860825233576154,
+              -0.039938239722541534
+            ]
+          }
+        ],
+        "public_action_history": {
+          "path": "results/assets/piu_v0_full_pipeline_v4_seed1399/raw/drawer_action_failed_control/public_action_history.json",
+          "sha256": "9b658768364c72b539bac73d12801fb3e5c45f3540f396eb26b726e7e00a4077",
+          "steps": 56
+        },
+        "global_view_available_to_controller": false
+      },
+      "evaluator_only": {
+        "revealed_any_history": false,
+        "visibility_history": [
+          {
+            "name": "before",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_01",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_02",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_03",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_04",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "after",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          }
+        ]
+      },
+      "online_oracle_inputs": []
+    }
+  ]
+}

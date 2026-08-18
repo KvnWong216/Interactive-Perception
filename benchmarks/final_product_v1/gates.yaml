@@ -22,7 +22,7 @@ declared_action_scope:
 milestones:
   piu_v0_information_loop_smoke:
     status: GO
-    evidence: results/smoke/piu_v0_end_to_end_v3_seed1399.json
+    evidence: results/smoke/piu_v0_full_pipeline_v4_seed1399.json
     limitation: Disposable seed 1399; DIRECT_ACT is a semantic handoff, not physical task completion.
   t01_routed_open_prototype:
     status: GO
@@ -83,7 +83,7 @@ gates:
       For every enabled information action, predict the post-action observable
       effect from (prompt, observation, action), with class-conditional
       conformal coverage at least 0.90 on disjoint scenes.
-    evidence: results/smoke/piu_v0_end_to_end_v3_seed1399.json
+    evidence: results/smoke/piu_v0_full_pipeline_v4_seed1399.json
     current: >-
       The composite executor and six-frame hierarchical critic are implemented,
       but v7 is invalidated by a final-frame-only label bug. Debug seed 770 saw
@@ -126,7 +126,7 @@ gates:
       Audit the complete controller and show zero reads of simulator joints,
       segmentation, hidden target poses, or task predicates for routing,
       stopping, belief updates, and NOT_FOUND.
-    evidence: results/audits/piu_v0_privileged_input_audit.json
+    evidence: results/audits/piu_v0_full_pipeline_v4_privileged_input_audit.json
     current: >-
       Source/runtime guards pass for the OffScreen controller and the actual
       five-case PIU smoke. Every trace row reports zero online oracle inputs;

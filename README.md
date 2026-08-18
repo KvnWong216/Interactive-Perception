@@ -143,8 +143,15 @@ Run the local PIU V0 path:
 ```
 
 The recorded five-case smoke itself was run with
-`EXPERIMENT_GPU_INDEX=0 bash scripts/run_piu_v0_smoke.sh --output
-results/smoke/piu_v0_end_to_end_v3_seed1399.json`.
+`EXPERIMENT_GPU_INDEX=0 bash scripts/run_piu_v0_smoke.sh --model
+results/models/piu_v0_4_sidecar.pt --output
+results/smoke/piu_v0_full_pipeline_v4_seed1399.json --asset-dir
+results/assets/piu_v0_full_pipeline_v4_seed1399/raw`.
+
+Its post-terminal presentation assets are indexed by
+[`assets_manifest.json`](results/assets/piu_v0_full_pipeline_v4_seed1399/visualizations_v1/assets_manifest.json).
+The left demo panel is replayed wrist RGB; the right global panel is explicitly
+evaluator-only and was never available to the controller.
 
 This PC has one physical GPU at index 0. The generic preflight rejects unknown
 compute processes and permits the current-user RustDesk process only when

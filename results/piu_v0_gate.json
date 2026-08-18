@@ -1,0 +1,35 @@
+{
+  "schema_version": "interaction-uncertainty.piu-gate-summary.v0",
+  "repository_commit": "655bab4770c601e4e5dd4cc62e143f836e3652c1",
+  "overall_status": "NOT-GO",
+  "partial_counts_as_not_go": true,
+  "artifact_hashes": {
+    "smoke": "a5152df6be3894773a43e805e1d15b971d13208d5a9559944bc98e453e66d322",
+    "model": "21956470369bae6137f165b53769fe8850bf6c79e3f0a620d1a498fbcc9bda02",
+    "training_report": "45004f0192dfad748cf4146ebe58454c674b9b6e9cdab3158904867a2fb1adec",
+    "data_manifest": "96d4a382777ade9e0d4293c2710ffda9ce1b3568923acef3b4f87340ac02b6fb",
+    "privileged_input_audit": "0457ae9e7cecf9405f0ba16e96388b11bf9030e1bb86774b956dcc5f83e1bd9c",
+    "visual_asset_manifest": "5e009096e95da35e4ca6a72a06674f5355aae0f2fc592f1026b71595c6849cc1",
+    "combined_demo": "4b7c6bed59daf8d0e403745a406d98524407dfd498783117056e1e4cd839a973"
+  },
+  "go": [
+    "repository_and_protocol_audit",
+    "real_open_and_observe_disposable_smoke",
+    "end_to_end_piu_inference_wiring",
+    "frozen_encoder_learning_path",
+    "libero_main_matrix_preparation"
+  ],
+  "partial": [
+    "structured_target_location_belief",
+    "three_class_outcome_critic",
+    "prompt_conditioning"
+  ],
+  "not_go": [
+    "object_level_public_visual_frontend",
+    "clean_scene_disjoint_validation",
+    "physical_direct_act_continuation",
+    "final_task_success",
+    "global_not_found",
+    "sealed_audit"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "interaction-uncertainty.piu-privileged-input-audit.v0",
+  "repository_commit": "655bab4770c601e4e5dd4cc62e143f836e3652c1",
+  "smoke": "results/smoke/piu_v0_full_pipeline_v4_seed1399.json",
+  "smoke_sha256": "a5152df6be3894773a43e805e1d15b971d13208d5a9559944bc98e453e66d322",
+  "model": "results/models/piu_v0_4_sidecar.pt",
+  "model_sha256": "21956470369bae6137f165b53769fe8850bf6c79e3f0a620d1a498fbcc9bda02",
+  "asset_manifest": "results/assets/piu_v0_full_pipeline_v4_seed1399/visualizations_v1/assets_manifest.json",
+  "asset_manifest_sha256": "5e009096e95da35e4ca6a72a06674f5355aae0f2fc592f1026b71595c6849cc1",
+  "asset_contract_passed": true,
+  "source_sha256": {
+    "src/interaction_uncertainty/contracts.py": "e5d6a1ba10e73259ebe1f9d630369ade5257442893c1df3cbee2b421c49dc271",
+    "src/interaction_uncertainty/candidates.py": "275d479f502c1026e7788725f4bef671a01c1c831f7b236d5dba652dbb0b35ff",
+    "src/interaction_uncertainty/optimizer.py": "813009e2cef4ad48260696d232d298c6612a791a58586a4f6bdf190e2dd7a321",
+    "src/interaction_uncertainty/sidecar.py": "6ab7eaafe0fcaa7475594609630526870b0b23f7d648ab1dc301720e7a94eace",
+    "src/interaction_uncertainty/scene_memory.py": "4f45bb03358eb9912f6865cea261fd59d3eba270f48bf77b2d4842d011170753",
+    "src/interactive_perception/policy_client.py": "6d2cd87c5351a061100bc722e0e1f8f504a704ce646283fdbab7eb7c8dc59d33",
+    "src/interactive_perception/action_options.py": "eba6a0169d70f60e72bb2f814c6d46f038050b2a288f7c7ffc5c4178e0413985",
+    "src/interactive_perception/observation_option.py": "3d7148740460d96914d548ff040b248a5063c1823ef93a2a4f8bff94857973dc",
+    "scripts/run_piu_v0_smoke.py": "95b2e360493c545603fe0571d8007df9b95096deafb32ad7ec129d80fc108050",
+    "scripts/render_piu_v0_assets.py": "e792b7840058f0dde4906cac4bee05aa34278aef63c1c1bd51ed5ca038f2598b"
+  },
+  "allowed_policy_observation_keys": [
+    "agentview_image",
+    "robot0_eef_pos",
+    "robot0_eef_quat",
+    "robot0_eye_in_hand_image",
+    "robot0_gripper_qpos"
+  ],
+  "observed_policy_literal_keys": [
+    "robot0_eef_pos",
+    "robot0_eef_quat",
+    "robot0_gripper_qpos"
+  ],
+  "controller_environment": "libero.envs.OffScreenRenderEnv",
+  "controller_constructs_segmentation_environment": false,
+  "evaluator_environment": "separate SegmentationRenderEnv/replay after terminal",
+  "actual_trace_rows_have_zero_oracle_inputs": true,
+  "scene_packet_runtime_firewall": true,
+  "runtime_guard_tests": {
+    "returncode": 0,
+    "stdout": "...                                                                      [100%]\n3 passed in 0.08s",
+    "stderr": ""
+  },
+  "online_oracle_inputs": [],
+  "passed": true,
+  "limitations": [
+    "Static/runtime isolation does not validate learned calibration.",
+    "V0 public target grounding is a prefix-belief proxy, not Grounding DINO/SAM.",
+    "DIRECT_ACT is a semantic handoff and was not physically executed."
+  ]
+}
