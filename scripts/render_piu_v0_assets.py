@@ -242,16 +242,20 @@ def info_panel(row: dict, *, phase: str, step: int, total: int) -> np.ndarray:
     initial = belief_event(row, "INITIAL_DECISION")
     probabilities = location_probabilities(initial)
     selected = row["initial_selected"]
+    resolved = phase == row["terminal"]
+    outcome_display = row["outcome_prediction_set"] if resolved else "pending"
+    terminal_display = row["terminal"] if resolved else "pending"
     lines = [
         ("PIU V0 / NON-CLAIM", (255, 211, 105)),
+        ("overlay: post-hoc trace replay", (156, 163, 175)),
         (f"case: {row['case']}", (255, 255, 255)),
         (f"prompt: {row['prompt']}", (190, 205, 225)),
         (f"route: {selected}", (112, 224, 197)),
         (f"phase: {phase}  {step}/{total}", (147, 197, 253)),
         (f"P(visible): {probabilities['visible_workspace']:.3f}", (255, 255, 255)),
         (f"P(middle drawer): {probabilities['middle_drawer']:.3f}", (255, 255, 255)),
-        (f"outcome set: {row['outcome_prediction_set']}", (251, 191, 36)),
-        (f"terminal: {row['terminal']}", (248, 113, 113)),
+        (f"outcome set: {outcome_display}", (251, 191, 36)),
+        (f"terminal: {terminal_display}", (248, 113, 113)),
         ("Global view = post-terminal evaluator replay", (156, 163, 175)),
     ]
     y = 10
