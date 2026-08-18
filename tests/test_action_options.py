@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import Iterator, Mapping
+
 import numpy as np
 
 from interactive_perception.action_options import execute_open_and_observe
@@ -30,6 +32,40 @@ class _FakeEnvironment:
         self.steps += 1
         self.position += np.asarray(action[:3], dtype=np.float64) * 0.05
         return self.observation(), 0.0, False, {}
+
+
+class _AuditedObservation(Mapping):
+    """Mapping that fails immediately if controller code touches oracle data."""
+
+    def __init__(self, public):
+        self._values = {
+            **public,
+            "agentview_segmentation": np.ones((8, 8), dtype=np.int32),
+            "drawer_joint": -0.16,
+            "hidden_target_pose": np.ones(7),
+            "task_success_predicate": True,
+        }
+
+    def __getitem__(self, key):
+        if key in {
+            "agentview_segmentation",
+            "drawer_joint",
+            "hidden_target_pose",
+            "task_success_predicate",
+        }:
+            raise AssertionError(f"attempted evaluator-private read: {key}")
+        return self._values[key]
+
+    def __iter__(self) -> Iterator[str]:
+        return iter(self._values)
+
+    def __len__(self) -> int:
+        return len(self._values)
+
+
+class _AuditedEnvironment(_FakeEnvironment):
+    def observation(self):
+        return _AuditedObservation(super().observation())
 
 
 def _config(**overrides):
@@ -79,3 +115,19 @@ def test_return_timeout_is_propagated_as_executor_failure() -> None:
     )
     assert result.return_status.phase is ObservationReturnPhase.TIMED_OUT
     assert not result.executor_completed
+
+
+def test_full_composite_never_reads_privileged_observation_keys() -> None:
+    env = _AuditedEnvironment()
+    _, result = execute_open_and_observe(
+        env=env,
+        initial_observation=env.observation(),
+        policy=ScriptedStubPolicy(
+            goal_position=(0.15, 0.0, 0.0), horizon=2, noise_scale=0.0
+        ),
+        open_prompt="Open the middle layer of the drawer",
+        open_steps=2,
+        replan_steps=1,
+        return_config=_config(),
+    )
+    assert result.executor_completed

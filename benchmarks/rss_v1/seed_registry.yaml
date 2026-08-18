@@ -1,0 +1,150 @@
+schema_version: interactive-perception.seed-registry.v1
+repository_commit: de55641d191c728b08a2ca3c6a185c953c681869
+authority: benchmarks/rss_v1/seed_registry.yaml
+scope: T01 claim-bearing, diagnostic, validation, audit, and disposable-smoke blocks
+decision_rule: >-
+  A seed belongs to exactly one block below. Disposable smoke seeds never
+  support a scientific claim. Debugged or partially opened blocks are
+  quarantined in full and are never promoted back to validation or audit.
+
+blocks:
+  - id: t01_legacy_router_test
+    seeds: 90-189
+    role: historical_routing_test
+    status: consumed
+    evidence: results/capability/t01_conformal_reveal_100seed_v1.json
+    note: Legacy success field is drawer-joint opening, not RGB target reveal.
+
+  - id: t01_prompt_state_prototype_train
+    seeds: 220-239
+    role: prompt_state_prototype_train
+    status: consumed
+    evidence: data/calibration/t01_prompt_state_v1.manifest.json
+
+  - id: t01_prompt_state_conformal_calibration
+    seeds: 240-259
+    role: prompt_state_conformal_calibration
+    status: consumed
+    evidence: data/calibration/t01_prompt_state_v1.manifest.json
+
+  - id: t01_prompt_state_heldout_development
+    seeds: 260-269
+    role: prompt_state_heldout_development
+    status: consumed
+    evidence: data/calibration/t01_prompt_state_v1.manifest.json
+
+  - id: t01_prompt_state_audit
+    seeds: 280-309
+    role: prompt_state_audit
+    status: consumed
+    evidence: data/calibration/t01_prompt_state_v1_audit.manifest.json
+
+  - id: t01_prompt_state_audit_extension
+    seeds: 310-379
+    role: prompt_state_audit_extension
+    status: consumed
+    evidence: data/calibration/t01_prompt_state_v1_audit_extension.manifest.json
+
+  - id: t01_action_effect_development
+    seeds: 400-459
+    role: development
+    status: consumed
+    evidence: data/calibration/t01_action_effect_v1.manifest.json
+
+  - id: t01_legacy_action_effect_audit
+    seeds: 500-599
+    role: legacy_quarantine
+    status: never_use_for_current_protocol
+    note: >-
+      Reserved by the obsolete v1 action-effect protocol. It is not the v9
+      sealed audit and is quarantined to prevent accidental reassignment.
+
+  - id: t01_open_observe_prototype_train
+    seeds: 600-619
+    role: prototype_train
+    status: consumed
+    evidence: data/calibration/t01_open_and_observe_effect_v3.manifest.json
+
+  - id: t01_open_observe_conformal_calibration
+    seeds: 620-652
+    role: conformal_calibration
+    status: consumed
+    evidence: data/calibration/t01_open_and_observe_effect_v3.manifest.json
+
+  - id: t01_open_observe_v8_v9_diagnostic
+    seeds: 653-659
+    role: diagnostic_only
+    status: consumed_and_contaminated
+    evidence: results/T01_OUTCOME_V8_V9_DIAGNOSTIC.md
+
+  - id: t01_open_observe_clean_extension
+    seeds: 660-699
+    role: frozen_clean_development
+    status: untouched
+    open_condition: disposable smoke passes and the v9 candidate is frozen
+
+  - id: t01_open_observe_final_frame_debug
+    seeds: 700-799
+    role: debug_only
+    status: quarantined
+    evidence: data/calibration/t01_open_and_observe_effect_v1_audit.jsonl
+    note: >-
+      Seeds 700-776 were collected before the temporal-label bug was found.
+      The entire 700-799 block is quarantined; 777-799 are not reassigned.
+
+  - id: t01_closed_loop_validation
+    seeds: 800-899
+    role: frozen_pipeline_validation
+    status: untouched
+    paper_eligible: false
+    open_condition: sealed outcome audit passes
+
+  - id: t01_open_observe_sealed_audit
+    seeds: 900-999
+    role: sealed_audit
+    status: sealed
+    open_condition: clean development extension passes every preregistered gate
+
+  - id: t01_closed_loop_smoke
+    seeds: [1300]
+    role: disposable_smoke
+    status: available
+    paper_eligible: false
+
+  - id: t01_open_observe_smoke
+    seeds: [1399]
+    role: disposable_smoke
+    status: reusable_nonclaim
+    evidence:
+      - data/calibration/t01_open_and_observe_effect_v4_smoke.manifest.json
+      - results/smoke/piu_v0_end_to_end_v3_seed1399.json
+    paper_eligible: false
+
+  - id: piu_counterfactual_prototype_train
+    seeds: 1500-1599
+    role: future_piu_prototype_train
+    status: untouched
+
+  - id: piu_counterfactual_conformal_calibration
+    seeds: 1600-1699
+    role: future_piu_conformal_calibration
+    status: untouched
+
+  - id: piu_scene_disjoint_clean_development
+    seeds: 1700-1799
+    role: future_piu_clean_development
+    status: untouched
+    open_condition: prototype data schema and all model/utility weights are frozen
+
+  - id: piu_scene_disjoint_sealed_audit
+    seeds: 1800-1899
+    role: future_piu_sealed_audit
+    status: sealed
+    open_condition: PIU clean scene-disjoint development passes every preregistered gate
+
+forbidden_transitions:
+  - disposable_smoke -> development
+  - debug_only -> development
+  - debug_only -> sealed_audit
+  - frozen_pipeline_validation -> model_or_threshold_selection
+  - sealed_audit -> model_or_threshold_selection

@@ -20,6 +20,7 @@ from interactive_perception.action_effect import EffectRegistry  # noqa: E402
 from interactive_perception.action_options import execute_open_and_observe  # noqa: E402
 from interactive_perception.action_outcome import (  # noqa: E402
     HierarchicalActionOutcomePredictor,
+    PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
 )
 from interactive_perception.active_risk import (  # noqa: E402
     ACT,
@@ -29,28 +30,35 @@ from interactive_perception.active_risk import (  # noqa: E402
     TargetHypothesis,
     TargetState,
 )
-from interactive_perception.pipeline import PromptAlignedPipeline  # noqa: E402
+from interactive_perception.minimal_pipeline import (  # noqa: E402
+    INFORMATION_ACQUIRED,
+    MinimalPromptAlignedPipeline,
+)
 from interactive_perception.policy_client import (  # noqa: E402
     OpenPiWebsocketPolicy,
     build_observation,
 )
 from interactive_perception.prompt_state import PromptStatePredictor  # noqa: E402
-from interactive_perception.temporal_belief import (  # noqa: E402
-    TemporalBelief,
-    TemporalPhase,
+from interactive_perception.seed_registry import (  # noqa: E402
+    load_seed_registry,
+    seeds_for_blocks,
 )
 from run_t01_outcome_closed_loop import (  # noqa: E402
     DUMMY_ACTION,
     FINAL_PROMPT,
-    MIN_TARGET_PIXELS,
     MIDDLE_JOINT,
     OPEN_PROMPT,
     capture_biview_demo,
     evaluator_pixels,
 )
+from collect_t01_open_and_observe_effect import (  # noqa: E402
+    RecordingEnvironment,
+    replay_evaluator_trace,
+)
 
 ACTION = "OPEN_AND_OBSERVE"
 OUTCOME_QUERY = "Find the butter"
+SEED_REGISTRY = ROOT / "benchmarks/rss_v1/seed_registry.yaml"
 
 
 def digest(path: Path) -> str:
@@ -79,19 +87,19 @@ def main() -> None:
     parser.add_argument(
         "--effect-artifact",
         type=Path,
-        default=ROOT / "results/calibration/t01_open_and_observe_effect_v3.json",
+        default=ROOT / "results/calibration/t01_open_and_observe_effect_v4.json",
     )
     parser.add_argument(
         "--outcome-artifact",
         type=Path,
         default=ROOT
-        / "results/calibration/t01_open_and_observe_outcome_critic_v8.json",
+        / "results/calibration/t01_open_and_observe_outcome_critic_v9.json",
     )
     parser.add_argument(
         "--outcome-audit",
         type=Path,
         default=ROOT
-        / "results/calibration/t01_open_and_observe_outcome_audit_v8.json",
+        / "results/calibration/t01_open_and_observe_outcome_audit_v9.json",
     )
     parser.add_argument(
         "--risk-contract",
@@ -104,7 +112,11 @@ def main() -> None:
         default=None,
     )
     args = parser.parse_args()
-    expected_seeds = [1300] if args.smoke else list(range(800, 900))
+    seed_registry = load_seed_registry(SEED_REGISTRY)
+    seed_block = (
+        "t01_closed_loop_smoke" if args.smoke else "t01_closed_loop_validation"
+    )
+    expected_seeds = seeds_for_blocks(seed_registry, [seed_block])
     if args.seeds is None:
         args.seeds = expected_seeds
     if args.seeds != expected_seeds:
@@ -146,7 +158,7 @@ def main() -> None:
 
     audit = json.loads(args.outcome_audit.read_text())
     if not audit.get("fp3_passed", False):
-        raise ValueError("the sealed v8 action-effect/outcome audit must pass first")
+        raise ValueError("the sealed v9 action-effect/outcome audit must pass first")
     if audit.get("artifact_sha256") != digest(args.outcome_artifact):
         raise ValueError("outcome artifact differs from the sealed audit")
     effect_artifact = json.loads(args.effect_artifact.read_text())
@@ -176,7 +188,7 @@ def main() -> None:
         ),
         act_reliability=1.0,
         horizon=1,
-        temporal_violation_loss=float(losses["temporal_violation"]),
+        temporal_violation_loss=0.0,
     )
     policy = OpenPiWebsocketPolicy(host=args.host, port=args.port)
     metadata = policy.server_metadata
@@ -185,7 +197,7 @@ def main() -> None:
     if metadata.get("prefix_feature_schemas", {}).get("cognitive_spatial_v5") != 21504:
         raise ValueError("server does not expose the frozen v5 spatial feature schema")
 
-    from libero.libero.envs import SegmentationRenderEnv
+    from libero.libero.envs import OffScreenRenderEnv, SegmentationRenderEnv
 
     benchmark = yaml.safe_load(
         (ROOT / "benchmarks/interactive_manipulation_v0/benchmark.yaml").read_text()
@@ -197,7 +209,7 @@ def main() -> None:
     bddl = ROOT / "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl"
     rows = []
     for seed in args.seeds:
-        env = SegmentationRenderEnv(
+        env = OffScreenRenderEnv(
             bddl_file_name=str(bddl), camera_heights=256, camera_widths=256
         )
         writer = None
@@ -207,9 +219,7 @@ def main() -> None:
             obs = env.reset()
             for _ in range(10):
                 obs, _, _, _ = env.step(DUMMY_ACTION)
-            evaluator_visibility_history = [
-                {"name": "before", "target_pixels": evaluator_pixels(env, obs)}
-            ]
+            evaluator_visibility_history = []
             initial_prefix = policy.encode_prefix(build_observation(obs, FINAL_PROMPT))
             initial = belief_predictor.predict(initial_prefix)
             observed_probability = float(initial.probabilities["OBSERVED"])
@@ -223,17 +233,10 @@ def main() -> None:
                 ),
                 (observed_probability, hidden_probability),
             )
-            temporal = TemporalBelief.from_mapping(
-                {
-                    TemporalPhase.READY_TO_COMMIT: observed_probability,
-                    TemporalPhase.NEEDS_EVIDENCE: hidden_probability,
-                }
-            )
-            controller = PromptAlignedPipeline(
+            controller = MinimalPromptAlignedPipeline(
                 planner=planner,
                 belief=belief,
                 conformal_labels=initial.prediction_set,
-                temporal_belief=temporal,
                 effects=(effect,),
                 maximum_attempts_per_action=1,
             )
@@ -288,15 +291,10 @@ def main() -> None:
                             )
                         )
                         robot_history.append(packet.state)
-                        evaluator_visibility_history.append(
-                            {
-                                "name": f"history_{index:02d}",
-                                "target_pixels": evaluator_pixels(env, current_obs),
-                            }
-                        )
 
+                recording_env = RecordingEnvironment(env)
                 obs, execution = execute_open_and_observe(
-                    env=env,
+                    env=recording_env,
                     initial_observation=obs,
                     policy=policy,
                     open_prompt=OPEN_PROMPT,
@@ -311,9 +309,6 @@ def main() -> None:
                     )
                 )
                 robot_history.append(final_packet.state)
-                evaluator_visibility_history.append(
-                    {"name": "after", "target_pixels": evaluator_pixels(env, obs)}
-                )
                 if execution.executor_completed and len(history_features) == 6:
                     outcome = outcome_predictor.predict_history(
                         np.asarray(history_features), np.asarray(robot_history)
@@ -343,18 +338,45 @@ def main() -> None:
                         )
                     )
 
-            # Private evaluation begins only after controller termination.
-            pixels = evaluator_pixels(env, obs)
-            if evaluator_visibility_history[-1]["name"] != "after":
-                evaluator_visibility_history.append(
-                    {"name": "after", "target_pixels": pixels}
+            # Private evaluation begins only after controller termination and
+            # runs in a separate environment from the online controller.
+            if execution is not None:
+                evaluator = replay_evaluator_trace(
+                    bddl=bddl,
+                    seed=seed,
+                    wait_steps=10,
+                    actions=recording_env.actions,
+                    open_history_steps=capture_steps,
+                    counterpart_target_qpos={},
                 )
-            joint = float(env.env.sim.data.get_joint_qpos(MIDDLE_JOINT))
+                evaluator_visibility_history = evaluator["visibility_history"]
+                pixels = evaluator_visibility_history[-1]["target_pixels"]
+                joint = float(evaluator["middle_joint_final"])
+            else:
+                evaluator_env = SegmentationRenderEnv(
+                    bddl_file_name=str(bddl), camera_heights=256, camera_widths=256
+                )
+                try:
+                    evaluator_env.seed(seed)
+                    evaluator_obs = evaluator_env.reset()
+                    for _ in range(10):
+                        evaluator_obs, _, _, _ = evaluator_env.step(DUMMY_ACTION)
+                    pixels = evaluator_pixels(evaluator_env, evaluator_obs)
+                    joint = float(
+                        evaluator_env.env.sim.data.get_joint_qpos(MIDDLE_JOINT)
+                    )
+                    evaluator_visibility_history = [
+                        {"name": "before", "target_pixels": pixels},
+                        {"name": "after", "target_pixels": pixels},
+                    ]
+                finally:
+                    evaluator_env.close()
             revealed = any(
-                max(point["target_pixels"].values()) >= MIN_TARGET_PIXELS
+                max(point["target_pixels"].values())
+                >= PI05_PATCH_EQUIVALENT_TARGET_PIXELS
                 for point in evaluator_visibility_history
             )
-            correct = controller.terminal == ACT and revealed
+            correct = controller.terminal == INFORMATION_ACQUIRED and revealed
             rows.append(
                 {
                     "seed": seed,
@@ -379,6 +401,8 @@ def main() -> None:
                         "target_pixels": pixels,
                         "visibility_history": evaluator_visibility_history,
                     },
+                    "online_oracle_inputs": [],
+                    "evaluator_timing": "separate action replay after controller termination",
                     "video": str(video_path.relative_to(ROOT)) if video_path else None,
                 }
             )
@@ -406,6 +430,8 @@ def main() -> None:
         ),
         "policy": "frozen pi05_libero",
         "seeds": args.seeds,
+        "seed_registry": str(SEED_REGISTRY.relative_to(ROOT)),
+        "seed_blocks": [seed_block],
         "artifacts": {
             str(path.relative_to(ROOT)): digest(path)
             for path in (
@@ -421,6 +447,8 @@ def main() -> None:
         "physical_reveals": sum(row["evaluator_revealed"] for row in rows),
         "safe_stops": sum(row["terminal"] == "SAFE_STOP" for row in rows),
         "online_oracle_inputs": [],
+        "probabilistic_temporal_progress_used": False,
+        "control_memory": ["phase", "searched_set", "attempt_counts"],
         "demo_contract": {
             "layout": "left wrist first-person; right evaluator-only global",
             "policy_uses_demo_global_view": False,

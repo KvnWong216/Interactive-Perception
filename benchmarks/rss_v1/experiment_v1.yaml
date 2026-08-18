@@ -1,5 +1,7 @@
 schema_version: interactive-perception.rss-experiment.v1
 name: Prompt-aligned action-resolvable uncertainty
+seed_registry: benchmarks/rss_v1/seed_registry.yaml
+outcome_data_protocol: benchmarks/rss_v1/outcome_data_protocol_v1.yaml
 
 claim: >-
   A frozen VLA may possess an information action without knowing when it is
@@ -35,7 +37,18 @@ method_factorization:
     inspiration: ShapeGrasp separates grounded part/state identification from task utility
   decision:
     output: ACT, information option, NOT_FOUND, or SAFE_STOP
-    rule: finite-horizon expected risk on world belief x temporal-progress belief
+    rule: >-
+      Current T01 uses finite-horizon expected risk on the two-state world
+      belief with hard-valid actions from deterministic control memory. The
+      probabilistic temporal-progress belief is bypassed.
+
+minimal_t01_control:
+  world_state: [OBSERVED, MANIPULATION_ONLY]
+  deterministic_memory: [phase, searched_set, attempt_counts]
+  phases: [IDLE, AWAITING_EFFECT, COMMITTING, DONE]
+  action_legality: hard A_valid(memory) filter before risk planning
+  probabilistic_temporal_progress_used: false
+  empty_rule: local middle-layer exclusion only; never global NOT_FOUND
 
 t01_development:
   action: OPEN_AND_OBSERVE

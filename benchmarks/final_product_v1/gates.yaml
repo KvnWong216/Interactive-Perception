@@ -20,10 +20,14 @@ declared_action_scope:
   rule: Adding an action reopens its capability, effect-calibration, and safety gates.
 
 milestones:
-  t01_reveal_prototype:
+  piu_v0_information_loop_smoke:
+    status: GO
+    evidence: results/smoke/piu_v0_end_to_end_v3_seed1399.json
+    limitation: Disposable seed 1399; DIRECT_ACT is a semantic handoff, not physical task completion.
+  t01_routed_open_prototype:
     status: GO
     evidence: results/capability/t01_conformal_reveal_100seed_v1.json
-    limitation: Target reveal only; final butter placement is 0/5.
+    limitation: Joint-open scoring only; RGB target reveal is not certified and final butter placement is 0/5.
   t01_prompt_state_routing:
     status: GO
     evidence: results/t01_expected_risk_router_v1.json
@@ -66,9 +70,10 @@ gates:
       segmentation, or simulator-state inputs.
     evidence: results/calibration/prompt_state_belief_t01_audit_100seed_v1.json
     current: >-
-      The upstream frozen-prefix belief passes three T01 prompt/state conditions
-      at 97/100, 100/100, and 99/100. It is not scene-disjoint and currently
-      covers only OBSERVED versus MANIPULATION_ONLY.
+      PIU V0 emits a structured target-location distribution and passes 27/30
+      on old T01 diagnostic seeds. Only visible workspace and middle drawer are
+      trained; object-level grounding, absent/other-region calibration, and
+      scene-disjoint validation remain missing.
 
   - id: FP3
     name: Calibrated action-effect model
@@ -78,7 +83,7 @@ gates:
       For every enabled information action, predict the post-action observable
       effect from (prompt, observation, action), with class-conditional
       conformal coverage at least 0.90 on disjoint scenes.
-    evidence: results/T01_OUTCOME_V8_V9_DIAGNOSTIC.md
+    evidence: results/smoke/piu_v0_end_to_end_v3_seed1399.json
     current: >-
       The composite executor and six-frame hierarchical critic are implemented,
       but v7 is invalidated by a final-frame-only label bug. Debug seed 770 saw
@@ -87,6 +92,11 @@ gates:
       v3 later froze, but v8 failed development: FAILED 7/7, REVEALED 7/9,
       EMPTY 4/5. The architecture-derived v9 correction is 20/21 on diagnosed
       seeds; untouched 660-699 must pass before seeds 900-999 can be opened.
+      The v4 collector runs the controller in OffScreenRenderEnv and reads
+      evaluator truth only by replay after controller termination. Local v4
+      disposable smoke now passes REVEALED/EMPTY/FAILED, and the PIU smoke
+      predicts all three singleton outcomes. This is not clean validation;
+      seeds 660-699 remain untouched.
 
   - id: FP4
     name: Expected-risk optimizer
@@ -101,9 +111,11 @@ gates:
     current: >-
       Finite-horizon Bayes-risk planning is implemented without a confidence
       threshold and routes 296/300 T01 counterfactuals for the target-
-      observability endpoint. A product-belief temporal monitor and SAFE_STOP
-      branch now exist, but their proposition calibration, task losses, and
-      live sequence evidence are not frozen. Final-task ACT risk is not ready:
+      observability endpoint. The current minimal runner bypasses probabilistic
+      temporal q and uses hard-valid actions from deterministic phase,
+      searched-set, and attempt-count memory. A five-case disposable PIU smoke
+      now exercises live OPEN -> outcome -> belief update -> replan with
+      explicit EIG/task utility and the 0.924 reliability lower bound. Final-task ACT risk is not ready:
       open-drawer retrieval is 0/5 and visible cream-cheese ACT is unmeasured.
 
   - id: FP5
@@ -114,10 +126,12 @@ gates:
       Audit the complete controller and show zero reads of simulator joints,
       segmentation, hidden target poses, or task predicates for routing,
       stopping, belief updates, and NOT_FOUND.
-    evidence: results/capability/t01_conformal_reveal_100seed_v1.json
+    evidence: results/audits/piu_v0_privileged_input_audit.json
     current: >-
-      T01 routing is oracle-free and the closed-loop runner is implemented, but
-      it is intentionally blocked by the failed outcome/effect gate.
+      Source/runtime guards pass for the OffScreen controller and the actual
+      five-case PIU smoke. Every trace row reports zero online oracle inputs;
+      segmentation and joints are confined to post-terminal evaluator replay.
+      The smoke is non-paper because its learned heads are not clean-validated.
 
   - id: FP6
     name: Prompt-alignment counterfactuals
@@ -189,4 +203,8 @@ gates:
       One-command evaluation, pinned environment, frozen calibration hashes,
       complete failure demos, automated gate report, and clean GPU shutdown.
     evidence: README.md
-    current: Core artifacts and scripts exist; the complete final-product runner does not.
+    current: >-
+      A one-command PIU information-loop smoke, immutable model/data hashes,
+      training script, and oracle audit now exist. The object-level V1 frontend,
+      clean paper runner, physical DIRECT_ACT continuation, and final product
+      artifacts do not.

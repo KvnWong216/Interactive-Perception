@@ -15,7 +15,16 @@ PORT="${PORT:-8000}"
 }
 
 export XLA_PYTHON_CLIENT_MEM_FRACTION="${XLA_PYTHON_CLIENT_MEM_FRACTION:-0.85}"
-export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
+EXPERIMENT_GPU_INDEX="${EXPERIMENT_GPU_INDEX:-0}"
+export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-$EXPERIMENT_GPU_INDEX}"
+if [ "$CUDA_VISIBLE_DEVICES" != "$EXPERIMENT_GPU_INDEX" ]; then
+  echo "Refusing to start: CUDA_VISIBLE_DEVICES must match physical GPU${EXPERIMENT_GPU_INDEX}." >&2
+  exit 1
+fi
+if [ "${LAB_SERVER_MODE:-0}" = "1" ] && [ "$EXPERIMENT_GPU_INDEX" != "1" ]; then
+  echo "Refusing to start: lab-server mode is authorized only on physical GPU1." >&2
+  exit 1
+fi
 cd "$OPENPI_DIR"
 exec uv run "$REPO/scripts/serve_pi05_with_prefix.py" \
   --port "$PORT" --checkpoint "$CHECKPOINT_DIR"

@@ -3,6 +3,7 @@ calibration_only: true
 policy: pi05_libero
 action: OPEN_AND_OBSERVE
 context: t01_stock_middle_drawer_search
+seed_registry: benchmarks/rss_v1/seed_registry.yaml
 
 evidence_contract:
   history_points: [before, open_25, open_50, open_75, open_100, after_return]

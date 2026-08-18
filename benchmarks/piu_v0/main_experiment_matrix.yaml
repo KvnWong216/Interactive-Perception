@@ -1,0 +1,76 @@
+schema_version: interaction-uncertainty.piu-main-matrix.v0
+status: v0_smoke_and_prototype_training_completed_future_scene_disjoint_collection_not_started
+primary_endpoint: closed_loop_final_task_success
+secondary_endpoints:
+  - prompt_aligned_uncertainty
+  - target_observability
+  - information_monotonicity
+  - effect_prediction
+  - expected_information_gain_error
+  - action_selection_regret
+  - unnecessary_interaction_rate
+  - ambiguous_abstain_rate
+
+scenario_axes:
+  target_state:
+    - clearly_visible
+    - hidden_in_closed_container
+    - searched_container_empty
+    - action_failed
+    - target_absent_after_exhaustive_registered_search
+  prompt:
+    - canonical_final_goal
+    - same_rgb_different_visible_target
+    - heldout_paraphrase
+  container:
+    v0: [middle_drawer]
+    required_for_paper: [heldout_drawer_asset, hinged_container, refrigerator]
+  object_asset:
+    v0: [butter, cream_cheese]
+    required_for_paper: [heldout_packaged_object_families]
+
+method_arms:
+  - id: direct_vlm
+    components: [image_prompt_to_next_subtask]
+  - id: manual_fusion
+    components: [confidence_prompt_similarity_occlusion_formula]
+  - id: global_uncertainty
+    components: [prompt_agnostic_uncertainty, explicit_optimizer]
+  - id: no_effect
+    components: [prompt_conditioned_belief, direct_action_choice]
+  - id: no_optimizer
+    components: [prompt_conditioned_belief, action_effect, free_generation]
+  - id: piu_full
+    components: [object_scene_packet, prompt_conditioned_belief, temporal_memory, action_effect, explicit_optimizer, frozen_pi05]
+  - id: simulator_oracle_upper_bound
+    evaluator_only: true
+
+required_reports:
+  calibration:
+    - class_conditional_coverage
+    - singleton_one_sided_95_lower_bound
+    - mean_prediction_set_size
+    - brier
+    - nll
+  physical:
+    - primitive_success
+    - information_acquisition_success
+    - final_task_success
+    - each_with_n_and_one_sided_95_lower_bound
+  safety:
+    - false_empty
+    - false_revealed
+    - premature_not_found
+    - oracle_read_count
+
+gates:
+  before_clean_development:
+    - disposable_end_to_end_smoke_passes
+    - data_manifest_and_feature_hashes_freeze
+    - all_model_and_utility_weights_freeze
+  before_sealed_audit:
+    - clean_scene_disjoint_development_passes
+    - no_threshold_or_model_change_after_clean_freeze
+  interpretation:
+    partial_is_not_go: true
+    target_observability_is_not_final_task_success: true

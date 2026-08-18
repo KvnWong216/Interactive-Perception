@@ -14,7 +14,7 @@ def test_actual_final_product_registry_is_strict_not_go() -> None:
         (ROOT / "benchmarks/final_product_v1/gates.yaml").read_text()
     )
     summary = summarize_product_gates(spec)
-    assert summary["milestones"]["t01_reveal_prototype"] == "GO"
+    assert summary["milestones"]["t01_routed_open_prototype"] == "GO"
     assert summary["final_product_go"] is False
     assert {"FP2", "FP3", "FP4", "FP8"} <= set(summary["blocking_failures"])
 

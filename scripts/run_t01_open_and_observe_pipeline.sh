@@ -8,11 +8,13 @@ WORKSPACE="$(dirname "$REPO")"
 IPU_PYTHON="${IPU_PYTHON:-$WORKSPACE/.conda/envs/ipu/bin/python}"
 PORT="${PORT:-8000}"
 MODE="${1:-smoke}"
+EXPERIMENT_GPU_INDEX="${EXPERIMENT_GPU_INDEX:-0}"
+EXPERIMENT_ALLOW_LOCAL_RUSTDESK="${EXPERIMENT_ALLOW_LOCAL_RUSTDESK:-1}"
 SERVER_PID=""
 
 case "$MODE" in
-  smoke|development|audit) ;;
-  *) echo "usage: $0 [smoke|development|audit]" >&2; exit 2 ;;
+  smoke|extension|audit) ;;
+  *) echo "usage: $0 [smoke|extension|audit]" >&2; exit 2 ;;
 esac
 
 cleanup() {
@@ -25,10 +27,10 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 extra=()
-dataset="$REPO/data/calibration/t01_open_and_observe_effect_v3.jsonl"
+dataset="$REPO/data/calibration/t01_open_and_observe_effect_v4_extension.jsonl"
 if [ "$MODE" = "smoke" ]; then
   extra=(--smoke)
-  dataset="$REPO/data/calibration/t01_open_and_observe_effect_v3_smoke.jsonl"
+  dataset="$REPO/data/calibration/t01_open_and_observe_effect_v4_smoke.jsonl"
 elif [ "$MODE" = "audit" ]; then
   artifact="${OPEN_AND_OBSERVE_ARTIFACT:-}"
   [ -n "$artifact" ] || {
@@ -36,9 +38,14 @@ elif [ "$MODE" = "audit" ]; then
     exit 1
   }
   extra=(--audit --artifact "$artifact")
-  dataset="$REPO/data/calibration/t01_open_and_observe_effect_v3_audit.jsonl"
+  dataset="$REPO/data/calibration/t01_open_and_observe_effect_v4_audit.jsonl"
 else
-  extra=()
+  artifact="${OPEN_AND_OBSERVE_ARTIFACT:-$REPO/results/calibration/t01_open_and_observe_outcome_critic_v9_candidate_visual.json}"
+  [ -f "$artifact" ] || {
+    echo "missing frozen v9 candidate for clean extension: $artifact" >&2
+    exit 1
+  }
+  extra=(--extension --artifact "$artifact")
 fi
 
 manifest="${dataset%.jsonl}.manifest.json"
@@ -48,7 +55,11 @@ if [ -f "$manifest" ]; then
 fi
 
 mkdir -p "$REPO/outputs/logs"
-PORT="$PORT" bash "$REPO/scripts/serve_pi05.sh" \
+EXPERIMENT_GPU_INDEX="$EXPERIMENT_GPU_INDEX" \
+  EXPERIMENT_ALLOW_LOCAL_RUSTDESK="$EXPERIMENT_ALLOW_LOCAL_RUSTDESK" \
+  bash "$REPO/scripts/check_gpu_preflight.sh"
+EXPERIMENT_GPU_INDEX="$EXPERIMENT_GPU_INDEX" CUDA_VISIBLE_DEVICES="$EXPERIMENT_GPU_INDEX" \
+  PORT="$PORT" bash "$REPO/scripts/serve_pi05.sh" \
   >"$REPO/outputs/logs/t01_open_and_observe_server.log" 2>&1 &
 SERVER_PID=$!
 

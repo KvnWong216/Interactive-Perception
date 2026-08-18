@@ -6,6 +6,8 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 WORKSPACE="$(dirname "$REPO")"
 IPU_PYTHON="${IPU_PYTHON:-$WORKSPACE/.conda/envs/ipu/bin/python}"
 PORT="${PORT:-8000}"
+EXPERIMENT_GPU_INDEX="${EXPERIMENT_GPU_INDEX:-0}"
+EXPERIMENT_ALLOW_LOCAL_RUSTDESK="${EXPERIMENT_ALLOW_LOCAL_RUSTDESK:-1}"
 SERVER_PID=""
 
 cleanup() {
@@ -28,7 +30,11 @@ done
 OUTPUT="$REPO/results/capability/t01_outcome_closed_loop_100seed_v1.json"
 [ ! -e "$OUTPUT" ] || { echo "immutable result already exists: $OUTPUT" >&2; exit 1; }
 mkdir -p "$REPO/outputs/logs"
-PORT="$PORT" bash "$REPO/scripts/serve_pi05_with_prefix.sh" \
+EXPERIMENT_GPU_INDEX="$EXPERIMENT_GPU_INDEX" \
+  EXPERIMENT_ALLOW_LOCAL_RUSTDESK="$EXPERIMENT_ALLOW_LOCAL_RUSTDESK" \
+  bash "$REPO/scripts/check_gpu_preflight.sh"
+EXPERIMENT_GPU_INDEX="$EXPERIMENT_GPU_INDEX" CUDA_VISIBLE_DEVICES="$EXPERIMENT_GPU_INDEX" \
+  PORT="$PORT" bash "$REPO/scripts/serve_pi05_with_prefix.sh" \
   >"$REPO/outputs/logs/t01_outcome_closed_loop_server.log" 2>&1 &
 SERVER_PID=$!
 "$IPU_PYTHON" -c "import socket,time

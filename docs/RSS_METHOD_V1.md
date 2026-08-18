@@ -11,6 +11,16 @@ its cost.
 This is not a scalar-confidence router and not a new action decoder. The
 `pi05_libero` checkpoint stays frozen.
 
+### Current minimal T01 execution contract
+
+The first embodied closure does not use the probabilistic progress belief
+described below. It deliberately restricts the world state to `OBSERVED` and
+`MANIPULATION_ONLY`, and uses deterministic control memory
+`m_t=(phase,searched_set,attempt_counts)`. `A_valid(m_t)` is enforced before
+planning. The v5 runner records `probabilistic_temporal_progress_used: false`.
+The richer product-belief formulation remains future method scope until this
+minimal RGB outcome/belief-update loop passes.
+
 ## System
 
 ```text

@@ -6,6 +6,8 @@ WORKSPACE="$(dirname "$REPO")"
 IPU_PYTHON="${IPU_PYTHON:-$WORKSPACE/.conda/envs/ipu/bin/python}"
 PORT="${PORT:-8000}"
 MODE="${1:-heldout}"
+EXPERIMENT_GPU_INDEX="${EXPERIMENT_GPU_INDEX:-0}"
+EXPERIMENT_ALLOW_LOCAL_RUSTDESK="${EXPERIMENT_ALLOW_LOCAL_RUSTDESK:-1}"
 SERVER_PID=""
 
 case "$MODE" in
@@ -23,15 +25,19 @@ trap cleanup EXIT INT TERM
 
 for artifact in \
   results/calibration/prompt_state_belief_t01_v1.json \
-  results/calibration/t01_open_and_observe_effect_v3.json \
-  results/calibration/t01_open_and_observe_outcome_critic_v8.json \
-  results/calibration/t01_open_and_observe_outcome_audit_v8.json \
+  results/calibration/t01_open_and_observe_effect_v4.json \
+  results/calibration/t01_open_and_observe_outcome_critic_v9.json \
+  results/calibration/t01_open_and_observe_outcome_audit_v9.json \
   benchmarks/rss_v1/risk_contract_v2.json; do
   [ -f "$REPO/$artifact" ] || { echo "missing frozen artifact: $artifact" >&2; exit 1; }
 done
 
 mkdir -p "$REPO/outputs/logs"
-PORT="$PORT" bash "$REPO/scripts/serve_pi05_with_prefix.sh" \
+EXPERIMENT_GPU_INDEX="$EXPERIMENT_GPU_INDEX" \
+  EXPERIMENT_ALLOW_LOCAL_RUSTDESK="$EXPERIMENT_ALLOW_LOCAL_RUSTDESK" \
+  bash "$REPO/scripts/check_gpu_preflight.sh"
+EXPERIMENT_GPU_INDEX="$EXPERIMENT_GPU_INDEX" CUDA_VISIBLE_DEVICES="$EXPERIMENT_GPU_INDEX" \
+  PORT="$PORT" bash "$REPO/scripts/serve_pi05_with_prefix.sh" \
   >"$REPO/outputs/logs/t01_closed_loop_v5_server.log" 2>&1 &
 SERVER_PID=$!
 "$IPU_PYTHON" -c "import socket,time

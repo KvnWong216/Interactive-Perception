@@ -73,7 +73,7 @@ def execute_open_and_observe(
     for step in range(open_steps):
         if not plan:
             chunk = policy.sample_chunks(
-                build_observation(dict(observation), open_prompt), 1
+                build_observation(observation, open_prompt), 1
             )[0]
             plan.extend(chunk[:replan_steps])
             policy_calls += 1

@@ -14,6 +14,10 @@ paper_claim: >-
   selects information actions by minimizing calibrated expected task risk.
 
 milestones:
+  piu_v0_end_to_end_smoke:
+    status: GO
+    evidence: results/smoke/piu_v0_end_to_end_v3_seed1399.json
+    scope: Non-paper disposable five-case information-loop smoke; DIRECT_ACT is a semantic handoff.
   t01_prompt_state_decision:
     status: GO
     evidence: results/t01_expected_risk_router_v1.json
@@ -51,14 +55,17 @@ gates:
       Calibrated OBSERVED, VIEWPOINT_BLOCKED, MANIPULATION_ONLY, and ABSENT
       belief passes prompt, cause, and scene-disjoint counterfactuals.
     current: >-
-      T01 OBSERVED versus MANIPULATION_ONLY passes 97/100, 100/100, and 99/100;
-      two states and scene-disjoint tests remain missing.
+      PIU V0 replaces the online two-state label with a target-location fact
+      over visible workspace, middle drawer, other unsearched region, and
+      absent. Only visible workspace and middle drawer have training data. Its
+      old-seed diagnostic is 27/30; object-level maps, ABSENT, and scene-disjoint
+      tests remain missing.
 
   - id: RP3
     name: Calibrated action-effect branches
     blocking: true
     status: NOT_GO
-    evidence: results/T01_OUTCOME_V8_V9_DIAGNOSTIC.md
+    evidence: results/smoke/piu_v0_end_to_end_v3_seed1399.json
     pass_condition: >-
       Six-point RGB/proprioceptive critic recognizes FAILED, REVEALED, and EMPTY, while
       full-executor effect rates pass context-disjoint reliability gates.
@@ -72,7 +79,12 @@ gates:
       4/5. A five-pixel label mismatch motivated an architecture-derived
       256-pixel resolvability contract. Its old-seed v9 diagnostic is 20/21;
       untouched 660-699 must pass before the sealed 900-999 audit. The physical
-      lower bound is 0.80; conformal alpha remains 0.10.
+      lower bound is 0.80; conformal alpha remains 0.10. The v4 collector now
+      separates the OffScreen controller from post-termination evaluator
+      replay. Local seed-1399 disposable smoke passes REVEALED, EMPTY, and
+      FAILED, and the PIU six-frame head predicts all five end-to-end smoke
+      branches correctly. These are reused non-claim diagnostics; untouched
+      660-699 must still pass before the sealed 900-999 audit.
 
   - id: RP4
     name: Expected-risk optimization
@@ -84,20 +96,26 @@ gates:
       and effects, with no tuned confidence threshold and with preregistered sensitivity.
     current: >-
       Finite-horizon planner and cost sweep pass target-observability routing
-      at 296/300. Context-specific terminal ACT effects, multi-action history,
-      and NOT_FOUND are not yet physically tested.
+      at 296/300. The minimal T01 runner bypasses probabilistic temporal q and
+      applies hard action validity from deterministic control memory. Context-
+      specific terminal ACT effects, multi-action history, and NOT_FOUND are
+      not yet physically tested. PIU V0 additionally completes one disposable
+      live sequence OPEN -> singleton outcome -> belief update -> replan using
+      explicit EIG/task utility and the 0.924 OPEN reliability lower bound.
 
   - id: RP5
     name: Oracle-free history-dependent closed loop
     blocking: true
-    status: NOT_GO
-    evidence: null
+    status: PARTIAL
+    evidence: results/audits/piu_v0_privileged_input_audit.json
     pass_condition: >-
       The deployed loop uses only policy RGB, prompt, action, and public history
       for routing, outcome recognition, stopping, retry, and belief update.
     current: >-
-      The closed-loop runner exists but correctly refuses to run because the
-      action-outcome critic and physical visual-effect gate have not passed.
+      Source/runtime guards and the five-case embodied smoke show zero online
+      oracle inputs; evaluator scoring uses a separate environment or action
+      replay after terminal. The learned heads are development/diagnostic only,
+      so this is not clean validation.
 
   - id: RP6
     name: Decision benefit and ablations

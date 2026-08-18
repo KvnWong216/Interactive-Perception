@@ -31,9 +31,13 @@ class PrefixEncoder(nnx.Module):
     def __init__(self, model):
         self.model = model
         projection_rng = np.random.default_rng(260204600)
-        self.projection = jnp.asarray(
-            projection_rng.choice((-1.0, 1.0), size=(2048, 64)).astype(np.float32)
-            / np.sqrt(64.0)
+        self.projection = nnx.Variable(
+            jnp.asarray(
+                projection_rng.choice((-1.0, 1.0), size=(2048, 64)).astype(
+                    np.float32
+                )
+                / np.sqrt(64.0)
+            )
         )
 
     def _parts(self, observation):
@@ -97,7 +101,7 @@ class PrefixEncoder(nnx.Module):
                 view.shape[0], grid // 2, 2, grid // 2, 2, view.shape[-1]
             ).mean(axis=(2, 4))
             projected = jnp.einsum(
-                "bhwd,dr->bhwr", spatial, self.projection
+                "bhwd,dr->bhwr", spatial, self.projection.value
             )
             normalized_view = view / jnp.maximum(
                 jnp.linalg.norm(view, axis=-1, keepdims=True), 1e-6

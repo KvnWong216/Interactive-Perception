@@ -50,36 +50,36 @@ def main() -> None:
         "--artifact",
         type=Path,
         default=ROOT
-        / "results/calibration/t01_open_and_observe_outcome_critic_v8.json",
+        / "results/calibration/t01_open_and_observe_outcome_critic_v9.json",
     )
     parser.add_argument(
         "--effect-artifact",
         type=Path,
-        default=ROOT / "results/calibration/t01_open_and_observe_effect_v3.json",
+        default=ROOT / "results/calibration/t01_open_and_observe_effect_v4.json",
     )
     parser.add_argument(
         "--dataset",
         type=Path,
         default=ROOT
-        / "data/calibration/t01_open_and_observe_effect_v3_audit.jsonl",
+        / "data/calibration/t01_open_and_observe_effect_v4_audit.jsonl",
     )
     parser.add_argument(
         "--manifest",
         type=Path,
         default=ROOT
-        / "data/calibration/t01_open_and_observe_effect_v3_audit.manifest.json",
+        / "data/calibration/t01_open_and_observe_effect_v4_audit.manifest.json",
     )
     parser.add_argument(
         "--embeddings",
         type=Path,
         default=ROOT
-        / "outputs/t01_open_and_observe_effect_v3_audit/pi05_temporal_embeddings_v5.npz",
+        / "outputs/t01_open_and_observe_effect_v4_audit/pi05_temporal_embeddings_v5.npz",
     )
     parser.add_argument(
         "--output",
         type=Path,
         default=ROOT
-        / "results/calibration/t01_open_and_observe_outcome_audit_v8.json",
+        / "results/calibration/t01_open_and_observe_outcome_audit_v9.json",
     )
     parser.add_argument("--confidence", type=float, default=0.95)
     parser.add_argument("--minimum-action-reliability", type=float, default=0.8)
@@ -104,12 +104,12 @@ def main() -> None:
     ):
         raise ValueError("audit manifest must contain the sealed seeds 900-999")
     if manifest.get("audit_artifact_sha256") != artifact_sha:
-        raise ValueError("v8 critic changed after audit collection")
+        raise ValueError("v9 critic changed after audit collection")
     if manifest.get("dataset_sha256") != digest(args.dataset):
         raise ValueError("audit dataset hash differs from its manifest")
     artifact = json.loads(args.artifact.read_text())
     if not artifact.get("development", {}).get("passed", False):
-        raise ValueError("v8 must pass development before audit")
+        raise ValueError("v9 must pass clean development before audit")
     predictor = HierarchicalActionOutcomePredictor.from_artifact(artifact)
     rows = [json.loads(line) for line in args.dataset.read_text().splitlines() if line]
     data = np.load(args.embeddings)
@@ -213,7 +213,7 @@ def main() -> None:
     }
 
     report = {
-        "schema_version": "interactive-perception.open-and-observe-audit.v8",
+        "schema_version": "interactive-perception.open-and-observe-audit.v9",
         "artifact": str(args.artifact.relative_to(ROOT)),
         "artifact_sha256": artifact_sha,
         "effect_artifact": str(args.effect_artifact.relative_to(ROOT)),

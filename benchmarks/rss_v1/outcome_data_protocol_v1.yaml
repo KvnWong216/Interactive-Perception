@@ -1,0 +1,101 @@
+schema_version: interactive-perception.t01-outcome-data-protocol.v1
+seed_registry: benchmarks/rss_v1/seed_registry.yaml
+scope: T01 stock-aligned middle-drawer OPEN_AND_OBSERVE
+paper_eligible: false
+
+controller:
+  final_prompt: Place the butter in the basket
+  action_role: INFORMATION
+  option: OPEN_AND_OBSERVE
+  executor_prompt: Open the middle layer of the drawer
+  policy: frozen pi05_libero
+  policy_inputs:
+    - stock agentview RGB
+    - stock wrist RGB
+    - public robot state
+    - prompt
+    - public action history
+  return_controller_inputs:
+    - robot0_eef_pos
+    - robot0_eef_quat
+    - robot0_gripper_qpos
+  forbidden_online:
+    - simulator drawer joint
+    - segmentation
+    - hidden target pose
+    - target true location
+    - task success predicate
+    - evaluator global camera
+    - privileged semantic ID
+
+history:
+  points: [before, open_25, open_50, open_75, open_100, after_return]
+  fields_per_point:
+    - agentview RGB path and sha256
+    - wrist RGB path and sha256
+    - public robot state
+    - action role
+  record_per_trial:
+    - seed and seed-block id
+    - repository commit
+    - final prompt and executor prompt
+    - public action history
+    - pi0.5 process and RNG contract
+    - dataset and image hashes
+
+evaluator:
+  timing: only after the online controller terminates
+  mechanism: deterministic replay of the recorded public action trace
+  label_only_inputs: [drawer joint, instance segmentation, frozen scene construction]
+  minimum_resolvable_target_pixels: 256
+  threshold_derivation: (256 policy pixels / 16 visual tokens per side)^2
+  empty_coverage_certificate: >-
+    Same-camera-pose counterfactual target visibility at one or more aligned
+    public history points, using the same 256-pixel resolvability definition.
+
+labels:
+  REVEALED:
+    - full option executed
+    - target reaches at least 256 pixels in either stock policy camera at any history point
+  EMPTY:
+    - full option executed
+    - searched middle layer is open
+    - return-to-observe completed
+    - target never reaches 256 pixels at any history point
+    - same-camera-pose coverage certificate reaches at least 256 pixels
+    - conclusion is local to the middle layer and never implies global NOT_FOUND
+  FAILED:
+    - option is truncated, times out, or does not open the searched layer
+    - return-to-observe fails
+    - no certifiable search view is formed
+    - evidence cannot distinguish REVEALED from EMPTY
+
+critic:
+  hierarchy:
+    - FAILED vs COMPLETED
+    - REVEALED vs EMPTY conditional on COMPLETED
+  inputs: [full target query, two stock RGB streams, six-point history, public robot state, action role, action history]
+  conformal: class-conditional split conformal with alpha 0.10
+  ambiguity_rule: any multi-label head output maps to SAFE_STOP
+  forbidden_rule: never choose the convenient member of a conformal set
+
+clean_development_gates:
+  per_class_coverage: 0.90
+  per_class_singleton_one_sided_95_lower: 0.80
+  physical_branch_one_sided_95_lower: 0.80
+  report_original_physical_lower_also: 0.90
+  required_reports:
+    - mean prediction-set size
+    - ambiguous SAFE_STOP rate
+    - false EMPTY
+    - false REVEALED
+    - per-history-point target visibility
+    - final-frame-only baseline
+    - six-frame history
+    - visual-only and no-history ablations
+
+hard_stops:
+  - Disposable smoke must pass before clean development collection.
+  - Clean development must pass before sealed audit collection.
+  - A failed or partial gate is NOT-GO.
+  - No sealed-audit example may be used to alter model, thresholds, or protocol.

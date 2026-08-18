@@ -1,0 +1,75 @@
+schema_version: interaction-uncertainty.piu-data-protocol.v0
+status: preregistered_for_collection_not_yet_executed
+
+unit_of_split:
+  required:
+    - scenario_layout
+    - object_asset_family
+    - container_family
+    - occlusion_pattern
+    - prompt_paraphrase_group
+    - initial_seed
+  forbidden: random_frame_split
+
+counterfactual_unit:
+  same_initial_state:
+    candidate_actions:
+      - DIRECT_ACT
+      - OPEN_TO_INSPECT
+      - ABSTAIN
+    future_v1_actions:
+      - REMOVE_OCCLUDER
+      - LIFT_TO_INSPECT
+      - ROTATE_TO_INSPECT
+  prompt_counterfactuals:
+    - final_goal_target_hidden
+    - same_rgb_visible_alternative_target
+    - final_goal_target_already_visible
+    - paraphrased_final_goal
+
+record_per_branch:
+  public_policy_inputs:
+    - full_prompt
+    - agentview_rgb
+    - wrist_rgb
+    - public_robot_state
+    - public_action_history
+    - six_history_points
+  offline_labels:
+    - task_fact_ground_truth
+    - effect_outcome_v9
+    - future_task_facts
+    - target_visibility_by_history_point
+    - local_search_coverage
+    - task_progress
+    - collision_drop_or_irreversible_risk
+  provenance:
+    - repository_commit
+    - seed_registry_block
+    - pi05_checkpoint_hash
+    - model_rng_contract
+    - source_and_row_hashes
+
+oracle_firewall:
+  policy_side_forbidden:
+    - segmentation
+    - simulator_depth_unless_explicit_rgbd_arm
+    - hidden_object_pose
+    - drawer_joint
+    - task_success_predicate
+    - simulator_semantic_id
+    - global_camera
+  evaluator_timing: after_controller_terminal_only
+  label_files: physically_separate_from_policy_input_index
+
+label_contract:
+  revealed: target_has_at_least_256_pixels_in_any_public_history_frame
+  empty: searched_region_is_visually_covered_under_same_camera_protocol_and_target_not_revealed
+  failed: action_or_search_view_or_return_is_not_certified
+  empty_never_implies_global_not_found: true
+
+future_seed_blocks:
+  prototype_train: 1500-1599
+  conformal_calibration: 1600-1699
+  clean_scene_disjoint_development: 1700-1799
+  sealed_scene_disjoint_audit: 1800-1899

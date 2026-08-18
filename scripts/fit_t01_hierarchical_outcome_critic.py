@@ -100,7 +100,12 @@ def main() -> None:
     )
     parser.add_argument(
         "--block",
-        choices=("temporal_history", "visual_only_history", "global_visual_history"),
+        choices=(
+            "temporal_history",
+            "visual_only_history",
+            "global_visual_history",
+            "no_history",
+        ),
         default="temporal_history",
     )
     parser.add_argument("--alpha", type=float, default=0.1)

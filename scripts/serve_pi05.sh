@@ -34,7 +34,16 @@ fi
 # JAX preallocates most of the device by default; leaving headroom lets the
 # LIBERO renderer share the GPU when both run on one machine.
 export XLA_PYTHON_CLIENT_MEM_FRACTION="${XLA_PYTHON_CLIENT_MEM_FRACTION:-0.85}"
-export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
+EXPERIMENT_GPU_INDEX="${EXPERIMENT_GPU_INDEX:-0}"
+export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-$EXPERIMENT_GPU_INDEX}"
+if [ "$CUDA_VISIBLE_DEVICES" != "$EXPERIMENT_GPU_INDEX" ]; then
+  echo "Refusing to start: CUDA_VISIBLE_DEVICES must match physical GPU${EXPERIMENT_GPU_INDEX}." >&2
+  exit 1
+fi
+if [ "${LAB_SERVER_MODE:-0}" = "1" ] && [ "$EXPERIMENT_GPU_INDEX" != "1" ]; then
+  echo "Refusing to start: lab-server mode is authorized only on physical GPU1." >&2
+  exit 1
+fi
 
 echo "openpi:     $OPENPI_DIR"
 echo "checkpoint: $CHECKPOINT_DIR"

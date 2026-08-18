@@ -19,8 +19,10 @@ import argparse
 import dataclasses
 import json
 import math
+import subprocess
 import sys
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 
@@ -49,6 +51,34 @@ from interactive_perception.policy_client import (  # noqa: E402
     OpenPiWebsocketPolicy,
     build_observation,
 )
+from interactive_perception.seed_registry import (  # noqa: E402
+    load_seed_registry,
+    seeds_for_blocks,
+)
+
+SEED_REGISTRY = ROOT / "benchmarks/rss_v1/seed_registry.yaml"
+
+
+@dataclasses.dataclass
+class RecordingEnvironment:
+    """Record public actions so evaluator truth can be replayed after control."""
+
+    env: Any
+    actions: list[list[float]] = dataclasses.field(default_factory=list)
+
+    def step(self, action):
+        values = np.asarray(action, dtype=np.float64)
+        if values.shape != (7,) or not np.all(np.isfinite(values)):
+            raise ValueError("recorded LIBERO action must contain seven finite values")
+        observation, reward, done, info = self.env.step(values.tolist())
+        self.actions.append(values.tolist())
+        return observation, reward, done, info
+
+
+def repository_commit() -> str:
+    return subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+    ).strip()
 
 
 def save_public_history_point(
@@ -92,7 +122,13 @@ def target_qpos(env) -> list[float]:
 
 
 def counterfactual_target_visibility(env, qpos) -> dict[str, int]:
-    """Render a target at a declared pose, then restore exact simulator state."""
+    """Render a target at a declared pose, then restore simulator state.
+
+    MuJoCo may renormalize quaternion coordinates during ``forward()``.  The
+    restored flattened state is therefore required to agree to a tight,
+    preregistered numerical tolerance instead of bit-for-bit equality.  A
+    larger deviation remains a hard evaluator failure and reports its size.
+    """
 
     original_state = np.asarray(env.get_sim_state(), dtype=float).copy()
     obj = env.env.objects_dict["butter_1"]
@@ -106,8 +142,88 @@ def counterfactual_target_visibility(env, qpos) -> dict[str, int]:
     finally:
         env.regenerate_obs_from_state(original_state)
         restored_state = np.asarray(env.get_sim_state(), dtype=float)
-        if not np.array_equal(restored_state, original_state):
-            raise RuntimeError("counterfactual evaluator did not restore simulator state")
+        if not np.allclose(
+            restored_state,
+            original_state,
+            rtol=0.0,
+            atol=1e-10,
+            equal_nan=False,
+        ):
+            maximum_delta = float(np.max(np.abs(restored_state - original_state)))
+            raise RuntimeError(
+                "counterfactual evaluator did not restore simulator state: "
+                f"maximum absolute delta={maximum_delta:.17g}"
+            )
+
+
+def replay_evaluator_trace(
+    *,
+    bddl: Path,
+    seed: int,
+    wait_steps: int,
+    actions: list[list[float]],
+    open_history_steps: dict[int, int],
+    counterpart_target_qpos: dict[str, list[float]],
+) -> dict:
+    """Read joints/segmentation only after the online controller has stopped."""
+
+    from libero.libero.envs import SegmentationRenderEnv
+
+    env = SegmentationRenderEnv(
+        bddl_file_name=str(bddl), camera_heights=256, camera_widths=256
+    )
+    visibility_history = []
+    target_qpos_history = []
+    counterfactual_visibility_history = []
+    try:
+        env.seed(seed)
+        observation = env.reset()
+        for _ in range(wait_steps):
+            observation, _, _, _ = env.step(DUMMY_ACTION)
+
+        def capture(name: str) -> None:
+            visibility_history.append(
+                {"name": name, "target_pixels": policy_visibility(env, observation)}
+            )
+            target_qpos_history.append({"name": name, "qpos": target_qpos(env)})
+            if counterpart_target_qpos:
+                counterfactual_visibility_history.append(
+                    {
+                        "name": name,
+                        "target_pixels": counterfactual_target_visibility(
+                            env, counterpart_target_qpos[name]
+                        ),
+                    }
+                )
+
+        capture("before")
+        minimum_joint = float(env.env.sim.data.get_joint_qpos(MIDDLE_JOINT))
+        for action_index, action in enumerate(actions):
+            observation, _, done, _ = env.step(action)
+            minimum_joint = min(
+                minimum_joint,
+                float(env.env.sim.data.get_joint_qpos(MIDDLE_JOINT)),
+            )
+            if action_index in open_history_steps:
+                capture(f"history_{open_history_steps[action_index]:02d}")
+            if done and action_index != len(actions) - 1:
+                raise RuntimeError("evaluator replay terminated before the recorded trace")
+        capture("after")
+        if len(visibility_history) != 6 or len(target_qpos_history) != 6:
+            raise RuntimeError("evaluator replay did not recover six aligned points")
+        if counterpart_target_qpos and len(counterfactual_visibility_history) != 6:
+            raise RuntimeError("counterfactual replay did not recover six aligned points")
+        return {
+            "middle_joint_minimum": minimum_joint,
+            "middle_joint_final": float(
+                env.env.sim.data.get_joint_qpos(MIDDLE_JOINT)
+            ),
+            "visibility_history": visibility_history,
+            "target_qpos_history": target_qpos_history,
+            "counterfactual_visibility_history": counterfactual_visibility_history,
+        }
+    finally:
+        env.close()
 
 
 def main() -> None:
@@ -131,15 +247,21 @@ def main() -> None:
         raise ValueError("audit, smoke, and extension modes are mutually exclusive")
     if not args.smoke and not args.fresh_policy_server:
         raise ValueError("non-smoke collection requires --fresh-policy-server")
-    expected = (
-        [1399]
+    seed_registry = load_seed_registry(SEED_REGISTRY)
+    block_ids = (
+        ["t01_open_observe_smoke"]
         if args.smoke
-        else list(range(900, 1000))
+        else ["t01_open_observe_sealed_audit"]
         if args.audit
-        else list(range(660, 700))
+        else ["t01_open_observe_clean_extension"]
         if args.extension
-        else list(range(600, 660))
+        else [
+            "t01_open_observe_prototype_train",
+            "t01_open_observe_conformal_calibration",
+            "t01_open_observe_v8_v9_diagnostic",
+        ]
     )
+    expected = seeds_for_blocks(seed_registry, block_ids)
     if args.seeds is None:
         args.seeds = expected
     if args.seeds != expected:
@@ -173,10 +295,14 @@ def main() -> None:
         value = getattr(args, name)
         if value is not None and not value.is_absolute():
             setattr(args, name, ROOT / value)
-    if args.audit and (args.artifact is None or not args.artifact.exists()):
-        raise FileNotFoundError("audit requires a frozen development artifact")
+    if (args.audit or args.extension) and (
+        args.artifact is None or not args.artifact.exists()
+    ):
+        raise FileNotFoundError(
+            "formal extension/audit collection requires its frozen critic artifact"
+        )
 
-    frozen_artifact_sha = digest(args.artifact) if args.audit else None
+    frozen_artifact_sha = digest(args.artifact) if args.artifact else None
     manifest_path = args.output.with_suffix(".manifest.json")
     if manifest_path.exists():
         raise FileExistsError(f"completed manifest is immutable: {manifest_path}")
@@ -227,13 +353,13 @@ def main() -> None:
         raise ValueError("partial dataset is not an exact prefix of frozen call order")
     completed = set(row_keys)
 
-    from libero.libero.envs import SegmentationRenderEnv
+    from libero.libero.envs import OffScreenRenderEnv
 
     policy = OpenPiWebsocketPolicy(host=args.host, port=args.port)
     return_config = ObservationReturnConfig()
     args.image_dir.mkdir(parents=True, exist_ok=True)
     for regime in regimes:
-        env = SegmentationRenderEnv(
+        env = OffScreenRenderEnv(
             bddl_file_name=str(regime["bddl"]),
             camera_heights=256,
             camera_widths=256,
@@ -253,11 +379,6 @@ def main() -> None:
                     print(f"[resume] {key} replayed_calls={replay_calls}", flush=True)
                     continue
 
-                before_visibility = policy_visibility(env, obs)
-                if any(before_visibility.values()):
-                    raise RuntimeError(
-                        f"seed {seed} violates hidden-target precondition: {before_visibility}"
-                    )
                 counterpart = None
                 counterpart_target_qpos = {}
                 if regime["intended"] == "EMPTY":
@@ -298,35 +419,12 @@ def main() -> None:
                         "action_role": "INFORMATION",
                     }
                 ]
-                visibility_history = [
-                    {"name": "before", "target_pixels": before_visibility}
-                ]
-                target_qpos_history = [
-                    {"name": "before", "qpos": target_qpos(env)}
-                ]
-                counterfactual_visibility_history = []
-                if counterpart is not None:
-                    counterfactual_visibility_history.append(
-                        {
-                            "name": "before",
-                            "target_pixels": counterfactual_target_visibility(
-                                env, counterpart_target_qpos["before"]
-                            ),
-                        }
-                    )
-                minimum_joint = float(env.env.sim.data.get_joint_qpos(MIDDLE_JOINT))
-
                 open_history_steps = {
                     max(0, round(regime["open_steps"] * fraction) - 1): index
                     for index, fraction in enumerate((0.25, 0.50, 0.75, 1.00), start=1)
                 }
 
                 def observe_step(phase, step, current_obs):
-                    nonlocal minimum_joint
-                    minimum_joint = min(
-                        minimum_joint,
-                        float(env.env.sim.data.get_joint_qpos(MIDDLE_JOINT)),
-                    )
                     if phase == "OPEN" and step in open_history_steps:
                         index = open_history_steps[step]
                         public_history.append(
@@ -338,28 +436,10 @@ def main() -> None:
                                 step=step,
                             )
                         )
-                        visibility_history.append(
-                            {
-                                "name": f"history_{index:02d}",
-                                "target_pixels": policy_visibility(env, current_obs),
-                            }
-                        )
-                        name = f"history_{index:02d}"
-                        target_qpos_history.append(
-                            {"name": name, "qpos": target_qpos(env)}
-                        )
-                        if counterpart is not None:
-                            counterfactual_visibility_history.append(
-                                {
-                                    "name": name,
-                                    "target_pixels": counterfactual_target_visibility(
-                                        env, counterpart_target_qpos[name]
-                                    ),
-                                }
-                            )
 
+                recording_env = RecordingEnvironment(env)
                 obs, execution = execute_open_and_observe(
-                    env=env,
+                    env=recording_env,
                     initial_observation=obs,
                     policy=policy,
                     open_prompt=OPEN_PROMPT,
@@ -368,7 +448,6 @@ def main() -> None:
                     return_config=return_config,
                     step_observer=observe_step,
                 )
-                after_visibility = policy_visibility(env, obs)
                 after_paths, after_hashes = save_packet_images(
                     build_observation(obs, FINAL_PROMPT), directory, "after"
                 )
@@ -386,39 +465,38 @@ def main() -> None:
                         "action_role": "INFORMATION",
                     }
                 )
-                visibility_history.append(
-                    {"name": "after", "target_pixels": after_visibility}
+                if len(public_history) != 6:
+                    raise RuntimeError("expected six policy-visible history points")
+
+                # The controller is now terminal. Privileged evaluator truth is
+                # recovered in a separate replay environment from public actions.
+                evaluator = replay_evaluator_trace(
+                    bddl=regime["bddl"],
+                    seed=seed,
+                    wait_steps=args.wait_steps,
+                    actions=recording_env.actions,
+                    open_history_steps=open_history_steps,
+                    counterpart_target_qpos=counterpart_target_qpos,
                 )
-                target_qpos_history.append(
-                    {"name": "after", "qpos": target_qpos(env)}
-                )
-                if counterpart is not None:
-                    counterfactual_visibility_history.append(
-                        {
-                            "name": "after",
-                            "target_pixels": counterfactual_target_visibility(
-                                env, counterpart_target_qpos["after"]
-                            ),
-                        }
-                    )
-                if (
-                    len(public_history) != 6
-                    or len(visibility_history) != 6
-                    or len(target_qpos_history) != 6
-                    or (
-                        counterpart is not None
-                        and len(counterfactual_visibility_history) != 6
-                    )
-                ):
+                visibility_history = evaluator["visibility_history"]
+                target_qpos_history = evaluator["target_qpos_history"]
+                counterfactual_visibility_history = evaluator[
+                    "counterfactual_visibility_history"
+                ]
+                before_visibility = visibility_history[0]["target_pixels"]
+                after_visibility = visibility_history[-1]["target_pixels"]
+                if any(before_visibility.values()):
                     raise RuntimeError(
-                        "expected six aligned public/evaluator history points"
+                        f"seed {seed} violates hidden-target precondition: {before_visibility}"
                     )
-                final_joint = float(env.env.sim.data.get_joint_qpos(MIDDLE_JOINT))
+                minimum_joint = float(evaluator["middle_joint_minimum"])
+                final_joint = float(evaluator["middle_joint_final"])
                 opened = final_joint < OPEN_LIMIT
                 empty_counterfactual_reveal_certified = None
                 if regime["intended"] == "EMPTY":
                     empty_counterfactual_reveal_certified = any(
-                        max(point["target_pixels"].values()) >= MIN_TARGET_PIXELS
+                        max(point["target_pixels"].values())
+                        >= PI05_PATCH_EQUIVALENT_TARGET_PIXELS
                         for point in counterfactual_visibility_history
                     )
                 outcome = label_temporal_information_outcome(
@@ -458,6 +536,21 @@ def main() -> None:
                         "frozen pi05_libero OPEN_CONTAINER",
                         "proprioceptive OSC RETURN_TO_OBSERVE",
                     ],
+                    "controller_environment": "libero.envs.OffScreenRenderEnv",
+                    "evaluator_environment": (
+                        "libero.envs.SegmentationRenderEnv replayed after "
+                        "controller termination"
+                    ),
+                    "repository_commit": repository_commit(),
+                    "frozen_critic_artifact": (
+                        str(args.artifact.relative_to(ROOT)) if args.artifact else None
+                    ),
+                    "frozen_critic_sha256": frozen_artifact_sha,
+                    "policy_rng_contract": {
+                        "fresh_server_required_for_formal_splits": not args.smoke,
+                        "call_order": "regime-major then ascending seed",
+                        "prefix_calls_advance_action_rng": False,
+                    },
                     "open_steps": regime["open_steps"],
                     "return_steps": execution.return_steps,
                     "full_executor": regime["full_executor"],
@@ -481,6 +574,22 @@ def main() -> None:
                         "robot0_gripper_qpos",
                     ],
                     "online_oracle_inputs": [],
+                    "public_action_history": [
+                        {
+                            "phase": (
+                                "OPEN"
+                                if index < execution.open_steps
+                                else "RETURN_TO_OBSERVE"
+                            ),
+                            "step": (
+                                index
+                                if index < execution.open_steps
+                                else index - execution.open_steps
+                            ),
+                            "action": action,
+                        }
+                        for index, action in enumerate(recording_env.actions)
+                    ],
                     "return_config": dataclasses.asdict(return_config),
                     "return_status": {
                         **dataclasses.asdict(execution.return_status),
@@ -557,6 +666,10 @@ def main() -> None:
         "audit_artifact": str(args.artifact.relative_to(ROOT)) if args.artifact else None,
         "audit_artifact_sha256": frozen_artifact_sha,
         "online_oracle_inputs": [],
+        "controller_environment": "libero.envs.OffScreenRenderEnv",
+        "evaluator_timing": "separate deterministic action replay after controller termination",
+        "seed_registry": str(SEED_REGISTRY.relative_to(ROOT)),
+        "seed_blocks": block_ids,
     }
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
     print(json.dumps(manifest, indent=2))

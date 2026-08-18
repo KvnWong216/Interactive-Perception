@@ -16,9 +16,12 @@ calibration-only. Before any paper comparison, collaborators must freeze:
 - primary and secondary metrics;
 - which failures count as unsafe, incomplete, or `NOT_FOUND`.
 
-The test set must not reuse seeds 220--379, 400--459, 500--599, 600--659, or
-700--799. The last two ranges are reserved for `OPEN_AND_OBSERVE` development
-and its one-time audit respectively.
+The test set must not reuse any block in the authoritative
+`benchmarks/rss_v1/seed_registry.yaml`. In particular, 500--599 is a legacy
+quarantine, 600--659 has been consumed by development/diagnosis, and 700--799
+is permanently debug-only. Seeds 660--699 are the frozen clean development
+extension, 800--899 are later non-paper closed-loop validation, and 900--999
+are the one-time sealed audit.
 
 ## 2. Choose final-task losses
 

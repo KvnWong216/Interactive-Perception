@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import dataclasses
 import math
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from typing import Any, Protocol
 
 import numpy as np
@@ -79,7 +79,7 @@ class ObservationPacket:
 
 
 def build_observation(
-    obs: dict[str, Any],
+    obs: Mapping[str, Any],
     prompt: str,
     *,
     resize_size: int = DEFAULT_RESIZE,
