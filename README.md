@@ -62,6 +62,7 @@ decides whether to open the drawer.
 | PIU V1 object-sidecar calibration | location/action argmax 77/80; conformal truth retained 80/80; development only |
 | PIU V1 scene-disjoint clean | **NOT-GO**: visible/hidden truth retained 24/40 and 40/40; 6 false singleton routes |
 | PIU V2 development refit | calibration 80/80; new clean block 1740–1759 frozen but unopened |
+| Object-level PIU mechanism loop | disposable seed 1399: singleton OPEN then singleton REVEALED; information 1/1; final task 0/1 |
 | Original-prompt physical continuation | information 1/1; final task 0/1; non-paper diagnostic |
 | Final retrieval after reveal | 0/5 |
 
@@ -139,6 +140,16 @@ adding an online signal, action type, or oracle input. Its original calibration
 is 80/80, but that is not a clean result. The replacement V2 clean protocol is
 frozen on seeds 1740–1759 and remains unopened at this commit; the PIU sealed
 audit remains closed.
+
+A disposable same-environment mechanism run now connects the public object
+frontend and frozen V2 sidecar to the real `OPEN_AND_OBSERVE` option. Given the
+original prompt, it produced singleton `closed_container` and
+`OPEN_TO_INSPECT`, selected the registered middle-drawer option by explicit
+utility, obtained singleton `REVEALED` from the six-frame v12b RGB critic, and
+replanned to direct action. Information acquisition succeeded (1/1), while the
+subsequent original-prompt manipulation failed (0/1). This establishes wiring
+for one registered option, not held-out performance, final-task success, or
+validated exact drawer-layer localization.
 
 The action reliability lower bound is 0.80; the original 0.90 result is always
 reported. Conformal error is 0.05. These are evidence gates, not online
@@ -231,6 +242,15 @@ The original-prompt physical continuation is recorded in
 [`piu_v0_v12b_physical_act_v1_seed1399.json`](results/smoke/piu_v0_v12b_physical_act_v1_seed1399.json)
 with its [combined demo](results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/piu_v0_full_pipeline_seed1399.mp4)
 and [separate privileged-input audit](results/audits/piu_v0_v12b_physical_act_v1_privileged_input_audit.json).
+
+The object-level disposable mechanism trace is
+[`piu_object_t01_seed1399_v1.json`](results/mechanism/piu_object_t01_seed1399_v1.json).
+Its [asset manifest](results/assets/piu_object_t01_seed1399_v1/visualizations_v1/assets_manifest.json)
+indexes the wrist/evaluator replay, public-history storyboard, belief update,
+action utility, effect forecast, and uncertainty visualizations. The matching
+[privileged-input audit](results/audits/piu_object_t01_seed1399_v1_privileged_input_audit.json)
+passes with zero controller oracle inputs. The global replay is evaluator-only
+and all visualizations were rendered after controller termination.
 
 This PC has one physical GPU at index 0. The generic preflight rejects unknown
 compute processes and permits the current-user RustDesk process only when

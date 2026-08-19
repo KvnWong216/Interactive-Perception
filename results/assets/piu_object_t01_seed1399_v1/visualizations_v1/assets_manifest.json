@@ -1,0 +1,69 @@
+{
+  "schema_version": "interaction-uncertainty.piu-visual-assets.v0",
+  "source_report": "results/mechanism/piu_object_t01_seed1399_v1.json",
+  "source_report_sha256": "38e7c2ee41dbfa119874d02159e9bdcebbd9bfb98baaa29623995737fd9568f5",
+  "claim_status": "disposable mechanism run; paper evaluation still requires frozen held-out initial-decision data",
+  "demo_contract": {
+    "left": "wrist RGB from deterministic evaluator replay of the public action history",
+    "right": "evaluator-only global RGB generated after controller termination",
+    "controller_global_view_reads": 0,
+    "policy_or_outcome_model_uses_rendered_assets": false
+  },
+  "map_contract": "structured task-fact/node maps; V0 does not claim pixel grounding",
+  "assets": [
+    {
+      "case": "hidden_butter",
+      "kind": "belief_update",
+      "path": "results/assets/piu_object_t01_seed1399_v1/visualizations_v1/hidden_butter/belief_update.png",
+      "sha256": "d22d9f38517db34f265fbb9685185a9129af2c6a2a4701804160f94319439240"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "uncertainty_before",
+      "path": "results/assets/piu_object_t01_seed1399_v1/visualizations_v1/hidden_butter/uncertainty_map_before.png",
+      "sha256": "066191b95a5578b7058945ef07884e12689b5415a9cc4498e01e42c28a442c96"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "action_utility",
+      "path": "results/assets/piu_object_t01_seed1399_v1/visualizations_v1/hidden_butter/action_utility.png",
+      "sha256": "29bc888f72ab0d7e9ce4d104a3387524edcf378ad4f9f80156e271d2a2e9fb21"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "effect_forecast",
+      "path": "results/assets/piu_object_t01_seed1399_v1/visualizations_v1/hidden_butter/effect_forecast.png",
+      "sha256": "a05678e02065fae9c559eb9e688b9811f1c5e9db004ce6ad77423737c3066405"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "evaluator_visibility",
+      "path": "results/assets/piu_object_t01_seed1399_v1/visualizations_v1/hidden_butter/evaluator_visibility.png",
+      "sha256": "a081ccb8a9af58c75e0799ac59d25e5290005031b8755559a5fb5dbc61d30cf8"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "public_storyboard",
+      "path": "results/assets/piu_object_t01_seed1399_v1/visualizations_v1/hidden_butter/public_history_storyboard.png",
+      "sha256": "8636f2343f9e331d02f938f5e75b88e6c24cd62720675b5e405e8c7c361cf8c1"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "uncertainty_after",
+      "path": "results/assets/piu_object_t01_seed1399_v1/visualizations_v1/hidden_butter/uncertainty_map_after.png",
+      "sha256": "ed01ae97557bcff49d89152ddc07d497da762dd6878cd048f013a6e62ae0f258"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "demo",
+      "path": "results/assets/piu_object_t01_seed1399_v1/visualizations_v1/hidden_butter/hidden_butter_wrist_global_replay.mp4",
+      "sha256": "7bb22e97c4e2457a51a42706b31914eb2845a5ef5abed4899cc69f975e885dd6"
+    },
+    {
+      "case": "all",
+      "kind": "combined_demo",
+      "path": "results/assets/piu_object_t01_seed1399_v1/visualizations_v1/piu_v0_full_pipeline_seed1399.mp4",
+      "sha256": "7bb22e97c4e2457a51a42706b31914eb2845a5ef5abed4899cc69f975e885dd6"
+    }
+  ]
+}
