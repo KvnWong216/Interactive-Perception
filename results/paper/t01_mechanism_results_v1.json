@@ -1,0 +1,358 @@
+{
+  "schema_version": "interactive-perception.t01-mechanism-paper-table.v1",
+  "primary_endpoint": "prompt-relevant target observability",
+  "final_task_endpoint_reported_separately": true,
+  "sealed_audit_run": true,
+  "sealed_audit_decision": "GO",
+  "online_oracle_inputs_for_piu_loop": [],
+  "rows": [
+    {
+      "test": "Stock pi05 reproduction",
+      "inputs": "stock RGB/state",
+      "prompt": "ten stock LIBERO object prompts",
+      "action": "ACT",
+      "endpoint": "final task success",
+      "online": true,
+      "oracle_online": false,
+      "successes": 100,
+      "trials": 100,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.9704869503929601,
+      "split": "reproduction",
+      "sealed": false,
+      "evidence": {
+        "path": "results/repro_libero_object.json",
+        "sha256": "8ef7a7bf6dc3b0b6f3848a14ee46c3b801c03f1bacfc6722650c0ed52e422915"
+      },
+      "limitation": "Wiring check; does not transfer to open-drawer retrieval."
+    },
+    {
+      "test": "T01 drawer motor primitive",
+      "inputs": "stock RGB/state",
+      "prompt": "Open the middle layer of the drawer",
+      "action": "OPEN_CONTAINER",
+      "endpoint": "drawer joint opened",
+      "online": true,
+      "oracle_online": false,
+      "successes": 97,
+      "trials": 100,
+      "rate": 0.97,
+      "one_sided_95_lower": 0.92428920625017,
+      "split": "capability development",
+      "sealed": false,
+      "evidence": {
+        "path": "results/capability/g5_executor_gate_stock_aligned_v2.json",
+        "sha256": "557a57657752eaf2c4317b218f2857040f6d4d8ed6b83f0d3692aa116739b781"
+      },
+      "limitation": "Joint endpoint only; not target reveal."
+    },
+    {
+      "test": "Expected-risk initial routing",
+      "inputs": "prompt-conditioned frozen-prefix belief",
+      "prompt": "butter/cream-cheese counterfactuals",
+      "action": "ACT vs OPEN_TO_INSPECT",
+      "endpoint": "target-observability route",
+      "online": false,
+      "oracle_online": false,
+      "successes": 296,
+      "trials": 300,
+      "rate": 0.9866666666666667,
+      "one_sided_95_lower": 0.9697496045802622,
+      "split": "offline development",
+      "sealed": false,
+      "evidence": {
+        "path": "results/t01_expected_risk_router_v1.json",
+        "sha256": "a26b04110e97953a50e0f2fd1d865e5a458b95375df89e99d0f00144d492837e"
+      },
+      "limitation": "Offline initial decision, not an embodied loop."
+    },
+    {
+      "test": "v12b clean RGB outcome singleton \u2014 FAILED",
+      "inputs": "six agentview+wrist RGB frames",
+      "prompt": "Find the butter",
+      "action": "OPEN_AND_OBSERVE",
+      "endpoint": "public-RGB observable outcome",
+      "online": false,
+      "oracle_online": false,
+      "successes": 40,
+      "trials": 40,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.9278424754944854,
+      "split": "fresh clean development 1900-1939",
+      "sealed": false,
+      "evidence": {
+        "path": "results/calibration/t01_open_and_observe_clean_development_v12b.json",
+        "sha256": "564dfdcfe66e2be11e1da5985f2b66f265461c6994e6554b83c7540b610c9065"
+      },
+      "limitation": "T01-specific fresh development; not scene-disjoint."
+    },
+    {
+      "test": "v12b clean RGB outcome singleton \u2014 REVEALED",
+      "inputs": "six agentview+wrist RGB frames",
+      "prompt": "Find the butter",
+      "action": "OPEN_AND_OBSERVE",
+      "endpoint": "public-RGB observable outcome",
+      "online": false,
+      "oracle_online": false,
+      "successes": 40,
+      "trials": 40,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.9278424754944854,
+      "split": "fresh clean development 1900-1939",
+      "sealed": false,
+      "evidence": {
+        "path": "results/calibration/t01_open_and_observe_clean_development_v12b.json",
+        "sha256": "564dfdcfe66e2be11e1da5985f2b66f265461c6994e6554b83c7540b610c9065"
+      },
+      "limitation": "T01-specific fresh development; not scene-disjoint."
+    },
+    {
+      "test": "v12b clean RGB outcome singleton \u2014 EMPTY",
+      "inputs": "six agentview+wrist RGB frames",
+      "prompt": "Find the butter",
+      "action": "OPEN_AND_OBSERVE",
+      "endpoint": "public-RGB observable outcome",
+      "online": false,
+      "oracle_online": false,
+      "successes": 39,
+      "trials": 40,
+      "rate": 0.975,
+      "one_sided_95_lower": 0.8868116390552625,
+      "split": "fresh clean development 1900-1939",
+      "sealed": false,
+      "evidence": {
+        "path": "results/calibration/t01_open_and_observe_clean_development_v12b.json",
+        "sha256": "564dfdcfe66e2be11e1da5985f2b66f265461c6994e6554b83c7540b610c9065"
+      },
+      "limitation": "T01-specific fresh development; not scene-disjoint."
+    },
+    {
+      "test": "Clean physical information endpoint \u2014 REVEALED",
+      "inputs": "stock RGB/state",
+      "prompt": "Open the middle layer of the drawer",
+      "action": "OPEN_AND_OBSERVE",
+      "endpoint": "prompt-resolvable target at any public history point",
+      "online": true,
+      "oracle_online": false,
+      "successes": 40,
+      "trials": 40,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.9278424754944854,
+      "split": "fresh clean development 1900-1939",
+      "sealed": false,
+      "evidence": {
+        "path": "results/calibration/t01_open_and_observe_clean_development_v12b.json",
+        "sha256": "564dfdcfe66e2be11e1da5985f2b66f265461c6994e6554b83c7540b610c9065"
+      },
+      "limitation": "Executor variability is reported separately from critic accuracy."
+    },
+    {
+      "test": "Clean physical information endpoint \u2014 EMPTY",
+      "inputs": "stock RGB/state",
+      "prompt": "Open the middle layer of the drawer",
+      "action": "OPEN_AND_OBSERVE",
+      "endpoint": "local middle-layer searched-region coverage with no target evidence",
+      "online": true,
+      "oracle_online": false,
+      "successes": 40,
+      "trials": 40,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.9278424754944854,
+      "split": "fresh clean development 1900-1939",
+      "sealed": false,
+      "evidence": {
+        "path": "results/calibration/t01_open_and_observe_clean_development_v12b.json",
+        "sha256": "564dfdcfe66e2be11e1da5985f2b66f265461c6994e6554b83c7540b610c9065"
+      },
+      "limitation": "Executor variability is reported separately from critic accuracy."
+    },
+    {
+      "test": "v12b sealed RGB outcome singleton \u2014 FAILED",
+      "inputs": "six agentview+wrist RGB frames",
+      "prompt": "Find the butter",
+      "action": "OPEN_AND_OBSERVE",
+      "endpoint": "public-RGB observable outcome",
+      "online": false,
+      "oracle_online": false,
+      "successes": 100,
+      "trials": 100,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.9704869503929601,
+      "split": "one-time sealed audit 900-999",
+      "sealed": true,
+      "evidence": {
+        "path": "results/calibration/t01_open_and_observe_sealed_audit_v12b.json",
+        "sha256": "9db902685f91023f3fe23366fff8c7bdc3b446412da72ef9fea0f63d705dd0e1"
+      },
+      "limitation": "T01-specific sealed seeds; not scene-disjoint."
+    },
+    {
+      "test": "v12b sealed RGB outcome singleton \u2014 REVEALED",
+      "inputs": "six agentview+wrist RGB frames",
+      "prompt": "Find the butter",
+      "action": "OPEN_AND_OBSERVE",
+      "endpoint": "public-RGB observable outcome",
+      "online": false,
+      "oracle_online": false,
+      "successes": 100,
+      "trials": 100,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.9704869503929601,
+      "split": "one-time sealed audit 900-999",
+      "sealed": true,
+      "evidence": {
+        "path": "results/calibration/t01_open_and_observe_sealed_audit_v12b.json",
+        "sha256": "9db902685f91023f3fe23366fff8c7bdc3b446412da72ef9fea0f63d705dd0e1"
+      },
+      "limitation": "T01-specific sealed seeds; not scene-disjoint."
+    },
+    {
+      "test": "v12b sealed RGB outcome singleton \u2014 EMPTY",
+      "inputs": "six agentview+wrist RGB frames",
+      "prompt": "Find the butter",
+      "action": "OPEN_AND_OBSERVE",
+      "endpoint": "public-RGB observable outcome",
+      "online": false,
+      "oracle_online": false,
+      "successes": 94,
+      "trials": 100,
+      "rate": 0.94,
+      "one_sided_95_lower": 0.8850147443920791,
+      "split": "one-time sealed audit 900-999",
+      "sealed": true,
+      "evidence": {
+        "path": "results/calibration/t01_open_and_observe_sealed_audit_v12b.json",
+        "sha256": "9db902685f91023f3fe23366fff8c7bdc3b446412da72ef9fea0f63d705dd0e1"
+      },
+      "limitation": "T01-specific sealed seeds; not scene-disjoint."
+    },
+    {
+      "test": "Sealed physical information endpoint \u2014 REVEALED",
+      "inputs": "stock RGB/state",
+      "prompt": "Open the middle layer of the drawer",
+      "action": "OPEN_AND_OBSERVE",
+      "endpoint": "prompt-resolvable target at any public history point",
+      "online": true,
+      "oracle_online": false,
+      "successes": 100,
+      "trials": 100,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.9704869503929601,
+      "split": "one-time sealed audit 900-999",
+      "sealed": true,
+      "evidence": {
+        "path": "results/calibration/t01_open_and_observe_sealed_audit_v12b.json",
+        "sha256": "9db902685f91023f3fe23366fff8c7bdc3b446412da72ef9fea0f63d705dd0e1"
+      },
+      "limitation": "Information endpoint; complete motor return is separately 199/200."
+    },
+    {
+      "test": "Sealed physical information endpoint \u2014 EMPTY",
+      "inputs": "stock RGB/state",
+      "prompt": "Open the middle layer of the drawer",
+      "action": "OPEN_AND_OBSERVE",
+      "endpoint": "local middle-layer searched-region coverage with no target evidence",
+      "online": true,
+      "oracle_online": false,
+      "successes": 100,
+      "trials": 100,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.9704869503929601,
+      "split": "one-time sealed audit 900-999",
+      "sealed": true,
+      "evidence": {
+        "path": "results/calibration/t01_open_and_observe_sealed_audit_v12b.json",
+        "sha256": "9db902685f91023f3fe23366fff8c7bdc3b446412da72ef9fea0f63d705dd0e1"
+      },
+      "limitation": "Information endpoint; complete motor return is separately 199/200."
+    },
+    {
+      "test": "Oracle-free five-case information loop smoke",
+      "inputs": "prompt + stock RGB/state/history",
+      "prompt": "butter/cream-cheese counterfactuals",
+      "action": "ACT or OPEN_AND_OBSERVE",
+      "endpoint": "correct route/outcome; DIRECT_ACT semantic handoff",
+      "online": true,
+      "oracle_online": false,
+      "successes": 5,
+      "trials": 5,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.5492802716530589,
+      "split": "disposable seed1399 smoke",
+      "sealed": false,
+      "evidence": {
+        "path": "results/smoke/piu_v0_v12b_full_pipeline_v1_seed1399.json",
+        "sha256": "5bd49dca1108c25214515b5966e764e478cfa0f40c6d96111f899c7c729b4c11"
+      },
+      "limitation": "Non-claim same-seed behavior trace; reliability is not inferred."
+    },
+    {
+      "test": "Original-prompt physical information acquisition",
+      "inputs": "prompt + stock RGB/state/history",
+      "prompt": "Place the butter in the basket",
+      "action": "OPEN_AND_OBSERVE then replan",
+      "endpoint": "prompt-relevant information acquired",
+      "online": true,
+      "oracle_online": false,
+      "successes": 1,
+      "trials": 1,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.050000000000000044,
+      "split": "disposable seed1399 physical diagnostic",
+      "sealed": false,
+      "evidence": {
+        "path": "results/smoke/piu_v0_v12b_physical_act_v1_seed1399.json",
+        "sha256": "9e6828a2c32c9a8ef630081ee31b2f6e11cdac808a0d561093fd1b63ba7a9ffc"
+      },
+      "limitation": "One non-claim behavior attempt; not a reliability estimate."
+    },
+    {
+      "test": "Original-prompt physical final continuation",
+      "inputs": "stock RGB/state after public-RGB REVEALED",
+      "prompt": "Place the butter in the basket",
+      "action": "fixed 400-step ACT",
+      "endpoint": "final task success",
+      "online": true,
+      "oracle_online": false,
+      "successes": 0,
+      "trials": 1,
+      "rate": 0.0,
+      "one_sided_95_lower": 0.0,
+      "split": "disposable seed1399 physical diagnostic",
+      "sealed": false,
+      "evidence": {
+        "path": "results/smoke/piu_v0_v12b_physical_act_v1_seed1399.json",
+        "sha256": "9e6828a2c32c9a8ef630081ee31b2f6e11cdac808a0d561093fd1b63ba7a9ffc"
+      },
+      "limitation": "Information succeeded 1/1; final task failed 0/1."
+    },
+    {
+      "test": "Post-reveal final retrieval",
+      "inputs": "stock RGB/state",
+      "prompt": "Place the butter in the basket",
+      "action": "ACT after drawer opening",
+      "endpoint": "final task success",
+      "online": true,
+      "oracle_online": true,
+      "successes": 0,
+      "trials": 5,
+      "rate": 0.0,
+      "one_sided_95_lower": 0.0,
+      "split": "development diagnostic",
+      "sealed": false,
+      "evidence": {
+        "path": "results/t01_final_task_risk_readiness_v1.json",
+        "sha256": "cc9337df23b3d4b71708cbdb33cb5f4f914023f9116928b44c58d4f817fccae7"
+      },
+      "limitation": "Old two-stage script used drawer joint for stage switching; result is 0/5."
+    }
+  ],
+  "interpretation": {
+    "proves": "the T01 six-frame RGB outcome mechanism passes fresh clean and one-time sealed gates and executes an oracle-free original-prompt behavior chain",
+    "does_not_prove": [
+      "cross-scene or cross-object breadth",
+      "global NOT_FOUND",
+      "improved final task success"
+    ]
+  }
+}

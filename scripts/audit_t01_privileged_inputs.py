@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import ast
 import hashlib
 import inspect
@@ -38,7 +39,14 @@ def literal_subscript_keys(function) -> set[str]:
 
 
 def main() -> None:
-    output = ROOT / "results/t01_open_and_observe_privileged_input_audit_v1.json"
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=ROOT / "results/t01_open_and_observe_privileged_input_audit_v1.json",
+    )
+    args = parser.parse_args()
+    output = args.output if args.output.is_absolute() else ROOT / args.output
     if output.exists():
         raise FileExistsError(f"audit result is immutable: {output}")
     policy_keys = literal_subscript_keys(build_observation)
@@ -118,7 +126,7 @@ def main() -> None:
     )
     report = {
         "schema_version": "interactive-perception.privileged-input-audit.v1",
-        "scope": "OPEN_AND_OBSERVE controller, v4 collector, and sealed-gated v5 runner",
+        "scope": "OPEN_AND_OBSERVE controller, v10 collector, and sealed-gated v5 runner",
         "repository_commit": subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
         ).strip(),

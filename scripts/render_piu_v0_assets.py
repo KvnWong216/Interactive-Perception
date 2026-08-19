@@ -246,7 +246,7 @@ def info_panel(row: dict, *, phase: str, step: int, total: int) -> np.ndarray:
     outcome_display = row["outcome_prediction_set"] if resolved else "pending"
     terminal_display = row["terminal"] if resolved else "pending"
     lines = [
-        ("PIU V0 / NON-CLAIM", (255, 211, 105)),
+        ("PIU V0 / BEHAVIOR TRACE", (255, 211, 105)),
         ("overlay: post-hoc trace replay", (156, 163, 175)),
         (f"case: {row['case']}", (255, 255, 255)),
         (f"prompt: {row['prompt']}", (190, 205, 225)),
@@ -316,7 +316,13 @@ def title_card(row: dict) -> np.ndarray:
     draw.text((24, 148), f"ROUTE: {row['initial_selected']}", fill=(112, 224, 197))
     draw.text((24, 172), f"OUTCOME: {row['outcome_prediction_set']}", fill=(251, 191, 36))
     draw.text((24, 196), f"TERMINAL: {row['terminal']}", fill=(248, 113, 113))
-    draw.text((24, 228), "DIRECT_ACT is a semantic handoff; no grasp success is claimed.", fill=(156, 163, 175))
+    final_task = (row.get("evaluator_only", {}).get("final_task") or {})
+    footer = (
+        f"Final task evaluator-only success: {final_task.get('task_success')}"
+        if row.get("act_executor") is not None
+        else "DIRECT_ACT is a semantic handoff; no grasp success is claimed."
+    )
+    draw.text((24, 228), footer, fill=(156, 163, 175))
     return np.asarray(card)
 
 
@@ -360,11 +366,22 @@ def render_demo(row: dict, output: Path, combined_writer, *, wait_steps: int, st
             writer.append_data(initial)
             combined_writer.append_data(initial)
         open_steps = int(row["executor"]["open_steps"]) if row["executor"] else 0
+        act_start = (
+            int(row["act_executor"]["action_start_index"])
+            if row.get("act_executor") is not None
+            else None
+        )
         for action_index, action in enumerate(actions, start=1):
             observation, _, done, _ = env.step(action)
             if action_index % stride != 0 and action_index != total:
                 continue
-            phase = "OPEN_TO_INSPECT" if action_index <= open_steps else "RETURN_TO_OBSERVE"
+            phase = (
+                "OPEN_TO_INSPECT"
+                if action_index <= open_steps
+                else "DIRECT_ACT"
+                if act_start is not None and action_index > act_start
+                else "RETURN_TO_OBSERVE"
+            )
             replay = capture_replay_frame(
                 env,
                 observation,

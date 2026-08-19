@@ -1,5 +1,5 @@
 schema_version: interactive-perception.seed-registry.v1
-repository_commit: de55641d191c728b08a2ca3c6a185c953c681869
+repository_commit: b14fc9a4218f941e849cb74ca4edbc3454bdd802
 authority: benchmarks/rss_v1/seed_registry.yaml
 scope: T01 claim-bearing, diagnostic, validation, audit, and disposable-smoke blocks
 decision_rule: >-
@@ -106,8 +106,15 @@ blocks:
   - id: t01_open_observe_sealed_audit
     seeds: 900-999
     role: sealed_audit
-    status: sealed
-    open_condition: clean development extension passes every preregistered gate
+    status: consumed_go
+    paper_eligible: true
+    evidence:
+      - results/calibration/t01_open_and_observe_v12b_sealed_authorization.json
+      - results/calibration/t01_open_and_observe_sealed_audit_v12b.json
+    note: >-
+      Collected exactly once after the v12b clean-development GO and frozen
+      authorization hash verification. Every preregistered sealed outcome gate
+      passed; this block is immutable and cannot be used for model selection.
 
   - id: t01_closed_loop_smoke
     seeds: [1300]
@@ -127,34 +134,97 @@ blocks:
 
   - id: t01_open_observe_v10_clean_development
     seeds: 1400-1439
+    role: v10_clean_development
+    status: consumed_not_go_then_v11_model_selection
+    paper_eligible: false
+    evidence: results/calibration/t01_open_and_observe_clean_development_v10.json
+    note: >-
+      V10 failed the zero-false-EMPTY gate on wrist-only reveal seed 1420. The
+      full block was then used to design v11 and cannot be reused for claims.
+
+  - id: t01_open_observe_v11_clean_development
+    seeds: 1440-1479
     role: frozen_clean_development
-    status: untouched
-    paper_eligible: true
-    open_condition: >-
-      v10 composite artifact is frozen with target temporal-OR separated from
-      observation completion and the local GPU preflight passes
+    status: consumed_not_go_then_v12b_model_selection
+    paper_eligible: false
+    evidence:
+      - results/calibration/t01_open_and_observe_clean_development_v11.json
+      - results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json
+    note: >-
+      V11 failed because seeds 1455 and 1464 emitted false singleton REVEALED.
+      The whole block was subsequently used to select the v12/v12b composition
+      rule and cannot support a clean or sealed claim.
 
   - id: piu_counterfactual_prototype_train
-    seeds: 1500-1599
-    role: future_piu_prototype_train
+    seeds: 1500-1519
+    role: piu_prototype_train
+    status: consumed_training
+    evidence: data/piu_v1/prototype_train_v3.manifest.json
+
+  - id: piu_counterfactual_prototype_train_reserve
+    seeds: 1520-1599
+    role: piu_prototype_train_reserve
     status: untouched
 
   - id: piu_counterfactual_conformal_calibration
-    seeds: 1600-1699
-    role: future_piu_conformal_calibration
+    seeds: 1600-1619
+    role: piu_conformal_calibration
+    status: consumed_calibration
+    evidence: data/piu_v1/conformal_calibration_v3.manifest.json
+
+  - id: piu_counterfactual_conformal_calibration_reserve
+    seeds: 1620-1699
+    role: piu_conformal_calibration_reserve
     status: untouched
 
+  - id: piu_scene_disjoint_clean_development_invalid_v1
+    seeds: 1700-1719
+    role: piu_clean_development_invalid_protocol
+    status: consumed_not_go
+    paper_eligible: false
+    evidence: results/calibration/piu_v1_clean_attempt_v1_not_go.json
+    note: >-
+      Collection aborted on the first seed because the registered hidden black
+      bowl had 1273 agentview pixels and violated the frozen visibility contract.
+      No model inference or clean dataset was produced; the full preregistered
+      range is nevertheless retired.
+
   - id: piu_scene_disjoint_clean_development
-    seeds: 1700-1799
-    role: future_piu_clean_development
+    seeds: 1720-1739
+    role: piu_v1_replacement_clean_development
+    status: consumed_not_go_then_v2_training
+    paper_eligible: false
+    evidence: results/calibration/piu_object_sidecar_clean_v1.json
+    note: >-
+      V1 failed visible-workspace generalization and node-relevance gates. The
+      full split was then added to V2 development training and cannot be reused.
+
+  - id: piu_scene_disjoint_clean_development_v2
+    seeds: 1740-1759
+    role: piu_v2_clean_development
+    status: authorized_unopened
+    open_condition: V2 authorization verifies model 130a6705 and four disposable visibility preflights
+
+  - id: piu_scene_disjoint_clean_development_reserve
+    seeds: 1760-1799
+    role: piu_clean_development_reserve
     status: untouched
-    open_condition: prototype data schema and all model/utility weights are frozen
 
   - id: piu_scene_disjoint_sealed_audit
     seeds: 1800-1899
     role: future_piu_sealed_audit
     status: sealed
     open_condition: PIU clean scene-disjoint development passes every preregistered gate
+
+  - id: t01_open_observe_v12b_clean_development
+    seeds: 1900-1939
+    role: frozen_clean_development
+    status: consumed_go
+    paper_eligible: true
+    evidence: results/calibration/t01_open_and_observe_clean_development_v12b.json
+    note: >-
+      All preregistered v12b clean gates passed. This block is immutable and
+      cannot be used for any further model, rule, or threshold selection.
 
 forbidden_transitions:
   - disposable_smoke -> development

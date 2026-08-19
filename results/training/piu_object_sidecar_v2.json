@@ -1,0 +1,303 @@
+{
+  "schema_version": "interaction-uncertainty.piu-object-sidecar.v1",
+  "repository_commit": "b14fc9a4218f941e849cb74ca4edbc3454bdd802",
+  "claim_status": "frozen before scene-disjoint clean development",
+  "config": {
+    "schema_version": "interaction-uncertainty.piu-object-sidecar-config.v1",
+    "prefix_projected_dimension": 256,
+    "prefix_projection_seed": 26081811,
+    "node_input_dimension": 394,
+    "hidden_dimension": 128,
+    "location_labels": [
+      "visible_workspace",
+      "closed_container"
+    ],
+    "action_labels": [
+      "DIRECT_ACT",
+      "OPEN_TO_INSPECT"
+    ],
+    "semantic_effect_labels": [
+      "NO_RELEVANT_CHANGE",
+      "TARGET_REVEALED",
+      "TASK_PROGRESS"
+    ],
+    "utility": {
+      "eta_information": 1.0,
+      "eta_task": 0.5,
+      "cost": {
+        "DIRECT_ACT": 0.1,
+        "OPEN_TO_INSPECT": 0.18
+      },
+      "execution_lower_bound": {
+        "DIRECT_ACT": 0.97,
+        "OPEN_TO_INSPECT": 0.924
+      }
+    }
+  },
+  "conformal": {
+    "alpha": 0.05,
+    "location": {
+      "visible_workspace": 0.00018900632858276367,
+      "closed_container": 0.04807746410369873
+    },
+    "action": {
+      "DIRECT_ACT": 0.00021666288375854492,
+      "OPEN_TO_INSPECT": 0.06006824970245361
+    }
+  },
+  "online_inputs": [
+    "frozen pi05 prefix",
+    "Grounding DINO boxes",
+    "SAM masks",
+    "DINOv2 mask-pooled features",
+    "public geometry metadata"
+  ],
+  "online_oracle_inputs": [],
+  "semantic_effect_note": "counterfactual semantic effect; physical execution risk enters utility separately",
+  "sources": {
+    "train": {
+      "primary_snapshots": {
+        "path": "data/piu_v1/prototype_train_v3.jsonl",
+        "sha256": "e1801117fb7243885dd215bb42a8e6dcb4018b83166f20b23920dbfb88d1b50a"
+      },
+      "primary_labels": {
+        "path": "data/piu_v1/labels/prototype_train_v3.jsonl",
+        "sha256": "235622265d4804c5b22523c32f3923e29b76f02e4434538354eae27325779e4e"
+      },
+      "primary_scenes": {
+        "path": "data/piu_v1/prototype_train_objects_v3.jsonl",
+        "sha256": "f4d9a5b9b727ae2c0ec2eed10000ffe5a5590d9ed5a8569d50a51b3b9e2d3601"
+      },
+      "primary_object_features": {
+        "path": "data/piu_v1/prototype_train_object_features_v3.npz",
+        "sha256": "d2ec35cba414664eb410f3b77cad7476fa1be5015f888f70aeaa27824acf139e"
+      },
+      "primary_prefix_features": {
+        "path": "outputs/piu_v1/prototype_train_v3/pi05_prefix_features.npz",
+        "sha256": "9acc65824cb95a90c638c343e4477a8b70ec5f70bb83cdb5ce923ed8382d4a91"
+      },
+      "extra_1_snapshots": {
+        "path": "data/piu_v1/clean_scene_disjoint_v4.jsonl",
+        "sha256": "cc22b87dc8e50618478c1dd75a0f0632b6557f14422f023b1982244a8a75c119"
+      },
+      "extra_1_labels": {
+        "path": "data/piu_v1/labels/clean_scene_disjoint_v4.jsonl",
+        "sha256": "7f2936f1783b6216b550e33d27dd81d644d1457db1732cb0d8bce6afcdb7cac0"
+      },
+      "extra_1_scenes": {
+        "path": "data/piu_v1/clean_scene_disjoint_objects_v4.jsonl",
+        "sha256": "792b891aa07fbde35caad1315b628c958c068627e74242dbe720e35c9328c670"
+      },
+      "extra_1_object_features": {
+        "path": "data/piu_v1/clean_scene_disjoint_object_features_v4.npz",
+        "sha256": "cf4e8061f9cf29a6a6794e8a5b6b5f6054290a243328fd451a865b7d8b1dee57"
+      },
+      "extra_1_prefix_features": {
+        "path": "outputs/piu_v1/clean_scene_disjoint_v4/pi05_prefix_features.npz",
+        "sha256": "436daf315112dc4e2bea62ab4eeba8ae714e6d1b70dd4cbff64b5ffb7a20e9cd"
+      }
+    },
+    "calibration": {
+      "snapshots": {
+        "path": "data/piu_v1/conformal_calibration_v3.jsonl",
+        "sha256": "7005fdfce61c22180c96eed8da862fcdf6e79150b3636ad62b78db8a629a45d9"
+      },
+      "labels": {
+        "path": "data/piu_v1/labels/conformal_calibration_v3.jsonl",
+        "sha256": "0ed22eb72d7b3f512e9eff1fc9291154bd74642b8fe45df79f529c7f5b34f424"
+      },
+      "scenes": {
+        "path": "data/piu_v1/conformal_calibration_objects_v3.jsonl",
+        "sha256": "21c46587ab57b057ef62f8b7ffca4e8fc09b7f804c8476f3991adad56c5ab28b"
+      },
+      "object_features": {
+        "path": "data/piu_v1/conformal_calibration_object_features_v3.npz",
+        "sha256": "2fe36dddd3ff061142415584336caaa759ac21421f6556aa2aca63b52c9a8b90"
+      },
+      "prefix_features": {
+        "path": "outputs/piu_v1/conformal_calibration_v3/pi05_prefix_features.npz",
+        "sha256": "349ead152ff4ef4788d11adbf6ba0175298c3124d654d431bd37e91a5b3c76d2"
+      }
+    }
+  },
+  "training": {
+    "seed": 26081801,
+    "epochs": 400,
+    "learning_rate": 0.002,
+    "weight_decay": 0.0001,
+    "loss_history": [
+      {
+        "epoch": 1,
+        "total": 3.001159429550171,
+        "location": 0.6869112253189087,
+        "rank": 0.7021462321281433,
+        "node": 1.3083157539367676,
+        "effect": 1.1849548816680908,
+        "future": 0.7309335470199585
+      },
+      {
+        "epoch": 50,
+        "total": 0.2948344051837921,
+        "location": 0.008844541385769844,
+        "rank": 0.011738479137420654,
+        "node": 0.3869875371456146,
+        "effect": 0.13639725744724274,
+        "future": 0.025118013843894005
+      },
+      {
+        "epoch": 100,
+        "total": 0.06503918766975403,
+        "location": 0.0010667232563719153,
+        "rank": 0.001383043359965086,
+        "node": 0.118460513651371,
+        "effect": 0.004983439575880766,
+        "future": 0.0017348951660096645
+      },
+      {
+        "epoch": 150,
+        "total": 0.05843309313058853,
+        "location": 0.0005989766214042902,
+        "rank": 0.0007850564434193075,
+        "node": 0.11093725264072418,
+        "effect": 0.0022678058594465256,
+        "future": 0.0008930573239922523
+      },
+      {
+        "epoch": 200,
+        "total": 0.021419137716293335,
+        "location": 0.0003194977471139282,
+        "rank": 0.0004235162923578173,
+        "node": 0.039473313838243484,
+        "effect": 0.0013745089527219534,
+        "future": 0.000504423282109201
+      },
+      {
+        "epoch": 250,
+        "total": 0.01086497027426958,
+        "location": 0.00021700550860259682,
+        "rank": 0.00029044627444818616,
+        "node": 0.01945311948657036,
+        "effect": 0.0009205722017213702,
+        "future": 0.00034134637098759413
+      },
+      {
+        "epoch": 300,
+        "total": 0.18330149352550507,
+        "location": 0.0002949893823824823,
+        "rank": 0.000401948404032737,
+        "node": 0.36428746581077576,
+        "effect": 0.0006919602164998651,
+        "future": 0.00022969694691710174
+      },
+      {
+        "epoch": 350,
+        "total": 0.012731553986668587,
+        "location": 0.00011483732669148594,
+        "rank": 0.0001532990427222103,
+        "node": 0.024153558537364006,
+        "effect": 0.0005565733881667256,
+        "future": 0.00021670454589184374
+      },
+      {
+        "epoch": 400,
+        "total": 0.00555728143081069,
+        "location": 8.46416805870831e-05,
+        "rank": 0.00011525635636644438,
+        "node": 0.010185065679252148,
+        "effect": 0.00039344228571280837,
+        "future": 0.0001362588518531993
+      }
+    ],
+    "class_counts": {
+      "location": {
+        "closed_container": 80,
+        "visible_workspace": 100
+      },
+      "action": {
+        "OPEN_TO_INSPECT": 80,
+        "DIRECT_ACT": 100
+      }
+    }
+  },
+  "train_metrics": {
+    "location": {
+      "samples": 180,
+      "accuracy": 1.0,
+      "brier": 2.1851330252062276e-08,
+      "nll": 8.424040424870327e-05,
+      "coverage": 1.0,
+      "singleton_correct": 0.9722222222222222,
+      "mean_prediction_set_size": 1.0277777777777777,
+      "per_class": {
+        "visible_workspace": {
+          "samples": 100,
+          "accuracy": 1.0,
+          "coverage": 1.0,
+          "singleton_correct": 0.95
+        },
+        "closed_container": {
+          "samples": 80,
+          "accuracy": 1.0,
+          "coverage": 1.0,
+          "singleton_correct": 1.0
+        }
+      }
+    },
+    "node_hit_at_1": 1.0,
+    "rank_accuracy": 1.0,
+    "optimizer_accuracy": 1.0
+  },
+  "calibration_metrics": {
+    "location": {
+      "samples": 80,
+      "accuracy": 1.0,
+      "brier": 0.0006714027494374592,
+      "nll": 0.0030995619017630816,
+      "coverage": 1.0,
+      "singleton_correct": 0.975,
+      "mean_prediction_set_size": 1.025,
+      "per_class": {
+        "visible_workspace": {
+          "samples": 40,
+          "accuracy": 1.0,
+          "coverage": 1.0,
+          "singleton_correct": 0.975
+        },
+        "closed_container": {
+          "samples": 40,
+          "accuracy": 1.0,
+          "coverage": 1.0,
+          "singleton_correct": 0.975
+        }
+      }
+    },
+    "action": {
+      "samples": 80,
+      "accuracy": 1.0,
+      "brier": 0.0009072987762227712,
+      "nll": 0.0037297166418284178,
+      "coverage": 1.0,
+      "singleton_correct": 0.975,
+      "mean_prediction_set_size": 1.025,
+      "per_class": {
+        "DIRECT_ACT": {
+          "samples": 40,
+          "accuracy": 1.0,
+          "coverage": 1.0,
+          "singleton_correct": 0.975
+        },
+        "OPEN_TO_INSPECT": {
+          "samples": 40,
+          "accuracy": 1.0,
+          "coverage": 1.0,
+          "singleton_correct": 0.975
+        }
+      }
+    },
+    "node_hit_at_1": 0.75,
+    "rank_accuracy": 1.0,
+    "optimizer_accuracy": 0.9875
+  },
+  "model": "results/models/piu_object_sidecar_v2.pt",
+  "model_sha256": "130a6705d6b435fdfe370f6cc60665410e9c7284ee2b833ae3856c598251bc84"
+}

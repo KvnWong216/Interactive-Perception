@@ -1,7 +1,7 @@
 schema_version: interactive-perception.rss-experiment.v1
 name: Prompt-aligned action-resolvable uncertainty
 seed_registry: benchmarks/rss_v1/seed_registry.yaml
-outcome_data_protocol: benchmarks/calibration/t01_open_and_observe_v10.yaml
+outcome_data_protocol: benchmarks/calibration/t01_open_and_observe_v12b.yaml
 
 claim: >-
   A frozen VLA may possess an information action without knowing when it is
@@ -101,17 +101,104 @@ t01_v10_clean_development:
     - False singleton EMPTY equals zero.
     - False singleton REVEALED equals zero.
     - REVEALED and local EMPTY information-acquisition lower bounds are each >= 0.80.
-  sealed_effect: 900-999 remains closed unless every condition passes.
+  result:
+    status: NOT_GO
+    samples: 120
+    correct_singletons: 118
+    blocker: one false singleton EMPTY on seed 1420
+  provenance: consumed; subsequently used for v11 model selection
+
+t01_v11_clean_development:
+  seeds: 1440-1479
+  status: consumed_not_go_then_v12b_model_selection
+  purpose: >-
+    Fresh development for the frozen all-public-RGB v11 cascade: agentview
+    target evidence, wrist positive-only target rescue, and independent
+    agentview coverage evidence.
+  selected_inputs: six stock agentview RGB frames and six stock wrist RGB frames
+  priority: >-
+    Secondary to first stabilizing the canonical same-state executable loop,
+    because frozen pi05_libero is itself cross-seed variable.
+  pass_conditions:
+    - Every outcome class has correct-label retention >= 0.90.
+    - Every outcome class has singleton-correct one-sided 95% lower bound >= 0.80.
+    - False singleton EMPTY equals zero.
+    - False singleton REVEALED equals zero.
+    - REVEALED and local EMPTY information-acquisition lower bounds are each >= 0.80.
+  result:
+    status: NOT_GO
+    samples: 120
+    correct_singletons: 118
+    blockers:
+      - false singleton REVEALED on seed 1455
+      - false singleton REVEALED on seed 1464
+  provenance: >-
+    Consumed by the failed v11 clean run and subsequently used to select the
+    v12/v12b composition rule; no longer claim-bearing.
+
+t01_v12_first_composition:
+  status: retired_before_fresh_data
+  evidence: results/calibration/t01_open_and_observe_v12_model_selection_decision.json
+  reason: >-
+    Treating every wrist prediction set containing REVEALED as counterevidence
+    was overly conservative. It was retired without opening fresh or sealed
+    data.
+
+t01_v12b_clean_development:
+  seeds: 1900-1939
+  status: GO
+  purpose: >-
+    Fresh development for the frozen v12b public-RGB composition. Only a
+    singleton wrist-positive versus singleton agentview-negative conflict is
+    preserved as ambiguity/SAFE_STOP; a multi-label wrist set is abstention.
+  selected_inputs: six stock agentview RGB frames and six stock wrist RGB frames
+  samples: 120
+  result:
+    FAILED: {coverage: 40/40, singleton: 40/40, lower: 0.927842}
+    REVEALED: {coverage: 40/40, singleton: 40/40, lower: 0.927842}
+    EMPTY: {coverage: 40/40, singleton: 39/40, lower: 0.886812}
+    false_singleton_EMPTY: 0
+    false_singleton_REVEALED: 0
+    mean_prediction_set_size: 1.008333
+    ambiguous_safe_stop: 1/120
+    physical_REVEALED: {success: 40/40, lower: 0.927842, passes_original_0.90: true}
+    physical_EMPTY: {success: 40/40, lower: 0.927842, passes_original_0.90: true}
+    six_frame_vs_final_only_REVEALED: 40/40 vs 38/40
+    controller_online_oracle_reads: 0
+  evidence: results/calibration/t01_open_and_observe_clean_development_v12b.json
+  provenance: consumed_go_immutable
 
 t01_sealed_audit:
   seeds: 900-999
-  collection_rule: Collect once, only after the frozen v10 artifact passes seeds 1400-1439.
+  collection_rule: >-
+    Collected exactly once after v12b passed fresh seeds 1900-1939 and the
+    frozen authorization hash verified immediately before collection.
   samples_per_regime: 100
   pass_conditions:
     - Per-class conformal coverage >= 0.90.
     - Per-class singleton-correct one-sided lower bound >= 0.80.
     - REVEALED and EMPTY physical-effect lower bounds >= 0.80.
   reporting_rule: Also report whether each branch passes the original 0.90 standard.
+  result:
+    status: GO
+    samples: 300
+    FAILED: {coverage: 100/100, singleton: 100/100, lower: 0.970487}
+    REVEALED: {coverage: 100/100, singleton: 100/100, lower: 0.970487}
+    EMPTY: {coverage: 99/100, singleton: 94/100, lower: 0.885015}
+    false_singleton_EMPTY: 0
+    false_singleton_REVEALED: 0
+    mean_prediction_set_size: 1.016667
+    ambiguous_safe_stop: 5/300
+    physical_REVEALED: {success: 100/100, lower: 0.970487, passes_original_0.90: true}
+    physical_EMPTY: {success: 100/100, lower: 0.970487, passes_original_0.90: true}
+    six_frame_vs_final_only_REVEALED: 100/100 vs 96/100
+    controller_online_oracle_reads: 0
+    motor_return_completion: 199/200
+    motor_return_note: >-
+      Seed 938 EMPTY was visually certified despite a timed-out return; do not
+      report this information endpoint as 200/200 actuator completion.
+  evidence: results/calibration/t01_open_and_observe_sealed_audit_v12b.json
+  provenance: consumed_go_immutable
 
 closed_loop_test:
   seeds: 800-899
@@ -131,11 +218,12 @@ closed_loop_test:
 
 paper_stages:
   mechanism:
-    status: calibration_only_validation_ready_after_t01_audit
+    status: outcome_clean_and_sealed_go_behavior_loop_demonstrated
     question: Does calibrated prompt-aligned uncertainty improve target-observability decisions?
     benchmark: T01 stock-aligned middle-layer search
     test_seeds: 800-899
     paper_eligible: false
+    engineering_priority: canonical same-state full-loop stability before broad executor robustness
   breadth:
     status: blocked_by_primitive_capability
     question: Does the same decision rule transfer across uncertainty causes and information actions?
@@ -149,6 +237,10 @@ paper_stages:
     status: blocked_by_post_reveal_act
     question: Does information acquisition improve completion of the user's original task?
     rule: Report paired final-task success; target visibility is not a substitute.
+    latest_diagnostic: >-
+      One disposable original-prompt physical continuation acquired information
+      but failed the final task (information 1/1, final task 0/1). Historical
+      oracle-switched two-stage retrieval remains 0/5 under a different protocol.
   generalization:
     status: blocked
     held_out_axes: [object, clutter, occlusion_severity, container, scene, base_policy]

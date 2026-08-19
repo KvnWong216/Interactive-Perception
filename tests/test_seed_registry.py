@@ -12,6 +12,12 @@ def test_authoritative_seed_registry_has_disjoint_frozen_blocks() -> None:
     assert seeds_for_blocks(
         registry, ["t01_open_observe_v10_clean_development"]
     ) == list(range(1400, 1440))
+    assert seeds_for_blocks(
+        registry, ["t01_open_observe_v11_clean_development"]
+    ) == list(range(1440, 1480))
+    assert seeds_for_blocks(
+        registry, ["t01_open_observe_v12b_clean_development"]
+    ) == list(range(1900, 1940))
     assert seeds_for_blocks(registry, ["t01_open_observe_sealed_audit"]) == list(
         range(900, 1000)
     )

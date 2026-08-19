@@ -1,0 +1,56 @@
+{
+  "schema_version": "interaction-uncertainty.piu-privileged-input-audit.v0",
+  "repository_commit": "b14fc9a4218f941e849cb74ca4edbc3454bdd802",
+  "smoke": "results/smoke/piu_v0_v12b_physical_act_v1_seed1399.json",
+  "smoke_sha256": "9e6828a2c32c9a8ef630081ee31b2f6e11cdac808a0d561093fd1b63ba7a9ffc",
+  "model": "results/models/piu_v0_3_sidecar.pt",
+  "model_sha256": "c3b866f519096bfb254ac19fe6ce5ef2536a98a6ff1ce3211b400e03a1a75eab",
+  "asset_manifest": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/assets_manifest.json",
+  "asset_manifest_sha256": "e8982e2d2d2f78e3f9f0ed57e9f80befa7752f1a400e61294ef42342cb84cf9a",
+  "asset_contract_passed": true,
+  "source_sha256": {
+    "src/interaction_uncertainty/contracts.py": "e5d6a1ba10e73259ebe1f9d630369ade5257442893c1df3cbee2b421c49dc271",
+    "src/interaction_uncertainty/candidates.py": "275d479f502c1026e7788725f4bef671a01c1c831f7b236d5dba652dbb0b35ff",
+    "src/interaction_uncertainty/optimizer.py": "813009e2cef4ad48260696d232d298c6612a791a58586a4f6bdf190e2dd7a321",
+    "src/interaction_uncertainty/sidecar.py": "6ab7eaafe0fcaa7475594609630526870b0b23f7d648ab1dc301720e7a94eace",
+    "src/interaction_uncertainty/scene_memory.py": "4f45bb03358eb9912f6865cea261fd59d3eba270f48bf77b2d4842d011170753",
+    "src/interactive_perception/policy_client.py": "6d2cd87c5351a061100bc722e0e1f8f504a704ce646283fdbab7eb7c8dc59d33",
+    "src/interactive_perception/action_options.py": "eba6a0169d70f60e72bb2f814c6d46f038050b2a288f7c7ffc5c4178e0413985",
+    "src/interactive_perception/observation_option.py": "bad80f837ba5ebeb15afa29b34196e67157ecc399983dc25dfa79e9aa69d5bea",
+    "src/interactive_perception/rgb_outcome_critic.py": "bd36b78f594170658d22013643ca428d3bcdb6df2484ed663ddd542e58917685",
+    "scripts/run_piu_v0_smoke.py": "29ae60bc12486e590adce45cbecdf72b4339c895abaf7b7135b5255eebe08b8f",
+    "scripts/render_piu_v0_assets.py": "4a7b1d581bf4cb62bda037feb8ab0031c0e9024c61c86f930ffc54f6f35dfd13"
+  },
+  "allowed_policy_observation_keys": [
+    "agentview_image",
+    "robot0_eef_pos",
+    "robot0_eef_quat",
+    "robot0_eye_in_hand_image",
+    "robot0_gripper_qpos"
+  ],
+  "observed_policy_literal_keys": [
+    "robot0_eef_pos",
+    "robot0_eef_quat",
+    "robot0_gripper_qpos"
+  ],
+  "controller_environment": "libero.envs.OffScreenRenderEnv",
+  "controller_constructs_segmentation_environment": false,
+  "evaluator_environment": "separate SegmentationRenderEnv/replay after terminal",
+  "actual_trace_rows_have_zero_oracle_inputs": true,
+  "rgb_outcome_critic_has_zero_oracle_inputs": true,
+  "rgb_outcome_composite_hash_verified": true,
+  "scene_packet_runtime_firewall": true,
+  "runtime_guard_tests": {
+    "returncode": 0,
+    "stdout": "...                                                                      [100%]\n3 passed in 0.08s",
+    "stderr": ""
+  },
+  "online_oracle_inputs": [],
+  "passed": true,
+  "limitations": [
+    "Static/runtime isolation does not validate learned calibration.",
+    "Initial V0 belief is a prefix proxy, not Grounding DINO/SAM object grounding.",
+    "The v12b outcome critic passed T01 clean and sealed gates but remains T01-specific; it does not establish scene-disjoint or cross-object generalization.",
+    "DIRECT_ACT was physically executed on one disposable behavior seed and failed; this is diagnostic, not an ACT reliability estimate."
+  ]
+}

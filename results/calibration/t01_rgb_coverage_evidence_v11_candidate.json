@@ -1,0 +1,2506 @@
+{
+  "schema_version": "interactive-perception.rgb-coverage-evidence.v1-candidate",
+  "claim": "same-camera searched-region coverage at any public RGB history point in T01",
+  "claim_eligible": false,
+  "reason": "architecture selection uses contaminated development seeds",
+  "datasets": [
+    {
+      "path": "data/calibration/t01_open_and_observe_effect_v3.jsonl",
+      "sha256": "0af9eec229a74d17a37deab6df1cf6b2e27104633cf23cc2238ced9008c57c3c"
+    },
+    {
+      "path": "data/calibration/t01_open_and_observe_effect_v4_extension.jsonl",
+      "sha256": "e723d1685176592027d81473914a7119d26e3eba4bbc41d39a3e0f9ff5c1f7e3"
+    },
+    {
+      "path": "data/calibration/t01_open_and_observe_effect_v10_clean.jsonl",
+      "sha256": "8fde35fafec470475f14499905f57cdddb76e6e94c537ff6ca0430eac4ab130c"
+    }
+  ],
+  "split": {
+    "train_seeds": "600-619,653-699,1400-1439",
+    "calibration_seeds": "620-652",
+    "development_seeds": "653-699,1400-1439"
+  },
+  "model": {
+    "architecture": "four-layer small CNN",
+    "checkpoint": "results/models/t01_rgb_coverage_evidence_v11_candidate.pt",
+    "image_size": 96,
+    "epochs": 40,
+    "learning_rate": 0.002,
+    "weight_decay": 0.0001,
+    "random_seed": 20260818,
+    "camera_mode": "agentview",
+    "evidence_kind": "coverage",
+    "train_loss": [
+      0.17526647792442443,
+      0.0673379501920708,
+      0.05109921149205444,
+      0.04559815172899054,
+      0.03331986500041197,
+      0.02897894734766132,
+      0.018995488600332486,
+      0.01974247562397321,
+      0.017177507724237713,
+      0.021620212428645074,
+      0.013136662378705767,
+      0.014896447441814108,
+      0.00906384431818444,
+      0.014003249110971068,
+      0.011174685539448989,
+      0.010655072251980813,
+      0.007130435428573428,
+      0.002885988875940686,
+      0.0034725903924569482,
+      0.001277325454483506,
+      0.001249664844464385,
+      0.0023959272239837044,
+      0.006068053100090712,
+      0.0032379584194838335,
+      0.0062739038502960445,
+      0.003214130627677069,
+      0.00046661449423491863,
+      9.49655188512757e-05,
+      8.514750104266735e-05,
+      4.307200574332223e-05,
+      2.7357891845542935e-05,
+      2.86606275659982e-05,
+      2.4455101633737286e-05,
+      1.4968291541593196e-05,
+      1.9749474274682722e-05,
+      1.3071028868992245e-05,
+      8.870530075111629e-06,
+      8.404603577550685e-06,
+      1.5094220414299563e-05,
+      1.160535835602995e-05
+    ]
+  },
+  "minimum_resolvable_target_pixels": 256,
+  "offline_label_inputs": [
+    "evaluator-only actual/counterfactual same-camera target pixel counts"
+  ],
+  "online_inputs": [
+    "six stock agentview RGB frames"
+  ],
+  "online_oracle_inputs": [],
+  "temporal_rule": "maximum selected-camera frame logit over the six public history points",
+  "conformal": {
+    "schema_version": "interactive-perception.semantic-mondrian-conformal.v1",
+    "alpha": 0.05,
+    "thresholds": {
+      "COMPLETED": 3.700478093948689e-07,
+      "FAILED": 7.627547626842812e-07
+    },
+    "labels": [
+      "COMPLETED",
+      "FAILED"
+    ],
+    "calibration_size_per_class": {
+      "COMPLETED": 66,
+      "FAILED": 33
+    },
+    "finite_sample_resolution_per_class": {
+      "COMPLETED": 0.014925373134328358,
+      "FAILED": 0.029411764705882353
+    },
+    "policy_id": "t01_public_rgb_coverage_evidence_cnn_v1",
+    "split_id": "t01_coverage_evidence_seed620_652",
+    "guarantee": "class-conditional semantic-intent coverage under within-class exchangeability",
+    "non_guarantee": "robot task success"
+  },
+  "metrics": {
+    "train_nonclaim": {
+      "COMPLETED": {
+        "trials": 213,
+        "coverage": 0.9953051643192489,
+        "singleton_accuracy": 0.9953051643192489,
+        "mean_prediction_set_size": 1.0
+      },
+      "FAILED": {
+        "trials": 108,
+        "coverage": 1.0,
+        "singleton_accuracy": 1.0,
+        "mean_prediction_set_size": 1.0
+      }
+    },
+    "calibration_nonclaim": {
+      "COMPLETED": {
+        "trials": 66,
+        "coverage": 1.0,
+        "singleton_accuracy": 1.0,
+        "mean_prediction_set_size": 1.0
+      },
+      "FAILED": {
+        "trials": 33,
+        "coverage": 1.0,
+        "singleton_accuracy": 1.0,
+        "mean_prediction_set_size": 1.0
+      }
+    },
+    "development_contaminated_nonclaim": {
+      "COMPLETED": {
+        "trials": 173,
+        "coverage": 0.9942196531791907,
+        "singleton_accuracy": 0.9942196531791907,
+        "mean_prediction_set_size": 1.0
+      },
+      "FAILED": {
+        "trials": 88,
+        "coverage": 1.0,
+        "singleton_accuracy": 1.0,
+        "mean_prediction_set_size": 1.0
+      }
+    }
+  },
+  "development_rows": [
+    {
+      "regime": "revealed_full",
+      "seed": 653,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 29.543292999267578,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 654,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 19.778499603271484,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 655,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 41.42404556274414,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 656,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 27.009021759033203,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 657,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 29.379810333251953,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 658,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 24.73104476928711,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 659,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 25.636865615844727,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 653,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 23.139177322387695,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 654,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 16.21207046508789,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 655,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 29.020612716674805,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 656,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 26.18567657470703,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 657,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 15.604341506958008,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 658,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 14.454208374023438,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 659,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 20.943851470947266,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 653,
+      "truth": "FAILED",
+      "maximum_frame_logit": -17.404996871948242,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 654,
+      "truth": "FAILED",
+      "maximum_frame_logit": -20.230056762695312,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 655,
+      "truth": "FAILED",
+      "maximum_frame_logit": -16.99310302734375,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 656,
+      "truth": "FAILED",
+      "maximum_frame_logit": -20.079612731933594,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 657,
+      "truth": "FAILED",
+      "maximum_frame_logit": -14.217724800109863,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 658,
+      "truth": "FAILED",
+      "maximum_frame_logit": -16.620243072509766,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 659,
+      "truth": "FAILED",
+      "maximum_frame_logit": -28.766048431396484,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 660,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.796504974365234,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 661,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 23.55786895751953,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 662,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.501270294189453,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 663,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 34.88264083862305,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 664,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 28.654712677001953,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 665,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 23.332502365112305,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 666,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.79545783996582,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 667,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 34.94777297973633,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 668,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 34.82271957397461,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 669,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.68148422241211,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 670,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 20.83042335510254,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 671,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 34.31827163696289,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 672,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.66287612915039,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 673,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 27.75434112548828,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 674,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 31.643396377563477,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 675,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 37.37550735473633,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 676,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 33.2249641418457,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 677,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 33.71477127075195,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 678,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 43.66352081298828,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 679,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 31.593177795410156,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 680,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 34.26947784423828,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 681,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.930147171020508,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 682,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 28.07745933532715,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 683,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.630964279174805,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 684,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 39.71442794799805,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 685,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 29.369518280029297,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 686,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 26.243331909179688,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 687,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 32.50997543334961,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 688,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 36.947200775146484,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 689,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 29.206729888916016,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 690,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 26.674190521240234,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 691,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 31.44166374206543,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 692,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 37.812294006347656,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 693,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 27.53376007080078,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 694,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 34.51096725463867,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 695,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 21.467069625854492,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 696,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 21.227949142456055,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 697,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 29.85218048095703,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 698,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 32.00115966796875,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 699,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.151084899902344,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 660,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 23.747764587402344,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 661,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 19.2054386138916,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 662,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 22.247806549072266,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 663,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 27.112470626831055,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 664,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 20.13831329345703,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 665,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 21.86429214477539,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 666,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 34.24541473388672,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 667,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 22.327939987182617,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 668,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 23.728759765625,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 669,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 21.84355926513672,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 670,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 20.149005889892578,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 671,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 26.407363891601562,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 672,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 21.316993713378906,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 673,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 21.82944679260254,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 674,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 18.032001495361328,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 675,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 19.510971069335938,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 676,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 19.752086639404297,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 677,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 27.989927291870117,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 678,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 34.33749008178711,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 679,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 18.344648361206055,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 680,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 24.34061050415039,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 681,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 23.171119689941406,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 682,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 25.191204071044922,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 683,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 25.240524291992188,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 684,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 31.889793395996094,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 685,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 25.42430877685547,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 686,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 21.141984939575195,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 687,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 25.61771011352539,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 688,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 23.683090209960938,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 689,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 22.444671630859375,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 690,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 23.020095825195312,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 691,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 25.099533081054688,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 692,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 27.483070373535156,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 693,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 19.73581314086914,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 694,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 31.159210205078125,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 695,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 14.103363037109375,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 696,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 19.192611694335938,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 697,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 20.14474868774414,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 698,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 26.006885528564453,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 699,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 22.54824447631836,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 660,
+      "truth": "FAILED",
+      "maximum_frame_logit": -20.366722106933594,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 661,
+      "truth": "FAILED",
+      "maximum_frame_logit": -25.41891098022461,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 662,
+      "truth": "FAILED",
+      "maximum_frame_logit": -24.94477653503418,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 663,
+      "truth": "FAILED",
+      "maximum_frame_logit": -21.244972229003906,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 664,
+      "truth": "FAILED",
+      "maximum_frame_logit": -21.675382614135742,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 665,
+      "truth": "FAILED",
+      "maximum_frame_logit": -21.546382904052734,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 666,
+      "truth": "FAILED",
+      "maximum_frame_logit": -20.278945922851562,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 667,
+      "truth": "FAILED",
+      "maximum_frame_logit": -12.871095657348633,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 668,
+      "truth": "FAILED",
+      "maximum_frame_logit": -19.621688842773438,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 669,
+      "truth": "FAILED",
+      "maximum_frame_logit": -24.872920989990234,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 670,
+      "truth": "FAILED",
+      "maximum_frame_logit": -21.242963790893555,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 671,
+      "truth": "FAILED",
+      "maximum_frame_logit": -21.888166427612305,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 672,
+      "truth": "FAILED",
+      "maximum_frame_logit": -23.152088165283203,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 673,
+      "truth": "FAILED",
+      "maximum_frame_logit": -25.552383422851562,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 674,
+      "truth": "FAILED",
+      "maximum_frame_logit": -19.92099380493164,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 675,
+      "truth": "FAILED",
+      "maximum_frame_logit": -23.364259719848633,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 676,
+      "truth": "FAILED",
+      "maximum_frame_logit": -21.601757049560547,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 677,
+      "truth": "FAILED",
+      "maximum_frame_logit": -18.905677795410156,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 678,
+      "truth": "FAILED",
+      "maximum_frame_logit": -20.530128479003906,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 679,
+      "truth": "FAILED",
+      "maximum_frame_logit": -13.860483169555664,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 680,
+      "truth": "FAILED",
+      "maximum_frame_logit": -25.386213302612305,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 681,
+      "truth": "FAILED",
+      "maximum_frame_logit": -25.401214599609375,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 682,
+      "truth": "FAILED",
+      "maximum_frame_logit": -22.257640838623047,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 683,
+      "truth": "FAILED",
+      "maximum_frame_logit": -18.63667869567871,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 684,
+      "truth": "FAILED",
+      "maximum_frame_logit": -19.77935218811035,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 685,
+      "truth": "FAILED",
+      "maximum_frame_logit": -20.268150329589844,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 686,
+      "truth": "FAILED",
+      "maximum_frame_logit": -28.29826545715332,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 687,
+      "truth": "FAILED",
+      "maximum_frame_logit": -22.16518783569336,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 688,
+      "truth": "FAILED",
+      "maximum_frame_logit": -23.238601684570312,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 689,
+      "truth": "FAILED",
+      "maximum_frame_logit": -23.11390495300293,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 690,
+      "truth": "FAILED",
+      "maximum_frame_logit": -23.093612670898438,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 691,
+      "truth": "FAILED",
+      "maximum_frame_logit": -11.637983322143555,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 692,
+      "truth": "FAILED",
+      "maximum_frame_logit": -15.853927612304688,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 693,
+      "truth": "FAILED",
+      "maximum_frame_logit": -16.22505760192871,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 694,
+      "truth": "FAILED",
+      "maximum_frame_logit": -22.23124885559082,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 695,
+      "truth": "FAILED",
+      "maximum_frame_logit": -18.54206085205078,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 696,
+      "truth": "FAILED",
+      "maximum_frame_logit": -18.441184997558594,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 697,
+      "truth": "FAILED",
+      "maximum_frame_logit": -14.638655662536621,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 698,
+      "truth": "FAILED",
+      "maximum_frame_logit": -24.914880752563477,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 699,
+      "truth": "FAILED",
+      "maximum_frame_logit": -15.3023681640625,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1400,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.81911849975586,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1401,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 31.38401985168457,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1402,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 27.386356353759766,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1403,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 22.985363006591797,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1404,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 25.75901222229004,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1405,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 28.14844512939453,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1406,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 32.844146728515625,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1407,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 29.306169509887695,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1408,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 24.636831283569336,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1409,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 36.438323974609375,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1410,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 36.75185012817383,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1411,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 31.238468170166016,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1412,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 35.48429489135742,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1413,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 27.45489501953125,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1414,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 32.71990203857422,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1415,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 41.5771598815918,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1416,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 27.13481903076172,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1417,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 34.7213020324707,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1418,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.085168838500977,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1419,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 23.351512908935547,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1420,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": -15.529995918273926,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1421,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 35.82681655883789,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1422,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 32.12690353393555,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1423,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 22.434886932373047,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1424,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 28.433317184448242,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1425,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 32.59387969970703,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1426,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 29.42092514038086,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1427,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 33.13760757446289,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1428,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 38.98447799682617,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1429,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 32.711299896240234,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1430,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 33.018978118896484,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1431,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 31.587648391723633,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1432,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 22.660913467407227,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1433,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.1732120513916,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1434,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 36.087947845458984,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1435,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 29.11945915222168,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1436,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 16.708290100097656,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1437,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 32.70573043823242,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1438,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 28.631309509277344,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1439,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 18.49386978149414,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1400,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 20.131092071533203,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1401,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 22.422027587890625,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1402,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 26.436683654785156,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1403,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 20.487232208251953,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1404,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 19.238914489746094,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1405,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 21.8504695892334,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1406,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.366039276123047,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1407,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 22.866914749145508,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1408,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 18.305877685546875,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1409,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 26.386394500732422,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1410,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 24.652660369873047,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1411,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 19.63140869140625,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1412,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 28.933494567871094,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1413,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 21.522750854492188,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1414,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 20.671001434326172,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1415,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 24.91620635986328,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1416,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 21.614444732666016,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1417,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 26.576017379760742,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1418,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 23.340778350830078,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1419,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 17.79336929321289,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1420,
+      "truth": "FAILED",
+      "maximum_frame_logit": -9.700764656066895,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1421,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 20.035837173461914,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1422,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 24.638286590576172,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1423,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 16.326061248779297,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1424,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 18.11111831665039,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1425,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 26.155303955078125,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1426,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 19.748519897460938,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1427,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 24.698566436767578,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1428,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 28.236658096313477,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1429,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 29.76570701599121,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1430,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 28.231304168701172,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1431,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 25.3137264251709,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1432,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 20.609588623046875,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1433,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 24.349464416503906,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1434,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 30.444900512695312,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1435,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 17.658241271972656,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1436,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 9.381696701049805,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1437,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 25.357879638671875,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1438,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 22.813831329345703,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1439,
+      "truth": "COMPLETED",
+      "maximum_frame_logit": 23.945079803466797,
+      "prediction_set": [
+        "COMPLETED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1400,
+      "truth": "FAILED",
+      "maximum_frame_logit": -26.006786346435547,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1401,
+      "truth": "FAILED",
+      "maximum_frame_logit": -23.8945255279541,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1402,
+      "truth": "FAILED",
+      "maximum_frame_logit": -26.06116485595703,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1403,
+      "truth": "FAILED",
+      "maximum_frame_logit": -24.865055084228516,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1404,
+      "truth": "FAILED",
+      "maximum_frame_logit": -22.85695457458496,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1405,
+      "truth": "FAILED",
+      "maximum_frame_logit": -25.153717041015625,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1406,
+      "truth": "FAILED",
+      "maximum_frame_logit": -16.184337615966797,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1407,
+      "truth": "FAILED",
+      "maximum_frame_logit": -27.526275634765625,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1408,
+      "truth": "FAILED",
+      "maximum_frame_logit": -17.243907928466797,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1409,
+      "truth": "FAILED",
+      "maximum_frame_logit": -24.18143081665039,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1410,
+      "truth": "FAILED",
+      "maximum_frame_logit": -25.28386688232422,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1411,
+      "truth": "FAILED",
+      "maximum_frame_logit": -23.68267822265625,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1412,
+      "truth": "FAILED",
+      "maximum_frame_logit": -17.406917572021484,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1413,
+      "truth": "FAILED",
+      "maximum_frame_logit": -24.173831939697266,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1414,
+      "truth": "FAILED",
+      "maximum_frame_logit": -23.7785587310791,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1415,
+      "truth": "FAILED",
+      "maximum_frame_logit": -20.18478775024414,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1416,
+      "truth": "FAILED",
+      "maximum_frame_logit": -20.70641326904297,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1417,
+      "truth": "FAILED",
+      "maximum_frame_logit": -22.74142074584961,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1418,
+      "truth": "FAILED",
+      "maximum_frame_logit": -18.059965133666992,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1419,
+      "truth": "FAILED",
+      "maximum_frame_logit": -24.614866256713867,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1420,
+      "truth": "FAILED",
+      "maximum_frame_logit": -31.593151092529297,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1421,
+      "truth": "FAILED",
+      "maximum_frame_logit": -21.700529098510742,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1422,
+      "truth": "FAILED",
+      "maximum_frame_logit": -16.241867065429688,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1423,
+      "truth": "FAILED",
+      "maximum_frame_logit": -26.215694427490234,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1424,
+      "truth": "FAILED",
+      "maximum_frame_logit": -23.226848602294922,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1425,
+      "truth": "FAILED",
+      "maximum_frame_logit": -21.897613525390625,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1426,
+      "truth": "FAILED",
+      "maximum_frame_logit": -16.675548553466797,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1427,
+      "truth": "FAILED",
+      "maximum_frame_logit": -25.599746704101562,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1428,
+      "truth": "FAILED",
+      "maximum_frame_logit": -18.34241485595703,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1429,
+      "truth": "FAILED",
+      "maximum_frame_logit": -21.359230041503906,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1430,
+      "truth": "FAILED",
+      "maximum_frame_logit": -25.356971740722656,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1431,
+      "truth": "FAILED",
+      "maximum_frame_logit": -20.133888244628906,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1432,
+      "truth": "FAILED",
+      "maximum_frame_logit": -30.073883056640625,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1433,
+      "truth": "FAILED",
+      "maximum_frame_logit": -24.167699813842773,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1434,
+      "truth": "FAILED",
+      "maximum_frame_logit": -24.390804290771484,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1435,
+      "truth": "FAILED",
+      "maximum_frame_logit": -25.944414138793945,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1436,
+      "truth": "FAILED",
+      "maximum_frame_logit": -20.418195724487305,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1437,
+      "truth": "FAILED",
+      "maximum_frame_logit": -24.529666900634766,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1438,
+      "truth": "FAILED",
+      "maximum_frame_logit": -19.252971649169922,
+      "prediction_set": [
+        "FAILED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1439,
+      "truth": "FAILED",
+      "maximum_frame_logit": -21.725221633911133,
+      "prediction_set": [
+        "FAILED"
+      ]
+    }
+  ]
+}

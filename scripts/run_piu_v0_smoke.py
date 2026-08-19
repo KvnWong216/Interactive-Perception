@@ -47,6 +47,9 @@ from interactive_perception.policy_client import (  # noqa: E402
     OpenPiWebsocketPolicy,
     build_observation,
 )
+from interactive_perception.rgb_outcome_critic import (  # noqa: E402
+    V12bPublicRGBOutcomeCritic,
+)
 
 OUTCOME_QUERY = "Find the butter"
 TARGET_PIXELS = 256
@@ -202,6 +205,39 @@ def static_evaluator(*, bddl: Path, seed: int, wait_steps: int) -> dict:
         env.close()
 
 
+def replay_final_task_evaluator(
+    *, bddl: Path, seed: int, wait_steps: int, actions: list[list[float]]
+) -> dict:
+    """Score task success only after the online controller has terminated."""
+
+    from libero.libero.envs import SegmentationRenderEnv
+
+    env = SegmentationRenderEnv(
+        bddl_file_name=str(bddl), camera_heights=256, camera_widths=256
+    )
+    try:
+        env.seed(seed)
+        observation = env.reset()
+        for _ in range(wait_steps):
+            observation, _, _, _ = env.step(DUMMY_ACTION)
+        task_success = False
+        success_step = None
+        for index, action in enumerate(actions, start=1):
+            observation, _, done, _ = env.step(action)
+            if bool(done) and success_step is None:
+                task_success = True
+                success_step = index
+        return {
+            "task_success": task_success,
+            "first_success_step": success_step,
+            "scored_after_controller_terminal": True,
+            "actions_replayed": len(actions),
+            "final_target_pixels": policy_visibility(env, observation),
+        }
+    finally:
+        env.close()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--host", default="0.0.0.0")
@@ -209,6 +245,20 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=1399)
     parser.add_argument("--wait-steps", type=int, default=10)
     parser.add_argument("--replan-steps", type=int, default=5)
+    parser.add_argument("--execute-final-act", action="store_true")
+    parser.add_argument("--act-steps", type=int, default=400)
+    parser.add_argument(
+        "--case",
+        action="append",
+        choices=(
+            "hidden_butter",
+            "same_rgb_visible_cream_cheese",
+            "open_visible_butter",
+            "middle_drawer_empty",
+            "drawer_action_failed_control",
+        ),
+        default=None,
+    )
     parser.add_argument(
         "--model",
         type=Path,
@@ -217,7 +267,14 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "results/smoke/piu_v0_end_to_end_seed1399.json",
+        default=ROOT
+        / "results/smoke/piu_v0_v12b_full_pipeline_v1_seed1399.json",
+    )
+    parser.add_argument(
+        "--outcome-composite",
+        type=Path,
+        default=ROOT
+        / "results/calibration/t01_open_and_observe_outcome_v12b_composite_candidate.json",
     )
     parser.add_argument(
         "--asset-dir",
@@ -230,7 +287,7 @@ def main() -> None:
         ),
     )
     args = parser.parse_args()
-    for name in ("model", "output", "asset_dir"):
+    for name in ("model", "output", "asset_dir", "outcome_composite"):
         value = getattr(args, name)
         if value is None:
             continue
@@ -243,6 +300,9 @@ def main() -> None:
             raise FileExistsError(f"immutable asset directory is not empty: {args.asset_dir}")
         args.asset_dir.mkdir(parents=True, exist_ok=True)
     predictor = PIUSidecarPredictor(args.model)
+    outcome_critic = V12bPublicRGBOutcomeCritic(
+        args.outcome_composite, root=ROOT
+    )
     parser_model = FrozenRetrievalTaskParser()
     policy = OpenPiWebsocketPolicy(host=args.host, port=args.port)
     metadata = policy.server_metadata
@@ -291,6 +351,15 @@ def main() -> None:
             "expected_outcome": "FAILED",
         },
     )
+    if args.case is not None:
+        requested = set(args.case)
+        cases = tuple(case for case in cases if case["id"] in requested)
+    if args.execute_final_act and any(
+        case["id"] != "hidden_butter" for case in cases
+    ):
+        raise ValueError(
+            "physical final ACT is currently registered only for hidden_butter"
+        )
     from libero.libero.envs import OffScreenRenderEnv
 
     rows = []
@@ -373,13 +442,18 @@ def main() -> None:
                 }
             ]
             outcome_set = None
+            outcome_prediction = None
             execution = None
             evaluator = None
+            final_task_evaluator = None
+            information_actions: list[list[float]] = []
+            act_execution = None
             terminal = "DIRECT_ACT_HANDOFF" if decision.selected.primitive is Primitive.DIRECT_ACT else "ABSTAIN"
             if decision.selected.primitive is Primitive.OPEN_TO_INSPECT:
                 memory.begin(decision.selected.candidate_id)
                 history_features = [spatial_features]
                 robot_history = [query_packet.state]
+                rgb_history = [query_packet]
                 capture_steps = {
                     max(0, round(case["open_steps"] * fraction) - 1): index
                     for index, fraction in enumerate((0.25, 0.50, 0.75, 1.00), start=1)
@@ -394,6 +468,7 @@ def main() -> None:
                             )
                         )
                         robot_history.append(packet.state)
+                        rgb_history.append(packet)
                         index = capture_steps[step]
                         save_public_asset(
                             packet,
@@ -412,6 +487,7 @@ def main() -> None:
                     replan_steps=args.replan_steps,
                     step_observer=observe_step,
                 )
+                information_actions = list(recording.actions)
                 after_query = build_observation(observation, OUTCOME_QUERY)
                 history_features.append(
                     policy.encode_prefix(
@@ -419,19 +495,18 @@ def main() -> None:
                     )
                 )
                 robot_history.append(after_query.state)
+                rgb_history.append(after_query)
                 save_public_asset(
                     after_query,
                     name="05_returned",
                     phase="AFTER_RETURN",
                     step=execution.return_steps,
                 )
-                if len(history_features) != 6:
+                if len(rgb_history) != 6:
                     outcome_set = ("FAILED", "REVEALED", "EMPTY")
                 else:
-                    outcome_set = predictor.outcome_set(
-                        history_features=np.asarray(history_features),
-                        robot_history=np.asarray(robot_history),
-                    )
+                    outcome_prediction = outcome_critic.predict(rgb_history)
+                    outcome_set = outcome_prediction.prediction_set
                 memory.accept_outcome(
                     decision.selected.candidate_id,
                     outcome_set,
@@ -482,11 +557,49 @@ def main() -> None:
                             "effect_forecasts": list(next_forecasts),
                         }
                     )
+                    if (
+                        args.execute_final_act
+                        and case["id"] == "hidden_butter"
+                        and next_decision.selected.primitive is Primitive.DIRECT_ACT
+                    ):
+                        act_start_index = len(recording.actions)
+                        act_plan: list[np.ndarray] = []
+                        capture_act_steps = {
+                            max(0, round(args.act_steps * fraction) - 1): index
+                            for index, fraction in enumerate(
+                                (0.25, 0.50, 0.75, 1.00), start=1
+                            )
+                        }
+                        for act_step in range(args.act_steps):
+                            if not act_plan:
+                                chunks = policy.sample_chunks(
+                                    build_observation(observation, case["prompt"]), 1
+                                )
+                                act_plan.extend(chunks[0][: args.replan_steps])
+                            observation, _, _, _ = recording.step(
+                                act_plan.pop(0).tolist()
+                            )
+                            if act_step in capture_act_steps:
+                                save_public_asset(
+                                    build_observation(observation, case["prompt"]),
+                                    name=(
+                                        f"{5 + capture_act_steps[act_step]:02d}_act"
+                                    ),
+                                    phase="DIRECT_ACT",
+                                    step=act_step,
+                                )
+                        act_execution = {
+                            "prompt": case["prompt"],
+                            "fixed_budget_steps": args.act_steps,
+                            "action_start_index": act_start_index,
+                            "task_predicate_used_for_control": False,
+                        }
+                        terminal = "FINAL_TASK_EVALUATION_PENDING"
                 evaluator = replay_evaluator_trace(
                     bddl=case["bddl"],
                     seed=args.seed,
                     wait_steps=args.wait_steps,
-                    actions=recording.actions,
+                    actions=information_actions,
                     open_history_steps=capture_steps,
                     counterpart_target_qpos=(
                         paired_target_qpos if case["id"] == "middle_drawer_empty" else {}
@@ -497,6 +610,18 @@ def main() -> None:
                         point["name"]: point["qpos"]
                         for point in evaluator["target_qpos_history"]
                     }
+                if act_execution is not None:
+                    final_task_evaluator = replay_final_task_evaluator(
+                        bddl=case["bddl"],
+                        seed=args.seed,
+                        wait_steps=args.wait_steps,
+                        actions=recording.actions,
+                    )
+                    terminal = (
+                        "FINAL_TASK_SUCCESS"
+                        if final_task_evaluator["task_success"]
+                        else "FINAL_TASK_FAILED_AFTER_INFORMATION_ACQUIRED"
+                    )
             else:
                 evaluator = static_evaluator(
                     bddl=case["bddl"], seed=args.seed, wait_steps=args.wait_steps
@@ -524,6 +649,11 @@ def main() -> None:
                 {
                     "event": "OUTCOME",
                     "prediction_set": list(outcome_set) if outcome_set else None,
+                    "public_rgb_critic": (
+                        outcome_prediction.to_dict()
+                        if outcome_prediction is not None
+                        else None
+                    ),
                     "memory": memory.to_dict(),
                     "terminal": terminal,
                 }
@@ -551,6 +681,7 @@ def main() -> None:
                         if execution is not None
                         else None
                     ),
+                    "act_executor": act_execution,
                     "assets": (
                         {
                             "public_keyframes": public_history_assets,
@@ -563,6 +694,7 @@ def main() -> None:
                     "evaluator_only": {
                         "revealed_any_history": evaluator_revealed,
                         "visibility_history": evaluator["visibility_history"],
+                        "final_task": final_task_evaluator,
                     },
                     "online_oracle_inputs": [],
                 }
@@ -574,17 +706,43 @@ def main() -> None:
         finally:
             env.close()
     report = {
-        "schema_version": "interaction-uncertainty.piu-v0-smoke.v1",
-        "claim_status": "non-paper end-to-end inference smoke",
+        "schema_version": "interaction-uncertainty.piu-v0-v12b-behavior.v1",
+        "claim_status": (
+            "disposable-seed behavior demonstration using the clean-and-sealed-GO "
+            "v12b outcome critic; not an independent validation split"
+        ),
         "endpoint": "semantic DIRECT_ACT handoff after prompt-relevant information acquisition; not final manipulation success",
         "repository_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
         "model": str(args.model.relative_to(ROOT)),
         "model_sha256": digest(args.model),
         "policy": "frozen pi05_libero action + prefix server",
+        "outcome_critic": {
+            "path": str(args.outcome_composite.relative_to(ROOT)),
+            "sha256": outcome_critic.composite_sha256,
+            "online_inputs": [
+                "six stock agentview RGB frames",
+                "six stock wrist RGB frames",
+            ],
+            "online_oracle_inputs": [],
+        },
         "seed": args.seed,
         "cases": len(rows),
         "initial_correct": sum(row["initial_correct"] for row in rows),
         "outcome_correct": sum(row["outcome_correct"] for row in rows),
+        "information_acquisition_successes": sum(
+            row["terminal"]
+            in {
+                "INFORMATION_ACQUIRED_AND_DIRECT_HANDOFF",
+                "FINAL_TASK_SUCCESS",
+                "FINAL_TASK_FAILED_AFTER_INFORMATION_ACQUIRED",
+            }
+            for row in rows
+        ),
+        "physical_final_act_executed": args.execute_final_act,
+        "final_task_successes": sum(
+            bool((row["evaluator_only"].get("final_task") or {}).get("task_success"))
+            for row in rows
+        ),
         "online_oracle_inputs": [],
         "asset_root": (
             str(args.asset_dir.relative_to(ROOT))

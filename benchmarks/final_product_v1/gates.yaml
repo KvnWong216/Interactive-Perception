@@ -2,7 +2,7 @@ schema_version: interactive-perception.final-product-gates.v1
 name: Prompt-Conditioned Interactive Perception Final Product
 
 frozen_requirements:
-  conformal_error_rate: 0.10
+  conformal_error_rate: 0.05
   capability_confidence: 0.95
   minimum_action_reliability_lower_bound: 0.80
   original_strict_action_reliability_reported_also: 0.90
@@ -15,15 +15,19 @@ product_definition: >-
   task rather than stopping at target reveal.
 
 declared_action_scope:
-  current_core: [ACT, REMOVE_OCCLUDER]
-  required_for_full_product: [ACT, REMOVE_OCCLUDER, MOVE_CLOSER, ROTATE, NOT_FOUND]
+  current_core: [ACT, OPEN_TO_INSPECT]
+  required_for_full_product: [ACT, OPEN_TO_INSPECT, REMOVE_OCCLUDER, LIFT_TO_INSPECT, ROTATE_TO_INSPECT, NOT_FOUND]
   rule: Adding an action reopens its capability, effect-calibration, and safety gates.
 
 milestones:
   piu_v0_information_loop_smoke:
     status: GO
-    evidence: results/smoke/piu_v0_full_pipeline_v4_seed1399.json
-    limitation: Disposable seed 1399; DIRECT_ACT is a semantic handoff, not physical task completion.
+    evidence: results/smoke/piu_v0_v12b_full_pipeline_v1_seed1399.json
+    limitation: Disposable seed 1399; correct behavior is not held-out PIU reliability.
+  piu_v0_original_prompt_physical_chain:
+    status: GO
+    evidence: results/smoke/piu_v0_v12b_physical_act_v1_seed1399.json
+    limitation: Information acquired 1/1 but final task failed 0/1; non-claim diagnostic.
   t01_routed_open_prototype:
     status: GO
     evidence: results/capability/t01_conformal_reveal_100seed_v1.json
@@ -78,26 +82,24 @@ gates:
   - id: FP3
     name: Calibrated action-effect model
     blocking: true
-    status: NOT_GO
+    status: PARTIAL
     pass_condition: >-
       For every enabled information action, predict the post-action observable
       effect from (prompt, observation, action), with class-conditional
       conformal coverage at least 0.90 on disjoint scenes.
-    evidence: results/smoke/piu_v0_full_pipeline_v4_seed1399.json
+    evidence: results/calibration/t01_open_and_observe_sealed_audit_v12b.json
     current: >-
-      The composite executor and six-frame hierarchical critic are implemented,
-      but v7 is invalidated by a final-frame-only label bug. Debug seed 770 saw
-      the target during opening and lost it after return; v7 would call this
-      EMPTY. The first audit stopped at 77/300 and is debug-only. Temporal-label
-      v3 later froze, but v8 failed development: FAILED 7/7, REVEALED 7/9,
-      EMPTY 4/5. V9 then failed its physical EMPTY gate at 36/40 (lower 0.786)
-      on 660-699. V10 separates temporal target evidence from observation
-      completion; fresh seeds 1400-1439 must pass before 900-999 can be opened.
-      The v4 collector runs the controller in OffScreenRenderEnv and reads
-      evaluator truth only by replay after controller termination. Local v4
-      disposable smoke now passes REVEALED/EMPTY/FAILED, and the PIU smoke
-      predicts all three singleton outcomes. The 120/120 v10 result on
-      contaminated 660-699 is model-selection evidence, not clean validation.
+      For T01 OPEN_AND_OBSERVE, the frozen v12b public-RGB critic passed fresh
+      development (120 rows) and a one-time sealed audit (300 rows). Sealed
+      FAILED and REVEALED are 100/100 singleton; EMPTY retains 99/100 correct
+      labels and is singleton-correct 94/100 (lower 0.885). There are zero
+      false singleton EMPTY or REVEALED predictions, mean set size 1.017, and
+      5/300 ambiguities route to SAFE_STOP. Physical REVEALED and local EMPTY
+      effects are both 100/100 (lower 0.970); six-frame history retains 100/100
+      reveals versus 96/100 final-frame-only. Controller oracle reads are zero.
+      FP3 remains PARTIAL because the pass condition requires disjoint scenes
+      and every enabled information action, while current evidence is one T01
+      drawer context.
 
   - id: FP4
     name: Expected-risk optimizer
@@ -127,12 +129,14 @@ gates:
       Audit the complete controller and show zero reads of simulator joints,
       segmentation, hidden target poses, or task predicates for routing,
       stopping, belief updates, and NOT_FOUND.
-    evidence: results/audits/piu_v0_full_pipeline_v4_privileged_input_audit.json
+    evidence: results/audits/piu_v0_v12b_physical_act_v1_privileged_input_audit.json
     current: >-
-      Source/runtime guards pass for the OffScreen controller and the actual
-      five-case PIU smoke. Every trace row reports zero online oracle inputs;
-      segmentation and joints are confined to post-terminal evaluator replay.
-      The smoke is non-paper because its learned heads are not clean-validated.
+      Source/runtime guards pass for the OffScreen controller, the five-case
+      v12b loop, and an actual original-prompt physical continuation. Every
+      trace reports zero online oracle inputs; segmentation, joints, and task
+      predicates are confined to evaluator replay after controller terminal.
+      The full gate remains PARTIAL because PIU belief/effect inference is not
+      yet scene-disjoint validated.
 
   - id: FP6
     name: Prompt-alignment counterfactuals
@@ -156,13 +160,14 @@ gates:
       Reliably acquire the required information in at least three disjoint
       action families, with a one-sided 95% lower bound of at least 0.80 for
       each family; also report the original 0.90 decision.
-    evidence: results/capability/t01_conformal_reveal_100seed_v1.json
+    evidence: results/calibration/t01_open_and_observe_sealed_audit_v12b.json
     current: >-
-      Drawer opening is 97/100 by joint motion, but strict camera-visible
-      information is 57/60 and passes the revised 0.80 but not the original
-      0.90 lower-bound requirement;
-      the return-to-observe sub-controller alone is 30/30 diagnostic-only.
-      Full OPEN_AND_OBSERVE and move/rotate/other-occluder families are not certified.
+      Full T01 OPEN_AND_OBSERVE is now certified for prompt-resolvable reveal
+      and local-empty information effects on the sealed audit: both are 100/100
+      with lower 0.970 and pass the original 0.90 standard. Complete return is
+      separately 199/200 because one EMPTY return timed out after the view was
+      already certified. This is only one action family; viewpoint, removal,
+      lift, and rotate remain uncertified.
 
   - id: FP8
     name: Final task completion
@@ -173,7 +178,11 @@ gates:
       one-sided 95% reliability lower bound of at least 0.80 and a positive
       paired improvement over the monolithic VLA.
     evidence: results/t01_final_task_risk_readiness_v1.json
-    current: OPEN_CONTAINER -> ACT is 0/5; direct open-drawer retrieval is 0/5.
+    current: >-
+      Historical oracle-switched OPEN_CONTAINER -> ACT is 0/5. One new
+      oracle-free disposable chain acquired information 1/1 and then failed
+      the original physical task after a fixed 400-step ACT continuation 0/1.
+      No positive paired final-task benefit is established.
 
   - id: FP9
     name: Abstention and exhaustion
@@ -205,7 +214,8 @@ gates:
       complete failure demos, automated gate report, and clean GPU shutdown.
     evidence: README.md
     current: >-
-      A one-command PIU information-loop smoke, immutable model/data hashes,
-      training script, and oracle audit now exist. The object-level V1 frontend,
-      clean paper runner, physical DIRECT_ACT continuation, and final product
-      artifacts do not.
+      One-command PIU behavior and physical-continuation runners, immutable
+      model/data hashes, training scripts, clean/sealed outcome reports,
+      visualization manifests, and oracle audits now exist. The object-level
+      scene-disjoint V1 benchmark, clean paper runner, and final product matrix
+      remain incomplete.

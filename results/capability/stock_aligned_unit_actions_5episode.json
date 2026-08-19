@@ -1,0 +1,150 @@
+{
+  "policy": "pi05_libero",
+  "source_suite": "libero_object",
+  "source_task_index": 4,
+  "source_prompt": "pick up the ketchup and place it in the basket",
+  "camera_protocol": "stock_unmodified",
+  "episodes": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "actions": {
+    "MOVE_CLOSER": {
+      "prompt": "Pick up the ketchup, bring it closer to the wrist camera to inspect it, then put it down.",
+      "trials": 5,
+      "successes": 0,
+      "rows": [
+        {
+          "episode": 0,
+          "success": false,
+          "grasped": true,
+          "put_down": false,
+          "maximum_lift_m": 0.26438695082194613,
+          "maximum_rotation_degrees": 26.531994939646168,
+          "initial_camera_distance_m": 0.41102583047601227,
+          "minimum_camera_distance_m": 0.1415616739893211,
+          "final_height_change_m": 0.05440274788435897,
+          "video": "results/demos/stock_aligned_units_v1/move_closer_episode000.mp4"
+        },
+        {
+          "episode": 1,
+          "success": false,
+          "grasped": true,
+          "put_down": false,
+          "maximum_lift_m": 0.23876487202910016,
+          "maximum_rotation_degrees": 12.990832702132709,
+          "initial_camera_distance_m": 0.38891426664847284,
+          "minimum_camera_distance_m": 0.15112446109975322,
+          "final_height_change_m": 0.054402525841431786,
+          "video": null
+        },
+        {
+          "episode": 2,
+          "success": false,
+          "grasped": true,
+          "put_down": false,
+          "maximum_lift_m": 0.25247416804378475,
+          "maximum_rotation_degrees": 8.790823262315671,
+          "initial_camera_distance_m": 0.3889113922191205,
+          "minimum_camera_distance_m": 0.14886236576245332,
+          "final_height_change_m": 0.054402451286722685,
+          "video": null
+        },
+        {
+          "episode": 3,
+          "success": false,
+          "grasped": true,
+          "put_down": false,
+          "maximum_lift_m": 0.23936643754447187,
+          "maximum_rotation_degrees": 6.294877023921509,
+          "initial_camera_distance_m": 0.4171972077352795,
+          "minimum_camera_distance_m": 0.14843244948160483,
+          "final_height_change_m": 0.05440237490494467,
+          "video": null
+        },
+        {
+          "episode": 4,
+          "success": false,
+          "grasped": true,
+          "put_down": false,
+          "maximum_lift_m": 0.23612611990607577,
+          "maximum_rotation_degrees": 10.525810020885968,
+          "initial_camera_distance_m": 0.4084628537691323,
+          "minimum_camera_distance_m": 0.15235773552094828,
+          "final_height_change_m": 0.05440261562417887,
+          "video": null
+        }
+      ]
+    },
+    "ROTATE": {
+      "prompt": "Pick up the ketchup, rotate it with the wrist to inspect it, then put it down.",
+      "trials": 5,
+      "successes": 0,
+      "rows": [
+        {
+          "episode": 0,
+          "success": false,
+          "grasped": true,
+          "put_down": false,
+          "maximum_lift_m": 0.23935950190435193,
+          "maximum_rotation_degrees": 22.56307808711907,
+          "initial_camera_distance_m": 0.41102583047601227,
+          "minimum_camera_distance_m": 0.14498183115171726,
+          "final_height_change_m": 0.05440202925684636,
+          "video": "results/demos/stock_aligned_units_v1/rotate_episode000.mp4"
+        },
+        {
+          "episode": 1,
+          "success": false,
+          "grasped": true,
+          "put_down": false,
+          "maximum_lift_m": 0.2425910583509386,
+          "maximum_rotation_degrees": 10.931216026860543,
+          "initial_camera_distance_m": 0.38891426664847284,
+          "minimum_camera_distance_m": 0.1523742591093798,
+          "final_height_change_m": 0.054402567701318995,
+          "video": null
+        },
+        {
+          "episode": 2,
+          "success": false,
+          "grasped": true,
+          "put_down": false,
+          "maximum_lift_m": 0.23972272568218786,
+          "maximum_rotation_degrees": 7.945242307521439,
+          "initial_camera_distance_m": 0.3889113922191205,
+          "minimum_camera_distance_m": 0.1434184099715414,
+          "final_height_change_m": 0.05440270995253776,
+          "video": null
+        },
+        {
+          "episode": 3,
+          "success": false,
+          "grasped": true,
+          "put_down": false,
+          "maximum_lift_m": 0.20776899574867888,
+          "maximum_rotation_degrees": 9.07637496791735,
+          "initial_camera_distance_m": 0.4171972077352795,
+          "minimum_camera_distance_m": 0.15197245619814317,
+          "final_height_change_m": 0.05440178002027469,
+          "video": null
+        },
+        {
+          "episode": 4,
+          "success": false,
+          "grasped": true,
+          "put_down": false,
+          "maximum_lift_m": 0.24790225089923043,
+          "maximum_rotation_degrees": 14.068780242295494,
+          "initial_camera_distance_m": 0.4084628537691323,
+          "minimum_camera_distance_m": 0.1529699057478816,
+          "final_height_change_m": 0.054402485015431025,
+          "video": null
+        }
+      ]
+    }
+  }
+}

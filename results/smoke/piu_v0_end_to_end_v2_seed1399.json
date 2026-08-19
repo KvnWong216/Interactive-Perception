@@ -1,0 +1,822 @@
+{
+  "schema_version": "interaction-uncertainty.piu-v0-smoke.v1",
+  "claim_status": "non-paper end-to-end inference smoke",
+  "endpoint": "semantic DIRECT_ACT handoff after prompt-relevant information acquisition; not final manipulation success",
+  "repository_commit": "de55641d191c728b08a2ca3c6a185c953c681869",
+  "model": "results/models/piu_v0_3_sidecar.pt",
+  "model_sha256": "c3b866f519096bfb254ac19fe6ce5ef2536a98a6ff1ce3211b400e03a1a75eab",
+  "policy": "frozen pi05_libero action + prefix server",
+  "seed": 1399,
+  "cases": 5,
+  "initial_correct": 5,
+  "outcome_correct": 5,
+  "online_oracle_inputs": [],
+  "direct_act_limitation": "DIRECT_ACT is a semantic handoff only; context-specific physical reliability is not yet trained or evaluated",
+  "perception_limitation": "V0 uses registered public drawer affordances and a pi05-prefix visible-target proxy; Grounding DINO/SAM object grounding is V1",
+  "utility_contract": "physical information actions use effect-head EIG/progress; rank-head readiness is used only by the DIRECT semantic handoff",
+  "rows": [
+    {
+      "case": "hidden_butter",
+      "seed": 1399,
+      "prompt": "Place the butter in the basket",
+      "initial_expected": "OPEN_TO_INSPECT",
+      "initial_selected": "OPEN_TO_INSPECT",
+      "initial_correct": true,
+      "outcome_expected": "REVEALED",
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "outcome_correct": true,
+      "terminal": "INFORMATION_ACQUIRED_AND_DIRECT_HANDOFF",
+      "trace": [
+        {
+          "event": "INITIAL_DECISION",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.021493909880518913,
+                  "middle_drawer": 0.9785031676292419,
+                  "other_unsearched_region": 1.3405465324467514e-06,
+                  "absent": 1.5935759165586205e-06
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.07490458811177225
+              }
+            ],
+            "task_uncertainty": 0.07490458811177225,
+            "node_uncertainty": {
+              "drawer_middle_interior": 0.9785031676292419
+            },
+            "model_stamp": "piu-sidecar-v0:c3b866f519096bfb",
+            "conformal_sets": {
+              "target_location": [
+                "middle_drawer"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "open_to_inspect:drawer_middle",
+              "primitive": "OPEN_TO_INSPECT",
+              "target_id": "drawer_middle",
+              "subtask": "Open the middle layer of the drawer",
+              "stop_condition": "the opening attempt ends and six public observations are available",
+              "cost": 0.18,
+              "physical_risk": 0.05
+            },
+            "utilities": {
+              "open_to_inspect:drawer_middle": {
+                "expected_information_gain": 0.06574960726151538,
+                "expected_task_progress": 0.8503462672233582,
+                "execution_success_probability": 0.999691426550271,
+                "cost": 0.18,
+                "physical_risk": 0.05,
+                "utility": 1.1482779847292774
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.07490458811177225,
+            "valid_candidate_ids": [
+              "open_to_inspect:drawer_middle",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": {
+            "open_to_inspect:drawer_middle": {
+              "outcomes": {
+                "FAILED": 0.00030857344972901046,
+                "REVEALED": 0.7086635828018188,
+                "EMPTY": 0.2910277843475342
+              },
+              "expected_future_uncertainty": 0.009154980850256872,
+              "execution_success_probability": 0.999691426550271,
+              "expected_task_progress": 0.8503462672233582
+            }
+          }
+        },
+        {
+          "event": "POST_OUTCOME_REPLAN",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.9821455478668213,
+                  "middle_drawer": 0.0178466085344553,
+                  "other_unsearched_region": 4.075058768648887e-06,
+                  "absent": 3.7454160519700963e-06
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.06466222954983247
+              }
+            ],
+            "task_uncertainty": 0.06466222954983247,
+            "node_uncertainty": {
+              "drawer_middle_interior": 0.0178466085344553
+            },
+            "model_stamp": "piu-sidecar-v0:c3b866f519096bfb",
+            "conformal_sets": {
+              "target_location": [
+                "visible_workspace"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "direct_act:prompt_target",
+              "primitive": "DIRECT_ACT",
+              "target_id": "prompt_target",
+              "subtask": "Pick up the butter",
+              "stop_condition": "target is grasped or the action visibly fails",
+              "cost": 0.1,
+              "physical_risk": 0.1
+            },
+            "utilities": {
+              "direct_act:prompt_target": {
+                "expected_information_gain": 0.046703731401277856,
+                "expected_task_progress": 0.963489830493927,
+                "execution_success_probability": 0.9821455478668213,
+                "cost": 0.1,
+                "physical_risk": 0.1,
+                "utility": 1.3358371199830914
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.06466222954983247,
+            "valid_candidate_ids": [
+              "direct_act:prompt_target",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": [
+            "direct_act:prompt_target"
+          ]
+        },
+        {
+          "event": "OUTCOME",
+          "prediction_set": [
+            "REVEALED"
+          ],
+          "memory": {
+            "observation_count": 2,
+            "belief_count": 2,
+            "searched_regions": [],
+            "attempt_counts": {
+              "open_to_inspect:drawer_middle": 1
+            },
+            "observed_outcomes": [
+              {
+                "candidate_id": "open_to_inspect:drawer_middle",
+                "prediction_set": [
+                  "REVEALED"
+                ]
+              }
+            ]
+          },
+          "terminal": "INFORMATION_ACQUIRED_AND_DIRECT_HANDOFF"
+        }
+      ],
+      "executor": {
+        "open_steps": 300,
+        "return_steps": 42,
+        "return_phase": "COMPLETE"
+      },
+      "evaluator_only": {
+        "revealed_any_history": true,
+        "visibility_history": [
+          {
+            "name": "before",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_01",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_02",
+            "target_pixels": {
+              "agentview": 308,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_03",
+            "target_pixels": {
+              "agentview": 307,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_04",
+            "target_pixels": {
+              "agentview": 306,
+              "wrist": 5873
+            }
+          },
+          {
+            "name": "after",
+            "target_pixels": {
+              "agentview": 305,
+              "wrist": 1027
+            }
+          }
+        ]
+      },
+      "online_oracle_inputs": []
+    },
+    {
+      "case": "same_rgb_visible_cream_cheese",
+      "seed": 1399,
+      "prompt": "Place the cream cheese in the basket",
+      "initial_expected": "DIRECT_ACT",
+      "initial_selected": "DIRECT_ACT",
+      "initial_correct": true,
+      "outcome_expected": null,
+      "outcome_prediction_set": null,
+      "outcome_correct": true,
+      "terminal": "DIRECT_ACT_HANDOFF",
+      "trace": [
+        {
+          "event": "INITIAL_DECISION",
+          "belief": {
+            "prompt": "Place the cream cheese in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.9999991655349731,
+                  "middle_drawer": 7.946005666781275e-07,
+                  "other_unsearched_region": 4.662739172545116e-08,
+                  "absent": 2.179691271919637e-08
+                },
+                "importance": 1.0,
+                "normalized_entropy": 9.497708085457951e-06
+              }
+            ],
+            "task_uncertainty": 9.497708085457951e-06,
+            "node_uncertainty": {
+              "drawer_middle_interior": 7.946005666781275e-07
+            },
+            "model_stamp": "piu-sidecar-v0:c3b866f519096bfb",
+            "conformal_sets": {
+              "target_location": [
+                "visible_workspace"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "direct_act:prompt_target",
+              "primitive": "DIRECT_ACT",
+              "target_id": "prompt_target",
+              "subtask": "Pick up the cream cheese",
+              "stop_condition": "target is grasped or the action visibly fails",
+              "cost": 0.1,
+              "physical_risk": 0.1
+            },
+            "utilities": {
+              "direct_act:prompt_target": {
+                "expected_information_gain": -0.017099957696128834,
+                "expected_task_progress": 0.9999996423721313,
+                "execution_success_probability": 0.9999991655349731,
+                "cost": 0.1,
+                "physical_risk": 0.1,
+                "utility": 1.3578980598180355
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 9.497708085457951e-06,
+            "valid_candidate_ids": [
+              "direct_act:prompt_target",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": {
+            "direct_act:prompt_target": {
+              "outcomes": {
+                "HANDOFF_READY": 0.9999991655349731,
+                "HANDOFF_UNSUPPORTED": 8.344650268554688e-07
+              },
+              "expected_future_uncertainty": 0.017109455404214293,
+              "execution_success_probability": 0.9999991655349731,
+              "expected_task_progress": 0.9999996423721313
+            }
+          }
+        },
+        {
+          "event": "OUTCOME",
+          "prediction_set": null,
+          "memory": {
+            "observation_count": 1,
+            "belief_count": 1,
+            "searched_regions": [],
+            "attempt_counts": {},
+            "observed_outcomes": []
+          },
+          "terminal": "DIRECT_ACT_HANDOFF"
+        }
+      ],
+      "executor": null,
+      "evaluator_only": {
+        "revealed_any_history": false,
+        "visibility_history": [
+          {
+            "name": "before",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          }
+        ]
+      },
+      "online_oracle_inputs": []
+    },
+    {
+      "case": "open_visible_butter",
+      "seed": 1399,
+      "prompt": "Place the butter in the basket",
+      "initial_expected": "DIRECT_ACT",
+      "initial_selected": "DIRECT_ACT",
+      "initial_correct": true,
+      "outcome_expected": null,
+      "outcome_prediction_set": null,
+      "outcome_correct": true,
+      "terminal": "DIRECT_ACT_HANDOFF",
+      "trace": [
+        {
+          "event": "INITIAL_DECISION",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.999947190284729,
+                  "middle_drawer": 5.2195558964740485e-05,
+                  "other_unsearched_region": 3.756143485134089e-07,
+                  "absent": 2.534891621053248e-07
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.00041613845825493566
+              }
+            ],
+            "task_uncertainty": 0.00041613845825493566,
+            "node_uncertainty": {
+              "drawer_middle_interior": 5.2195558964740485e-05
+            },
+            "model_stamp": "piu-sidecar-v0:c3b866f519096bfb",
+            "conformal_sets": {
+              "target_location": [
+                "visible_workspace"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "direct_act:prompt_target",
+              "primitive": "DIRECT_ACT",
+              "target_id": "prompt_target",
+              "subtask": "Pick up the butter",
+              "stop_condition": "target is grasped or the action visibly fails",
+              "cost": 0.1,
+              "physical_risk": 0.1
+            },
+            "utilities": {
+              "direct_act:prompt_target": {
+                "expected_information_gain": -0.016692449645219522,
+                "expected_task_progress": 0.9999402761459351,
+                "execution_success_probability": 0.999947190284729,
+                "cost": 0.1,
+                "physical_risk": 0.1,
+                "utility": 1.3581264338264714
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.00041613845825493566,
+            "valid_candidate_ids": [
+              "direct_act:prompt_target",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": {
+            "direct_act:prompt_target": {
+              "outcomes": {
+                "HANDOFF_READY": 0.999947190284729,
+                "HANDOFF_UNSUPPORTED": 5.2809715270996094e-05
+              },
+              "expected_future_uncertainty": 0.017108588103474456,
+              "execution_success_probability": 0.999947190284729,
+              "expected_task_progress": 0.9999402761459351
+            }
+          }
+        },
+        {
+          "event": "OUTCOME",
+          "prediction_set": null,
+          "memory": {
+            "observation_count": 1,
+            "belief_count": 1,
+            "searched_regions": [],
+            "attempt_counts": {},
+            "observed_outcomes": []
+          },
+          "terminal": "DIRECT_ACT_HANDOFF"
+        }
+      ],
+      "executor": null,
+      "evaluator_only": {
+        "revealed_any_history": true,
+        "visibility_history": [
+          {
+            "name": "before",
+            "target_pixels": {
+              "agentview": 323,
+              "wrist": 849
+            }
+          }
+        ]
+      },
+      "online_oracle_inputs": []
+    },
+    {
+      "case": "middle_drawer_empty",
+      "seed": 1399,
+      "prompt": "Place the butter in the basket",
+      "initial_expected": "OPEN_TO_INSPECT",
+      "initial_selected": "OPEN_TO_INSPECT",
+      "initial_correct": true,
+      "outcome_expected": "EMPTY",
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "outcome_correct": true,
+      "terminal": "LOCAL_EMPTY_SAFE_STOP",
+      "trace": [
+        {
+          "event": "INITIAL_DECISION",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.021493909880518913,
+                  "middle_drawer": 0.9785031676292419,
+                  "other_unsearched_region": 1.3405465324467514e-06,
+                  "absent": 1.5935759165586205e-06
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.07490458811177225
+              }
+            ],
+            "task_uncertainty": 0.07490458811177225,
+            "node_uncertainty": {
+              "drawer_middle_interior": 0.9785031676292419
+            },
+            "model_stamp": "piu-sidecar-v0:c3b866f519096bfb",
+            "conformal_sets": {
+              "target_location": [
+                "middle_drawer"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "open_to_inspect:drawer_middle",
+              "primitive": "OPEN_TO_INSPECT",
+              "target_id": "drawer_middle",
+              "subtask": "Open the middle layer of the drawer",
+              "stop_condition": "the opening attempt ends and six public observations are available",
+              "cost": 0.18,
+              "physical_risk": 0.05
+            },
+            "utilities": {
+              "open_to_inspect:drawer_middle": {
+                "expected_information_gain": 0.06574960726151538,
+                "expected_task_progress": 0.8503462672233582,
+                "execution_success_probability": 0.999691426550271,
+                "cost": 0.18,
+                "physical_risk": 0.05,
+                "utility": 1.1482779847292774
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.07490458811177225,
+            "valid_candidate_ids": [
+              "open_to_inspect:drawer_middle",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": {
+            "open_to_inspect:drawer_middle": {
+              "outcomes": {
+                "FAILED": 0.00030857344972901046,
+                "REVEALED": 0.7086635828018188,
+                "EMPTY": 0.2910277843475342
+              },
+              "expected_future_uncertainty": 0.009154980850256872,
+              "execution_success_probability": 0.999691426550271,
+              "expected_task_progress": 0.8503462672233582
+            }
+          }
+        },
+        {
+          "event": "OUTCOME",
+          "prediction_set": [
+            "EMPTY"
+          ],
+          "memory": {
+            "observation_count": 1,
+            "belief_count": 1,
+            "searched_regions": [
+              "drawer_middle_interior"
+            ],
+            "attempt_counts": {
+              "open_to_inspect:drawer_middle": 1
+            },
+            "observed_outcomes": [
+              {
+                "candidate_id": "open_to_inspect:drawer_middle",
+                "prediction_set": [
+                  "EMPTY"
+                ]
+              }
+            ]
+          },
+          "terminal": "LOCAL_EMPTY_SAFE_STOP"
+        }
+      ],
+      "executor": {
+        "open_steps": 300,
+        "return_steps": 41,
+        "return_phase": "COMPLETE"
+      },
+      "evaluator_only": {
+        "revealed_any_history": false,
+        "visibility_history": [
+          {
+            "name": "before",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_01",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_02",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_03",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_04",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "after",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          }
+        ]
+      },
+      "online_oracle_inputs": []
+    },
+    {
+      "case": "drawer_action_failed_control",
+      "seed": 1399,
+      "prompt": "Place the butter in the basket",
+      "initial_expected": "OPEN_TO_INSPECT",
+      "initial_selected": "OPEN_TO_INSPECT",
+      "initial_correct": true,
+      "outcome_expected": "FAILED",
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "outcome_correct": true,
+      "terminal": "ACTION_FAILED_SAFE_STOP",
+      "trace": [
+        {
+          "event": "INITIAL_DECISION",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.021493909880518913,
+                  "middle_drawer": 0.9785031676292419,
+                  "other_unsearched_region": 1.3405465324467514e-06,
+                  "absent": 1.5935759165586205e-06
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.07490458811177225
+              }
+            ],
+            "task_uncertainty": 0.07490458811177225,
+            "node_uncertainty": {
+              "drawer_middle_interior": 0.9785031676292419
+            },
+            "model_stamp": "piu-sidecar-v0:c3b866f519096bfb",
+            "conformal_sets": {
+              "target_location": [
+                "middle_drawer"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "open_to_inspect:drawer_middle",
+              "primitive": "OPEN_TO_INSPECT",
+              "target_id": "drawer_middle",
+              "subtask": "Open the middle layer of the drawer",
+              "stop_condition": "the opening attempt ends and six public observations are available",
+              "cost": 0.18,
+              "physical_risk": 0.05
+            },
+            "utilities": {
+              "open_to_inspect:drawer_middle": {
+                "expected_information_gain": 0.06574960726151538,
+                "expected_task_progress": 0.8503462672233582,
+                "execution_success_probability": 0.999691426550271,
+                "cost": 0.18,
+                "physical_risk": 0.05,
+                "utility": 1.1482779847292774
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.07490458811177225,
+            "valid_candidate_ids": [
+              "open_to_inspect:drawer_middle",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": {
+            "open_to_inspect:drawer_middle": {
+              "outcomes": {
+                "FAILED": 0.00030857344972901046,
+                "REVEALED": 0.7086635828018188,
+                "EMPTY": 0.2910277843475342
+              },
+              "expected_future_uncertainty": 0.009154980850256872,
+              "execution_success_probability": 0.999691426550271,
+              "expected_task_progress": 0.8503462672233582
+            }
+          }
+        },
+        {
+          "event": "OUTCOME",
+          "prediction_set": [
+            "FAILED"
+          ],
+          "memory": {
+            "observation_count": 1,
+            "belief_count": 1,
+            "searched_regions": [],
+            "attempt_counts": {
+              "open_to_inspect:drawer_middle": 1
+            },
+            "observed_outcomes": [
+              {
+                "candidate_id": "open_to_inspect:drawer_middle",
+                "prediction_set": [
+                  "FAILED"
+                ]
+              }
+            ]
+          },
+          "terminal": "ACTION_FAILED_SAFE_STOP"
+        }
+      ],
+      "executor": {
+        "open_steps": 25,
+        "return_steps": 31,
+        "return_phase": "COMPLETE"
+      },
+      "evaluator_only": {
+        "revealed_any_history": false,
+        "visibility_history": [
+          {
+            "name": "before",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_01",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_02",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_03",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_04",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "after",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          }
+        ]
+      },
+      "online_oracle_inputs": []
+    }
+  ]
+}

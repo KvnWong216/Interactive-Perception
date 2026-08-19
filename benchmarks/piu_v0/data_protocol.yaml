@@ -37,7 +37,7 @@ record_per_branch:
     - six_history_points
   offline_labels:
     - task_fact_ground_truth
-    - effect_outcome_v9
+    - effect_outcome_v11
     - future_task_facts
     - target_visibility_by_history_point
     - local_search_coverage
@@ -69,6 +69,7 @@ label_contract:
   empty_never_implies_global_not_found: true
 
 future_seed_blocks:
+  t01_v11_clean_development: 1440-1479
   prototype_train: 1500-1599
   conformal_calibration: 1600-1699
   clean_scene_disjoint_development: 1700-1799

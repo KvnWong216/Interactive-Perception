@@ -3,6 +3,7 @@
 .libero/
 .cache/
 third_party/
+checkpoints/
 
 # Generated data
 data/*
@@ -46,6 +47,10 @@ outputs/t01_action_effect_v3/*
 outputs/t01_action_effect_v4/*
 !outputs/t01_action_effect_v4/pi05_transition_cognitive_query_embeddings.npz
 !outputs/t01_action_effect_v4/pi05_transition_cognitive_query_embeddings.json
+
+# Rebuildable object-frontend inspection assets
+results/assets/piu_v1_*object*/
+results/assets/piu_v1_object_frontend_smoke*/
 
 # Python
 __pycache__/

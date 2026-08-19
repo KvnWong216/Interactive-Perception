@@ -1,0 +1,283 @@
+{
+  "schema_version": "interaction-uncertainty.piu-object-sidecar.v1",
+  "repository_commit": "b14fc9a4218f941e849cb74ca4edbc3454bdd802",
+  "claim_status": "frozen before scene-disjoint clean development",
+  "config": {
+    "schema_version": "interaction-uncertainty.piu-object-sidecar-config.v1",
+    "prefix_projected_dimension": 256,
+    "prefix_projection_seed": 26081811,
+    "node_input_dimension": 394,
+    "hidden_dimension": 128,
+    "location_labels": [
+      "visible_workspace",
+      "closed_container"
+    ],
+    "action_labels": [
+      "DIRECT_ACT",
+      "OPEN_TO_INSPECT"
+    ],
+    "semantic_effect_labels": [
+      "NO_RELEVANT_CHANGE",
+      "TARGET_REVEALED",
+      "TASK_PROGRESS"
+    ],
+    "utility": {
+      "eta_information": 1.0,
+      "eta_task": 0.5,
+      "cost": {
+        "DIRECT_ACT": 0.1,
+        "OPEN_TO_INSPECT": 0.18
+      },
+      "execution_lower_bound": {
+        "DIRECT_ACT": 0.97,
+        "OPEN_TO_INSPECT": 0.924
+      }
+    }
+  },
+  "conformal": {
+    "alpha": 0.05,
+    "location": {
+      "visible_workspace": 0.0032486915588378906,
+      "closed_container": 0.9791393876075745
+    },
+    "action": {
+      "DIRECT_ACT": 0.003000319004058838,
+      "OPEN_TO_INSPECT": 0.9836732149124146
+    }
+  },
+  "online_inputs": [
+    "frozen pi05 prefix",
+    "Grounding DINO boxes",
+    "SAM masks",
+    "DINOv2 mask-pooled features",
+    "public geometry metadata"
+  ],
+  "online_oracle_inputs": [],
+  "semantic_effect_note": "counterfactual semantic effect; physical execution risk enters utility separately",
+  "sources": {
+    "train": {
+      "snapshots": {
+        "path": "data/piu_v1/prototype_train_v3.jsonl",
+        "sha256": "e1801117fb7243885dd215bb42a8e6dcb4018b83166f20b23920dbfb88d1b50a"
+      },
+      "labels": {
+        "path": "data/piu_v1/labels/prototype_train_v3.jsonl",
+        "sha256": "235622265d4804c5b22523c32f3923e29b76f02e4434538354eae27325779e4e"
+      },
+      "scenes": {
+        "path": "data/piu_v1/prototype_train_objects_v3.jsonl",
+        "sha256": "f4d9a5b9b727ae2c0ec2eed10000ffe5a5590d9ed5a8569d50a51b3b9e2d3601"
+      },
+      "object_features": {
+        "path": "data/piu_v1/prototype_train_object_features_v3.npz",
+        "sha256": "d2ec35cba414664eb410f3b77cad7476fa1be5015f888f70aeaa27824acf139e"
+      },
+      "prefix_features": {
+        "path": "outputs/piu_v1/prototype_train_v3/pi05_prefix_features.npz",
+        "sha256": "9acc65824cb95a90c638c343e4477a8b70ec5f70bb83cdb5ce923ed8382d4a91"
+      }
+    },
+    "calibration": {
+      "snapshots": {
+        "path": "data/piu_v1/conformal_calibration_v3.jsonl",
+        "sha256": "7005fdfce61c22180c96eed8da862fcdf6e79150b3636ad62b78db8a629a45d9"
+      },
+      "labels": {
+        "path": "data/piu_v1/labels/conformal_calibration_v3.jsonl",
+        "sha256": "0ed22eb72d7b3f512e9eff1fc9291154bd74642b8fe45df79f529c7f5b34f424"
+      },
+      "scenes": {
+        "path": "data/piu_v1/conformal_calibration_objects_v3.jsonl",
+        "sha256": "21c46587ab57b057ef62f8b7ffca4e8fc09b7f804c8476f3991adad56c5ab28b"
+      },
+      "object_features": {
+        "path": "data/piu_v1/conformal_calibration_object_features_v3.npz",
+        "sha256": "2fe36dddd3ff061142415584336caaa759ac21421f6556aa2aca63b52c9a8b90"
+      },
+      "prefix_features": {
+        "path": "outputs/piu_v1/conformal_calibration_v3/pi05_prefix_features.npz",
+        "sha256": "349ead152ff4ef4788d11adbf6ba0175298c3124d654d431bd37e91a5b3c76d2"
+      }
+    }
+  },
+  "training": {
+    "seed": 26081801,
+    "epochs": 400,
+    "learning_rate": 0.002,
+    "weight_decay": 0.0001,
+    "loss_history": [
+      {
+        "epoch": 1,
+        "total": 2.934015989303589,
+        "location": 0.6746644377708435,
+        "rank": 0.6583383679389954,
+        "node": 1.3124295473098755,
+        "effect": 1.1844370365142822,
+        "future": 0.7051595449447632
+      },
+      {
+        "epoch": 50,
+        "total": 0.17356497049331665,
+        "location": 0.00961692538112402,
+        "rank": 0.008864982053637505,
+        "node": 0.20287856459617615,
+        "effect": 0.08642567694187164,
+        "future": 0.020861856639385223
+      },
+      {
+        "epoch": 100,
+        "total": 0.05701826885342598,
+        "location": 0.0010787794599309564,
+        "rank": 0.0009981049224734306,
+        "node": 0.10330130904912949,
+        "effect": 0.004823117982596159,
+        "future": 0.0017583443550392985
+      },
+      {
+        "epoch": 150,
+        "total": 0.024299751967191696,
+        "location": 0.000501006783451885,
+        "rank": 0.0004523663956206292,
+        "node": 0.04318692535161972,
+        "effect": 0.0024836023803800344,
+        "future": 0.0010222315322607756
+      },
+      {
+        "epoch": 200,
+        "total": 0.011943906545639038,
+        "location": 0.0003634915628936142,
+        "rank": 0.0003427555493544787,
+        "node": 0.020722636952996254,
+        "effect": 0.0013040845515206456,
+        "future": 0.00044859788613393903
+      },
+      {
+        "epoch": 250,
+        "total": 0.0064185746014118195,
+        "location": 0.0002441552933305502,
+        "rank": 0.00022980807989370078,
+        "node": 0.010681888088583946,
+        "effect": 0.0008969050832092762,
+        "future": 0.00031042861519381404
+      },
+      {
+        "epoch": 300,
+        "total": 0.0864357054233551,
+        "location": 0.00042056426173076034,
+        "rank": 0.00040530800470151007,
+        "node": 0.1632900983095169,
+        "effect": 0.0044283391907811165,
+        "future": 0.0035012150183320045
+      },
+      {
+        "epoch": 350,
+        "total": 0.009781141765415668,
+        "location": 0.00017187584307976067,
+        "rank": 0.00015018798876553774,
+        "node": 0.018032558262348175,
+        "effect": 0.0007181928376667202,
+        "future": 0.000167405407410115
+      },
+      {
+        "epoch": 400,
+        "total": 0.003956998698413372,
+        "location": 0.00010786557686515152,
+        "rank": 0.00010087493865285069,
+        "node": 0.00690327025949955,
+        "effect": 0.00047052837908267975,
+        "future": 0.0001227180182468146
+      }
+    ],
+    "class_counts": {
+      "location": {
+        "closed_container": 40,
+        "visible_workspace": 60
+      },
+      "action": {
+        "OPEN_TO_INSPECT": 40,
+        "DIRECT_ACT": 60
+      }
+    }
+  },
+  "train_metrics": {
+    "location": {
+      "samples": 100,
+      "accuracy": 1.0,
+      "brier": 4.1473778279873205e-08,
+      "nll": 0.00010734224633779377,
+      "coverage": 1.0,
+      "singleton_correct": 1.0,
+      "mean_prediction_set_size": 1.0,
+      "per_class": {
+        "visible_workspace": {
+          "samples": 60,
+          "accuracy": 1.0,
+          "coverage": 1.0,
+          "singleton_correct": 1.0
+        },
+        "closed_container": {
+          "samples": 40,
+          "accuracy": 1.0,
+          "coverage": 1.0,
+          "singleton_correct": 1.0
+        }
+      }
+    },
+    "node_hit_at_1": 1.0,
+    "rank_accuracy": 1.0,
+    "optimizer_accuracy": 1.0
+  },
+  "calibration_metrics": {
+    "location": {
+      "samples": 80,
+      "accuracy": 0.9625,
+      "brier": 0.06701777314364556,
+      "nll": 0.14877471327781677,
+      "coverage": 1.0,
+      "singleton_correct": 0.975,
+      "mean_prediction_set_size": 1.025,
+      "per_class": {
+        "visible_workspace": {
+          "samples": 40,
+          "accuracy": 1.0,
+          "coverage": 1.0,
+          "singleton_correct": 0.975
+        },
+        "closed_container": {
+          "samples": 40,
+          "accuracy": 0.925,
+          "coverage": 1.0,
+          "singleton_correct": 0.975
+        }
+      }
+    },
+    "action": {
+      "samples": 80,
+      "accuracy": 0.9625,
+      "brier": 0.06870975466411355,
+      "nll": 0.1560511738061905,
+      "coverage": 1.0,
+      "singleton_correct": 0.975,
+      "mean_prediction_set_size": 1.025,
+      "per_class": {
+        "DIRECT_ACT": {
+          "samples": 40,
+          "accuracy": 1.0,
+          "coverage": 1.0,
+          "singleton_correct": 0.975
+        },
+        "OPEN_TO_INSPECT": {
+          "samples": 40,
+          "accuracy": 0.925,
+          "coverage": 1.0,
+          "singleton_correct": 0.975
+        }
+      }
+    },
+    "node_hit_at_1": 0.75,
+    "rank_accuracy": 0.9625,
+    "optimizer_accuracy": 0.9625
+  },
+  "model": "results/models/piu_object_sidecar_v1.pt",
+  "model_sha256": "419721b79221d5df9bcf90fff57046fad858f1d6d6898c6c3fb7a58b56569cce"
+}

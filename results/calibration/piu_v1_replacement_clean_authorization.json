@@ -1,0 +1,98 @@
+{
+  "schema_version": "interaction-uncertainty.piu-v1-replacement-clean-authorization.v1",
+  "decision": "AUTHORIZED",
+  "repository_commit": "b14fc9a4218f941e849cb74ca4edbc3454bdd802",
+  "clean_seed_block": "piu_scene_disjoint_clean_development",
+  "clean_seeds": "1720-1739",
+  "clean_data_opened_at_authorization": false,
+  "pre_clean_gates": {
+    "first_clean_protocol_recorded_not_go": true,
+    "replacement_scenarios_preflighted_on_disposable_seeds": true,
+    "replacement_hidden_contract_zero_pixels": true,
+    "replacement_visible_contract_at_least_256_pixels": true,
+    "train_frontend_truth_node_proposal_rate_1.0": true,
+    "calibration_frontend_truth_node_proposal_rate_1.0": true,
+    "policy_query_leaks_zero": true,
+    "calibration_location_class_accuracy_at_least_0.90": true,
+    "calibration_action_class_accuracy_at_least_0.90": true,
+    "calibration_optimizer_accuracy_at_least_0.90": true,
+    "calibration_conformal_truth_retention_at_least_0.90": true,
+    "online_oracle_inputs_zero": true,
+    "scenario_paths_disjoint": true,
+    "model_thresholds_utility_unchanged": true
+  },
+  "frozen_artifacts": {
+    "protocol": {
+      "path": "benchmarks/piu_v1/scene_disjoint_protocol.yaml",
+      "sha256": "a473aa2abfab4fa2b7ff94e0b9bb1d4320bf7b23ade6bbb7f86f4a7b61de60bd"
+    },
+    "seed_registry": {
+      "path": "benchmarks/rss_v1/seed_registry.yaml",
+      "sha256": "19ce4243581af58cc1a4b0bd5ff59fdc23828e5c6d16d887cff96edd2041edf4"
+    },
+    "failed_clean_attempt": {
+      "path": "results/calibration/piu_v1_clean_attempt_v1_not_go.json",
+      "sha256": "f3f6f78b52f4db7dc1c24ca6e1fd0a245af03a7dcd5f4be985f2a5cc9cbf086a"
+    },
+    "hidden_t05_preflight": {
+      "path": "results/smoke/piu_v1_visibility_t05_seed1498_1499.json",
+      "sha256": "d88d9e746a395d168f22e116d44910f8576ea5578a697133da009a32f2c9dc62"
+    },
+    "hidden_t01c_preflight": {
+      "path": "results/smoke/piu_v1_visibility_t01c_seed1498_1499.json",
+      "sha256": "4d7ea805ad137e2ef56e08ecd6fbcfe15baf57fced74d93610a2e13ac82a48a0"
+    },
+    "visible_milk_preflight": {
+      "path": "results/smoke/piu_v1_visibility_milk_seed1498_1499.json",
+      "sha256": "2e747bcdbff9be33a050206c55402fca620938301c9dbfbb554152c100d3cfb7"
+    },
+    "visible_salad_dressing_preflight": {
+      "path": "results/smoke/piu_v1_visibility_salad_dressing_seed1498_1499.json",
+      "sha256": "911a81220b96c676c9d907263af1559f21e0ed4c4247b01b7b180f27aad333e2"
+    },
+    "policy_query_leak_audit": {
+      "path": "results/audits/piu_v1_policy_query_leak_audit.json",
+      "sha256": "f61313110ced903ecb9f6c2005533bd7e4defb5b8d830bc475bba05b2061477f"
+    },
+    "train_frontend_audit": {
+      "path": "results/audits/piu_v1_prototype_train_object_frontend_v3.json",
+      "sha256": "9278a31c3c06e6540fd07716d0057c50b7c7b2a9d668e47e5a0498021f31efc8"
+    },
+    "calibration_frontend_audit": {
+      "path": "results/audits/piu_v1_conformal_calibration_object_frontend_v3.json",
+      "sha256": "5c8696f50dc3f049f2449fbcf69147978e1e5ff030fa4fda7dd136a604db2e24"
+    },
+    "model": {
+      "path": "results/models/piu_object_sidecar_v1.pt",
+      "sha256": "419721b79221d5df9bcf90fff57046fad858f1d6d6898c6c3fb7a58b56569cce"
+    },
+    "training_report": {
+      "path": "results/training/piu_object_sidecar_v1.json",
+      "sha256": "b1b1196b06efb79f522c9ef09ea99f3218957a996a1e47f778c07f8cc011c45f"
+    }
+  },
+  "frozen_source": {
+    "collector": {
+      "path": "scripts/collect_piu_scene_snapshots.py",
+      "sha256": "6111e480386eb383e955c6ec0a9eca8763555b1c96a44d0e1efe718a42bbc0f6"
+    },
+    "object_frontend": {
+      "path": "scripts/build_piu_object_scene_packets.py",
+      "sha256": "28d1af07c4ea31bebb57e9e87ba20d27ecf6dda3836d5e1605712526ab729d4c"
+    },
+    "prefix_extractor": {
+      "path": "scripts/extract_piu_scene_prefix_features.py",
+      "sha256": "f4230f65497c54fe147169e4688cc36d715d280ec4e214f0731ec16a5da5071c"
+    },
+    "trainer": {
+      "path": "scripts/train_piu_object_sidecar_v1.py",
+      "sha256": "61dadfd51efdd3a7ea246594f4e383126c7ab1896853e0b843e985ca22fb9114"
+    },
+    "model_definition": {
+      "path": "src/interaction_uncertainty/object_sidecar.py",
+      "sha256": "c32e7f64208d330fe424ecc8640ee8bdb8258e04444db2116d7de4577f7a277f"
+    }
+  },
+  "partially_passed_is_not_go": true,
+  "sealed_data_remains_closed": true
+}

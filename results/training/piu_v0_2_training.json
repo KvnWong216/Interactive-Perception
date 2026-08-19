@@ -1,0 +1,249 @@
+{
+  "schema_version": "interaction-uncertainty.piu-sidecar.v0",
+  "repository_commit": "de55641d191c728b08a2ca3c6a185c953c681869",
+  "encoder": "frozen pi05_libero PaliGemma prefix",
+  "encoder_inputs": [
+    "stock agentview RGB",
+    "stock wrist RGB",
+    "public robot state",
+    "prompt",
+    "six-point public history"
+  ],
+  "online_oracle_inputs": [],
+  "offline_label_inputs": [
+    "post-termination segmentation visibility",
+    "post-termination drawer joint",
+    "registered scenario regime"
+  ],
+  "claim_status": "prototype/development-only; not clean validation",
+  "data": {
+    "belief_embeddings": "outputs/t01_prompt_state_v1/pi05_prefix_embeddings.npz",
+    "belief_sha256": "d1a37d2b8bb5d53bab0ccf766561e30ae486c6e40b8e399bf689847f03065f7a",
+    "effect_embeddings": "outputs/t01_open_and_observe_effect_v3/pi05_temporal_embeddings_v5.npz",
+    "effect_embeddings_sha256": "389360e1a92e73d8b716bef30907ad154362877115383178f719f91c5221c32f",
+    "effect_data": "data/calibration/t01_open_and_observe_effect_v3.jsonl",
+    "effect_data_sha256": "0af9eec229a74d17a37deab6df1cf6b2e27104633cf23cc2238ced9008c57c3c"
+  },
+  "split_contract": {
+    "belief_train": "220-239",
+    "belief_conformal": "240-259",
+    "belief_diagnostic": "260-269",
+    "effect_train": "600-619",
+    "effect_conformal": "620-652",
+    "effect_diagnostic_contaminated": "653-659",
+    "clean_extension_untouched": "660-699",
+    "sealed_audit_untouched": "900-999"
+  },
+  "conformal": {
+    "alpha": 0.1,
+    "belief": {
+      "visible_workspace": 0.14889943599700928,
+      "middle_drawer": 0.8029131889343262,
+      "other_unsearched_region": -1.0,
+      "absent": -1.0
+    },
+    "outcome": {
+      "FAILED": 0.8427978157997131,
+      "REVEALED": 0.5307593941688538,
+      "EMPTY": 0.5837774276733398
+    }
+  },
+  "unsupported_initial_location_classes": [
+    "other_unsearched_region",
+    "absent"
+  ],
+  "training": {
+    "seed": 170817,
+    "epochs": 250,
+    "learning_rate": 0.002,
+    "weight_decay": 0.0001,
+    "loss_history": [
+      {
+        "epoch": 1,
+        "total": 10.056361198425293,
+        "belief": 1.369616985321045,
+        "rank": 1.603027105331421,
+        "forecast": 1.106425166130066,
+        "outcome": 1.0614829063415527,
+        "future": 4.226577281951904,
+        "progress": 0.6892321109771729
+      },
+      {
+        "epoch": 25,
+        "total": 3.49476957321167,
+        "belief": 0.16139911115169525,
+        "rank": 0.15039794147014618,
+        "forecast": 1.0633608102798462,
+        "outcome": 0.07196953892707825,
+        "future": 1.385461688041687,
+        "progress": 0.6621803641319275
+      },
+      {
+        "epoch": 50,
+        "total": 2.892219066619873,
+        "belief": 0.012568576261401176,
+        "rank": 0.010822699405252934,
+        "forecast": 1.0655217170715332,
+        "outcome": 0.0085517019033432,
+        "future": 1.13141667842865,
+        "progress": 0.6633377075195312
+      },
+      {
+        "epoch": 75,
+        "total": 3.213137626647949,
+        "belief": 0.0013217810774222016,
+        "rank": 0.0011830908479169011,
+        "forecast": 1.0680702924728394,
+        "outcome": 0.001971207093447447,
+        "future": 1.4736818075180054,
+        "progress": 0.666909396648407
+      },
+      {
+        "epoch": 100,
+        "total": 2.7347466945648193,
+        "belief": 0.0005829885485582054,
+        "rank": 0.0005324412486515939,
+        "forecast": 1.0534071922302246,
+        "outcome": 0.0010692434152588248,
+        "future": 1.0180027484893799,
+        "progress": 0.6611520648002625
+      },
+      {
+        "epoch": 125,
+        "total": 2.666090965270996,
+        "belief": 0.00038666336331516504,
+        "rank": 0.00034360081190243363,
+        "forecast": 1.0500651597976685,
+        "outcome": 0.0007101371302269399,
+        "future": 0.9548355340957642,
+        "progress": 0.6597498655319214
+      },
+      {
+        "epoch": 150,
+        "total": 2.6500966548919678,
+        "belief": 0.0002851408498827368,
+        "rank": 0.00025655931676737964,
+        "forecast": 1.0451756715774536,
+        "outcome": 0.0005300266784615815,
+        "future": 0.9456063508987427,
+        "progress": 0.6582428812980652
+      },
+      {
+        "epoch": 175,
+        "total": 2.6264004707336426,
+        "belief": 0.00022397284919861704,
+        "rank": 0.00020466276328079402,
+        "forecast": 1.0519827604293823,
+        "outcome": 0.00043019713484682143,
+        "future": 0.9148555397987366,
+        "progress": 0.6587033867835999
+      },
+      {
+        "epoch": 200,
+        "total": 2.5819270610809326,
+        "belief": 0.0001828458480304107,
+        "rank": 0.00016938215412665159,
+        "forecast": 1.071113109588623,
+        "outcome": 0.0003609783307183534,
+        "future": 0.8567764163017273,
+        "progress": 0.6533244252204895
+      },
+      {
+        "epoch": 225,
+        "total": 2.50931715965271,
+        "belief": 0.0001534944021841511,
+        "rank": 0.00014388504496309906,
+        "forecast": 1.033974289894104,
+        "outcome": 0.0003136427840217948,
+        "future": 0.8212268352508545,
+        "progress": 0.6535050272941589
+      },
+      {
+        "epoch": 250,
+        "total": 2.673041343688965,
+        "belief": 0.00013540808868128806,
+        "rank": 0.00012800756667274982,
+        "forecast": 1.0412739515304565,
+        "outcome": 0.0002839121443685144,
+        "future": 0.9737452268600464,
+        "progress": 0.6574746966362
+      }
+    ],
+    "train_label_counts": {
+      "belief": {
+        "middle_drawer": 20,
+        "visible_workspace": 40
+      },
+      "outcome_v9": {
+        "REVEALED": 18,
+        "FAILED": 22,
+        "EMPTY": 20
+      }
+    }
+  },
+  "diagnostics": {
+    "belief_260_269": {
+      "samples": 30,
+      "accuracy": 0.9,
+      "coverage": 0.9333333333333333,
+      "singleton_correct": 0.9333333333333333,
+      "mean_set_size": 1.0,
+      "per_class": {
+        "visible_workspace": {
+          "samples": 20,
+          "accuracy": 0.9,
+          "coverage": 0.9
+        },
+        "middle_drawer": {
+          "samples": 10,
+          "accuracy": 0.9,
+          "coverage": 1.0
+        },
+        "other_unsearched_region": {
+          "samples": 0,
+          "accuracy": null,
+          "coverage": null
+        },
+        "absent": {
+          "samples": 0,
+          "accuracy": null,
+          "coverage": null
+        }
+      }
+    },
+    "outcome_653_659_contaminated": {
+      "samples": 21,
+      "accuracy": 0.9523809523809523,
+      "coverage": 0.9523809523809523,
+      "singleton_correct": 0.9523809523809523,
+      "mean_set_size": 1.0,
+      "per_class": {
+        "FAILED": {
+          "samples": 7,
+          "accuracy": 1.0,
+          "coverage": 1.0
+        },
+        "REVEALED": {
+          "samples": 7,
+          "accuracy": 1.0,
+          "coverage": 1.0
+        },
+        "EMPTY": {
+          "samples": 7,
+          "accuracy": 0.8571428571428571,
+          "coverage": 0.8571428571428571
+        }
+      }
+    },
+    "forecast_argmax_653_659_contaminated": {
+      "samples": 21,
+      "accuracy": 0.3333333333333333
+    },
+    "rank_260_269": {
+      "samples": 30,
+      "accuracy": 0.9
+    }
+  },
+  "model": "results/models/piu_v0_2_sidecar.pt",
+  "model_sha256": "6168c0a7041ef161942d349d92528ab26bc42c594c5a3ee0995d199dd81d248c"
+}

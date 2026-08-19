@@ -1,0 +1,72 @@
+{
+  "policy": "pi05_libero",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "phase": "visible_grasp",
+  "camera_mode": "stock",
+  "tasks": {
+    "IE02_resolution_only": {
+      "prompt": "Pick up the macaroni and cheese package and place it in the wicker basket.",
+      "episodes": 5,
+      "successes": 0,
+      "success_rate": 0.0,
+      "rows": [
+        {
+          "seed": 0,
+          "success": false,
+          "maximum_rotation_degrees": 0.0,
+          "maximum_lift_m": 3.42363914995758e-11,
+          "initial_camera_distance_m": 0.3091581080345724,
+          "minimum_camera_distance_m": 0.16997716293270465,
+          "final_translation_m": 3.42363914995758e-11,
+          "video": "results/demos/native_wrist_v1/IE02_resolution_only_seed000.mp4"
+        },
+        {
+          "seed": 1,
+          "success": false,
+          "maximum_rotation_degrees": 0.0,
+          "maximum_lift_m": 3.42363914995758e-11,
+          "initial_camera_distance_m": 0.30915810803457217,
+          "minimum_camera_distance_m": 0.17320212073057173,
+          "final_translation_m": 3.42363914995758e-11,
+          "video": null
+        },
+        {
+          "seed": 2,
+          "success": false,
+          "maximum_rotation_degrees": 0.0,
+          "maximum_lift_m": 3.42363914995758e-11,
+          "initial_camera_distance_m": 0.30915810803457217,
+          "minimum_camera_distance_m": 0.17105760516863158,
+          "final_translation_m": 3.42363914995758e-11,
+          "video": null
+        },
+        {
+          "seed": 3,
+          "success": false,
+          "maximum_rotation_degrees": 0.0,
+          "maximum_lift_m": 3.42363914995758e-11,
+          "initial_camera_distance_m": 0.30915810803457217,
+          "minimum_camera_distance_m": 0.1677699118613568,
+          "final_translation_m": 3.42363914995758e-11,
+          "video": null
+        },
+        {
+          "seed": 4,
+          "success": false,
+          "maximum_rotation_degrees": 0.0,
+          "maximum_lift_m": 3.42363914995758e-11,
+          "initial_camera_distance_m": 0.30915810803457217,
+          "minimum_camera_distance_m": 0.16767711236826735,
+          "final_translation_m": 3.42363914995758e-11,
+          "video": null
+        }
+      ]
+    }
+  }
+}

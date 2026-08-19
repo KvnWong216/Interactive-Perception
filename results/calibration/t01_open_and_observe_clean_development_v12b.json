@@ -1,0 +1,2433 @@
+{
+  "schema_version": "interactive-perception.t01-v12b-clean-development.v1",
+  "decision": "GO",
+  "sealed_audit_authorized": true,
+  "dataset": {
+    "path": "data/calibration/t01_open_and_observe_effect_v12b_clean.jsonl",
+    "sha256": "d2f3ebf8d029558fb917ff1b914b30e5f03db68e46b70c4f8dfe7bf35d2eeae5"
+  },
+  "frozen_composite": {
+    "path": "results/calibration/t01_open_and_observe_outcome_v12b_composite_candidate.json",
+    "sha256": "114ef4840755c7f4be1f44aeb5fce2625d80e1b574b80868dce5790502b6ac40"
+  },
+  "samples": 120,
+  "seeds": "1900-1939",
+  "per_class": {
+    "FAILED": {
+      "trials": 40,
+      "correct_label_retained": 40,
+      "coverage": 1.0,
+      "singleton_correct": 40,
+      "singleton_accuracy": 1.0,
+      "singleton_one_sided_95_lower": 0.9278424754944854,
+      "mean_prediction_set_size": 1.0
+    },
+    "REVEALED": {
+      "trials": 40,
+      "correct_label_retained": 40,
+      "coverage": 1.0,
+      "singleton_correct": 40,
+      "singleton_accuracy": 1.0,
+      "singleton_one_sided_95_lower": 0.9278424754944854,
+      "mean_prediction_set_size": 1.0
+    },
+    "EMPTY": {
+      "trials": 40,
+      "correct_label_retained": 40,
+      "coverage": 1.0,
+      "singleton_correct": 39,
+      "singleton_accuracy": 0.975,
+      "singleton_one_sided_95_lower": 0.8868116390552625,
+      "mean_prediction_set_size": 1.025
+    }
+  },
+  "false_singleton_EMPTY": 0,
+  "false_singleton_REVEALED": 0,
+  "mean_prediction_set_size": 1.0083333333333333,
+  "ambiguous_safe_stop_count": 1,
+  "ambiguous_safe_stop_rate": 0.008333333333333333,
+  "target_sources": {
+    "agentview": 40,
+    "agentview_negative_no_singleton_wrist_counterevidence": 79,
+    "singleton_camera_conflict": 1
+  },
+  "physical_information_acquisition": {
+    "REVEALED": {
+      "endpoint": "prompt-resolvable target at any public history point",
+      "successes": 40,
+      "trials": 40,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.9278424754944854,
+      "passes_0.80": true,
+      "passes_original_0.90": true
+    },
+    "EMPTY": {
+      "endpoint": "local middle-layer searched-region coverage with no target evidence",
+      "successes": 40,
+      "trials": 40,
+      "rate": 1.0,
+      "one_sided_95_lower": 0.9278424754944854,
+      "passes_0.80": true,
+      "passes_original_0.90": true
+    }
+  },
+  "history_ablation": {
+    "six_frame_resolvable_reveals": 40,
+    "final_frame_only_resolvable_reveals": 38,
+    "trials": 40
+  },
+  "privileged_input_audit": {
+    "controller_online_oracle_read_count": 0,
+    "critic_online_oracle_inputs": [],
+    "evaluator_timing": "separate replay after controller termination"
+  },
+  "gates": {
+    "correct_label_retention": true,
+    "singleton_lower_0.80": true,
+    "zero_false_singleton_EMPTY": true,
+    "zero_false_singleton_REVEALED": true,
+    "physical_information_lower_0.80": true,
+    "privileged_online_read_count_zero": true
+  },
+  "rows": [
+    {
+      "regime": "revealed_full",
+      "seed": 1900,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1901,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1902,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1903,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1904,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1905,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1906,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1907,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1908,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1909,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1910,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1911,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1912,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1913,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1914,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1915,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1916,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1917,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1918,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1919,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1920,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1921,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1922,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1923,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1924,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1925,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1926,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1927,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1928,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1929,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1930,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1931,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1932,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1933,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1934,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1935,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1936,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1937,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1938,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1939,
+      "truth": "REVEALED",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "agentview",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1900,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1901,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1902,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1903,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1904,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1905,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1906,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1907,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "target_source": "singleton_camera_conflict",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "REVEALED",
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": "SAFE_STOP"
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1908,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1909,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1910,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1911,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1912,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1913,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1914,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1915,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1916,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1917,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1918,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1919,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1920,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1921,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1922,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1923,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1924,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1925,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1926,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1927,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1928,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1929,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1930,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1931,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1932,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1933,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1934,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1935,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1936,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1937,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1938,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1939,
+      "truth": "EMPTY",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "outcome_prediction_set": [
+        "EMPTY"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1900,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1901,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1902,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1903,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1904,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1905,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1906,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1907,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1908,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1909,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1910,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1911,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1912,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1913,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1914,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1915,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1916,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1917,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1918,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1919,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1920,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1921,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1922,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1923,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1924,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1925,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1926,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1927,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1928,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1929,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1930,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1931,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1932,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1933,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1934,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1935,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1936,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1937,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1938,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1939,
+      "truth": "FAILED",
+      "agentview_target_set": [
+        "NOT_REVEALED"
+      ],
+      "wrist_target_set": [
+        "NOT_REVEALED"
+      ],
+      "target_source": "agentview_negative_no_singleton_wrist_counterevidence",
+      "coverage_set": [
+        "FAILED"
+      ],
+      "outcome_prediction_set": [
+        "FAILED"
+      ],
+      "controller_action_for_multilabel": null
+    }
+  ],
+  "interpretation": {
+    "proves_if_GO": "fresh T01 public-RGB OPEN_AND_OBSERVE outcome recognition for the target-observability endpoint",
+    "does_not_prove": [
+      "final butter placement success",
+      "global NOT_FOUND",
+      "cross-scene or cross-object generalization",
+      "broad pi0.5 cross-seed robustness"
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "interactive-perception.intent-calibration-manifest.v1",
+  "dataset": "data/calibration/libero_core_wrist_v2.jsonl",
+  "dataset_sha256": "717289244e29de59c3f163b6f4642ebdf07d087264df2e27cb44ecbff8d0534c",
+  "policy": "pi05_libero",
+  "samples": 100,
+  "chunks_per_sample": 8,
+  "labels": [
+    "ACT",
+    "REMOVE_OCCLUDER"
+  ],
+  "split_rule": "seed 0:20 train, 20:40 calibration, 40:50 validation, per class",
+  "calibration_only": true,
+  "oracle_inputs": [],
+  "policy_inputs": [
+    "horizontal wrist RGB (duplicated into both pi0.5 image slots)",
+    "robot state",
+    "prompt"
+  ],
+  "semantic_definition": {
+    "ACT": "execute the final visible-object task",
+    "REMOVE_OCCLUDER": "manipulate a physical occluder or container",
+    "ROTATE": "grasp, wrist-rotate for a new object view, then place down",
+    "MOVE_CLOSER": "grasp and move the end effector toward the camera for inspection"
+  }
+}

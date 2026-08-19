@@ -1,0 +1,4019 @@
+{
+  "schema_version": "interactive-perception.t01-v11-ablations.v1",
+  "claim_scope": "fresh T01 clean development; not sealed and not scene-disjoint",
+  "dataset": {
+    "path": "data/calibration/t01_open_and_observe_effect_v11_clean.jsonl",
+    "sha256": "592ab29861b2177f82db1fce2eeec8e9f9fc8368d95af21833574356cd39ea26"
+  },
+  "frozen_composite": {
+    "path": "results/calibration/t01_open_and_observe_outcome_v11_composite_candidate.json",
+    "sha256": "2d5b94e0472bb7b733853af40f178b1b8b6813931ca6fb1d94e7bfb85b2d37b3"
+  },
+  "online_oracle_inputs": [],
+  "arms": {
+    "full_v11_six_frame": {
+      "samples": 120,
+      "singleton_correct": 118,
+      "singleton_accuracy": 0.9833333333333333,
+      "correct_label_retention": 0.9833333333333333,
+      "mean_prediction_set_size": 1.0,
+      "ambiguous_safe_stop_rate": 0.0,
+      "false_singleton_EMPTY": 0,
+      "false_singleton_REVEALED": 2,
+      "per_class": {
+        "FAILED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 40,
+          "singleton_accuracy": 1.0,
+          "singleton_one_sided_95_lower": 0.9278424754944854,
+          "mean_prediction_set_size": 1.0
+        },
+        "REVEALED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 40,
+          "singleton_accuracy": 1.0,
+          "singleton_one_sided_95_lower": 0.9278424754944854,
+          "mean_prediction_set_size": 1.0
+        },
+        "EMPTY": {
+          "trials": 40,
+          "correct_label_retained": 38,
+          "coverage": 0.95,
+          "singleton_correct": 38,
+          "singleton_accuracy": 0.95,
+          "singleton_one_sided_95_lower": 0.850848038726787,
+          "mean_prediction_set_size": 1.0
+        }
+      }
+    },
+    "conflict_safe_v12": {
+      "samples": 120,
+      "singleton_correct": 70,
+      "singleton_accuracy": 0.5833333333333334,
+      "correct_label_retention": 1.0,
+      "mean_prediction_set_size": 1.4166666666666667,
+      "ambiguous_safe_stop_rate": 0.4166666666666667,
+      "false_singleton_EMPTY": 0,
+      "false_singleton_REVEALED": 0,
+      "per_class": {
+        "FAILED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 30,
+          "singleton_accuracy": 0.75,
+          "singleton_one_sided_95_lower": 0.6129397599079818,
+          "mean_prediction_set_size": 1.25
+        },
+        "REVEALED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 40,
+          "singleton_accuracy": 1.0,
+          "singleton_one_sided_95_lower": 0.9278424754944854,
+          "mean_prediction_set_size": 1.0
+        },
+        "EMPTY": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 0,
+          "singleton_accuracy": 0.0,
+          "singleton_one_sided_95_lower": 0.0,
+          "mean_prediction_set_size": 2.0
+        }
+      }
+    },
+    "no_wrist_rescue": {
+      "samples": 120,
+      "singleton_correct": 120,
+      "singleton_accuracy": 1.0,
+      "correct_label_retention": 1.0,
+      "mean_prediction_set_size": 1.0,
+      "ambiguous_safe_stop_rate": 0.0,
+      "false_singleton_EMPTY": 0,
+      "false_singleton_REVEALED": 0,
+      "per_class": {
+        "FAILED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 40,
+          "singleton_accuracy": 1.0,
+          "singleton_one_sided_95_lower": 0.9278424754944854,
+          "mean_prediction_set_size": 1.0
+        },
+        "REVEALED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 40,
+          "singleton_accuracy": 1.0,
+          "singleton_one_sided_95_lower": 0.9278424754944854,
+          "mean_prediction_set_size": 1.0
+        },
+        "EMPTY": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 40,
+          "singleton_accuracy": 1.0,
+          "singleton_one_sided_95_lower": 0.9278424754944854,
+          "mean_prediction_set_size": 1.0
+        }
+      }
+    },
+    "endpoint_only_before_after": {
+      "samples": 120,
+      "singleton_correct": 119,
+      "singleton_accuracy": 0.9916666666666667,
+      "correct_label_retention": 0.9916666666666667,
+      "mean_prediction_set_size": 1.0,
+      "ambiguous_safe_stop_rate": 0.0,
+      "false_singleton_EMPTY": 1,
+      "false_singleton_REVEALED": 0,
+      "per_class": {
+        "FAILED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 40,
+          "singleton_accuracy": 1.0,
+          "singleton_one_sided_95_lower": 0.9278424754944854,
+          "mean_prediction_set_size": 1.0
+        },
+        "REVEALED": {
+          "trials": 40,
+          "correct_label_retained": 39,
+          "coverage": 0.975,
+          "singleton_correct": 39,
+          "singleton_accuracy": 0.975,
+          "singleton_one_sided_95_lower": 0.8868116390552625,
+          "mean_prediction_set_size": 1.0
+        },
+        "EMPTY": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 40,
+          "singleton_accuracy": 1.0,
+          "singleton_one_sided_95_lower": 0.9278424754944854,
+          "mean_prediction_set_size": 1.0
+        }
+      }
+    },
+    "final_frame_only": {
+      "samples": 120,
+      "singleton_correct": 119,
+      "singleton_accuracy": 0.9916666666666667,
+      "correct_label_retention": 0.9916666666666667,
+      "mean_prediction_set_size": 1.0,
+      "ambiguous_safe_stop_rate": 0.0,
+      "false_singleton_EMPTY": 1,
+      "false_singleton_REVEALED": 0,
+      "per_class": {
+        "FAILED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 40,
+          "singleton_accuracy": 1.0,
+          "singleton_one_sided_95_lower": 0.9278424754944854,
+          "mean_prediction_set_size": 1.0
+        },
+        "REVEALED": {
+          "trials": 40,
+          "correct_label_retained": 39,
+          "coverage": 0.975,
+          "singleton_correct": 39,
+          "singleton_accuracy": 0.975,
+          "singleton_one_sided_95_lower": 0.8868116390552625,
+          "mean_prediction_set_size": 1.0
+        },
+        "EMPTY": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 40,
+          "singleton_accuracy": 1.0,
+          "singleton_one_sided_95_lower": 0.9278424754944854,
+          "mean_prediction_set_size": 1.0
+        }
+      }
+    },
+    "no_coverage_head": {
+      "samples": 120,
+      "singleton_correct": 40,
+      "singleton_accuracy": 0.3333333333333333,
+      "correct_label_retention": 0.9833333333333333,
+      "mean_prediction_set_size": 1.65,
+      "ambiguous_safe_stop_rate": 0.65,
+      "false_singleton_EMPTY": 0,
+      "false_singleton_REVEALED": 2,
+      "per_class": {
+        "FAILED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 0,
+          "singleton_accuracy": 0.0,
+          "singleton_one_sided_95_lower": 0.0,
+          "mean_prediction_set_size": 2.0
+        },
+        "REVEALED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 40,
+          "singleton_accuracy": 1.0,
+          "singleton_one_sided_95_lower": 0.9278424754944854,
+          "mean_prediction_set_size": 1.0
+        },
+        "EMPTY": {
+          "trials": 40,
+          "correct_label_retained": 38,
+          "coverage": 0.95,
+          "singleton_correct": 0,
+          "singleton_accuracy": 0.0,
+          "singleton_one_sided_95_lower": 0.0,
+          "mean_prediction_set_size": 1.95
+        }
+      }
+    },
+    "trivial_all_labels": {
+      "samples": 120,
+      "singleton_correct": 0,
+      "singleton_accuracy": 0.0,
+      "correct_label_retention": 1.0,
+      "mean_prediction_set_size": 3.0,
+      "ambiguous_safe_stop_rate": 1.0,
+      "false_singleton_EMPTY": 0,
+      "false_singleton_REVEALED": 0,
+      "per_class": {
+        "FAILED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 0,
+          "singleton_accuracy": 0.0,
+          "singleton_one_sided_95_lower": 0.0,
+          "mean_prediction_set_size": 3.0
+        },
+        "REVEALED": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 0,
+          "singleton_accuracy": 0.0,
+          "singleton_one_sided_95_lower": 0.0,
+          "mean_prediction_set_size": 3.0
+        },
+        "EMPTY": {
+          "trials": 40,
+          "correct_label_retained": 40,
+          "coverage": 1.0,
+          "singleton_correct": 0,
+          "singleton_accuracy": 0.0,
+          "singleton_one_sided_95_lower": 0.0,
+          "mean_prediction_set_size": 3.0
+        }
+      }
+    }
+  },
+  "records": [
+    {
+      "regime": "revealed_full",
+      "seed": 1440,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1441,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1442,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1443,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1444,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1445,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1446,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1447,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1448,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1449,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1450,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1451,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1452,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1453,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1454,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1455,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1456,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1457,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1458,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1459,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1460,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1461,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1462,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1463,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1464,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1465,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1466,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1467,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1468,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1469,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1470,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1471,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1472,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1473,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1474,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1475,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1476,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1477,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1478,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1479,
+      "truth": "REVEALED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "REVEALED"
+        ],
+        "endpoint_only_before_after": [
+          "REVEALED"
+        ],
+        "final_frame_only": [
+          "REVEALED"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1440,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1441,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1442,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1443,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1444,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1445,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1446,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1447,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1448,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1449,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1450,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1451,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1452,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1453,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1454,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1455,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1456,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1457,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1458,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1459,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1460,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1461,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1462,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1463,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1464,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "REVEALED"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "REVEALED"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1465,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1466,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1467,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1468,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1469,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1470,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1471,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1472,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1473,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1474,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1475,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1476,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1477,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1478,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1479,
+      "truth": "EMPTY",
+      "predictions": {
+        "full_v11_six_frame": [
+          "EMPTY"
+        ],
+        "conflict_safe_v12": [
+          "REVEALED",
+          "EMPTY"
+        ],
+        "no_wrist_rescue": [
+          "EMPTY"
+        ],
+        "endpoint_only_before_after": [
+          "EMPTY"
+        ],
+        "final_frame_only": [
+          "EMPTY"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1440,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1441,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1442,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED",
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1443,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1444,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1445,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1446,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1447,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED",
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1448,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED",
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1449,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED",
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1450,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1451,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1452,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1453,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1454,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1455,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1456,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1457,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1458,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1459,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1460,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1461,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED",
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1462,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1463,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED",
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1464,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1465,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED",
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1466,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1467,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1468,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1469,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1470,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1471,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1472,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1473,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1474,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1475,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED",
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1476,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED",
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1477,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED",
+          "REVEALED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1478,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1479,
+      "truth": "FAILED",
+      "predictions": {
+        "full_v11_six_frame": [
+          "FAILED"
+        ],
+        "conflict_safe_v12": [
+          "FAILED"
+        ],
+        "no_wrist_rescue": [
+          "FAILED"
+        ],
+        "endpoint_only_before_after": [
+          "FAILED"
+        ],
+        "final_frame_only": [
+          "FAILED"
+        ],
+        "no_coverage_head": [
+          "FAILED",
+          "EMPTY"
+        ],
+        "trivial_all_labels": [
+          "FAILED",
+          "REVEALED",
+          "EMPTY"
+        ]
+      }
+    }
+  ],
+  "interpretation_rule": "Correct-label retention alone is insufficient; singleton accuracy, prediction-set size, ambiguity, and false EMPTY/REVEALED are reported."
+}

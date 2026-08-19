@@ -1,0 +1,2622 @@
+{
+  "schema_version": "interactive-perception.rgb-target-evidence.v1-candidate",
+  "claim": "prompt-resolvable butter evidence at any public RGB history point in T01",
+  "claim_eligible": false,
+  "reason": "architecture selection uses contaminated development seeds",
+  "datasets": [
+    {
+      "path": "data/calibration/t01_open_and_observe_effect_v3.jsonl",
+      "sha256": "0af9eec229a74d17a37deab6df1cf6b2e27104633cf23cc2238ced9008c57c3c"
+    },
+    {
+      "path": "data/calibration/t01_open_and_observe_effect_v4_extension.jsonl",
+      "sha256": "e723d1685176592027d81473914a7119d26e3eba4bbc41d39a3e0f9ff5c1f7e3"
+    },
+    {
+      "path": "data/calibration/t01_open_and_observe_effect_v10_clean.jsonl",
+      "sha256": "8fde35fafec470475f14499905f57cdddb76e6e94c537ff6ca0430eac4ab130c"
+    }
+  ],
+  "split": {
+    "train_seeds": "600-619,653-699,1400-1439",
+    "calibration_seeds": "620-652",
+    "development_seeds": "653-699,1400-1439"
+  },
+  "model": {
+    "architecture": "four-layer small CNN",
+    "checkpoint": "results/models/t01_rgb_wrist_target_evidence_v11_candidate.pt",
+    "image_size": 96,
+    "epochs": 30,
+    "learning_rate": 0.002,
+    "weight_decay": 0.0001,
+    "random_seed": 20260818,
+    "camera_mode": "wrist",
+    "evidence_kind": "target",
+    "train_loss": [
+      0.5618175247438476,
+      0.3567493665704227,
+      0.3231106022777092,
+      0.3289104415991596,
+      0.2921850397826974,
+      0.1772497811916604,
+      0.1214910454889479,
+      0.11084029954295058,
+      0.07970295255996,
+      0.0659611551833895,
+      0.06117786552108097,
+      0.08288197019761225,
+      0.07902589982118252,
+      0.052018562774790444,
+      0.04166974221682128,
+      0.04335424399945347,
+      0.06074413007595755,
+      0.03678298284331586,
+      0.02573830026165388,
+      0.020409040358836252,
+      0.017715977746746693,
+      0.011285626284057866,
+      0.012258895043272097,
+      0.008396223529801933,
+      0.008897864421769621,
+      0.008355165142198466,
+      0.006448301278758404,
+      0.0074618553981157885,
+      0.008718704792205727,
+      0.01581429143068058
+    ]
+  },
+  "minimum_resolvable_target_pixels": 256,
+  "offline_label_inputs": [
+    "evaluator-only target segmentation pixel counts"
+  ],
+  "online_inputs": [
+    "six stock wrist RGB frames"
+  ],
+  "online_oracle_inputs": [],
+  "temporal_rule": "maximum selected-camera frame logit over the six public history points",
+  "conformal": {
+    "schema_version": "interactive-perception.semantic-mondrian-conformal.v1",
+    "alpha": 0.05,
+    "thresholds": {
+      "NOT_REVEALED": 0.2537946723586214,
+      "REVEALED": 0.9999999995641373
+    },
+    "labels": [
+      "NOT_REVEALED",
+      "REVEALED"
+    ],
+    "calibration_size_per_class": {
+      "NOT_REVEALED": 66,
+      "REVEALED": 33
+    },
+    "finite_sample_resolution_per_class": {
+      "NOT_REVEALED": 0.014925373134328358,
+      "REVEALED": 0.029411764705882353
+    },
+    "policy_id": "t01_public_rgb_target_evidence_cnn_v1",
+    "split_id": "t01_target_evidence_seed620_652",
+    "guarantee": "class-conditional semantic-intent coverage under within-class exchangeability",
+    "non_guarantee": "robot task success"
+  },
+  "metrics": {
+    "train_nonclaim": {
+      "REVEALED": {
+        "trials": 107,
+        "coverage": 1.0,
+        "singleton_accuracy": 0.6261682242990654,
+        "mean_prediction_set_size": 1.3738317757009346
+      },
+      "NOT_REVEALED": {
+        "trials": 214,
+        "coverage": 0.9906542056074766,
+        "singleton_accuracy": 0.46261682242990654,
+        "mean_prediction_set_size": 1.52803738317757
+      }
+    },
+    "calibration_nonclaim": {
+      "REVEALED": {
+        "trials": 33,
+        "coverage": 1.0,
+        "singleton_accuracy": 0.7272727272727273,
+        "mean_prediction_set_size": 1.2727272727272727
+      },
+      "NOT_REVEALED": {
+        "trials": 66,
+        "coverage": 0.9696969696969697,
+        "singleton_accuracy": 0.5303030303030303,
+        "mean_prediction_set_size": 1.4393939393939394
+      }
+    },
+    "development_contaminated_nonclaim": {
+      "REVEALED": {
+        "trials": 87,
+        "coverage": 1.0,
+        "singleton_accuracy": 0.5977011494252874,
+        "mean_prediction_set_size": 1.4022988505747127
+      },
+      "NOT_REVEALED": {
+        "trials": 174,
+        "coverage": 0.9885057471264368,
+        "singleton_accuracy": 0.46551724137931033,
+        "mean_prediction_set_size": 1.5229885057471264
+      }
+    }
+  },
+  "development_rows": [
+    {
+      "regime": "revealed_full",
+      "seed": 653,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 0.004183359444141388,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 654,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 3.3617818355560303,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 655,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 5.988292694091797,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 656,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -9.316170692443848,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 657,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 10.633955001831055,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 658,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 5.357201099395752,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 659,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -10.18614387512207,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 653,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.64035415649414,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 654,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.265413284301758,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 655,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -15.84801197052002,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 656,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -20.81801986694336,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 657,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -18.09337615966797,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 658,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -13.909095764160156,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 659,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -0.5313485264778137,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 653,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.966629028320312,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 654,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -31.5919246673584,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 655,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -28.89963722229004,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 656,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -20.95987319946289,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 657,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.359716415405273,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 658,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.821319580078125,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 659,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -28.88496208190918,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 660,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -7.2052693367004395,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 661,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -2.773658275604248,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 662,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -13.24588394165039,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 663,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 5.199830532073975,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 664,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 2.7665507793426514,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 665,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 1.9348316192626953,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 666,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 8.212265968322754,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 667,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -4.617279529571533,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 668,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 1.21698796749115,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 669,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -0.2411063313484192,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 670,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 6.395118713378906,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 671,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 0.8812121748924255,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 672,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -11.173510551452637,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 673,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -4.5602641105651855,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 674,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 2.6186654567718506,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 675,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 7.598091125488281,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 676,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -4.535675525665283,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 677,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 5.038957118988037,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 678,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 13.412891387939453,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 679,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -4.4610772132873535,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 680,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 6.449313640594482,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 681,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 3.990407705307007,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 682,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -10.041204452514648,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 683,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 5.642208576202393,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 684,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 2.9365828037261963,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 685,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 11.102641105651855,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 686,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 0.2067853808403015,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 687,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -13.413742065429688,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 688,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 14.91958999633789,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 689,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 14.314613342285156,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 690,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -0.38678866624832153,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 691,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 3.228877305984497,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 692,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 2.2587149143218994,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 693,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 3.2379586696624756,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 694,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -7.15816593170166,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 695,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -9.166133880615234,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 696,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 10.303604125976562,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 697,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 0.9914867281913757,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 698,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 1.4547220468521118,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 699,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -2.3506247997283936,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 660,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.374446868896484,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 661,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -20.881908416748047,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 662,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -15.459297180175781,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 663,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.717559814453125,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 664,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -1.0405511856079102,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 665,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -1.7636997699737549,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 666,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -14.472454071044922,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 667,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -22.71560287475586,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 668,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -21.14476776123047,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 669,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.949298858642578,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 670,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -3.5291926860809326,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 671,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -20.403976440429688,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 672,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.011571884155273,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 673,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -12.393126487731934,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 674,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -16.516117095947266,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 675,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -20.390583038330078,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 676,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -21.183277130126953,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 677,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -8.725651741027832,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 678,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -1.613185167312622,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 679,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.755401611328125,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 680,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -10.043635368347168,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 681,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.658079147338867,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 682,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -1.0968496799468994,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 683,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -8.962629318237305,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 684,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -8.902637481689453,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 685,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -18.067596435546875,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 686,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -18.559242248535156,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 687,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.63959503173828,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 688,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -15.295909881591797,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 689,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -4.389076232910156,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 690,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -7.351529598236084,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 691,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -12.677014350891113,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 692,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -2.5962281227111816,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 693,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.444705963134766,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 694,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -10.146875381469727,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 695,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.43124008178711,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 696,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -3.8725521564483643,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 697,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -22.4989013671875,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 698,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -8.513611793518066,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 699,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -15.232854843139648,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 660,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -26.513532638549805,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 661,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.90102195739746,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 662,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -28.783771514892578,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 663,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -30.008647918701172,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 664,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.52064323425293,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 665,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.404603958129883,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 666,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -23.86005401611328,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 667,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -31.506752014160156,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 668,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -28.584033966064453,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 669,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -31.961103439331055,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 670,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -21.724628448486328,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 671,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -31.072006225585938,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 672,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.082435607910156,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 673,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -32.23282241821289,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 674,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.45895004272461,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 675,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -30.17803192138672,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 676,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -31.93531608581543,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 677,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -30.779705047607422,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 678,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.819780349731445,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 679,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -24.583232879638672,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 680,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.709003448486328,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 681,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -28.013282775878906,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 682,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.216514587402344,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 683,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -31.845186233520508,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 684,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.65282440185547,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 685,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.6971435546875,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 686,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.13390350341797,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 687,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.684345245361328,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 688,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -22.030405044555664,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 689,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -26.802066802978516,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 690,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -28.44678497314453,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 691,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -30.568273544311523,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 692,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -21.193330764770508,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 693,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -28.698354721069336,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 694,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -30.228307723999023,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 695,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.83832550048828,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 696,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.92655372619629,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 697,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -30.209346771240234,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 698,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.898666381835938,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 699,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.559886932373047,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1400,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -10.442100524902344,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1401,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 16.12067222595215,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1402,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -9.670475006103516,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1403,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 5.005635738372803,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1404,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -5.124627590179443,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1405,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -2.9221742153167725,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1406,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -0.57807856798172,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1407,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 3.3585917949676514,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1408,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 8.671935081481934,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1409,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -11.002766609191895,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1410,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -13.755834579467773,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1411,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -7.2389235496521,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1412,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -10.828804016113281,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1413,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 1.6976962089538574,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1414,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 17.311019897460938,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1415,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -3.6501009464263916,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1416,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 8.711528778076172,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1417,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 1.8847129344940186,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1418,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -1.8367239236831665,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1419,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 1.798459768295288,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1420,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -4.749359607696533,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1421,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -0.6531348824501038,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1422,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -1.784393548965454,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1423,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 0.38423413038253784,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1424,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -9.944684028625488,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1425,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -9.352130889892578,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1426,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 13.307135581970215,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1427,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 0.12313706427812576,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1428,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 8.910463333129883,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1429,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -2.8132131099700928,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1430,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 13.172110557556152,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1431,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 0.24832457304000854,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1432,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 2.879523515701294,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1433,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -5.400106906890869,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1434,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -0.24936801195144653,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1435,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -5.776371479034424,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1436,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -1.1189486980438232,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1437,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -3.8324244022369385,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1438,
+      "truth": "REVEALED",
+      "maximum_frame_logit": -3.183987617492676,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "revealed_full",
+      "seed": 1439,
+      "truth": "REVEALED",
+      "maximum_frame_logit": 4.009837627410889,
+      "prediction_set": [
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1400,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -21.46555519104004,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1401,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -13.42026424407959,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1402,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -4.987876892089844,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1403,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -13.947223663330078,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1404,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -12.891188621520996,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1405,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -1.8875207901000977,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1406,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -15.128664016723633,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1407,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.19795036315918,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1408,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -14.947661399841309,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1409,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -3.2463510036468506,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1410,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -9.689929962158203,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1411,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.357892990112305,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1412,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -20.374465942382812,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1413,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -3.7085723876953125,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1414,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -18.270586013793945,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1415,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -20.14203643798828,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1416,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.89875602722168,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1417,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -13.100446701049805,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1418,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.961673736572266,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1419,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.66777801513672,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1420,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -5.208932876586914,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1421,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -21.10354995727539,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1422,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -20.184261322021484,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1423,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.780410766601562,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1424,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -7.5276594161987305,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1425,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.30272102355957,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1426,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -9.346748352050781,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1427,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -11.749366760253906,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1428,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.310100555419922,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1429,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -12.880304336547852,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1430,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -6.274428844451904,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1431,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -14.948129653930664,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1432,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -12.050856590270996,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1433,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -21.193992614746094,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1434,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -5.960392951965332,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1435,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.386953353881836,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1436,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -15.497566223144531,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1437,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -10.776569366455078,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1438,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -8.412369728088379,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "empty_full",
+      "seed": 1439,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -16.879236221313477,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1400,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.596546173095703,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1401,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.10144805908203,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1402,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.968013763427734,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1403,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.478193283081055,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1404,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.110380172729492,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1405,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -26.88518714904785,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1406,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -31.254840850830078,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1407,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.934051513671875,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1408,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.547096252441406,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1409,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -17.95220947265625,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1410,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.575916290283203,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1411,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.16584014892578,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1412,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.42013168334961,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1413,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -31.734704971313477,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1414,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -21.47432518005371,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1415,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -30.47421646118164,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1416,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.35732650756836,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1417,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -26.230817794799805,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1418,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.115266799926758,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1419,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.170490264892578,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1420,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -26.85767364501953,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1421,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -28.54334259033203,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1422,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.33646583557129,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1423,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.58929443359375,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1424,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -24.04590606689453,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1425,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -28.750011444091797,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1426,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -24.107072830200195,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1427,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -23.212038040161133,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1428,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.905277252197266,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1429,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.81222152709961,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1430,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -25.126346588134766,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1431,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.59126853942871,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1432,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.133499145507812,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1433,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -27.914710998535156,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1434,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -26.630550384521484,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1435,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -19.277332305908203,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1436,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -20.497777938842773,
+      "prediction_set": [
+        "NOT_REVEALED",
+        "REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1437,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -30.721698760986328,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1438,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -28.362411499023438,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    },
+    {
+      "regime": "failed_truncated_control",
+      "seed": 1439,
+      "truth": "NOT_REVEALED",
+      "maximum_frame_logit": -29.408123016357422,
+      "prediction_set": [
+        "NOT_REVEALED"
+      ]
+    }
+  ]
+}

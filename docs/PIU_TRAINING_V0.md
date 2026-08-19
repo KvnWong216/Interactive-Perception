@@ -14,7 +14,7 @@ five small heads:
 1. initial `target_location` belief;
 2. semantic subtask rank;
 3. pre-action outcome distribution and task progress;
-4. six-frame `FAILED / REVEALED / EMPTY` critic;
+4. six-frame public-RGB v11 `FAILED / REVEALED / EMPTY` critic;
 5. action/outcome-conditioned future location belief.
 
 The planner computes normalized entropy from the structured fact distribution
@@ -43,8 +43,10 @@ It must be an explicit model arm, not silently mixed into V0.
 5. Run diagnostic/development once without tuning on its errors.
 6. Only after a scene-disjoint clean development GO may a sealed audit run.
 
-The current v0.3 model uses old development blocks 220–259 and 600–652. Seeds
-653–659 are contaminated diagnostics; 660–699 and 900–999 remain untouched.
+The current v0.3 sidecar uses old development blocks 220–259 and 600–652.
+Seeds 653–699 and 1400–1439 are contaminated diagnostics/model-selection data.
+The v11 outcome cascade consumes only the six stock agentview/wrist RGB pairs.
+Seeds 1440–1479 remain frozen clean development and 900–999 remain sealed.
 
 ## Commands
 
@@ -52,15 +54,15 @@ The current v0.3 model uses old development blocks 220–259 and 600–652. Seed
 ../.conda/envs/ipu/bin/python scripts/build_piu_v0_dataset.py
 ../.conda/envs/ipu/bin/python scripts/train_piu_v0.py \
   --epochs 500 \
-  --output results/models/piu_v0_4_sidecar.pt \
-  --report results/training/piu_v0_4_training.json
+  --output results/models/piu_v0_3_sidecar.pt \
+  --report results/training/piu_v0_3_training.json
 EXPERIMENT_GPU_INDEX=0 bash scripts/run_piu_v0_smoke.sh \
-  --model results/models/piu_v0_4_sidecar.pt \
-  --output results/smoke/piu_v0_full_pipeline_v4_seed1399.json \
-  --asset-dir results/assets/piu_v0_full_pipeline_v4_seed1399/raw
+  --model results/models/piu_v0_3_sidecar.pt \
+  --output results/smoke/piu_v0_v11_full_pipeline_v1_seed1399.json \
+  --asset-dir results/assets/piu_v0_v11_full_pipeline_v1_seed1399/raw
 ../.conda/envs/ipu/bin/python scripts/render_piu_v0_assets.py \
-  --report results/smoke/piu_v0_full_pipeline_v4_seed1399.json \
-  --output-dir results/assets/piu_v0_full_pipeline_v4_seed1399/visualizations_v1
+  --report results/smoke/piu_v0_v11_full_pipeline_v1_seed1399.json \
+  --output-dir results/assets/piu_v0_v11_full_pipeline_v1_seed1399/visualizations_v1
 ```
 
 These are the exact recorded arguments. Artifacts are immutable, so a rerun

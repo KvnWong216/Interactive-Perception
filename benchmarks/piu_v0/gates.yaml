@@ -25,10 +25,12 @@ gates:
     name: End-to-end PIU inference wiring
     status: GO
     evidence:
-      - results/smoke/piu_v0_full_pipeline_v4_seed1399.json
-      - results/audits/piu_v0_full_pipeline_v4_privileged_input_audit.json
-      - results/assets/piu_v0_full_pipeline_v4_seed1399/visualizations_v1/assets_manifest.json
-    scope: Five disposable cases; DIRECT_ACT is a semantic handoff only.
+      - results/smoke/piu_v0_v11_full_pipeline_v1_seed1399.json
+      - results/audits/piu_v0_v11_full_pipeline_v1_privileged_input_audit.json
+      - results/assets/piu_v0_v11_full_pipeline_v1_seed1399/visualizations_v1/assets_manifest.json
+    scope: >-
+      Five disposable cases; 5/5 initial routes and 3/3 singleton v11 RGB
+      outcomes. DIRECT_ACT is a semantic handoff only.
 
   - id: PIU3
     name: Frozen-encoder learning path
@@ -49,7 +51,10 @@ gates:
     name: Clean scene-disjoint outcome and belief validation
     status: NOT-GO
     evidence: []
-    blocker: Frozen future blocks 1700-1799 are not collected; old 653-659 diagnostics are contaminated.
+    blocker: >-
+      V10 was NOT-GO on 1400-1439 and those seeds were consumed by v11 model
+      selection. Frozen v11 clean seeds 1440-1479 and future scene-disjoint
+      blocks 1700-1799 are not collected.
 
   - id: PIU6
     name: Physical DIRECT_ACT continuation

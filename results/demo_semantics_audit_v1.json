@@ -1,0 +1,66 @@
+{
+  "schema_version": "interactive-perception.demo-semantics-audit.v1",
+  "repository_commit": "de55641d191c728b08a2ca3c6a185c953c681869",
+  "demos": [
+    {
+      "path": "assets/slides/demos/routed_open_success_seed091.mp4",
+      "sha256": "e6c543f4caecb3b966f3d192d872c09192cb594041b7f6f7ea135e2f9b24aff4",
+      "bytes": 217334,
+      "source": "results/capability/t01_conformal_reveal_30seed_v1.json seed 91",
+      "controller_prompt": "Place the butter in the basket",
+      "executor_prompt": "Open the middle layer of the drawer",
+      "true_label": "Prompt-conditioned routing to a pi0.5 drawer-opening option",
+      "scoring_endpoint": "evaluator-only middle-drawer joint threshold",
+      "proves": "the legacy G4/G5 router selected REMOVE_OCCLUDER and pi0.5 opened the drawer on seed 91",
+      "does_not_prove": [
+        "256-pixel target reveal",
+        "six-frame RGB outcome classification",
+        "belief update",
+        "final butter retrieval"
+      ]
+    },
+    {
+      "path": "assets/slides/demos/monolithic_failure_seed001.mp4",
+      "sha256": "01d9e5ca4cfcbad6df5bd2843bb2078dbaf07a85b1376708d64701002a6d133d",
+      "bytes": 573991,
+      "source": "results/capability/t01_monolithic_screen_5seed.json seed 1",
+      "controller_prompt": "Place the butter in the basket",
+      "true_label": "Monolithic frozen pi0.5 failure",
+      "scoring_endpoint": "final task predicate evaluator-only after rollout",
+      "proves": "the monolithic baseline failed this hidden-target task instance",
+      "does_not_prove": [
+        "broad pi0.5 overfitting",
+        "all monolithic active-perception tasks fail"
+      ]
+    },
+    {
+      "path": "assets/slides/demos/two_stage_retrieval_failure_seed001.mp4",
+      "sha256": "a595514bc6ada0f70e542e7caa31532451c85d5f3cf7c2240ab9bc937a4bceed",
+      "bytes": 379721,
+      "source": "results/capability/t01_stock_chain_screen_5seed.json seed 1",
+      "true_label": "Oracle joint-switched two-stage retrieval attempt",
+      "phase_switch": "simulator middle-drawer joint threshold",
+      "scoring_endpoint": "drawer joint open; final task predicate false",
+      "proves": "the drawer opened and the subsequent final-goal phase failed",
+      "does_not_prove": [
+        "oracle-free stage transition",
+        "RGB outcome classification",
+        "successful information-to-ACT closure"
+      ]
+    },
+    {
+      "path": "assets/slides/demos/t01_return_to_observe_diagnostic_seed600.mp4",
+      "sha256": "f0cfc975825770b50b7edd139f5ab2ae9148b021bb004d896209c0c0c5fed449",
+      "bytes": 71044,
+      "source": "results/diagnostics/t01_return_to_observe_perturbation_v1.json seed 600",
+      "true_label": "Evaluator-constructed return-to-observe diagnostic",
+      "proves": "the proprioceptive controller returned from a fixed perturbation to the observation pose",
+      "does_not_prove": [
+        "continuous pi0.5 OPEN_AND_OBSERVE execution",
+        "post-opening return reliability",
+        "RGB outcome-critic reliability"
+      ]
+    }
+  ],
+  "global_view_policy_input": false
+}

@@ -106,20 +106,22 @@ the uncertainty definition.
 
 Next experiment:
 
-1. Run the implemented `OPEN_AND_OBSERVE` smoke, then collect its immutable
-   600--659 development split and require `REVEALED` / `EMPTY` lower bounds of
-   at least 0.90.
-2. Collect a calibration-only temporal transition set with six policy-camera
-   frames and robot proprioception across the information action.
-3. Fit a prompt-attended temporal outcome head; freeze it.
-4. Confirm on new post-freeze development seeds.
-5. Only if it passes, open its 700--799 audit once. Keep legacy 500--599 sealed.
+1. Run the v4 disposable `OPEN_AND_OBSERVE` smoke on GPU1.
+2. Keep the model and thresholds fitted on 600--652 frozen; 653--659 is
+   diagnostic-only.
+3. Evaluate the frozen v9 visual-history critic on untouched 660--699 and
+   require the 0.80 one-sided physical/singleton lower bounds while also
+   reporting the original 0.90 physical standard.
+4. Only if every clean-development gate passes, open 900--999 once.
+5. Keep 500--599 quarantined as obsolete and 700--799 debug-only forever.
 
 ## Demo index
 
-- `demos/routed_reveal_success_seed091.mp4`: calibrated route and drawer reveal.
+- `demos/routed_open_success_seed091.mp4`: prompt-conditioned route to the
+  drawer-opening option; success is joint-open only, not RGB reveal certification.
 - `demos/monolithic_failure_seed001.mp4`: final prompt does not solve the hidden task.
-- `demos/two_stage_retrieval_failure_seed001.mp4`: reveal does not imply final retrieval.
+- `demos/two_stage_retrieval_failure_seed001.mp4`: oracle joint-switched
+  two-stage attempt; drawer opening does not imply final retrieval.
 - `demos/t01_return_to_observe_diagnostic_seed600.mp4`: retreat restores the
   stock wrist/global observation, diagnostic-only.
 

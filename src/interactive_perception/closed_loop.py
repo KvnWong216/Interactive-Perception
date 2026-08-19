@@ -45,7 +45,7 @@ class PublicSceneEvidence:
             raise ValueError("invalid public occluder state")
         confidence = float(value.get("confidence", 0.0))
         if not 0.0 <= confidence <= 1.0:
-            raise ValueError("confidence must lie in [0, 1]")
+            raise ValueError("confidence must be normalized in [0, 1]")
         return cls(
             target_visible=bool(value.get("target_visible", False)),
             target_sufficient=bool(value.get("target_sufficient", False)),

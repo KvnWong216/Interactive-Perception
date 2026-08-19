@@ -6,11 +6,11 @@ controller then releases the handle and returns the end effector / wrist camera
 to the stock observation pose.  Simulator joints and segmentation are used
 only after actions for evaluator labels; they cannot affect execution.
 
-Earlier files remain immutable. Version 10 uses untouched 1400--1439 for fresh
-clean development after separating temporal target evidence from observation
-completion. Seed 1399 remains wiring smoke and 900--999 remain sealed. The
-previous 700--799 audit was opened before a final-frame-only label bug was
-found, so it is debug-only and is never reused as an audit.
+Earlier files remain immutable. Version 12b uses untouched 1900--1939 for
+fresh clean development after preserving singleton cross-camera conflict.
+Seed 1399 remains wiring smoke and 900--999 remain sealed. The previous
+700--799 audit was opened before a final-frame-only label bug was found, so it
+is debug-only and is never reused as an audit.
 """
 
 from __future__ import annotations
@@ -233,6 +233,9 @@ def main() -> None:
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--extension", action="store_true")
     parser.add_argument("--v10-clean", action="store_true")
+    parser.add_argument("--v11-clean", action="store_true")
+    parser.add_argument("--v12b-clean", action="store_true")
+    parser.add_argument("--v12b-audit", action="store_true")
     parser.add_argument("--fresh-policy-server", action="store_true")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--seeds", type=int, nargs="+", default=None)
@@ -245,9 +248,26 @@ def main() -> None:
     parser.add_argument("--image-dir", type=Path, default=None)
     args = parser.parse_args()
 
-    if sum((args.audit, args.smoke, args.extension, args.v10_clean)) > 1:
+    if sum(
+        (
+            args.audit,
+            args.smoke,
+            args.extension,
+            args.v10_clean,
+            args.v11_clean,
+            args.v12b_clean,
+            args.v12b_audit,
+        )
+    ) > 1:
         raise ValueError(
-            "audit, smoke, extension, and v10-clean modes are mutually exclusive"
+            "audit, smoke, extension, v10-clean, v11-clean, v12b-clean, and "
+            "v12b-audit "
+            "modes are mutually exclusive"
+        )
+    if args.audit:
+        raise ValueError(
+            "legacy --audit is retired before opening sealed seeds; use "
+            "--v12b-audit only after a frozen clean GO authorization"
         )
     if not args.smoke and not args.fresh_policy_server:
         raise ValueError("non-smoke collection requires --fresh-policy-server")
@@ -256,11 +276,15 @@ def main() -> None:
         ["t01_open_observe_smoke"]
         if args.smoke
         else ["t01_open_observe_sealed_audit"]
-        if args.audit
+        if args.v12b_audit
         else ["t01_open_observe_clean_extension"]
         if args.extension
         else ["t01_open_observe_v10_clean_development"]
         if args.v10_clean
+        else ["t01_open_observe_v11_clean_development"]
+        if args.v11_clean
+        else ["t01_open_observe_v12b_clean_development"]
+        if args.v12b_clean
         else [
             "t01_open_observe_prototype_train",
             "t01_open_observe_conformal_calibration",
@@ -272,40 +296,60 @@ def main() -> None:
         args.seeds = expected
     if args.seeds != expected:
         raise ValueError(
-            f"frozen {'audit' if args.audit else 'smoke' if args.smoke else 'extension' if args.extension else 'v10 clean development' if args.v10_clean else 'development'} "
+            f"frozen {'v12b sealed audit' if args.v12b_audit else 'smoke' if args.smoke else 'extension' if args.extension else 'v10 clean development' if args.v10_clean else 'v11 clean development' if args.v11_clean else 'v12b clean development' if args.v12b_clean else 'development'} "
             f"seeds are {expected[0]}-{expected[-1]}"
         )
     if args.output is None:
         suffix = (
             "_audit"
-            if args.audit
+            if args.v12b_audit
             else "_smoke"
             if args.smoke
             else "_extension"
             if args.extension
             else "_v10_clean"
             if args.v10_clean
+            else "_v11_clean"
+            if args.v11_clean
+            else "_v12b_clean"
+            if args.v12b_clean
             else ""
         )
         args.output = ROOT / (
-            "data/calibration/t01_open_and_observe_effect_v10_clean.jsonl"
+            "data/calibration/t01_open_and_observe_effect_v12b_sealed_audit.jsonl"
+            if args.v12b_audit
+            else "data/calibration/t01_open_and_observe_effect_v12b_clean.jsonl"
+            if args.v12b_clean
+            else "data/calibration/t01_open_and_observe_effect_v11_clean.jsonl"
+            if args.v11_clean
+            else "data/calibration/t01_open_and_observe_effect_v10_clean.jsonl"
             if args.v10_clean
             else f"data/calibration/t01_open_and_observe_effect_v4{suffix}.jsonl"
         )
     if args.image_dir is None:
         suffix = (
             "_audit"
-            if args.audit
+            if args.v12b_audit
             else "_smoke"
             if args.smoke
             else "_extension"
             if args.extension
             else "_v10_clean"
             if args.v10_clean
+            else "_v11_clean"
+            if args.v11_clean
+            else "_v12b_clean"
+            if args.v12b_clean
             else ""
         )
         args.image_dir = ROOT / (
-            "outputs/t01_open_and_observe_effect_v10_clean/images"
+            "outputs/t01_open_and_observe_effect_v12b_sealed_audit/images"
+            if args.v12b_audit
+            else "outputs/t01_open_and_observe_effect_v12b_clean/images"
+            if args.v12b_clean
+            else "outputs/t01_open_and_observe_effect_v11_clean/images"
+            if args.v11_clean
+            else "outputs/t01_open_and_observe_effect_v10_clean/images"
             if args.v10_clean
             else f"outputs/t01_open_and_observe_effect_v4{suffix}/images"
         )
@@ -313,7 +357,13 @@ def main() -> None:
         value = getattr(args, name)
         if value is not None and not value.is_absolute():
             setattr(args, name, ROOT / value)
-    if (args.audit or args.extension or args.v10_clean) and (
+    if (
+        args.v12b_audit
+        or args.extension
+        or args.v10_clean
+        or args.v11_clean
+        or args.v12b_clean
+    ) and (
         args.artifact is None or not args.artifact.exists()
     ):
         raise FileNotFoundError(
@@ -521,7 +571,12 @@ def main() -> None:
                     tuple(point["target_pixels"].values())
                     for point in visibility_history
                 )
-                if args.v10_clean:
+                if (
+                    args.v10_clean
+                    or args.v11_clean
+                    or args.v12b_clean
+                    or args.v12b_audit
+                ):
                     coverage_history = tuple(
                         max(point["target_pixels"].values())
                         >= PI05_PATCH_EQUIVALENT_TARGET_PIXELS
@@ -552,21 +607,29 @@ def main() -> None:
 
                 row = {
                     "schema_version": (
-                        "interactive-perception.open-and-observe-effect.v10"
+                        "interactive-perception.open-and-observe-effect.v12b"
+                        if args.v12b_clean or args.v12b_audit
+                        else "interactive-perception.open-and-observe-effect.v11"
+                        if args.v11_clean
+                        else "interactive-perception.open-and-observe-effect.v10"
                         if args.v10_clean
                         else "interactive-perception.open-and-observe-effect.v4"
                     ),
                     "regime": regime["id"],
                     "seed": seed,
                     "split": (
-                        "heldout_audit"
-                        if args.audit
+                        "sealed_audit_v12b"
+                        if args.v12b_audit
                         else "smoke_only"
                         if args.smoke
                         else "heldout_development_extension"
                         if args.extension
                         else "fresh_v10_clean_development"
                         if args.v10_clean
+                        else "fresh_v11_clean_development"
+                        if args.v11_clean
+                        else "fresh_v12b_clean_development"
+                        if args.v12b_clean
                         else open_and_observe_development_split(offset)
                     ),
                     "context": "t01_stock_middle_drawer_search",
@@ -673,21 +736,29 @@ def main() -> None:
         raise RuntimeError("incomplete dataset")
     manifest = {
         "schema_version": (
-            "interactive-perception.open-and-observe-manifest.v10"
+            "interactive-perception.open-and-observe-manifest.v12b"
+            if args.v12b_clean or args.v12b_audit
+            else "interactive-perception.open-and-observe-manifest.v11"
+            if args.v11_clean
+            else "interactive-perception.open-and-observe-manifest.v10"
             if args.v10_clean
             else "interactive-perception.open-and-observe-manifest.v4"
         ),
         "dataset": str(args.output.relative_to(ROOT)),
         "dataset_sha256": digest(args.output),
         "phase": (
-            "heldout_audit"
-            if args.audit
+            "sealed_audit_v12b"
+            if args.v12b_audit
             else "smoke"
             if args.smoke
             else "heldout_development_extension"
             if args.extension
             else "fresh_v10_clean_development"
             if args.v10_clean
+            else "fresh_v11_clean_development"
+            if args.v11_clean
+            else "fresh_v12b_clean_development"
+            if args.v12b_clean
             else "development"
         ),
         "seeds": args.seeds,
@@ -697,7 +768,11 @@ def main() -> None:
         "frozen_executor": "pi05_libero + versioned proprioceptive return controller",
         "public_history_points_per_trial": 6,
         "outcome_label": (
-            "v10 temporal target evidence then temporal searched-region coverage"
+            "v12b singleton-conflict target composition then temporal RGB searched-region coverage"
+            if args.v12b_clean or args.v12b_audit
+            else "v11 camera-specific target rescue then temporal RGB searched-region coverage"
+            if args.v11_clean
+            else "v10 temporal target evidence then temporal searched-region coverage"
             if args.v10_clean
             else "temporal prompt-resolvability v4"
         ),

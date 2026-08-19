@@ -27,6 +27,9 @@ sys.path.insert(0, str(ROOT / "src"))
 from interactive_perception.action_outcome import (  # noqa: E402
     PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
 )
+from interactive_perception.rgb_outcome_critic import (  # noqa: E402
+    build_rgb_evidence_cnn,
+)
 from interactive_perception.semantic_conformal import (  # noqa: E402
     MondrianSemanticConformalCalibrator,
 )
@@ -61,14 +64,35 @@ def history_by_name(row: dict) -> dict[str, dict]:
     return values
 
 
-def truth_by_name(row: dict) -> dict[str, dict[str, int]]:
+def truth_by_name(
+    row: dict, evidence_kind: str = "target"
+) -> dict[str, dict[str, int]]:
+    if evidence_kind not in {"target", "coverage"}:
+        raise ValueError(f"unknown evidence kind {evidence_kind!r}")
     values = {
         point["name"]: point["target_pixels"]
         for point in row["evaluator_only"]["visibility_history"]
     }
     if tuple(values) != HISTORY_NAMES:
         raise ValueError(f"unexpected evaluator history for seed {row['seed']}")
-    return values
+    if evidence_kind == "target":
+        return values
+    counterfactual = {
+        point["name"]: point["target_pixels"]
+        for point in row["evaluator_only"]["counterfactual_visibility_history"]
+    }
+    if counterfactual and tuple(counterfactual) != HISTORY_NAMES:
+        raise ValueError(f"unexpected coverage history for seed {row['seed']}")
+    return {
+        name: {
+            camera: max(
+                int(values[name][camera]),
+                int(counterfactual.get(name, {}).get(camera, 0)),
+            )
+            for camera in CAMERAS
+        }
+        for name in HISTORY_NAMES
+    }
 
 
 @dataclass(frozen=True)
@@ -79,12 +103,14 @@ class ImageExample:
 
 
 def examples(
-    rows: Iterable[dict], cameras: tuple[str, ...] = CAMERAS
+    rows: Iterable[dict],
+    cameras: tuple[str, ...] = CAMERAS,
+    evidence_kind: str = "target",
 ) -> list[ImageExample]:
     result: list[ImageExample] = []
     for row in rows:
         public = history_by_name(row)
-        truth = truth_by_name(row)
+        truth = truth_by_name(row, evidence_kind)
         for name in HISTORY_NAMES:
             for camera in cameras:
                 result.append(
@@ -101,38 +127,7 @@ def examples(
 
 
 def build_model(torch):
-    nn = torch.nn
-
-    class TargetEvidenceCNN(nn.Module):
-        def __init__(self) -> None:
-            super().__init__()
-            self.features = nn.Sequential(
-                nn.Conv2d(3, 24, kernel_size=5, stride=2, padding=2),
-                nn.BatchNorm2d(24),
-                nn.SiLU(),
-                nn.Conv2d(24, 48, kernel_size=3, stride=2, padding=1),
-                nn.BatchNorm2d(48),
-                nn.SiLU(),
-                nn.Conv2d(48, 96, kernel_size=3, stride=2, padding=1),
-                nn.BatchNorm2d(96),
-                nn.SiLU(),
-                nn.Conv2d(96, 128, kernel_size=3, stride=2, padding=1),
-                nn.BatchNorm2d(128),
-                nn.SiLU(),
-                nn.AdaptiveAvgPool2d((4, 4)),
-            )
-            self.classifier = nn.Sequential(
-                nn.Flatten(),
-                nn.Linear(128 * 4 * 4, 128),
-                nn.SiLU(),
-                nn.Dropout(0.15),
-                nn.Linear(128, 1),
-            )
-
-        def forward(self, values):
-            return self.classifier(self.features(values)).squeeze(1)
-
-    return TargetEvidenceCNN()
+    return build_rgb_evidence_cnn(torch)
 
 
 def load_image(path: Path, camera: str, size: int, *, augment: bool, rng, Image):
@@ -199,20 +194,33 @@ def episode_score(
     )
 
 
-def episode_truth(row: dict) -> str:
-    truth = truth_by_name(row)
+def evidence_labels(evidence_kind: str) -> tuple[str, str]:
+    if evidence_kind == "target":
+        return "REVEALED", "NOT_REVEALED"
+    if evidence_kind == "coverage":
+        return "COMPLETED", "FAILED"
+    raise ValueError(f"unknown evidence kind {evidence_kind!r}")
+
+
+def episode_truth(row: dict, evidence_kind: str = "target") -> str:
+    truth = truth_by_name(row, evidence_kind)
+    positive_label, negative_label = evidence_labels(evidence_kind)
     return (
-        "REVEALED"
+        positive_label
         if any(
             truth[name][camera] >= PI05_PATCH_EQUIVALENT_TARGET_PIXELS
             for name in HISTORY_NAMES
             for camera in CAMERAS
         )
-        else "NOT_REVEALED"
+        else negative_label
     )
 
 
-def binary_evidence(logit: float) -> dict[str, float]:
+def binary_evidence(
+    logit: float,
+    positive_label: str = "REVEALED",
+    negative_label: str = "NOT_REVEALED",
+) -> dict[str, float]:
     """Convert a finite logit to non-negative two-class conformal evidence."""
 
     if logit >= 0:
@@ -220,26 +228,27 @@ def binary_evidence(logit: float) -> dict[str, float]:
     else:
         exponential = float(np.exp(logit))
         probability = exponential / (1.0 + exponential)
-    return {"REVEALED": probability, "NOT_REVEALED": 1.0 - probability}
+    return {positive_label: probability, negative_label: 1.0 - probability}
 
 
-def evaluate(rows, scores, calibrator, cameras):
+def evaluate(rows, scores, calibrator, cameras, evidence_kind="target"):
+    positive_label, negative_label = evidence_labels(evidence_kind)
     records = []
     for row in rows:
         score = episode_score(row, scores, cameras)
-        evidence = binary_evidence(score)
+        evidence = binary_evidence(score, positive_label, negative_label)
         prediction = calibrator.predict(evidence)
         records.append(
             {
                 "regime": row["regime"],
                 "seed": int(row["seed"]),
-                "truth": episode_truth(row),
+                "truth": episode_truth(row, evidence_kind),
                 "maximum_frame_logit": score,
                 "prediction_set": list(prediction),
             }
         )
     metrics = {}
-    for label in ("REVEALED", "NOT_REVEALED"):
+    for label in (positive_label, negative_label):
         chosen = [record for record in records if record["truth"] == label]
         metrics[label] = {
             "trials": len(chosen),
@@ -274,6 +283,12 @@ def main() -> None:
     parser.add_argument("--alpha", type=float, default=0.05)
     parser.add_argument("--seed", type=int, default=20260818)
     parser.add_argument(
+        "--evidence-kind",
+        choices=("target", "coverage"),
+        default="target",
+        help="Target presence or same-camera searched-region coverage.",
+    )
+    parser.add_argument(
         "--camera-mode",
         choices=("agentview", "wrist", "both"),
         default="agentview",
@@ -302,9 +317,15 @@ def main() -> None:
     if args.output.exists() or args.checkpoint.exists():
         raise FileExistsError("candidate artifact/checkpoint already exists")
 
-    def parse_range(value: str) -> tuple[int, int]:
-        lo, hi = value.split("-", maxsplit=1)
-        return int(lo), int(hi)
+    def parse_ranges(value: str) -> tuple[tuple[int, int], ...]:
+        result = []
+        for block in value.split(","):
+            lo, hi = block.split("-", maxsplit=1)
+            result.append((int(lo), int(hi)))
+        return tuple(result)
+
+    def selected(seed: int, ranges: tuple[tuple[int, int], ...]) -> bool:
+        return any(lo <= seed <= hi for lo, hi in ranges)
 
     import torch
     from PIL import Image
@@ -321,18 +342,24 @@ def main() -> None:
 
     rows = load_rows(datasets)
     ranges = {
-        "train": parse_range(args.train_seeds),
-        "calibration": parse_range(args.calibration_seeds),
-        "development": parse_range(args.development_seeds),
+        "train": parse_ranges(args.train_seeds),
+        "calibration": parse_ranges(args.calibration_seeds),
+        "development": parse_ranges(args.development_seeds),
     }
     split = {
-        name: [row for row in rows if lo <= int(row["seed"]) <= hi]
-        for name, (lo, hi) in ranges.items()
+        name: [
+            row
+            for row in rows
+            if selected(int(row["seed"]), selection)
+        ]
+        for name, selection in ranges.items()
     }
     selected_cameras = (
         CAMERAS if args.camera_mode == "both" else (args.camera_mode,)
     )
-    train_examples = examples(split["train"], selected_cameras)
+    train_examples = examples(
+        split["train"], selected_cameras, args.evidence_kind
+    )
     positive = sum(item.visible for item in train_examples)
     negative = len(train_examples) - positive
     positive_weight = torch.tensor([negative / positive], dtype=torch.float32, device=device)
@@ -377,7 +404,9 @@ def main() -> None:
             print(json.dumps({"epoch": epoch + 1, "train_loss": losses[-1]}), flush=True)
 
     all_examples = examples(
-        [row for values in split.values() for row in values], selected_cameras
+        [row for values in split.values() for row in values],
+        selected_cameras,
+        args.evidence_kind,
     )
     scores = predict_examples(
         model,
@@ -389,40 +418,51 @@ def main() -> None:
         Image=Image,
     )
     calibration_pairs = []
+    positive_label, negative_label = evidence_labels(args.evidence_kind)
     for row in split["calibration"]:
         score = episode_score(row, scores, selected_cameras)
         calibration_pairs.append(
-            (binary_evidence(score), episode_truth(row))
+            (
+                binary_evidence(score, positive_label, negative_label),
+                episode_truth(row, args.evidence_kind),
+            )
         )
     calibrator = MondrianSemanticConformalCalibrator.fit(
         calibration_pairs,
         alpha=args.alpha,
-        policy_id="t01_public_rgb_target_evidence_cnn_v1",
-        split_id=f"t01_target_evidence_seed{args.calibration_seeds.replace('-', '_')}",
+        policy_id=f"t01_public_rgb_{args.evidence_kind}_evidence_cnn_v1",
+        split_id=(
+            f"t01_{args.evidence_kind}_evidence_seed"
+            f"{args.calibration_seeds.replace('-', '_').replace(',', '__')}"
+        ),
     )
     train_metrics, _ = evaluate(
-        split["train"], scores, calibrator, selected_cameras
+        split["train"], scores, calibrator, selected_cameras, args.evidence_kind
     )
     calibration_metrics, _ = evaluate(
-        split["calibration"], scores, calibrator, selected_cameras
+        split["calibration"], scores, calibrator, selected_cameras, args.evidence_kind
     )
     development_metrics, development_records = evaluate(
-        split["development"], scores, calibrator, selected_cameras
+        split["development"], scores, calibrator, selected_cameras, args.evidence_kind
     )
 
     args.checkpoint.parent.mkdir(parents=True, exist_ok=True)
     torch.save(
         {
             "state_dict": model.state_dict(),
-            "architecture": "t01_target_evidence_cnn_v1",
+            "architecture": f"t01_{args.evidence_kind}_evidence_cnn_v1",
             "image_size": args.image_size,
             "agentview_crop_fraction": [0.36, 0.22, 1.0, 0.88],
         },
         args.checkpoint,
     )
     artifact = {
-        "schema_version": "interactive-perception.rgb-target-evidence.v1-candidate",
-        "claim": "prompt-resolvable butter evidence at any public RGB history point in T01",
+        "schema_version": f"interactive-perception.rgb-{args.evidence_kind}-evidence.v1-candidate",
+        "claim": (
+            "prompt-resolvable butter evidence at any public RGB history point in T01"
+            if args.evidence_kind == "target"
+            else "same-camera searched-region coverage at any public RGB history point in T01"
+        ),
         "claim_eligible": False,
         "reason": "architecture selection uses contaminated development seeds",
         "datasets": [
@@ -442,10 +482,15 @@ def main() -> None:
             "weight_decay": args.weight_decay,
             "random_seed": args.seed,
             "camera_mode": args.camera_mode,
+            "evidence_kind": args.evidence_kind,
             "train_loss": losses,
         },
         "minimum_resolvable_target_pixels": PI05_PATCH_EQUIVALENT_TARGET_PIXELS,
-        "offline_label_inputs": ["evaluator-only target segmentation pixel counts"],
+        "offline_label_inputs": [
+            "evaluator-only target segmentation pixel counts"
+            if args.evidence_kind == "target"
+            else "evaluator-only actual/counterfactual same-camera target pixel counts"
+        ],
         "online_inputs": [
             f"six stock {camera} RGB frames" for camera in selected_cameras
         ],

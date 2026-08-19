@@ -1,0 +1,61 @@
+{
+  "schema_version": "interactive-perception.action-outcome-composite.v11-candidate",
+  "status": "FROZEN_FOR_FRESH_CLEAN_DEVELOPMENT",
+  "claim_eligible": false,
+  "dependencies": {
+    "agentview_target_artifact": {
+      "path": "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json",
+      "sha256": "27aa131e2a575580b58fef6195f453ad47d5ff9849cf2b128629dffae5e9464a"
+    },
+    "agentview_target_checkpoint": {
+      "path": "results/models/t01_rgb_target_evidence_v2_candidate_agentview.pt",
+      "sha256": "c15173ea66099a37fcc73a67870b543da5529bd1d5020d7cd3ce9ccf326d0478"
+    },
+    "wrist_target_artifact": {
+      "path": "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json",
+      "sha256": "1b3f1682b78c62b45d60f66cb1304dd925156a42c8890d2496523039064606a7"
+    },
+    "wrist_target_checkpoint": {
+      "path": "results/models/t01_rgb_wrist_target_evidence_v11b_candidate.pt",
+      "sha256": "175c6e40c9ec654777deb37d52fb611ac38fc5f546dfba3a3fe1a69312f97998"
+    },
+    "coverage_artifact": {
+      "path": "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json",
+      "sha256": "868db059225c91094d69f55ca7d168ea9455925d8cb6d29dbb257e8baf583a64"
+    },
+    "coverage_checkpoint": {
+      "path": "results/models/t01_rgb_coverage_evidence_v11_candidate.pt",
+      "sha256": "140e0252a2d1d9e7ef15abf9b6a659ed25b916ad5e526e3910039f63ad8ede4a"
+    }
+  },
+  "online_inputs": [
+    "six stock agentview RGB frames",
+    "six stock wrist RGB frames",
+    "target query fixed by the T01 task protocol"
+  ],
+  "online_oracle_inputs": [],
+  "target_cascade": [
+    "agentview singleton REVEALED -> REVEALED",
+    "otherwise wrist singleton REVEALED -> REVEALED",
+    "otherwise agentview singleton NOT_REVEALED -> NOT_REVEALED",
+    "otherwise preserve REVEALED/NOT_REVEALED ambiguity -> SAFE_STOP"
+  ],
+  "outcome_cascade": [
+    "singleton target REVEALED -> REVEALED",
+    "singleton NOT_REVEALED + singleton coverage COMPLETED -> EMPTY",
+    "singleton NOT_REVEALED + singleton coverage FAILED -> FAILED",
+    "any remaining ambiguity -> preserve compatible set -> SAFE_STOP"
+  ],
+  "design_reason": "v10 seed 1420 was target-resolvable only in wrist RGB and also contained a separate empty-regime coverage failure; v11 separates camera-specific positive target evidence from RGB coverage evidence",
+  "development_data_status": "600-699 and 1400-1439 were used for model selection; none may support the v11 clean claim",
+  "fresh_clean_seed_block": "t01_open_observe_v11_clean_development",
+  "sealed_seed_block": "t01_open_observe_sealed_audit",
+  "gates": {
+    "per_class_correct_label_retention": 0.9,
+    "per_class_singleton_one_sided_95_lower": 0.8,
+    "false_singleton_EMPTY": 0,
+    "false_singleton_REVEALED": 0,
+    "physical_branch_one_sided_95_lower": 0.8,
+    "partially_passed_is_not_go": true
+  }
+}

@@ -60,20 +60,11 @@ The audit is not the paper test. Seeds 800--899 are reserved for the later
 oracle-free closed-loop comparison. Final-task success remains a separate hard
 gate because post-reveal butter retrieval is currently 0/5.
 
-If and only if the audit passes, start a fresh extended server and verify that
-online prefix features reproduce all 21 held-out development conformal sets.
-Then run one non-paper seed and render its wrist-left/global-right demo:
-
-```bash
-bash scripts/run_t01_closed_loop_v5.sh smoke
-```
-
-Only after that wiring check passes, restart the server and consume the frozen
-held-out pipeline-validation seeds:
-
-```bash
-bash scripts/run_t01_closed_loop_v5.sh heldout
-```
+This document records the retired v9 plan. The obsolete v5 shell launchers were
+removed because their frozen-artifact checks no longer match the current
+protocol. Use `scripts/run_piu_v0_smoke.sh` for disposable behavior checks and
+follow the current commands and immutable split status in `README.md`. Never
+re-run a consumed sealed split.
 
 T01D is a custom scenario and is calibration-only under the owner's scope
 rule. Seeds 800--899 test the frozen pipeline without refitting, but are marked

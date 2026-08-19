@@ -1,4 +1,8 @@
-# T01 Conformal Reveal
+# T01 Historical Conformal Route to Drawer Opening
+
+The legacy result JSON uses fields named `reveal_success`, but its endpoint is
+only the middle-drawer joint threshold. It does not certify that the butter
+entered a stock policy camera and is not an RGB outcome-critic result.
 
 ## Frozen protocol
 
@@ -15,12 +19,13 @@
 | Measure | Result | 95% one-sided lower bound | Gate |
 |---|---:|---:|---:|
 | Correct singleton route | 100/100 | 0.970 | GO |
-| Physical target reveal | 97/100 | 0.924 | GO |
+| Drawer joint opening | 97/100 | 0.924 | GO |
 | Monolithic reveal | 0/5 | -- | NOT-GO |
 | Full routed retrieval | 0/5 | -- | NOT-GO |
 
-The three reveal failures are seeds 110, 127, and 186. G4 selected
+The three drawer-opening failures are seeds 110, 127, and 186. G4 selected
 `REMOVE_OCCLUDER` in all three, but the executor did not move the drawer.
 
-The result supports the information-acquisition stage only. It must not be
-reported as end-to-end task success.
+The result supports prompt-conditioned routing to a motor option only. It must
+not be reported as target reveal, information acquisition, or end-to-end task
+success.

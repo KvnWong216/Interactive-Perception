@@ -51,21 +51,29 @@ decides whether to open the drawer.
 | Target-observability risk routing | 296/300 |
 | Temporal outcome critic v8 | NOT-GO: FAILED 7/7, REVEALED 7/9, EMPTY 4/5 |
 | Patch-resolvable v9 clean development | NOT-GO: critic passed; EMPTY physical 36/40, lower 0.786 |
-| v10 separated target/effect diagnostic | 120/120 on contaminated seeds 660–699; non-claim |
-| v10 fresh clean development | NOT RUN; frozen seeds 1400–1439 |
+| v10 fresh clean development | NOT-GO on 1400–1439: 118/120 singleton correct; one false EMPTY |
+| v11 three-head RGB cascade model selection | 120/120 on contaminated 1400–1439; non-claim |
+| v11 fresh clean development | NOT-GO on 1440–1479: 118/120 singleton correct; two false REVEALED |
+| v12b fresh clean development | **GO** on 1900–1939: 120/120 truth retained; 119/120 singleton; zero false singleton EMPTY/REVEALED |
+| v12b sealed outcome audit | **GO** on 900–999: 299/300 truth retained; 294/300 singleton; zero false singleton EMPTY/REVEALED |
 | v4 OPEN_AND_OBSERVE disposable smoke | 3/3: REVEALED / EMPTY / FAILED |
 | PIU V0 learned-head diagnostics | belief 27/30; outcome 20/21 contaminated diagnostic |
-| PIU V0 end-to-end disposable smoke | 5/5 routes and outcomes; non-paper |
-| Sealed outcome audit | NOT RUN; new seeds 900–999 |
+| PIU V0 + v12b end-to-end disposable behavior | 5/5 routes; 3/3 singleton outcomes; non-paper |
+| PIU V1 object-sidecar calibration | location/action argmax 77/80; conformal truth retained 80/80; development only |
+| PIU V1 scene-disjoint clean | **NOT-GO**: visible/hidden truth retained 24/40 and 40/40; 6 false singleton routes |
+| PIU V2 development refit | calibration 80/80; new clean block 1740–1759 frozen but unopened |
+| Original-prompt physical continuation | information 1/1; final task 0/1; non-paper diagnostic |
 | Final retrieval after reveal | 0/5 |
 
 The PIU smoke covers hidden butter, a same-RGB visible cream-cheese prompt,
 already-visible butter, local EMPTY, and a constructed FAILED control. Hidden
 butter routes to real π0.5 `OPEN_AND_OBSERVE`, obtains singleton `REVEALED`,
-updates the public belief, and replans to a `DIRECT_ACT` semantic handoff.
+updates the public belief, and replans to `DIRECT_ACT`.
 EMPTY excludes only the middle drawer and FAILED preserves the hypothesis.
-`DIRECT_ACT` is not yet physically executed, so this is an information-loop
-success, not final retrieval success.
+In a separate one-case diagnostic, `DIRECT_ACT` physically continued for a
+fixed 400 steps under the original prompt. Information acquisition succeeded,
+but butter placement failed. This is an information-loop success and a final-
+task failure, never a combined system success.
 
 The v7 outcome head is invalidated. It checked only the final frame: debug seed
 770 saw the target during opening and lost it after return. Version 3 therefore
@@ -89,18 +97,60 @@ returns singleton `NOT_REVEALED` does a second public-history head classify the
 observation effect as `FAILED` or `COMPLETED`; `COMPLETED` then means local
 `EMPTY`. This preserves acquired information after later reclosure or
 reocclusion. The frozen combination is 120/120 on now-contaminated seeds
-660--699, which is model-selection evidence only. Fresh seeds 1400--1439 are
-the sole v10 clean-development block; sealed seeds 900--999 remain closed.
+660--699, which is model-selection evidence only. On fresh seeds 1400--1439,
+v10 retained FAILED 40/41, REVEALED 39/40, and EMPTY 39/39, but produced one
+false singleton EMPTY and is therefore NOT-GO. Those seeds were then consumed
+to diagnose two distinct causes: a wrist-only reveal and an uncertified search
+view.
+
+Version 11 uses an agentview target head, a high-precision wrist positive
+rescue, and an independent public-agentview RGB coverage head. Its deterministic
+cascade was 120/120 on the already-contaminated 1400--1439 model-selection
+block, but fresh 1440--1479 failed with two false singleton REVEALED outputs.
+That block was then consumed for composition-rule diagnosis.
+
+Version 12b freezes a stricter evidence rule before opening new data: only a
+singleton wrist-positive versus singleton agentview-negative conflict is
+ambiguous; a multi-label wrist set is abstention rather than negative evidence.
+On fresh clean seeds 1900--1939, FAILED and REVEALED are 40/40 singleton each;
+EMPTY retains 40/40 correct labels and is singleton-correct 39/40 (lower
+0.887). Mean set size is 1.008, one case SAFE_STOPs, and both physical
+information endpoints are 40/40 (lower 0.928). The frozen one-time sealed audit
+on 900--999 then obtained FAILED 100/100 singleton, REVEALED 100/100 singleton,
+and EMPTY 99/100 coverage with 94/100 singleton-correct (lower 0.885). It has
+zero false singleton EMPTY/REVEALED, mean set size 1.017, and 5/300 ambiguous
+SAFE_STOPs. Physical REVEALED and local EMPTY are both 100/100 (lower 0.970),
+which also passes the original 0.90 standard. Complete motor return is 199/200
+and is reported separately from information acquisition. Six-frame history
+retains 100/100 reveals versus 96/100 for final-frame-only.
+
+Because frozen π0.5 itself varies substantially across LIBERO seeds, the
+canonical same-state mechanism loop is the immediate engineering priority and
+cross-seed executor robustness is a secondary characterization. This priority
+does not turn same-seed smoke into held-out evidence or relax the clean/sealed
+gate definitions.
+
+The first object-level PIU sidecar used public RGB, public robot state, the full
+prompt, Grounding DINO/SAM proposals, DINOv2 region features, and a frozen π0.5
+prefix. Its first clean scene-disjoint block failed primarily on unseen visible
+assets: it produced 19 SAFE_STOPs and six false singleton routes. That block is
+now development-only. V2 adds those failures to development training without
+adding an online signal, action type, or oracle input. Its original calibration
+is 80/80, but that is not a clean result. The replacement V2 clean protocol is
+frozen on seeds 1740–1759 and remains unopened at this commit; the PIU sealed
+audit remains closed.
 
 The action reliability lower bound is 0.80; the original 0.90 result is always
-reported. Conformal error remains 0.10. These are evidence gates, not online
+reported. Conformal error is 0.05. These are evidence gates, not online
 confidence triggers. Open-drawer retrieval remains 0/5, so target evidence is
 not reported as final task success.
 
 | Milestone | Decision |
 |---|---:|
 | PIU V0 wiring / inference smoke | GO (non-claim) |
-| Clean PIU development | NOT-GO / not run |
+| T01 v12b outcome clean development | GO |
+| T01 v12b outcome sealed audit | GO |
+| Scene-disjoint PIU belief/effect development | V1 NOT-GO; V2 clean unopened |
 | RSS method paper | NOT-GO |
 | Final product | NOT-GO |
 
@@ -126,13 +176,20 @@ not override this registry.
 | 660–699 | v9 clean development; later v10 diagnosis | consumed, NOT-GO, contaminated |
 | 700–799 | final-frame-bug debugging | whole block quarantined |
 | 800–899 | later closed-loop validation | frozen; audit-gated; non-paper |
-| 900–999 | one-time sealed outcome audit | sealed |
+| 900–999 | one-time v12b sealed outcome audit | consumed, GO, immutable |
 | 1300, 1399 | wiring smoke | disposable; never claim-bearing |
-| 1400–1439 | v10 fresh clean development | frozen and untouched |
-| 1500–1599 | future PIU counterfactual prototype train | untouched |
-| 1600–1699 | future PIU conformal calibration | untouched |
-| 1700–1799 | future scene-disjoint clean development | untouched |
+| 1400–1439 | v10 clean development; v11 diagnosis/model selection | consumed, NOT-GO, contaminated |
+| 1440–1479 | v11 clean; then v12b model selection | consumed, NOT-GO, contaminated |
+| 1500–1519 | PIU V1 prototype train | consumed |
+| 1520–1599 | PIU prototype reserve | untouched |
+| 1600–1619 | PIU V1 conformal calibration | consumed |
+| 1620–1699 | PIU calibration reserve | untouched |
+| 1700–1719 | invalid first clean protocol | quarantined; target visibly leaked |
+| 1720–1739 | PIU V1 clean NOT-GO; then V2 development data | consumed, contaminated |
+| 1740–1759 | PIU V2 replacement clean development | frozen, authorized, unopened |
+| 1760–1799 | PIU clean-development reserve | untouched |
 | 1800–1899 | future scene-disjoint sealed audit | sealed |
+| 1900–1939 | v12b fresh clean development | consumed, GO, immutable |
 
 The three-class collection and label contract is frozen in
 [`outcome_data_protocol_v1.yaml`](benchmarks/rss_v1/outcome_data_protocol_v1.yaml).
@@ -145,7 +202,8 @@ Run the dependency-gated experiment:
 bash scripts/run_rss_experiment_ladder.sh preflight
 bash scripts/run_rss_experiment_ladder.sh smoke
 bash scripts/run_rss_experiment_ladder.sh development
-bash scripts/run_t01_open_and_observe_pipeline.sh v10-clean
+bash scripts/run_t01_open_and_observe_pipeline.sh v12b-clean
+bash scripts/run_t01_open_and_observe_pipeline.sh v12b-audit
 ```
 
 Run the local PIU V0 path:
@@ -156,23 +214,31 @@ Run the local PIU V0 path:
 ../.conda/envs/ipu/bin/python scripts/run_piu_v0_smoke.py --help
 ```
 
-The recorded five-case smoke itself was run with
-`EXPERIMENT_GPU_INDEX=0 bash scripts/run_piu_v0_smoke.sh --model
-results/models/piu_v0_4_sidecar.pt --output
-results/smoke/piu_v0_full_pipeline_v4_seed1399.json --asset-dir
-results/assets/piu_v0_full_pipeline_v4_seed1399/raw`.
+The latest recorded five-case behavior run used
+`EXPERIMENT_GPU_INDEX=0 bash scripts/run_piu_v0_smoke.sh --output
+results/smoke/piu_v0_v12b_full_pipeline_v1_seed1399.json --asset-dir
+results/assets/piu_v0_v12b_full_pipeline_v1_seed1399/raw`.
 
 Its post-terminal presentation assets are indexed by
-[`assets_manifest.json`](results/assets/piu_v0_full_pipeline_v4_seed1399/visualizations_v1/assets_manifest.json).
+[`assets_manifest.json`](results/assets/piu_v0_v12b_full_pipeline_v1_seed1399/visualizations_v1/assets_manifest.json).
 The left demo panel is replayed wrist RGB; the right global panel is explicitly
 evaluator-only and was never available to the controller.
+
+The matching machine-readable privileged-input audit is
+[`piu_v0_v12b_full_pipeline_v1_privileged_input_audit.json`](results/audits/piu_v0_v12b_full_pipeline_v1_privileged_input_audit.json).
+
+The original-prompt physical continuation is recorded in
+[`piu_v0_v12b_physical_act_v1_seed1399.json`](results/smoke/piu_v0_v12b_physical_act_v1_seed1399.json)
+with its [combined demo](results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/piu_v0_full_pipeline_seed1399.mp4)
+and [separate privileged-input audit](results/audits/piu_v0_v12b_physical_act_v1_privileged_input_audit.json).
 
 This PC has one physical GPU at index 0. The generic preflight rejects unknown
 compute processes and permits the current-user RustDesk process only when
 explicitly enabled. `LAB_SERVER_MODE=1` still hard-requires physical GPU1 and
 the lab Server User Guide.
 
-The audit is intentionally explicit and can run only after development passes:
+The v12b sealed audit was run once after development passed. Re-running it is
+forbidden; the historical exact command required explicit authorization:
 
 ```bash
 ALLOW_SEALED_AUDIT=1 bash scripts/run_rss_experiment_ladder.sh audit

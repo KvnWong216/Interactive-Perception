@@ -1,0 +1,28 @@
+{
+  "schema_version": "interactive-perception.t01-v12b-sealed-authorization.v1",
+  "decision": "AUTHORIZED",
+  "clean_result": {
+    "path": "results/calibration/t01_open_and_observe_clean_development_v12b.json",
+    "sha256": "564dfdcfe66e2be11e1da5985f2b66f265461c6994e6554b83c7540b610c9065"
+  },
+  "clean_manifest": {
+    "path": "data/calibration/t01_open_and_observe_effect_v12b_clean.manifest.json",
+    "sha256": "2d6f85c3bddbfdbee8b75dcd6affccf573ef3e3d68d96e553ef6530184156086"
+  },
+  "frozen_composite": {
+    "path": "results/calibration/t01_open_and_observe_outcome_v12b_composite_candidate.json",
+    "sha256": "114ef4840755c7f4be1f44aeb5fce2625d80e1b574b80868dce5790502b6ac40"
+  },
+  "clean_gates": {
+    "correct_label_retention": true,
+    "singleton_lower_0.80": true,
+    "zero_false_singleton_EMPTY": true,
+    "zero_false_singleton_REVEALED": true,
+    "physical_information_lower_0.80": true,
+    "privileged_online_read_count_zero": true
+  },
+  "sealed_seed_block": "t01_open_observe_sealed_audit",
+  "sealed_seeds": "900-999",
+  "sealed_data_opened_at_authorization": false,
+  "partially_passed_is_not_go": true
+}

@@ -1,6 +1,6 @@
 schema_version: interaction-uncertainty.piu-main-matrix.v0
-status: v0_smoke_and_prototype_training_completed_future_scene_disjoint_collection_not_started
-primary_endpoint: closed_loop_final_task_success
+status: v11_rgb_full_loop_smoke_completed_future_scene_disjoint_collection_not_started
+primary_endpoint: prompt_relevant_target_observability
 secondary_endpoints:
   - prompt_aligned_uncertainty
   - target_observability
@@ -10,6 +10,7 @@ secondary_endpoints:
   - action_selection_regret
   - unnecessary_interaction_rate
   - ambiguous_abstain_rate
+  - closed_loop_final_task_success
 
 scenario_axes:
   target_state:
@@ -74,3 +75,10 @@ gates:
   interpretation:
     partial_is_not_go: true
     target_observability_is_not_final_task_success: true
+
+execution_priority:
+  primary: canonical same-state end-to-end mechanism completion and debugging
+  secondary: broad cross-seed frozen-pi05 robustness
+  reason: frozen pi05_libero is itself cross-seed variable
+  paper_reporting: keep policy/executor variance separate from PIU decision and outcome metrics
+  clean_and_sealed_rules_unchanged: true

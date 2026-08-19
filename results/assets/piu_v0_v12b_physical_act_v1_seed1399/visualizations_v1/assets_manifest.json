@@ -1,0 +1,69 @@
+{
+  "schema_version": "interaction-uncertainty.piu-visual-assets.v0",
+  "source_report": "results/smoke/piu_v0_v12b_physical_act_v1_seed1399.json",
+  "source_report_sha256": "9e6828a2c32c9a8ef630081ee31b2f6e11cdac808a0d561093fd1b63ba7a9ffc",
+  "claim_status": "disposable-seed behavior demonstration using the clean-and-sealed-GO v12b outcome critic; not an independent validation split",
+  "demo_contract": {
+    "left": "wrist RGB from deterministic evaluator replay of the public action history",
+    "right": "evaluator-only global RGB generated after controller termination",
+    "controller_global_view_reads": 0,
+    "policy_or_outcome_model_uses_rendered_assets": false
+  },
+  "map_contract": "structured task-fact/node maps; V0 does not claim pixel grounding",
+  "assets": [
+    {
+      "case": "hidden_butter",
+      "kind": "belief_update",
+      "path": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/hidden_butter/belief_update.png",
+      "sha256": "4dd2b958746ecb23e264854263da117c826a42bc121fa35f0e06621cdd724dad"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "uncertainty_before",
+      "path": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/hidden_butter/uncertainty_map_before.png",
+      "sha256": "e5a099870507203a214be6211ce8e59cd2c8d6b895f03183ce4cacef718323d1"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "action_utility",
+      "path": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/hidden_butter/action_utility.png",
+      "sha256": "061a6e7029c0e483c8495df49276f9b0f4735fdde2fe2b95a6e3cda4cc8a640d"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "effect_forecast",
+      "path": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/hidden_butter/effect_forecast.png",
+      "sha256": "6ab2e10229f2113c2d6093f1953a47390dd8b43bbd30943b47f7c75f7e984e0b"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "evaluator_visibility",
+      "path": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/hidden_butter/evaluator_visibility.png",
+      "sha256": "a081ccb8a9af58c75e0799ac59d25e5290005031b8755559a5fb5dbc61d30cf8"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "public_storyboard",
+      "path": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/hidden_butter/public_history_storyboard.png",
+      "sha256": "8636f2343f9e331d02f938f5e75b88e6c24cd62720675b5e405e8c7c361cf8c1"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "uncertainty_after",
+      "path": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/hidden_butter/uncertainty_map_after.png",
+      "sha256": "fe0f728ddcccf8da703438d00e3eb0b16cdfa3c884a35dc465b81120c138568b"
+    },
+    {
+      "case": "hidden_butter",
+      "kind": "demo",
+      "path": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/hidden_butter/hidden_butter_wrist_global_replay.mp4",
+      "sha256": "dcb698fa1ece6075c4c3f45f8957f27dcb90904b63b91308e35cf982ae9330c4"
+    },
+    {
+      "case": "all",
+      "kind": "combined_demo",
+      "path": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/visualizations_v1/piu_v0_full_pipeline_seed1399.mp4",
+      "sha256": "dcb698fa1ece6075c4c3f45f8957f27dcb90904b63b91308e35cf982ae9330c4"
+    }
+  ]
+}

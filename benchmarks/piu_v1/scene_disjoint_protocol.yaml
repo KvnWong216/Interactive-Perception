@@ -1,0 +1,206 @@
+schema_version: interaction-uncertainty.piu-scene-disjoint-protocol.v1
+status: frozen_before_replacement_clean_after_v1_state_contract_not_go
+primary_endpoint: prompt_conditioned_target_location_and_action_selection
+online_inputs: [agentview RGB, wrist RGB, public robot state, full prompt]
+online_forbidden:
+  - segmentation
+  - simulator depth
+  - hidden object pose
+  - articulated joint state
+  - task predicate
+  - semantic instance ID
+  - global camera
+
+frontend:
+  grounding: IDEA-Research/grounding-dino-tiny
+  segmentation: facebook/sam-vit-base
+  region_features: facebook/dinov2-small
+  box_threshold: 0.30
+  text_threshold: 0.20
+  nms_iou: 0.70
+  dense_sam_grid: 16
+  dense_sam_min_iou: 0.80
+  max_dense_proposals_per_view: 32
+  generic_container_queries: [drawer, cabinet, refrigerator, fridge, refrigerator door, mini refrigerator, container]
+  selection_provenance: >-
+    Thresholds and dense proposals selected on old prototype seed 220. Generic
+    refrigerator synonyms added after the V2 train-only frontend audit found
+    zero refrigerator proposals; no clean data was open.
+  note: >-
+    Dense category-agnostic SAM proposals are required because the open-vocabulary
+    detector misses small LIBERO packages. Semantic misdetections remain model
+    evidence, not ground truth.
+  policy_query_contract: >-
+    Open-vocabulary queries may be derived from the full prompt and a frozen
+    generic object/container vocabulary only. Scenario interaction_target
+    annotations are teacher-only and may never enter a policy-side query or
+    node feature.
+
+task_state_domain:
+  target_location: [visible_workspace, closed_container]
+  preferred_action: [DIRECT_ACT, OPEN_TO_INSPECT]
+  absent_excluded: >-
+    Initial absence cannot be inferred without exhaustive registered search;
+    EMPTY remains local and this protocol does not train global NOT_FOUND.
+
+label_contract:
+  prompt_resolvable: at least 256 target pixels in either stock policy camera
+  visible_workspace_requires_prompt_resolvable: true
+  closed_container_requires_not_prompt_resolvable: true
+  contradiction_rule: abort collection; never silently preserve the scenario name
+
+splits:
+  prototype_train:
+    seed_block: piu_counterfactual_prototype_train
+    seeds: 1500-1519
+    open_now: true
+    scenarios:
+      - id: train_t01_hidden_butter
+        bddl: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+        prompt: Place the butter in the basket
+        target: butter
+        destination: basket
+        target_instance: butter_1
+        target_location: closed_container
+        preferred_action: OPEN_TO_INSPECT
+        interaction_target: middle drawer
+      - id: train_t01_same_rgb_visible_cream_cheese
+        bddl: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+        prompt: Place the cream cheese in the basket
+        target: cream cheese
+        destination: basket
+        target_instance: cream_cheese_1
+        target_location: visible_workspace
+        preferred_action: DIRECT_ACT
+        paired_same_rgb_with: train_t01_hidden_butter
+      - id: train_t01_open_visible_butter
+        bddl: scenarios/t01_stock_ladder_v1/T01E_open_drawer_retrieval.bddl
+        prompt: Place the butter in the basket
+        target: butter
+        destination: basket
+        target_instance: butter_1
+        target_location: visible_workspace
+        preferred_action: DIRECT_ACT
+      - id: train_fridge_hidden_orange_juice
+        bddl: scenarios/interactive_manipulation_v0/T02_fridge_retrieval.bddl
+        prompt: Place the orange juice in the wicker basket
+        target: orange juice
+        destination: wicker basket
+        target_instance: orange_juice_1
+        target_location: closed_container
+        preferred_action: OPEN_TO_INSPECT
+        interaction_target: short refrigerator
+      - id: train_stock_visible_butter
+        bddl: third_party/LIBERO/libero/libero/bddl_files/libero_object/pick_up_the_butter_and_place_it_in_the_basket.bddl
+        prompt: Pick up the butter and place it in the basket
+        target: butter
+        destination: basket
+        target_instance: butter_1
+        target_location: visible_workspace
+        preferred_action: DIRECT_ACT
+  conformal_calibration:
+    seed_block: piu_counterfactual_conformal_calibration
+    seeds: 1600-1619
+    open_now: true
+    scenarios:
+      - id: calibration_multi_drawer_hidden_butter
+        bddl: scenarios/interactive_manipulation_v0/T01_multi_drawer_search.bddl
+        prompt: Place the butter in the wicker basket
+        target: butter
+        destination: wicker basket
+        target_instance: butter_1
+        target_location: closed_container
+        preferred_action: OPEN_TO_INSPECT
+        interaction_target: middle drawer
+      - id: calibration_stock_visible_ketchup
+        bddl: third_party/LIBERO/libero/libero/bddl_files/libero_object/pick_up_the_ketchup_and_place_it_in_the_basket.bddl
+        prompt: Pick up the ketchup and place it in the basket
+        target: ketchup
+        destination: basket
+        target_instance: ketchup_1
+        target_location: visible_workspace
+        preferred_action: DIRECT_ACT
+      - id: calibration_goal_drawer_hidden_butter
+        bddl: scenarios/t01_stock_ladder_v1/T01B_hidden_butter.bddl
+        prompt: Place the butter in the basket
+        target: butter
+        destination: basket
+        target_instance: butter_1
+        target_location: closed_container
+        preferred_action: OPEN_TO_INSPECT
+        interaction_target: middle drawer
+      - id: calibration_stock_visible_chocolate_pudding
+        bddl: third_party/LIBERO/libero/libero/bddl_files/libero_object/pick_up_the_chocolate_pudding_and_place_it_in_the_basket.bddl
+        prompt: Pick up the chocolate pudding and place it in the basket
+        target: chocolate pudding
+        destination: basket
+        target_instance: chocolate_pudding_1
+        target_location: visible_workspace
+        preferred_action: DIRECT_ACT
+
+  clean_scene_disjoint_development:
+    seed_block: piu_scene_disjoint_clean_development
+    seeds: 1720-1739
+    open_now: false
+    open_condition: >-
+      Prototype and calibration manifests, frontend hashes, model weights,
+      conformal thresholds, and utility weights are frozen.
+    scenarios:
+      - id: clean_t01c_hidden_butter
+        bddl: scenarios/t01_stock_ladder_v1/T01C_hidden_butter_basket.bddl
+        prompt: Place the butter in the basket
+        target: butter
+        destination: basket
+        target_instance: butter_1
+        target_location: closed_container
+        preferred_action: OPEN_TO_INSPECT
+        interaction_target: middle drawer
+      - id: clean_stock_visible_milk
+        bddl: third_party/LIBERO/libero/libero/bddl_files/libero_object/pick_up_the_milk_and_place_it_in_the_basket.bddl
+        prompt: Pick up the milk and place it in the basket
+        target: milk
+        destination: basket
+        target_instance: milk_1
+        target_location: visible_workspace
+        preferred_action: DIRECT_ACT
+      - id: clean_stock_visible_salad_dressing
+        bddl: third_party/LIBERO/libero/libero/bddl_files/libero_object/pick_up_the_salad_dressing_and_place_it_in_the_basket.bddl
+        prompt: Pick up the salad dressing and place it in the basket
+        target: salad dressing
+        destination: basket
+        target_instance: salad_dressing_1
+        target_location: visible_workspace
+        preferred_action: DIRECT_ACT
+      - id: clean_top_drawer_hidden_butter
+        bddl: scenarios/interactive_manipulation_v0/T05_exhaustive_not_found.bddl
+        prompt: Place the butter in the wicker basket
+        target: butter
+        destination: wicker basket
+        target_instance: butter_1
+        target_location: closed_container
+        preferred_action: OPEN_TO_INSPECT
+        interaction_target: top drawer
+
+split_disjointness:
+  scenario_path_overlap_allowed: false
+  clean_target_assets_held_out_from_calibration: [milk, salad_dressing]
+  clean_container_context_held_out: top_drawer
+  clean_additional_context: heldout T01C drawer/basket layout
+  clean_container_context_held_out_also: task_exhaustion_three_drawer_scene
+  random_frame_split_forbidden: true
+
+gates_before_clean:
+  - all source/image/feature manifests verify
+  - no scenario path overlaps train, calibration, and clean
+  - frontend source and model hashes freeze
+  - belief/effect/rank model and conformal thresholds freeze
+  - controller online oracle read count is zero
+  - no teacher interaction_target occurs in policy visual_queries or node features
+  - replacement hidden candidates are 0-pixel on disposable seeds 1498-1499
+  - replacement visible candidates exceed 256 pixels on disposable seeds 1498-1499
+
+sealed:
+  seed_block: piu_scene_disjoint_sealed_audit
+  seeds: 1800-1899
+  status: unopened
+  open_condition: every clean scene-disjoint gate passes without model changes

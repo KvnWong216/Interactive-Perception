@@ -1,0 +1,45 @@
+{
+  "schema_version": "interactive-perception.smoke-attempt.v1",
+  "repository_commit": "de55641d191c728b08a2ca3c6a185c953c681869",
+  "local_worktree_protocol_changes": true,
+  "host": "DocOck",
+  "date": "2026-08-17",
+  "command": "bash scripts/run_rss_experiment_ladder.sh smoke",
+  "seed_registry": "benchmarks/rss_v1/seed_registry.yaml",
+  "requested_seed_blocks": [
+    "t01_open_observe_smoke"
+  ],
+  "requested_seeds": [
+    1399
+  ],
+  "cpu_preflight": {
+    "passed": true,
+    "tests_passed": 108
+  },
+  "gpu_preflight": {
+    "physical_gpu": 1,
+    "passed": false,
+    "reason": "nvidia-smi could not communicate with an NVIDIA driver on the local host"
+  },
+  "status": "BLOCKED_PRE_EXECUTION",
+  "policy_server_started": false,
+  "port_8000_listener_after_attempt": false,
+  "dataset_created": false,
+  "manifest_created": false,
+  "demo_created": false,
+  "formal_seed_blocks_touched": [],
+  "sealed_audit_opened": false,
+  "proves": [
+    "CPU preflight passes",
+    "GPU1 and occupancy gating runs before model-server startup",
+    "formal and sealed seed blocks are not consumed on failed preflight"
+  ],
+  "does_not_prove": [
+    "OPEN_AND_OBSERVE execution",
+    "target reveal",
+    "EMPTY certification",
+    "FAILED classification",
+    "RGB outcome-critic generalization",
+    "oracle-free online belief update"
+  ]
+}

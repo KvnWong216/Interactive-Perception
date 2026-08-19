@@ -1,0 +1,1068 @@
+{
+  "schema_version": "interaction-uncertainty.piu-object-frontend-audit.v1",
+  "repository_commit": "b14fc9a4218f941e849cb74ca4edbc3454bdd802",
+  "sources": {
+    "snapshots": {
+      "path": "data/piu_v1/prototype_train_v2.jsonl",
+      "sha256": "20fa289e039399f70e6575b4611b577b5631309f49ba5194d9026a950209b1a0"
+    },
+    "labels": {
+      "path": "data/piu_v1/labels/prototype_train_v2.jsonl",
+      "sha256": "a270555c7900e458ae414cf9c1e0e6223e306dd68d9748e739e7e30d596453b9"
+    },
+    "scenes": {
+      "path": "data/piu_v1/prototype_train_objects_v2.jsonl",
+      "sha256": "fd892c5a9fbbcc7da12de4fa9a8a3424da33e6f2251d385a8cdbbf0a52f5410e"
+    }
+  },
+  "samples": 100,
+  "class_counts": {
+    "closed_container": 40,
+    "visible_workspace": 60
+  },
+  "query_leaks": 0,
+  "truth_node_proposed": 80,
+  "truth_node_proposal_rate": 0.8,
+  "mean_objects": 75.89,
+  "per_scenario": {
+    "train_t01_hidden_butter": {
+      "samples": 20,
+      "query_leaks": 0,
+      "truth_node_proposal_rate": 1.0,
+      "mean_maximum_target_overlap": 0.0,
+      "mean_teacher_interaction_nodes": 4.6
+    },
+    "train_t01_same_rgb_visible_cream_cheese": {
+      "samples": 20,
+      "query_leaks": 0,
+      "truth_node_proposal_rate": 1.0,
+      "mean_maximum_target_overlap": 0.9698573002522572,
+      "mean_teacher_interaction_nodes": 0.0
+    },
+    "train_t01_open_visible_butter": {
+      "samples": 20,
+      "query_leaks": 0,
+      "truth_node_proposal_rate": 1.0,
+      "mean_maximum_target_overlap": 1.0,
+      "mean_teacher_interaction_nodes": 0.0
+    },
+    "train_fridge_hidden_orange_juice": {
+      "samples": 20,
+      "query_leaks": 0,
+      "truth_node_proposal_rate": 0.0,
+      "mean_maximum_target_overlap": 0.0,
+      "mean_teacher_interaction_nodes": 0.0
+    },
+    "train_stock_visible_butter": {
+      "samples": 20,
+      "query_leaks": 0,
+      "truth_node_proposal_rate": 1.0,
+      "mean_maximum_target_overlap": 0.9882659320552782,
+      "mean_teacher_interaction_nodes": 0.0
+    }
+  },
+  "rows": [
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1500",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 3,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1501",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 85,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 4,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1502",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 5,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1503",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 5,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1504",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 4,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1505",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 3,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1506",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 80,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 4,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1507",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 5,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1508",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 81,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 5,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1509",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 81,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 5,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1510",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 6,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1511",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 85,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 6,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1512",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 85,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 5,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1513",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 80,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 4,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1514",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 5,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1515",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 5,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1516",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 79,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 5,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1517",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 4,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1518",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 3,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_hidden_butter:1519",
+      "scenario_id": "train_t01_hidden_butter",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 6,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1500",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 80,
+      "maximum_target_overlap": 0.96,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1501",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.9828571428571429,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1502",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 81,
+      "maximum_target_overlap": 0.9535864978902954,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1503",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 80,
+      "maximum_target_overlap": 0.9911894273127754,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1504",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 81,
+      "maximum_target_overlap": 0.9843081312410842,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1505",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 79,
+      "maximum_target_overlap": 0.9685714285714285,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1506",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 78,
+      "maximum_target_overlap": 0.9597122302158273,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1507",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9377652050919377,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1508",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 79,
+      "maximum_target_overlap": 0.9537037037037037,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1509",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 79,
+      "maximum_target_overlap": 0.9940828402366864,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1510",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 81,
+      "maximum_target_overlap": 0.9669540229885057,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1511",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 81,
+      "maximum_target_overlap": 0.9912408759124087,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1512",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9635343618513323,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1513",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 79,
+      "maximum_target_overlap": 0.9631336405529954,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1514",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 80,
+      "maximum_target_overlap": 0.977110157367668,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1515",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 80,
+      "maximum_target_overlap": 0.9524456521739131,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1516",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 79,
+      "maximum_target_overlap": 0.9730496453900709,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1517",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 81,
+      "maximum_target_overlap": 0.9631336405529954,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1518",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 81,
+      "maximum_target_overlap": 0.9678899082568807,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_same_rgb_visible_cream_cheese:1519",
+      "scenario_id": "train_t01_same_rgb_visible_cream_cheese",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9928774928774928,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1500",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 85,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1501",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1502",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1503",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1504",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1505",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1506",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 85,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1507",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1508",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1509",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1510",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1511",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1512",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 86,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1513",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1514",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1515",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 85,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1516",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1517",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 84,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1518",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 86,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_t01_open_visible_butter:1519",
+      "scenario_id": "train_t01_open_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1500",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 49,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1501",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 49,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1502",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 48,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1503",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 47,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1504",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 51,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1505",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 52,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1506",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 51,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1507",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 48,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1508",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 52,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1509",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 52,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1510",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 48,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1511",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 49,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1512",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 53,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1513",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 49,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1514",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 50,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1515",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 55,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1516",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 48,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1517",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 51,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1518",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 48,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_fridge_hidden_orange_juice:1519",
+      "scenario_id": "train_fridge_hidden_orange_juice",
+      "target_location": "closed_container",
+      "query_leak": false,
+      "objects": 49,
+      "maximum_target_overlap": 0.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": false
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1500",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9833333333333333,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1501",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.9831804281345565,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1502",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9891304347826086,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1503",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.9676425269645609,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1504",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.9924012158054711,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1505",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9908116385911179,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1506",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9923195084485407,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1507",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.9913793103448276,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1508",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9809523809523809,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1509",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9830246913580247,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1510",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9831932773109243,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1511",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.9969230769230769,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1512",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1513",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.9740853658536586,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1514",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9907834101382489,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1515",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 0.9912280701754386,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1516",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1517",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9833333333333333,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1518",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 82,
+      "maximum_target_overlap": 0.9915966386554622,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    },
+    {
+      "sample_id": "prototype_train:train_stock_visible_butter:1519",
+      "scenario_id": "train_stock_visible_butter",
+      "target_location": "visible_workspace",
+      "query_leak": false,
+      "objects": 83,
+      "maximum_target_overlap": 1.0,
+      "teacher_interaction_nodes": 0,
+      "truth_node_proposed": true
+    }
+  ],
+  "online_oracle_inputs": [],
+  "teacher_use": "offline proposal recall audit only"
+}

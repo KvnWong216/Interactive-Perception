@@ -4,8 +4,8 @@
   "gate_count": 12,
   "status_counts": {
     "GO": 2,
-    "PARTIAL": 6,
-    "NOT_GO": 4
+    "PARTIAL": 7,
+    "NOT_GO": 3
   },
   "blocking_gate_ids": [
     "RP0",
@@ -35,6 +35,8 @@
   ],
   "milestones": {
     "piu_v0_end_to_end_smoke": "GO",
+    "t01_v12b_outcome_clean_and_sealed": "GO",
+    "t01_original_prompt_physical_continuation": "GO",
     "t01_prompt_state_decision": "GO",
     "rss_method_ready": "NOT_GO"
   },
@@ -70,10 +72,10 @@
       "id": "RP3",
       "name": "Calibrated action-effect branches",
       "blocking": true,
-      "status": "NOT_GO",
-      "evidence": "results/smoke/piu_v0_full_pipeline_v4_seed1399.json",
+      "status": "PARTIAL",
+      "evidence": "results/calibration/t01_open_and_observe_sealed_audit_v12b.json",
       "pass_condition": "Six-point RGB/proprioceptive critic recognizes FAILED, REVEALED, and EMPTY, while full-executor effect rates pass context-disjoint reliability gates.",
-      "current": "OPEN_AND_OBSERVE and a hierarchical six-frame critic are implemented. The v7 development result is invalid because its evaluator checked target visibility only in the final frame. Debug seed 770 saw the target during opening and lost it after return, which v7 would call EMPTY. The run was stopped at 77/300; 700-799 are debug-only. Temporal-label v3 then froze on 600-659, but v8 failed development: FAILED 7/7, REVEALED 7/9, EMPTY 4/5. A five-pixel label mismatch motivated an architecture-derived 256-pixel resolvability contract. Its old-seed v9 diagnostic is 20/21; untouched 660-699 must pass before the sealed 900-999 audit. The physical lower bound is 0.80; conformal alpha remains 0.10. The v4 collector now separates the OffScreen controller from post-termination evaluator replay. Local seed-1399 disposable smoke passes REVEALED, EMPTY, and FAILED, and the PIU six-frame head predicts all five end-to-end smoke branches correctly. These are reused non-claim diagnostics; untouched 660-699 must still pass before the sealed 900-999 audit."
+      "current": "The frozen v12b six-frame public-RGB critic passed fresh clean development on 1900-1939 and its one-time sealed audit on 900-999. Sealed results are FAILED 100/100 singleton (lower 0.970), REVEALED 100/100 singleton (lower 0.970), and EMPTY 99/100 coverage with 94/100 singleton-correct (lower 0.885); false singleton EMPTY and REVEALED are both zero, mean set size is 1.017, and 5/300 ambiguities route to SAFE_STOP. Physical information effects are REVEALED 100/100 and local EMPTY 100/100 (both lower 0.970), while complete motor return is 199/200 and is reported separately. Six frames retain 100/100 reveals versus 96/100 for final-frame-only. Online controller oracle reads are zero. RP3 remains PARTIAL because this strong result covers only the T01 middle-drawer context, not context-disjoint actions or scenes."
     },
     {
       "id": "RP4",
@@ -89,9 +91,9 @@
       "name": "Oracle-free history-dependent closed loop",
       "blocking": true,
       "status": "PARTIAL",
-      "evidence": "results/audits/piu_v0_full_pipeline_v4_privileged_input_audit.json",
+      "evidence": "results/audits/piu_v0_v12b_physical_act_v1_privileged_input_audit.json",
       "pass_condition": "The deployed loop uses only policy RGB, prompt, action, and public history for routing, outcome recognition, stopping, retry, and belief update.",
-      "current": "Source/runtime guards and the five-case embodied smoke show zero online oracle inputs; evaluator scoring uses a separate environment or action replay after terminal. The learned heads are development/diagnostic only, so this is not clean validation."
+      "current": "Source/runtime guards, the five-case v12b behavior loop, and one physical original-prompt continuation show zero online oracle inputs; evaluator scoring uses a separate environment or action replay after controller terminal. The v12b outcome critic is clean-and-sealed GO, but the PIU initial belief/effect planner is not scene-disjoint validated, so the full closed-loop gate remains PARTIAL."
     },
     {
       "id": "RP6",
@@ -107,9 +109,9 @@
       "name": "Active-perception breadth",
       "blocking": true,
       "status": "NOT_GO",
-      "evidence": null,
+      "evidence": "results/calibration/t01_open_and_observe_sealed_audit_v12b.json",
       "pass_condition": "Demonstrate viewpoint discovery, manipulation discovery, and information enrichment with independently capable actions.",
-      "current": "Only manipulation discovery by middle-layer opening is certified."
+      "current": "T01 manipulation discovery by OPEN_AND_OBSERVE is now information-effect certified on sealed data: REVEALED 100/100 and local EMPTY 100/100, both lower 0.970. Viewpoint discovery and enrichment actions remain disabled, so the required breadth is not achieved."
     },
     {
       "id": "RP8",
@@ -118,7 +120,7 @@
       "status": "NOT_GO",
       "evidence": "results/t01_final_task_risk_readiness_v1.json",
       "pass_condition": "Information acquisition improves final task success, not only target visibility.",
-      "current": "OPEN_CONTAINER then ACT is 0/5; direct open-drawer retrieval is 0/5."
+      "current": "Historical oracle-switched OPEN_CONTAINER then ACT remains 0/5. A new oracle-free disposable original-prompt chain acquired target information 1/1, then physically executed 400 ACT steps and failed the final task 0/1. These protocols are reported separately and show no final-task benefit."
     },
     {
       "id": "RP9",
@@ -136,7 +138,7 @@
       "status": "PARTIAL",
       "evidence": "README.md",
       "pass_condition": "One-command experiment, frozen hashes, automatic gate report, failure demos, concise README, and verified GPU shutdown.",
-      "current": "Immutable runners, hashes, and strict failure reports exist; the complete paper runner and final artifacts do not. The post-run GPU check found no project process; only the desktop service remained."
+      "current": "Immutable runners, hashes, and strict failure reports exist; the complete paper runner and final artifacts do not. Clean and sealed v12b tables, reports, demos, and manifests exist, including a physical ACT failure trace. The post-run GPU check found no project process; only the desktop service remained."
     },
     {
       "id": "RP11",

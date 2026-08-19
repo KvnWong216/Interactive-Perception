@@ -1,0 +1,585 @@
+{
+  "schema_version": "interaction-uncertainty.piu-v0-v12b-behavior.v1",
+  "claim_status": "disposable-seed behavior demonstration using the clean-and-sealed-GO v12b outcome critic; not an independent validation split",
+  "endpoint": "semantic DIRECT_ACT handoff after prompt-relevant information acquisition; not final manipulation success",
+  "repository_commit": "b14fc9a4218f941e849cb74ca4edbc3454bdd802",
+  "model": "results/models/piu_v0_3_sidecar.pt",
+  "model_sha256": "c3b866f519096bfb254ac19fe6ce5ef2536a98a6ff1ce3211b400e03a1a75eab",
+  "policy": "frozen pi05_libero action + prefix server",
+  "outcome_critic": {
+    "path": "results/calibration/t01_open_and_observe_outcome_v12b_composite_candidate.json",
+    "sha256": "114ef4840755c7f4be1f44aeb5fce2625d80e1b574b80868dce5790502b6ac40",
+    "online_inputs": [
+      "six stock agentview RGB frames",
+      "six stock wrist RGB frames"
+    ],
+    "online_oracle_inputs": []
+  },
+  "seed": 1399,
+  "cases": 1,
+  "initial_correct": 1,
+  "outcome_correct": 1,
+  "information_acquisition_successes": 1,
+  "physical_final_act_executed": true,
+  "final_task_successes": 0,
+  "online_oracle_inputs": [],
+  "asset_root": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw",
+  "asset_contract": {
+    "raw_keyframes": "stock policy RGB only",
+    "actions": "public executed 7D action history",
+    "global_demo_view": "must be rendered by post-terminal evaluator replay",
+    "global_view_available_to_controller": false
+  },
+  "direct_act_limitation": "DIRECT_ACT is a semantic handoff only; context-specific physical reliability is not yet trained or evaluated",
+  "perception_limitation": "V0 uses registered public drawer affordances and a pi05-prefix visible-target proxy; Grounding DINO/SAM object grounding is V1",
+  "utility_contract": "physical information actions use effect-head EIG/progress; rank-head readiness is used only by the DIRECT semantic handoff",
+  "open_execution_reliability": {
+    "trials": 100,
+    "successes": 97,
+    "point_estimate": 0.97,
+    "one_sided_95_lower_bound": 0.924,
+    "optimizer_uses": "minimum of learned forecast and lower bound"
+  },
+  "rows": [
+    {
+      "case": "hidden_butter",
+      "seed": 1399,
+      "scenario": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+      "prompt": "Place the butter in the basket",
+      "initial_expected": "OPEN_TO_INSPECT",
+      "initial_selected": "OPEN_TO_INSPECT",
+      "initial_correct": true,
+      "outcome_expected": "REVEALED",
+      "outcome_prediction_set": [
+        "REVEALED"
+      ],
+      "outcome_correct": true,
+      "terminal": "FINAL_TASK_FAILED_AFTER_INFORMATION_ACQUIRED",
+      "trace": [
+        {
+          "event": "INITIAL_DECISION",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.021493909880518913,
+                  "middle_drawer": 0.9785031676292419,
+                  "other_unsearched_region": 1.3405465324467514e-06,
+                  "absent": 1.5935759165586205e-06
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.07490458811177225
+              }
+            ],
+            "task_uncertainty": 0.07490458811177225,
+            "node_uncertainty": {
+              "drawer_middle_interior": 0.9785031676292419
+            },
+            "model_stamp": "piu-sidecar-v0:c3b866f519096bfb",
+            "conformal_sets": {
+              "target_location": [
+                "middle_drawer"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "open_to_inspect:drawer_middle",
+              "primitive": "OPEN_TO_INSPECT",
+              "target_id": "drawer_middle",
+              "subtask": "Open the middle layer of the drawer",
+              "stop_condition": "the opening attempt ends and six public observations are available",
+              "cost": 0.18,
+              "physical_risk": 0.05
+            },
+            "utilities": {
+              "open_to_inspect:drawer_middle": {
+                "expected_information_gain": 0.06574960726151538,
+                "expected_task_progress": 0.8503462672233582,
+                "execution_success_probability": 0.924,
+                "cost": 0.18,
+                "physical_risk": 0.05,
+                "utility": 1.0278325634812147
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.07490458811177225,
+            "valid_candidate_ids": [
+              "open_to_inspect:drawer_middle",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": {
+            "open_to_inspect:drawer_middle": {
+              "outcomes": {
+                "FAILED": 0.00030857344972901046,
+                "REVEALED": 0.7086635828018188,
+                "EMPTY": 0.2910277843475342
+              },
+              "expected_future_uncertainty": 0.009154980850256872,
+              "execution_success_probability": 0.924,
+              "expected_task_progress": 0.8503462672233582
+            }
+          }
+        },
+        {
+          "event": "POST_OUTCOME_REPLAN",
+          "belief": {
+            "prompt": "Place the butter in the basket",
+            "facts": [
+              {
+                "name": "target_location",
+                "probabilities": {
+                  "visible_workspace": 0.9821455478668213,
+                  "middle_drawer": 0.0178466085344553,
+                  "other_unsearched_region": 4.075058768648887e-06,
+                  "absent": 3.7454160519700963e-06
+                },
+                "importance": 1.0,
+                "normalized_entropy": 0.06466222954983247
+              }
+            ],
+            "task_uncertainty": 0.06466222954983247,
+            "node_uncertainty": {
+              "drawer_middle_interior": 0.0178466085344553
+            },
+            "model_stamp": "piu-sidecar-v0:c3b866f519096bfb",
+            "conformal_sets": {
+              "target_location": [
+                "visible_workspace"
+              ]
+            }
+          },
+          "decision": {
+            "selected": {
+              "candidate_id": "direct_act:prompt_target",
+              "primitive": "DIRECT_ACT",
+              "target_id": "prompt_target",
+              "subtask": "Pick up the butter",
+              "stop_condition": "target is grasped or the action visibly fails",
+              "cost": 0.1,
+              "physical_risk": 0.1
+            },
+            "utilities": {
+              "direct_act:prompt_target": {
+                "expected_information_gain": 0.046703731401277856,
+                "expected_task_progress": 0.963489830493927,
+                "execution_success_probability": 0.9821455478668213,
+                "cost": 0.1,
+                "physical_risk": 0.1,
+                "utility": 1.3358371199830914
+              },
+              "abstain": {
+                "expected_information_gain": 0.0,
+                "expected_task_progress": 0.0,
+                "execution_success_probability": 0.0,
+                "cost": 0.0,
+                "physical_risk": 0.0,
+                "utility": 0.0
+              }
+            },
+            "task_uncertainty": 0.06466222954983247,
+            "valid_candidate_ids": [
+              "direct_act:prompt_target",
+              "abstain"
+            ],
+            "reason": "maximum explicit expected information/task utility over hard-valid candidates"
+          },
+          "effect_forecasts": [
+            "direct_act:prompt_target"
+          ]
+        },
+        {
+          "event": "OUTCOME",
+          "prediction_set": [
+            "REVEALED"
+          ],
+          "public_rgb_critic": {
+            "prediction_set": [
+              "REVEALED"
+            ],
+            "target_source": "agentview",
+            "agentview_target_set": [
+              "REVEALED"
+            ],
+            "wrist_target_set": [
+              "REVEALED"
+            ],
+            "coverage_set": [
+              "COMPLETED"
+            ],
+            "maximum_logits": {
+              "agentview_target": 16.28092384338379,
+              "wrist_target": 16.45196533203125,
+              "agentview_coverage": 30.080150604248047
+            },
+            "frame_logits": {
+              "agentview_target": [
+                -13.069551467895508,
+                -13.192174911499023,
+                16.089597702026367,
+                15.812149047851562,
+                15.725544929504395,
+                16.28092384338379
+              ],
+              "wrist_target": [
+                -28.556684494018555,
+                -21.042325973510742,
+                -35.37753677368164,
+                -35.79680633544922,
+                16.45196533203125,
+                6.8550004959106445
+              ],
+              "agentview_coverage": [
+                -22.791166305541992,
+                -18.666542053222656,
+                27.495569229125977,
+                24.646974563598633,
+                22.184383392333984,
+                30.080150604248047
+              ]
+            },
+            "composite_sha256": "114ef4840755c7f4be1f44aeb5fce2625d80e1b574b80868dce5790502b6ac40",
+            "online_oracle_inputs": []
+          },
+          "memory": {
+            "observation_count": 2,
+            "belief_count": 2,
+            "searched_regions": [],
+            "attempt_counts": {
+              "open_to_inspect:drawer_middle": 1
+            },
+            "observed_outcomes": [
+              {
+                "candidate_id": "open_to_inspect:drawer_middle",
+                "prediction_set": [
+                  "REVEALED"
+                ]
+              }
+            ]
+          },
+          "terminal": "FINAL_TASK_FAILED_AFTER_INFORMATION_ACQUIRED"
+        }
+      ],
+      "executor": {
+        "open_steps": 300,
+        "return_steps": 42,
+        "return_phase": "COMPLETE"
+      },
+      "act_executor": {
+        "prompt": "Place the butter in the basket",
+        "fixed_budget_steps": 400,
+        "action_start_index": 342,
+        "task_predicate_used_for_control": false
+      },
+      "assets": {
+        "public_keyframes": [
+          {
+            "name": "00_before",
+            "phase": "BEFORE",
+            "step": -1,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/00_before_agentview.png",
+              "wrist": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/00_before_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "348ed88340787eeb365594a15f17cd7d433bff73434553311a4de4d904b2faf2",
+              "wrist": "6f7ce7ff522a1b61e3e498e1803b60e5a40912b0cbb15cd50cfbd939e13b8594"
+            },
+            "robot_state": [
+              -0.20846466056582375,
+              2.48906260668901e-12,
+              1.17327947572964,
+              3.140339335468503,
+              0.0007735038743553738,
+              -0.08922200721618072,
+              0.038729201417156356,
+              -0.038729141314950595
+            ]
+          },
+          {
+            "name": "01_open",
+            "phase": "OPEN",
+            "step": 74,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/01_open_agentview.png",
+              "wrist": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/01_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "d9117a0c44c4f5d65869390e990efeaf28e850277dd94ea78161efe6789b7a54",
+              "wrist": "9f0dd1c4db12c345a6ec5b6b52d77d2f1e9c474e354c7dd989c7cdae35f44842"
+            },
+            "robot_state": [
+              0.02461426129049119,
+              -0.10990446332160574,
+              1.070646464185512,
+              1.716988332454141,
+              1.7419895489243444,
+              -0.7784253390180476,
+              0.03992966155455116,
+              -0.039968404891061196
+            ]
+          },
+          {
+            "name": "02_open",
+            "phase": "OPEN",
+            "step": 149,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/02_open_agentview.png",
+              "wrist": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/02_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "c4a0d17db63b8161faf7f031d5e9555f4ef38f00df7ba1cb031cb5c29db23575",
+              "wrist": "dfbeafa02ab70e9c9834f2b4490e62627f6f077e8c027f51004135d4e89b5262"
+            },
+            "robot_state": [
+              0.024472554950943873,
+              0.0336665553374985,
+              1.0353387630166964,
+              1.6773755622989857,
+              1.6464587019973278,
+              -0.8210689216157069,
+              0.03997467289317769,
+              -0.040011873156819644
+            ]
+          },
+          {
+            "name": "03_open",
+            "phase": "OPEN",
+            "step": 224,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/03_open_agentview.png",
+              "wrist": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/03_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "39fef5e0cfa5490f039e2c2dfc810ef7559cc87575dbc2ebba1db0506fa790f4",
+              "wrist": "6e713d7d7c82282f9fa26c3ddc56273cfb7eef3b603af36d750f3081d418702e"
+            },
+            "robot_state": [
+              0.025875091533320037,
+              0.027017970578299674,
+              1.038428817809395,
+              1.6379601285415282,
+              1.4884827842713542,
+              -1.01205621681181,
+              0.040000430239607934,
+              -0.039994545974621536
+            ]
+          },
+          {
+            "name": "04_open",
+            "phase": "OPEN",
+            "step": 299,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/04_open_agentview.png",
+              "wrist": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/04_open_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "e23d8eccf7f54eea06df9e1357e094277df8438ad6a58a0bf7d474f6df7cb1dc",
+              "wrist": "1184a7a9ad8709d9c52c5e543db5056c6041b482e162faee98d710a77451aedd"
+            },
+            "robot_state": [
+              0.011929993507986486,
+              -0.10509219738656025,
+              1.1141424418706292,
+              1.687917712503179,
+              1.3081701082607828,
+              -0.6522109162913442,
+              0.03985880608919969,
+              -0.04001162947676397
+            ]
+          },
+          {
+            "name": "05_returned",
+            "phase": "AFTER_RETURN",
+            "step": 42,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/05_returned_agentview.png",
+              "wrist": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/05_returned_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "e91389dedd4aaffbc81c4d740ab6bc60e5fffd8e5207b4a0ed116f491d980f8e",
+              "wrist": "b7342af42cc86faeee658904682bd6bb71bd0d79728d0243c37d7ad148ef787f"
+            },
+            "robot_state": [
+              -0.20879753696609057,
+              -0.0003682984890893571,
+              1.1665795272791724,
+              3.140620313844937,
+              0.0023474972386055715,
+              -0.057859860707274675,
+              0.03986398757427277,
+              -0.04000006998489018
+            ]
+          },
+          {
+            "name": "06_act",
+            "phase": "DIRECT_ACT",
+            "step": 99,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/06_act_agentview.png",
+              "wrist": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/06_act_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "cec2f120394870d58a9c1396a4495fdcd2cde04012c5bc913e280f99798c5439",
+              "wrist": "730578b08dfa5a735bdb42721261c797055b0baef69a12af6936863050f6f8d3"
+            },
+            "robot_state": [
+              -0.05700634661146162,
+              0.05829290404789576,
+              1.0138747773058674,
+              2.896576756634378,
+              -0.6024237362788059,
+              0.20824549516448923,
+              0.031934469274929655,
+              -0.04000588346162281
+            ]
+          },
+          {
+            "name": "07_act",
+            "phase": "DIRECT_ACT",
+            "step": 199,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/07_act_agentview.png",
+              "wrist": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/07_act_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "87bd92400e300bf18edd92ac7af171febf2088e2ab22bdbf6ab0eff1ccab9f8f",
+              "wrist": "03654ff3330b2e0f9c8e6b2ca7e74059d1151a8a5b8eac1a1b1e0ab881a596ad"
+            },
+            "robot_state": [
+              -0.058040281926068436,
+              0.04341564717443013,
+              1.0042353830557142,
+              2.7114506193693364,
+              -0.5198948915625332,
+              0.24517107747816103,
+              0.02341919316158358,
+              -0.02552595677288528
+            ]
+          },
+          {
+            "name": "08_act",
+            "phase": "DIRECT_ACT",
+            "step": 299,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/08_act_agentview.png",
+              "wrist": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/08_act_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "4f1ef79fd75ee3e93613c8ee1cf39406f0e2296f97399497230a169a0ac87e20",
+              "wrist": "164edbb12f9ceafe83028b27131e5f7ae78e3e87ca160f565a6dd84fa6a9cd8b"
+            },
+            "robot_state": [
+              -0.029653587993215207,
+              0.07264307625870309,
+              1.0754437631462224,
+              2.5919777145615654,
+              -0.21514433907356403,
+              0.06763278059721238,
+              0.0015776867814344777,
+              -0.0034056949241444557
+            ]
+          },
+          {
+            "name": "09_act",
+            "phase": "DIRECT_ACT",
+            "step": 399,
+            "image_paths": {
+              "agentview": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/09_act_agentview.png",
+              "wrist": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_keyframes/09_act_wrist.png"
+            },
+            "image_sha256": {
+              "agentview": "9c0eb3cad1833dd282350269187d7474e2674b3ecfa61f84b2d3518a0766b18d",
+              "wrist": "e3fc5a26d500c0420e349d9e92ee37dd3b90ff33fd4bf2a43805a354a90e11e9"
+            },
+            "robot_state": [
+              -0.058502745972072195,
+              0.07184330436640812,
+              0.9439741015507349,
+              2.6263384451036673,
+              -0.07249597644919047,
+              -0.08664089893956947,
+              0.03670424966104788,
+              -0.03688199612937817
+            ]
+          }
+        ],
+        "public_action_history": {
+          "path": "results/assets/piu_v0_v12b_physical_act_v1_seed1399/raw/hidden_butter/public_action_history.json",
+          "sha256": "c956574d907eec6f60b644ab115f25043a74cbef2554de7449292d74f16b37d5",
+          "steps": 742
+        },
+        "global_view_available_to_controller": false
+      },
+      "evaluator_only": {
+        "revealed_any_history": true,
+        "visibility_history": [
+          {
+            "name": "before",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_01",
+            "target_pixels": {
+              "agentview": 0,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_02",
+            "target_pixels": {
+              "agentview": 308,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_03",
+            "target_pixels": {
+              "agentview": 307,
+              "wrist": 0
+            }
+          },
+          {
+            "name": "history_04",
+            "target_pixels": {
+              "agentview": 306,
+              "wrist": 5873
+            }
+          },
+          {
+            "name": "after",
+            "target_pixels": {
+              "agentview": 305,
+              "wrist": 1027
+            }
+          }
+        ],
+        "final_task": {
+          "task_success": false,
+          "first_success_step": null,
+          "scored_after_controller_terminal": true,
+          "actions_replayed": 742,
+          "final_target_pixels": {
+            "agentview": 310,
+            "wrist": 0
+          }
+        }
+      },
+      "online_oracle_inputs": []
+    }
+  ]
+}

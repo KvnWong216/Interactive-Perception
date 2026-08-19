@@ -81,7 +81,7 @@ def main() -> None:
         node.name
         for node in tree.body
         if isinstance(node, ast.FunctionDef)
-        and node.name in {"static_evaluator"}
+        and node.name in {"static_evaluator", "replay_final_task_evaluator"}
     }
     allowed_policy_keys = {
         "agentview_image",
@@ -92,6 +92,16 @@ def main() -> None:
     }
     observed_keys = literal_subscript_keys(build_observation)
     row_oracles_empty = all(not row["online_oracle_inputs"] for row in smoke["rows"])
+    critic_contract = smoke.get("outcome_critic", {})
+    critic_oracles_empty = critic_contract.get("online_oracle_inputs") == []
+    critic_path = (
+        ROOT / critic_contract["path"] if critic_contract.get("path") else None
+    )
+    critic_artifact_intact = bool(
+        critic_path is not None
+        and critic_path.exists()
+        and digest(critic_path) == critic_contract.get("sha256")
+    )
     trace_terminals_present = all(bool(row["terminal"]) for row in smoke["rows"])
     scene_firewall = False
     try:
@@ -128,6 +138,7 @@ def main() -> None:
         ROOT / "src/interactive_perception/policy_client.py",
         ROOT / "src/interactive_perception/action_options.py",
         ROOT / "src/interactive_perception/observation_option.py",
+        ROOT / "src/interactive_perception/rgb_outcome_critic.py",
         runner,
     )
     asset_manifest = None
@@ -147,15 +158,22 @@ def main() -> None:
         (
             smoke["online_oracle_inputs"] == [],
             row_oracles_empty,
+            critic_oracles_empty,
+            critic_artifact_intact,
             trace_terminals_present,
             observed_keys <= allowed_policy_keys,
             controller_uses_public_env,
             not controller_constructs_segmentation_env,
-            evaluator_helpers == {"static_evaluator"},
+            evaluator_helpers == {"static_evaluator", "replay_final_task_evaluator"},
             scene_firewall,
             runtime_test.returncode == 0,
             asset_contract_passed,
         )
+    )
+    act_limitation = (
+        "DIRECT_ACT was physically executed on one disposable behavior seed and failed; this is diagnostic, not an ACT reliability estimate."
+        if smoke.get("physical_final_act_executed")
+        else "DIRECT_ACT is a semantic handoff and was not physically executed."
     )
     report = {
         "schema_version": "interaction-uncertainty.piu-privileged-input-audit.v0",
@@ -184,6 +202,8 @@ def main() -> None:
         "controller_constructs_segmentation_environment": controller_constructs_segmentation_env,
         "evaluator_environment": "separate SegmentationRenderEnv/replay after terminal",
         "actual_trace_rows_have_zero_oracle_inputs": row_oracles_empty,
+        "rgb_outcome_critic_has_zero_oracle_inputs": critic_oracles_empty,
+        "rgb_outcome_composite_hash_verified": critic_artifact_intact,
         "scene_packet_runtime_firewall": scene_firewall,
         "runtime_guard_tests": {
             "returncode": runtime_test.returncode,
@@ -194,8 +214,9 @@ def main() -> None:
         "passed": passed,
         "limitations": [
             "Static/runtime isolation does not validate learned calibration.",
-            "V0 public target grounding is a prefix-belief proxy, not Grounding DINO/SAM.",
-            "DIRECT_ACT is a semantic handoff and was not physically executed.",
+            "Initial V0 belief is a prefix proxy, not Grounding DINO/SAM object grounding.",
+            "The v12b outcome critic passed T01 clean and sealed gates but remains T01-specific; it does not establish scene-disjoint or cross-object generalization.",
+            act_limitation,
         ],
     }
     output.parent.mkdir(parents=True, exist_ok=True)

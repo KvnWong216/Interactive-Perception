@@ -1,0 +1,37 @@
+schema_version: interaction-uncertainty.piu-clean-evaluation-gates.v1
+status: frozen_before_first_clean_model_inference
+split: clean_scene_disjoint_development
+seeds: 1720-1739
+samples_per_class: 40
+model:
+  path: results/models/piu_object_sidecar_v1.pt
+  sha256: 419721b79221d5df9bcf90fff57046fad858f1d6d6898c6c3fb7a58b56569cce
+decision_rule: >-
+  Emit DIRECT_ACT or OPEN_TO_INSPECT only when location and action conformal
+  sets are singleton, their deterministic mapping agrees, and the explicit
+  frozen utility optimizer selects the same action. Otherwise emit SAFE_STOP.
+gates:
+  frontend_truth_node_proposal_rate: 1.0
+  frontend_query_leaks: 0
+  location_truth_retention_each_class: 0.90
+  action_truth_retention_each_class: 0.90
+  correct_singleton_route_one_sided_95_lower_each_class: 0.80
+  false_singleton_routes: 0
+  mean_location_prediction_set_size_max: 1.25
+  mean_action_prediction_set_size_max: 1.25
+  semantic_effect_accuracy_each_class: 0.90
+  future_belief_accuracy_each_class: 0.90
+  node_hit_at_1_min: 0.50
+  online_oracle_read_count: 0
+report_only:
+  - original_0.90_singleton_lower_standard
+  - rank_head_argmax_accuracy
+  - explicit_optimizer_argmax_accuracy
+  - SAFE_STOP_rate
+  - unnecessary_interaction_rate
+  - always_DIRECT_ACT
+  - always_OPEN_TO_INSPECT
+  - prefix_zeroed_ablation
+  - node_zeroed_ablation
+partially_passed_is_not_go: true
+sealed_rule: open only if every clean gate passes without model or rule changes

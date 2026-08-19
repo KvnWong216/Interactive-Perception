@@ -4,8 +4,8 @@
   "gate_count": 12,
   "status_counts": {
     "GO": 2,
-    "PARTIAL": 6,
-    "NOT_GO": 4
+    "PARTIAL": 7,
+    "NOT_GO": 3
   },
   "blocking_gate_ids": [
     "FP0",
@@ -36,6 +36,7 @@
   "final_product_go": false,
   "milestones": {
     "piu_v0_information_loop_smoke": "GO",
+    "piu_v0_original_prompt_physical_chain": "GO",
     "t01_routed_open_prototype": "GO",
     "t01_prompt_state_routing": "GO",
     "method_paper_ready": "NOT_GO",
@@ -73,10 +74,10 @@
       "id": "FP3",
       "name": "Calibrated action-effect model",
       "blocking": true,
-      "status": "NOT_GO",
+      "status": "PARTIAL",
       "pass_condition": "For every enabled information action, predict the post-action observable effect from (prompt, observation, action), with class-conditional conformal coverage at least 0.90 on disjoint scenes.",
-      "evidence": "results/smoke/piu_v0_full_pipeline_v4_seed1399.json",
-      "current": "The composite executor and six-frame hierarchical critic are implemented, but v7 is invalidated by a final-frame-only label bug. Debug seed 770 saw the target during opening and lost it after return; v7 would call this EMPTY. The first audit stopped at 77/300 and is debug-only. Temporal-label v3 later froze, but v8 failed development: FAILED 7/7, REVEALED 7/9, EMPTY 4/5. The architecture-derived v9 correction is 20/21 on diagnosed seeds; untouched 660-699 must pass before seeds 900-999 can be opened. The v4 collector runs the controller in OffScreenRenderEnv and reads evaluator truth only by replay after controller termination. Local v4 disposable smoke now passes REVEALED/EMPTY/FAILED, and the PIU smoke predicts all three singleton outcomes. This is not clean validation; seeds 660-699 remain untouched."
+      "evidence": "results/calibration/t01_open_and_observe_sealed_audit_v12b.json",
+      "current": "For T01 OPEN_AND_OBSERVE, the frozen v12b public-RGB critic passed fresh development (120 rows) and a one-time sealed audit (300 rows). Sealed FAILED and REVEALED are 100/100 singleton; EMPTY retains 99/100 correct labels and is singleton-correct 94/100 (lower 0.885). There are zero false singleton EMPTY or REVEALED predictions, mean set size 1.017, and 5/300 ambiguities route to SAFE_STOP. Physical REVEALED and local EMPTY effects are both 100/100 (lower 0.970); six-frame history retains 100/100 reveals versus 96/100 final-frame-only. Controller oracle reads are zero. FP3 remains PARTIAL because the pass condition requires disjoint scenes and every enabled information action, while current evidence is one T01 drawer context."
     },
     {
       "id": "FP4",
@@ -93,8 +94,8 @@
       "blocking": true,
       "status": "PARTIAL",
       "pass_condition": "Audit the complete controller and show zero reads of simulator joints, segmentation, hidden target poses, or task predicates for routing, stopping, belief updates, and NOT_FOUND.",
-      "evidence": "results/audits/piu_v0_full_pipeline_v4_privileged_input_audit.json",
-      "current": "Source/runtime guards pass for the OffScreen controller and the actual five-case PIU smoke. Every trace row reports zero online oracle inputs; segmentation and joints are confined to post-terminal evaluator replay. The smoke is non-paper because its learned heads are not clean-validated."
+      "evidence": "results/audits/piu_v0_v12b_physical_act_v1_privileged_input_audit.json",
+      "current": "Source/runtime guards pass for the OffScreen controller, the five-case v12b loop, and an actual original-prompt physical continuation. Every trace reports zero online oracle inputs; segmentation, joints, and task predicates are confined to evaluator replay after controller terminal. The full gate remains PARTIAL because PIU belief/effect inference is not yet scene-disjoint validated."
     },
     {
       "id": "FP6",
@@ -111,8 +112,8 @@
       "blocking": true,
       "status": "PARTIAL",
       "pass_condition": "Reliably acquire the required information in at least three disjoint action families, with a one-sided 95% lower bound of at least 0.80 for each family; also report the original 0.90 decision.",
-      "evidence": "results/capability/t01_conformal_reveal_100seed_v1.json",
-      "current": "Drawer opening is 97/100 by joint motion, but strict camera-visible information is 57/60 and passes the revised 0.80 but not the original 0.90 lower-bound requirement; the return-to-observe sub-controller alone is 30/30 diagnostic-only. Full OPEN_AND_OBSERVE and move/rotate/other-occluder families are not certified."
+      "evidence": "results/calibration/t01_open_and_observe_sealed_audit_v12b.json",
+      "current": "Full T01 OPEN_AND_OBSERVE is now certified for prompt-resolvable reveal and local-empty information effects on the sealed audit: both are 100/100 with lower 0.970 and pass the original 0.90 standard. Complete return is separately 199/200 because one EMPTY return timed out after the view was already certified. This is only one action family; viewpoint, removal, lift, and rotate remain uncertified."
     },
     {
       "id": "FP8",
@@ -121,7 +122,7 @@
       "status": "NOT_GO",
       "pass_condition": "After information acquisition, complete the original final task with a one-sided 95% reliability lower bound of at least 0.80 and a positive paired improvement over the monolithic VLA.",
       "evidence": "results/t01_final_task_risk_readiness_v1.json",
-      "current": "OPEN_CONTAINER -> ACT is 0/5; direct open-drawer retrieval is 0/5."
+      "current": "Historical oracle-switched OPEN_CONTAINER -> ACT is 0/5. One new oracle-free disposable chain acquired information 1/1 and then failed the original physical task after a fixed 400-step ACT continuation 0/1. No positive paired final-task benefit is established."
     },
     {
       "id": "FP9",
@@ -148,7 +149,7 @@
       "status": "PARTIAL",
       "pass_condition": "One-command evaluation, pinned environment, frozen calibration hashes, complete failure demos, automated gate report, and clean GPU shutdown.",
       "evidence": "README.md",
-      "current": "A one-command PIU information-loop smoke, immutable model/data hashes, training script, and oracle audit now exist. The object-level V1 frontend, clean paper runner, physical DIRECT_ACT continuation, and final product artifacts do not."
+      "current": "One-command PIU behavior and physical-continuation runners, immutable model/data hashes, training scripts, clean/sealed outcome reports, visualization manifests, and oracle audits now exist. The object-level scene-disjoint V1 benchmark, clean paper runner, and final product matrix remain incomplete."
     }
   ]
 }
