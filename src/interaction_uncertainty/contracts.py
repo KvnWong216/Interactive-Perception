@@ -22,6 +22,7 @@ def _probabilities(values: Mapping[str, float], *, name: str) -> dict[str, float
 
 class Primitive(str, Enum):
     DIRECT_ACT = "DIRECT_ACT"
+    OBSERVE = "OBSERVE"
     OPEN_TO_INSPECT = "OPEN_TO_INSPECT"
     STOP_NOT_FOUND = "STOP_NOT_FOUND"
     COMPLETE = "COMPLETE"
@@ -32,6 +33,227 @@ class EffectOutcome(str, Enum):
     FAILED = "FAILED"
     REVEALED = "REVEALED"
     EMPTY = "EMPTY"
+
+
+class ObserveMode(str, Enum):
+    """Physical realizations of one prompt-conditioned OBSERVE action."""
+
+    CENTER_TARGET = "CENTER_TARGET"
+    MOVE_CLOSER = "MOVE_CLOSER"
+    NEXT_BEST_VIEW = "NEXT_BEST_VIEW"
+    RETURN_TO_OBSERVE = "RETURN_TO_OBSERVE"
+    OPEN_CONTAINER = "OPEN_CONTAINER"
+    REMOVE_OCCLUDER = "REMOVE_OCCLUDER"
+    ROTATE_TARGET = "ROTATE_TARGET"
+
+
+class EvidenceNeed(str, Enum):
+    IDENTITY = "IDENTITY"
+    LOCATION = "LOCATION"
+    RESOLUTION = "RESOLUTION"
+    COVERAGE = "COVERAGE"
+    GRASPABILITY = "GRASPABILITY"
+    EXECUTOR_HANDOFF = "EXECUTOR_HANDOFF"
+
+
+class EvidenceStatus(str, Enum):
+    FAILED = "FAILED"
+    EVIDENCE_ACQUIRED = "EVIDENCE_ACQUIRED"
+    EMPTY = "EMPTY"
+    AMBIGUOUS = "AMBIGUOUS"
+
+
+@dataclasses.dataclass(frozen=True)
+class ObserveRequest:
+    """A task-level evidence request, independent of its physical mode."""
+
+    query: str
+    missing_facts: tuple[EvidenceNeed, ...]
+    allowed_modes: tuple[ObserveMode, ...]
+    target_id: str | None = None
+    region_id: str | None = None
+
+    def __post_init__(self) -> None:
+        if not self.query.strip():
+            raise ValueError("OBSERVE query must be non-empty")
+        if not self.target_id and not self.region_id:
+            raise ValueError("OBSERVE requires a public target or region ID")
+        if not self.missing_facts or len(set(self.missing_facts)) != len(self.missing_facts):
+            raise ValueError("OBSERVE missing facts must be unique and non-empty")
+        if not self.allowed_modes or len(set(self.allowed_modes)) != len(self.allowed_modes):
+            raise ValueError("OBSERVE modes must be unique and non-empty")
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "query": self.query,
+            "target_id": self.target_id,
+            "region_id": self.region_id,
+            "missing_facts": [value.value for value in self.missing_facts],
+            "allowed_modes": [value.value for value in self.allowed_modes],
+        }
+
+
+@dataclasses.dataclass(frozen=True)
+class PublicTargetEvidence:
+    """Oracle-free target proposal set used to authorize an OBSERVE motion."""
+
+    frame_id: str
+    view: str
+    query: str
+    prediction_set: tuple[str, ...]
+    model_stamp: str
+    image_size: tuple[int, int]
+    bbox_xyxy: tuple[float, float, float, float] | None = None
+    projected_area: float = 0.0
+    calibration_artifact: str | None = None
+    online_oracle_inputs: tuple[str, ...] = ()
+
+    def __post_init__(self) -> None:
+        if self.online_oracle_inputs:
+            raise ValueError("public target evidence cannot contain oracle inputs")
+        if not self.frame_id.strip() or not self.view.strip() or not self.query.strip():
+            raise ValueError("target evidence identifiers must be non-empty")
+        if not self.model_stamp.strip() or min(self.image_size) <= 0:
+            raise ValueError("target evidence requires a model stamp and image size")
+        if self.projected_area < 0.0:
+            raise ValueError("projected area must be non-negative")
+        if self.bbox_xyxy is not None:
+            x0, y0, x1, y1 = self.bbox_xyxy
+            if not all(math.isfinite(value) for value in self.bbox_xyxy) or x1 <= x0 or y1 <= y0:
+                raise ValueError("target evidence bbox must be finite and non-empty")
+
+    @property
+    def singleton(self) -> bool:
+        return len(self.prediction_set) == 1
+
+    @property
+    def normalized_center_error(self) -> tuple[float, float] | None:
+        if self.bbox_xyxy is None:
+            return None
+        width, height = self.image_size
+        x0, y0, x1, y1 = self.bbox_xyxy
+        return (
+            ((x0 + x1) / 2.0 - width / 2.0) / width,
+            ((y0 + y1) / 2.0 - height / 2.0) / height,
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "frame_id": self.frame_id,
+            "view": self.view,
+            "query": self.query,
+            "prediction_set": list(self.prediction_set),
+            "model_stamp": self.model_stamp,
+            "image_size": list(self.image_size),
+            "bbox_xyxy": list(self.bbox_xyxy) if self.bbox_xyxy is not None else None,
+            "projected_area": self.projected_area,
+            "calibration_artifact": self.calibration_artifact,
+            "normalized_center_error": self.normalized_center_error,
+            "online_oracle_inputs": [],
+        }
+
+
+@dataclasses.dataclass(frozen=True)
+class PublicGraspEvidence:
+    """Executor-specific clear-setup readiness from public observations.
+
+    ``GRASPABLE`` means more than a recognizable target or a 3-D target point.
+    Candidates must be compatible with the declared executor's current RGB and
+    robot-state handoff contract, then survive collision and reachability
+    filtering.  This keeps scene transformation in OBSERVE and low-level task
+    execution in the frozen VLA.
+    """
+
+    frame_id: str
+    target_object_id: str
+    prediction_set: tuple[str, ...]
+    model_stamp: str
+    candidate_count: int
+    collision_free_candidate_count: int
+    reachable_candidate_count: int
+    executor_id: str = "frozen-pi05-libero"
+    calibration_artifact: str | None = None
+    online_oracle_inputs: tuple[str, ...] = ()
+
+    def __post_init__(self) -> None:
+        if self.online_oracle_inputs:
+            raise ValueError("public grasp evidence cannot contain oracle inputs")
+        if not self.frame_id.strip() or not self.target_object_id.strip():
+            raise ValueError("grasp evidence identifiers must be non-empty")
+        if not self.model_stamp.strip() or not self.executor_id.strip():
+            raise ValueError("grasp evidence requires model and executor stamps")
+        counts = (
+            self.candidate_count,
+            self.collision_free_candidate_count,
+            self.reachable_candidate_count,
+        )
+        if any(value < 0 for value in counts):
+            raise ValueError("grasp candidate counts must be non-negative")
+        if not (
+            self.reachable_candidate_count
+            <= self.collision_free_candidate_count
+            <= self.candidate_count
+        ):
+            raise ValueError("grasp candidate counts must be monotonically filtered")
+
+    @property
+    def singleton_graspable(self) -> bool:
+        return self.prediction_set == ("GRASPABLE",)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "frame_id": self.frame_id,
+            "target_object_id": self.target_object_id,
+            "prediction_set": list(self.prediction_set),
+            "model_stamp": self.model_stamp,
+            "candidate_count": self.candidate_count,
+            "collision_free_candidate_count": self.collision_free_candidate_count,
+            "reachable_candidate_count": self.reachable_candidate_count,
+            "executor_id": self.executor_id,
+            "calibration_artifact": self.calibration_artifact,
+            "online_oracle_inputs": [],
+        }
+
+
+@dataclasses.dataclass(frozen=True)
+class ObserveResult:
+    """Unified evidence result; EMPTY is valid only with a coverage certificate."""
+
+    request: ObserveRequest
+    mode: ObserveMode
+    status: EvidenceStatus
+    public_frame_ids: tuple[str, ...]
+    model_stamp: str
+    target_evidence: PublicTargetEvidence | None = None
+    coverage_certified: bool = False
+    online_oracle_inputs: tuple[str, ...] = ()
+
+    def __post_init__(self) -> None:
+        if self.online_oracle_inputs:
+            raise ValueError("OBSERVE result cannot contain oracle inputs")
+        if self.mode not in self.request.allowed_modes:
+            raise ValueError("executed OBSERVE mode was not allowed by the request")
+        if not self.public_frame_ids or not self.model_stamp.strip():
+            raise ValueError("OBSERVE result requires public history and model stamp")
+        if self.status is EvidenceStatus.EVIDENCE_ACQUIRED:
+            if self.target_evidence is None or not self.target_evidence.singleton:
+                raise ValueError("acquired evidence requires a singleton public target set")
+        if self.status is EvidenceStatus.EMPTY and not self.coverage_certified:
+            raise ValueError("EMPTY requires a public coverage certificate")
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "request": self.request.to_dict(),
+            "mode": self.mode.value,
+            "status": self.status.value,
+            "public_frame_ids": list(self.public_frame_ids),
+            "model_stamp": self.model_stamp,
+            "target_evidence": (
+                self.target_evidence.to_dict() if self.target_evidence is not None else None
+            ),
+            "coverage_certified": self.coverage_certified,
+            "online_oracle_inputs": [],
+        }
 
 
 @dataclasses.dataclass(frozen=True)
@@ -207,12 +429,27 @@ class CandidateAction:
     stop_condition: str
     cost: float
     physical_risk: float
+    observe_request: ObserveRequest | None = None
 
     def __post_init__(self) -> None:
         if not self.candidate_id.strip() or not self.subtask.strip() or not self.stop_condition.strip():
             raise ValueError("candidate fields must be non-empty")
-        if self.primitive in {Primitive.OPEN_TO_INSPECT, Primitive.DIRECT_ACT} and not self.target_id:
+        if self.primitive in {
+            Primitive.OPEN_TO_INSPECT,
+            Primitive.DIRECT_ACT,
+        } and not self.target_id:
             raise ValueError("physical candidates require a public target ID")
+        if self.primitive is Primitive.OBSERVE and self.observe_request is None:
+            raise ValueError("OBSERVE candidate requires an evidence request")
+        if (
+            self.primitive is Primitive.OBSERVE
+            and self.observe_request is not None
+            and self.target_id
+            not in {self.observe_request.target_id, self.observe_request.region_id}
+        ):
+            raise ValueError("OBSERVE target must match its public evidence request")
+        if self.primitive is not Primitive.OBSERVE and self.observe_request is not None:
+            raise ValueError("only OBSERVE candidates may carry an evidence request")
         if self.cost < 0.0 or not 0.0 <= self.physical_risk <= 1.0:
             raise ValueError("invalid cost/risk")
 
@@ -258,6 +495,11 @@ class PIUDecision:
     def to_dict(self) -> dict[str, Any]:
         selected = dataclasses.asdict(self.selected)
         selected["primitive"] = self.selected.primitive.value
+        selected["observe_request"] = (
+            self.selected.observe_request.to_dict()
+            if self.selected.observe_request is not None
+            else None
+        )
         return {
             "selected": selected,
             "utilities": {key: dict(value) for key, value in self.utilities.items()},

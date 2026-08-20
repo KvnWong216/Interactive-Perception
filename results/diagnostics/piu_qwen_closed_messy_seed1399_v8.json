@@ -1,0 +1,2216 @@
+{
+  "schema_version": "interaction-uncertainty.qwen-observation-pipeline.v0",
+  "claim_status": "disposable V0 inference; uncalibrated and not clean/sealed evidence",
+  "prompt": "Place the butter in the basket",
+  "task_spec": {
+    "target": "butter",
+    "destination": "basket",
+    "goal_relation": "in",
+    "required_facts": [
+      "target_identity",
+      "target_location",
+      "target_visibility",
+      "target_accessibility",
+      "destination_location",
+      "goal_completion"
+    ]
+  },
+  "pipeline": [
+    "public agentview/wrist RGB",
+    "Grounding DINO open-vocabulary proposals",
+    "SAM masks",
+    "DINOv2 region features and cross-view matches",
+    "frozen SigLIP prompt-conditioned current belief before VLM",
+    "separate Qwen2.5-VL action-conditioned future-effect prediction",
+    "deterministic information-utility selector"
+  ],
+  "model_paths": {
+    "grounding_dino": "checkpoints/perception/grounding-dino-tiny",
+    "sam": "checkpoints/perception/sam-vit-base",
+    "dinov2": "checkpoints/perception/dinov2-small",
+    "siglip": "checkpoints/perception/siglip-base-patch16-224",
+    "qwen": "checkpoints/perception/qwen2.5-vl-3b-instruct"
+  },
+  "scene_packet": {
+    "path": "results/assets/piu_qwen_closed_messy_seed1399_v8/scene_packet.json",
+    "sha256": "aed84b5a3556bb8fcf1f12ff0500742409d49231184c5506b0b445e5829385ca",
+    "all_proposals": 50,
+    "reasoner_proposals": 16,
+    "dino_features": "results/assets/piu_qwen_closed_messy_seed1399_v8/dino_features.npz",
+    "candidate_crops": "results/assets/piu_qwen_closed_messy_seed1399_v8/candidate_crops.png",
+    "object_overlays": {
+      "agentview": "results/assets/piu_qwen_closed_messy_seed1399_v8/current_observation/agentview_objects.png",
+      "wrist": "results/assets/piu_qwen_closed_messy_seed1399_v8/current_observation/wrist_objects.png"
+    }
+  },
+  "pre_vlm_current_field": {
+    "schema_version": "interaction-uncertainty.pre-vlm-field.v1",
+    "task_spec": {
+      "prompt": "Place the butter in the basket",
+      "target": "butter",
+      "destination": "basket",
+      "goal_relation": "in",
+      "required_facts": [
+        "target_identity",
+        "target_location",
+        "target_visibility",
+        "target_accessibility",
+        "destination_location",
+        "goal_completion"
+      ],
+      "parser_stamp": "open-vocabulary-manipulation-grammar-v1"
+    },
+    "target_location_belief": {
+      "agentview_bottle_00": 0.00038500844540744264,
+      "agentview_butter_basket_01": 5.963445360476179e-05,
+      "agentview_food_package_02": 0.0004912517784093946,
+      "agentview_object_03": 0.05717364285661756,
+      "agentview_bowl_04": 0.0023621100777929,
+      "agentview_plate_05": 0.032650181372274274,
+      "agentview_butter_06": 0.001213160815030085,
+      "agentview_butter_07": 0.0046653548969599916,
+      "wrist_food_package_00": 0.01005842489946459,
+      "wrist_object_01": 0.00943815994930949,
+      "wrist_bowl_02": 0.0015159544099677797,
+      "wrist_food_package_03": 3.180897095489073e-06,
+      "wrist_cabinet_04": 0.00016004063639819024,
+      "wrist_cabinet_05": 3.0858808899520265e-06,
+      "wrist_plate_06": 0.00044187721657661154,
+      "wrist_drawer_07": 0.5822612315115607,
+      "OTHER_UNSEARCHED": 0.22283827492698052,
+      "ABSENT": 0.07427942497566019
+    },
+    "regions": [
+      {
+        "object_id": "agentview_bottle_00",
+        "view": "agentview",
+        "bbox_xyxy": [
+          121.30792999267578,
+          82.77113342285156,
+          133.28697204589844,
+          119.8567886352539
+        ],
+        "visible_area": 250,
+        "prompt_relevance": 0.0003964563366025686,
+        "identity_belief": {
+          "target": 0.6536968072492856,
+          "visually_similar_non_target": 0.06561166712516646,
+          "insufficient_visual_evidence": 0.009808912214728011,
+          "other": 0.27088261341082
+        },
+        "identity_entropy": 0.6173096957037079,
+        "graspability_belief": {
+          "GRASPABLE": 0.10733512981437611,
+          "NOT_GRASPABLE": 0.7218861501996792,
+          "INSUFFICIENT_EVIDENCE": 0.1707787199859446
+        },
+        "resolution_uncertainty": 0.755859375,
+        "occlusion_uncertainty": 0.011710420250892641,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.000207239119095879,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -6.613433837890625,
+          "a visually similar but different object from butter": -8.912323951721191,
+          "an unreadable or ambiguous candidate for butter": -10.812786102294922,
+          "an unrelated object": -7.494391918182373,
+          "an object relevant to this robot task: Place the butter in the basket": -11.620278358459473,
+          "the target object butter": -7.832548141479492,
+          "a clear isolated object that a robot can grasp now": -12.261974334716797,
+          "an object blocked, enclosed, or not currently graspable": -10.356062889099121,
+          "insufficient visual evidence to judge graspability": -11.797561645507812,
+          "a closed container with unobserved interior": -8.86526870727539,
+          "an open container whose interior is visible": -11.052729606628418
+        }
+      },
+      {
+        "object_id": "agentview_butter_basket_01",
+        "view": "agentview",
+        "bbox_xyxy": [
+          28.138093948364258,
+          177.72119140625,
+          107.43452453613281,
+          223.9738006591797
+        ],
+        "visible_area": 3181,
+        "prompt_relevance": 6.390349881257862e-05,
+        "identity_belief": {
+          "target": 0.6281654973375957,
+          "visually_similar_non_target": 0.13848752004627837,
+          "insufficient_visual_evidence": 0.03846206039241849,
+          "other": 0.19488492222370735
+        },
+        "identity_entropy": 0.7284670808864663,
+        "graspability_belief": {
+          "GRASPABLE": 0.36773044637170327,
+          "NOT_GRASPABLE": 0.12452368218285946,
+          "INSUFFICIENT_EVIDENCE": 0.5077458714454373
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 3.0806614589624584e-05,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -7.924130916595459,
+          "a visually similar but different object from butter": -9.43615436553955,
+          "an unreadable or ambiguous candidate for butter": -10.717262268066406,
+          "an unrelated object": -9.094525337219238,
+          "an object relevant to this robot task: Place the butter in the basket": -9.658072471618652,
+          "the target object butter": -10.335058212280273,
+          "a clear isolated object that a robot can grasp now": -10.215296745300293,
+          "an object blocked, enclosed, or not currently graspable": -11.298151016235352,
+          "insufficient visual evidence to judge graspability": -9.89266586303711,
+          "a closed container with unobserved interior": -9.012039184570312,
+          "an open container whose interior is visible": -10.806421279907227
+        }
+      },
+      {
+        "object_id": "agentview_food_package_02",
+        "view": "agentview",
+        "bbox_xyxy": [
+          146.25279235839844,
+          78.70964050292969,
+          224.04058837890625,
+          182.4359588623047
+        ],
+        "visible_area": 6579,
+        "prompt_relevance": 0.00045703002251684666,
+        "identity_belief": {
+          "target": 0.7235372199816287,
+          "visually_similar_non_target": 0.005847012791337638,
+          "insufficient_visual_evidence": 0.00016082022528920325,
+          "other": 0.27045494700174466
+        },
+        "identity_entropy": 0.44670778388266325,
+        "graspability_belief": {
+          "GRASPABLE": 0.027168541432829586,
+          "NOT_GRASPABLE": 0.9642939286087552,
+          "INSUFFICIENT_EVIDENCE": 0.008537529958415162
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.4544571816921234,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.00014326537871397593,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -5.4129743576049805,
+          "a visually similar but different object from butter": -10.231195449829102,
+          "an unreadable or ambiguous candidate for butter": -13.824594497680664,
+          "an unrelated object": -6.3970208168029785,
+          "an object relevant to this robot task: Place the butter in the basket": -7.913941860198975,
+          "the target object butter": -7.690304279327393,
+          "a clear isolated object that a robot can grasp now": -9.736753463745117,
+          "an object blocked, enclosed, or not currently graspable": -6.167417049407959,
+          "insufficient visual evidence to judge graspability": -10.894341468811035,
+          "a closed container with unobserved interior": -4.606711387634277,
+          "an open container whose interior is visible": -8.95290470123291
+        }
+      },
+      {
+        "object_id": "agentview_object_03",
+        "view": "agentview",
+        "bbox_xyxy": [
+          76.7610092163086,
+          -0.0450444221496582,
+          146.518310546875,
+          76.16512298583984
+        ],
+        "visible_area": 4158,
+        "prompt_relevance": 0.053305983543395996,
+        "identity_belief": {
+          "target": 0.7219736957574083,
+          "visually_similar_non_target": 0.008025667424259858,
+          "insufficient_visual_evidence": 0.0009876019013375559,
+          "other": 0.26901303491699424
+        },
+        "identity_entropy": 0.4573104880259625,
+        "graspability_belief": {
+          "GRASPABLE": 0.9463400912677411,
+          "NOT_GRASPABLE": 0.0018853964389955508,
+          "INSUFFICIENT_EVIDENCE": 0.05177451229326335
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.46864294707775117,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.017124578531826133,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -6.017189979553223,
+          "a visually similar but different object from butter": -10.516533851623535,
+          "an unreadable or ambiguous candidate for butter": -12.611654281616211,
+          "an unrelated object": -7.004418849945068,
+          "an object relevant to this robot task: Place the butter in the basket": -2.876927375793457,
+          "the target object butter": -8.946098327636719,
+          "a clear isolated object that a robot can grasp now": -2.287557601928711,
+          "an object blocked, enclosed, or not currently graspable": -8.506021499633789,
+          "insufficient visual evidence to judge graspability": -5.193261623382568,
+          "a closed container with unobserved interior": -13.414892196655273,
+          "an open container whose interior is visible": -17.011978149414062
+        }
+      },
+      {
+        "object_id": "agentview_bowl_04",
+        "view": "agentview",
+        "bbox_xyxy": [
+          95.82898712158203,
+          112.33660125732422,
+          126.008544921875,
+          136.63232421875
+        ],
+        "visible_area": 521,
+        "prompt_relevance": 0.0016685201553627849,
+        "identity_belief": {
+          "target": 0.9529500706555228,
+          "visually_similar_non_target": 0.03813623550128282,
+          "insufficient_visual_evidence": 0.0003150517978364376,
+          "other": 0.008598642045357851
+        },
+        "identity_entropy": 0.15432320833633467,
+        "graspability_belief": {
+          "GRASPABLE": 0.11248416973834555,
+          "NOT_GRASPABLE": 0.8740335996891924,
+          "INSUFFICIENT_EVIDENCE": 0.01348223057246198
+        },
+        "resolution_uncertainty": 0.4912109375,
+        "occlusion_uncertainty": 0.004796087741851807,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.00031921413698675143,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -3.5434951782226562,
+          "a visually similar but different object from butter": -6.761892795562744,
+          "an unreadable or ambiguous candidate for butter": -11.558075904846191,
+          "an unrelated object": -8.251453399658203,
+          "an object relevant to this robot task: Place the butter in the basket": -8.216049194335938,
+          "the target object butter": -6.394148349761963,
+          "a clear isolated object that a robot can grasp now": -12.399150848388672,
+          "an object blocked, enclosed, or not currently graspable": -10.348844528198242,
+          "insufficient visual evidence to judge graspability": -14.520590782165527,
+          "a closed container with unobserved interior": -7.806847095489502,
+          "an open container whose interior is visible": -10.121976852416992
+        }
+      },
+      {
+        "object_id": "agentview_plate_05",
+        "view": "agentview",
+        "bbox_xyxy": [
+          96.23536682128906,
+          144.37142944335938,
+          136.8975830078125,
+          176.1702880859375
+        ],
+        "visible_area": 948,
+        "prompt_relevance": 0.025823218747973442,
+        "identity_belief": {
+          "target": 0.8510923663893012,
+          "visually_similar_non_target": 0.11113095015204649,
+          "insufficient_visual_evidence": 0.000688105568495994,
+          "other": 0.037088577890156176
+        },
+        "identity_entropy": 0.3668644943061339,
+        "graspability_belief": {
+          "GRASPABLE": 0.13646129260630888,
+          "NOT_GRASPABLE": 0.6235459921621356,
+          "INSUFFICIENT_EVIDENCE": 0.23999271523155566
+        },
+        "resolution_uncertainty": 0.07421875,
+        "occlusion_uncertainty": 0.0,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.006067486655689402,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -3.1373605728149414,
+          "a visually similar but different object from butter": -5.1731719970703125,
+          "an unreadable or ambiguous candidate for butter": -10.257694244384766,
+          "an unrelated object": -6.270572185516357,
+          "an object relevant to this robot task: Place the butter in the basket": -3.6303186416625977,
+          "the target object butter": -5.687343597412109,
+          "a clear isolated object that a robot can grasp now": -9.398500442504883,
+          "an object blocked, enclosed, or not currently graspable": -7.879118919372559,
+          "insufficient visual evidence to judge graspability": -8.833932876586914,
+          "a closed container with unobserved interior": -6.171308994293213,
+          "an open container whose interior is visible": -8.327194213867188
+        }
+      },
+      {
+        "object_id": "agentview_butter_06",
+        "view": "agentview",
+        "bbox_xyxy": [
+          146.8858184814453,
+          23.046859741210938,
+          213.99453735351562,
+          101.69466400146484
+        ],
+        "visible_area": 2276,
+        "prompt_relevance": 0.0023246759083122015,
+        "identity_belief": {
+          "target": 0.35128324071970957,
+          "visually_similar_non_target": 0.015324643651691398,
+          "insufficient_visual_evidence": 0.0007589761786314145,
+          "other": 0.6326331394499677
+        },
+        "identity_entropy": 0.524161855461851,
+        "graspability_belief": {
+          "GRASPABLE": 0.025236018410451883,
+          "NOT_GRASPABLE": 0.8653621984226477,
+          "INSUFFICIENT_EVIDENCE": 0.10940178316690051
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.00445498526096344,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.0007321395021598372,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -4.997166633605957,
+          "a visually similar but different object from butter": -8.129297256469727,
+          "an unreadable or ambiguous candidate for butter": -11.134544372558594,
+          "an unrelated object": -4.408868789672852,
+          "an object relevant to this robot task: Place the butter in the basket": -6.06184720993042,
+          "the target object butter": -7.043576717376709,
+          "a clear isolated object that a robot can grasp now": -7.807075500488281,
+          "an object blocked, enclosed, or not currently graspable": -4.272199630737305,
+          "insufficient visual evidence to judge graspability": -6.340320587158203,
+          "a closed container with unobserved interior": -5.988219261169434,
+          "an open container whose interior is visible": -7.975619316101074
+        }
+      },
+      {
+        "object_id": "agentview_butter_07",
+        "view": "agentview",
+        "bbox_xyxy": [
+          99.39484405517578,
+          119.67250061035156,
+          122.1427001953125,
+          133.8469696044922
+        ],
+        "visible_area": 247,
+        "prompt_relevance": 0.004015969578176737,
+        "identity_belief": {
+          "target": 0.7819801761110335,
+          "visually_similar_non_target": 0.18338334887033647,
+          "insufficient_visual_evidence": 0.014018573963015969,
+          "other": 0.020617901055614084
+        },
+        "identity_entropy": 0.46397976011922837,
+        "graspability_belief": {
+          "GRASPABLE": 0.4169095635290702,
+          "NOT_GRASPABLE": 0.4481723483582979,
+          "INSUFFICIENT_EVIDENCE": 0.13491808811263195
+        },
+        "resolution_uncertainty": 0.7587890625,
+        "occlusion_uncertainty": 0.01644025444984436,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.001734054275340592,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -3.7414636611938477,
+          "a visually similar but different object from butter": -5.191714286804199,
+          "an unreadable or ambiguous candidate for butter": -7.762909889221191,
+          "an unrelated object": -7.377133369445801,
+          "an object relevant to this robot task: Place the butter in the basket": -6.141851425170898,
+          "the target object butter": -5.513452529907227,
+          "a clear isolated object that a robot can grasp now": -8.53499984741211,
+          "an object blocked, enclosed, or not currently graspable": -8.462691307067871,
+          "insufficient visual evidence to judge graspability": -9.663201332092285,
+          "a closed container with unobserved interior": -8.465532302856445,
+          "an open container whose interior is visible": -9.211397171020508
+        }
+      },
+      {
+        "object_id": "wrist_food_package_00",
+        "view": "wrist",
+        "bbox_xyxy": [
+          155.8452911376953,
+          105.77597045898438,
+          223.9996337890625,
+          188.1009063720703
+        ],
+        "visible_area": 5339,
+        "prompt_relevance": 0.006899579428136349,
+        "identity_belief": {
+          "target": 0.9813158878985372,
+          "visually_similar_non_target": 0.000579631284729206,
+          "insufficient_visual_evidence": 4.784850360106804e-05,
+          "other": 0.018056632313132474
+        },
+        "identity_entropy": 0.06909657671593303,
+        "graspability_belief": {
+          "GRASPABLE": 0.3315934401652502,
+          "NOT_GRASPABLE": 0.4821946769143369,
+          "INSUFFICIENT_EVIDENCE": 0.18621188292041296
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45660250484943393,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.0006010789164878061,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -3.504392623901367,
+          "a visually similar but different object from butter": -10.938650131225586,
+          "an unreadable or ambiguous candidate for butter": -13.433002471923828,
+          "an unrelated object": -7.499773979187012,
+          "an object relevant to this robot task: Place the butter in the basket": -12.34737491607666,
+          "the target object butter": -4.969371318817139,
+          "a clear isolated object that a robot can grasp now": -10.546184539794922,
+          "an object blocked, enclosed, or not currently graspable": -10.171746253967285,
+          "insufficient visual evidence to judge graspability": -11.123208999633789,
+          "a closed container with unobserved interior": -7.916377544403076,
+          "an open container whose interior is visible": -13.008891105651855
+        }
+      },
+      {
+        "object_id": "wrist_object_01",
+        "view": "wrist",
+        "bbox_xyxy": [
+          64.13816833496094,
+          109.7846450805664,
+          95.69719696044922,
+          134.92967224121094
+        ],
+        "visible_area": 471,
+        "prompt_relevance": 0.011865061707794666,
+        "identity_belief": {
+          "target": 0.5354498523501214,
+          "visually_similar_non_target": 0.23595106592554557,
+          "insufficient_visual_evidence": 0.00040353570979279215,
+          "other": 0.2281955460145402
+        },
+        "identity_entropy": 0.7325547438909038,
+        "graspability_belief": {
+          "GRASPABLE": 0.04094330812647334,
+          "NOT_GRASPABLE": 0.3536943549259033,
+          "INSUFFICIENT_EVIDENCE": 0.6053623369476234
+        },
+        "resolution_uncertainty": 0.5400390625,
+        "occlusion_uncertainty": 0.009740614891052247,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.006508161004273811,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -3.497224807739258,
+          "a visually similar but different object from butter": -4.316707611083984,
+          "an unreadable or ambiguous candidate for butter": -10.687822341918945,
+          "an unrelated object": -4.350129127502441,
+          "an object relevant to this robot task: Place the butter in the basket": -7.796201229095459,
+          "the target object butter": -4.4222211837768555,
+          "a clear isolated object that a robot can grasp now": -9.298311233520508,
+          "an object blocked, enclosed, or not currently graspable": -7.142066478729248,
+          "insufficient visual evidence to judge graspability": -6.604672431945801,
+          "a closed container with unobserved interior": -9.424456596374512,
+          "an open container whose interior is visible": -10.738693237304688
+        }
+      },
+      {
+        "object_id": "wrist_bowl_02",
+        "view": "wrist",
+        "bbox_xyxy": [
+          88.45225524902344,
+          52.199520111083984,
+          139.26531982421875,
+          104.0561294555664
+        ],
+        "visible_area": 1967,
+        "prompt_relevance": 0.001052905572578311,
+        "identity_belief": {
+          "target": 0.969166039867827,
+          "visually_similar_non_target": 0.020688656476908616,
+          "insufficient_visual_evidence": 0.00015104088546288763,
+          "other": 0.009994262769801492
+        },
+        "identity_entropy": 0.11393512434940468,
+        "graspability_belief": {
+          "GRASPABLE": 0.20208838566573703,
+          "NOT_GRASPABLE": 0.6842262692087625,
+          "INSUFFICIENT_EVIDENCE": 0.1136853451255006
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.0,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 7.19777564039346e-05,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -4.005925178527832,
+          "a visually similar but different object from butter": -7.852775573730469,
+          "an unreadable or ambiguous candidate for butter": -12.772565841674805,
+          "an unrelated object": -8.580349922180176,
+          "an object relevant to this robot task: Place the butter in the basket": -10.057479858398438,
+          "the target object butter": -6.8551483154296875,
+          "a clear isolated object that a robot can grasp now": -12.262046813964844,
+          "an object blocked, enclosed, or not currently graspable": -11.042463302612305,
+          "insufficient visual evidence to judge graspability": -12.83731746673584,
+          "a closed container with unobserved interior": -5.378360748291016,
+          "an open container whose interior is visible": -5.863380432128906
+        }
+      },
+      {
+        "object_id": "wrist_food_package_03",
+        "view": "wrist",
+        "bbox_xyxy": [
+          155.38209533691406,
+          36.13009262084961,
+          176.06748962402344,
+          73.19184112548828
+        ],
+        "visible_area": 682,
+        "prompt_relevance": 2.877739279938396e-05,
+        "identity_belief": {
+          "target": 0.0744045759851748,
+          "visually_similar_non_target": 0.012496151629795157,
+          "insufficient_visual_evidence": 0.003002433099786339,
+          "other": 0.9100968392852438
+        },
+        "identity_entropy": 0.25337853720525655,
+        "graspability_belief": {
+          "GRASPABLE": 0.03486236940753454,
+          "NOT_GRASPABLE": 0.5653003807466302,
+          "INSUFFICIENT_EVIDENCE": 0.3998372498458351
+        },
+        "resolution_uncertainty": 0.333984375,
+        "occlusion_uncertainty": 0.009395578503608705,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 6.3242221502173246e-06,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -9.119858741760254,
+          "a visually similar but different object from butter": -10.903955459594727,
+          "an unreadable or ambiguous candidate for butter": -12.32995319366455,
+          "an unrelated object": -6.615825176239014,
+          "an object relevant to this robot task: Place the butter in the basket": -13.96996021270752,
+          "the target object butter": -10.455891609191895,
+          "a clear isolated object that a robot can grasp now": -10.315853118896484,
+          "an object blocked, enclosed, or not currently graspable": -7.529903888702393,
+          "insufficient visual evidence to judge graspability": -7.876203536987305,
+          "a closed container with unobserved interior": -5.420756816864014,
+          "an open container whose interior is visible": -11.15009593963623
+        }
+      },
+      {
+        "object_id": "wrist_cabinet_04",
+        "view": "wrist",
+        "bbox_xyxy": [
+          24.194793701171875,
+          109.79794311523438,
+          57.39567184448242,
+          178.79153442382812
+        ],
+        "visible_area": 1926,
+        "prompt_relevance": 0.00014149295748211443,
+        "identity_belief": {
+          "target": 0.7613720269751956,
+          "visually_similar_non_target": 0.0021353998718049664,
+          "insufficient_visual_evidence": 0.0002634794225829174,
+          "other": 0.23622909373041653
+        },
+        "identity_entropy": 0.40665610608782193,
+        "graspability_belief": {
+          "GRASPABLE": 0.046284823218360055,
+          "NOT_GRASPABLE": 0.9217156481057651,
+          "INSUFFICIENT_EVIDENCE": 0.031999528675874724
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.003565168380737305,
+        "state_uncertainty": 0.04243185417538988,
+        "closed_container_probability": 0.2601626986530962,
+        "uncertainty_mass": 3.5174210552799634e-05,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -6.4671854972839355,
+          "a visually similar but different object from butter": -12.343653678894043,
+          "an unreadable or ambiguous candidate for butter": -14.436087608337402,
+          "an unrelated object": -7.637505531311035,
+          "an object relevant to this robot task: Place the butter in the basket": -11.579609870910645,
+          "the target object butter": -8.863119125366211,
+          "a clear isolated object that a robot can grasp now": -10.993429183959961,
+          "an object blocked, enclosed, or not currently graspable": -8.002006530761719,
+          "insufficient visual evidence to judge graspability": -11.36252212524414,
+          "a closed container with unobserved interior": -5.62028694152832,
+          "an open container whose interior is visible": -9.358318328857422
+        }
+      },
+      {
+        "object_id": "wrist_cabinet_05",
+        "view": "wrist",
+        "bbox_xyxy": [
+          -0.01358342170715332,
+          85.1948471069336,
+          26.086444854736328,
+          188.324462890625
+        ],
+        "visible_area": 2114,
+        "prompt_relevance": 1.2248839084350038e-05,
+        "identity_belief": {
+          "target": 0.16958432261598297,
+          "visually_similar_non_target": 0.10482748540432084,
+          "insufficient_visual_evidence": 0.02021623204674511,
+          "other": 0.7053719599329511
+        },
+        "identity_entropy": 0.6220960523436181,
+        "graspability_belief": {
+          "GRASPABLE": 0.009410919056213638,
+          "NOT_GRASPABLE": 0.2537355965858564,
+          "INSUFFICIENT_EVIDENCE": 0.73685348435793
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45590971112251283,
+        "state_uncertainty": 0.09613405903819686,
+        "closed_container_probability": 0.1486774863915688,
+        "uncertainty_mass": 5.248162194921472e-06,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -10.213335037231445,
+          "a visually similar but different object from butter": -10.694369316101074,
+          "an unreadable or ambiguous candidate for butter": -12.34019947052002,
+          "an unrelated object": -8.787960052490234,
+          "an object relevant to this robot task: Place the butter in the basket": -11.310067176818848,
+          "the target object butter": -12.851227760314941,
+          "a clear isolated object that a robot can grasp now": -11.91021728515625,
+          "an object blocked, enclosed, or not currently graspable": -8.615795135498047,
+          "insufficient visual evidence to judge graspability": -7.549698829650879,
+          "a closed container with unobserved interior": -6.548731327056885,
+          "an open container whose interior is visible": -8.43641471862793
+        }
+      },
+      {
+        "object_id": "wrist_plate_06",
+        "view": "wrist",
+        "bbox_xyxy": [
+          76.43901062011719,
+          -0.03866910934448242,
+          134.59475708007812,
+          44.62428283691406
+        ],
+        "visible_area": 2142,
+        "prompt_relevance": 0.0003254308830946684,
+        "identity_belief": {
+          "target": 0.9139960445522636,
+          "visually_similar_non_target": 0.02647877102121983,
+          "insufficient_visual_evidence": 0.0025253776620015314,
+          "other": 0.05699980676451494
+        },
+        "identity_entropy": 0.25733573707349194,
+        "graspability_belief": {
+          "GRASPABLE": 0.2530380983443953,
+          "NOT_GRASPABLE": 0.07745686854967089,
+          "INSUFFICIENT_EVIDENCE": 0.6695050331059338
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45296019911766056,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 6.498772146114603e-05,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -6.702016830444336,
+          "a visually similar but different object from butter": -10.243499755859375,
+          "an unreadable or ambiguous candidate for butter": -12.593452453613281,
+          "an unrelated object": -9.476795196533203,
+          "an object relevant to this robot task: Place the butter in the basket": -10.317492485046387,
+          "the target object butter": -8.030035018920898,
+          "a clear isolated object that a robot can grasp now": -12.528386116027832,
+          "an object blocked, enclosed, or not currently graspable": -13.712204933166504,
+          "insufficient visual evidence to judge graspability": -11.555387496948242,
+          "a closed container with unobserved interior": -10.595943450927734,
+          "an open container whose interior is visible": -12.66225814819336
+        }
+      },
+      {
+        "object_id": "wrist_drawer_07",
+        "view": "wrist",
+        "bbox_xyxy": [
+          -0.02171611785888672,
+          186.12191772460938,
+          223.97828674316406,
+          224.03167724609375
+        ],
+        "visible_area": 3980,
+        "prompt_relevance": 4.796266512130387e-05,
+        "identity_belief": {
+          "target": 0.7627416368476214,
+          "visually_similar_non_target": 0.030903219827999016,
+          "insufficient_visual_evidence": 0.0007421388926349032,
+          "other": 0.20561300443174466
+        },
+        "identity_entropy": 0.4649829461377104,
+        "graspability_belief": {
+          "GRASPABLE": 0.17197901793678727,
+          "NOT_GRASPABLE": 0.691454022728885,
+          "INSUFFICIENT_EVIDENCE": 0.13656695933432766
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45697973370552064,
+        "state_uncertainty": 0.8654027598316071,
+        "closed_container_probability": 0.7125512693056237,
+        "uncertainty_mass": 1.9723591669611773e-05,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -6.674157619476318,
+          "a visually similar but different object from butter": -9.880216598510742,
+          "an unreadable or ambiguous candidate for butter": -13.609295845031738,
+          "an unrelated object": -7.985081195831299,
+          "an object relevant to this robot task: Place the butter in the basket": -9.945039749145508,
+          "the target object butter": -10.006271362304688,
+          "a clear isolated object that a robot can grasp now": -8.880699157714844,
+          "an object blocked, enclosed, or not currently graspable": -7.489274978637695,
+          "insufficient visual evidence to judge graspability": -9.11125659942627,
+          "a closed container with unobserved interior": -5.842946529388428,
+          "an open container whose interior is visible": -6.750753879547119
+        }
+      }
+    ],
+    "unobserved_regions": [
+      {
+        "object_id": "wrist_drawer_07",
+        "target_probability": 0.5822612315115607,
+        "inspectability": 0.9,
+        "closed_probability": 0.7125512693056237,
+        "reason": "public visual container-state evidence indicates unobserved interior"
+      }
+    ],
+    "task_uncertainty": 0.44206899430456637,
+    "history_update": {
+      "previous_field_used": false,
+      "executed_action": null,
+      "public_outcome": null
+    },
+    "model_stamp": "siglip:siglip-base-patch16-224",
+    "calibration_status": "DISPOSABLE_UNCALIBRATED_V0",
+    "online_oracle_inputs": []
+  },
+  "qwen_action_effect_assessment": {
+    "interaction_options": [
+      {
+        "action": "ACT",
+        "target_id": "wrist_food_package_00",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.6,
+        "outcome_distribution": {
+          "TARGET_REVEALED": 0.6,
+          "FAILED": 0.4
+        },
+        "expected_posterior_uncertainty": 0.08841379886091327,
+        "expected_task_progress": 0.65,
+        "normalized_cost": 0.08,
+        "normalized_risk": 0.1,
+        "semantic_subtask": "Place the butter in the basket",
+        "reason": "The action directly targets the butter and the basket, reducing the need for further exploration or inspection."
+      },
+      {
+        "action": "OPEN_CONTAINER",
+        "target_id": "wrist_drawer_07",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.95,
+        "outcome_distribution": {
+          "REGION_EMPTY": 0.95,
+          "FAILED": 0.050000000000000044
+        },
+        "expected_posterior_uncertainty": 0.0,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.18,
+        "normalized_risk": 0.08,
+        "semantic_subtask": "Inspect the drawer's interior",
+        "reason": "Opening the drawer does not reveal the butter, but it confirms the drawer is empty."
+      },
+      {
+        "action": "REPORT_NOT_FOUND",
+        "target_id": "GLOBAL",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.99,
+        "outcome_distribution": {
+          "NOT_FOUND_SUPPORTED": 0.99,
+          "FAILED": 0.010000000000000009
+        },
+        "expected_posterior_uncertainty": 0.08841379886091327,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.01,
+        "normalized_risk": 0.01,
+        "semantic_subtask": "Exhaustive public coverage",
+        "reason": "Reporting that the target was not found does not provide new information about the butter's location."
+      }
+    ],
+    "advisory_action": "ACT",
+    "advisory_target_id": "wrist_food_package_00",
+    "summary": "The action to place the butter in the basket is the most useful as it directly addresses the goal with minimal uncertainty. Opening the drawer is less useful as it confirms the drawer is empty but does not reveal the butter. Reporting that the target was not found does not provide new information about the butter's location."
+  },
+  "joined_planning_assessment": {
+    "target_query": "butter",
+    "destination_query": "basket",
+    "goal_relation": "in",
+    "required_facts": [
+      "target_identity",
+      "target_location",
+      "target_visibility",
+      "target_accessibility",
+      "destination_location",
+      "goal_completion"
+    ],
+    "target_location_belief": {
+      "agentview_bottle_00": 0.00038500844540744264,
+      "agentview_butter_basket_01": 5.963445360476179e-05,
+      "agentview_food_package_02": 0.0004912517784093946,
+      "agentview_object_03": 0.05717364285661756,
+      "agentview_bowl_04": 0.0023621100777929,
+      "agentview_plate_05": 0.032650181372274274,
+      "agentview_butter_06": 0.001213160815030085,
+      "agentview_butter_07": 0.0046653548969599916,
+      "wrist_food_package_00": 0.01005842489946459,
+      "wrist_object_01": 0.00943815994930949,
+      "wrist_bowl_02": 0.0015159544099677797,
+      "wrist_food_package_03": 3.180897095489073e-06,
+      "wrist_cabinet_04": 0.00016004063639819024,
+      "wrist_cabinet_05": 3.0858808899520265e-06,
+      "wrist_plate_06": 0.00044187721657661154,
+      "wrist_drawer_07": 0.5822612315115607,
+      "OTHER_UNSEARCHED": 0.22283827492698052,
+      "ABSENT": 0.07427942497566019
+    },
+    "regions": [
+      {
+        "object_id": "agentview_bottle_00",
+        "prompt_relevance": 0.0003964563366025686,
+        "identity_belief": {
+          "target": 0.6536968072492856,
+          "visually_similar_non_target": 0.06561166712516646,
+          "other": 0.27088261341082,
+          "insufficient_visual_evidence": 0.009808912214728011
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.10733512981437612,
+          "NOT_GRASPABLE": 0.7218861501996793,
+          "INSUFFICIENT_EVIDENCE": 0.17077871998594463
+        },
+        "resolution_uncertainty": 0.755859375,
+        "occlusion_uncertainty": 0.011710420250892641,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.755859375,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.6173096957037079,
+        "uncertainty_mass": 0.000207239119095879,
+        "move_closer_utility": 0.00015664363103536167
+      },
+      {
+        "object_id": "agentview_butter_basket_01",
+        "prompt_relevance": 6.390349881257862e-05,
+        "identity_belief": {
+          "target": 0.6281654973375957,
+          "visually_similar_non_target": 0.13848752004627837,
+          "other": 0.19488492222370735,
+          "insufficient_visual_evidence": 0.03846206039241849
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.36773044637170327,
+          "NOT_GRASPABLE": 0.12452368218285946,
+          "INSUFFICIENT_EVIDENCE": 0.5077458714454373
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.7284670808864663,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.7284670808864663,
+        "uncertainty_mass": 3.0806614589624584e-05,
+        "move_closer_utility": 2.2441604602098242e-05
+      },
+      {
+        "object_id": "agentview_food_package_02",
+        "prompt_relevance": 0.00045703002251684666,
+        "identity_belief": {
+          "target": 0.7235372199816286,
+          "visually_similar_non_target": 0.005847012791337637,
+          "other": 0.2704549470017446,
+          "insufficient_visual_evidence": 0.00016082022528920322
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.02716854143282959,
+          "NOT_GRASPABLE": 0.9642939286087553,
+          "INSUFFICIENT_EVIDENCE": 0.008537529958415164
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.4544571816921234,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.44670778388266325,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.44670778388266336,
+        "uncertainty_mass": 0.00014326537871397596,
+        "move_closer_utility": 6.399775983243068e-05
+      },
+      {
+        "object_id": "agentview_object_03",
+        "prompt_relevance": 0.053305983543395996,
+        "identity_belief": {
+          "target": 0.7219736957574084,
+          "visually_similar_non_target": 0.00802566742425986,
+          "other": 0.2690130349169943,
+          "insufficient_visual_evidence": 0.000987601901337556
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.9463400912677411,
+          "NOT_GRASPABLE": 0.0018853964389955508,
+          "INSUFFICIENT_EVIDENCE": 0.05177451229326335
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.46864294707775117,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.4573104880259625,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.45731048802596247,
+        "uncertainty_mass": 0.017124578531826126,
+        "move_closer_utility": 0.007831249365628326
+      },
+      {
+        "object_id": "agentview_bowl_04",
+        "prompt_relevance": 0.0016685201553627849,
+        "identity_belief": {
+          "target": 0.9529500706555228,
+          "visually_similar_non_target": 0.03813623550128282,
+          "other": 0.008598642045357851,
+          "insufficient_visual_evidence": 0.0003150517978364376
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.11248416973834556,
+          "NOT_GRASPABLE": 0.8740335996891925,
+          "INSUFFICIENT_EVIDENCE": 0.013482230572461982
+        },
+        "resolution_uncertainty": 0.4912109375,
+        "occlusion_uncertainty": 0.004796087741851807,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.4912109375,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.15432320833633467,
+        "uncertainty_mass": 0.00031921413698675143,
+        "move_closer_utility": 0.0001568014754925156
+      },
+      {
+        "object_id": "agentview_plate_05",
+        "prompt_relevance": 0.025823218747973442,
+        "identity_belief": {
+          "target": 0.8510923663893014,
+          "visually_similar_non_target": 0.11113095015204652,
+          "other": 0.03708857789015618,
+          "insufficient_visual_evidence": 0.0006881055684959941
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.13646129260630885,
+          "NOT_GRASPABLE": 0.6235459921621355,
+          "INSUFFICIENT_EVIDENCE": 0.2399927152315556
+        },
+        "resolution_uncertainty": 0.07421875,
+        "occlusion_uncertainty": 0.0,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.3668644943061339,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.3668644943061339,
+        "uncertainty_mass": 0.006067486655689402,
+        "move_closer_utility": 0.0022259454236487077
+      },
+      {
+        "object_id": "agentview_butter_06",
+        "prompt_relevance": 0.0023246759083122015,
+        "identity_belief": {
+          "target": 0.3512832407197095,
+          "visually_similar_non_target": 0.015324643651691394,
+          "other": 0.6326331394499676,
+          "insufficient_visual_evidence": 0.0007589761786314143
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.025236018410451883,
+          "NOT_GRASPABLE": 0.8653621984226477,
+          "INSUFFICIENT_EVIDENCE": 0.10940178316690051
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.00445498526096344,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.524161855461851,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.5241618554618511,
+        "uncertainty_mass": 0.0007321395021598373,
+        "move_closer_utility": 0.0003837595999090162
+      },
+      {
+        "object_id": "agentview_butter_07",
+        "prompt_relevance": 0.004015969578176737,
+        "identity_belief": {
+          "target": 0.7819801761110335,
+          "visually_similar_non_target": 0.18338334887033647,
+          "other": 0.020617901055614084,
+          "insufficient_visual_evidence": 0.014018573963015969
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.4169095635290702,
+          "NOT_GRASPABLE": 0.4481723483582979,
+          "INSUFFICIENT_EVIDENCE": 0.13491808811263195
+        },
+        "resolution_uncertainty": 0.7587890625,
+        "occlusion_uncertainty": 0.01644025444984436,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.7587890625,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.4639797601192284,
+        "uncertainty_mass": 0.001734054275340592,
+        "move_closer_utility": 0.0013157814179098047
+      },
+      {
+        "object_id": "wrist_food_package_00",
+        "prompt_relevance": 0.006899579428136349,
+        "identity_belief": {
+          "target": 0.9813158878985373,
+          "visually_similar_non_target": 0.0005796312847292061,
+          "other": 0.018056632313132478,
+          "insufficient_visual_evidence": 4.7848503601068046e-05
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.3315934401652502,
+          "NOT_GRASPABLE": 0.4821946769143369,
+          "INSUFFICIENT_EVIDENCE": 0.18621188292041296
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45660250484943393,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.06909657671593303,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.06909657671593303,
+        "uncertainty_mass": 0.0006010789164878061,
+        "move_closer_utility": 4.15324954654296e-05
+      },
+      {
+        "object_id": "wrist_object_01",
+        "prompt_relevance": 0.011865061707794666,
+        "identity_belief": {
+          "target": 0.5354498523501214,
+          "visually_similar_non_target": 0.23595106592554557,
+          "other": 0.2281955460145402,
+          "insufficient_visual_evidence": 0.00040353570979279215
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.04094330812647334,
+          "NOT_GRASPABLE": 0.3536943549259033,
+          "INSUFFICIENT_EVIDENCE": 0.6053623369476234
+        },
+        "resolution_uncertainty": 0.5400390625,
+        "occlusion_uncertainty": 0.009740614891052247,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.7325547438909038,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.7325547438909038,
+        "uncertainty_mass": 0.006508161004273811,
+        "move_closer_utility": 0.0047675842176865685
+      },
+      {
+        "object_id": "wrist_bowl_02",
+        "prompt_relevance": 0.001052905572578311,
+        "identity_belief": {
+          "target": 0.969166039867827,
+          "visually_similar_non_target": 0.020688656476908616,
+          "other": 0.009994262769801492,
+          "insufficient_visual_evidence": 0.00015104088546288763
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.20208838566573697,
+          "NOT_GRASPABLE": 0.6842262692087624,
+          "INSUFFICIENT_EVIDENCE": 0.11368534512550058
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.0,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.11393512434940468,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.11393512434940468,
+        "uncertainty_mass": 7.19777564039346e-05,
+        "move_closer_utility": 8.200794626273447e-06
+      },
+      {
+        "object_id": "wrist_food_package_03",
+        "prompt_relevance": 2.877739279938396e-05,
+        "identity_belief": {
+          "target": 0.0744045759851748,
+          "visually_similar_non_target": 0.012496151629795157,
+          "other": 0.9100968392852438,
+          "insufficient_visual_evidence": 0.003002433099786339
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.034862369407534545,
+          "NOT_GRASPABLE": 0.5653003807466304,
+          "INSUFFICIENT_EVIDENCE": 0.3998372498458352
+        },
+        "resolution_uncertainty": 0.333984375,
+        "occlusion_uncertainty": 0.009395578503608705,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.333984375,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.25337853720525655,
+        "uncertainty_mass": 6.3242221502173246e-06,
+        "move_closer_utility": 2.1121913822014894e-06
+      },
+      {
+        "object_id": "wrist_cabinet_04",
+        "prompt_relevance": 0.00014149295748211443,
+        "identity_belief": {
+          "target": 0.7613720269751956,
+          "visually_similar_non_target": 0.0021353998718049664,
+          "other": 0.23622909373041653,
+          "insufficient_visual_evidence": 0.0002634794225829174
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.04628482321836006,
+          "NOT_GRASPABLE": 0.9217156481057652,
+          "INSUFFICIENT_EVIDENCE": 0.03199952867587473
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.003565168380737305,
+        "state_uncertainty": 0.04243185417538988,
+        "move_closer_effect_probability": 0.40665610608782193,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.40665610608782193,
+        "uncertainty_mass": 3.5174210552799634e-05,
+        "move_closer_utility": 1.4303807498114673e-05
+      },
+      {
+        "object_id": "wrist_cabinet_05",
+        "prompt_relevance": 1.2248839084350038e-05,
+        "identity_belief": {
+          "target": 0.16958432261598297,
+          "visually_similar_non_target": 0.10482748540432084,
+          "other": 0.7053719599329511,
+          "insufficient_visual_evidence": 0.02021623204674511
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.009410919056213638,
+          "NOT_GRASPABLE": 0.2537355965858564,
+          "INSUFFICIENT_EVIDENCE": 0.73685348435793
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45590971112251283,
+        "state_uncertainty": 0.09613405903819686,
+        "move_closer_effect_probability": 0.6220960523436181,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.6220960523436181,
+        "uncertainty_mass": 5.248162194921472e-06,
+        "move_closer_utility": 3.2648609835196656e-06
+      },
+      {
+        "object_id": "wrist_plate_06",
+        "prompt_relevance": 0.0003254308830946684,
+        "identity_belief": {
+          "target": 0.9139960445522636,
+          "visually_similar_non_target": 0.02647877102121983,
+          "other": 0.05699980676451494,
+          "insufficient_visual_evidence": 0.0025253776620015314
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.2530380983443953,
+          "NOT_GRASPABLE": 0.07745686854967089,
+          "INSUFFICIENT_EVIDENCE": 0.6695050331059338
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45296019911766056,
+        "state_uncertainty": 0.0,
+        "move_closer_effect_probability": 0.25733573707349194,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.25733573707349194,
+        "uncertainty_mass": 6.498772146114603e-05,
+        "move_closer_utility": 1.6723663202930804e-05
+      },
+      {
+        "object_id": "wrist_drawer_07",
+        "prompt_relevance": 4.796266512130387e-05,
+        "identity_belief": {
+          "target": 0.7627416368476214,
+          "visually_similar_non_target": 0.030903219827999016,
+          "other": 0.20561300443174466,
+          "insufficient_visual_evidence": 0.0007421388926349032
+        },
+        "graspability_belief": {
+          "GRASPABLE": 0.17197901793678727,
+          "NOT_GRASPABLE": 0.691454022728885,
+          "INSUFFICIENT_EVIDENCE": 0.13656695933432766
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45697973370552064,
+        "state_uncertainty": 0.8654027598316071,
+        "move_closer_effect_probability": 0.4649829461377104,
+        "reason": "frozen visual frontend evidence",
+        "identity_entropy": 0.46498294613771046,
+        "uncertainty_mass": 1.9723591669611773e-05,
+        "move_closer_utility": 9.171133762953285e-06
+      }
+    ],
+    "unobserved_regions": [
+      {
+        "object_id": "wrist_drawer_07",
+        "target_probability": 0.5822612315115607,
+        "inspectability": 0.9,
+        "reason": "public visual container-state evidence indicates unobserved interior",
+        "inspect_utility": 0.5240351083604047
+      }
+    ],
+    "interaction_options": [
+      {
+        "action": "ACT",
+        "target_id": "wrist_food_package_00",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.6,
+        "outcome_distribution": {
+          "TARGET_REVEALED": 0.6,
+          "FAILED": 0.4
+        },
+        "expected_posterior_uncertainty": 0.08841379886091327,
+        "expected_task_progress": 0.65,
+        "normalized_cost": 0.08,
+        "normalized_risk": 0.1,
+        "semantic_subtask": "Place the butter in the basket",
+        "reason": "The action directly targets the butter and the basket, reducing the need for further exploration or inspection."
+      },
+      {
+        "action": "OPEN_CONTAINER",
+        "target_id": "wrist_drawer_07",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.95,
+        "outcome_distribution": {
+          "REGION_EMPTY": 0.95,
+          "FAILED": 0.050000000000000044
+        },
+        "expected_posterior_uncertainty": 0.0,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.18,
+        "normalized_risk": 0.08,
+        "semantic_subtask": "Inspect the drawer's interior",
+        "reason": "Opening the drawer does not reveal the butter, but it confirms the drawer is empty."
+      },
+      {
+        "action": "REPORT_NOT_FOUND",
+        "target_id": "GLOBAL",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.99,
+        "outcome_distribution": {
+          "NOT_FOUND_SUPPORTED": 0.99,
+          "FAILED": 0.010000000000000009
+        },
+        "expected_posterior_uncertainty": 0.08841379886091327,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.01,
+        "normalized_risk": 0.01,
+        "semantic_subtask": "Exhaustive public coverage",
+        "reason": "Reporting that the target was not found does not provide new information about the butter's location."
+      }
+    ],
+    "advisory_action": "ACT",
+    "advisory_target_id": "wrist_food_package_00",
+    "summary": "The action to place the butter in the basket is the most useful as it directly addresses the goal with minimal uncertainty. Opening the drawer is less useful as it confirms the drawer is empty but does not reveal the butter. Reporting that the target was not found does not provide new information about the butter's location."
+  },
+  "registered_action_candidates": [
+    {
+      "action": "OPEN_CONTAINER",
+      "target_id": "wrist_drawer_07",
+      "execution_success_prior": 0.95,
+      "normalized_cost_prior": 0.18,
+      "normalized_risk_prior": 0.08,
+      "semantic_subtask_hint": "Open container region W07 and observe its interior."
+    },
+    {
+      "action": "ACT",
+      "target_id": "wrist_food_package_00",
+      "execution_success_prior": 0.6,
+      "normalized_cost_prior": 0.08,
+      "normalized_risk_prior": 0.1,
+      "semantic_subtask_hint": "Place the butter in the basket"
+    },
+    {
+      "action": "REPORT_NOT_FOUND",
+      "target_id": "GLOBAL",
+      "execution_success_prior": 0.99,
+      "normalized_cost_prior": 0.01,
+      "normalized_risk_prior": 0.01,
+      "semantic_subtask_hint": "Report that the prompt target was not found in the certified search domain."
+    }
+  ],
+  "prompt_conditioned_interaction_field": {
+    "schema_version": "interaction-uncertainty.pre-vlm-field.v1",
+    "task_spec": {
+      "prompt": "Place the butter in the basket",
+      "target": "butter",
+      "destination": "basket",
+      "goal_relation": "in",
+      "required_facts": [
+        "target_identity",
+        "target_location",
+        "target_visibility",
+        "target_accessibility",
+        "destination_location",
+        "goal_completion"
+      ],
+      "parser_stamp": "open-vocabulary-manipulation-grammar-v1"
+    },
+    "target_location_belief": {
+      "agentview_bottle_00": 0.00038500844540744264,
+      "agentview_butter_basket_01": 5.963445360476179e-05,
+      "agentview_food_package_02": 0.0004912517784093946,
+      "agentview_object_03": 0.05717364285661756,
+      "agentview_bowl_04": 0.0023621100777929,
+      "agentview_plate_05": 0.032650181372274274,
+      "agentview_butter_06": 0.001213160815030085,
+      "agentview_butter_07": 0.0046653548969599916,
+      "wrist_food_package_00": 0.01005842489946459,
+      "wrist_object_01": 0.00943815994930949,
+      "wrist_bowl_02": 0.0015159544099677797,
+      "wrist_food_package_03": 3.180897095489073e-06,
+      "wrist_cabinet_04": 0.00016004063639819024,
+      "wrist_cabinet_05": 3.0858808899520265e-06,
+      "wrist_plate_06": 0.00044187721657661154,
+      "wrist_drawer_07": 0.5822612315115607,
+      "OTHER_UNSEARCHED": 0.22283827492698052,
+      "ABSENT": 0.07427942497566019
+    },
+    "regions": [
+      {
+        "object_id": "agentview_bottle_00",
+        "view": "agentview",
+        "bbox_xyxy": [
+          121.30792999267578,
+          82.77113342285156,
+          133.28697204589844,
+          119.8567886352539
+        ],
+        "visible_area": 250,
+        "prompt_relevance": 0.0003964563366025686,
+        "identity_belief": {
+          "target": 0.6536968072492856,
+          "visually_similar_non_target": 0.06561166712516646,
+          "insufficient_visual_evidence": 0.009808912214728011,
+          "other": 0.27088261341082
+        },
+        "identity_entropy": 0.6173096957037079,
+        "graspability_belief": {
+          "GRASPABLE": 0.10733512981437611,
+          "NOT_GRASPABLE": 0.7218861501996792,
+          "INSUFFICIENT_EVIDENCE": 0.1707787199859446
+        },
+        "resolution_uncertainty": 0.755859375,
+        "occlusion_uncertainty": 0.011710420250892641,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.000207239119095879,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -6.613433837890625,
+          "a visually similar but different object from butter": -8.912323951721191,
+          "an unreadable or ambiguous candidate for butter": -10.812786102294922,
+          "an unrelated object": -7.494391918182373,
+          "an object relevant to this robot task: Place the butter in the basket": -11.620278358459473,
+          "the target object butter": -7.832548141479492,
+          "a clear isolated object that a robot can grasp now": -12.261974334716797,
+          "an object blocked, enclosed, or not currently graspable": -10.356062889099121,
+          "insufficient visual evidence to judge graspability": -11.797561645507812,
+          "a closed container with unobserved interior": -8.86526870727539,
+          "an open container whose interior is visible": -11.052729606628418
+        }
+      },
+      {
+        "object_id": "agentview_butter_basket_01",
+        "view": "agentview",
+        "bbox_xyxy": [
+          28.138093948364258,
+          177.72119140625,
+          107.43452453613281,
+          223.9738006591797
+        ],
+        "visible_area": 3181,
+        "prompt_relevance": 6.390349881257862e-05,
+        "identity_belief": {
+          "target": 0.6281654973375957,
+          "visually_similar_non_target": 0.13848752004627837,
+          "insufficient_visual_evidence": 0.03846206039241849,
+          "other": 0.19488492222370735
+        },
+        "identity_entropy": 0.7284670808864663,
+        "graspability_belief": {
+          "GRASPABLE": 0.36773044637170327,
+          "NOT_GRASPABLE": 0.12452368218285946,
+          "INSUFFICIENT_EVIDENCE": 0.5077458714454373
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 3.0806614589624584e-05,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -7.924130916595459,
+          "a visually similar but different object from butter": -9.43615436553955,
+          "an unreadable or ambiguous candidate for butter": -10.717262268066406,
+          "an unrelated object": -9.094525337219238,
+          "an object relevant to this robot task: Place the butter in the basket": -9.658072471618652,
+          "the target object butter": -10.335058212280273,
+          "a clear isolated object that a robot can grasp now": -10.215296745300293,
+          "an object blocked, enclosed, or not currently graspable": -11.298151016235352,
+          "insufficient visual evidence to judge graspability": -9.89266586303711,
+          "a closed container with unobserved interior": -9.012039184570312,
+          "an open container whose interior is visible": -10.806421279907227
+        }
+      },
+      {
+        "object_id": "agentview_food_package_02",
+        "view": "agentview",
+        "bbox_xyxy": [
+          146.25279235839844,
+          78.70964050292969,
+          224.04058837890625,
+          182.4359588623047
+        ],
+        "visible_area": 6579,
+        "prompt_relevance": 0.00045703002251684666,
+        "identity_belief": {
+          "target": 0.7235372199816287,
+          "visually_similar_non_target": 0.005847012791337638,
+          "insufficient_visual_evidence": 0.00016082022528920325,
+          "other": 0.27045494700174466
+        },
+        "identity_entropy": 0.44670778388266325,
+        "graspability_belief": {
+          "GRASPABLE": 0.027168541432829586,
+          "NOT_GRASPABLE": 0.9642939286087552,
+          "INSUFFICIENT_EVIDENCE": 0.008537529958415162
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.4544571816921234,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.00014326537871397593,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -5.4129743576049805,
+          "a visually similar but different object from butter": -10.231195449829102,
+          "an unreadable or ambiguous candidate for butter": -13.824594497680664,
+          "an unrelated object": -6.3970208168029785,
+          "an object relevant to this robot task: Place the butter in the basket": -7.913941860198975,
+          "the target object butter": -7.690304279327393,
+          "a clear isolated object that a robot can grasp now": -9.736753463745117,
+          "an object blocked, enclosed, or not currently graspable": -6.167417049407959,
+          "insufficient visual evidence to judge graspability": -10.894341468811035,
+          "a closed container with unobserved interior": -4.606711387634277,
+          "an open container whose interior is visible": -8.95290470123291
+        }
+      },
+      {
+        "object_id": "agentview_object_03",
+        "view": "agentview",
+        "bbox_xyxy": [
+          76.7610092163086,
+          -0.0450444221496582,
+          146.518310546875,
+          76.16512298583984
+        ],
+        "visible_area": 4158,
+        "prompt_relevance": 0.053305983543395996,
+        "identity_belief": {
+          "target": 0.7219736957574083,
+          "visually_similar_non_target": 0.008025667424259858,
+          "insufficient_visual_evidence": 0.0009876019013375559,
+          "other": 0.26901303491699424
+        },
+        "identity_entropy": 0.4573104880259625,
+        "graspability_belief": {
+          "GRASPABLE": 0.9463400912677411,
+          "NOT_GRASPABLE": 0.0018853964389955508,
+          "INSUFFICIENT_EVIDENCE": 0.05177451229326335
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.46864294707775117,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.017124578531826133,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -6.017189979553223,
+          "a visually similar but different object from butter": -10.516533851623535,
+          "an unreadable or ambiguous candidate for butter": -12.611654281616211,
+          "an unrelated object": -7.004418849945068,
+          "an object relevant to this robot task: Place the butter in the basket": -2.876927375793457,
+          "the target object butter": -8.946098327636719,
+          "a clear isolated object that a robot can grasp now": -2.287557601928711,
+          "an object blocked, enclosed, or not currently graspable": -8.506021499633789,
+          "insufficient visual evidence to judge graspability": -5.193261623382568,
+          "a closed container with unobserved interior": -13.414892196655273,
+          "an open container whose interior is visible": -17.011978149414062
+        }
+      },
+      {
+        "object_id": "agentview_bowl_04",
+        "view": "agentview",
+        "bbox_xyxy": [
+          95.82898712158203,
+          112.33660125732422,
+          126.008544921875,
+          136.63232421875
+        ],
+        "visible_area": 521,
+        "prompt_relevance": 0.0016685201553627849,
+        "identity_belief": {
+          "target": 0.9529500706555228,
+          "visually_similar_non_target": 0.03813623550128282,
+          "insufficient_visual_evidence": 0.0003150517978364376,
+          "other": 0.008598642045357851
+        },
+        "identity_entropy": 0.15432320833633467,
+        "graspability_belief": {
+          "GRASPABLE": 0.11248416973834555,
+          "NOT_GRASPABLE": 0.8740335996891924,
+          "INSUFFICIENT_EVIDENCE": 0.01348223057246198
+        },
+        "resolution_uncertainty": 0.4912109375,
+        "occlusion_uncertainty": 0.004796087741851807,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.00031921413698675143,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -3.5434951782226562,
+          "a visually similar but different object from butter": -6.761892795562744,
+          "an unreadable or ambiguous candidate for butter": -11.558075904846191,
+          "an unrelated object": -8.251453399658203,
+          "an object relevant to this robot task: Place the butter in the basket": -8.216049194335938,
+          "the target object butter": -6.394148349761963,
+          "a clear isolated object that a robot can grasp now": -12.399150848388672,
+          "an object blocked, enclosed, or not currently graspable": -10.348844528198242,
+          "insufficient visual evidence to judge graspability": -14.520590782165527,
+          "a closed container with unobserved interior": -7.806847095489502,
+          "an open container whose interior is visible": -10.121976852416992
+        }
+      },
+      {
+        "object_id": "agentview_plate_05",
+        "view": "agentview",
+        "bbox_xyxy": [
+          96.23536682128906,
+          144.37142944335938,
+          136.8975830078125,
+          176.1702880859375
+        ],
+        "visible_area": 948,
+        "prompt_relevance": 0.025823218747973442,
+        "identity_belief": {
+          "target": 0.8510923663893012,
+          "visually_similar_non_target": 0.11113095015204649,
+          "insufficient_visual_evidence": 0.000688105568495994,
+          "other": 0.037088577890156176
+        },
+        "identity_entropy": 0.3668644943061339,
+        "graspability_belief": {
+          "GRASPABLE": 0.13646129260630888,
+          "NOT_GRASPABLE": 0.6235459921621356,
+          "INSUFFICIENT_EVIDENCE": 0.23999271523155566
+        },
+        "resolution_uncertainty": 0.07421875,
+        "occlusion_uncertainty": 0.0,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.006067486655689402,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -3.1373605728149414,
+          "a visually similar but different object from butter": -5.1731719970703125,
+          "an unreadable or ambiguous candidate for butter": -10.257694244384766,
+          "an unrelated object": -6.270572185516357,
+          "an object relevant to this robot task: Place the butter in the basket": -3.6303186416625977,
+          "the target object butter": -5.687343597412109,
+          "a clear isolated object that a robot can grasp now": -9.398500442504883,
+          "an object blocked, enclosed, or not currently graspable": -7.879118919372559,
+          "insufficient visual evidence to judge graspability": -8.833932876586914,
+          "a closed container with unobserved interior": -6.171308994293213,
+          "an open container whose interior is visible": -8.327194213867188
+        }
+      },
+      {
+        "object_id": "agentview_butter_06",
+        "view": "agentview",
+        "bbox_xyxy": [
+          146.8858184814453,
+          23.046859741210938,
+          213.99453735351562,
+          101.69466400146484
+        ],
+        "visible_area": 2276,
+        "prompt_relevance": 0.0023246759083122015,
+        "identity_belief": {
+          "target": 0.35128324071970957,
+          "visually_similar_non_target": 0.015324643651691398,
+          "insufficient_visual_evidence": 0.0007589761786314145,
+          "other": 0.6326331394499677
+        },
+        "identity_entropy": 0.524161855461851,
+        "graspability_belief": {
+          "GRASPABLE": 0.025236018410451883,
+          "NOT_GRASPABLE": 0.8653621984226477,
+          "INSUFFICIENT_EVIDENCE": 0.10940178316690051
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.00445498526096344,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.0007321395021598372,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -4.997166633605957,
+          "a visually similar but different object from butter": -8.129297256469727,
+          "an unreadable or ambiguous candidate for butter": -11.134544372558594,
+          "an unrelated object": -4.408868789672852,
+          "an object relevant to this robot task: Place the butter in the basket": -6.06184720993042,
+          "the target object butter": -7.043576717376709,
+          "a clear isolated object that a robot can grasp now": -7.807075500488281,
+          "an object blocked, enclosed, or not currently graspable": -4.272199630737305,
+          "insufficient visual evidence to judge graspability": -6.340320587158203,
+          "a closed container with unobserved interior": -5.988219261169434,
+          "an open container whose interior is visible": -7.975619316101074
+        }
+      },
+      {
+        "object_id": "agentview_butter_07",
+        "view": "agentview",
+        "bbox_xyxy": [
+          99.39484405517578,
+          119.67250061035156,
+          122.1427001953125,
+          133.8469696044922
+        ],
+        "visible_area": 247,
+        "prompt_relevance": 0.004015969578176737,
+        "identity_belief": {
+          "target": 0.7819801761110335,
+          "visually_similar_non_target": 0.18338334887033647,
+          "insufficient_visual_evidence": 0.014018573963015969,
+          "other": 0.020617901055614084
+        },
+        "identity_entropy": 0.46397976011922837,
+        "graspability_belief": {
+          "GRASPABLE": 0.4169095635290702,
+          "NOT_GRASPABLE": 0.4481723483582979,
+          "INSUFFICIENT_EVIDENCE": 0.13491808811263195
+        },
+        "resolution_uncertainty": 0.7587890625,
+        "occlusion_uncertainty": 0.01644025444984436,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.001734054275340592,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -3.7414636611938477,
+          "a visually similar but different object from butter": -5.191714286804199,
+          "an unreadable or ambiguous candidate for butter": -7.762909889221191,
+          "an unrelated object": -7.377133369445801,
+          "an object relevant to this robot task: Place the butter in the basket": -6.141851425170898,
+          "the target object butter": -5.513452529907227,
+          "a clear isolated object that a robot can grasp now": -8.53499984741211,
+          "an object blocked, enclosed, or not currently graspable": -8.462691307067871,
+          "insufficient visual evidence to judge graspability": -9.663201332092285,
+          "a closed container with unobserved interior": -8.465532302856445,
+          "an open container whose interior is visible": -9.211397171020508
+        }
+      },
+      {
+        "object_id": "wrist_food_package_00",
+        "view": "wrist",
+        "bbox_xyxy": [
+          155.8452911376953,
+          105.77597045898438,
+          223.9996337890625,
+          188.1009063720703
+        ],
+        "visible_area": 5339,
+        "prompt_relevance": 0.006899579428136349,
+        "identity_belief": {
+          "target": 0.9813158878985372,
+          "visually_similar_non_target": 0.000579631284729206,
+          "insufficient_visual_evidence": 4.784850360106804e-05,
+          "other": 0.018056632313132474
+        },
+        "identity_entropy": 0.06909657671593303,
+        "graspability_belief": {
+          "GRASPABLE": 0.3315934401652502,
+          "NOT_GRASPABLE": 0.4821946769143369,
+          "INSUFFICIENT_EVIDENCE": 0.18621188292041296
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45660250484943393,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.0006010789164878061,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -3.504392623901367,
+          "a visually similar but different object from butter": -10.938650131225586,
+          "an unreadable or ambiguous candidate for butter": -13.433002471923828,
+          "an unrelated object": -7.499773979187012,
+          "an object relevant to this robot task: Place the butter in the basket": -12.34737491607666,
+          "the target object butter": -4.969371318817139,
+          "a clear isolated object that a robot can grasp now": -10.546184539794922,
+          "an object blocked, enclosed, or not currently graspable": -10.171746253967285,
+          "insufficient visual evidence to judge graspability": -11.123208999633789,
+          "a closed container with unobserved interior": -7.916377544403076,
+          "an open container whose interior is visible": -13.008891105651855
+        }
+      },
+      {
+        "object_id": "wrist_object_01",
+        "view": "wrist",
+        "bbox_xyxy": [
+          64.13816833496094,
+          109.7846450805664,
+          95.69719696044922,
+          134.92967224121094
+        ],
+        "visible_area": 471,
+        "prompt_relevance": 0.011865061707794666,
+        "identity_belief": {
+          "target": 0.5354498523501214,
+          "visually_similar_non_target": 0.23595106592554557,
+          "insufficient_visual_evidence": 0.00040353570979279215,
+          "other": 0.2281955460145402
+        },
+        "identity_entropy": 0.7325547438909038,
+        "graspability_belief": {
+          "GRASPABLE": 0.04094330812647334,
+          "NOT_GRASPABLE": 0.3536943549259033,
+          "INSUFFICIENT_EVIDENCE": 0.6053623369476234
+        },
+        "resolution_uncertainty": 0.5400390625,
+        "occlusion_uncertainty": 0.009740614891052247,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 0.006508161004273811,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -3.497224807739258,
+          "a visually similar but different object from butter": -4.316707611083984,
+          "an unreadable or ambiguous candidate for butter": -10.687822341918945,
+          "an unrelated object": -4.350129127502441,
+          "an object relevant to this robot task: Place the butter in the basket": -7.796201229095459,
+          "the target object butter": -4.4222211837768555,
+          "a clear isolated object that a robot can grasp now": -9.298311233520508,
+          "an object blocked, enclosed, or not currently graspable": -7.142066478729248,
+          "insufficient visual evidence to judge graspability": -6.604672431945801,
+          "a closed container with unobserved interior": -9.424456596374512,
+          "an open container whose interior is visible": -10.738693237304688
+        }
+      },
+      {
+        "object_id": "wrist_bowl_02",
+        "view": "wrist",
+        "bbox_xyxy": [
+          88.45225524902344,
+          52.199520111083984,
+          139.26531982421875,
+          104.0561294555664
+        ],
+        "visible_area": 1967,
+        "prompt_relevance": 0.001052905572578311,
+        "identity_belief": {
+          "target": 0.969166039867827,
+          "visually_similar_non_target": 0.020688656476908616,
+          "insufficient_visual_evidence": 0.00015104088546288763,
+          "other": 0.009994262769801492
+        },
+        "identity_entropy": 0.11393512434940468,
+        "graspability_belief": {
+          "GRASPABLE": 0.20208838566573703,
+          "NOT_GRASPABLE": 0.6842262692087625,
+          "INSUFFICIENT_EVIDENCE": 0.1136853451255006
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.0,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 7.19777564039346e-05,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -4.005925178527832,
+          "a visually similar but different object from butter": -7.852775573730469,
+          "an unreadable or ambiguous candidate for butter": -12.772565841674805,
+          "an unrelated object": -8.580349922180176,
+          "an object relevant to this robot task: Place the butter in the basket": -10.057479858398438,
+          "the target object butter": -6.8551483154296875,
+          "a clear isolated object that a robot can grasp now": -12.262046813964844,
+          "an object blocked, enclosed, or not currently graspable": -11.042463302612305,
+          "insufficient visual evidence to judge graspability": -12.83731746673584,
+          "a closed container with unobserved interior": -5.378360748291016,
+          "an open container whose interior is visible": -5.863380432128906
+        }
+      },
+      {
+        "object_id": "wrist_food_package_03",
+        "view": "wrist",
+        "bbox_xyxy": [
+          155.38209533691406,
+          36.13009262084961,
+          176.06748962402344,
+          73.19184112548828
+        ],
+        "visible_area": 682,
+        "prompt_relevance": 2.877739279938396e-05,
+        "identity_belief": {
+          "target": 0.0744045759851748,
+          "visually_similar_non_target": 0.012496151629795157,
+          "insufficient_visual_evidence": 0.003002433099786339,
+          "other": 0.9100968392852438
+        },
+        "identity_entropy": 0.25337853720525655,
+        "graspability_belief": {
+          "GRASPABLE": 0.03486236940753454,
+          "NOT_GRASPABLE": 0.5653003807466302,
+          "INSUFFICIENT_EVIDENCE": 0.3998372498458351
+        },
+        "resolution_uncertainty": 0.333984375,
+        "occlusion_uncertainty": 0.009395578503608705,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 6.3242221502173246e-06,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -9.119858741760254,
+          "a visually similar but different object from butter": -10.903955459594727,
+          "an unreadable or ambiguous candidate for butter": -12.32995319366455,
+          "an unrelated object": -6.615825176239014,
+          "an object relevant to this robot task: Place the butter in the basket": -13.96996021270752,
+          "the target object butter": -10.455891609191895,
+          "a clear isolated object that a robot can grasp now": -10.315853118896484,
+          "an object blocked, enclosed, or not currently graspable": -7.529903888702393,
+          "insufficient visual evidence to judge graspability": -7.876203536987305,
+          "a closed container with unobserved interior": -5.420756816864014,
+          "an open container whose interior is visible": -11.15009593963623
+        }
+      },
+      {
+        "object_id": "wrist_cabinet_04",
+        "view": "wrist",
+        "bbox_xyxy": [
+          24.194793701171875,
+          109.79794311523438,
+          57.39567184448242,
+          178.79153442382812
+        ],
+        "visible_area": 1926,
+        "prompt_relevance": 0.00014149295748211443,
+        "identity_belief": {
+          "target": 0.7613720269751956,
+          "visually_similar_non_target": 0.0021353998718049664,
+          "insufficient_visual_evidence": 0.0002634794225829174,
+          "other": 0.23622909373041653
+        },
+        "identity_entropy": 0.40665610608782193,
+        "graspability_belief": {
+          "GRASPABLE": 0.046284823218360055,
+          "NOT_GRASPABLE": 0.9217156481057651,
+          "INSUFFICIENT_EVIDENCE": 0.031999528675874724
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.003565168380737305,
+        "state_uncertainty": 0.04243185417538988,
+        "closed_container_probability": 0.2601626986530962,
+        "uncertainty_mass": 3.5174210552799634e-05,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -6.4671854972839355,
+          "a visually similar but different object from butter": -12.343653678894043,
+          "an unreadable or ambiguous candidate for butter": -14.436087608337402,
+          "an unrelated object": -7.637505531311035,
+          "an object relevant to this robot task: Place the butter in the basket": -11.579609870910645,
+          "the target object butter": -8.863119125366211,
+          "a clear isolated object that a robot can grasp now": -10.993429183959961,
+          "an object blocked, enclosed, or not currently graspable": -8.002006530761719,
+          "insufficient visual evidence to judge graspability": -11.36252212524414,
+          "a closed container with unobserved interior": -5.62028694152832,
+          "an open container whose interior is visible": -9.358318328857422
+        }
+      },
+      {
+        "object_id": "wrist_cabinet_05",
+        "view": "wrist",
+        "bbox_xyxy": [
+          -0.01358342170715332,
+          85.1948471069336,
+          26.086444854736328,
+          188.324462890625
+        ],
+        "visible_area": 2114,
+        "prompt_relevance": 1.2248839084350038e-05,
+        "identity_belief": {
+          "target": 0.16958432261598297,
+          "visually_similar_non_target": 0.10482748540432084,
+          "insufficient_visual_evidence": 0.02021623204674511,
+          "other": 0.7053719599329511
+        },
+        "identity_entropy": 0.6220960523436181,
+        "graspability_belief": {
+          "GRASPABLE": 0.009410919056213638,
+          "NOT_GRASPABLE": 0.2537355965858564,
+          "INSUFFICIENT_EVIDENCE": 0.73685348435793
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45590971112251283,
+        "state_uncertainty": 0.09613405903819686,
+        "closed_container_probability": 0.1486774863915688,
+        "uncertainty_mass": 5.248162194921472e-06,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -10.213335037231445,
+          "a visually similar but different object from butter": -10.694369316101074,
+          "an unreadable or ambiguous candidate for butter": -12.34019947052002,
+          "an unrelated object": -8.787960052490234,
+          "an object relevant to this robot task: Place the butter in the basket": -11.310067176818848,
+          "the target object butter": -12.851227760314941,
+          "a clear isolated object that a robot can grasp now": -11.91021728515625,
+          "an object blocked, enclosed, or not currently graspable": -8.615795135498047,
+          "insufficient visual evidence to judge graspability": -7.549698829650879,
+          "a closed container with unobserved interior": -6.548731327056885,
+          "an open container whose interior is visible": -8.43641471862793
+        }
+      },
+      {
+        "object_id": "wrist_plate_06",
+        "view": "wrist",
+        "bbox_xyxy": [
+          76.43901062011719,
+          -0.03866910934448242,
+          134.59475708007812,
+          44.62428283691406
+        ],
+        "visible_area": 2142,
+        "prompt_relevance": 0.0003254308830946684,
+        "identity_belief": {
+          "target": 0.9139960445522636,
+          "visually_similar_non_target": 0.02647877102121983,
+          "insufficient_visual_evidence": 0.0025253776620015314,
+          "other": 0.05699980676451494
+        },
+        "identity_entropy": 0.25733573707349194,
+        "graspability_belief": {
+          "GRASPABLE": 0.2530380983443953,
+          "NOT_GRASPABLE": 0.07745686854967089,
+          "INSUFFICIENT_EVIDENCE": 0.6695050331059338
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45296019911766056,
+        "state_uncertainty": 0.0,
+        "closed_container_probability": 0.0,
+        "uncertainty_mass": 6.498772146114603e-05,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -6.702016830444336,
+          "a visually similar but different object from butter": -10.243499755859375,
+          "an unreadable or ambiguous candidate for butter": -12.593452453613281,
+          "an unrelated object": -9.476795196533203,
+          "an object relevant to this robot task: Place the butter in the basket": -10.317492485046387,
+          "the target object butter": -8.030035018920898,
+          "a clear isolated object that a robot can grasp now": -12.528386116027832,
+          "an object blocked, enclosed, or not currently graspable": -13.712204933166504,
+          "insufficient visual evidence to judge graspability": -11.555387496948242,
+          "a closed container with unobserved interior": -10.595943450927734,
+          "an open container whose interior is visible": -12.66225814819336
+        }
+      },
+      {
+        "object_id": "wrist_drawer_07",
+        "view": "wrist",
+        "bbox_xyxy": [
+          -0.02171611785888672,
+          186.12191772460938,
+          223.97828674316406,
+          224.03167724609375
+        ],
+        "visible_area": 3980,
+        "prompt_relevance": 4.796266512130387e-05,
+        "identity_belief": {
+          "target": 0.7627416368476214,
+          "visually_similar_non_target": 0.030903219827999016,
+          "insufficient_visual_evidence": 0.0007421388926349032,
+          "other": 0.20561300443174466
+        },
+        "identity_entropy": 0.4649829461377104,
+        "graspability_belief": {
+          "GRASPABLE": 0.17197901793678727,
+          "NOT_GRASPABLE": 0.691454022728885,
+          "INSUFFICIENT_EVIDENCE": 0.13656695933432766
+        },
+        "resolution_uncertainty": 0.0,
+        "occlusion_uncertainty": 0.45697973370552064,
+        "state_uncertainty": 0.8654027598316071,
+        "closed_container_probability": 0.7125512693056237,
+        "uncertainty_mass": 1.9723591669611773e-05,
+        "raw_siglip_logits": {
+          "a clear image of the target object: butter": -6.674157619476318,
+          "a visually similar but different object from butter": -9.880216598510742,
+          "an unreadable or ambiguous candidate for butter": -13.609295845031738,
+          "an unrelated object": -7.985081195831299,
+          "an object relevant to this robot task: Place the butter in the basket": -9.945039749145508,
+          "the target object butter": -10.006271362304688,
+          "a clear isolated object that a robot can grasp now": -8.880699157714844,
+          "an object blocked, enclosed, or not currently graspable": -7.489274978637695,
+          "insufficient visual evidence to judge graspability": -9.11125659942627,
+          "a closed container with unobserved interior": -5.842946529388428,
+          "an open container whose interior is visible": -6.750753879547119
+        }
+      }
+    ],
+    "unobserved_regions": [
+      {
+        "object_id": "wrist_drawer_07",
+        "target_probability": 0.5822612315115607,
+        "inspectability": 0.9,
+        "closed_probability": 0.7125512693056237,
+        "reason": "public visual container-state evidence indicates unobserved interior"
+      }
+    ],
+    "task_uncertainty": 0.44206899430456637,
+    "history_update": {
+      "previous_field_used": false,
+      "executed_action": null,
+      "public_outcome": null
+    },
+    "model_stamp": "siglip:siglip-base-patch16-224",
+    "calibration_status": "DISPOSABLE_UNCALIBRATED_V0",
+    "online_oracle_inputs": [],
+    "region_uncertainty_mass": {
+      "agentview_bottle_00": 0.000207239119095879,
+      "agentview_butter_basket_01": 3.0806614589624584e-05,
+      "agentview_food_package_02": 0.00014326537871397593,
+      "agentview_object_03": 0.017124578531826133,
+      "agentview_bowl_04": 0.00031921413698675143,
+      "agentview_plate_05": 0.006067486655689402,
+      "agentview_butter_06": 0.0007321395021598372,
+      "agentview_butter_07": 0.001734054275340592,
+      "wrist_food_package_00": 0.0006010789164878061,
+      "wrist_object_01": 0.006508161004273811,
+      "wrist_bowl_02": 7.19777564039346e-05,
+      "wrist_food_package_03": 6.3242221502173246e-06,
+      "wrist_cabinet_04": 3.5174210552799634e-05,
+      "wrist_cabinet_05": 5.248162194921472e-06,
+      "wrist_plate_06": 6.498772146114603e-05,
+      "wrist_drawer_07": 0.5822612315115607
+    },
+    "action_conditioned_effects": [
+      {
+        "action": "ACT",
+        "target_id": "wrist_food_package_00",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.6,
+        "outcome_distribution": {
+          "TARGET_REVEALED": 0.6,
+          "FAILED": 0.4
+        },
+        "expected_posterior_uncertainty": 0.08841379886091327,
+        "expected_task_progress": 0.65,
+        "normalized_cost": 0.08,
+        "normalized_risk": 0.1,
+        "semantic_subtask": "Place the butter in the basket",
+        "reason": "The action directly targets the butter and the basket, reducing the need for further exploration or inspection.",
+        "information_utility": 0.3619738055395726
+      },
+      {
+        "action": "OPEN_CONTAINER",
+        "target_id": "wrist_drawer_07",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.95,
+        "outcome_distribution": {
+          "REGION_EMPTY": 0.95,
+          "FAILED": 0.050000000000000044
+        },
+        "expected_posterior_uncertainty": 0.0,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.18,
+        "normalized_risk": 0.08,
+        "semantic_subtask": "Inspect the drawer's interior",
+        "reason": "Opening the drawer does not reveal the butter, but it confirms the drawer is empty.",
+        "information_utility": 0.11796899013040425
+      },
+      {
+        "action": "REPORT_NOT_FOUND",
+        "target_id": "GLOBAL",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.99,
+        "outcome_distribution": {
+          "NOT_FOUND_SUPPORTED": 0.99,
+          "FAILED": 0.010000000000000009
+        },
+        "expected_posterior_uncertainty": 0.08841379886091327,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.01,
+        "normalized_risk": 0.01,
+        "semantic_subtask": "Exhaustive public coverage",
+        "reason": "Reporting that the target was not found does not provide new information about the butter's location.",
+        "information_utility": 0.2951067791402949
+      }
+    ],
+    "hard_gate_audit": [
+      {
+        "action": "OPEN_CONTAINER",
+        "target_id": "wrist_drawer_07",
+        "utility": 0.11796899013040425,
+        "legal": true,
+        "gate_reason": "legal",
+        "vlm_reason": "Opening the drawer does not reveal the butter, but it confirms the drawer is empty."
+      },
+      {
+        "action": "ACT",
+        "target_id": "wrist_food_package_00",
+        "utility": null,
+        "legal": false,
+        "gate_reason": "ACT requires target singleton, graspability singleton, and sufficient area",
+        "vlm_reason": "The action directly targets the butter and the basket, reducing the need for further exploration or inspection."
+      },
+      {
+        "action": "REPORT_NOT_FOUND",
+        "target_id": "GLOBAL",
+        "utility": null,
+        "legal": false,
+        "gate_reason": "REPORT_NOT_FOUND requires exhaustive public search belief",
+        "vlm_reason": "Reporting that the target was not found does not provide new information about the butter's location."
+      }
+    ],
+    "update_contract": "new public RGB + previous field + executed action/outcome -> next field"
+  },
+  "selected_action": {
+    "action": "OPEN_CONTAINER",
+    "target_id": "wrist_drawer_07",
+    "reasons": [
+      "selected maximum positive action-conditioned information utility",
+      "utility=0.117969",
+      "Opening the drawer does not reveal the butter, but it confirms the drawer is empty."
+    ],
+    "task_uncertainty": 0.44206899430456637,
+    "target_prediction_set": [],
+    "option_utilities": [
+      {
+        "action": "OPEN_CONTAINER",
+        "target_id": "wrist_drawer_07",
+        "utility": 0.11796899013040425,
+        "legal": true,
+        "gate_reason": "legal",
+        "vlm_reason": "Opening the drawer does not reveal the butter, but it confirms the drawer is empty."
+      },
+      {
+        "action": "ACT",
+        "target_id": "wrist_food_package_00",
+        "utility": null,
+        "legal": false,
+        "gate_reason": "ACT requires target singleton, graspability singleton, and sufficient area",
+        "vlm_reason": "The action directly targets the butter and the basket, reducing the need for further exploration or inspection."
+      },
+      {
+        "action": "REPORT_NOT_FOUND",
+        "target_id": "GLOBAL",
+        "utility": null,
+        "legal": false,
+        "gate_reason": "REPORT_NOT_FOUND requires exhaustive public search belief",
+        "vlm_reason": "Reporting that the target was not found does not provide new information about the butter's location."
+      }
+    ],
+    "advisory_agrees": false
+  },
+  "execution_contract": {
+    "mode": "OBSERVE",
+    "primitive": "OPEN_CONTAINER",
+    "executor": "frozen pi0.5 drawer-opening option followed by public-RGB observation",
+    "target_id": "wrist_drawer_07",
+    "subtask": "Inspect the drawer's interior"
+  },
+  "visualizations": {
+    "agentview": {
+      "uncertainty_map": "results/assets/piu_qwen_closed_messy_seed1399_v8/agentview_uncertainty_map.png",
+      "uncertainty_overlay": "results/assets/piu_qwen_closed_messy_seed1399_v8/agentview_uncertainty_overlay.png",
+      "interaction_field": "results/assets/piu_qwen_closed_messy_seed1399_v8/agentview_interaction_field.png"
+    },
+    "wrist": {
+      "uncertainty_map": "results/assets/piu_qwen_closed_messy_seed1399_v8/wrist_uncertainty_map.png",
+      "uncertainty_overlay": "results/assets/piu_qwen_closed_messy_seed1399_v8/wrist_uncertainty_overlay.png",
+      "interaction_field": "results/assets/piu_qwen_closed_messy_seed1399_v8/wrist_interaction_field.png"
+    }
+  },
+  "public_history": [],
+  "previous_report": null,
+  "online_oracle_inputs": [],
+  "limitations": [
+    "SigLIP-derived current probabilities are disposable V0 and are not calibrated",
+    "Qwen predicts future action effects only; those effect probabilities are not calibrated",
+    "ACT is not paper-authorized until scene-disjoint calibration freezes singleton gates",
+    "this one-step runner does not itself execute the selected physical action"
+  ]
+}

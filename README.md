@@ -23,6 +23,22 @@ Policy inputs are the stock LIBERO `agentview`, wrist RGB, robot state, and
 prompt. Simulator joints, segmentation, hidden poses, task predicates, and BEV
 images are evaluator-only.
 
+The current executable development path uses Grounding DINO + SAM + DINOv2 to
+build public object proposals, frozen SigLIP to form the pre-VLM
+prompt-conditioned belief and uncertainty field, and Qwen2.5-VL only to predict
+registered action effects and produce a grounded semantic subtask. A
+deterministic expected-utility selector chooses among `ACT`, `MOVE_CLOSER`,
+`NEXT_BEST_VIEW`, `OPEN_CONTAINER`, `REMOVE_OCCLUDER`, and controlled `STOP`.
+There is no online confidence threshold. The selected physical subtask is
+executed by the frozen stock `pi05_libero` dual-camera policy.
+
+Agentview and wrist observations are fused as complementary fields of view:
+a singleton reveal in either camera is positive evidence, while one camera's
+`NOT_REVEALED` is not counterevidence against the other camera. Local `EMPTY`
+requires singleton-negative target evidence from both cameras plus singleton
+completed search coverage. This v13 composition is development-only until it
+passes a fresh clean validation; it does not alter the frozen v12b audit.
+
 We define action-resolvable uncertainty as the expected task risk removed by
 an information action after its cost and measured failure rate are included:
 
@@ -63,6 +79,7 @@ decides whether to open the drawer.
 | PIU V1 scene-disjoint clean | **NOT-GO**: visible/hidden truth retained 24/40 and 40/40; 6 false singleton routes |
 | PIU V2 development refit | calibration 80/80; new clean block 1740–1759 frozen but unopened |
 | Object-level PIU mechanism loop | disposable seed 1399: singleton OPEN then singleton REVEALED; information 1/1; final task 0/1 |
+| Qwen PIU + fresh π0.5, original cluttered scenario | disposable seed 1399: OPEN_CONTAINER → REVEALED → MOVE_CLOSER; information 1/1; final task not executed |
 | Original-prompt physical continuation | information 1/1; final task 0/1; non-paper diagnostic |
 | Final retrieval after reveal | 0/5 |
 
@@ -151,6 +168,17 @@ subsequent original-prompt manipulation failed (0/1). This establishes wiring
 for one registered option, not held-out performance, final-task success, or
 validated exact drawer-layer localization.
 
+The latest disposable run uses the original cluttered
+`T01D_hidden_butter_retrieval` scene rather than the simplified scene. Starting
+from the complete prompt `Place the butter in the basket`, the corrected Qwen
+pipeline selected `OPEN_CONTAINER`; a freshly started frozen π0.5 server then
+sampled and executed `OPEN_AND_OBSERVE`; the six-frame complementary public-RGB
+critic returned singleton `REVEALED`; and the updated Qwen pipeline replanned to
+`MOVE_CLOSER`. Evaluator-only replay measured 303 agentview pixels during the
+option and 818 wrist pixels after return. These values were read only after the
+controller and critic terminated. This proves one development information-loop
+execution, not final placement, clean generalization, or v13 calibration.
+
 The action reliability lower bound is 0.80; the original 0.90 result is always
 reported. Conformal error is 0.05. These are evidence gates, not online
 confidence triggers. Open-drawer retrieval remains 0/5, so target evidence is
@@ -206,6 +234,22 @@ The three-class collection and label contract is frozen in
 [`outcome_data_protocol_v1.yaml`](benchmarks/rss_v1/outcome_data_protocol_v1.yaml).
 
 ## Reproduce
+
+Reproduce the current original-scene development loop with a new immutable run
+identifier:
+
+```bash
+EXPERIMENT_GPU_INDEX=0 EXPERIMENT_ALLOW_LOCAL_RUSTDESK=1 \
+  bash scripts/run_piu_original_demo.sh my_run_id
+```
+
+The recorded run, exact commands, inputs, limitations, and zero-online-oracle
+contract are summarized in
+[`PIU_ORIGINAL_FRESH_DEMO.md`](docs/PIU_ORIGINAL_FRESH_DEMO.md). Its public
+[Demo](results/demos/piu_original_fresh_seed1399_v1/piu_information_acquisition.mp4),
+[contact sheet](results/demos/piu_original_fresh_seed1399_v1/piu_information_acquisition_contact_sheet.png),
+and [machine-readable trace](results/demos/piu_original_fresh_seed1399_v1/piu_information_acquisition_trace.json)
+are development assets and must not be reported as final-task success.
 
 Run the dependency-gated experiment:
 

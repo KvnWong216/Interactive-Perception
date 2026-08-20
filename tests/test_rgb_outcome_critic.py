@@ -2,6 +2,7 @@ from interactive_perception.rgb_outcome_critic import (
     resolve_v11_cascade,
     resolve_v12_cascade,
     resolve_v12b_cascade,
+    resolve_v13_complementary_cascade,
 )
 
 
@@ -79,3 +80,26 @@ def test_v12b_preserves_singleton_wrist_conflict() -> None:
     )
     assert outcome == ("REVEALED", "EMPTY")
     assert source == "singleton_camera_conflict"
+
+
+def test_v13_treats_wrist_reveal_as_complementary_positive_evidence() -> None:
+    outcome, source = resolve_v13_complementary_cascade(
+        ("NOT_REVEALED",), ("REVEALED",), ("COMPLETED",)
+    )
+    assert outcome == ("REVEALED",)
+    assert source == "wrist_positive_evidence"
+
+
+def test_v13_requires_both_camera_negatives_before_empty() -> None:
+    ambiguous, ambiguous_source = resolve_v13_complementary_cascade(
+        ("NOT_REVEALED",),
+        ("REVEALED", "NOT_REVEALED"),
+        ("COMPLETED",),
+    )
+    empty, empty_source = resolve_v13_complementary_cascade(
+        ("NOT_REVEALED",), ("NOT_REVEALED",), ("COMPLETED",)
+    )
+    assert ambiguous == ("REVEALED", "EMPTY")
+    assert ambiguous_source == "complementary_target_ambiguous"
+    assert empty == ("EMPTY",)
+    assert empty_source == "complementary_camera_agreement_negative"

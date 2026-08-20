@@ -502,16 +502,22 @@ class PublicObjectFrontend:
         ):
             label = max(labels, key=labels.get)
             object_id = f"{view}_{slug(label)}_{index:02d}"
+            display_id = f"{'A' if view == 'agentview' else 'W'}{index:02d}"
             mask_relative = Path(slug(sample_id)) / view / f"{object_id}_mask.png"
             mask_path = asset_dir / mask_relative
             mask_path.parent.mkdir(parents=True, exist_ok=True)
             Image.fromarray(mask.astype(np.uint8) * 255).save(mask_path)
             color = (180, 180, 180) if label == "unknown_object" else colors[index % len(colors)]
             draw.rectangle(tuple(float(value) for value in box), outline=color, width=2)
-            draw.text((float(box[0]) + 2, float(box[1]) + 2), f"{index}:{label}", fill=color)
+            draw.text(
+                (float(box[0]) + 2, float(box[1]) + 2),
+                f"{display_id}:{label}",
+                fill=color,
+            )
             nodes.append(
                 {
                     "object_id": object_id,
+                    "display_id": display_id,
                     "view": view,
                     "label_candidates": labels,
                     "bbox_xyxy": [float(value) for value in box],

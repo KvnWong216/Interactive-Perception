@@ -1,0 +1,220 @@
+{
+  "per_candidate_inference": [
+    {
+      "candidate": {
+        "action": "MOVE_CLOSER",
+        "target_id": "wrist_object_01",
+        "execution_success_prior": 0.9,
+        "normalized_cost_prior": 0.06,
+        "normalized_risk_prior": 0.02,
+        "semantic_subtask_hint": "Move the wrist camera closer to region W01 and observe it clearly."
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "IDENTITY_RESOLVED",
+          "uncertainty_change": "MODERATE_DECREASE",
+          "task_progress": "DIRECT",
+          "semantic_subtask": "Observe the wrist_object_01 more closely to confirm its identity.",
+          "reason": "The camera has been moved closer to the wrist_object_01, allowing for a clearer view and potential identification confirmation."
+        },
+        "summary": "The camera has been moved closer to wrist_object_01, providing a clearer view and potentially confirming its identity."
+      },
+      "accepted": {
+        "action": "MOVE_CLOSER",
+        "target_id": "wrist_object_01",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.9,
+        "outcome_distribution": {
+          "IDENTITY_RESOLVED": 0.9,
+          "FAILED": 0.09999999999999998
+        },
+        "expected_posterior_uncertainty": 0.49722178421595964,
+        "expected_task_progress": 0.15,
+        "normalized_cost": 0.06,
+        "normalized_risk": 0.02,
+        "semantic_subtask": "Observe the wrist_object_01 more closely to confirm its identity.",
+        "reason": "The camera has been moved closer to the wrist_object_01, allowing for a clearer view and potential identification confirmation."
+      }
+    },
+    {
+      "candidate": {
+        "action": "NEXT_BEST_VIEW",
+        "target_id": "wrist_object_01",
+        "execution_success_prior": 0.85,
+        "normalized_cost_prior": 0.1,
+        "normalized_risk_prior": 0.03,
+        "semantic_subtask_hint": "Move the wrist camera to a clearer view of region W01."
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "IDENTITY_RESOLVED",
+          "uncertainty_change": "MODERATE_DECREASE",
+          "task_progress": "DIRECT",
+          "semantic_subtask": "Identify the butter on the table.",
+          "reason": "The butter is now clearly visible and identifiable based on its shape and position."
+        },
+        "summary": "The butter on the table is identified and ready for the next step."
+      },
+      "accepted": {
+        "action": "NEXT_BEST_VIEW",
+        "target_id": "wrist_object_01",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.85,
+        "outcome_distribution": {
+          "IDENTITY_RESOLVED": 0.85,
+          "FAILED": 0.15000000000000002
+        },
+        "expected_posterior_uncertainty": 0.49722178421595964,
+        "expected_task_progress": 0.15,
+        "normalized_cost": 0.1,
+        "normalized_risk": 0.03,
+        "semantic_subtask": "Identify the butter on the table.",
+        "reason": "The butter is now clearly visible and identifiable based on its shape and position."
+      }
+    },
+    {
+      "candidate": {
+        "action": "MOVE_CLOSER",
+        "target_id": "wrist_plate_06",
+        "execution_success_prior": 0.9,
+        "normalized_cost_prior": 0.06,
+        "normalized_risk_prior": 0.02,
+        "semantic_subtask_hint": "Move the wrist camera closer to region W06 and observe it clearly."
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "TARGET_REVEALED",
+          "uncertainty_change": "MODERATE_DECREASE",
+          "task_progress": "DIRECT",
+          "semantic_subtask": "Observe the butter in the basket more closely.",
+          "reason": "The butter is now visible and identifiable, reducing the need for further inspection."
+        },
+        "summary": "The butter in the basket is now clearly visible and identifiable, reducing uncertainty."
+      },
+      "accepted": {
+        "action": "MOVE_CLOSER",
+        "target_id": "wrist_plate_06",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.9,
+        "outcome_distribution": {
+          "TARGET_REVEALED": 0.9,
+          "FAILED": 0.09999999999999998
+        },
+        "expected_posterior_uncertainty": 0.1494443568431919,
+        "expected_task_progress": 0.15,
+        "normalized_cost": 0.06,
+        "normalized_risk": 0.02,
+        "semantic_subtask": "Observe the butter in the basket more closely.",
+        "reason": "The butter is now visible and identifiable, reducing the need for further inspection."
+      }
+    },
+    {
+      "candidate": {
+        "action": "REMOVE_OCCLUDER",
+        "target_id": "wrist_plate_06",
+        "execution_success_prior": 0.65,
+        "normalized_cost_prior": 0.2,
+        "normalized_risk_prior": 0.15,
+        "semantic_subtask_hint": "Move region W06 aside only if it physically blocks relevant evidence."
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "TARGET_REVEALED",
+          "uncertainty_change": "MODERATE_DECREASE",
+          "task_progress": "DIRECT",
+          "semantic_subtask": "Inspect the butter to confirm it is available for grasping.",
+          "reason": "The butter is now visible and accessible, allowing for further manipulation towards the goal."
+        },
+        "summary": "The butter is revealed, confirming it is available for grasping."
+      },
+      "accepted": {
+        "action": "REMOVE_OCCLUDER",
+        "target_id": "wrist_plate_06",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.65,
+        "outcome_distribution": {
+          "TARGET_REVEALED": 0.65,
+          "FAILED": 0.35
+        },
+        "expected_posterior_uncertainty": 0.1494443568431919,
+        "expected_task_progress": 0.15,
+        "normalized_cost": 0.2,
+        "normalized_risk": 0.15,
+        "semantic_subtask": "Inspect the butter to confirm it is available for grasping.",
+        "reason": "The butter is now visible and accessible, allowing for further manipulation towards the goal."
+      }
+    },
+    {
+      "candidate": {
+        "action": "OPEN_CONTAINER",
+        "target_id": "wrist_drawer_07",
+        "execution_success_prior": 0.95,
+        "normalized_cost_prior": 0.12,
+        "normalized_risk_prior": 0.03,
+        "semantic_subtask_hint": "Open container region W07 and observe its interior."
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "TARGET_REVEALED",
+          "uncertainty_change": "MODERATE_DECREASE",
+          "task_progress": "DIRECT",
+          "semantic_subtask": "Inspect the butter in the basket.",
+          "reason": "The butter is now visible and accessible, reducing the need to inspect other regions."
+        },
+        "summary": "The butter is revealed and accessible, allowing for the next step in the task."
+      },
+      "accepted": {
+        "action": "OPEN_CONTAINER",
+        "target_id": "wrist_drawer_07",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.95,
+        "outcome_distribution": {
+          "TARGET_REVEALED": 0.95,
+          "FAILED": 0.050000000000000044
+        },
+        "expected_posterior_uncertainty": 0.1494443568431919,
+        "expected_task_progress": 0.15,
+        "normalized_cost": 0.12,
+        "normalized_risk": 0.03,
+        "semantic_subtask": "Inspect the butter in the basket.",
+        "reason": "The butter is now visible and accessible, reducing the need to inspect other regions."
+      }
+    },
+    {
+      "candidate": {
+        "action": "ACT",
+        "target_id": "wrist_plate_06",
+        "execution_success_prior": 0.6,
+        "normalized_cost_prior": 0.08,
+        "normalized_risk_prior": 0.1,
+        "semantic_subtask_hint": "Place the butter in the basket"
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "TARGET_REVEALED",
+          "uncertainty_change": "MODERATE_DECREASE",
+          "task_progress": "DIRECT",
+          "semantic_subtask": "Identify the butter on the plate and place it in the basket.",
+          "reason": "The butter is now clearly visible on the plate, allowing the agent to identify and place it in the basket."
+        },
+        "summary": "The butter is identified and placed in the basket, reducing uncertainty about its location."
+      },
+      "accepted": {
+        "action": "ACT",
+        "target_id": "wrist_plate_06",
+        "applicable_probability": 0.9,
+        "execution_success_probability": 0.6,
+        "outcome_distribution": {
+          "TARGET_REVEALED": 0.6,
+          "FAILED": 0.4
+        },
+        "expected_posterior_uncertainty": 0.1494443568431919,
+        "expected_task_progress": 0.65,
+        "normalized_cost": 0.08,
+        "normalized_risk": 0.1,
+        "semantic_subtask": "Identify the butter on the plate and place it in the basket.",
+        "reason": "The butter is now clearly visible on the plate, allowing the agent to identify and place it in the basket."
+      }
+    }
+  ]
+}

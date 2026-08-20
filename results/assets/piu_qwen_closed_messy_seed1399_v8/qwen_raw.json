@@ -1,0 +1,32 @@
+{
+  "ranked_candidates": [
+    {
+      "action": "ACT",
+      "target_id": "wrist_food_package_00",
+      "likely_outcome": "TARGET_REVEALED",
+      "uncertainty_change": "MODERATE_DECREASE",
+      "task_progress": "DIRECT",
+      "semantic_subtask": "Place the butter in the basket",
+      "reason": "The action directly targets the butter and the basket, reducing the need for further exploration or inspection."
+    },
+    {
+      "action": "OPEN_CONTAINER",
+      "target_id": "wrist_drawer_07",
+      "likely_outcome": "REGION_EMPTY",
+      "uncertainty_change": "NO_CHANGE",
+      "task_progress": "NONE",
+      "semantic_subtask": "Inspect the drawer's interior",
+      "reason": "Opening the drawer does not reveal the butter, but it confirms the drawer is empty."
+    },
+    {
+      "action": "REPORT_NOT_FOUND",
+      "target_id": "GLOBAL",
+      "likely_outcome": "NOT_FOUND_SUPPORTED",
+      "uncertainty_change": "NO_CHANGE",
+      "task_progress": "NONE",
+      "semantic_subtask": "Exhaustive public coverage",
+      "reason": "Reporting that the target was not found does not provide new information about the butter's location."
+    }
+  ],
+  "summary": "The action to place the butter in the basket is the most useful as it directly addresses the goal with minimal uncertainty. Opening the drawer is less useful as it confirms the drawer is empty but does not reveal the butter. Reporting that the target was not found does not provide new information about the butter's location."
+}

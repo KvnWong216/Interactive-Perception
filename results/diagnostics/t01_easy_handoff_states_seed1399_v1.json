@@ -1,0 +1,112 @@
+{
+  "schema_version": "interaction-uncertainty.t01-easy-handoff-states.v1",
+  "status": "DISPOSABLE_BENCHMARK_CONSTRUCTION",
+  "source_bddl": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+  "seed": 1399,
+  "construction": {
+    "front_shift_m": 0.04,
+    "open_joint": -0.15,
+    "settle_steps": 10,
+    "drawer_translation_world_m": [
+      1.734723475976807e-17,
+      0.15000000112199868,
+      0.0
+    ],
+    "changed_coordinates": [
+      "butter world y in both paired states",
+      "middle drawer joint in open_easy",
+      "butter rigid translation with the opened drawer in open_easy"
+    ]
+  },
+  "controller_visible_contract": [
+    "agentview RGB",
+    "wrist RGB",
+    "public robot state",
+    "task prompt"
+  ],
+  "controller_online_oracle_inputs": [],
+  "evaluator_only_construction_inputs": [
+    "target free-joint pose",
+    "drawer joint",
+    "drawer region site transform",
+    "segmentation visibility",
+    "containment predicate"
+  ],
+  "states": {
+    "path": "data/development/t01_easy_handoff_seed1399_v1.npz",
+    "sha256": "ccd3058c70a9f77ff8e7eea3b5687bd321e6e2d64549da9f386962f177b2c728",
+    "keys": [
+      "closed_easy",
+      "open_easy"
+    ]
+  },
+  "closed_easy": {
+    "evaluator_only": {
+      "target_qpos": [
+        0.01786857220513807,
+        -0.20150348177449465,
+        1.0031498429252834,
+        -6.522372188086659e-05,
+        7.171289564219901e-11,
+        -3.7562725585233e-12,
+        0.999999997872933
+      ],
+      "drawer_joint": 2.8616178097861e-10,
+      "drawer_site_world_xyz": [
+        0.01786598448096453,
+        -0.24150844671281554,
+        1.0219
+      ],
+      "target_inside_middle_region": true,
+      "target_visible_pixels": {
+        "agentview": 0,
+        "robot0_eye_in_hand": 0
+      }
+    },
+    "public_images": {
+      "paths": {
+        "agentview": "results/assets/t01_easy_handoff_states_seed1399_v1/closed_easy_agentview.png",
+        "wrist": "results/assets/t01_easy_handoff_states_seed1399_v1/closed_easy_wrist.png"
+      },
+      "sha256": {
+        "agentview": "9806d5620370ecb8deaff3bf11f3dd610ff2a775d6fe1c2def58bf74b43b8dcb",
+        "wrist": "b6fc9f047713582801462967432b305c83a102c4fe3899b7fb635d61f54148a2"
+      }
+    }
+  },
+  "open_easy": {
+    "evaluator_only": {
+      "target_qpos": [
+        0.01786986510535252,
+        -0.05150100012125504,
+        1.0031498429484325,
+        -9.783540416754608e-05,
+        1.194503373568038e-13,
+        2.2603256130457547e-15,
+        0.999999995214117
+      ],
+      "drawer_joint": -0.15000000015668943,
+      "drawer_site_world_xyz": [
+        0.017865984480964547,
+        -0.0915084462639142,
+        1.0219
+      ],
+      "target_inside_middle_region": true,
+      "target_visible_pixels": {
+        "agentview": 305,
+        "robot0_eye_in_hand": 920
+      }
+    },
+    "public_images": {
+      "paths": {
+        "agentview": "results/assets/t01_easy_handoff_states_seed1399_v1/open_easy_agentview.png",
+        "wrist": "results/assets/t01_easy_handoff_states_seed1399_v1/open_easy_wrist.png"
+      },
+      "sha256": {
+        "agentview": "ccb5148e5728e5f62c516bfb698eb33cda277d65ef44ea2fde07dafec87a2b25",
+        "wrist": "070e8110e5afce6f1ddfecf89e84011f5a6d5e0e112b62fc8a58725d9528b2cc"
+      }
+    }
+  },
+  "qualification_rule": "open_easy must pass frozen pi05 original-prompt capability before closed_easy is used for the PIU loop"
+}

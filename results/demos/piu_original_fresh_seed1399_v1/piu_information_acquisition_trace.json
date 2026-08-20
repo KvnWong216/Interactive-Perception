@@ -1,0 +1,126 @@
+{
+  "schema_version": "interaction-uncertainty.information-acquisition-demo.v1",
+  "claim_status": "disposable development information-acquisition chain; fresh frozen pi0.5 sampling; not clean or sealed",
+  "prompt": "Place the butter in the basket",
+  "endpoint": "prompt-relevant target observability",
+  "stages": [
+    {
+      "stage": "INITIAL_INFERENCE",
+      "report": {
+        "path": "results/diagnostics/piu_messy_corrected_initial_seed1399_v1.json",
+        "sha256": "91042740711e43669d4b28c3ea11c8d8ca5eee455fdbde866f9fe02daa15c84d"
+      },
+      "selected_action": "OPEN_CONTAINER",
+      "target_id": "wrist_drawer_07",
+      "online_oracle_inputs": []
+    },
+    {
+      "stage": "OPEN_AND_OBSERVE",
+      "report": {
+        "path": "results/diagnostics/piu_messy_fresh_e2e_seed1399_v1.json",
+        "sha256": "ad00b3e52506266003617c1d1e85b0d0b27e26b7302b8a507276272f48940765"
+      },
+      "executor": "fresh frozen pi05_libero policy sampling",
+      "fresh_policy_sampling": true,
+      "online_oracle_inputs": []
+    },
+    {
+      "stage": "PUBLIC_RGB_OUTCOME",
+      "report": {
+        "path": "results/diagnostics/piu_messy_fresh_e2e_seed1399_v1_public_rgb_outcome_v13.json",
+        "sha256": "5df772cbb9e990846452d093c9036187e4880cecf090b6211d9e9b2a1950562e"
+      },
+      "camera_fusion": "v13-complementary",
+      "prediction_set": [
+        "REVEALED"
+      ],
+      "target_source": "complementary_camera_agreement_positive",
+      "online_oracle_inputs": []
+    },
+    {
+      "stage": "BELIEF_UPDATE_AND_REPLAN",
+      "report": {
+        "path": "results/diagnostics/piu_messy_corrected_post_open_seed1399_v1.json",
+        "sha256": "c18ee491f08b4ee0f00a3ae8a46b314e7cf1061547709ea979061a985e21e27d"
+      },
+      "public_outcome": "EVIDENCE_ACQUIRED",
+      "next_action": "MOVE_CLOSER",
+      "online_oracle_inputs": []
+    }
+  ],
+  "terminal": "INFORMATION_ACQUIRED",
+  "target_observability_success": true,
+  "final_task_executed": false,
+  "final_task_success": null,
+  "online_oracle_inputs": [],
+  "evaluator_only_after_controller_terminal": {
+    "timing": "separate replay after controller and critic terminal",
+    "privileged_inputs": [
+      "target segmentation",
+      "drawer joint"
+    ],
+    "visibility_history": [
+      {
+        "name": "00_before",
+        "target_pixels": {
+          "agentview": 0,
+          "wrist": 0
+        }
+      },
+      {
+        "name": "01_quarter",
+        "target_pixels": {
+          "agentview": 0,
+          "wrist": 0
+        }
+      },
+      {
+        "name": "02_half",
+        "target_pixels": {
+          "agentview": 303,
+          "wrist": 0
+        }
+      },
+      {
+        "name": "03_three_quarters",
+        "target_pixels": {
+          "agentview": 303,
+          "wrist": 0
+        }
+      },
+      {
+        "name": "04_open_end",
+        "target_pixels": {
+          "agentview": 303,
+          "wrist": 0
+        }
+      },
+      {
+        "name": "05_returned",
+        "target_pixels": {
+          "agentview": 303,
+          "wrist": 818
+        }
+      }
+    ],
+    "maximum_target_pixels": 818,
+    "middle_joint_minimum": -0.1612877744621169,
+    "middle_joint_final": -0.1599373622712418
+  },
+  "limitations": [
+    "development/disposable run, not clean validation or sealed audit",
+    "the next selected action is replanned but not physically executed in this trace",
+    "final butter placement is not demonstrated",
+    "v13 complementary camera composition has unit tests but no clean validation yet"
+  ],
+  "assets": {
+    "video": {
+      "path": "results/demos/piu_original_fresh_seed1399_v1/piu_information_acquisition.mp4",
+      "sha256": "8f8e9120e83bc2ac74d0f1750046d2082e632696827b0cf7c4850061c19426ad"
+    },
+    "contact_sheet": {
+      "path": "results/demos/piu_original_fresh_seed1399_v1/piu_information_acquisition_contact_sheet.png",
+      "sha256": "ad0b763dc590162c9734a98340f5905e8e6c99742b46fcfda6ecce6439b01ad5"
+    }
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "per_candidate_inference": [
+    {
+      "candidate": {
+        "action": "MOVE_CLOSER",
+        "target_id": "wrist_food_package_04",
+        "execution_success_prior": 0.9,
+        "normalized_cost_prior": 0.06,
+        "normalized_risk_prior": 0.02,
+        "semantic_subtask_hint": "Move the wrist camera closer to region W04 and observe it clearly."
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "NO_RELEVANT_CHANGE",
+          "uncertainty_change": "NO_CHANGE",
+          "task_progress": "NONE",
+          "semantic_subtask": "Observation of the butter on the plate remains unchanged",
+          "reason": "The butter is still visible and accessible, so no further action is needed to confirm its presence or accessibility."
+        },
+        "summary": "Observation of the butter on the plate remains unchanged, as it is still visible and accessible."
+      },
+      "accepted": {
+        "action": "MOVE_CLOSER",
+        "target_id": "wrist_food_package_04",
+        "applicable_probability": 0.25,
+        "execution_success_probability": 0.9,
+        "outcome_distribution": {
+          "NO_RELEVANT_CHANGE": 0.9,
+          "FAILED": 0.09999999999999998
+        },
+        "expected_posterior_uncertainty": 0.7739657016023257,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.06,
+        "normalized_risk": 0.02,
+        "semantic_subtask": "Observation of the butter on the plate remains unchanged",
+        "reason": "The butter is still visible and accessible, so no further action is needed to confirm its presence or accessibility."
+      }
+    },
+    {
+      "candidate": {
+        "action": "NEXT_BEST_VIEW",
+        "target_id": "wrist_food_package_04",
+        "execution_success_prior": 0.85,
+        "normalized_cost_prior": 0.1,
+        "normalized_risk_prior": 0.03,
+        "semantic_subtask_hint": "Move the wrist camera to a clearer view of region W04."
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "NO_RELEVANT_CHANGE",
+          "uncertainty_change": "NO_CHANGE",
+          "task_progress": "NONE",
+          "semantic_subtask": "No relevant action detected.",
+          "reason": "The provided action does not align with the current task requirements or the fixed registered candidate's execution context."
+        },
+        "summary": "The provided action does not align with the current task requirements or the fixed registered candidate's execution context."
+      },
+      "accepted": {
+        "action": "NEXT_BEST_VIEW",
+        "target_id": "wrist_food_package_04",
+        "applicable_probability": 0.25,
+        "execution_success_probability": 0.85,
+        "outcome_distribution": {
+          "NO_RELEVANT_CHANGE": 0.85,
+          "FAILED": 0.15000000000000002
+        },
+        "expected_posterior_uncertainty": 0.7739657016023257,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.1,
+        "normalized_risk": 0.03,
+        "semantic_subtask": "No relevant action detected.",
+        "reason": "The provided action does not align with the current task requirements or the fixed registered candidate's execution context."
+      }
+    },
+    {
+      "candidate": {
+        "action": "MOVE_CLOSER",
+        "target_id": "wrist_object_01",
+        "execution_success_prior": 0.9,
+        "normalized_cost_prior": 0.06,
+        "normalized_risk_prior": 0.02,
+        "semantic_subtask_hint": "Move the wrist camera closer to region W01 and observe it clearly."
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "NO_RELEVANT_CHANGE",
+          "uncertainty_change": "NO_CHANGE",
+          "task_progress": "NONE",
+          "semantic_subtask": "Observation of the butter on the plate remains unchanged",
+          "reason": "The butter is still visible and accessible, so no further action is needed to confirm its presence or accessibility."
+        },
+        "summary": "Observation of the butter on the plate remains unchanged, as it is still visible and accessible."
+      },
+      "accepted": {
+        "action": "MOVE_CLOSER",
+        "target_id": "wrist_object_01",
+        "applicable_probability": 0.25,
+        "execution_success_probability": 0.9,
+        "outcome_distribution": {
+          "NO_RELEVANT_CHANGE": 0.9,
+          "FAILED": 0.09999999999999998
+        },
+        "expected_posterior_uncertainty": 0.7739657016023257,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.06,
+        "normalized_risk": 0.02,
+        "semantic_subtask": "Observation of the butter on the plate remains unchanged",
+        "reason": "The butter is still visible and accessible, so no further action is needed to confirm its presence or accessibility."
+      }
+    },
+    {
+      "candidate": {
+        "action": "REMOVE_OCCLUDER",
+        "target_id": "wrist_food_package_04",
+        "execution_success_prior": 0.65,
+        "normalized_cost_prior": 0.2,
+        "normalized_risk_prior": 0.15,
+        "semantic_subtask_hint": "Move region W04 aside only if it physically blocks relevant evidence."
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "NO_RELEVANT_CHANGE",
+          "uncertainty_change": "NO_CHANGE",
+          "task_progress": "NONE",
+          "semantic_subtask": "No relevant change detected.",
+          "reason": "The action did not reveal any new information about the butter's location or accessibility."
+        },
+        "summary": "The action did not provide any additional information about the butter's location or accessibility."
+      },
+      "accepted": {
+        "action": "REMOVE_OCCLUDER",
+        "target_id": "wrist_food_package_04",
+        "applicable_probability": 0.25,
+        "execution_success_probability": 0.65,
+        "outcome_distribution": {
+          "NO_RELEVANT_CHANGE": 0.65,
+          "FAILED": 0.35
+        },
+        "expected_posterior_uncertainty": 0.7739657016023257,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.2,
+        "normalized_risk": 0.15,
+        "semantic_subtask": "No relevant change detected.",
+        "reason": "The action did not reveal any new information about the butter's location or accessibility."
+      }
+    },
+    {
+      "candidate": {
+        "action": "OPEN_CONTAINER",
+        "target_id": "wrist_cabinet_04",
+        "execution_success_prior": 0.95,
+        "normalized_cost_prior": 0.12,
+        "normalized_risk_prior": 0.03,
+        "semantic_subtask_hint": "Open container region W03 and observe its interior."
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "NO_RELEVANT_CHANGE",
+          "uncertainty_change": "NO_CHANGE",
+          "task_progress": "NONE",
+          "semantic_subtask": "Observation of the butter in the basket remains unchanged.",
+          "reason": "The butter is still visible and accessible, so no further action is needed to confirm its presence."
+        },
+        "summary": "Observation of the butter in the basket remains unchanged."
+      },
+      "accepted": {
+        "action": "OPEN_CONTAINER",
+        "target_id": "wrist_cabinet_04",
+        "applicable_probability": 0.25,
+        "execution_success_probability": 0.95,
+        "outcome_distribution": {
+          "NO_RELEVANT_CHANGE": 0.95,
+          "FAILED": 0.050000000000000044
+        },
+        "expected_posterior_uncertainty": 0.7739657016023257,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.12,
+        "normalized_risk": 0.03,
+        "semantic_subtask": "Observation of the butter in the basket remains unchanged.",
+        "reason": "The butter is still visible and accessible, so no further action is needed to confirm its presence."
+      }
+    },
+    {
+      "candidate": {
+        "action": "ACT",
+        "target_id": "wrist_food_package_04",
+        "execution_success_prior": 0.6,
+        "normalized_cost_prior": 0.08,
+        "normalized_risk_prior": 0.1,
+        "semantic_subtask_hint": "Place the butter in the basket"
+      },
+      "response": {
+        "effect": {
+          "likely_outcome": "NO_RELEVANT_CHANGE",
+          "uncertainty_change": "NO_CHANGE",
+          "task_progress": "NONE",
+          "semantic_subtask": "No relevant action detected.",
+          "reason": "The provided action does not align with the task of placing the butter in the basket."
+        },
+        "summary": "The provided action does not align with the task of placing the butter in the basket."
+      },
+      "accepted": {
+        "action": "ACT",
+        "target_id": "wrist_food_package_04",
+        "applicable_probability": 0.25,
+        "execution_success_probability": 0.6,
+        "outcome_distribution": {
+          "NO_RELEVANT_CHANGE": 0.6,
+          "FAILED": 0.4
+        },
+        "expected_posterior_uncertainty": 0.7739657016023257,
+        "expected_task_progress": 0.0,
+        "normalized_cost": 0.08,
+        "normalized_risk": 0.1,
+        "semantic_subtask": "No relevant action detected.",
+        "reason": "The provided action does not align with the task of placing the butter in the basket."
+      }
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": "interaction-uncertainty.public-rgb-option-outcome.v1",
+  "claim_status": "disposable inference with frozen candidate; not clean/sealed",
+  "camera_fusion": "v13-complementary",
+  "prompt": "Place the butter in the basket",
+  "option_report": {
+    "path": "results/diagnostics/piu_messy_fresh_e2e_seed1399_v1.json",
+    "sha256": "ad00b3e52506266003617c1d1e85b0d0b27e26b7302b8a507276272f48940765"
+  },
+  "composite": {
+    "path": "results/calibration/t01_open_and_observe_outcome_v12b_composite_candidate.json",
+    "sha256": "114ef4840755c7f4be1f44aeb5fce2625d80e1b574b80868dce5790502b6ac40"
+  },
+  "prediction": {
+    "prediction_set": [
+      "REVEALED"
+    ],
+    "target_source": "complementary_camera_agreement_positive",
+    "agentview_target_set": [
+      "REVEALED"
+    ],
+    "wrist_target_set": [
+      "REVEALED"
+    ],
+    "coverage_set": [
+      "COMPLETED"
+    ],
+    "maximum_logits": {
+      "agentview_target": 0.9104863405227661,
+      "wrist_target": 3.530643939971924,
+      "agentview_coverage": 27.665206909179688
+    },
+    "frame_logits": {
+      "agentview_target": [
+        -13.067584991455078,
+        -11.626310348510742,
+        0.9104863405227661,
+        0.16564372181892395,
+        -0.14207246899604797,
+        0.14619049429893494
+      ],
+      "wrist_target": [
+        -28.316022872924805,
+        -15.423382759094238,
+        -22.971208572387695,
+        -22.831907272338867,
+        -21.03780174255371,
+        3.530643939971924
+      ],
+      "agentview_coverage": [
+        -22.850372314453125,
+        -29.514148712158203,
+        27.362674713134766,
+        25.04228401184082,
+        21.53203582763672,
+        27.665206909179688
+      ]
+    },
+    "composite_sha256": "114ef4840755c7f4be1f44aeb5fce2625d80e1b574b80868dce5790502b6ac40",
+    "online_oracle_inputs": []
+  },
+  "online_inputs": [
+    "six agentview RGB frames",
+    "six wrist RGB frames",
+    "public robot state"
+  ],
+  "online_oracle_inputs": []
+}

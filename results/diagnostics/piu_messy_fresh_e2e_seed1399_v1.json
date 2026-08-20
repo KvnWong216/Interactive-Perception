@@ -1,0 +1,291 @@
+{
+  "schema_version": "interaction-uncertainty.qwen-selected-fresh-open.v1",
+  "claim_status": "disposable development fresh pi0.5 option run; not clean or sealed",
+  "prompt": "Place the butter in the basket",
+  "initial_decision": {
+    "report": {
+      "path": "results/diagnostics/piu_qwen_closed_messy_seed1399_v8.json",
+      "sha256": "0b87f2428fc1dbbeebe4c8985d1aec397e338e883ed8a79bf4aa15599db581d1"
+    },
+    "action": "OPEN_CONTAINER",
+    "target_id": "wrist_drawer_07"
+  },
+  "paired_initial_state": {
+    "path": "data/development/t01_easy_handoff_seed1399_v1.npz",
+    "sha256": "ccd3058c70a9f77ff8e7eea3b5687bd321e6e2d64549da9f386962f177b2c728",
+    "key": "closed_easy",
+    "constructed_before_controller_start": true,
+    "public_rgb_matched_initial_report": true
+  },
+  "controller": {
+    "policy": "frozen pi05_libero",
+    "fresh_policy_sampling": true,
+    "fresh_policy_server": true,
+    "server_metadata": {},
+    "semantic_subtask": "Open the middle layer of the drawer",
+    "open_steps": 300,
+    "return_steps": 50,
+    "return_phase": "COMPLETE",
+    "keyframes": [
+      {
+        "name": "00_before",
+        "image_paths": {
+          "agentview": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_agentview.png",
+          "wrist": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "9806d5620370ecb8deaff3bf11f3dd610ff2a775d6fe1c2def58bf74b43b8dcb",
+          "wrist": "b6fc9f047713582801462967432b305c83a102c4fe3899b7fb635d61f54148a2"
+        },
+        "public_robot_state": [
+          -0.2084646605658237,
+          2.4418348435381324e-12,
+          1.1732794757296399,
+          3.140339335468512,
+          0.0007735038737415084,
+          -0.08922200721618134,
+          0.03923672847747547,
+          -0.039236668168015645
+        ]
+      },
+      {
+        "name": "01_quarter",
+        "image_paths": {
+          "agentview": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/01_quarter_agentview.png",
+          "wrist": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/01_quarter_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "8daa2902fde0cb538d80b853a2050614296e54bf913679f69fc19307685c9860",
+          "wrist": "f10a01355626629b13540ccab41d9390ae30cf988f379a44afb1e96bb6c79a4f"
+        },
+        "public_robot_state": [
+          0.07006620267960485,
+          -0.09997337841351255,
+          1.0637116168950875,
+          1.5667668990284758,
+          1.5956037604374296,
+          -0.9854552871794467,
+          0.03979846424069209,
+          -0.039985052380065826
+        ]
+      },
+      {
+        "name": "02_half",
+        "image_paths": {
+          "agentview": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/02_half_agentview.png",
+          "wrist": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/02_half_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "362e3992994e30154881cd5b7948560dca4dad22dbdece2573ed2007fc7eafcf",
+          "wrist": "198844568b9bf1ab8854f8d5002296bda0c7fae57888a07f1bfb23d79d6a4aa8"
+        },
+        "public_robot_state": [
+          0.041241849632270594,
+          0.04032602116903772,
+          1.0439046947565624,
+          1.2738493642434536,
+          1.3974589659419718,
+          -0.9523104668924475,
+          0.03993456671308002,
+          -0.0391187717506594
+        ]
+      },
+      {
+        "name": "03_three_quarters",
+        "image_paths": {
+          "agentview": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/03_three_quarters_agentview.png",
+          "wrist": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/03_three_quarters_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "c09ef7e4cb2ade4d2e3f3c66ecdc67c541c974670a2607fdb472fe30e3e9fa50",
+          "wrist": "9458a2e57bf625a428e4fd9ff20410e592c24646fbdecef90ab353af838f369a"
+        },
+        "public_robot_state": [
+          0.03392433823962898,
+          0.04053706539455927,
+          1.0676781998114155,
+          1.0271762341655615,
+          1.4184296627980117,
+          -0.9814857464170474,
+          0.03924951975858553,
+          -0.03918893492646289
+        ]
+      },
+      {
+        "name": "04_open_end",
+        "image_paths": {
+          "agentview": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/04_open_end_agentview.png",
+          "wrist": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/04_open_end_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "8be04b0ee4765e467859ddbc69746bbd489ac4dbda2a89dfbdc77367bdbe8157",
+          "wrist": "dc3510457c31ec962574a89ac3f51de8a9d442b6235d3620d021f2ccbf7b7aa5"
+        },
+        "public_robot_state": [
+          0.06304489207867604,
+          0.009371100750951017,
+          1.1998984930351244,
+          0.878619775113553,
+          1.3078053897608894,
+          -1.0068870146547777,
+          0.040002425133550706,
+          -0.039919704107486076
+        ]
+      },
+      {
+        "name": "05_returned",
+        "image_paths": {
+          "agentview": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/05_returned_agentview.png",
+          "wrist": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/05_returned_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "3dfc0aa2f11c5e726c16c2704fa2dc01c63b0e5ee0003b17bdbc1e618c15c0e0",
+          "wrist": "05a08211ac10af46a5cdc732930a62cb48da71e6c92b82e589821f647986ed8f"
+        },
+        "public_robot_state": [
+          -0.21516797499266985,
+          -0.0009558316444388093,
+          1.1619255522690641,
+          3.1407622816036094,
+          0.0014495787727125315,
+          -0.051119153972704036,
+          0.03989139702212354,
+          -0.04000005955659384
+        ]
+      }
+    ],
+    "video": "results/assets/piu_messy_fresh_e2e_seed1399_v1/fresh_open_and_observe_wrist_agentview.mp4",
+    "action_history": {
+      "path": "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_action_history.json",
+      "sha256": "53e9cfaa74bed1e0dcdfdeeec1a2bff1b18bf797b63be9f95a28f00aa1f09184",
+      "steps": 350
+    },
+    "online_inputs": [
+      "stock agentview RGB",
+      "wrist RGB",
+      "public proprioception",
+      "semantic subtask"
+    ],
+    "online_oracle_inputs": []
+  },
+  "outcome": {
+    "camera_fusion": "v13-complementary",
+    "composite": {
+      "path": "results/calibration/t01_open_and_observe_outcome_v12b_composite_candidate.json",
+      "sha256": "114ef4840755c7f4be1f44aeb5fce2625d80e1b574b80868dce5790502b6ac40"
+    },
+    "prediction": {
+      "prediction_set": [
+        "REVEALED"
+      ],
+      "target_source": "complementary_camera_agreement_positive",
+      "agentview_target_set": [
+        "REVEALED"
+      ],
+      "wrist_target_set": [
+        "REVEALED"
+      ],
+      "coverage_set": [
+        "COMPLETED"
+      ],
+      "maximum_logits": {
+        "agentview_target": 0.9104863405227661,
+        "wrist_target": 3.530643939971924,
+        "agentview_coverage": 27.665206909179688
+      },
+      "frame_logits": {
+        "agentview_target": [
+          -13.067584991455078,
+          -11.626310348510742,
+          0.9104863405227661,
+          0.16564372181892395,
+          -0.14207246899604797,
+          0.14619049429893494
+        ],
+        "wrist_target": [
+          -28.316022872924805,
+          -15.423382759094238,
+          -22.971208572387695,
+          -22.831907272338867,
+          -21.03780174255371,
+          3.530643939971924
+        ],
+        "agentview_coverage": [
+          -22.850372314453125,
+          -29.514148712158203,
+          27.362674713134766,
+          25.04228401184082,
+          21.53203582763672,
+          27.665206909179688
+        ]
+      },
+      "composite_sha256": "114ef4840755c7f4be1f44aeb5fce2625d80e1b574b80868dce5790502b6ac40",
+      "online_oracle_inputs": []
+    },
+    "public_outcome_for_belief_update": "EVIDENCE_ACQUIRED",
+    "online_oracle_inputs": []
+  },
+  "terminal": "INFORMATION_ACQUIRED",
+  "target_observability_success": true,
+  "evaluator_only_after_controller_terminal": {
+    "timing": "separate replay after controller and critic terminal",
+    "privileged_inputs": [
+      "target segmentation",
+      "drawer joint"
+    ],
+    "visibility_history": [
+      {
+        "name": "00_before",
+        "target_pixels": {
+          "agentview": 0,
+          "wrist": 0
+        }
+      },
+      {
+        "name": "01_quarter",
+        "target_pixels": {
+          "agentview": 0,
+          "wrist": 0
+        }
+      },
+      {
+        "name": "02_half",
+        "target_pixels": {
+          "agentview": 303,
+          "wrist": 0
+        }
+      },
+      {
+        "name": "03_three_quarters",
+        "target_pixels": {
+          "agentview": 303,
+          "wrist": 0
+        }
+      },
+      {
+        "name": "04_open_end",
+        "target_pixels": {
+          "agentview": 303,
+          "wrist": 0
+        }
+      },
+      {
+        "name": "05_returned",
+        "target_pixels": {
+          "agentview": 303,
+          "wrist": 818
+        }
+      }
+    ],
+    "maximum_target_pixels": 818,
+    "middle_joint_minimum": -0.1612877744621169,
+    "middle_joint_final": -0.1599373622712418
+  },
+  "online_oracle_inputs": [],
+  "limitations": [
+    "development/disposable run",
+    "v13 camera composition is not clean-validated",
+    "return-to-observe uses the current proprioceptive recovery controller",
+    "final task manipulation is not executed by this option runner"
+  ]
+}

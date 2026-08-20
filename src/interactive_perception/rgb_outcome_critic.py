@@ -198,6 +198,65 @@ def resolve_v12b_cascade(
     )
 
 
+def resolve_v13_complementary_cascade(
+    agentview_target_set: tuple[str, ...],
+    wrist_target_set: tuple[str, ...],
+    coverage_set: tuple[str, ...],
+) -> tuple[tuple[str, ...], str]:
+    """Fuse cameras as complementary fields of view.
+
+    ``NOT_REVEALED`` is local to a camera: it says that camera supplied no
+    positive target evidence.  It is therefore not counterevidence against a
+    singleton ``REVEALED`` from the other public camera.  A local EMPTY result
+    is emitted only when *both* target heads are singleton-negative and the
+    independent search-coverage head is singleton-completed.  Any unresolved
+    target or coverage set remains unresolved for the controller.
+
+    This is a development composition over the frozen per-camera heads.  It
+    does not change or retroactively relabel the frozen v12b artifact.
+    """
+
+    agent_positive = agentview_target_set == ("REVEALED",)
+    wrist_positive = wrist_target_set == ("REVEALED",)
+    if agent_positive or wrist_positive:
+        if agent_positive and wrist_positive:
+            source = "complementary_camera_agreement_positive"
+        elif agent_positive:
+            source = "agentview_positive_evidence"
+        else:
+            source = "wrist_positive_evidence"
+        return ("REVEALED",), source
+
+    cameras_negative = (
+        agentview_target_set == ("NOT_REVEALED",)
+        and wrist_target_set == ("NOT_REVEALED",)
+    )
+    if cameras_negative:
+        compatible: list[str] = []
+        if "FAILED" in coverage_set:
+            compatible.append("FAILED")
+        if "COMPLETED" in coverage_set:
+            compatible.append("EMPTY")
+        return tuple(compatible), "complementary_camera_agreement_negative"
+
+    # At least one target head abstained and neither supplied singleton
+    # positive evidence.  Preserve every outcome compatible with the coverage
+    # set instead of selecting the convenient branch.
+    compatible = ["REVEALED"]
+    if "FAILED" in coverage_set:
+        compatible.append("FAILED")
+    if "COMPLETED" in coverage_set:
+        compatible.append("EMPTY")
+    return (
+        tuple(
+            label
+            for label in ("FAILED", "REVEALED", "EMPTY")
+            if label in compatible
+        ),
+        "complementary_target_ambiguous",
+    )
+
+
 @dataclass(frozen=True)
 class RGBOutcomePrediction:
     prediction_set: tuple[str, ...]
@@ -425,6 +484,42 @@ class V12bPublicRGBOutcomeCritic(V11PublicRGBOutcomeCritic):
         wrist_set, wrist_logits = self.wrist_target.predict(wrist_images)
         coverage_set, coverage_logits = self.coverage.predict(agent_images)
         outcome, source = resolve_v12b_cascade(
+            agent_set, wrist_set, coverage_set
+        )
+        return RGBOutcomePrediction(
+            prediction_set=outcome,
+            target_source=source,
+            agentview_target_set=agent_set,
+            wrist_target_set=wrist_set,
+            coverage_set=coverage_set,
+            maximum_logits={
+                "agentview_target": max(agent_logits),
+                "wrist_target": max(wrist_logits),
+                "agentview_coverage": max(coverage_logits),
+            },
+            frame_logits={
+                "agentview_target": agent_logits,
+                "wrist_target": wrist_logits,
+                "agentview_coverage": coverage_logits,
+            },
+            composite_sha256=self.composite_sha256,
+        )
+
+
+class V13ComplementaryPublicRGBOutcomeCritic(V11PublicRGBOutcomeCritic):
+    """Development complementary-view composition over frozen RGB heads."""
+
+    def predict(
+        self, history: Sequence[ObservationPacket]
+    ) -> RGBOutcomePrediction:
+        if len(history) != 6:
+            raise ValueError("the RGB outcome protocol requires exactly six observations")
+        agent_images = [packet.image for packet in history]
+        wrist_images = [packet.wrist_image for packet in history]
+        agent_set, agent_logits = self.agentview_target.predict(agent_images)
+        wrist_set, wrist_logits = self.wrist_target.predict(wrist_images)
+        coverage_set, coverage_logits = self.coverage.predict(agent_images)
+        outcome, source = resolve_v13_complementary_cascade(
             agent_set, wrist_set, coverage_set
         )
         return RGBOutcomePrediction(
