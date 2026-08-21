@@ -1,4 +1,4 @@
-"""Policy-visible controller for returning to a calibrated observation pose.
+"""Policy-visible controller for returning to a registered observation pose.
 
 ``OPEN_CONTAINER`` is not an information action unless the robot also obtains
 a useful post-action image.  This module implements the second half of the
@@ -6,11 +6,9 @@ composite ``OPEN_AND_OBSERVE`` option.  It deliberately consumes only robot
 proprioception already present in the frozen pi0.5 observation contract.  It
 does not read simulator joints, object poses, segmentation, or target labels.
 
-The pose below is context scoped to the stock-aligned T01 workspace.  It was
-measured at reset and then checked, evaluator-side, to expose the opened middle
-drawer in 60/60 development seeds.  That static check is only a coverage
-diagnostic; the controller still needs a physical rollout gate before it can
-be registered as a reliable action effect.
+The target pose is supplied by the runner, normally from the public robot state
+at the beginning of an option.  The module therefore contains no scenario,
+fixture, object, seed, or simulator-specific constants.
 """
 
 from __future__ import annotations
@@ -29,8 +27,7 @@ __all__ = [
     "ObservationReturnController",
     "ObservationReturnPhase",
     "ObservationReturnStatus",
-    "T01_STOCK_OBSERVATION_POSE",
-    "T01_STOCK_FALLBACK_OBSERVATION_POSE",
+    "home_return_config",
     "relative_axis_angle_xyzw",
 ]
 
@@ -53,37 +50,6 @@ class ObservationPose:
             raise ValueError("quaternion_xyzw must be normalized")
 
 
-T01_STOCK_OBSERVATION_POSE = ObservationPose(
-    position=(-0.2084646605658236, 0.0, 1.1732794757296403),
-    quaternion_xyzw=(
-        0.9995966048795359,
-        0.00024621283188763776,
-        -0.028400120485872867,
-        -6.995295959032546e-06,
-    ),
-)
-"""Reset pose shared exactly by all 60 T01 development seeds."""
-
-
-T01_STOCK_FALLBACK_OBSERVATION_POSE = ObservationPose(
-    position=(-0.23453280793819298, -0.01205518782332799, 1.073280694904323),
-    quaternion_xyzw=(
-        -0.9979046609481735,
-        0.019745268102984766,
-        -0.05845915123224168,
-        0.019466373125417828,
-    ),
-)
-"""Second T01 observation pose found from the v9 clean-development failures.
-
-The direct controller converged to this pose in three otherwise successful
-drawer-opening trials.  Post-controller, seed-matched evaluator replay showed
-310--316 prompt-resolvable agentview pixels at this pose.  It is therefore a
-versioned observation endpoint, not a relaxed tolerance around the reset pose.
-It cannot certify content online; it only terminates the proprioceptive return.
-"""
-
-
 @dataclasses.dataclass(frozen=True)
 class ObservationReturnConfig:
     """Controller settings, kept separate from uncertainty-routing losses.
@@ -93,10 +59,8 @@ class ObservationReturnConfig:
     whether an information action should run, or whether to abstain.
     """
 
-    pose: ObservationPose = T01_STOCK_OBSERVATION_POSE
-    alternative_completion_poses: tuple[ObservationPose, ...] = (
-        T01_STOCK_FALLBACK_OBSERVATION_POSE,
-    )
+    pose: ObservationPose
+    alternative_completion_poses: tuple[ObservationPose, ...] = ()
     release_steps: int = 8
     maximum_return_steps: int = 160
     settled_steps: int = 5
@@ -142,6 +106,21 @@ class ObservationReturnConfig:
                 raise ValueError(f"{name} must lie in (0, 1]")
         if not -1 <= self.gripper_release_command <= 1:
             raise ValueError("gripper_release_command must lie in [-1, 1]")
+
+
+def home_return_config(
+    observation: Mapping[str, Any], *, preserve_grasp: bool = False
+) -> ObservationReturnConfig:
+    """Build an exact handoff contract from public initial proprioception."""
+
+    position = tuple(float(value) for value in observation["robot0_eef_pos"])
+    quaternion = tuple(float(value) for value in observation["robot0_eef_quat"])
+    return ObservationReturnConfig(
+        pose=ObservationPose(position=position, quaternion_xyzw=quaternion),
+        alternative_completion_poses=(),
+        release_steps=0 if preserve_grasp else 8,
+        gripper_release_command=1.0 if preserve_grasp else -1.0,
+    )
 
 
 class ObservationReturnPhase(str, enum.Enum):
@@ -249,8 +228,8 @@ class ObservationReturnController:
         {"robot0_eef_pos", "robot0_eef_quat", "robot0_gripper_qpos"}
     )
 
-    def __init__(self, config: ObservationReturnConfig | None = None) -> None:
-        self.config = config or ObservationReturnConfig()
+    def __init__(self, config: ObservationReturnConfig) -> None:
+        self.config = config
         self.reset()
 
     def reset(self) -> None:

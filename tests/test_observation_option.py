@@ -10,6 +10,7 @@ from interactive_perception.observation_option import (
     ObservationReturnConfig,
     ObservationReturnController,
     ObservationReturnPhase,
+    home_return_config,
     relative_axis_angle_xyzw,
 )
 
@@ -138,8 +139,26 @@ def test_controller_reads_only_declared_policy_visible_fields() -> None:
 
 def test_configuration_rejects_routing_like_or_invalid_values() -> None:
     with pytest.raises(ValueError, match="maximum_normalized_translation"):
-        ObservationReturnConfig(maximum_normalized_translation=1.1)
+        ObservationReturnConfig(
+            pose=ObservationPose((0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)),
+            maximum_normalized_translation=1.1,
+        )
     with pytest.raises(ValueError, match="normalized"):
         ObservationPose((0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 2.0))
     with pytest.raises(ValueError, match="alternative_completion_poses"):
-        ObservationReturnConfig(alternative_completion_poses=[])
+        ObservationReturnConfig(
+            pose=ObservationPose((0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)),
+            alternative_completion_poses=[],
+        )
+
+
+def test_home_contract_uses_public_state_and_can_preserve_a_grasp() -> None:
+    observation = _observation(position=(0.11, -0.07, 0.42))
+    released = home_return_config(observation)
+    holding = home_return_config(observation, preserve_grasp=True)
+    assert released.alternative_completion_poses == ()
+    assert holding.alternative_completion_poses == ()
+    assert released.pose == holding.pose
+    assert released.gripper_release_command == -1.0
+    assert holding.gripper_release_command == 1.0
+    assert holding.release_steps == 0

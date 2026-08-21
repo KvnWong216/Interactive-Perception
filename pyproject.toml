@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "interactive-perception"
-version = "0.3.0"
-description = "LIBERO scenarios and rollout tooling for measuring what a VLA does when it cannot see enough"
+version = "0.4.0"
+description = "Prompt-conditioned interaction uncertainty with a frozen VLA executor"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }

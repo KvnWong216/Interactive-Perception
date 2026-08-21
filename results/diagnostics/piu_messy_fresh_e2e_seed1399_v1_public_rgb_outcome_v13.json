@@ -5,7 +5,7 @@
   "prompt": "Place the butter in the basket",
   "option_report": {
     "path": "results/diagnostics/piu_messy_fresh_e2e_seed1399_v1.json",
-    "sha256": "ad00b3e52506266003617c1d1e85b0d0b27e26b7302b8a507276272f48940765"
+    "sha256": "f41be4a51f088a4f5ff35136436bfb7e39aa022c9cf9ecca3f66d510050611ed"
   },
   "composite": {
     "path": "results/calibration/t01_open_and_observe_outcome_v12b_composite_candidate.json",

@@ -1,0 +1,22 @@
+schema_version: piu.scenario.v1
+id: original_cluttered_drawer
+
+scene:
+  bddl: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+  seed: 1399
+
+task:
+  prompt: Place the butter in the basket
+  target: butter
+  destination: basket
+
+actions:
+  OPEN_CONTAINER:
+    prompt: Open the middle layer of the drawer
+  DIRECT_ACT:
+    prompt: Place the butter in the basket
+
+evaluator:
+  target_object: butter_1
+  track_objects: [butter_1, cream_cheese_1]
+  track_joints: [wooden_cabinet_1_middle_drawer_joint]

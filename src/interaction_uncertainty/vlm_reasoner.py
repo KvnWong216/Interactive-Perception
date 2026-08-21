@@ -45,6 +45,42 @@ class SemanticAction(str, Enum):
     STOP = "STOP"
 
 
+def validate_executor_subtask(
+    *,
+    action: SemanticAction,
+    generated: str,
+    registered_hint: str,
+) -> tuple[str, str]:
+    """Keep VLM wording only when it is executable for the typed primitive.
+
+    The action/target pair is fixed by the registry. A sentence such as "no
+    relevant change" may be useful effect commentary but is not an executor
+    instruction. In that case the generic registered hint is used without
+    changing the selected action or introducing a scenario-specific branch.
+    """
+
+    text = " ".join(str(generated).strip().split())
+    lower = text.lower()
+    required: dict[SemanticAction, tuple[tuple[str, ...], ...]] = {
+        SemanticAction.MOVE_CLOSER: (
+            ("move",),
+            ("closer", "camera", "inspect", "view", "observe"),
+        ),
+        SemanticAction.NEXT_BEST_VIEW: (("move", "view", "observe", "inspect"),),
+        SemanticAction.REMOVE_OCCLUDER: (("remove", "move", "place"),),
+        SemanticAction.OPEN_CONTAINER: (("open",),),
+        SemanticAction.ACT: (("pick", "place", "put", "move", "retrieve", "take"),),
+    }
+    groups = required.get(action, ())
+    valid = bool(text) and all(any(word in lower for word in group) for group in groups)
+    if valid:
+        return text, "qwen_generated_schema_valid"
+    hint = " ".join(str(registered_hint).strip().split())
+    if not hint:
+        raise ValueError("registered executor hint must be non-empty")
+    return hint, "registered_hint_repaired_non_executable_qwen_text"
+
+
 def _finite_probability(value: Any, *, name: str) -> float:
     result = float(value)
     if not math.isfinite(result) or not 0.0 <= result <= 1.0:
@@ -480,6 +516,10 @@ class ActionEffectAssessment:
                 applicability = 0.25
             else:
                 applicability = 0.60
+            # Joint candidate comparison is part of the VLM evidence. Preserve
+            # it as a smooth multiplier rather than a winner-take-all gate.
+            rank_fraction = float(total_rows - rank) / float(total_rows)
+            applicability *= 0.65 + 0.35 * rank_fraction
             task_progress = progress[progress_name]
             if pair[0] in {
                 SemanticAction.MOVE_CLOSER,
@@ -1092,9 +1132,12 @@ def build_action_effect_prompt(
 ) -> str:
     """Prompt Qwen only for action-conditioned future effects."""
 
-    if not scene_objects or len(registered_candidates) != 1:
-        raise ValueError("effect prompt requires public proposals and exactly one candidate")
-    fixed_candidate = dict(registered_candidates[0])
+    if not scene_objects or not registered_candidates:
+        raise ValueError("effect prompt requires public proposals and registered candidates")
+    fixed_candidates = [
+        {"candidate_id": f"C{index}", **dict(row)}
+        for index, row in enumerate(registered_candidates)
+    ]
     object_table = [
         {
             "object_id": row["object_id"],
@@ -1131,17 +1174,28 @@ def build_action_effect_prompt(
             for row in pre_vlm_field.get("regions", ())
         ],
         "unobserved_regions": pre_vlm_field.get("unobserved_regions", ()),
+        "revealed_target_track_evidence": pre_vlm_field.get(
+            "revealed_target_track_evidence", ()
+        ),
+        "revealed_track_belief_update": pre_vlm_field.get(
+            "revealed_track_belief_update"
+        ),
         "calibration_status": pre_vlm_field.get("calibration_status"),
     }
+    effect_template = {
+        "likely_outcome": "one allowed outcome key",
+        "uncertainty_change": "LARGE_DECREASE | MODERATE_DECREASE | SMALL_DECREASE | NO_CHANGE | INCREASE",
+        "task_progress": "NONE | INDIRECT | DIRECT | COMPLETE",
+        "semantic_subtask": "specific instruction for the fixed registered executor",
+        "reason": "short visual and task-grounded reason about the fixed pair",
+    }
+    candidate_ids = [str(row["candidate_id"]) for row in fixed_candidates]
     schema = {
-        "effect": {
-            "likely_outcome": "one allowed outcome key",
-            "uncertainty_change": "LARGE_DECREASE | MODERATE_DECREASE | SMALL_DECREASE | NO_CHANGE | INCREASE",
-            "task_progress": "NONE | INDIRECT | DIRECT | COMPLETE",
-            "semantic_subtask": "specific instruction for the fixed registered executor",
-            "reason": "short visual and task-grounded reason about the fixed pair",
+        "ranked_candidate_ids": candidate_ids,
+        "effects_by_candidate": {
+            candidate_id: dict(effect_template) for candidate_id in candidate_ids
         },
-        "summary": "one sentence about the fixed candidate's predicted effect",
+        "summary": "one sentence comparing the registered candidates",
     }
     return (
         "You are the counterfactual action-effect module of an interactive-perception "
@@ -1155,12 +1209,17 @@ def build_action_effect_prompt(
         f"Frozen current field:\n{json.dumps(compact_field, indent=2)}\n\n"
         f"Public object table:\n{json.dumps(object_table, indent=2)}\n\n"
         f"Public history:\n{json.dumps(list(belief_history), indent=2)}\n\n"
-        f"Fixed registered candidate (INPUT, not a choice):\n"
-        f"{json.dumps(fixed_candidate, indent=2)}\n\n"
-        "Do not select or propose an action. Assume the exact fixed action/target pair "
-        "above is executed, and predict only its most likely outcome, qualitative "
-        "uncertainty change, task progress, and a concise "
-        "semantic subtask. Both revealing the target and certifying a local "
+        f"Fixed registered candidates (the complete executable set):\n"
+        f"{json.dumps(fixed_candidates, indent=2)}\n\n"
+        "Compare these candidates jointly. In ranked_candidate_ids, return every exact "
+        "registered candidate_id once, ordered from highest to lowest prompt-relevant "
+        "utility. In effects_by_candidate, fill every exact candidate_id key shown in "
+        "the schema. The candidate_id "
+        "locks its action and target; never copy or rewrite action/target fields in the "
+        "response. Do not omit, substitute, duplicate, or invent a candidate_id. For each "
+        "candidate, predict its most likely "
+        "outcome, qualitative uncertainty change, task progress, and a concise semantic "
+        "subtask. Both revealing the target and certifying a local "
         "region empty may reduce uncertainty. A failed action must not reduce belief. "
         "Rank actions by prompt-relevant information utility, not only immediate task "
         "completion. Inspecting an opaque closed container requires opening/removing its "
@@ -1171,8 +1230,9 @@ def build_action_effect_prompt(
         "graspability still matter after rough location is known. A target-like proposal "
         "that is small, clipped by an image border, high-entropy, or not yet graspability-"
         "singleton can benefit from MOVE_CLOSER or NEXT_BEST_VIEW even when its location "
-        "is already plausible. Judge the supplied candidate itself rather than replacing "
-        "it with ACT. "
+        "is already plausible. Compare visually similar proposals explicitly; a target-like "
+        "detector label alone is not enough to rank one over a clearer package. Judge each "
+        "supplied pair itself rather than replacing it with a different pair. "
         "For ACT, semantic_subtask must preserve the original goal while grounding the "
         "target with visible color/packaging attributes and a current spatial relation "
         "such as 'inside the open middle drawer' or 'directly in front of the wrist "
@@ -1183,7 +1243,7 @@ def build_action_effect_prompt(
         "policy. STOP is evaluated once by the deterministic utility selector, not by this "
         "per-physical-action effect prediction. "
         f"Allowed outcome keys are exactly: {', '.join(EFFECT_OUTCOMES)}. Return exactly "
-        "one JSON object, without action or target fields, markdown, or extra prose, using "
+        "one JSON object, without markdown or extra prose, using "
         "this complete schema:\n"
         f"{json.dumps(schema, indent=2)}"
     )
@@ -1315,130 +1375,148 @@ class Qwen25VLSemanticReasoner:
     ) -> tuple[ActionEffectAssessment, str]:
         errors: list[str] = []
         self.failed_attempts = []
-        raw_by_candidate = []
-        options = []
         allowed_ids = [str(row["object_id"]) for row in scene_objects]
-        for candidate in registered_candidates:
-            effect_prompt = build_action_effect_prompt(
-                prompt=prompt,
-                pre_vlm_field=pre_vlm_field,
-                scene_objects=scene_objects,
-                registered_candidates=[candidate],
-                belief_history=belief_history,
-            )
-            content = [{"type": "image"} for _ in images]
-            content.append({"type": "text", "text": effect_prompt})
-            messages = [
-                {
-                    "role": "system",
-                    "content": (
-                        "Output valid JSON only. Analyze the one registered candidate "
-                        "exactly; do not substitute a different action or target."
-                    ),
-                },
-                {"role": "user", "content": content},
-            ]
-            accepted = None
-            raw = ""
-            for _ in range(2):
-                raw = self._generate(messages=messages, images=images)
-                try:
-                    parsed = extract_json_object(raw)
-                    effect = parsed.get("effect")
-                    if not isinstance(effect, Mapping):
-                        raise ValueError("effect must be one JSON object")
-                    # The action/target pair is an input supplied by the typed
-                    # registry.  Qwen predicts its effect and cannot rewrite the
-                    # executable pair through generated text.
-                    normalized = {
-                        "ranked_candidates": [
-                            {
-                                **effect,
-                                "action": str(candidate["action"]),
-                                "target_id": str(candidate["target_id"]),
-                            }
-                        ],
-                        "summary": parsed.get("summary"),
-                    }
-                    accepted = ActionEffectAssessment.from_ranked_mapping(
-                        normalized,
-                        allowed_object_ids=allowed_ids,
-                        registered_candidates=[candidate],
-                        current_uncertainty=float(pre_vlm_field["task_uncertainty"]),
-                        target_location_belief=pre_vlm_field[
-                            "target_location_belief"
-                        ],
+        candidate_by_id = {
+            f"C{index}": row for index, row in enumerate(registered_candidates)
+        }
+        effect_prompt = build_action_effect_prompt(
+            prompt=prompt,
+            pre_vlm_field=pre_vlm_field,
+            scene_objects=scene_objects,
+            registered_candidates=registered_candidates,
+            belief_history=belief_history,
+        )
+        content = [{"type": "image"} for _ in images]
+        content.append({"type": "text", "text": effect_prompt})
+        messages = [
+            {
+                "role": "system",
+                "content": (
+                    "Output valid JSON only. Return the complete ranked_candidate_ids "
+                    "array and every effects_by_candidate key from the supplied schema; "
+                    "do not omit, duplicate, substitute, or invent candidate IDs."
+                ),
+            },
+            {"role": "user", "content": content},
+        ]
+        raw = ""
+        for _ in range(3):
+            raw = self._generate(messages=messages, images=images)
+            try:
+                parsed = extract_json_object(raw)
+                ranked_ids = parsed.get("ranked_candidate_ids")
+                if not isinstance(ranked_ids, Sequence) or isinstance(
+                    ranked_ids, (str, bytes)
+                ):
+                    raise ValueError("ranked_candidate_ids must be one JSON list")
+                ranked_ids = [str(candidate_id) for candidate_id in ranked_ids]
+                if len(ranked_ids) != len(set(ranked_ids)):
+                    raise ValueError("ranked_candidate_ids contains duplicates")
+                if set(ranked_ids) != set(candidate_by_id):
+                    raise ValueError(
+                        "ranked_candidate_ids must contain every registered candidate_id"
                     )
-                    break
-                except (KeyError, TypeError, ValueError) as error:
-                    errors.append(str(error))
-                    self.failed_attempts.append(
+                effects_by_candidate = parsed.get("effects_by_candidate")
+                if not isinstance(effects_by_candidate, Mapping):
+                    raise ValueError("effects_by_candidate must be one JSON object")
+                if set(effects_by_candidate) != set(candidate_by_id):
+                    raise ValueError(
+                        "effects_by_candidate must contain every registered candidate_id"
+                    )
+                normalized_rows = []
+                validations = []
+                for candidate_id in ranked_ids:
+                    row = effects_by_candidate[candidate_id]
+                    if not isinstance(row, Mapping):
+                        raise ValueError(
+                            f"effects_by_candidate.{candidate_id} must be one JSON object"
+                        )
+                    candidate = candidate_by_id[candidate_id]
+                    pair = (str(candidate["action"]), str(candidate["target_id"]))
+                    subtask, source = validate_executor_subtask(
+                        action=SemanticAction(pair[0]),
+                        generated=str(row.get("semantic_subtask", "")),
+                        registered_hint=str(candidate["semantic_subtask_hint"]),
+                    )
+                    normalized_rows.append(
                         {
-                            "candidate": json.dumps(candidate, sort_keys=True),
-                            "error": str(error),
-                            "raw": raw,
+                            **row,
+                            "candidate_id": candidate_id,
+                            "action": pair[0],
+                            "target_id": pair[1],
+                            "semantic_subtask": subtask,
                         }
                     )
-                    messages = [
-                        *messages,
-                        {"role": "assistant", "content": raw},
+                    validations.append(
                         {
-                            "role": "user",
-                            "content": (
-                                "Your fixed-candidate effect failed schema validation. "
-                                f"Validation error: {error}. Return exactly the requested "
-                                "effect and summary fields; do not output action or target."
-                            ),
-                        },
-                    ]
-            if accepted is None:
-                action = SemanticAction(str(candidate["action"]))
-                fallback = ActionEffectEvidence(
-                    action=action,
-                    target_id=str(candidate["target_id"]),
-                    applicable_probability=0.0,
-                    execution_success_probability=float(
-                        candidate["execution_success_prior"]
-                    ),
-                    outcome_distribution={"FAILED": 0.80, "NO_RELEVANT_CHANGE": 0.20},
-                    expected_posterior_uncertainty=float(
-                        pre_vlm_field["task_uncertainty"]
-                    ),
-                    expected_task_progress=0.0,
-                    normalized_cost=float(candidate["normalized_cost_prior"]),
-                    normalized_risk=float(candidate["normalized_risk_prior"]),
-                    semantic_subtask=str(candidate["semantic_subtask_hint"]),
-                    reason=(
-                        "VLM failed the fixed-candidate effect schema twice; candidate "
-                        "conservatively marked inapplicable"
-                    ),
-                )
-                accepted = ActionEffectAssessment(
-                    interaction_options=(fallback,),
-                    advisory_action=SemanticAction.STOP,
-                    advisory_target_id=None,
-                    summary="invalid per-candidate response conservatively rejected",
-                )
-            options.extend(accepted.interaction_options)
-            try:
-                recorded_response: Any = extract_json_object(raw)
-            except (TypeError, ValueError):
-                recorded_response = {"invalid_raw_response": raw}
-            raw_by_candidate.append(
-                {
-                    "candidate": dict(candidate),
-                    "response": recorded_response,
-                    "accepted": accepted.interaction_options[0].to_dict(),
+                            "candidate_id": candidate_id,
+                            "action": pair[0],
+                            "target_id": pair[1],
+                            "source": source,
+                            "accepted_subtask": subtask,
+                        }
+                    )
+                normalized = {
+                    "ranked_candidates": normalized_rows,
+                    "summary": parsed.get("summary"),
                 }
+                accepted = ActionEffectAssessment.from_ranked_mapping(
+                    normalized,
+                    allowed_object_ids=allowed_ids,
+                    registered_candidates=registered_candidates,
+                    current_uncertainty=float(pre_vlm_field["task_uncertainty"]),
+                    target_location_belief=pre_vlm_field["target_location_belief"],
+                )
+                return accepted, json.dumps(
+                    {
+                        "joint_candidate_inference": parsed,
+                        "subtask_validation": validations,
+                        "accepted": accepted.to_dict(),
+                    },
+                    indent=2,
+                )
+            except (KeyError, TypeError, ValueError) as error:
+                errors.append(str(error))
+                self.failed_attempts.append({"error": str(error), "raw": raw})
+                messages = [
+                    *messages,
+                    {"role": "assistant", "content": raw},
+                    {
+                        "role": "user",
+                        "content": (
+                            "The joint ranking failed schema validation: "
+                            f"{error}. Return the complete ranked_candidate_ids array and "
+                            "every effects_by_candidate key using "
+                            "the requested schema."
+                        ),
+                    },
+                ]
+
+        # Schema failure cannot authorize a physical option. Preserve every
+        # candidate as an explicit inapplicable fallback so the selector stops.
+        options = tuple(
+            ActionEffectEvidence(
+                action=SemanticAction(str(candidate["action"])),
+                target_id=str(candidate["target_id"]),
+                applicable_probability=0.0,
+                execution_success_probability=float(candidate["execution_success_prior"]),
+                outcome_distribution={"FAILED": 0.80, "NO_RELEVANT_CHANGE": 0.20},
+                expected_posterior_uncertainty=float(pre_vlm_field["task_uncertainty"]),
+                expected_task_progress=0.0,
+                normalized_cost=float(candidate["normalized_cost_prior"]),
+                normalized_risk=float(candidate["normalized_risk_prior"]),
+                semantic_subtask=str(candidate["semantic_subtask_hint"]),
+                reason="joint VLM ranking failed schema validation",
             )
-        current = float(pre_vlm_field["task_uncertainty"])
-        advisory = max(options, key=lambda row: row.utility(current))
-        assessment = ActionEffectAssessment(
-            interaction_options=tuple(options),
-            advisory_action=advisory.action,
-            advisory_target_id=advisory.target_id,
-            summary="Qwen effects were inferred independently per registered candidate.",
+            for candidate in registered_candidates
         )
-        return assessment, json.dumps(
-            {"per_candidate_inference": raw_by_candidate}, indent=2
+        fallback = ActionEffectAssessment(
+            interaction_options=options,
+            advisory_action=SemanticAction.STOP,
+            advisory_target_id=None,
+            summary="invalid joint candidate response conservatively rejected",
+        )
+        return fallback, json.dumps(
+            {"invalid_joint_inference": raw, "errors": errors, "accepted": fallback.to_dict()},
+            indent=2,
         )

@@ -18,7 +18,7 @@
       "stage": "OPEN_AND_OBSERVE",
       "report": {
         "path": "results/diagnostics/piu_messy_fresh_e2e_seed1399_v1.json",
-        "sha256": "ad00b3e52506266003617c1d1e85b0d0b27e26b7302b8a507276272f48940765"
+        "sha256": "f41be4a51f088a4f5ff35136436bfb7e39aa022c9cf9ecca3f66d510050611ed"
       },
       "executor": "fresh frozen pi05_libero policy sampling",
       "fresh_policy_sampling": true,
@@ -28,7 +28,7 @@
       "stage": "PUBLIC_RGB_OUTCOME",
       "report": {
         "path": "results/diagnostics/piu_messy_fresh_e2e_seed1399_v1_public_rgb_outcome_v13.json",
-        "sha256": "5df772cbb9e990846452d093c9036187e4880cecf090b6211d9e9b2a1950562e"
+        "sha256": "d65f87c752cd0b3286499c4c64037e57a7ca18368d4c57248bedc61f5e568c99"
       },
       "camera_fusion": "v13-complementary",
       "prediction_set": [

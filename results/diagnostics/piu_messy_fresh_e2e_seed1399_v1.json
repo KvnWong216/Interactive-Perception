@@ -4,8 +4,8 @@
   "prompt": "Place the butter in the basket",
   "initial_decision": {
     "report": {
-      "path": "results/diagnostics/piu_qwen_closed_messy_seed1399_v8.json",
-      "sha256": "0b87f2428fc1dbbeebe4c8985d1aec397e338e883ed8a79bf4aa15599db581d1"
+      "path": "results/diagnostics/piu_messy_corrected_initial_seed1399_v1.json",
+      "sha256": "91042740711e43669d4b28c3ea11c8d8ca5eee455fdbde866f9fe02daa15c84d"
     },
     "action": "OPEN_CONTAINER",
     "target_id": "wrist_drawer_07"

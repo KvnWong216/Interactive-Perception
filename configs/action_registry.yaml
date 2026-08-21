@@ -1,0 +1,25 @@
+schema_version: piu.action-registry.v1
+
+# Planning priors, not confidence gates. Replace them with frozen empirical
+# estimates when a new primitive is calibrated; the inference code is unchanged.
+actions:
+  MOVE_CLOSER:
+    execution_success: 0.90
+    cost: 0.06
+    risk: 0.02
+  NEXT_BEST_VIEW:
+    execution_success: 0.90
+    cost: 0.06
+    risk: 0.02
+  REMOVE_OCCLUDER:
+    execution_success: 0.65
+    cost: 0.20
+    risk: 0.15
+  OPEN_CONTAINER:
+    execution_success: 0.95
+    cost: 0.12
+    risk: 0.03
+  ACT:
+    execution_success: 0.60
+    cost: 0.08
+    risk: 0.10

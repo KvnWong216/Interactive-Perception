@@ -4,7 +4,10 @@ from collections.abc import Iterator, Mapping
 
 import numpy as np
 
-from interactive_perception.action_options import execute_open_and_observe
+from interactive_perception.action_options import (
+    execute_open_and_observe,
+    execute_subtask_and_return_home,
+)
 from interactive_perception.observation_option import (
     ObservationPose,
     ObservationReturnConfig,
@@ -132,3 +135,50 @@ def test_full_composite_never_reads_privileged_observation_keys() -> None:
         return_config=_config(),
     )
     assert result.executor_completed
+
+
+def test_semantic_subtask_retains_evidence_then_returns_exact_home() -> None:
+    env = _FakeEnvironment(position=(0.15, 0.0, 0.0))
+    phases = []
+    completed_at = 1
+    final_observation, result = execute_subtask_and_return_home(
+        env=env,
+        initial_observation=env.observation(),
+        policy=ScriptedStubPolicy(
+            goal_position=(0.20, 0.0, 0.0), horizon=2, noise_scale=0.0
+        ),
+        subtask_prompt="Inspect the visible package",
+        maximum_subtask_steps=10,
+        replan_steps=1,
+        home_config=_config(release_steps=0),
+        completion_monitor=lambda step, observation: step == completed_at,
+        step_observer=lambda phase, step, observation: phases.append(phase),
+    )
+    assert result.subtask_steps == completed_at + 1
+    assert result.completion_source == "PUBLIC_COMPLETION_MONITOR"
+    assert result.executor_completed
+    assert phases[:2] == ["SUBTASK", "SUBTASK"]
+    assert set(phases[2:]) == {"RETURN_HOME"}
+    assert np.linalg.norm(final_observation["robot0_eef_pos"]) <= 0.012
+
+
+def test_home_contract_rejects_fallback_completion_pose() -> None:
+    env = _FakeEnvironment()
+    with np.testing.assert_raises_regex(ValueError, "alternative completion"):
+        execute_subtask_and_return_home(
+            env=env,
+            initial_observation=env.observation(),
+            policy=ScriptedStubPolicy(horizon=1, noise_scale=0.0),
+            subtask_prompt="Pick up the butter",
+            maximum_subtask_steps=1,
+            home_config=ObservationReturnConfig(
+                pose=ObservationPose(
+                    (0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)
+                ),
+                alternative_completion_poses=(
+                    ObservationPose(
+                        (0.1, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)
+                    ),
+                ),
+            ),
+        )

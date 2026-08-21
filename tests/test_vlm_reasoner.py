@@ -7,6 +7,7 @@ from interaction_uncertainty.vlm_reasoner import (
     SemanticAssessment,
     extract_json_object,
     select_semantic_action,
+    validate_executor_subtask,
 )
 
 
@@ -296,3 +297,23 @@ def test_json_extractor_rejects_trailing_prose() -> None:
     assert extract_json_object("```json\n{\"a\": 1}\n```") == {"a": 1}
     with pytest.raises(ValueError):
         extract_json_object(json.dumps({"a": 1}) + " explanation")
+
+
+def test_non_executable_vlm_subtask_falls_back_to_registered_hint() -> None:
+    subtask, source = validate_executor_subtask(
+        action=SemanticAction.MOVE_CLOSER,
+        generated="Observation remains unchanged.",
+        registered_hint="Move the wrist camera closer to region W4 and observe it clearly.",
+    )
+    assert subtask.startswith("Move the wrist camera closer")
+    assert source == "registered_hint_repaired_non_executable_qwen_text"
+
+
+def test_executable_grounded_act_subtask_is_retained() -> None:
+    subtask, source = validate_executor_subtask(
+        action=SemanticAction.ACT,
+        generated="Pick up the visible butter package and place it in the basket.",
+        registered_hint="Place the butter in the basket.",
+    )
+    assert subtask.startswith("Pick up the visible butter")
+    assert source == "qwen_generated_schema_valid"
