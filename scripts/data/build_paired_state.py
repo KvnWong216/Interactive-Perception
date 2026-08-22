@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import random
 import sys
 from pathlib import Path
 from typing import Any, Mapping
@@ -30,6 +31,14 @@ DUMMY_ACTION = [0.0] * 6 + [-1.0]
 
 def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def portable_path(path: Path) -> str:
+    resolved = path.resolve()
+    try:
+        return str(resolved.relative_to(ROOT))
+    except ValueError:
+        return str(resolved)
 
 
 def object_qpos(env: Any, name: str) -> np.ndarray:
@@ -56,6 +65,20 @@ def visible_pixels(env: Any, observation: Mapping[str, Any], camera: str, target
     return int(np.count_nonzero(values == env.instance_to_id[target]))
 
 
+def visible_bbox(
+    env: Any, observation: Mapping[str, Any], camera: str, target: str
+) -> list[int] | None:
+    """Return the evaluator-only target mask bounds as ``[x0, y0, x1, y1]``."""
+    keys = [key for key in observation if key.startswith(camera) and "segmentation" in key]
+    if len(keys) != 1:
+        raise KeyError(f"expected one {camera} segmentation image, got {keys}")
+    values = np.asarray(observation[keys[0]]).squeeze()
+    ys, xs = np.nonzero(values == env.instance_to_id[target])
+    if not len(xs):
+        return None
+    return [int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1]
+
+
 def snapshot(
     env: Any,
     observation: Mapping[str, Any],
@@ -64,12 +87,30 @@ def snapshot(
     joint: str,
     region: str,
 ) -> dict[str, Any]:
+    target_position = object_qpos(env, target)[:3]
+    region_position = np.asarray(env.env.sim.data.get_site_xpos(region), dtype=float)
+    region_rotation = np.asarray(env.env.sim.data.get_site_xmat(region), dtype=float)
+    site_id = env.env.sim.model.site_name2id(region)
     return {
         "target_qpos": object_qpos(env, target).tolist(),
         "joint": float(env.env.sim.data.get_joint_qpos(joint)),
         "inside_region": bool(env.env._eval_predicate(["in", target, region])),
+        "region": {
+            "position": region_position.tolist(),
+            "rendered_half_size": np.asarray(
+                env.env.sim.model.site_size[site_id], dtype=float
+            ).tolist(),
+            "declared_half_size": np.asarray(
+                env.env.object_sites_dict[region].size, dtype=float
+            ).tolist(),
+            "target_center_local": (region_rotation.T @ (target_position - region_position)).tolist(),
+        },
         "visible_pixels": {
             camera: visible_pixels(env, observation, camera, target)
+            for camera in ("agentview", "robot0_eye_in_hand")
+        },
+        "visible_bbox": {
+            camera: visible_bbox(env, observation, camera, target)
             for camera in ("agentview", "robot0_eye_in_hand")
         },
     }
@@ -83,7 +124,7 @@ def save_public_views(
     for view, image in (("agentview", packet.image), ("wrist", packet.wrist_image)):
         path = directory / f"{stem}_{view}.png"
         imageio.imwrite(path, image)
-        paths[view] = str(path.relative_to(ROOT))
+        paths[view] = portable_path(path)
     return paths
 
 
@@ -114,20 +155,39 @@ def main() -> None:
 
     from libero.libero.envs import SegmentationRenderEnv
 
+    # LIBERO's placement samplers also consume process-global RNG state before
+    # and during reset.  Seed both sources so a declared benchmark seed really
+    # identifies one reproducible scene across fresh processes.
+    random.seed(args.seed)
+    np.random.seed(args.seed)
     env = SegmentationRenderEnv(
         bddl_file_name=str(args.bddl), camera_heights=256, camera_widths=256
     )
     try:
         env.seed(args.seed)
         env.reset()
+        initial_site = np.asarray(
+            env.env.sim.data.get_site_xpos(args.region), dtype=float
+        ).copy()
+        initial_target = object_qpos(env, args.target)
         env.env.sim.data.set_joint_qpos(args.joint, args.closed_joint)
-        target = object_qpos(env, args.target)
+        env.env.sim.forward()
+        closed_site = np.asarray(
+            env.env.sim.data.get_site_xpos(args.region), dtype=float
+        ).copy()
+        target = initial_target.copy()
+        if args.target_follows_region:
+            # Keep the target's local container coordinates fixed when the
+            # source BDDL starts with an open articulated region. This lets a
+            # paired benchmark close the native clear setup without asking the
+            # placement sampler to fit the object through a closed aperture.
+            target[:3] += closed_site - initial_site
         target[:3] += np.asarray(args.target_shift, dtype=float)
         set_object_qpos(env, args.target, target)
         observation = regenerate(env)
         for _ in range(args.settle_steps):
             observation, _, _, _ = env.step(DUMMY_ACTION)
-        closed_site = np.asarray(env.env.sim.data.get_site_xpos(args.region), dtype=float)
+        # MuJoCo exposes a live view; copy before changing the articulated state.
         closed_state = env.get_sim_state().copy()
         closed = snapshot(
             env, observation, target=args.target, joint=args.joint, region=args.region
@@ -136,7 +196,9 @@ def main() -> None:
         env.env.sim.data.set_joint_qpos(args.joint, args.open_joint)
         env.env.sim.forward()
         if args.target_follows_region:
-            open_site = np.asarray(env.env.sim.data.get_site_xpos(args.region), dtype=float)
+            open_site = np.asarray(
+                env.env.sim.data.get_site_xpos(args.region), dtype=float
+            ).copy()
             target = object_qpos(env, args.target)
             target[:3] += open_site - closed_site
             set_object_qpos(env, args.target, target)
@@ -169,7 +231,7 @@ def main() -> None:
         report = {
             "schema_version": "piu.paired-state.v1",
             "status": "PASS" if qualification["passed"] else "FAIL",
-            "scenario": str(args.bddl.relative_to(ROOT)),
+            "scenario": portable_path(args.bddl),
             "prompt": args.prompt,
             "seed": args.seed,
             "target": args.target,

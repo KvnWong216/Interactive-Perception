@@ -1,4 +1,9 @@
-# Experiment protocol
+# Heuristic V0 experiment record (legacy)
+
+> These results belong to the frozen baseline and historical outcome critic.
+> The new experiment matrix and go/no-go gates are in
+> [`research_plan.md`](research_plan.md). No learned candidate-interaction
+> performance result exists yet.
 
 The authoritative data split is
 `benchmarks/piu_v1/scene_disjoint_protocol.yaml`. The outcome protocol and

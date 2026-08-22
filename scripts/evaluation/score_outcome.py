@@ -25,6 +25,14 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def portable_path(path: Path) -> str:
+    resolved = path.resolve()
+    try:
+        return str(resolved.relative_to(ROOT))
+    except ValueError:
+        return str(resolved)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--option-report", type=Path, required=True)
@@ -66,11 +74,11 @@ def main() -> None:
         "camera_fusion": args.fusion,
         "prompt": args.prompt,
         "option_report": {
-            "path": str(args.option_report.relative_to(ROOT)),
+            "path": portable_path(args.option_report),
             "sha256": digest(args.option_report),
         },
         "composite": {
-            "path": str(args.composite.relative_to(ROOT)),
+            "path": portable_path(args.composite),
             "sha256": digest(args.composite),
         },
         "prediction": prediction.to_dict(),

@@ -1,0 +1,15 @@
+{
+  "schema_version": "calibrated-interaction.baseline-lock.v1",
+  "name": "heuristic_v0",
+  "commit": "e7db12b7f35d9be416fc3ed57d36b12560e40cf0",
+  "tag": "baseline/heuristic-v0",
+  "mutable": false,
+  "entrypoints": [
+    "scripts/pipeline/infer.py",
+    "scripts/pipeline/execute.py"
+  ],
+  "legacy_packages": [
+    "src/interaction_uncertainty",
+    "src/interactive_perception"
+  ]
+}

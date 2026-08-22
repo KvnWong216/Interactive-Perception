@@ -19,4 +19,25 @@ actions:
 evaluator:
   target_object: butter_1
   track_objects: [butter_1, cream_cheese_1]
-  track_joints: [wooden_cabinet_1_middle_drawer_joint]
+  track_joints: [wooden_cabinet_1_middle_level]
+
+# Candidate definitions for the learned reference pipeline. These are scenario
+# data for a wiring smoke test, not route labels, probabilities, or selectors.
+calibrated_interaction:
+  capability_registry: configs/capabilities/pi05_libero.yaml
+  candidates:
+    - candidate_id: direct_butter_to_basket
+      primitive: DIRECT
+      target: the requested butter
+      reference: the basket
+      purpose: complete the user task
+    - candidate_id: open_middle_drawer
+      primitive: OPEN
+      target: the middle drawer below the countertop
+      reference: the requested butter
+      purpose: inspect whether the requested item is inside
+    - candidate_id: stop_not_found
+      primitive: STOP
+      target: null
+      reference: null
+      purpose: stop rather than hallucinate an unsupported action

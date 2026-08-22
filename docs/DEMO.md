@@ -1,4 +1,7 @@
-# Current demo
+# Heuristic V0 demo (legacy)
+
+This demo predates the candidate-conditioned calibrated redesign and remains
+baseline wiring evidence only.
 
 `results/demos/piu_original_fresh_seed1399_v1/piu_information_acquisition.mp4`
 is the only retained demo.

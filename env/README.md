@@ -10,8 +10,8 @@ old MuJoCo stack while the policy server runs modern JAX on the GPU.
 | `openpi/.venv` | `uv`, created by openpi's own install | JAX, the flow-matching action expert, the `pi05_libero` checkpoint loader | the policy server only |
 
 They communicate over a websocket on port 8000, so they never need to agree on
-a dependency. `scripts/run_full_experiment.sh` activates `ipu` and launches the
-server through `uv run` inside openpi's checkout; nothing else is required.
+a dependency. The generic pipeline runners use `ipu` and launch the server
+through `uv run` inside the sibling openpi checkout.
 
 ## Recreating `ipu`
 
@@ -34,7 +34,7 @@ to be reproduced precisely.
 ## LIBERO is vendored, not installed
 
 `import libero` fails in a bare interpreter and that is expected. LIBERO lives
-in `third_party/LIBERO` and is put on `sys.path` by `scripts/_bootstrap.py`,
+in `third_party/LIBERO` and is put on `sys.path` by `scripts/infra/bootstrap.py`,
 which every entry point imports. Pinning it as a package would make the scene
 `.bddl` files and the installed Python drift apart, which is exactly the class
 of bug the reproduction gate exists to catch.
@@ -45,7 +45,7 @@ Follow openpi's own instructions in `../openpi`; it manages `.venv` with `uv`.
 The checkpoint is fetched separately:
 
 ```bash
-python scripts/download_pi05_libero.py --dest "$WORKSPACE/checkpoints"
+python scripts/infra/download_pi05.py --dest "$WORKSPACE/checkpoints"
 ```
 
 ## Why this is one conda environment

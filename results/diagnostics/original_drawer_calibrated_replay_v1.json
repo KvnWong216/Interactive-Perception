@@ -1,0 +1,225 @@
+{
+  "schema_version": "calibrated-interaction.closed-loop-trace.v1",
+  "prompt": "Place the butter in the basket",
+  "terminal": "BACKEND_TERMINAL",
+  "steps": [
+    {
+      "step": 0,
+      "public_observation_frames": [
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_agentview.png",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_wrist.png"
+      ],
+      "candidates": [
+        {
+          "candidate_id": "direct_butter_to_basket",
+          "primitive": "DIRECT",
+          "target": "the requested butter",
+          "reference": "the basket",
+          "reference_region_xyxy": null,
+          "purpose": "complete the user task"
+        },
+        {
+          "candidate_id": "open_middle_drawer",
+          "primitive": "OPEN",
+          "target": "the middle drawer below the countertop",
+          "reference": "the requested butter",
+          "reference_region_xyxy": null,
+          "purpose": "inspect whether the requested item is inside"
+        },
+        {
+          "candidate_id": "stop_not_found",
+          "primitive": "STOP",
+          "target": null,
+          "reference": null,
+          "reference_region_xyxy": null,
+          "purpose": "stop rather than hallucinate an unsupported action"
+        }
+      ],
+      "decision": {
+        "kind": "EXECUTE",
+        "candidate_id": "open_middle_drawer",
+        "route_prediction_set": [
+          "open_middle_drawer"
+        ],
+        "effect_prediction_sets": {
+          "direct_butter_to_basket": {
+            "execution_succeeded": [],
+            "task_relevant_change": [],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "1"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "1"
+            ],
+            "target_confirmed": [],
+            "candidate_rejected": [],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "stop_not_found": {
+            "execution_succeeded": [
+              "1"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          }
+        },
+        "reason": "singleton calibrated route with singleton-required effect evidence"
+      },
+      "execution": {
+        "candidate_id": "open_middle_drawer",
+        "primitive": "OPEN",
+        "instruction": "Open the middle drawer below the countertop.",
+        "public_result": {
+          "status": "drawer_opened_and_new_public_rgb_observed"
+        }
+      }
+    },
+    {
+      "step": 1,
+      "public_observation_frames": [
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/04_open_end_agentview.png",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/04_open_end_wrist.png",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/05_returned_agentview.png",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/05_returned_wrist.png"
+      ],
+      "candidates": [
+        {
+          "candidate_id": "direct_butter_to_basket",
+          "primitive": "DIRECT",
+          "target": "the requested butter",
+          "reference": "the basket",
+          "reference_region_xyxy": null,
+          "purpose": "complete the user task"
+        },
+        {
+          "candidate_id": "open_middle_drawer",
+          "primitive": "OPEN",
+          "target": "the middle drawer below the countertop",
+          "reference": "the requested butter",
+          "reference_region_xyxy": null,
+          "purpose": "inspect whether the requested item is inside"
+        },
+        {
+          "candidate_id": "stop_not_found",
+          "primitive": "STOP",
+          "target": null,
+          "reference": null,
+          "reference_region_xyxy": null,
+          "purpose": "stop rather than hallucinate an unsupported action"
+        }
+      ],
+      "decision": {
+        "kind": "EXECUTE",
+        "candidate_id": "direct_butter_to_basket",
+        "route_prediction_set": [
+          "direct_butter_to_basket"
+        ],
+        "effect_prediction_sets": {
+          "direct_butter_to_basket": {
+            "execution_succeeded": [
+              "1"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "1"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "stop_not_found": {
+            "execution_succeeded": [
+              "1"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          }
+        },
+        "reason": "singleton calibrated route with singleton-required effect evidence"
+      },
+      "execution": {
+        "candidate_id": "direct_butter_to_basket",
+        "primitive": "DIRECT",
+        "instruction": "Place the butter in the basket",
+        "public_result": {
+          "status": "direct_subtask_dispatched"
+        }
+      }
+    }
+  ],
+  "online_oracle_inputs": [],
+  "validation_scope": "wiring validation only; not model or task-success evidence",
+  "scenario": "configs/scenarios/original_drawer.yaml",
+  "replay_fixture": "tests/fixtures/original_drawer_calibrated_replay.json"
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "interaction-uncertainty.object-scene-packet-manifest.v1",
+  "repository_commit": "e7db12b7f35d9be416fc3ed57d36b12560e40cf0",
+  "source": {
+    "path": "results/diagnostics/original_drawer_frontend_input_v1.jsonl",
+    "sha256": "c55bb858ae53cbaa4bb3c6de587514a1d41f8ec0cc5fa78f7c9c7fd6ba1e198a"
+  },
+  "scene_packets": {
+    "path": "results/diagnostics/original_drawer_scene_packet_v1.jsonl",
+    "sha256": "b4565099a916c7775ca598078650a11f8e2d939849309d8d94bd3e4a1e60a328"
+  },
+  "feature_store": {
+    "path": "results/assets/original_drawer_frontend_v1/dino_region_features.npz",
+    "sha256": "193ff3377fb9fe90fed73dc4f3d1d9d423f6106dced7c876d6c440129fd4b353",
+    "shape": [
+      92,
+      384
+    ]
+  },
+  "assets": "results/assets/original_drawer_frontend_v1",
+  "samples": 1,
+  "objects": 92,
+  "objects_per_sample": {
+    "92": 1
+  },
+  "model_sha256": {
+    "grounding": "1a2412ef99bd74bcd3c2a246fa1e48581f8889a1300c9051974741314fc042f3",
+    "sam": "892c410e496344e527255ccdcb2cb7244a609acb5389c7c4fdba1288f861c579",
+    "dino": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1"
+  },
+  "thresholds": {
+    "box": 0.25,
+    "text": 0.2,
+    "nms_iou": 0.7,
+    "dense_grid": 16,
+    "dense_min_iou": 0.8,
+    "max_dense_proposals": 32
+  },
+  "precision": "float32",
+  "policy_inputs": [
+    "agentview RGB",
+    "wrist RGB",
+    "prompt-derived open-vocabulary queries"
+  ],
+  "online_oracle_inputs": [],
+  "offline_labels_consumed": [],
+  "claim_status": "frontend construction; downstream scene-disjoint gates required"
+}

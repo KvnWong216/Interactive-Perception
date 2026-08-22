@@ -62,6 +62,16 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def portable_path(path: Path) -> str:
+    """Prefer repository-relative provenance without rejecting external smoke inputs."""
+
+    resolved = path.resolve()
+    try:
+        return str(resolved.relative_to(ROOT.resolve()))
+    except ValueError:
+        return str(resolved)
+
+
 def slug(value: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
     return normalized or "object"
@@ -435,10 +445,8 @@ class PublicObjectFrontend:
             np.asarray([score for score, _ in selected], dtype=np.float32),
         )
 
-    def dino_features(self, image: Image.Image, masks: np.ndarray) -> np.ndarray:
-        if len(masks) == 0:
-            dimension = int(self.dino.config.hidden_size)
-            return np.zeros((0, dimension), dtype=np.float32)
+    def dino_token_grid(self, image: Image.Image) -> np.ndarray:
+        """Return the public DINOv2 patch grid before region pooling."""
         inputs = self._move(self.dino_processor(images=image, return_tensors="pt"))
         with self.torch.inference_mode():
             output = self.dino(**inputs).last_hidden_state[:, 1:]
@@ -446,7 +454,12 @@ class PublicObjectFrontend:
         side = int(round(math.sqrt(tokens.shape[0])))
         if side * side != tokens.shape[0]:
             raise ValueError(f"DINO patch count is not square: {tokens.shape[0]}")
-        token_grid = tokens.reshape(side, side, tokens.shape[-1])
+        return tokens.reshape(side, side, tokens.shape[-1])
+
+    def dino_features(self, token_grid: np.ndarray, masks: np.ndarray) -> np.ndarray:
+        if len(masks) == 0:
+            return np.zeros((0, token_grid.shape[-1]), dtype=np.float32)
+        side = int(token_grid.shape[0])
         pooled = []
         for mask in masks:
             resized = np.asarray(
@@ -460,6 +473,46 @@ class PublicObjectFrontend:
                 pooled.append(token_grid[resized].mean(axis=0))
         return np.asarray(pooled, dtype=np.float32)
 
+    @staticmethod
+    def save_dino_maps(
+        *, token_grid: np.ndarray, image_size: tuple[int, int], pca_path: Path, norm_path: Path
+    ) -> None:
+        """Visualize frozen DINOv2 patch features without task labels.
+
+        PCA color preserves the three dominant feature directions. Feature
+        norm is a separate scalar activation view; neither is an uncertainty
+        map or semantic classifier output.
+        """
+
+        height, width, dimension = token_grid.shape
+        flattened = token_grid.reshape(height * width, dimension).astype(np.float64)
+        centered = flattened - flattened.mean(axis=0, keepdims=True)
+        _, _, right = np.linalg.svd(centered, full_matrices=False)
+        projected = (centered @ right[:3].T).reshape(height, width, 3)
+        pca_rgb = np.zeros_like(projected, dtype=np.uint8)
+        for channel in range(3):
+            values = projected[..., channel]
+            low, high = np.percentile(values, (2.0, 98.0))
+            scaled = np.zeros_like(values) if high <= low else (values - low) / (high - low)
+            pca_rgb[..., channel] = np.uint8(np.clip(scaled, 0.0, 1.0) * 255.0)
+        Image.fromarray(pca_rgb).resize(image_size, Image.Resampling.NEAREST).save(pca_path)
+
+        norms = np.linalg.norm(token_grid, axis=-1)
+        low, high = np.percentile(norms, (2.0, 98.0))
+        scaled = np.zeros_like(norms) if high <= low else (norms - low) / (high - low)
+        # Compact blue-to-yellow scalar palette, implemented without plotting deps.
+        norm_rgb = np.stack(
+            (
+                np.clip(2.0 * scaled - 0.25, 0.0, 1.0),
+                np.clip(1.7 * scaled, 0.0, 1.0),
+                np.clip(1.25 - 1.5 * scaled, 0.0, 1.0),
+            ),
+            axis=-1,
+        )
+        Image.fromarray(np.uint8(norm_rgb * 255.0)).resize(
+            image_size, Image.Resampling.NEAREST
+        ).save(norm_path)
+
     def process_view(
         self,
         *,
@@ -468,8 +521,24 @@ class PublicObjectFrontend:
         queries: tuple[str, ...],
         asset_dir: Path,
         sample_id: str,
-    ) -> tuple[list[dict[str, Any]], np.ndarray, Path]:
+    ) -> tuple[list[dict[str, Any]], np.ndarray, Path, dict[str, Path]]:
         boxes, grounding_scores, label_distributions = self.detect(image, queries)
+        grounded_count = len(boxes)
+        grounding_overlay = image.copy()
+        grounding_draw = ImageDraw.Draw(grounding_overlay)
+        for index, (box, labels, score) in enumerate(
+            zip(boxes, label_distributions, grounding_scores, strict=True)
+        ):
+            label = max(labels, key=labels.get)
+            color = ((255, 72, 72), (72, 180, 255), (92, 220, 130), (255, 196, 72))[
+                index % 4
+            ]
+            grounding_draw.rectangle(tuple(float(value) for value in box), outline=color, width=2)
+            grounding_draw.text(
+                (float(box[0]) + 2, float(box[1]) + 2),
+                f"{label} {float(score):.2f}",
+                fill=color,
+            )
         masks, mask_scores = self.segment(image, boxes)
         dense_boxes, dense_masks, dense_scores = self.dense_proposals(
             image, grounded_masks=masks
@@ -484,9 +553,11 @@ class PublicObjectFrontend:
             )
             masks = np.concatenate((masks, dense_masks), axis=0)
             mask_scores = np.concatenate((mask_scores, dense_scores), axis=0)
-        features = self.dino_features(image, masks)
+        token_grid = self.dino_token_grid(image)
+        features = self.dino_features(token_grid, masks)
         overlay = image.copy()
         draw = ImageDraw.Draw(overlay)
+        sam_array = np.asarray(image.convert("RGB"), dtype=np.float32).copy()
         nodes: list[dict[str, Any]] = []
         colors = ((255, 72, 72), (72, 180, 255), (92, 220, 130), (255, 196, 72))
         for index, (box, labels, grounding_score, mask_score, mask, feature) in enumerate(
@@ -508,6 +579,7 @@ class PublicObjectFrontend:
             mask_path.parent.mkdir(parents=True, exist_ok=True)
             Image.fromarray(mask.astype(np.uint8) * 255).save(mask_path)
             color = (180, 180, 180) if label == "unknown_object" else colors[index % len(colors)]
+            sam_array[mask] = 0.45 * sam_array[mask] + 0.55 * np.asarray(color)
             draw.rectangle(tuple(float(value) for value in box), outline=color, width=2)
             draw.text(
                 (float(box[0]) + 2, float(box[1]) + 2),
@@ -533,7 +605,34 @@ class PublicObjectFrontend:
         overlay_path = asset_dir / overlay_relative
         overlay_path.parent.mkdir(parents=True, exist_ok=True)
         overlay.save(overlay_path)
-        return nodes, features, overlay_path
+        grounding_path = asset_dir / Path(slug(sample_id)) / f"{view}_grounding_dino.png"
+        grounding_overlay.save(grounding_path)
+        sam_path = asset_dir / Path(slug(sample_id)) / f"{view}_sam_masks.png"
+        sam_image = Image.fromarray(np.uint8(np.clip(sam_array, 0, 255)))
+        sam_draw = ImageDraw.Draw(sam_image)
+        for index, (box, score) in enumerate(zip(boxes, mask_scores, strict=True)):
+            sam_draw.text(
+                (float(box[0]) + 2, max(0.0, float(box[1]) - 10)),
+                f"{'G' if index < grounded_count else 'D'}{index:02d} {float(score):.2f}",
+                fill=(255, 255, 255),
+                stroke_width=1,
+                stroke_fill=(0, 0, 0),
+            )
+        sam_image.save(sam_path)
+        dino_pca_path = asset_dir / Path(slug(sample_id)) / f"{view}_dinov2_pca.png"
+        dino_norm_path = asset_dir / Path(slug(sample_id)) / f"{view}_dinov2_norm.png"
+        self.save_dino_maps(
+            token_grid=token_grid,
+            image_size=image.size,
+            pca_path=dino_pca_path,
+            norm_path=dino_norm_path,
+        )
+        return nodes, features, overlay_path, {
+            "grounding_dino": grounding_path,
+            "sam_masks": sam_path,
+            "dinov2_pca": dino_pca_path,
+            "dinov2_norm": dino_norm_path,
+        }
 
 
 def main() -> None:
@@ -624,11 +723,17 @@ def main() -> None:
         queries = normalize_queries(row)
         objects: list[dict[str, Any]] = []
         overlay_paths: dict[str, str] = {}
+        retained_source_paths: dict[str, str] = {}
+        frontend_visualizations: dict[str, dict[str, str]] = {}
         feature_start = len(feature_rows)
         for view in ("agentview", "wrist"):
             image_path = ROOT / row["policy_inputs"]["image_paths"][view]
             image = Image.open(image_path).convert("RGB")
-            nodes, features, overlay = frontend.process_view(
+            retained_source = args.asset_dir / slug(sample_id) / f"{view}_rgb.png"
+            retained_source.parent.mkdir(parents=True, exist_ok=True)
+            image.save(retained_source)
+            retained_source_paths[view] = str(retained_source.relative_to(ROOT))
+            nodes, features, overlay, modalities = frontend.process_view(
                 image=image,
                 view=view,
                 queries=queries,
@@ -642,6 +747,9 @@ def main() -> None:
                 feature_object_ids.append(str(node["object_id"]))
             objects.extend(nodes)
             overlay_paths[view] = str(overlay.relative_to(ROOT))
+            frontend_visualizations[view] = {
+                name: str(path.relative_to(ROOT)) for name, path in modalities.items()
+            }
         output_rows.append(
             {
                 "schema_version": "interaction-uncertainty.object-scene-packet.v1",
@@ -652,7 +760,9 @@ def main() -> None:
                 "feature_rows": [feature_start, len(feature_rows)],
                 "feature_store": str(args.feature_store.relative_to(ROOT)),
                 "overlay_paths": overlay_paths,
-                "source_image_paths": row["policy_inputs"]["image_paths"],
+                "frontend_visualizations": frontend_visualizations,
+                "source_image_paths": retained_source_paths,
+                "source_metadata": row.get("metadata", {}),
                 "source_image_sha256": row["policy_inputs"].get("image_sha256", {}),
                 "backend": {
                     "grounding": "IDEA-Research/grounding-dino-tiny",
@@ -693,7 +803,7 @@ def main() -> None:
         "repository_commit": subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
         ).strip(),
-        "source": {"path": str(args.input_index.relative_to(ROOT)), "sha256": digest(args.input_index)},
+        "source": {"path": portable_path(args.input_index), "sha256": digest(args.input_index)},
         "scene_packets": {"path": str(args.output_index.relative_to(ROOT)), "sha256": digest(args.output_index)},
         "feature_store": {
             "path": str(args.feature_store.relative_to(ROOT)),

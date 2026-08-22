@@ -6,6 +6,7 @@ set -euo pipefail
 GPU_INDEX="${EXPERIMENT_GPU_INDEX:-0}"
 LAB_SERVER_MODE="${LAB_SERVER_MODE:-0}"
 ALLOW_LOCAL_RUSTDESK="${EXPERIMENT_ALLOW_LOCAL_RUSTDESK:-0}"
+ALLOW_PIDS=",${EXPERIMENT_ALLOW_PIDS:-},"
 
 if [ "$LAB_SERVER_MODE" = "1" ] && [ "$GPU_INDEX" != "1" ]; then
   echo "GPU preflight failed: lab-server mode is authorized only on physical GPU1." >&2
@@ -36,6 +37,11 @@ while IFS=',' read -r raw_pid raw_name raw_memory; do
   name="${name%${name##*[![:space:]]}}"
   memory="${raw_memory//[[:space:]]/}"
   owner="$(ps -o user= -p "$pid" 2>/dev/null | tr -d '[:space:]' || true)"
+  if [[ "$ALLOW_PIDS" == *",$pid,"* ]] && [ "$owner" = "$(id -un)" ]; then
+    approved_count=$((approved_count + 1))
+    echo "GPU preflight note: allowing explicitly declared current-user PID $pid (${memory} MiB)."
+    continue
+  fi
   if [ "$ALLOW_LOCAL_RUSTDESK" = "1" ] \
     && [ "$name" = "/usr/share/rustdesk/rustdesk" ] \
     && [ "$owner" = "$(id -un)" ]; then

@@ -39,6 +39,51 @@ DEFAULT_RESIZE = 224
 DEFAULT_ACTION_DIM = 7
 
 
+def _convert_to_uint8(image: np.ndarray) -> np.ndarray:
+    """Local parity fallback for ``openpi_client.image_tools.convert_to_uint8``."""
+
+    if np.issubdtype(image.dtype, np.floating):
+        return (255 * image).astype(np.uint8)
+    return image
+
+
+def _resize_with_pad(image: np.ndarray, height: int, width: int) -> np.ndarray:
+    """Exact PIL algorithm used by the released openpi client.
+
+    Keeping this tiny fallback in-tree lets CPU contract tests run without an
+    editable sibling openpi checkout. Live deployments still use the official
+    client implementation when it is installed.
+    """
+
+    from PIL import Image
+
+    if image.shape[-3:-1] == (height, width):
+        return image
+    original_shape = image.shape
+    flattened = image.reshape(-1, *original_shape[-3:])
+    resized = []
+    for row in flattened:
+        pil_image = Image.fromarray(row)
+        current_width, current_height = pil_image.size
+        ratio = max(current_width / width, current_height / height)
+        resized_height = int(current_height / ratio)
+        resized_width = int(current_width / ratio)
+        scaled = pil_image.resize(
+            (resized_width, resized_height), resample=Image.BILINEAR
+        )
+        padded = Image.new(scaled.mode, (width, height), 0)
+        padded.paste(
+            scaled,
+            (
+                max(0, int((width - resized_width) / 2)),
+                max(0, int((height - resized_height) / 2)),
+            ),
+        )
+        resized.append(np.asarray(padded))
+    result = np.stack(resized)
+    return result.reshape(*original_shape[:-3], *result.shape[-3:])
+
+
 def quat2axisangle(quat: Sequence[float]) -> np.ndarray:
     """Convert a robosuite ``xyzw`` quaternion to an axis-angle vector.
 
@@ -48,7 +93,9 @@ def quat2axisangle(quat: Sequence[float]) -> np.ndarray:
 
     quat = np.asarray(quat, dtype=np.float64).copy()
     if quat.shape != (4,):
-        raise ValueError("quaternion must have shape (4,) in xyzw order, now with {0} (shape: {1})".format(quat, quat.shape))
+        raise ValueError(
+            f"quaternion must have shape (4,) in xyzw order, now with {quat} (shape: {quat.shape})"
+        )
     quat[3] = float(np.clip(quat[3], -1.0, 1.0))
     den = math.sqrt(1.0 - quat[3] * quat[3])
     if math.isclose(den, 0.0):
@@ -93,16 +140,23 @@ def build_observation(
     most of the policy's success rate.
     """
 
-    from openpi_client import image_tools  # imported lazily; CPU-only paths skip it
+    try:
+        from openpi_client import image_tools
+    except ModuleNotFoundError:
+        image_tools = None
 
     image = np.ascontiguousarray(obs[f"{primary_camera}_image"][::-1, ::-1])
     wrist = np.ascontiguousarray(obs[f"{wrist_camera}_image"][::-1, ::-1])
-    image = image_tools.convert_to_uint8(
-        image_tools.resize_with_pad(image, resize_size, resize_size)
-    )
-    wrist = image_tools.convert_to_uint8(
-        image_tools.resize_with_pad(wrist, resize_size, resize_size)
-    )
+    if image_tools is None:
+        image = _convert_to_uint8(_resize_with_pad(image, resize_size, resize_size))
+        wrist = _convert_to_uint8(_resize_with_pad(wrist, resize_size, resize_size))
+    else:
+        image = image_tools.convert_to_uint8(
+            image_tools.resize_with_pad(image, resize_size, resize_size)
+        )
+        wrist = image_tools.convert_to_uint8(
+            image_tools.resize_with_pad(wrist, resize_size, resize_size)
+        )
     state = np.concatenate(
         (
             np.asarray(obs["robot0_eef_pos"], dtype=np.float64),

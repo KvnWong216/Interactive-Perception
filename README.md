@@ -1,119 +1,147 @@
-# Prompt-conditioned Interaction Uncertainty
+# Prompt-Conditioned Calibrated Interaction Selection
 
-PIU asks which prompt-relevant fact is missing, where its evidence may be, and
-which executable interaction should acquire it before a frozen VLA resumes the
-task.
+This repository studies which executable physical interaction should resolve
+the uncertainty relevant to a user's manipulation task before a frozen VLA
+continues execution.
+
+The reference method is deliberately small:
 
 ```text
-public agentview/wrist RGB + prompt + public history
-  -> Grounding DINO + SAM + DINOv2 object scene packet
-  -> frozen SigLIP prompt-conditioned belief/uncertainty field
-  -> Qwen2.5-VL registered action-effect predictions
-  -> explicit information/task utility
-  -> typed semantic option -> frozen pi05_libero
-  -> six public observations -> conformal outcome -> update -> replan
+prompt + temporal first-person RGB + public action/observation history
+  -> one frozen shared VLM encoder
+  -> schema-validated candidates from the robot capability registry
+  -> one candidate-conditioned cross-attention decoder
+  -> factorized effect head + route head
+  -> temperature scaling + conformal prediction sets
+  -> short structured subtask -> frozen pi05_libero
+  -> post-action public RGB/history -> replan or abstain
 ```
 
-Online code never consumes segmentation, simulator depth, hidden object poses,
-articulated joints, task predicates, semantic IDs, BEV, or global cameras.
-Those fields are permitted only in data builders and evaluator replays after
-controller termination.
+The former Grounding DINO/SAM/DINOv2/SigLIP/Qwen/manual-utility pipeline is
+frozen as [`B1 Heuristic V0`](baselines/heuristic_v0/README.md). It remains an
+engineering baseline and is not the proposed method.
+
+## Research artifacts
+
+- [Literature lineage](docs/literature_lineage.md), audited through 2026-08-22
+- [Novelty gate](docs/novelty_audit.md)
+- [Architecture decision](docs/adr/0001_candidate_conditioned_calibrated_interaction.md)
+- [Research question, math, data, experiments, compute, and go/no-go plan](docs/research_plan.md)
+- [Learned-package contracts](src/calibrated_interaction/README.md)
+- [中文旧系统总览与复现教程](docs/TAKEAWAY_AND_TUTORIAL_CN.md), retained as
+  Heuristic V0 documentation
 
 ## Repository
 
 ```text
-configs/                  action priors and scenario parameters
-scripts/
-  infra/                  installation, GPU preflight, pi0.5 server
-  perception/             object scene-packet construction
-  pipeline/               one-step inference and semantic-option execution
-  data/                   collection, paired states, frozen features
-  training/               belief/effect and public-RGB outcome training
-  evaluation/             clean evaluation, outcome scoring, manifests
-  visualization/          four-panel demo renderer
-src/
-  interaction_uncertainty/ belief, VLM reasoning, learned sidecar
-  interactive_perception/  pi0.5 bridge, observe return, RGB critic
-benchmarks/               current machine-readable protocols and gates
-results/                  only the current demo and frozen evidence
+baselines/heuristic_v0/       immutable legacy baseline lock
+configs/capabilities/         real executor primitive registry
+configs/experiments/          one-GPU learned-method configuration
+configs/scenarios/            scenario data; no Python scenario branches
+src/calibrated_interaction/   candidate schema, decoder, calibration, controller
+src/interaction_uncertainty/  legacy heuristic implementation
+src/interactive_perception/   frozen pi0.5 execution bridge and legacy critics
+scripts/pipeline/             learned replay and legacy live runners
+scripts/data/                 counterfactual/snapshot builders
+tests/                        unit, leakage, split, model-shape, integration tests
+benchmarks/                   protocols and gates
+results/                      retained component evidence and public RGB assets
 ```
 
-Scenario details are data, not Python branches. For example,
-[`configs/scenarios/original_drawer.yaml`](configs/scenarios/original_drawer.yaml)
-defines the BDDL, prompt, semantic options, seed, and evaluator targets used by
-the current cluttered drawer case. Every runner also accepts direct CLI
-overrides.
+Online learned-method inputs are limited to the complete prompt, agentview/wrist
+RGB history, and public action/observation history. Simulator segmentation,
+semantic IDs, hidden object poses, articulated joint truth, depth by default,
+and task predicates are forbidden policy inputs. Privileged state is allowed
+only for offline labels, evaluator metrics, and oracle upper bounds.
 
-## Main entry points
+## Install and validate
 
-Check the local installation and GPU:
+The core contracts and calibration tools require only NumPy and PyYAML. Run
+their focused tests with:
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --extra dev \
+  pytest -q tests/test_calibrated_interaction.py
+```
+
+Run the full repository suite (legacy tests need PyTorch and Pillow too):
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --extra learned --extra vlm --extra dev \
+  pytest -q
+```
+
+Run the CPU-only, no-training closed-loop replay on the same original drawer
+scenario:
+
+```bash
+uv run python scripts/pipeline/run_calibrated_replay.py \
+  --scenario configs/scenarios/original_drawer.yaml \
+  --replay tests/fixtures/original_drawer_calibrated_replay.json \
+  --output runs/original_drawer_calibrated_replay.json
+```
+
+This replay verifies candidate validation, calibrated set arbitration, the
+short text adapter, history updates, and `OPEN -> reobserve -> DIRECT` control
+flow. Its probabilities are explicitly fixture-only: it is not trained-model
+accuracy or robot task-success evidence.
+
+Check the full simulator/GPU installation and frozen π0.5 server separately:
 
 ```bash
 python scripts/infra/check_install.py
 bash scripts/infra/check_gpu.sh
+bash scripts/infra/serve_pi05.sh
 ```
 
-Run public-RGB PIU inference:
+## Legacy baseline entry points
+
+Public-RGB Heuristic V0 inference:
 
 ```bash
 python scripts/pipeline/infer.py \
   --agentview results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_agentview.png \
   --wrist results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_wrist.png \
   --prompt "Place the butter in the basket" \
-  --asset-dir runs/example/inference_assets \
-  --output runs/example/inference.json
+  --asset-dir runs/heuristic_v0/inference_assets \
+  --output runs/heuristic_v0/inference.json
 ```
 
-Execute any registered semantic option and return to the public initial pose:
+Execute a legacy registered semantic option:
 
 ```bash
 python scripts/pipeline/execute.py \
   --scenario-config configs/scenarios/original_drawer.yaml \
   --role OPEN_CONTAINER \
-  --assets runs/example/option_assets \
-  --work runs/example/work \
-  --output runs/example/option.json
+  --assets runs/heuristic_v0/option_assets \
+  --work runs/heuristic_v0/work \
+  --output runs/heuristic_v0/option.json
 ```
 
-Collect and train with arbitrary protocol/split paths:
-
-```bash
-python scripts/data/collect_snapshots.py --help
-python scripts/perception/build_scene_packets.py --help
-python scripts/data/extract_features.py --help
-python scripts/training/train.py --help
-python scripts/training/train_outcome.py --help
-python scripts/evaluation/evaluate.py --help
-```
-
-All generated outputs are immutable: choose a new output directory for a new
-run.
+Do not add rules or scores to these legacy entry points.
 
 ## Evidence status
 
-| Evidence | Result | Meaning |
+| evidence | result | claim boundary |
 |---|---:|---|
-| Six-frame RGB outcome, clean development | GO, 119/120 singleton-correct | Outcome component only |
-| Six-frame RGB outcome, sealed audit | GO, 294/300 singleton-correct | Outcome component only |
-| Object PIU scene-disjoint clean | NOT-GO, 6 false singleton routes | Initial belief/action model not paper-ready |
-| Current cluttered-drawer demo | OPEN_CONTAINER -> REVEALED -> MOVE_CLOSER | One disposable information trace |
-| Final butter retrieval | 0/5 | Final task remains NOT-GO |
+| learned pipeline contracts/unit tests | 51 passed | software behavior only |
+| [original-drawer calibrated replay](results/diagnostics/original_drawer_calibrated_replay_v1.json) | OPEN -> reobserve -> DIRECT | wiring only; fixture probabilities |
+| six-frame RGB legacy outcome, clean development | 119/120 singleton-correct | legacy outcome component only |
+| six-frame RGB legacy outcome, sealed audit | 294/300 singleton-correct | legacy outcome component only |
+| legacy object PIU scene-disjoint | NOT-GO, 6 false singleton routes | Heuristic V0 is not paper-ready |
+| legacy current cluttered-drawer demo | OPEN_CONTAINER -> REVEALED -> MOVE_CLOSER | one disposable information trace |
+| final butter retrieval | 0/5 | full task remains NOT-GO |
 
-The demo proves wiring and one real information acquisition, not held-out
-closed-loop performance or final manipulation success. See
-[`docs/EXPERIMENTS.md`](docs/EXPERIMENTS.md) for claim boundaries.
-
-## Current assets
-
-- Demo: `results/demos/piu_original_fresh_seed1399_v1/`
-- Initial maps: `results/assets/piu_messy_corrected_initial_seed1399_v1/`
-- Post-action maps: `results/assets/piu_messy_corrected_post_open_seed1399_v1/`
-- Six-frame public option: `results/assets/piu_messy_fresh_e2e_seed1399_v1/`
-- Machine trace: `results/demos/piu_original_fresh_seed1399_v1/piu_information_acquisition_trace.json`
+Current assets include the original frontend under
+`results/assets/original_drawer_frontend_v1/`, its public Scene Packet under
+`results/diagnostics/original_drawer_scene_packet_v1.jsonl`, and the legacy demo
+under `results/demos/piu_original_fresh_seed1399_v1/`.
 
 ## Claim discipline
 
-Target observability and final-task success are always reported separately.
-`EMPTY` excludes only the inspected region. Any non-singleton outcome is
-`SAFE_STOP`; the controller never selects a convenient label from a conformal
-set. PARTIAL is NOT-GO.
+Hidden representations are not called uncertainty. Entropy is a diagnostic,
+not the final decision definition. Conformal coverage is marginal under
+exchangeability, not a single-trial success probability. Primitive execution,
+information acquisition, post-action recognition, rerouting, and final task
+success are always reported separately. Any non-actionable calibrated set
+produces `ABSTAIN`; it is never collapsed to a convenient top-1.

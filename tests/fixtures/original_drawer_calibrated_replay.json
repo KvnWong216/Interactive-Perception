@@ -1,0 +1,55 @@
+{
+  "schema_version": "calibrated-interaction.replay-fixture.v1",
+  "fixture_only": true,
+  "claim": "wiring validation only; not model or task-success evidence",
+  "route_calibration": {
+    "schema_version": "calibrated-interaction.lac.v1",
+    "alpha": 0.1,
+    "threshold": 0.35,
+    "labels": ["direct_butter_to_basket", "open_middle_drawer", "stop_not_found"],
+    "calibration_size": 30,
+    "split_id": "fixture-only-route"
+  },
+  "effect_calibration": {
+    "schema_version": "calibrated-interaction.binary-effects.v1",
+    "joint_alpha": 0.1,
+    "calibrators": {
+      "execution_succeeded": {"alpha": 0.0166666667, "threshold": 0.2, "labels": ["0", "1"], "calibration_size": 60, "split_id": "fixture-only:execution_succeeded"},
+      "task_relevant_change": {"alpha": 0.0166666667, "threshold": 0.2, "labels": ["0", "1"], "calibration_size": 60, "split_id": "fixture-only:task_relevant_change"},
+      "ambiguity_reduced": {"alpha": 0.0166666667, "threshold": 0.2, "labels": ["0", "1"], "calibration_size": 60, "split_id": "fixture-only:ambiguity_reduced"},
+      "target_confirmed": {"alpha": 0.0166666667, "threshold": 0.2, "labels": ["0", "1"], "calibration_size": 60, "split_id": "fixture-only:target_confirmed"},
+      "candidate_rejected": {"alpha": 0.0166666667, "threshold": 0.2, "labels": ["0", "1"], "calibration_size": 60, "split_id": "fixture-only:candidate_rejected"},
+      "region_confirmed_empty": {"alpha": 0.0166666667, "threshold": 0.2, "labels": ["0", "1"], "calibration_size": 60, "split_id": "fixture-only:region_confirmed_empty"}
+    }
+  },
+  "steps": [
+    {
+      "public_observation_frames": [
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_agentview.png",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_wrist.png"
+      ],
+      "route_probabilities": {"direct_butter_to_basket": 0.20, "open_middle_drawer": 0.72, "stop_not_found": 0.08},
+      "effect_positive_probabilities": {
+        "direct_butter_to_basket": {"execution_succeeded": 0.55, "task_relevant_change": 0.45, "ambiguity_reduced": 0.20, "target_confirmed": 0.15, "candidate_rejected": 0.05, "region_confirmed_empty": 0.05},
+        "open_middle_drawer": {"execution_succeeded": 0.94, "task_relevant_change": 0.91, "ambiguity_reduced": 0.93, "target_confirmed": 0.40, "candidate_rejected": 0.25, "region_confirmed_empty": 0.18},
+        "stop_not_found": {"execution_succeeded": 0.99, "task_relevant_change": 0.05, "ambiguity_reduced": 0.04, "target_confirmed": 0.02, "candidate_rejected": 0.02, "region_confirmed_empty": 0.02}
+      },
+      "execution": {"public_result": {"status": "drawer_opened_and_new_public_rgb_observed"}, "controller_terminal": false}
+    },
+    {
+      "public_observation_frames": [
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/04_open_end_agentview.png",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/04_open_end_wrist.png",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/05_returned_agentview.png",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/05_returned_wrist.png"
+      ],
+      "route_probabilities": {"direct_butter_to_basket": 0.83, "open_middle_drawer": 0.10, "stop_not_found": 0.07},
+      "effect_positive_probabilities": {
+        "direct_butter_to_basket": {"execution_succeeded": 0.91, "task_relevant_change": 0.90, "ambiguity_reduced": 0.82, "target_confirmed": 0.87, "candidate_rejected": 0.04, "region_confirmed_empty": 0.03},
+        "open_middle_drawer": {"execution_succeeded": 0.35, "task_relevant_change": 0.08, "ambiguity_reduced": 0.07, "target_confirmed": 0.05, "candidate_rejected": 0.05, "region_confirmed_empty": 0.05},
+        "stop_not_found": {"execution_succeeded": 0.99, "task_relevant_change": 0.03, "ambiguity_reduced": 0.03, "target_confirmed": 0.01, "candidate_rejected": 0.02, "region_confirmed_empty": 0.02}
+      },
+      "execution": {"public_result": {"status": "direct_subtask_dispatched"}, "controller_terminal": true}
+    }
+  ]
+}

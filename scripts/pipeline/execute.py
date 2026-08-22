@@ -13,6 +13,7 @@ import argparse
 import hashlib
 import json
 import os
+import random
 import socket
 import subprocess
 import sys
@@ -51,6 +52,16 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def portable_path(path: Path) -> str:
+    """Use repository-relative paths for retained assets and absolute temp paths."""
+
+    resolved = path.resolve()
+    try:
+        return str(resolved.relative_to(ROOT))
+    except ValueError:
+        return str(resolved)
+
+
 def wait_for_port(port: int, timeout: float = 180.0) -> None:
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
@@ -71,7 +82,7 @@ def save_views(
     for view, image in (("agentview", packet.image), ("wrist", packet.wrist_image)):
         path = directory / f"{name}_{view}.png"
         imageio.imwrite(path, image)
-        paths[view] = str(path.relative_to(ROOT))
+        paths[view] = portable_path(path)
         hashes[view] = digest(path)
     return {
         "name": name,
@@ -117,6 +128,9 @@ def evaluator_replay(
         objects = {
             name: {
                 "minimum_eef_distance_m": float("inf"),
+                "minimum_eef_step": None,
+                "eef_position_at_minimum": None,
+                "object_position_at_minimum": None,
                 "maximum_lift_m": 0.0,
                 "grasp_contact_steps": 0,
                 "grasp_contact_after_subtask_steps": 0,
@@ -134,10 +148,12 @@ def evaluator_replay(
             for name in names:
                 current = object_qpos(env, name)
                 row = objects[name]
-                row["minimum_eef_distance_m"] = min(
-                    row["minimum_eef_distance_m"],
-                    float(np.linalg.norm(current[:3] - eef)),
-                )
+                distance = float(np.linalg.norm(current[:3] - eef))
+                if distance < row["minimum_eef_distance_m"]:
+                    row["minimum_eef_distance_m"] = distance
+                    row["minimum_eef_step"] = step
+                    row["eef_position_at_minimum"] = eef.tolist()
+                    row["object_position_at_minimum"] = current[:3].tolist()
                 row["maximum_lift_m"] = max(
                     row["maximum_lift_m"], float(current[2] - initial[name][2])
                 )
@@ -206,6 +222,14 @@ def main() -> None:
     parser.add_argument("--assets", type=Path, required=True)
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--final-state",
+        type=Path,
+        help=(
+            "Opaque simulator transport used only to continue the same physical "
+            "episode in a later process; never decoded by the controller"
+        ),
+    )
     args = parser.parse_args()
     if args.scenario_config is not None:
         if not args.scenario_config.is_absolute():
@@ -237,11 +261,17 @@ def main() -> None:
         "assets",
         "work",
         "output",
+        "final_state",
     ):
         value = getattr(args, name)
         if value is not None and not value.is_absolute():
             setattr(args, name, ROOT / value)
-    if args.assets.exists() or args.work.exists() or args.output.exists():
+    if (
+        args.assets.exists()
+        or args.work.exists()
+        or args.output.exists()
+        or (args.final_state is not None and args.final_state.exists())
+    ):
         raise FileExistsError("run outputs are immutable")
 
     subprocess.run(
@@ -258,6 +288,8 @@ def main() -> None:
 
     args.assets.mkdir(parents=True)
     args.work.mkdir(parents=True)
+    random.seed(args.seed)
+    np.random.seed(args.seed)
     env = OffScreenRenderEnv(
         bddl_file_name=str(args.bddl), camera_heights=256, camera_widths=256
     )
@@ -267,6 +299,7 @@ def main() -> None:
     writer = None
     keyframes: list[dict[str, Any]] = []
     last_subtask: Mapping[str, Any] | None = None
+    final_state: np.ndarray | None = None
     try:
         env.seed(args.seed)
         observation = env.reset()
@@ -284,7 +317,6 @@ def main() -> None:
                 observation, prompt=args.prompt, name="00_before", directory=args.assets
             )
         )
-
         server_log = (args.work / "pi05_server.log").open("w")
         server = subprocess.Popen(
             ["bash", str(ROOT / "scripts/infra/serve_pi05.sh")],
@@ -350,6 +382,11 @@ def main() -> None:
                 directory=args.assets,
             )
         )
+        # The real robot would simply remain in this physical state.  A process
+        # boundary in simulation needs an opaque state transport.  Its values
+        # are never exposed to policy, outcome critic, belief update, or action
+        # selection.
+        final_state = env.get_sim_state().copy()
     finally:
         if writer is not None:
             writer.close()
@@ -366,6 +403,11 @@ def main() -> None:
 
     action_path = args.assets / "public_action_history.json"
     action_path.write_text(json.dumps(recording.actions, separators=(",", ":")) + "\n")
+    if args.final_state is not None:
+        if final_state is None:
+            raise RuntimeError("controller did not produce a final state")
+        args.final_state.parent.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(args.final_state, state=final_state)
     tracked = tuple(dict.fromkeys([*args.track_object, *([args.target_object] if args.target_object else [])]))
     evaluator = evaluator_replay(
         bddl=args.bddl,
@@ -399,8 +441,11 @@ def main() -> None:
             "return_steps": execution.return_steps,
             "return_phase": execution.return_status.phase.value,
             "keyframes": keyframes,
-            "video": str((args.assets / "public_wrist_agentview.mp4").relative_to(ROOT)),
-            "action_history": str(action_path.relative_to(ROOT)),
+            "video": portable_path(args.assets / "public_wrist_agentview.mp4"),
+            "action_history": portable_path(action_path),
+            "opaque_state_transport": (
+                portable_path(args.final_state) if args.final_state is not None else None
+            ),
         },
         "evaluator": evaluator,
     }

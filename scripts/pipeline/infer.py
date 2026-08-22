@@ -708,6 +708,30 @@ def load_mask(node: Mapping[str, Any]) -> np.ndarray:
     return np.asarray(Image.open(ROOT / str(node["mask_path"])) .convert("L")) > 0
 
 
+def colorize_heatmap(values: np.ndarray) -> np.ndarray:
+    """Map absolute [0, 1] uncertainty mass to a perceptual heat palette."""
+
+    anchors = np.asarray(
+        [
+            (10, 8, 40),
+            (44, 45, 142),
+            (33, 145, 140),
+            (150, 213, 70),
+            (249, 142, 8),
+            (180, 4, 38),
+        ],
+        dtype=np.float32,
+    )
+    clipped = np.clip(values, 0.0, 1.0)
+    scaled = clipped * (len(anchors) - 1)
+    lower = np.floor(scaled).astype(np.int32)
+    upper = np.minimum(lower + 1, len(anchors) - 1)
+    fraction = (scaled - lower)[..., None]
+    return np.uint8(
+        np.clip(anchors[lower] * (1.0 - fraction) + anchors[upper] * fraction, 0, 255)
+    )
+
+
 def render_map(
     *,
     image: Image.Image,
@@ -723,15 +747,20 @@ def render_map(
             continue
         mask = load_mask(node)
         heat = np.maximum(heat, mask.astype(np.float32) * mass)
-    maximum = float(heat.max())
-    normalized_heat = heat / maximum if maximum > 0.0 else heat
-    Image.fromarray(np.uint8(np.clip(normalized_heat * 255.0, 0, 255))).save(raw_path)
+    # Preserve the calibrated absolute scale across observations; per-frame
+    # max-normalization would make a weak residual look as hot as a strong one.
+    normalized_heat = np.clip(heat, 0.0, 1.0)
+    colored = colorize_heatmap(normalized_heat)
+    # A compact vertical scale makes the PNG self-describing in papers/demos.
+    bar_width = max(6, image.width // 32)
+    gradient = np.linspace(1.0, 0.0, image.height, dtype=np.float32)[:, None]
+    colored[:, -bar_width:, :] = colorize_heatmap(
+        np.repeat(gradient, bar_width, axis=1)
+    )
+    Image.fromarray(colored).save(raw_path)
     base = np.asarray(image.convert("RGB"), dtype=np.float32)
-    color = np.zeros_like(base)
-    color[..., 0] = 255.0
-    color[..., 1] = 210.0 * (1.0 - normalized_heat)
     alpha = (0.65 * normalized_heat)[..., None]
-    rendered = np.uint8(np.clip(base * (1.0 - alpha) + color * alpha, 0, 255))
+    rendered = np.uint8(np.clip(base * (1.0 - alpha) + colored * alpha, 0, 255))
     Image.fromarray(rendered).save(overlay_path)
 
 
@@ -1034,9 +1063,10 @@ def main() -> None:
     nodes: list[dict[str, Any]] = []
     feature_rows: list[np.ndarray] = []
     overlays: dict[str, Path] = {}
+    frontend_visualizations: dict[str, dict[str, Path]] = {}
     visual_queries = prompt_visual_queries(args.prompt)
     for view in ("agentview", "wrist"):
-        view_nodes, features, overlay = frontend.process_view(
+        view_nodes, features, overlay, modalities = frontend.process_view(
             image=images[view],
             view=view,
             queries=visual_queries,
@@ -1046,6 +1076,7 @@ def main() -> None:
         nodes.extend(view_nodes)
         feature_rows.extend(features)
         overlays[view] = overlay
+        frontend_visualizations[view] = modalities
     feature_matrix = np.asarray(feature_rows, dtype=np.float32)
     temporal_association: list[dict[str, Any]] = []
     if previous_report is not None:
@@ -1263,6 +1294,13 @@ def main() -> None:
             "candidate_crops": str(crop_path.relative_to(ROOT)),
             "object_overlays": {
                 view: str(path.relative_to(ROOT)) for view, path in overlays.items()
+            },
+            "frontend_visualizations": {
+                view: {
+                    name: str(path.relative_to(ROOT))
+                    for name, path in modalities.items()
+                }
+                for view, modalities in frontend_visualizations.items()
             },
         },
         "pre_vlm_current_field": pre_vlm_field,

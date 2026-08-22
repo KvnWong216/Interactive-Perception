@@ -1,0 +1,25 @@
+schema_version: calibrated-interaction.capabilities.v1
+id: pi05_libero_text_v1
+
+# These are robot capabilities, not object categories or confidence priors.
+# Templates contain only the selected action and grounding. Internal route or
+# effect uncertainty is never serialized into the frozen executor prompt.
+primitives:
+  DIRECT:
+    executor: frozen-pi05-libero
+    instruction_template: "{task_prompt}"
+  OPEN:
+    executor: frozen-pi05-libero
+    instruction_template: "Open {target}."
+  REMOVE_OCCLUDER:
+    executor: frozen-pi05-libero
+    instruction_template: "Move {target} away from {reference}."
+  MOVE_CLOSER:
+    executor: frozen-pi05-libero
+    instruction_template: "Move {target} closer for inspection."
+  ROTATE:
+    executor: frozen-pi05-libero
+    instruction_template: "Rotate {target} for inspection."
+  STOP:
+    executor: null
+    instruction_template: null

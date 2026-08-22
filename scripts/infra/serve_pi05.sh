@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 # Launch the pi05_libero policy server on a GPU host.
 #
-# The scenario process and the model process are separate: this script runs on
-# the machine with the GPU, while run_challenge_rollout.py and run_repro_gate.py
-# can run anywhere that can reach it over the network. Point them at this host
-# with --host/--port.
+# The LIBERO controller and policy model remain separate processes so their
+# pinned Python stacks do not conflict.
 #
 # Usage:
 #   scripts/infra/serve_pi05.sh [OPENPI_DIR] [CHECKPOINT_DIR]
@@ -14,7 +12,8 @@
 #   <workspace>/checkpoints/checkpoints/pi05_libero
 set -euo pipefail
 
-WORKSPACE="${WORKSPACE:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+WORKSPACE="${WORKSPACE:-$(dirname "$PROJECT_ROOT")}"
 OPENPI_DIR="${1:-${OPENPI_DIR:-$WORKSPACE/openpi}}"
 CHECKPOINT_DIR="${2:-${CHECKPOINT_DIR:-$WORKSPACE/checkpoints/checkpoints/pi05_libero}}"
 PORT="${PORT:-8000}"

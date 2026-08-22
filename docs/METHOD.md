@@ -1,4 +1,10 @@
-# Method
+# Heuristic V0 method (legacy baseline)
+
+> This document describes the frozen pre-redesign baseline. The proposed
+> candidate-conditioned calibrated method is specified in
+> [`research_plan.md`](research_plan.md) and
+> [`ADR-0001`](adr/0001_candidate_conditioned_calibrated_interaction.md).
+> Do not add weights, rules, or selectors to this legacy pipeline.
 
 PIU maintains a prompt-conditioned structured belief over task facts and an
 object/region uncertainty field. Grounding DINO proposes open-vocabulary

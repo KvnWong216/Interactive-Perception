@@ -30,7 +30,7 @@ OBJECT_URL = "https://storage.googleapis.com/{bucket}/{name}"
 
 
 def parse_args() -> argparse.Namespace:
-    default_dest = Path(__file__).resolve().parents[2] / "checkpoints"
+    default_dest = Path(__file__).resolve().parents[3] / "checkpoints"
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dest", default=str(default_dest))
     parser.add_argument("--bucket", default=BUCKET)
