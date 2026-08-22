@@ -1,0 +1,42 @@
+{
+  "schema_version": "interaction-uncertainty.piu-scene-snapshot-manifest.v1",
+  "repository_commit": "dc7bfff603ba35dacd99ab647aee35727f749b11",
+  "protocol": "benchmarks/calibrated_interaction/original_drawer_v1.yaml",
+  "protocol_sha256": "6d4b554e3d51442841f81aa7089fdb12827faa4a1728dc1111698828050ba0e4",
+  "split": "calibration",
+  "seed_block": "original_drawer_calibration_v1",
+  "seeds": [
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027
+  ],
+  "scenarios": [
+    "original_drawer_hidden_butter",
+    "original_drawer_visible_cream_cheese"
+  ],
+  "scenario_paths": [
+    "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+    "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl"
+  ],
+  "samples": 16,
+  "dataset": "data/calibrated_interaction/original_drawer_v1/calibration.jsonl",
+  "dataset_sha256": "7a8615fdc81c7c10f10fb5bf3d2fe12bc99bae24d8c7eee4ded042375bdc389a",
+  "label_file": "data/calibrated_interaction/original_drawer_v1/calibration_labels.jsonl",
+  "label_file_in_policy_index": false,
+  "policy_inputs": [
+    "agentview RGB",
+    "wrist RGB",
+    "public robot state",
+    "full prompt"
+  ],
+  "online_oracle_inputs": [],
+  "class_counts_hidden_from_policy": {
+    "closed_container": 8,
+    "visible_workspace": 8
+  }
+}

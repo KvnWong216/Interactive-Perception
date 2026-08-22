@@ -1,0 +1,18 @@
+schema_version: calibrated-interaction.candidate-set.v1
+id: original_drawer_public_candidates_v1
+candidates:
+  - candidate_id: direct_requested_to_basket
+    primitive: DIRECT
+    target: the object requested by the task
+    reference: the basket
+    purpose: complete the user task
+  - candidate_id: open_middle_drawer
+    primitive: OPEN
+    target: the middle drawer below the countertop
+    reference: the object requested by the task
+    purpose: inspect whether the requested object is inside
+  - candidate_id: stop_unsupported
+    primitive: STOP
+    target: null
+    reference: null
+    purpose: stop rather than execute an unsupported action

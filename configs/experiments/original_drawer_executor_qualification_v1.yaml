@@ -1,0 +1,37 @@
+schema_version: calibrated-interaction.executor-qualification.v1
+id: original_drawer_pi05_seed1399_v1
+scenario: configs/scenarios/original_drawer.yaml
+claim_scope: >-
+  Single-seed executor qualification in the unchanged T01D drawer scenario.
+  These runs diagnose primitive and task-execution capability; they are not
+  statistical method evidence.
+drawer_open_threshold: -0.14
+runs:
+  - id: direct_closed_butter
+    condition: closed drawer
+    candidate: DIRECT
+    report: runs/icra_cadence/direct_closed_seed1399_v1/report.json
+  - id: open_closed_drawer
+    condition: closed drawer
+    candidate: OPEN
+    report: runs/icra_cadence/open_then_direct_seed1399_v1/open/report.json
+  - id: direct_after_actual_open
+    condition: state produced by open_closed_drawer
+    candidate: DIRECT
+    report: runs/icra_cadence/open_then_direct_seed1399_v1/direct/report.json
+  - id: direct_visible_cream_cheese
+    condition: closed drawer; requested object visible on work surface
+    candidate: DIRECT
+    report: runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/report.json
+  - id: direct_ideal_open_original_prompt
+    condition: prebuilt open drawer state
+    candidate: DIRECT
+    report: runs/icra_cadence/direct_open_seed1399_v1/report.json
+  - id: direct_ideal_open_exact_prompt
+    condition: prebuilt open drawer state
+    candidate: DIRECT
+    report: runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/report.json
+  - id: direct_ideal_open_source_prompt
+    condition: prebuilt open drawer state
+    candidate: DIRECT
+    report: runs/icra_cadence/direct_open_seed1399_v3_source_prompt/report.json

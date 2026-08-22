@@ -1,0 +1,266 @@
+{
+  "schema_version": "calibrated-interaction.executor-summary.v1",
+  "qualification_id": "original_drawer_pi05_seed1399_v1",
+  "scenario": "configs/scenarios/original_drawer.yaml",
+  "claim_scope": "Single-seed executor qualification in the unchanged T01D drawer scenario. These runs diagnose primitive and task-execution capability; they are not statistical method evidence.",
+  "drawer_open_threshold": -0.14,
+  "runs": [
+    {
+      "id": "direct_closed_butter",
+      "condition": "closed drawer",
+      "candidate": "DIRECT",
+      "source": {
+        "path": "runs/icra_cadence/direct_closed_seed1399_v1/report.json",
+        "sha256": "720d1ae8d7832632273e2fcbf5352b63bc82c3c75d491501984a8e48471f2fc7"
+      },
+      "seed": 1399,
+      "prompt": "Place the butter in the basket",
+      "subtask_steps": 400,
+      "return_phase": "TIMED_OUT",
+      "online_oracle_inputs": [],
+      "task_success": false,
+      "target_object": "butter_1",
+      "target_pick_success": false,
+      "target_reached_destination": null,
+      "target_minimum_eef_distance_m": 0.2697118867445471,
+      "target_grasp_contact_steps": 0,
+      "target_maximum_lift_m": 2.3213431177282473e-11,
+      "wrong_objects": {
+        "cream_cheese_1": {
+          "minimum_eef_distance_m": 0.0020688449487694435,
+          "grasp_contact_steps": 59,
+          "maximum_lift_m": 0.24080065445285403
+        }
+      },
+      "drawer": {
+        "initial": 2.8616178097861e-10,
+        "final": 2.6026510766684467e-09,
+        "minimum": -5.950220820886076e-09,
+        "maximum": 5.2361974348458806e-09
+      },
+      "drawer_open_state_observed": false
+    },
+    {
+      "id": "open_closed_drawer",
+      "condition": "closed drawer",
+      "candidate": "OPEN",
+      "source": {
+        "path": "runs/icra_cadence/open_then_direct_seed1399_v1/open/report.json",
+        "sha256": "ad0ecae32c48aa83b9a0e3f4940454cd00865174a2529d52bca2b185370d3b37"
+      },
+      "seed": 1399,
+      "prompt": "Open the middle layer of the drawer",
+      "subtask_steps": 300,
+      "return_phase": "COMPLETE",
+      "online_oracle_inputs": [],
+      "task_success": false,
+      "target_object": "butter_1",
+      "target_pick_success": false,
+      "target_reached_destination": null,
+      "target_minimum_eef_distance_m": 0.05656048402733955,
+      "target_grasp_contact_steps": 0,
+      "target_maximum_lift_m": 0.00014549600733682055,
+      "wrong_objects": {
+        "cream_cheese_1": {
+          "minimum_eef_distance_m": 0.17360665442792,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 1.3877787807814457e-13
+        }
+      },
+      "drawer": {
+        "initial": 2.8616178097861e-10,
+        "final": -0.15998230937751337,
+        "minimum": -0.16119899056875223,
+        "maximum": 0.001719970929317836
+      },
+      "drawer_open_state_observed": true
+    },
+    {
+      "id": "direct_after_actual_open",
+      "condition": "state produced by open_closed_drawer",
+      "candidate": "DIRECT",
+      "source": {
+        "path": "runs/icra_cadence/open_then_direct_seed1399_v1/direct/report.json",
+        "sha256": "153068adb2c2a3b7b67b15d412fec3626f8755bb6d7bb32f7030b4de837d6bf9"
+      },
+      "seed": 1399,
+      "prompt": "Pick up the butter inside the open middle drawer and place it in the basket",
+      "subtask_steps": 400,
+      "return_phase": "COMPLETE",
+      "online_oracle_inputs": [],
+      "task_success": false,
+      "target_object": "butter_1",
+      "target_pick_success": false,
+      "target_reached_destination": null,
+      "target_minimum_eef_distance_m": 0.14141263367598184,
+      "target_grasp_contact_steps": 0,
+      "target_maximum_lift_m": 0.00011865542396738427,
+      "wrong_objects": {
+        "cream_cheese_1": {
+          "minimum_eef_distance_m": 0.0028237126185909284,
+          "grasp_contact_steps": 5,
+          "maximum_lift_m": 0.0016291267425375677
+        }
+      },
+      "drawer": {
+        "initial": -0.15998230937751337,
+        "final": -0.09998935009076078,
+        "minimum": -0.1603407514869578,
+        "maximum": -0.09998934880914649
+      },
+      "drawer_open_state_observed": true
+    },
+    {
+      "id": "direct_visible_cream_cheese",
+      "condition": "closed drawer; requested object visible on work surface",
+      "candidate": "DIRECT",
+      "source": {
+        "path": "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/report.json",
+        "sha256": "cb91bb29af24cc545d1c5f6c31be436fc92d9cf04506f19dd4f735b9f40251ad"
+      },
+      "seed": 1399,
+      "prompt": "Pick up the cream cheese and place it in the basket",
+      "subtask_steps": 400,
+      "return_phase": "TIMED_OUT",
+      "online_oracle_inputs": [],
+      "task_success": false,
+      "target_object": "cream_cheese_1",
+      "target_pick_success": true,
+      "target_reached_destination": false,
+      "target_minimum_eef_distance_m": 0.0037164616227077806,
+      "target_grasp_contact_steps": 46,
+      "target_maximum_lift_m": 0.2957591501040968,
+      "wrong_objects": {
+        "butter_1": {
+          "minimum_eef_distance_m": 0.22360484310100526,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 2.3204993482295322e-11
+        }
+      },
+      "drawer": {
+        "initial": 2.8616178097861e-10,
+        "final": 2.769093947426209e-09,
+        "minimum": -6.20746570345817e-09,
+        "maximum": 5.244770217145719e-09
+      },
+      "drawer_open_state_observed": false
+    },
+    {
+      "id": "direct_ideal_open_original_prompt",
+      "condition": "prebuilt open drawer state",
+      "candidate": "DIRECT",
+      "source": {
+        "path": "runs/icra_cadence/direct_open_seed1399_v1/report.json",
+        "sha256": "f82fa9fe09a6bda92298a4ca1974e931f2156d7a35838b9b6a8a216a63b6052a"
+      },
+      "seed": 1399,
+      "prompt": "Place the butter in the basket",
+      "subtask_steps": 300,
+      "return_phase": "COMPLETE",
+      "online_oracle_inputs": [],
+      "task_success": false,
+      "target_object": "butter_1",
+      "target_pick_success": false,
+      "target_reached_destination": null,
+      "target_minimum_eef_distance_m": 0.147626537305199,
+      "target_grasp_contact_steps": 0,
+      "target_maximum_lift_m": 5.617728504603292e-14,
+      "wrong_objects": {
+        "cream_cheese_1": {
+          "minimum_eef_distance_m": 0.0564888250440657,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 0.00013146221337578812
+        }
+      },
+      "drawer": {
+        "initial": -0.15000000015668943,
+        "final": -0.09872028147998464,
+        "minimum": -0.16046908579409155,
+        "maximum": -0.09872027994902136
+      },
+      "drawer_open_state_observed": true
+    },
+    {
+      "id": "direct_ideal_open_exact_prompt",
+      "condition": "prebuilt open drawer state",
+      "candidate": "DIRECT",
+      "source": {
+        "path": "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/report.json",
+        "sha256": "17f6db49d699058674f8395924d4f58642a46e6dfa0317aef3dcafe80dee55f0"
+      },
+      "seed": 1399,
+      "prompt": "Pick up the butter and place it in the basket",
+      "subtask_steps": 300,
+      "return_phase": "COMPLETE",
+      "online_oracle_inputs": [],
+      "task_success": false,
+      "target_object": "butter_1",
+      "target_pick_success": false,
+      "target_reached_destination": null,
+      "target_minimum_eef_distance_m": 0.15496445340434714,
+      "target_grasp_contact_steps": 0,
+      "target_maximum_lift_m": 8.012049371730612e-06,
+      "wrong_objects": {
+        "cream_cheese_1": {
+          "minimum_eef_distance_m": 0.04283791264295526,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 0.00017061316792044146
+        }
+      },
+      "drawer": {
+        "initial": -0.15000000015668943,
+        "final": -0.10033199410471066,
+        "minimum": -0.16042766774232797,
+        "maximum": -0.10033199243721302
+      },
+      "drawer_open_state_observed": true
+    },
+    {
+      "id": "direct_ideal_open_source_prompt",
+      "condition": "prebuilt open drawer state",
+      "candidate": "DIRECT",
+      "source": {
+        "path": "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/report.json",
+        "sha256": "6508f3b438b5e7646c5b3909a6d318e72a1639d591a1c4ab1800eaaf9564b413"
+      },
+      "seed": 1399,
+      "prompt": "Pick up the butter inside the open middle drawer and place it in the basket",
+      "subtask_steps": 300,
+      "return_phase": "COMPLETE",
+      "online_oracle_inputs": [],
+      "task_success": false,
+      "target_object": "butter_1",
+      "target_pick_success": false,
+      "target_reached_destination": null,
+      "target_minimum_eef_distance_m": 0.0778281933797496,
+      "target_grasp_contact_steps": 0,
+      "target_maximum_lift_m": 7.630340803643776e-12,
+      "wrong_objects": {
+        "cream_cheese_1": {
+          "minimum_eef_distance_m": 0.08078680460210201,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 1.4685438132877593e-05
+        }
+      },
+      "drawer": {
+        "initial": -0.15000000015668943,
+        "final": -0.08897786223655106,
+        "minimum": -0.16057901502478397,
+        "maximum": -0.08897786060981211
+      },
+      "drawer_open_state_observed": true
+    }
+  ],
+  "aggregate": {
+    "run_count": 7,
+    "task_success_count": 0,
+    "target_pick_success_count": 1,
+    "target_destination_success_count": 0,
+    "open_candidate_success_count": 1,
+    "online_oracle_input_run_count": 0
+  },
+  "config": {
+    "path": "configs/experiments/original_drawer_executor_qualification_v1.yaml",
+    "sha256": "a15c6e30beab0e48d380958bf23a32537c47915cf8cadca4d1e2b08772f2258c"
+  }
+}

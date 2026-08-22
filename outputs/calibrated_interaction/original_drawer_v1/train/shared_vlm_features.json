@@ -1,0 +1,32 @@
+{
+  "schema_version": "calibrated-interaction.shared-vlm-features.v1",
+  "repository_commit": "dc7bfff603ba35dacd99ab647aee35727f749b11",
+  "dataset": "data/calibrated_interaction/original_drawer_v1/train.jsonl",
+  "dataset_sha256": "c01496411a6b8ba71f4406f5054d15c880a89eb63dd5b0eceffd3ce49fe2b3a1",
+  "candidate_set": "configs/experiments/original_drawer_candidate_set.yaml",
+  "candidate_set_sha256": "04b10d0ea7a668e6a6b6e0f56e62c4a20a0c0379c2819e63a005fc54f4c634e3",
+  "output": "outputs/calibrated_interaction/original_drawer_v1/train/shared_vlm_features.npz",
+  "output_sha256": "9e6ec989d9e9e101fbe20178feeb4127c701e4795359e0a8ce251ff759a43718",
+  "context_shape": [
+    32,
+    4,
+    2048
+  ],
+  "candidate_shape": [
+    32,
+    3,
+    2048
+  ],
+  "encoder": "frozen pi05_libero PaliGemma multimodal prefix",
+  "shared_encoder_for_context_and_candidates": true,
+  "checkpoint_metadata_sha256": "303a4e354814928e1d29b75e310f2c1ac7e7e29b62f48395b631045ca1cffc73",
+  "policy_inputs": [
+    "agentview RGB",
+    "wrist RGB",
+    "public robot state",
+    "full task prompt",
+    "public capability candidate"
+  ],
+  "online_oracle_inputs": [],
+  "route_or_effect_labels_loaded": false
+}

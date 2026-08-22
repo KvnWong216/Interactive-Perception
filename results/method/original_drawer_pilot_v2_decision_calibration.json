@@ -1,0 +1,1536 @@
+{
+  "schema_version": "calibrated-interaction.original-drawer-pilot.v1",
+  "repository_commit": "dc7bfff603ba35dacd99ab647aee35727f749b11",
+  "decision": "PILOT_ONLY_NOT_METHOD_EVIDENCE",
+  "reason": "route splits and shared-VLM features are real, but effect labels are repeated capability-level seed-1399 proxies rather than per-seed executed counterfactual outcomes",
+  "samples": {
+    "train": 32,
+    "development": 8,
+    "calibration": 16,
+    "test": 16
+  },
+  "seed_groups_disjoint": true,
+  "same_rgb_prompt_counterfactual": true,
+  "variants": {
+    "B6_route_only": {
+      "runs": [
+        {
+          "seed": 20260822,
+          "effect_supervision": false,
+          "effect_weight": 0.0,
+          "gradient_match": null,
+          "best_epoch": 385,
+          "epochs_ran": 466,
+          "development_objective": 0.0019457682501524687,
+          "development": {
+            "accuracy": 1.0,
+            "macro_f1": 1.0,
+            "nll": 0.0019457682501524687,
+            "brier": 2.8629456475069688e-05,
+            "ece": 0.0019364356994628906,
+            "false_direct_rate": 0.0
+          },
+          "test": {
+            "accuracy": 0.9375,
+            "macro_f1": 0.9372549019607843,
+            "nll": 0.2844074070453644,
+            "brier": 0.135934298173292,
+            "ece": 0.09655491635203359,
+            "false_direct_rate": 0.0
+          },
+          "test_effect_bce_proxy": 0.8233405351638794
+        },
+        {
+          "seed": 20260823,
+          "effect_supervision": false,
+          "effect_weight": 0.0,
+          "gradient_match": null,
+          "best_epoch": 90,
+          "epochs_ran": 171,
+          "development_objective": 0.028965262696146965,
+          "development": {
+            "accuracy": 1.0,
+            "macro_f1": 1.0,
+            "nll": 0.028965262696146965,
+            "brier": 0.0037179185982578714,
+            "ece": 0.02771840989589691,
+            "false_direct_rate": 0.0
+          },
+          "test": {
+            "accuracy": 1.0,
+            "macro_f1": 1.0,
+            "nll": 0.08640646189451218,
+            "brier": 0.03057794422989297,
+            "ece": 0.07400649040937424,
+            "false_direct_rate": 0.0
+          },
+          "test_effect_bce_proxy": 0.7541886568069458
+        },
+        {
+          "seed": 20260824,
+          "effect_supervision": false,
+          "effect_weight": 0.0,
+          "gradient_match": null,
+          "best_epoch": 75,
+          "epochs_ran": 156,
+          "development_objective": 0.013537400402128696,
+          "development": {
+            "accuracy": 1.0,
+            "macro_f1": 1.0,
+            "nll": 0.013537400402128696,
+            "brier": 0.0012774052326765624,
+            "ece": 0.01315760612487793,
+            "false_direct_rate": 0.0
+          },
+          "test": {
+            "accuracy": 0.9375,
+            "macro_f1": 0.9372549019607843,
+            "nll": 0.32138457894325256,
+            "brier": 0.1343953101336618,
+            "ece": 0.09262441843748088,
+            "false_direct_rate": 0.0
+          },
+          "test_effect_bce_proxy": 0.8654773831367493
+        }
+      ],
+      "selected_seed": 20260822,
+      "test_summary": {
+        "accuracy": {
+          "mean": 0.9583333333333334,
+          "std": 0.02946278254943948
+        },
+        "macro_f1": {
+          "mean": 0.9581699346405229,
+          "std": 0.029578322873162772
+        },
+        "nll": {
+          "mean": 0.23073281596104303,
+          "std": 0.10316459395546747
+        },
+        "brier": {
+          "mean": 0.10030251751228225,
+          "std": 0.0493067217230064
+        },
+        "ece": {
+          "mean": 0.08772860839962958,
+          "std": 0.009834788425717575
+        },
+        "false_direct_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      }
+    },
+    "B7_effect_route": {
+      "runs": [
+        {
+          "seed": 20260822,
+          "effect_supervision": true,
+          "effect_weight": 0.1304866433010569,
+          "gradient_match": {
+            "route_gradient_norm": 0.7291336725088644,
+            "effect_gradient_norm": 5.587803119638979,
+            "unclipped_ratio": 0.1304866433010569,
+            "selected_weight": 0.1304866433010569
+          },
+          "best_epoch": 65,
+          "epochs_ran": 146,
+          "development_objective": 0.011940944660454988,
+          "development": {
+            "accuracy": 1.0,
+            "macro_f1": 1.0,
+            "nll": 0.0070401341654360294,
+            "brier": 0.00023052099309794997,
+            "ece": 0.006964325904846191,
+            "false_direct_rate": 0.0
+          },
+          "test": {
+            "accuracy": 0.9375,
+            "macro_f1": 0.9372549019607843,
+            "nll": 0.265655517578125,
+            "brier": 0.12812039884387125,
+            "ece": 0.08781777322292324,
+            "false_direct_rate": 0.0
+          },
+          "test_effect_bce_proxy": 0.11926846951246262
+        },
+        {
+          "seed": 20260823,
+          "effect_supervision": true,
+          "effect_weight": 0.215081116983983,
+          "gradient_match": {
+            "route_gradient_norm": 0.883622874579511,
+            "effect_gradient_norm": 4.108323812756255,
+            "unclipped_ratio": 0.215081116983983,
+            "selected_weight": 0.215081116983983
+          },
+          "best_epoch": 65,
+          "epochs_ran": 146,
+          "development_objective": 0.051780393719673155,
+          "development": {
+            "accuracy": 1.0,
+            "macro_f1": 1.0,
+            "nll": 0.040951233357191086,
+            "brier": 0.01139773599745212,
+            "ece": 0.03659246116876602,
+            "false_direct_rate": 0.0
+          },
+          "test": {
+            "accuracy": 0.9375,
+            "macro_f1": 0.9372549019607843,
+            "nll": 0.24397845566272736,
+            "brier": 0.13293825215552962,
+            "ece": 0.07615217939019203,
+            "false_direct_rate": 0.0
+          },
+          "test_effect_bce_proxy": 0.15840347111225128
+        },
+        {
+          "seed": 20260824,
+          "effect_supervision": true,
+          "effect_weight": 0.17286321859908826,
+          "gradient_match": {
+            "route_gradient_norm": 0.8018082167080908,
+            "effect_gradient_norm": 4.638396896726067,
+            "unclipped_ratio": 0.17286321859908826,
+            "selected_weight": 0.17286321859908826
+          },
+          "best_epoch": 115,
+          "epochs_ran": 196,
+          "development_objective": 0.017411459982395173,
+          "development": {
+            "accuracy": 1.0,
+            "macro_f1": 1.0,
+            "nll": 0.009486611932516098,
+            "brier": 0.00033242169864445664,
+            "ece": 0.009389638900756836,
+            "false_direct_rate": 0.0
+          },
+          "test": {
+            "accuracy": 0.9375,
+            "macro_f1": 0.9372549019607843,
+            "nll": 0.19236381351947784,
+            "brier": 0.11885465568474157,
+            "ece": 0.06543781980872154,
+            "false_direct_rate": 0.0
+          },
+          "test_effect_bce_proxy": 0.09291965514421463
+        }
+      ],
+      "selected_seed": 20260822,
+      "test_summary": {
+        "accuracy": {
+          "mean": 0.9375,
+          "std": 0.0
+        },
+        "macro_f1": {
+          "mean": 0.9372549019607842,
+          "std": 1.1102230246251565e-16
+        },
+        "nll": {
+          "mean": 0.2339992622534434,
+          "std": 0.03074200922494604
+        },
+        "brier": {
+          "mean": 0.12663776889471415,
+          "std": 0.005844402795986464
+        },
+        "ece": {
+          "mean": 0.0764692574739456,
+          "std": 0.009139328297304171
+        },
+        "false_direct_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      }
+    }
+  },
+  "calibration": {
+    "temperature": 0.8722039561623123,
+    "route": {
+      "schema_version": "calibrated-interaction.lac.v1",
+      "alpha": 0.1,
+      "threshold": 0.7912229012940166,
+      "labels": [
+        "direct_requested_to_basket",
+        "open_middle_drawer",
+        "stop_unsupported"
+      ],
+      "calibration_size": 16,
+      "split_id": "original_drawer_calibration_v1",
+      "guarantee": "marginal label coverage under exchangeability",
+      "non_guarantee": "single-example correctness or task success"
+    },
+    "effects": {
+      "schema_version": "calibrated-interaction.binary-effects.v1",
+      "joint_alpha": 0.1,
+      "decision_factors": [
+        "execution_succeeded",
+        "ambiguity_reduced"
+      ],
+      "calibrators": {
+        "execution_succeeded": {
+          "schema_version": "calibrated-interaction.lac.v1",
+          "alpha": 0.05,
+          "threshold": 0.8665753155946732,
+          "labels": [
+            "0",
+            "1"
+          ],
+          "calibration_size": 24,
+          "split_id": "original_drawer_calibration_proxy_v1:execution_succeeded",
+          "guarantee": "marginal label coverage under exchangeability",
+          "non_guarantee": "single-example correctness or task success"
+        },
+        "task_relevant_change": {
+          "schema_version": "calibrated-interaction.lac.v1",
+          "alpha": 0.1,
+          "threshold": 0.6526123881340027,
+          "labels": [
+            "0",
+            "1"
+          ],
+          "calibration_size": 24,
+          "split_id": "original_drawer_calibration_proxy_v1:task_relevant_change",
+          "guarantee": "marginal label coverage under exchangeability",
+          "non_guarantee": "single-example correctness or task success"
+        },
+        "ambiguity_reduced": {
+          "schema_version": "calibrated-interaction.lac.v1",
+          "alpha": 0.05,
+          "threshold": 0.8607386201620102,
+          "labels": [
+            "0",
+            "1"
+          ],
+          "calibration_size": 24,
+          "split_id": "original_drawer_calibration_proxy_v1:ambiguity_reduced",
+          "guarantee": "marginal label coverage under exchangeability",
+          "non_guarantee": "single-example correctness or task success"
+        },
+        "target_confirmed": {
+          "schema_version": "calibrated-interaction.lac.v1",
+          "alpha": 0.1,
+          "threshold": 0.6832677125930786,
+          "labels": [
+            "0",
+            "1"
+          ],
+          "calibration_size": 24,
+          "split_id": "original_drawer_calibration_proxy_v1:target_confirmed",
+          "guarantee": "marginal label coverage under exchangeability",
+          "non_guarantee": "single-example correctness or task success"
+        },
+        "candidate_rejected": {
+          "schema_version": "calibrated-interaction.lac.v1",
+          "alpha": 0.1,
+          "threshold": 0.06974492967128754,
+          "labels": [
+            "0",
+            "1"
+          ],
+          "calibration_size": 24,
+          "split_id": "original_drawer_calibration_proxy_v1:candidate_rejected",
+          "guarantee": "marginal label coverage under exchangeability",
+          "non_guarantee": "single-example correctness or task success"
+        },
+        "region_confirmed_empty": {
+          "schema_version": "calibrated-interaction.lac.v1",
+          "alpha": 0.1,
+          "threshold": 0.0625220462679863,
+          "labels": [
+            "0",
+            "1"
+          ],
+          "calibration_size": 24,
+          "split_id": "original_drawer_calibration_proxy_v1:region_confirmed_empty",
+          "guarantee": "marginal label coverage under exchangeability",
+          "non_guarantee": "single-example correctness or task success"
+        }
+      },
+      "guarantee": "simultaneous coverage for decision_factors via Bonferroni and marginal coverage for other factors, under exchangeability",
+      "non_guarantee": "simultaneous coverage of diagnostic factors, action usefulness, or task success"
+    }
+  },
+  "held_out_test_calibrated": {
+    "coverage": 0.9375,
+    "mean_set_size": 1.0,
+    "singleton_precision": 0.9375,
+    "abstention_rate": 0.6875,
+    "safe_action_accuracy": 0.25,
+    "wrong_execute_rate": 0.0625,
+    "decision_counts": {
+      "ABSTAIN": 11,
+      "EXECUTE": 5
+    },
+    "paired_seed_accuracy": 0.0,
+    "paired_seed_results": {
+      "2028": false,
+      "2029": false,
+      "2030": false,
+      "2031": false,
+      "2032": false,
+      "2033": false,
+      "2034": false,
+      "2035": false
+    },
+    "route_sets": [
+      [
+        "open_middle_drawer"
+      ],
+      [
+        "open_middle_drawer"
+      ],
+      [
+        "open_middle_drawer"
+      ],
+      [
+        "open_middle_drawer"
+      ],
+      [
+        "open_middle_drawer"
+      ],
+      [
+        "open_middle_drawer"
+      ],
+      [
+        "open_middle_drawer"
+      ],
+      [
+        "open_middle_drawer"
+      ],
+      [
+        "direct_requested_to_basket"
+      ],
+      [
+        "direct_requested_to_basket"
+      ],
+      [
+        "direct_requested_to_basket"
+      ],
+      [
+        "direct_requested_to_basket"
+      ],
+      [
+        "direct_requested_to_basket"
+      ],
+      [
+        "open_middle_drawer"
+      ],
+      [
+        "direct_requested_to_basket"
+      ],
+      [
+        "direct_requested_to_basket"
+      ]
+    ],
+    "decisions": [
+      {
+        "kind": "ABSTAIN",
+        "candidate_id": null,
+        "route_prediction_set": [
+          "open_middle_drawer"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "0",
+              "1"
+            ],
+            "task_relevant_change": [
+              "0",
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0",
+              "1"
+            ],
+            "target_confirmed": [
+              "0",
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          }
+        },
+        "reason": "route is singleton but the required effect remains non-singleton"
+      },
+      {
+        "kind": "ABSTAIN",
+        "candidate_id": null,
+        "route_prediction_set": [
+          "open_middle_drawer"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "0",
+              "1"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0",
+              "1"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          }
+        },
+        "reason": "route is singleton but the required effect remains non-singleton"
+      },
+      {
+        "kind": "ABSTAIN",
+        "candidate_id": null,
+        "route_prediction_set": [
+          "open_middle_drawer"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "0",
+              "1"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0",
+              "1"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          }
+        },
+        "reason": "route is singleton but the required effect remains non-singleton"
+      },
+      {
+        "kind": "EXECUTE",
+        "candidate_id": "open_middle_drawer",
+        "route_prediction_set": [
+          "open_middle_drawer"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "1"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "1"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          }
+        },
+        "reason": "singleton calibrated route with singleton-required effect evidence"
+      },
+      {
+        "kind": "ABSTAIN",
+        "candidate_id": null,
+        "route_prediction_set": [
+          "open_middle_drawer"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "0",
+              "1"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0",
+              "1"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          }
+        },
+        "reason": "route is singleton but the required effect remains non-singleton"
+      },
+      {
+        "kind": "EXECUTE",
+        "candidate_id": "open_middle_drawer",
+        "route_prediction_set": [
+          "open_middle_drawer"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "1"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "1"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          }
+        },
+        "reason": "singleton calibrated route with singleton-required effect evidence"
+      },
+      {
+        "kind": "EXECUTE",
+        "candidate_id": "open_middle_drawer",
+        "route_prediction_set": [
+          "open_middle_drawer"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "1"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "1"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          }
+        },
+        "reason": "singleton calibrated route with singleton-required effect evidence"
+      },
+      {
+        "kind": "EXECUTE",
+        "candidate_id": "open_middle_drawer",
+        "route_prediction_set": [
+          "open_middle_drawer"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "1"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "1"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          }
+        },
+        "reason": "singleton calibrated route with singleton-required effect evidence"
+      },
+      {
+        "kind": "ABSTAIN",
+        "candidate_id": null,
+        "route_prediction_set": [
+          "direct_requested_to_basket"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0",
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0",
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0",
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": []
+          }
+        },
+        "reason": "route is singleton but the required effect remains non-singleton"
+      },
+      {
+        "kind": "ABSTAIN",
+        "candidate_id": null,
+        "route_prediction_set": [
+          "direct_requested_to_basket"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "0",
+              "1"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0",
+              "1"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0",
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0",
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          }
+        },
+        "reason": "route is singleton but the required effect remains non-singleton"
+      },
+      {
+        "kind": "ABSTAIN",
+        "candidate_id": null,
+        "route_prediction_set": [
+          "direct_requested_to_basket"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "0",
+              "1"
+            ],
+            "task_relevant_change": [
+              "0",
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0",
+              "1"
+            ],
+            "target_confirmed": [
+              "0",
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          }
+        },
+        "reason": "route is singleton but the required effect remains non-singleton"
+      },
+      {
+        "kind": "ABSTAIN",
+        "candidate_id": null,
+        "route_prediction_set": [
+          "direct_requested_to_basket"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "0",
+              "1"
+            ],
+            "task_relevant_change": [
+              "0",
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0",
+              "1"
+            ],
+            "target_confirmed": [
+              "0",
+              "1"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          }
+        },
+        "reason": "route is singleton but the required effect remains non-singleton"
+      },
+      {
+        "kind": "ABSTAIN",
+        "candidate_id": null,
+        "route_prediction_set": [
+          "direct_requested_to_basket"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "0",
+              "1"
+            ],
+            "task_relevant_change": [
+              "0",
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0",
+              "1"
+            ],
+            "target_confirmed": [
+              "0",
+              "1"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0",
+              "1"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          }
+        },
+        "reason": "route is singleton but the required effect remains non-singleton"
+      },
+      {
+        "kind": "EXECUTE",
+        "candidate_id": "open_middle_drawer",
+        "route_prediction_set": [
+          "open_middle_drawer"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "1"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "1"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": []
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          }
+        },
+        "reason": "singleton calibrated route with singleton-required effect evidence"
+      },
+      {
+        "kind": "ABSTAIN",
+        "candidate_id": null,
+        "route_prediction_set": [
+          "direct_requested_to_basket"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "0",
+              "1"
+            ],
+            "task_relevant_change": [
+              "0",
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0",
+              "1"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0",
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          }
+        },
+        "reason": "route is singleton but the required effect remains non-singleton"
+      },
+      {
+        "kind": "ABSTAIN",
+        "candidate_id": null,
+        "route_prediction_set": [
+          "direct_requested_to_basket"
+        ],
+        "effect_prediction_sets": {
+          "direct_requested_to_basket": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "1"
+            ],
+            "candidate_rejected": [
+              "0"
+            ],
+            "region_confirmed_empty": [
+              "0"
+            ]
+          },
+          "open_middle_drawer": {
+            "execution_succeeded": [
+              "0",
+              "1"
+            ],
+            "task_relevant_change": [
+              "1"
+            ],
+            "ambiguity_reduced": [
+              "0",
+              "1"
+            ],
+            "target_confirmed": [
+              "0",
+              "1"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          },
+          "stop_unsupported": {
+            "execution_succeeded": [
+              "0"
+            ],
+            "task_relevant_change": [
+              "0"
+            ],
+            "ambiguity_reduced": [
+              "0"
+            ],
+            "target_confirmed": [
+              "0"
+            ],
+            "candidate_rejected": [],
+            "region_confirmed_empty": []
+          }
+        },
+        "reason": "route is singleton but the required effect remains non-singleton"
+      }
+    ]
+  },
+  "sources": {
+    "candidate_set": {
+      "path": "configs/experiments/original_drawer_candidate_set.yaml",
+      "sha256": "04b10d0ea7a668e6a6b6e0f56e62c4a20a0c0379c2819e63a005fc54f4c634e3"
+    },
+    "effect_proxy": {
+      "path": "configs/experiments/original_drawer_effect_proxy_v1.yaml",
+      "sha256": "0a581ed2c2f8f0dce517f2b927a023ae061c82274cf3ea597dd4d647641b3579",
+      "claim_scope": "Capability-level pilot supervision only. Labels come from fresh seed-1399 executions and are repeated across the same-scene routing dataset; they are not per-seed counterfactual action outcomes and cannot support the final effect-learning claim."
+    },
+    "model": {
+      "path": "checkpoints/calibrated_interaction/original_drawer_pilot_v2_decision_calibration.pt",
+      "sha256": "5efbb44bf9a9f79ef60d72019e789de1f2b445c4897ecd672ec28ec709fba86b"
+    }
+  },
+  "online_oracle_inputs": []
+}

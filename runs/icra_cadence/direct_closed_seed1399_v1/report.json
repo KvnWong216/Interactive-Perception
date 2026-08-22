@@ -1,0 +1,210 @@
+{
+  "schema_version": "piu.semantic-option.v1",
+  "scenario": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+  "seed": 1399,
+  "role": "DIRECT_ACT",
+  "prompt": "Place the butter in the basket",
+  "controller": {
+    "policy": "frozen pi05_libero",
+    "server_metadata": {},
+    "online_inputs": [
+      "stock agentview RGB",
+      "wrist RGB",
+      "public proprioception",
+      "semantic subtask",
+      "public action history"
+    ],
+    "online_oracle_inputs": [],
+    "subtask_steps": 400,
+    "completion_source": "SAFETY_BUDGET",
+    "return_steps": 168,
+    "return_phase": "TIMED_OUT",
+    "keyframes": [
+      {
+        "name": "00_before",
+        "image_paths": {
+          "agentview": "runs/icra_cadence/direct_closed_seed1399_v1/assets/00_before_agentview.png",
+          "wrist": "runs/icra_cadence/direct_closed_seed1399_v1/assets/00_before_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "9806d5620370ecb8deaff3bf11f3dd610ff2a775d6fe1c2def58bf74b43b8dcb",
+          "wrist": "b6fc9f047713582801462967432b305c83a102c4fe3899b7fb635d61f54148a2"
+        },
+        "public_robot_state": [
+          -0.2084646605658237,
+          2.4418348435381324e-12,
+          1.1732794757296399,
+          3.140339335468512,
+          0.0007735038737415084,
+          -0.08922200721618134,
+          0.03923672847747547,
+          -0.039236668168015645
+        ]
+      },
+      {
+        "name": "01_subtask",
+        "image_paths": {
+          "agentview": "runs/icra_cadence/direct_closed_seed1399_v1/assets/01_subtask_agentview.png",
+          "wrist": "runs/icra_cadence/direct_closed_seed1399_v1/assets/01_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "5f302fd45d33ea89701b9a148bf39a17bbdc5492621a9d222241afcb62b3e5a5",
+          "wrist": "3d63ba490de683d2a33508d6ef45da9b2649b92e2197de685786cffe3455625d"
+        },
+        "public_robot_state": [
+          0.2073174604919828,
+          0.1268815735698288,
+          1.0774857441783003,
+          3.1782966597678115,
+          -0.17782184294024805,
+          0.7446369804810019,
+          0.021529636368501703,
+          -0.02068590790572026
+        ]
+      },
+      {
+        "name": "02_subtask",
+        "image_paths": {
+          "agentview": "runs/icra_cadence/direct_closed_seed1399_v1/assets/02_subtask_agentview.png",
+          "wrist": "runs/icra_cadence/direct_closed_seed1399_v1/assets/02_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "300c0cebc0a1fc786dea9726b967fed288a0fd71ff35396be131f519defa1ea3",
+          "wrist": "ababe4c662f743369e9341af52350aa3a72295da9c92b167e3c524aff8fea814"
+        },
+        "public_robot_state": [
+          0.2628121824013671,
+          0.11453734050511541,
+          1.1018923596395436,
+          2.960528620647103,
+          -0.526323869700225,
+          1.5402020063379882,
+          0.03951474182458623,
+          -0.0397291225055328
+        ]
+      },
+      {
+        "name": "03_subtask",
+        "image_paths": {
+          "agentview": "runs/icra_cadence/direct_closed_seed1399_v1/assets/03_subtask_agentview.png",
+          "wrist": "runs/icra_cadence/direct_closed_seed1399_v1/assets/03_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "b3a322c3c88bf034eda0bf13676362a38caba55c7c6790ac35aff3583adbe89a",
+          "wrist": "b79a6b184d741c666db46b17a9ed98605aab876ce069d229e388638bf458c7a1"
+        },
+        "public_robot_state": [
+          0.2300749650195314,
+          0.13821505577463702,
+          0.9803116627584789,
+          2.9120218142733565,
+          -0.7406126192880973,
+          1.326483078405342,
+          0.03933035300987572,
+          -0.03867898469497564
+        ]
+      },
+      {
+        "name": "04_subtask_end",
+        "image_paths": {
+          "agentview": "runs/icra_cadence/direct_closed_seed1399_v1/assets/04_subtask_end_agentview.png",
+          "wrist": "runs/icra_cadence/direct_closed_seed1399_v1/assets/04_subtask_end_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "72b3b9a0fb5591aaa32544981f472c2917b1221fd2bb92b7b75c1281eae5bbeb",
+          "wrist": "5673f52586b94e17cba6bb0348b7918a59e34299d14ca91a42c6e8d57cf9dcc1"
+        },
+        "public_robot_state": [
+          0.2234506858760396,
+          0.09491220155773702,
+          0.9362679564457577,
+          2.8695360418011693,
+          -1.2307342529841225,
+          1.4024014001524814,
+          0.03953671944882521,
+          -0.039280011603739375
+        ]
+      },
+      {
+        "name": "05_returned_home",
+        "image_paths": {
+          "agentview": "runs/icra_cadence/direct_closed_seed1399_v1/assets/05_returned_home_agentview.png",
+          "wrist": "runs/icra_cadence/direct_closed_seed1399_v1/assets/05_returned_home_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "c2b4434f6d82ff09d89d67bf372bc9e898a9c630cd41abdce1f3e84f8950187c",
+          "wrist": "284b6b0878a845f5fdfe21891e9b503da9fec99830b407b561c6c344508718a0"
+        },
+        "public_robot_state": [
+          0.06512192620005394,
+          7.078326511870053e-05,
+          1.1932680074420334,
+          3.121319594046454,
+          0.00016555283077293988,
+          -0.3575069310499207,
+          0.04000000597624271,
+          -0.039998985213420726
+        ]
+      }
+    ],
+    "video": "runs/icra_cadence/direct_closed_seed1399_v1/assets/public_wrist_agentview.mp4",
+    "action_history": "runs/icra_cadence/direct_closed_seed1399_v1/assets/public_action_history.json",
+    "opaque_state_transport": null
+  },
+  "evaluator": {
+    "timing": "separate replay after controller terminal",
+    "privileged_inputs": [
+      "declared evaluator object poses and contacts",
+      "declared evaluator joints",
+      "task success predicate"
+    ],
+    "task_success": false,
+    "first_task_success_step": null,
+    "target_object": "butter_1",
+    "target_pick_success": false,
+    "objects": {
+      "butter_1": {
+        "minimum_eef_distance_m": 0.2697118867445471,
+        "minimum_eef_step": 423,
+        "eef_position_at_minimum": [
+          0.1503373682851198,
+          -0.0036026339840159976,
+          1.1300431050870352
+        ],
+        "object_position_at_minimum": [
+          0.01793681782524279,
+          -0.2013719339321715,
+          1.0031498425107996
+        ],
+        "maximum_lift_m": 2.3213431177282473e-11,
+        "grasp_contact_steps": 0,
+        "grasp_contact_after_subtask_steps": 0
+      },
+      "cream_cheese_1": {
+        "minimum_eef_distance_m": 0.0020688449487694435,
+        "minimum_eef_step": 107,
+        "eef_position_at_minimum": [
+          0.22747962212138184,
+          0.13221801418637938,
+          1.0588966575413217
+        ],
+        "object_position_at_minimum": [
+          0.2269253854865298,
+          0.13205751266562396,
+          1.0569099063147027
+        ],
+        "maximum_lift_m": 0.24080065445285403,
+        "grasp_contact_steps": 59,
+        "grasp_contact_after_subtask_steps": 0
+      }
+    },
+    "joints": {
+      "wooden_cabinet_1_middle_level": {
+        "initial": 2.8616178097861e-10,
+        "final": 2.6026510766684467e-09,
+        "minimum": -5.950220820886076e-09,
+        "maximum": 5.2361974348458806e-09
+      }
+    }
+  }
+}

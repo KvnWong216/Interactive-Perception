@@ -39,6 +39,7 @@ if nn is not None:
                 raise ValueError("all decoder dimensions must be positive")
             if model_width % num_heads:
                 raise ValueError("model_width must be divisible by num_heads")
+            self.input_norm = nn.LayerNorm(vlm_width, elementwise_affine=False)
             self.context_projection = nn.Linear(vlm_width, model_width)
             self.candidate_projection = nn.Linear(vlm_width, model_width)
             self.cross_attention = nn.MultiheadAttention(
@@ -75,8 +76,8 @@ if nn is not None:
                 )
             if context_tokens.shape[0] != candidate_tokens.shape[0]:
                 raise ValueError("context and candidate batches must match")
-            context = self.context_projection(context_tokens)
-            queries = self.candidate_projection(candidate_tokens)
+            context = self.context_projection(self.input_norm(context_tokens))
+            queries = self.candidate_projection(self.input_norm(candidate_tokens))
             attended, _ = self.cross_attention(
                 queries,
                 context,

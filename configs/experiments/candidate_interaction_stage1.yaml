@@ -1,41 +1,48 @@
 schema_version: calibrated-interaction.experiment.v1
-id: candidate_effect_route_qwen25vl3b_v1
+id: candidate_effect_route_pi05_shared_prefix_v1
 seed: 20270822
 
 inputs:
   policy_visible: [prompt, temporal_agentview_rgb, temporal_wrist_rgb, public_action_observation_history]
   forbidden: [semantic_ids, simulator_segmentation, hidden_object_poses, articulated_joint_truth, task_predicates]
-  history_frames: 4
+  history_frames: 1
+  history_state: initial_empty
   depth: false
 
 model:
-  vlm: Qwen/Qwen2.5-VL-3B-Instruct
+  vlm: frozen pi05_libero PaliGemma multimodal prefix
   vlm_frozen: true
   candidate_text_encoded_by_shared_vlm: true
+  context_token_width: 2048
+  context_summary_tokens: 4
   interaction_decoder:
     layers: 1
-    width: 1024
-    attention_heads: 8
+    width: 128
+    attention_heads: 4
     effect_factors: 6
   heads: [effect, route]
   edl: false
 
 training:
-  precision: bfloat16
-  batch_size_per_device: 2
-  gradient_accumulation_steps: 16
+  frozen_feature_extraction_batch_size: 2
+  decoder_precision: float32
+  decoder_batch_size: 32
+  gradient_accumulation_steps: 1
   optimizer: adamw
   route_loss: cross_entropy
   effect_loss: binary_cross_entropy
   effect_weight_selection: gradient_norm_match_on_development_then_frozen
   max_gpus: 1
-  minimum_gpu_memory_gb: 24
-  recommended_gpu_memory_gb: 48
+  max_gpu_memory_fraction: 0.75
+  validated_gpu: NVIDIA RTX 4080 SUPER 16GB
+  minimum_gpu_memory_gb: 16
+  recommended_gpu_memory_gb: 16
 
 calibration:
   temperature_scaling: true
   route_conformal: LAC
-  effect_conformal: per_factor_LAC_with_bonferroni
+  effect_conformal: per_factor_LAC_with_bonferroni_on_decision_factors
+  effect_decision_factors: [execution_succeeded, ambiguity_reduced]
   alpha: 0.1
   split: calibration
 

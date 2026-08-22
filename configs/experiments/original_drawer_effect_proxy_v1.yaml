@@ -1,0 +1,44 @@
+schema_version: calibrated-interaction.effect-supervision-proxy.v1
+id: original_drawer_seed1399_capability_proxy_v1
+claim_scope: >-
+  Capability-level pilot supervision only. Labels come from fresh seed-1399
+  executions and are repeated across the same-scene routing dataset; they are
+  not per-seed counterfactual action outcomes and cannot support the final
+  effect-learning claim.
+sources:
+  direct_hidden:
+    report: runs/icra_cadence/direct_closed_seed1399_v1/report.json
+    candidate_id: direct_requested_to_basket
+    target_location: closed_container
+  open_hidden:
+    report: runs/icra_cadence/open_then_direct_seed1399_v1/open/report.json
+    candidate_id: open_middle_drawer
+    target_location: closed_container
+  direct_visible:
+    report: runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/report.json
+    candidate_id: direct_requested_to_basket
+    target_location: visible_workspace
+labels:
+  closed_container:
+    direct_requested_to_basket:
+      execution_succeeded: false
+      task_relevant_change: false
+      ambiguity_reduced: false
+      target_confirmed: false
+      candidate_rejected: false
+      region_confirmed_empty: false
+    open_middle_drawer:
+      execution_succeeded: true
+      task_relevant_change: true
+      ambiguity_reduced: true
+      target_confirmed: true
+      candidate_rejected: false
+      region_confirmed_empty: false
+  visible_workspace:
+    direct_requested_to_basket:
+      execution_succeeded: false
+      task_relevant_change: true
+      ambiguity_reduced: false
+      target_confirmed: true
+      candidate_rejected: false
+      region_confirmed_empty: false

@@ -159,10 +159,16 @@ class LACCalibrator:
 
 @dataclasses.dataclass(frozen=True)
 class BinaryEffectCalibration:
-    """Bonferroni-calibrated prediction sets for non-exclusive effect factors."""
+    """Calibrate non-exclusive effects and jointly protect decision factors.
+
+    Bonferroni is applied to the subset of factors that can authorize a
+    physical decision. Remaining diagnostic factors retain individual marginal
+    coverage at ``joint_alpha`` and are not part of the simultaneous guarantee.
+    """
 
     calibrators: Mapping[EffectFactor, LACCalibrator]
     joint_alpha: float
+    decision_factors: tuple[EffectFactor, ...] = tuple(EffectFactor)
 
     @classmethod
     def fit(
@@ -172,6 +178,7 @@ class BinaryEffectCalibration:
         *,
         joint_alpha: float,
         split_id: str,
+        decision_factors: Sequence[EffectFactor] = tuple(EffectFactor),
     ) -> BinaryEffectCalibration:
         probabilities = np.asarray(positive_probabilities, dtype=np.float64)
         truth = np.asarray(labels, dtype=np.int64)
@@ -180,7 +187,12 @@ class BinaryEffectCalibration:
             raise ValueError("effect probabilities and labels must both be [N,F]")
         if probabilities.shape[1] != len(factors) or np.any((truth < 0) | (truth > 1)):
             raise ValueError("effect tensor does not match the factor ontology")
-        per_factor_alpha = joint_alpha / len(factors)
+        protected = tuple(decision_factors)
+        if not protected or len(set(protected)) != len(protected):
+            raise ValueError("decision_factors must be non-empty and unique")
+        if not set(protected).issubset(factors):
+            raise ValueError("unknown decision factor")
+        protected_alpha = joint_alpha / len(protected)
         calibrators = {}
         for index, factor in enumerate(factors):
             binary = np.stack(
@@ -190,10 +202,14 @@ class BinaryEffectCalibration:
                 binary,
                 truth[:, index],
                 labels=("0", "1"),
-                alpha=per_factor_alpha,
+                alpha=(protected_alpha if factor in protected else joint_alpha),
                 split_id=f"{split_id}:{factor.value}",
             )
-        return cls(calibrators=calibrators, joint_alpha=joint_alpha)
+        return cls(
+            calibrators=calibrators,
+            joint_alpha=joint_alpha,
+            decision_factors=protected,
+        )
 
     def predict(
         self, positive_probabilities: Mapping[EffectFactor | str, float]
@@ -215,12 +231,19 @@ class BinaryEffectCalibration:
         return {
             "schema_version": "calibrated-interaction.binary-effects.v1",
             "joint_alpha": self.joint_alpha,
+            "decision_factors": [factor.value for factor in self.decision_factors],
             "calibrators": {
                 factor.value: calibrator.to_dict()
                 for factor, calibrator in self.calibrators.items()
             },
-            "guarantee": "simultaneous factor coverage lower bound via Bonferroni under exchangeability",
-            "non_guarantee": "action usefulness or task success",
+            "guarantee": (
+                "simultaneous coverage for decision_factors via Bonferroni and "
+                "marginal coverage for other factors, under exchangeability"
+            ),
+            "non_guarantee": (
+                "simultaneous coverage of diagnostic factors, action usefulness, "
+                "or task success"
+            ),
         }
 
     @classmethod
@@ -231,4 +254,10 @@ class BinaryEffectCalibration:
                 for name, row in value["calibrators"].items()
             },
             joint_alpha=float(value["joint_alpha"]),
+            decision_factors=tuple(
+                EffectFactor(name)
+                for name in value.get(
+                    "decision_factors", [factor.value for factor in EffectFactor]
+                )
+            ),
         )

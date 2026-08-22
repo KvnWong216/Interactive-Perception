@@ -18,20 +18,21 @@ import socket
 import subprocess
 import sys
 import time
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
 import imageio.v2 as imageio
 import numpy as np
 import yaml
 
-
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / "scripts/infra"), str(ROOT / "src")]
-import bootstrap  # noqa: F401,E402
-from interactive_perception.action_options import execute_subtask_and_return_home  # noqa: E402
-from interactive_perception.observation_option import home_return_config  # noqa: E402
-from interactive_perception.policy_client import (  # noqa: E402
+import bootstrap  # noqa: F401
+
+from interactive_perception.action_options import execute_subtask_and_return_home
+from interactive_perception.observation_option import home_return_config
+from interactive_perception.policy_client import (
     OpenPiWebsocketPolicy,
     build_observation,
 )
@@ -100,7 +101,9 @@ def split_frame(observation: Mapping[str, Any], prompt: str) -> np.ndarray:
 
 def object_qpos(env: Any, name: str) -> np.ndarray:
     obj = env.env.objects_dict[name]
-    return np.asarray(env.env.sim.data.get_joint_qpos(obj.joints[0]), dtype=float).copy()
+    return np.asarray(
+        env.env.sim.data.get_joint_qpos(obj.joints[0]), dtype=float
+    ).copy()
 
 
 def evaluator_replay(
@@ -111,6 +114,7 @@ def evaluator_replay(
     actions: list[list[float]],
     subtask_steps: int,
     target_object: str | None,
+    target_destination_region: str | None,
     tracked_objects: tuple[str, ...],
     tracked_joints: tuple[str, ...],
 ) -> dict[str, Any]:
@@ -142,6 +146,7 @@ def evaluator_replay(
             for name in tracked_joints
         }
         first_task_success_step = None
+        first_target_destination_step = None
         for step, action in enumerate(actions):
             observation, _, done, _ = env.step(action)
             eef = np.asarray(observation["robot0_eef_pos"], dtype=float)
@@ -171,6 +176,17 @@ def evaluator_replay(
                 joint_values[name].append(float(env.env.sim.data.get_joint_qpos(name)))
             if bool(done) and first_task_success_step is None:
                 first_task_success_step = step
+            if (
+                target_object
+                and target_destination_region
+                and bool(
+                    env.env._eval_predicate(
+                        ["in", target_object, target_destination_region]
+                    )
+                )
+                and first_target_destination_step is None
+            ):
+                first_target_destination_step = step
         target = objects.get(target_object) if target_object else None
         return {
             "timing": "separate replay after controller terminal",
@@ -182,6 +198,9 @@ def evaluator_replay(
             "task_success": first_task_success_step is not None,
             "first_task_success_step": first_task_success_step,
             "target_object": target_object,
+            "target_destination_region": target_destination_region,
+            "target_reached_destination": first_target_destination_step is not None,
+            "first_target_destination_step": first_target_destination_step,
             "target_pick_success": bool(
                 target
                 and target["grasp_contact_steps"] > 0
@@ -215,6 +234,7 @@ def main() -> None:
     parser.add_argument("--replan-steps", type=int, default=5)
     parser.add_argument("--preserve-grasp", action="store_true")
     parser.add_argument("--target-object")
+    parser.add_argument("--target-destination-region")
     parser.add_argument("--track-object", action="append", default=[])
     parser.add_argument("--track-joint", action="append", default=[])
     parser.add_argument("--gpu", type=int, default=0)
@@ -244,6 +264,9 @@ def main() -> None:
         args.seed = args.seed if args.seed is not None else scene.get("seed")
         args.prompt = args.prompt or option.get("prompt") or task.get("prompt")
         args.target_object = args.target_object or evaluator.get("target_object")
+        args.target_destination_region = (
+            args.target_destination_region or evaluator.get("target_destination_region")
+        )
         if not args.track_object:
             args.track_object = list(evaluator.get("track_objects", ()))
         if not args.track_joint:
@@ -408,7 +431,11 @@ def main() -> None:
             raise RuntimeError("controller did not produce a final state")
         args.final_state.parent.mkdir(parents=True, exist_ok=True)
         np.savez_compressed(args.final_state, state=final_state)
-    tracked = tuple(dict.fromkeys([*args.track_object, *([args.target_object] if args.target_object else [])]))
+    tracked = tuple(
+        dict.fromkeys(
+            [*args.track_object, *([args.target_object] if args.target_object else [])]
+        )
+    )
     evaluator = evaluator_replay(
         bddl=args.bddl,
         seed=args.seed,
@@ -416,6 +443,7 @@ def main() -> None:
         actions=recording.actions,
         subtask_steps=execution.subtask_steps,
         target_object=args.target_object,
+        target_destination_region=args.target_destination_region,
         tracked_objects=tracked,
         tracked_joints=tuple(args.track_joint),
     )
@@ -444,14 +472,20 @@ def main() -> None:
             "video": portable_path(args.assets / "public_wrist_agentview.mp4"),
             "action_history": portable_path(action_path),
             "opaque_state_transport": (
-                portable_path(args.final_state) if args.final_state is not None else None
+                portable_path(args.final_state)
+                if args.final_state is not None
+                else None
             ),
         },
         "evaluator": evaluator,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n")
-    print(json.dumps({"controller": report["controller"], "evaluator": evaluator}, indent=2))
+    print(
+        json.dumps(
+            {"controller": report["controller"], "evaluator": evaluator}, indent=2
+        )
+    )
 
 
 if __name__ == "__main__":

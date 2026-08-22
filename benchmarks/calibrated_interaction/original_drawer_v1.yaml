@@ -1,0 +1,49 @@
+schema_version: calibrated-interaction.collection-protocol.v1
+id: original_drawer_prompt_counterfactual_v1
+description: >-
+  Seed-disjoint prompt counterfactuals from the unchanged T01D drawer BDDL.
+  For each seed the RGB scene is shared: butter is hidden in the closed middle
+  drawer while cream cheese is visible on the work surface. The pair must stay
+  in one split so a model cannot memorize the image across train and test.
+
+splits:
+  train:
+    open_now: true
+    seed_block: original_drawer_train_v1
+    seeds: 2000-2015
+    scenarios: &prompt_counterfactuals
+      - id: original_drawer_hidden_butter
+        bddl: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+        prompt: Place the butter in the basket
+        target: butter
+        destination: basket
+        target_instance: butter_1
+        target_location: closed_container
+        preferred_action: OPEN_TO_INSPECT
+        interaction_target: middle drawer
+      - id: original_drawer_visible_cream_cheese
+        bddl: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+        prompt: Place the cream cheese in the basket
+        target: cream cheese
+        destination: basket
+        target_instance: cream_cheese_1
+        target_location: visible_workspace
+        preferred_action: DIRECT_ACT
+
+  development:
+    open_now: true
+    seed_block: original_drawer_development_v1
+    seeds: 2016-2019
+    scenarios: *prompt_counterfactuals
+
+  calibration:
+    open_now: true
+    seed_block: original_drawer_calibration_v1
+    seeds: 2020-2027
+    scenarios: *prompt_counterfactuals
+
+  test:
+    open_now: true
+    seed_block: original_drawer_test_v1
+    seeds: 2028-2035
+    scenarios: *prompt_counterfactuals

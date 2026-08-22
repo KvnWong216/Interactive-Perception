@@ -27,6 +27,8 @@ engineering baseline and is not the proposed method.
 - [Novelty gate](docs/novelty_audit.md)
 - [Architecture decision](docs/adr/0001_candidate_conditioned_calibrated_interaction.md)
 - [Research question, math, data, experiments, compute, and go/no-go plan](docs/research_plan.md)
+- [Internal ICRA-cadence schedule](docs/icra_cadence_plan.md)
+- [Original-drawer method cycle and negative-result report](docs/original_drawer_experiment_report.md)
 - [Learned-package contracts](src/calibrated_interaction/README.md)
 - [中文旧系统总览与复现教程](docs/TAKEAWAY_AND_TUTORIAL_CN.md), retained as
   Heuristic V0 documentation
@@ -124,7 +126,10 @@ Do not add rules or scores to these legacy entry points.
 
 | evidence | result | claim boundary |
 |---|---:|---|
-| learned pipeline contracts/unit tests | 51 passed | software behavior only |
+| full repository test suite | 54 passed | software and retained-artifact integrity |
+| same-RGB prompt router, held-out | B6 95.83% vs B7 93.75% mean accuracy | pilot only; proxy effects |
+| calibrated B7 pilot | 93.75% coverage, 68.75% abstain, 6.25% wrong execute | 16 held-out samples |
+| fresh frozen-pi0.5 executor qualification | OPEN 1/1; target pick 1/7; task 0/7 | single seed; executor blocked |
 | [original-drawer calibrated replay](results/diagnostics/original_drawer_calibrated_replay_v1.json) | OPEN -> reobserve -> DIRECT | wiring only; fixture probabilities |
 | six-frame RGB legacy outcome, clean development | 119/120 singleton-correct | legacy outcome component only |
 | six-frame RGB legacy outcome, sealed audit | 294/300 singleton-correct | legacy outcome component only |

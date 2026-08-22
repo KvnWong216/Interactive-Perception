@@ -3,11 +3,17 @@
 .libero/
 .cache/
 third_party/
-checkpoints/
+checkpoints/*
+!checkpoints/calibrated_interaction/
+checkpoints/calibrated_interaction/*
+!checkpoints/calibrated_interaction/original_drawer_pilot_v4_reproducible.pt
 
 # Generated data
 data/*
 !data/.gitkeep
+!data/calibrated_interaction/
+!data/calibrated_interaction/original_drawer_v1/
+!data/calibrated_interaction/original_drawer_v1/**
 !data/calibration/
 !data/calibration/libero_intents_v1.jsonl
 !data/calibration/libero_intents_v1.manifest.json
@@ -15,6 +21,9 @@ data/calibration/*_smoke*.jsonl
 data/calibration/*_smoke*.manifest.json
 outputs/*
 !outputs/.gitkeep
+!outputs/calibrated_interaction/
+!outputs/calibrated_interaction/original_drawer_v1/
+!outputs/calibrated_interaction/original_drawer_v1/**
 !outputs/t01_prompt_state_v1/
 outputs/t01_prompt_state_v1/*
 !outputs/t01_prompt_state_v1/pi05_prefix_embeddings.npz
@@ -64,3 +73,6 @@ __pycache__/
 
 # Editable-install build metadata
 *.egg-info/
+
+# Runtime server logs contain machine-local paths and are not evidence assets.
+runs/**/work/

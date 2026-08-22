@@ -1,0 +1,38 @@
+{
+  "schema_version": "interaction-uncertainty.piu-scene-snapshot-manifest.v1",
+  "repository_commit": "dc7bfff603ba35dacd99ab647aee35727f749b11",
+  "protocol": "benchmarks/calibrated_interaction/original_drawer_v1.yaml",
+  "protocol_sha256": "6d4b554e3d51442841f81aa7089fdb12827faa4a1728dc1111698828050ba0e4",
+  "split": "development",
+  "seed_block": "original_drawer_development_v1",
+  "seeds": [
+    2016,
+    2017,
+    2018,
+    2019
+  ],
+  "scenarios": [
+    "original_drawer_hidden_butter",
+    "original_drawer_visible_cream_cheese"
+  ],
+  "scenario_paths": [
+    "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+    "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl"
+  ],
+  "samples": 8,
+  "dataset": "data/calibrated_interaction/original_drawer_v1/development.jsonl",
+  "dataset_sha256": "0199ef2ae6cef29c40346cc97df9731fec9a2e901582e72e68833c099a5dd555",
+  "label_file": "data/calibrated_interaction/original_drawer_v1/development_labels.jsonl",
+  "label_file_in_policy_index": false,
+  "policy_inputs": [
+    "agentview RGB",
+    "wrist RGB",
+    "public robot state",
+    "full prompt"
+  ],
+  "online_oracle_inputs": [],
+  "class_counts_hidden_from_policy": {
+    "closed_container": 4,
+    "visible_workspace": 4
+  }
+}

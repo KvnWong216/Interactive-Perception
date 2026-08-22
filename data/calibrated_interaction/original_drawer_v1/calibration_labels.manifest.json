@@ -1,0 +1,36 @@
+{
+  "schema_version": "interaction-uncertainty.piu-scene-label-manifest.v1",
+  "repository_commit": "dc7bfff603ba35dacd99ab647aee35727f749b11",
+  "protocol": "benchmarks/calibrated_interaction/original_drawer_v1.yaml",
+  "protocol_sha256": "6d4b554e3d51442841f81aa7089fdb12827faa4a1728dc1111698828050ba0e4",
+  "split": "calibration",
+  "seed_block": "original_drawer_calibration_v1",
+  "seeds": [
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027
+  ],
+  "scenarios": [
+    "original_drawer_hidden_butter",
+    "original_drawer_visible_cream_cheese"
+  ],
+  "scenario_paths": [
+    "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+    "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl"
+  ],
+  "samples": 16,
+  "labels": "data/calibrated_interaction/original_drawer_v1/calibration_labels.jsonl",
+  "labels_sha256": "4ad85450d6b9f62ef7003ca870f51072a40cbe6d3245951d465df36018f11b2d",
+  "source_dataset": "data/calibrated_interaction/original_drawer_v1/calibration.jsonl",
+  "source_dataset_sha256": "7a8615fdc81c7c10f10fb5bf3d2fe12bc99bae24d8c7eee4ded042375bdc389a",
+  "evaluator_only_fields": [
+    "instance segmentation",
+    "target semantic ID",
+    "interaction target"
+  ]
+}

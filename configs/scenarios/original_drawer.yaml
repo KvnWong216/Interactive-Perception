@@ -18,6 +18,7 @@ actions:
 
 evaluator:
   target_object: butter_1
+  target_destination_region: basket_1_contain_region
   track_objects: [butter_1, cream_cheese_1]
   track_joints: [wooden_cabinet_1_middle_level]
 

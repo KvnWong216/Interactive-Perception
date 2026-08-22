@@ -103,6 +103,24 @@ def test_lac_can_abstain_on_empty_set_instead_of_inventing_a_top_one() -> None:
     assert calibrator.predict({"a": 0.4, "b": 0.35, "c": 0.25}) == ()
 
 
+def test_effect_bonferroni_protects_only_decision_critical_family() -> None:
+    probabilities = np.full((24, len(EffectFactor)), 0.9)
+    labels = np.ones_like(probabilities, dtype=np.int64)
+    calibration = BinaryEffectCalibration.fit(
+        probabilities,
+        labels,
+        joint_alpha=0.1,
+        split_id="held-out",
+        decision_factors=(
+            EffectFactor.EXECUTION_SUCCEEDED,
+            EffectFactor.AMBIGUITY_REDUCED,
+        ),
+    )
+    assert calibration.calibrators[EffectFactor.EXECUTION_SUCCEEDED].alpha == 0.05
+    assert calibration.calibrators[EffectFactor.AMBIGUITY_REDUCED].alpha == 0.05
+    assert calibration.calibrators[EffectFactor.TARGET_CONFIRMED].alpha == 0.1
+
+
 def test_selector_executes_singleton_route_only_with_reliable_effect() -> None:
     selector = _fixture_selector()
     prediction = ModelPrediction(
