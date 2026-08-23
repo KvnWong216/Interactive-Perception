@@ -97,3 +97,7 @@ New non-performance artifacts:
   values are literally `PENDING`; no zero or synthetic metric is inserted.
   Same-scenario prompt paraphrases are frozen as a paired descriptive stress
   test and explicitly cannot support a broad OOD claim.
+- Deterministic method and evidence-boundary SVGs are generated from the same
+  frozen contracts and evidence table. They visibly separate public inputs from
+  evaluator-only data and observed negative counts from `PENDING` successor
+  experiments; they add no performance evidence.

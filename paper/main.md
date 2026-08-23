@@ -277,6 +277,15 @@ payload and serializer mode. No real external risk contract, full-prefix cache,
 successor checkpoint, calibration artifact, or physical rollout exists, so
 this subsection makes no performance claim.
 
+![PIU public-input successor and its executor-qualification gate.](generated/piu_method_pipeline_v1.svg)
+
+**Figure 2.** Implemented public-input successor. Prompt, RGB history, and
+public action history condition the frozen full prefix, lightweight binder,
+candidate-effect decoder, and split calibration. The typed controller may
+abstain; physical execution additionally requires an externally risk-derived,
+single-use certificate for the exact candidate/serializer contract. The dashed
+lower lane is evaluator-only and never enters online public methods.
+
 ## 6. Results
 
 ### Physical stage decomposition
@@ -356,6 +365,13 @@ primitives. It reports OPEN 9/10 and DIRECT endpoint diagnostics (visible-object
 contact 10/10, post-OPEN butter contact 0/10, terminal destination 3/10), while
 leaving the target-conditioned PICK and PLACE primitives empirically
 unevaluated and unauthorized.
+
+![Evidence boundary separating retained negative results from pending successor experiments.](generated/piu_evidence_boundary_v1.svg)
+
+**Figure 3.** Evidence and claim boundary generated from the hash-checked paper
+table. The left side is observed same-scenario physical evidence; the right
+side distinguishes verified software contracts from absent real successor
+evidence. `PENDING` is missing evidence, never an encoded zero.
 
 ## 7. Discussion
 

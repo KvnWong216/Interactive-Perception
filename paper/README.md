@@ -17,3 +17,11 @@ It is deliberately incomplete: every unavailable real training, calibration,
 or sealed artifact is `PENDING`, not zero. The corresponding JSON is generated
 from hash-checked sources by `scripts/evaluation/build_piu_paper_tables.py` and
 the v1 snapshot is immutable.
+
+The method and evidence-boundary figures are likewise deterministic SVGs:
+[`generated/piu_method_pipeline_v1.svg`](generated/piu_method_pipeline_v1.svg)
+and
+[`generated/piu_evidence_boundary_v1.svg`](generated/piu_evidence_boundary_v1.svg).
+They are generated from the frozen figure protocol and hash-checked evidence
+table by `scripts/evaluation/build_piu_paper_figures.py`; `--verify` compares
+both files byte-for-byte.

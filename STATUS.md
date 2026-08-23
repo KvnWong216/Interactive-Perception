@@ -13,6 +13,11 @@ four paired prompt paraphrases without calling them broad OOD. An immutable
 table generator verifies schemas, hashes, sealed authorizations, and evidence
 classes; unavailable real artifacts render as `PENDING`, never zero. The
 retained v1 paper table therefore documents readiness rather than performance.
+Two deterministic SVGs now expose the same boundary visually: the method figure
+separates public online inference from privileged evaluator-only paths and shows
+the external risk-derived executor gate; the evidence figure reads the
+hash-checked table and displays observed 9/10 -> 8/10 -> 0/10 evidence separately
+from `PENDING` binder, calibration, and sealed results.
 
 Completed foundations include the external pi0.5 contract, v2 oracle protocol,
 threshold/provenance audit, exact paired-power planner, rejected four-token
@@ -155,6 +160,6 @@ not bypass the causal oracle gate or fabricate those missing outcomes.
 Consequently no real B8/B0 development pilot, conservative formal group count,
 formal initial-state cohort, or sealed execution schedule exists yet; Phase 9
 and the Phase 10 cohort/one-shot execution freeze are software-ready only. The
-current CPU-only repository suite passes 220 tests; the existing approved
+current CPU-only repository suite passes 223 tests; the existing approved
 Python GPU process remains at 590 MiB, below the 1500 MiB cap (the GPU safety
 check refuses to interfere with it).

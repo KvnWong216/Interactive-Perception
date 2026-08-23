@@ -469,6 +469,14 @@ entries:
     rationale: Controller reports and serialized subtasks are frozen before physical outcomes. Endpoint identity is checked before STARTED; after STARTED, runtime failure is counted and the same state cannot be rerun. Interrupted attempts have an explicit failure-only close path.
     evidence: schedule and receipt loaders revalidate split roles, unique state hashes, old-seed exclusion, release lock, exact candidate serialization, order, attempt tickets, and v2 semantic reports
 
+  - id: evidence_bound_paper_figures
+    location: scripts/evaluation/build_piu_paper_figures.py
+    value: deterministic method and evidence-boundary SVGs generated from frozen contracts and the hash-checked v1 evidence table
+    provenance: protocol_identifier
+    claim_use: main_evaluator
+    rationale: Observed physical counts, software verification, and missing successor evidence are rendered as separate visual classes. PENDING is explicit, automatic method success remains null, and no handwritten metric enters the figures.
+    evidence: figure tests reject weakened missing-data semantics and byte-verify both immutable SVG outputs
+
   - id: frechet_joint_diagnostic
     location: src/piu/calibrated_controller.py:frechet_joint_lower_bound
     value: max(0, p_execution + p_outcome - 1)

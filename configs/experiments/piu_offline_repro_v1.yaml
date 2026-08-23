@@ -30,6 +30,7 @@ required_files:
   - configs/experiments/piu_baselines_v1.yaml
   - configs/experiments/piu_formal_analysis_v1.yaml
   - configs/experiments/piu_robustness_reporting_v1.yaml
+  - configs/experiments/piu_paper_figures_v1.yaml
   - configs/experiments/piu_executor_risk_allocation_v1.yaml
   - configs/experiments/method_provenance_v1.yaml
   - configs/experiments/piu_primitive_registry_v1.yaml
@@ -68,6 +69,7 @@ required_files:
   - src/piu/baselines.py
   - src/piu/statistics.py
   - src/piu/paper_artifacts.py
+  - src/piu/paper_figures.py
   - src/piu/splits.py
   - src/piu/oracle_effect.py
   - src/piu/oracle_schedule.py
@@ -101,6 +103,7 @@ required_files:
   - scripts/evaluation/evaluate_piu_action_effect.py
   - scripts/evaluation/analyze_piu_formal_experiment.py
   - scripts/evaluation/build_piu_paper_tables.py
+  - scripts/evaluation/build_piu_paper_figures.py
   - scripts/evaluation/aggregate_piu_closed_loop_episode.py
   - scripts/evaluation/export_piu_formal_outcome.py
   - scripts/evaluation/assemble_piu_formal_outcomes.py
@@ -146,6 +149,8 @@ required_files:
   - docs/claim_evidence_ledger.md
   - paper/generated/piu_evidence_tables_v1.json
   - paper/generated/piu_evidence_tables_v1.md
+  - paper/generated/piu_method_pipeline_v1.svg
+  - paper/generated/piu_evidence_boundary_v1.svg
   - results/method/piu_primitive_reliability_registry_v2.json
 
 python_entrypoints:
@@ -172,6 +177,7 @@ python_entrypoints:
   - scripts/evaluation/evaluate_piu_action_effect.py
   - scripts/evaluation/analyze_piu_formal_experiment.py
   - scripts/evaluation/build_piu_paper_tables.py
+  - scripts/evaluation/build_piu_paper_figures.py
   - scripts/evaluation/aggregate_piu_closed_loop_episode.py
   - scripts/evaluation/export_piu_formal_outcome.py
   - scripts/evaluation/assemble_piu_formal_outcomes.py

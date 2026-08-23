@@ -2,7 +2,7 @@
   "schema_version": "piu.offline-repro-audit.v1",
   "manifest": {
     "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_offline_repro_v1.yaml",
-    "sha256": "0c8c8f53f86aa9c9472bd69165e2b30d9420a9128582c6349ba084391512d9af"
+    "sha256": "b2966e165ebd2c39f37408bd281062b102229e37274b81435183403af6bdb11d"
   },
   "mode": "CREATE_RELEASE_LOCK",
   "offline_ready": true,
@@ -13,8 +13,8 @@
   "offline_inventory": [
     {
       "path": "configs/experiments/method_provenance_v1.yaml",
-      "sha256": "64d854eada736abb2554807a09a8e7e7a101908b5dc7ae04808e572f0a4127d9",
-      "bytes": "39133"
+      "sha256": "6ba294bcf3994ddd028826022e30609e654451ef4d7f243c22b08b0741f007d5",
+      "bytes": "39778"
     },
     {
       "path": "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
@@ -63,8 +63,13 @@
     },
     {
       "path": "configs/experiments/piu_offline_repro_v1.yaml",
-      "sha256": "0c8c8f53f86aa9c9472bd69165e2b30d9420a9128582c6349ba084391512d9af",
-      "bytes": "14231"
+      "sha256": "b2966e165ebd2c39f37408bd281062b102229e37274b81435183403af6bdb11d",
+      "bytes": "14506"
+    },
+    {
+      "path": "configs/experiments/piu_paper_figures_v1.yaml",
+      "sha256": "037f03ed684b85b343eaaabb6e24f3f18c762777b9bf12a54ea547105a86b8d7",
+      "bytes": "989"
     },
     {
       "path": "configs/experiments/piu_primitive_registry_v1.yaml",
@@ -93,13 +98,18 @@
     },
     {
       "path": "docs/claim_evidence_ledger.md",
-      "sha256": "8c7b2365025f7ed823e7ad08a7e30076126ee35bc738fbc8251bd5fbb4b14165",
-      "bytes": "5245"
+      "sha256": "2e0974f26949d458382d22af226e415275795018f4498bb581cc913ea6706e15",
+      "bytes": "5577"
     },
     {
       "path": "docs/preregistration.md",
       "sha256": "6678ecb98f4c51f4c299920a3103d9166a8f1fc65f6fa4f1adbe7adb5483b6a2",
       "bytes": "19561"
+    },
+    {
+      "path": "paper/generated/piu_evidence_boundary_v1.svg",
+      "sha256": "5f8e3ae87523a5e1be809345b524e491b1181cc1633fca19ee79011eefc51c77",
+      "bytes": "6924"
     },
     {
       "path": "paper/generated/piu_evidence_tables_v1.json",
@@ -110,6 +120,11 @@
       "path": "paper/generated/piu_evidence_tables_v1.md",
       "sha256": "a18695a3fee73fd5ac3474e6ff4f06170393a3804d5245750dab18726b4c9ccb",
       "bytes": "3979"
+    },
+    {
+      "path": "paper/generated/piu_method_pipeline_v1.svg",
+      "sha256": "b0b1c96c76c67d5c096accd1d766c9ede2d093a01841826127d3a76f9776ee83",
+      "bytes": "11243"
     },
     {
       "path": "results/diagnostics/pi05_libero_checkpoint_identity_v1.json",
@@ -235,6 +250,11 @@
       "path": "scripts/evaluation/build_piu_formal_schedule.py",
       "sha256": "c5ea3f11f72d7b5f1bc459017ae51043cd05f0f01fb968c66679ef64b30446cc",
       "bytes": "12231"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_paper_figures.py",
+      "sha256": "01dd2bc443afc630c7c0eca450839b77b7b1685788a4c26c2220cbf55c6bff21",
+      "bytes": "2263"
     },
     {
       "path": "scripts/evaluation/build_piu_paper_tables.py",
@@ -602,6 +622,11 @@
       "bytes": "30310"
     },
     {
+      "path": "src/piu/paper_figures.py",
+      "sha256": "2ec65e16b211705982cbbb61793691a103fd4c38a12950086b923d4ef56509d1",
+      "bytes": "13570"
+    },
+    {
       "path": "src/piu/policy_identity.py",
       "sha256": "d56f0e75a5490a1b3e43864bce539b04d5b227dee4dd6a97b3c9630822735c14",
       "bytes": "2114"
@@ -647,7 +672,7 @@
       "bytes": "8126"
     }
   ],
-  "offline_inventory_sha256": "2624c83da8d2487802adf3b9d711a4d34957310ab1ed75c979cf191264202b2e",
+  "offline_inventory_sha256": "c561aaf6bc82cc6782d0856878ccf70d7c693c18cfd9aee2ceed8fe5843c120c",
   "dependency_closure_exceptions": {
     "results/diagnostics/piu_offline_repro_preflight_v1.json": "The release lock cannot contain its own content hash; it is validated as the output of this manifest and bound separately by every formal design.",
     "scripts/pipeline/infer.py": "The B2 adapter executes this path only inside a detached worktree at the attested frozen tag commit, never from the current release checkout."
@@ -766,6 +791,11 @@
     },
     {
       "path": "scripts/evaluation/build_piu_paper_tables.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_paper_figures.py",
       "executable": true,
       "syntax_valid": true
     },

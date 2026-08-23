@@ -1,0 +1,27 @@
+schema_version: piu.paper-figures.v1
+id: piu_evidence_locked_figures_v1
+status: frozen_automatic_rendering
+
+scope:
+  scenario: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+  method_interpretation: implemented_public_input_successor_not_empirically_validated
+  evidence_interpretation: retained_negative_result_plus_explicit_pending_successor
+
+inputs:
+  evidence_tables: paper/generated/piu_evidence_tables_v1.json
+  risk_allocation: configs/experiments/piu_executor_risk_allocation_v1.yaml
+  baseline_registry: configs/experiments/piu_baselines_v1.yaml
+
+claim_contract:
+  missing_marker: PENDING
+  pending_may_be_rendered_as_zero: false
+  software_verification_is_performance_evidence: false
+  oracle_is_public_method: false
+  automatic_success_threshold: null
+  broad_ood_claim: false
+  local_gpu_actions_performed: false
+
+outputs:
+  immutable: true
+  method: paper/generated/piu_method_pipeline_v1.svg
+  evidence_boundary: paper/generated/piu_evidence_boundary_v1.svg

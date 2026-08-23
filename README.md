@@ -64,6 +64,7 @@ target-binding method is claimed or rejected.
 - [Executed counterfactual effect-label policy](docs/executed_effect_dataset.md)
 - [Submission-shaped internal paper draft](paper/main.md)
 - [Automatically generated evidence/readiness tables](paper/generated/piu_evidence_tables_v1.md)
+- [Automatically generated method and evidence-boundary figures](paper/generated/piu_method_pipeline_v1.svg)
 - [Learned-package contracts](src/calibrated_interaction/README.md)
 - [中文旧系统总览与复现教程](docs/TAKEAWAY_AND_TUTORIAL_CN.md), retained as
   Heuristic V0 documentation
