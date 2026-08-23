@@ -1,0 +1,249 @@
+{
+  "schema_version": "piu.semantic-option.v1",
+  "scenario": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+  "seed": 1407,
+  "role": "DIRECT_ACT",
+  "prompt": "Place the cream cheese in the basket",
+  "controller": {
+    "policy": "frozen pi05_libero",
+    "server_mode": "external",
+    "server_metadata": {},
+    "online_inputs": [
+      "stock agentview RGB",
+      "wrist RGB",
+      "public proprioception",
+      "semantic subtask",
+      "public action history"
+    ],
+    "online_oracle_inputs": [],
+    "subtask_steps": 400,
+    "completion_source": "SAFETY_BUDGET",
+    "return_steps": 69,
+    "return_phase": "COMPLETE",
+    "keyframes": [
+      {
+        "name": "00_before",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/00_before_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/00_before_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "fdf323ac4837dfdf6682869e812729a22ee7df5741456064ad21502769ed1d59",
+          "wrist": "3429207f548836a9cb9340811863fd53c8248949885ee9b9b8c9f24dd9db2d47"
+        },
+        "public_robot_state": [
+          -0.2084646605658236,
+          0.0,
+          1.1732794757296403,
+          3.140339335467866,
+          0.0007735038685599229,
+          -0.08922200721616234,
+          0.020833,
+          -0.020833
+        ]
+      },
+      {
+        "name": "01_subtask",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/01_subtask_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/01_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "8232d993f8f90967b3e22d32e2bf883743bc85a95a12acde143d2a086de7c7b6",
+          "wrist": "127905c36bb97967e76f65b33e7a35922a2de8a1fcc561557314603da0ebbbe0"
+        },
+        "public_robot_state": [
+          0.20667345763011527,
+          0.1326788397361618,
+          1.058102009543643,
+          3.151393904373587,
+          0.029534205984273032,
+          0.7515605143658236,
+          0.0218975898458173,
+          -0.020319813305533
+        ]
+      },
+      {
+        "name": "02_subtask",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/02_subtask_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/02_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "f9bc0829d2de558d067240adaa406d85f336111cebd31bca65b78d7348d05d39",
+          "wrist": "a3ac4d60cd4cf98009884608b00e9b923eaa6ad9af4d5c0663879d038ce2cf4b"
+        },
+        "public_robot_state": [
+          0.2596128372711753,
+          0.07673285037426573,
+          1.060829958347515,
+          2.95486791620164,
+          -0.4322875677021099,
+          1.5276507823970196,
+          0.03677290652487724,
+          -0.0397602383993209
+        ]
+      },
+      {
+        "name": "03_subtask",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/03_subtask_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/03_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "fe3be6f37eb2fbbcec21d9c6591dc5e4df782ca08dab6822b3467c19d9f700ca",
+          "wrist": "6e67ae53d8875bcf665d2dcf2d788391a48a6766802a7440efc39c20cb001fbb"
+        },
+        "public_robot_state": [
+          0.25524831962810457,
+          -0.0035687594064843743,
+          1.0261168647548968,
+          2.9308175268353773,
+          -0.4647212380000327,
+          1.461444507404719,
+          0.040010765988086276,
+          -0.03971434211231658
+        ]
+      },
+      {
+        "name": "04_subtask_end",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/04_subtask_end_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/04_subtask_end_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "7b08cacb7d2e20fcf2f3e703373a41c08353d170d775a4699eb87e09afba7bf7",
+          "wrist": "23ede7a3998cd0657aed8cf2d6712a93b5ce32ae8ba2f32b80fb822b6eeb5bb7"
+        },
+        "public_robot_state": [
+          0.25713571278524855,
+          0.03277412260117234,
+          1.0368905942874074,
+          2.8311478946391957,
+          -0.38420723656231925,
+          1.489639595215172,
+          0.04003298947377659,
+          -0.0408021106477954
+        ]
+      },
+      {
+        "name": "05_returned_home",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/05_returned_home_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/05_returned_home_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "a9d5faa501306c175b7ac5ff2c546cef2e3fee09ddfdf43bda62fc3675c10231",
+          "wrist": "47490f1b5506d766039347bb1e8f847e05b6a0f3a57b62219166916718c12d39"
+        },
+        "public_robot_state": [
+          -0.21064160178792285,
+          0.00025314101754523455,
+          1.1664571629996696,
+          3.1406054411562323,
+          0.00014269041281672325,
+          -0.05840400429200413,
+          0.03999883509920714,
+          -0.03989308014482161
+        ]
+      }
+    ],
+    "video": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/public_wrist_agentview.mp4",
+    "action_history": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/public_action_history.json",
+    "opaque_state_transport": null
+  },
+  "evaluator": {
+    "timing": "separate replay after controller terminal",
+    "privileged_inputs": [
+      "declared evaluator object poses and contacts",
+      "declared evaluator joints",
+      "evaluator-only instance segmentation",
+      "task success predicate"
+    ],
+    "task_success": false,
+    "first_task_success_step": null,
+    "target_object": "cream_cheese_1",
+    "target_destination_region": "basket_1_contain_region",
+    "target_reached_destination": false,
+    "first_target_destination_step": null,
+    "target_visibility_pixels": {
+      "initial": {
+        "agentview": 295,
+        "robot0_eye_in_hand": 1104
+      },
+      "after_subtask": {
+        "agentview": 92,
+        "robot0_eye_in_hand": 0
+      },
+      "final": {
+        "agentview": 35,
+        "robot0_eye_in_hand": 0
+      }
+    },
+    "target_pick_success": true,
+    "objects": {
+      "butter_1": {
+        "initial_position": [
+          0.03216719524142245,
+          -0.24988266570243642,
+          1.0419
+        ],
+        "minimum_eef_distance_m": 0.265303217538429,
+        "minimum_eef_step": 421,
+        "eef_position_at_minimum": [
+          0.1134429559399335,
+          -0.012434693129121535,
+          1.0893176000751756
+        ],
+        "object_position_at_minimum": [
+          0.03219173995018037,
+          -0.24983552456866387,
+          1.00314984294849
+        ],
+        "maximum_lift_m": 0.0,
+        "grasp_contact_steps": 0,
+        "grasp_contact_after_subtask_steps": 0,
+        "final_position": [
+          0.03219173995018037,
+          -0.24983552456866387,
+          1.00314984294849
+        ]
+      },
+      "cream_cheese_1": {
+        "initial_position": [
+          -0.04646630542100982,
+          0.14572295570747443,
+          0.935
+        ],
+        "minimum_eef_distance_m": 0.004129546823613491,
+        "minimum_eef_step": 103,
+        "eef_position_at_minimum": [
+          0.2143165489238001,
+          0.13191012431210736,
+          1.0593177380269003
+        ],
+        "object_position_at_minimum": [
+          0.21211857204930487,
+          0.13200694606810062,
+          1.055823073497197
+        ],
+        "maximum_lift_m": 0.2055899802754828,
+        "grasp_contact_steps": 57,
+        "grasp_contact_after_subtask_steps": 0,
+        "final_position": [
+          0.17737970725838428,
+          0.11471993791498261,
+          0.9089069548372153
+        ]
+      }
+    },
+    "joints": {
+      "wooden_cabinet_1_middle_level": {
+        "initial": 0.0,
+        "final": 4.775767927345064e-10,
+        "minimum": -6.361769335027855e-09,
+        "maximum": 3.90054075203388e-09
+      }
+    }
+  }
+}

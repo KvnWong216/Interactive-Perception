@@ -1,0 +1,45 @@
+schema_version: calibrated-interaction.paper-cycle.v2
+id: original_drawer_pi05_seeds1400_1409_v2
+scenario: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+run_root: runs/paper_cycle_executor_v2
+seeds: [1400, 1401, 1402, 1403, 1404, 1405, 1406, 1407, 1408, 1409]
+claim_scope: >-
+  Fresh same-scene executor and information-flow qualification. The matrix
+  separates target visibility, primitive execution, target grasp, placement,
+  and final task success. It is physical-method evidence for this fixed
+  scenario, but not evidence of multi-scene or multi-primitive generalization.
+thresholds:
+  drawer_open_joint_maximum: -0.14
+  target_visible_pixels_minimum: 256
+  visible_target_pick_gate_count: 8
+  visible_target_place_gate_count: 7
+  post_open_butter_pick_gate_count: 8
+conditions:
+  direct_closed_butter:
+    directory: direct_butter_closed
+    role: DIRECT_ACT
+    prompt: Place the butter in the basket
+    target_object: butter_1
+    wrong_object: cream_cheese_1
+  open_closed_drawer:
+    directory: open_butter
+    role: OPEN_CONTAINER
+    prompt: Open the middle layer of the drawer
+    target_object: butter_1
+    tracked_joint: wooden_cabinet_1_middle_level
+  direct_after_actual_open:
+    directory: direct_butter_after_open
+    role: DIRECT_ACT
+    prompt: Place the butter in the basket
+    target_object: butter_1
+    wrong_object: cream_cheese_1
+  direct_visible_cream_cheese:
+    directory: direct_cream_exact
+    role: DIRECT_ACT
+    prompt: Place the cream cheese in the basket
+    target_object: cream_cheese_1
+    wrong_object: butter_1
+preregistered_executor_gate: >-
+  Require at least 8/10 visible requested-object picks, 7/10 visible
+  requested-object placements, and 8/10 butter picks from states produced by
+  the actual OPEN option before claiming a full-loop executor qualification.

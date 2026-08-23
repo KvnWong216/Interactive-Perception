@@ -7,6 +7,7 @@ checkpoints/*
 !checkpoints/calibrated_interaction/
 checkpoints/calibrated_interaction/*
 !checkpoints/calibrated_interaction/original_drawer_pilot_v4_reproducible.pt
+!checkpoints/calibrated_interaction/original_drawer_executed_effect_cv_v1.pt
 
 # Generated data
 data/*
@@ -14,6 +15,8 @@ data/*
 !data/calibrated_interaction/
 !data/calibrated_interaction/original_drawer_v1/
 !data/calibrated_interaction/original_drawer_v1/**
+!data/calibrated_interaction/original_drawer_executed_v2/
+!data/calibrated_interaction/original_drawer_executed_v2/**
 !data/calibration/
 !data/calibration/libero_intents_v1.jsonl
 !data/calibration/libero_intents_v1.manifest.json
@@ -76,3 +79,6 @@ __pycache__/
 
 # Runtime server logs contain machine-local paths and are not evidence assets.
 runs/**/work/
+
+# Exploratory wording probe superseded by the frozen exact serializer.
+runs/paper_cycle_executor_v2/seed1400/direct_cream/

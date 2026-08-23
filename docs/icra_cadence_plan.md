@@ -71,3 +71,19 @@ cheese instead of the butter. Consequently:
    three-line keep/revert/next decision.
 4. Every third day: reproduce from a clean process and audit GPU shutdown,
    hashes, split membership, and privileged-input count.
+
+## 2026-08-22 paper-cycle outcome
+
+The ten-seed qualification and executed-effect development cycle is complete.
+OPEN mechanically succeeds 9/10 and acquires butter evidence 8/10, but
+post-OPEN DIRECT produces 0/10 butter picks and 0/10 task successes. The
+visible-object control passes pick (10/10) and fails terminal placement (3/10).
+Executed effect supervision ties route-only in all five grouped folds, so the
+effect head is rejected as a route contribution for this scenario.
+
+The internal deadline deliverable is therefore the falsification-oriented
+technical-report draft in [`paper/main.md`](../paper/main.md), not a broad
+ICRA/RSS method claim. Any later method resurrection requires new primitives,
+variable target/location compositions, positive empty/rejected effects, and a
+fresh group-disjoint calibration/test set; the current negative result remains
+frozen.

@@ -106,6 +106,18 @@ def object_qpos(env: Any, name: str) -> np.ndarray:
     ).copy()
 
 
+def visible_instance_pixels(
+    env: Any, observation: Mapping[str, Any], *, camera: str, instance: str
+) -> int:
+    keys = [
+        key for key in observation if key.startswith(camera) and "segmentation" in key
+    ]
+    if len(keys) != 1:
+        raise KeyError(f"expected one {camera} segmentation image, got {keys}")
+    raw = np.asarray(observation[keys[0]]).squeeze()
+    return int(np.count_nonzero(raw == env.instance_to_id[instance]))
+
+
 def evaluator_replay(
     *,
     bddl: Path,
@@ -118,9 +130,9 @@ def evaluator_replay(
     tracked_objects: tuple[str, ...],
     tracked_joints: tuple[str, ...],
 ) -> dict[str, Any]:
-    from libero.libero.envs import OffScreenRenderEnv
+    from libero.libero.envs import SegmentationRenderEnv
 
-    env = OffScreenRenderEnv(
+    env = SegmentationRenderEnv(
         bddl_file_name=str(bddl), camera_heights=256, camera_widths=256
     )
     try:
@@ -129,8 +141,20 @@ def evaluator_replay(
         observation = env.set_init_state(initial_state)
         names = tuple(name for name in tracked_objects if name in env.env.objects_dict)
         initial = {name: object_qpos(env, name) for name in names}
+        target_visibility_initial = (
+            {
+                camera: visible_instance_pixels(
+                    env, observation, camera=camera, instance=target_object
+                )
+                for camera in ("agentview", "robot0_eye_in_hand")
+            }
+            if target_object in names
+            else None
+        )
+        target_visibility_after_subtask = None
         objects = {
             name: {
+                "initial_position": initial[name][:3].tolist(),
                 "minimum_eef_distance_m": float("inf"),
                 "minimum_eef_step": None,
                 "eef_position_at_minimum": None,
@@ -187,20 +211,54 @@ def evaluator_replay(
                 and first_target_destination_step is None
             ):
                 first_target_destination_step = step
+            if step == subtask_steps - 1 and target_object in names:
+                target_visibility_after_subtask = {
+                    camera: visible_instance_pixels(
+                        env, observation, camera=camera, instance=target_object
+                    )
+                    for camera in ("agentview", "robot0_eye_in_hand")
+                }
+        for name in names:
+            objects[name]["final_position"] = object_qpos(env, name)[:3].tolist()
+        target_visibility_final = (
+            {
+                camera: visible_instance_pixels(
+                    env, observation, camera=camera, instance=target_object
+                )
+                for camera in ("agentview", "robot0_eye_in_hand")
+            }
+            if target_object in names
+            else None
+        )
         target = objects.get(target_object) if target_object else None
+        target_in_destination_final = bool(
+            target_object
+            and target_destination_region
+            and env.env._eval_predicate(
+                ["in", target_object, target_destination_region]
+            )
+        )
         return {
             "timing": "separate replay after controller terminal",
             "privileged_inputs": [
                 "declared evaluator object poses and contacts",
                 "declared evaluator joints",
+                "evaluator-only instance segmentation",
                 "task success predicate",
             ],
             "task_success": first_task_success_step is not None,
+            "task_success_final": bool(env.env._check_success()),
             "first_task_success_step": first_task_success_step,
             "target_object": target_object,
             "target_destination_region": target_destination_region,
             "target_reached_destination": first_target_destination_step is not None,
+            "target_in_destination_final": target_in_destination_final,
             "first_target_destination_step": first_target_destination_step,
+            "target_visibility_pixels": {
+                "initial": target_visibility_initial,
+                "after_subtask": target_visibility_after_subtask,
+                "final": target_visibility_final,
+            },
             "target_pick_success": bool(
                 target
                 and target["grasp_contact_steps"] > 0
@@ -239,6 +297,11 @@ def main() -> None:
     parser.add_argument("--track-joint", action="append", default=[])
     parser.add_argument("--gpu", type=int, default=0)
     parser.add_argument("--port", type=int, default=8002)
+    parser.add_argument(
+        "--external-server",
+        action="store_true",
+        help="connect to an already validated pi0.5 server and do not own its process",
+    )
     parser.add_argument("--assets", type=Path, required=True)
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -297,16 +360,17 @@ def main() -> None:
     ):
         raise FileExistsError("run outputs are immutable")
 
-    subprocess.run(
-        ["bash", str(ROOT / "scripts/infra/check_gpu.sh")],
-        cwd=ROOT,
-        env={
-            **os.environ,
-            "EXPERIMENT_GPU_INDEX": str(args.gpu),
-            "EXPERIMENT_ALLOW_LOCAL_RUSTDESK": "1",
-        },
-        check=True,
-    )
+    if not args.external_server:
+        subprocess.run(
+            ["bash", str(ROOT / "scripts/infra/check_gpu.sh")],
+            cwd=ROOT,
+            env={
+                **os.environ,
+                "EXPERIMENT_GPU_INDEX": str(args.gpu),
+                "EXPERIMENT_ALLOW_LOCAL_RUSTDESK": "1",
+            },
+            check=True,
+        )
     from libero.libero.envs import OffScreenRenderEnv
 
     args.assets.mkdir(parents=True)
@@ -340,19 +404,20 @@ def main() -> None:
                 observation, prompt=args.prompt, name="00_before", directory=args.assets
             )
         )
-        server_log = (args.work / "pi05_server.log").open("w")
-        server = subprocess.Popen(
-            ["bash", str(ROOT / "scripts/infra/serve_pi05.sh")],
-            cwd=ROOT,
-            env={
-                **os.environ,
-                "EXPERIMENT_GPU_INDEX": str(args.gpu),
-                "CUDA_VISIBLE_DEVICES": str(args.gpu),
-                "PORT": str(args.port),
-            },
-            stdout=server_log,
-            stderr=subprocess.STDOUT,
-        )
+        if not args.external_server:
+            server_log = (args.work / "pi05_server.log").open("w")
+            server = subprocess.Popen(
+                ["bash", str(ROOT / "scripts/infra/serve_pi05.sh")],
+                cwd=ROOT,
+                env={
+                    **os.environ,
+                    "EXPERIMENT_GPU_INDEX": str(args.gpu),
+                    "CUDA_VISIBLE_DEVICES": str(args.gpu),
+                    "PORT": str(args.port),
+                },
+                stdout=server_log,
+                stderr=subprocess.STDOUT,
+            )
         wait_for_port(args.port)
         policy = OpenPiWebsocketPolicy(host="127.0.0.1", port=args.port)
         metadata = policy.server_metadata
@@ -455,6 +520,7 @@ def main() -> None:
         "prompt": args.prompt,
         "controller": {
             "policy": "frozen pi05_libero",
+            "server_mode": "external" if args.external_server else "owned",
             "server_metadata": metadata,
             "online_inputs": [
                 "stock agentview RGB",
@@ -483,7 +549,19 @@ def main() -> None:
     args.output.write_text(json.dumps(report, indent=2) + "\n")
     print(
         json.dumps(
-            {"controller": report["controller"], "evaluator": evaluator}, indent=2
+            {
+                "output": portable_path(args.output),
+                "seed": args.seed,
+                "role": args.role,
+                "prompt": args.prompt,
+                "subtask_steps": execution.subtask_steps,
+                "return_phase": execution.return_status.phase.value,
+                "task_success": evaluator["task_success"],
+                "target_pick_success": evaluator["target_pick_success"],
+                "target_reached_destination": evaluator["target_reached_destination"],
+                "target_visibility_pixels": evaluator["target_visibility_pixels"],
+            },
+            indent=2,
         )
     )
 

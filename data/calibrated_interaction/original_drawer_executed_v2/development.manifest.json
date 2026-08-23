@@ -1,0 +1,122 @@
+{
+  "schema_version": "calibrated-interaction.counterfactual-manifest.v1",
+  "status": "development_only_not_held_out_test",
+  "claim_scope": "Two prompt counterfactuals and three candidate forks for ten fresh same-scene seeds. DIRECT and OPEN are executed; STOP is an exact deterministic null option.",
+  "rows": 60,
+  "initial_state_groups": 10,
+  "prompt_conditions": 2,
+  "branches_per_initial_state": 6,
+  "dataset": {
+    "path": "data/calibrated_interaction/original_drawer_executed_v2/development.jsonl",
+    "sha256": "96ba1f23bb7dd7b4ffdd9941c2f8e170c9f3572d98d1f1328783f34307408a59"
+  },
+  "sources": {
+    "config": {
+      "path": "configs/experiments/original_drawer_paper_cycle_v2.yaml",
+      "sha256": "467d402fa0a7719f3f5f34cc17650c389287662a2bbe91d63c08b566bd0d9dab"
+    },
+    "candidates": {
+      "path": "configs/experiments/original_drawer_candidate_set.yaml",
+      "sha256": "8580c622ac25fcddde9707b4fec2d82b0e4652f5af53b608084fe3bd716a2ab4"
+    },
+    "task_specific_relabel": {
+      "path": "results/method/original_drawer_open_cream_relabel_v2.json",
+      "sha256": "798994c165ce7e32a9d04bc9f03f3101a2e8681c83d74adfc8c39d85805e3e8e"
+    },
+    "direct_cream_final_relabel": {
+      "path": "results/method/original_drawer_direct_cream_final_relabel_v2.json",
+      "sha256": "997681d488592b663b11ea6e8abbcd3feed2538b5d8cc9e9b96bc21a1cb4a38f"
+    }
+  },
+  "supervision_provenance_counts": {
+    "deterministic_null_option": 20,
+    "executed_policy_rollout": 10,
+    "executed_policy_rollout_final_state_relabel": 10,
+    "executed_policy_rollout_task_specific_relabel": 20
+  },
+  "effect_label_support": {
+    "direct_requested_to_basket": {
+      "execution_succeeded": {
+        "false": 17,
+        "true": 3
+      },
+      "task_relevant_change": {
+        "false": 10,
+        "true": 10
+      },
+      "ambiguity_reduced": {
+        "false": 20,
+        "true": 0
+      },
+      "target_confirmed": {
+        "false": 10,
+        "true": 10
+      },
+      "candidate_rejected": {
+        "false": 20,
+        "true": 0
+      },
+      "region_confirmed_empty": {
+        "false": 20,
+        "true": 0
+      }
+    },
+    "open_middle_drawer": {
+      "execution_succeeded": {
+        "false": 2,
+        "true": 18
+      },
+      "task_relevant_change": {
+        "false": 12,
+        "true": 8
+      },
+      "ambiguity_reduced": {
+        "false": 12,
+        "true": 8
+      },
+      "target_confirmed": {
+        "false": 2,
+        "true": 18
+      },
+      "candidate_rejected": {
+        "false": 20,
+        "true": 0
+      },
+      "region_confirmed_empty": {
+        "false": 20,
+        "true": 0
+      }
+    },
+    "stop_unsupported": {
+      "execution_succeeded": {
+        "false": 0,
+        "true": 20
+      },
+      "task_relevant_change": {
+        "false": 20,
+        "true": 0
+      },
+      "ambiguity_reduced": {
+        "false": 20,
+        "true": 0
+      },
+      "target_confirmed": {
+        "false": 10,
+        "true": 10
+      },
+      "candidate_rejected": {
+        "false": 20,
+        "true": 0
+      },
+      "region_confirmed_empty": {
+        "false": 20,
+        "true": 0
+      }
+    }
+  },
+  "constant_unsupported_factors": [
+    "candidate_rejected",
+    "region_confirmed_empty"
+  ],
+  "online_oracle_input_count": 0
+}

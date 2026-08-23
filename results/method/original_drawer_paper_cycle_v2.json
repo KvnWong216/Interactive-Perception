@@ -1,0 +1,1340 @@
+{
+  "schema_version": "calibrated-interaction.paper-cycle-summary.v2",
+  "experiment_id": "original_drawer_pi05_seeds1400_1409_v2",
+  "scenario": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+  "claim_scope": "Fresh same-scene executor and information-flow qualification. The matrix separates target visibility, primitive execution, target grasp, placement, and final task success. It is physical-method evidence for this fixed scenario, but not evidence of multi-scene or multi-primitive generalization.",
+  "config": {
+    "path": "configs/experiments/original_drawer_paper_cycle_v2.yaml",
+    "sha256": "467d402fa0a7719f3f5f34cc17650c389287662a2bbe91d63c08b566bd0d9dab"
+  },
+  "task_specific_relabels": {
+    "direct_visible_cream_cheese": {
+      "path": "results/method/original_drawer_direct_cream_final_relabel_v2.json",
+      "sha256": "997681d488592b663b11ea6e8abbcd3feed2538b5d8cc9e9b96bc21a1cb4a38f"
+    }
+  },
+  "seeds": [
+    1400,
+    1401,
+    1402,
+    1403,
+    1404,
+    1405,
+    1406,
+    1407,
+    1408,
+    1409
+  ],
+  "thresholds": {
+    "drawer_open_joint_maximum": -0.14,
+    "target_visible_pixels_minimum": 256,
+    "visible_target_pick_gate_count": 8,
+    "visible_target_place_gate_count": 7,
+    "post_open_butter_pick_gate_count": 8
+  },
+  "online_oracle_input_count": 0,
+  "aggregates": {
+    "direct_closed_butter": {
+      "target_visible_initial": {
+        "successes": 0,
+        "trials": 10,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.2775327998628892
+        ]
+      },
+      "target_visible_after_or_final": {
+        "successes": 0,
+        "trials": 10,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.2775327998628892
+        ]
+      },
+      "target_pick": {
+        "successes": 0,
+        "trials": 10,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.2775327998628892
+        ]
+      },
+      "target_destination": {
+        "successes": 0,
+        "trials": 10,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.2775327998628892
+        ]
+      },
+      "target_destination_final": {
+        "successes": 0,
+        "trials": 10,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.2775327998628892
+        ]
+      },
+      "wrong_object_contact": {
+        "successes": 9,
+        "trials": 10,
+        "rate": 0.9,
+        "wilson_95": [
+          0.5958499732047615,
+          0.9821237869049271
+        ]
+      },
+      "task_success": {
+        "successes": 0,
+        "trials": 10,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.2775327998628892
+        ]
+      },
+      "return_complete": {
+        "successes": 7,
+        "trials": 10,
+        "rate": 0.7,
+        "wilson_95": [
+          0.39677814746114537,
+          0.8922087325936989
+        ]
+      }
+    },
+    "open_closed_drawer": {
+      "drawer_open": {
+        "successes": 9,
+        "trials": 10,
+        "rate": 0.9,
+        "wilson_95": [
+          0.5958499732047615,
+          0.9821237869049271
+        ]
+      },
+      "information_acquired": {
+        "successes": 8,
+        "trials": 10,
+        "rate": 0.8,
+        "wilson_95": [
+          0.49016247153664183,
+          0.9433178485456247
+        ]
+      },
+      "return_complete": {
+        "successes": 10,
+        "trials": 10,
+        "rate": 1.0,
+        "wilson_95": [
+          0.7224672001371107,
+          0.9999999999999999
+        ]
+      }
+    },
+    "direct_after_actual_open": {
+      "target_visible_initial": {
+        "successes": 8,
+        "trials": 10,
+        "rate": 0.8,
+        "wilson_95": [
+          0.49016247153664183,
+          0.9433178485456247
+        ]
+      },
+      "target_visible_after_or_final": {
+        "successes": 8,
+        "trials": 10,
+        "rate": 0.8,
+        "wilson_95": [
+          0.49016247153664183,
+          0.9433178485456247
+        ]
+      },
+      "target_pick": {
+        "successes": 0,
+        "trials": 10,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.2775327998628892
+        ]
+      },
+      "target_destination": {
+        "successes": 0,
+        "trials": 10,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.2775327998628892
+        ]
+      },
+      "target_destination_final": {
+        "successes": 0,
+        "trials": 10,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.2775327998628892
+        ]
+      },
+      "wrong_object_contact": {
+        "successes": 3,
+        "trials": 10,
+        "rate": 0.3,
+        "wilson_95": [
+          0.10779126740630099,
+          0.6032218525388546
+        ]
+      },
+      "task_success": {
+        "successes": 0,
+        "trials": 10,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.2775327998628892
+        ]
+      },
+      "return_complete": {
+        "successes": 9,
+        "trials": 10,
+        "rate": 0.9,
+        "wilson_95": [
+          0.5958499732047615,
+          0.9821237869049271
+        ]
+      }
+    },
+    "direct_visible_cream_cheese": {
+      "target_visible_initial": {
+        "successes": 10,
+        "trials": 10,
+        "rate": 1.0,
+        "wilson_95": [
+          0.7224672001371107,
+          0.9999999999999999
+        ]
+      },
+      "target_visible_after_or_final": {
+        "successes": 9,
+        "trials": 10,
+        "rate": 0.9,
+        "wilson_95": [
+          0.5958499732047615,
+          0.9821237869049271
+        ]
+      },
+      "target_pick": {
+        "successes": 10,
+        "trials": 10,
+        "rate": 1.0,
+        "wilson_95": [
+          0.7224672001371107,
+          0.9999999999999999
+        ]
+      },
+      "target_destination": {
+        "successes": 3,
+        "trials": 10,
+        "rate": 0.3,
+        "wilson_95": [
+          0.10779126740630099,
+          0.6032218525388546
+        ]
+      },
+      "target_destination_final": {
+        "successes": 3,
+        "trials": 10,
+        "rate": 0.3,
+        "wilson_95": [
+          0.10779126740630099,
+          0.6032218525388546
+        ]
+      },
+      "wrong_object_contact": {
+        "successes": 0,
+        "trials": 10,
+        "rate": 0.0,
+        "wilson_95": [
+          0.0,
+          0.2775327998628892
+        ]
+      },
+      "return_complete": {
+        "successes": 7,
+        "trials": 10,
+        "rate": 0.7,
+        "wilson_95": [
+          0.39677814746114537,
+          0.8922087325936989
+        ]
+      }
+    }
+  },
+  "paired_comparisons": {
+    "open_information_vs_direct_closed_visibility": {
+      "left_only": 8,
+      "right_only": 0,
+      "discordant_pairs": 8,
+      "exact_two_sided_p": 0.0078125,
+      "interpretation": "OPEN yields task-target evidence more often than DIRECT from the same initial public RGB."
+    },
+    "wrong_object_contact_closed_vs_after_open": {
+      "left_only": 6,
+      "right_only": 0,
+      "discordant_pairs": 6,
+      "exact_two_sided_p": 0.03125,
+      "interpretation": "Opening changes the executor failure mode, but does not produce a butter grasp."
+    },
+    "post_open_visibility_vs_target_pick": {
+      "left_only": 8,
+      "right_only": 0,
+      "discordant_pairs": 8,
+      "exact_two_sided_p": 0.0078125,
+      "interpretation": "The target is visibly available at the post-OPEN DIRECT input, but the executor does not convert that evidence into a grasp."
+    },
+    "visible_object_pick_vs_place": {
+      "left_only": 7,
+      "right_only": 0,
+      "discordant_pairs": 7,
+      "exact_two_sided_p": 0.015625,
+      "interpretation": "The visible-object executor reliably picks but does not reliably complete placement."
+    }
+  },
+  "stage_conversion": {
+    "post_open_target_pick_given_information": {
+      "successes": 0,
+      "trials": 8,
+      "rate": 0.0,
+      "wilson_95": [
+        0.0,
+        0.32440756488388023
+      ]
+    },
+    "post_open_task_success_given_information": {
+      "successes": 0,
+      "trials": 8,
+      "rate": 0.0,
+      "wilson_95": [
+        0.0,
+        0.32440756488388023
+      ]
+    },
+    "visible_terminal_place_given_pick": {
+      "successes": 3,
+      "trials": 10,
+      "rate": 0.3,
+      "wilson_95": [
+        0.10779126740630099,
+        0.6032218525388546
+      ]
+    }
+  },
+  "preregistered_executor_gates": {
+    "visible_target_pick": {
+      "required": 8,
+      "observed": 10,
+      "passed": true
+    },
+    "visible_target_place": {
+      "required": 7,
+      "observed": 3,
+      "passed": false
+    },
+    "post_open_butter_pick": {
+      "required": 8,
+      "observed": 0,
+      "passed": false
+    }
+  },
+  "overall_executor_gate_passed": false,
+  "paper_claim": "OPEN reliably executes and usually exposes the hidden target, but the frozen executor fails to exploit the acquired evidence; visible-object placement is also unreliable.",
+  "per_seed": [
+    {
+      "seed": 1400,
+      "direct_closed_butter": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 1,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 67,
+        "return_complete": false,
+        "task_success": false
+      },
+      "open_closed_drawer": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 321,
+        "target_visible_final_pixels": 734,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "drawer_open": true,
+        "drawer_joint_minimum": -0.160810187159774,
+        "information_acquired": true
+      },
+      "direct_after_actual_open": {
+        "target_visible_initial_pixels": 731,
+        "target_visible_after_subtask_pixels": 326,
+        "target_visible_final_pixels": 722,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "task_success": false
+      },
+      "direct_visible_cream_cheese": {
+        "target_visible_initial_pixels": 1100,
+        "target_visible_after_subtask_pixels": 8607,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": true,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true
+      },
+      "reports": {
+        "direct_closed_butter": {
+          "path": "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/report.json",
+          "sha256": "4f50a9d383b6955f475fe0a7306f6643e3a22d2dbe539df92cb75f8825fcbb13",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/public_action_history.json",
+            "sha256": "11c68b4470d56c695d3c7fa725b7b130a7f5d31009c9eb3bf9f23aa4c9f15634"
+          }
+        },
+        "open_closed_drawer": {
+          "path": "runs/paper_cycle_executor_v2/seed1400/open_butter/report.json",
+          "sha256": "26e582e7a8fb3f20c35185f55afd4c2d50f364baa375280acddb1ccc45b3158b",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/public_action_history.json",
+            "sha256": "9387210fb92ae5c7a6a1cdcac04173367ba5f44c7a6081628256639892b95e4d"
+          }
+        },
+        "direct_after_actual_open": {
+          "path": "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/report.json",
+          "sha256": "9bb0342ffc3c3548324150b3157fe68dbbb5718db9831234d6616d7149504b3c",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/public_action_history.json",
+            "sha256": "e507428f0bd80d41361d4e73575cecd315864f95f325d8fb8803fe3918cc6231"
+          }
+        },
+        "direct_visible_cream_cheese": {
+          "path": "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/report.json",
+          "sha256": "666194facc55926d37991b00457eeab39cb753b947e4918d1c6736d8fb70f215",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/public_action_history.json",
+            "sha256": "2a13f484e1e5b1ada61777acbc6c3d02f43952e1097f0c9b387fd82b3c70eed5"
+          }
+        }
+      }
+    },
+    {
+      "seed": 1401,
+      "direct_closed_butter": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 203,
+        "return_complete": true,
+        "task_success": false
+      },
+      "open_closed_drawer": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 319,
+        "target_visible_final_pixels": 856,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "drawer_open": true,
+        "drawer_joint_minimum": -0.1610853267841078,
+        "information_acquired": true
+      },
+      "direct_after_actual_open": {
+        "target_visible_initial_pixels": 855,
+        "target_visible_after_subtask_pixels": 1260,
+        "target_visible_final_pixels": 880,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "task_success": false
+      },
+      "direct_visible_cream_cheese": {
+        "target_visible_initial_pixels": 1083,
+        "target_visible_after_subtask_pixels": 6649,
+        "target_visible_final_pixels": 273,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": true,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true
+      },
+      "reports": {
+        "direct_closed_butter": {
+          "path": "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/report.json",
+          "sha256": "ac5a433393650624abb50b9e1c8e9efdd1009e5e38de727e0b831c2ba84a55e7",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/public_action_history.json",
+            "sha256": "6de0e290bc724f6f3252ff679bc229cef2f308cd40a88ce0da9e8ad278d733c5"
+          }
+        },
+        "open_closed_drawer": {
+          "path": "runs/paper_cycle_executor_v2/seed1401/open_butter/report.json",
+          "sha256": "4ada1a0212f9df99d04eda0b79fc66a735e14dfebc2bbb3c0f0a74fd48446515",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/public_action_history.json",
+            "sha256": "96f061f9eb51e2e9233d8014916a084a9387356781c4786409b1ba1178c55ca2"
+          }
+        },
+        "direct_after_actual_open": {
+          "path": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/report.json",
+          "sha256": "402b2f3ab000b5d3192929212ba81db014a95bac69696ab35104ec2c2a31dbe0",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/public_action_history.json",
+            "sha256": "c56ea3f8056c1e931e78a550af2065794a13fdc5bc491849944fa01f30897f55"
+          }
+        },
+        "direct_visible_cream_cheese": {
+          "path": "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/report.json",
+          "sha256": "0e04517ef3eda0976a7fefc6eb21f03287d698d424d308f4acecdd363ec4325f",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/public_action_history.json",
+            "sha256": "351a002597405dd23cce7d95814a10113bab6e951166dd603ea17e6097b74e36"
+          }
+        }
+      }
+    },
+    {
+      "seed": 1402,
+      "direct_closed_butter": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 67,
+        "return_complete": true,
+        "task_success": false
+      },
+      "open_closed_drawer": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 326,
+        "target_visible_final_pixels": 447,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "drawer_open": true,
+        "drawer_joint_minimum": -0.16116351283715416,
+        "information_acquired": true
+      },
+      "direct_after_actual_open": {
+        "target_visible_initial_pixels": 447,
+        "target_visible_after_subtask_pixels": 1472,
+        "target_visible_final_pixels": 461,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 59,
+        "return_complete": true,
+        "task_success": false
+      },
+      "direct_visible_cream_cheese": {
+        "target_visible_initial_pixels": 1085,
+        "target_visible_after_subtask_pixels": 301,
+        "target_visible_final_pixels": 301,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": true,
+        "target_destination": true,
+        "target_destination_final": true,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true
+      },
+      "reports": {
+        "direct_closed_butter": {
+          "path": "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/report.json",
+          "sha256": "7576491bc144a5bf386dc5fad10060a1415e7ec4f0c4fdb72703272458e8345b",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/public_action_history.json",
+            "sha256": "b49faa9518ccfcb278d9f62afaf27f500bb29bd172e08cfddfbfc14f71cacda0"
+          }
+        },
+        "open_closed_drawer": {
+          "path": "runs/paper_cycle_executor_v2/seed1402/open_butter/report.json",
+          "sha256": "9ec8fcba295944bd3f64afc72a4dc31b56dfc96b0917168151e725ff29130c4d",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/public_action_history.json",
+            "sha256": "3d9fe0aefa577909a6b599ef33dea0750c6042066a737982520f9ca167ea7d21"
+          }
+        },
+        "direct_after_actual_open": {
+          "path": "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/report.json",
+          "sha256": "4c555774b7d9726db9792febe32f5c52f3d91dc2ca82a3d44d7d75b86630614d",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/public_action_history.json",
+            "sha256": "1c8d97eb8eb5f42616724f99632272bab2b3fa92187e1c027489b15cee7991a1"
+          }
+        },
+        "direct_visible_cream_cheese": {
+          "path": "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/report.json",
+          "sha256": "099c3c373fa5b67cf7ffce1d42aefdf046fe6a4fcf3646480479cbf42699f51d",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/public_action_history.json",
+            "sha256": "f365a6848a5a8d56c9e40398f66d70c8a0449683da13c6e49243aedc1606e1f2"
+          }
+        }
+      }
+    },
+    {
+      "seed": 1403,
+      "direct_closed_butter": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 51,
+        "return_complete": true,
+        "task_success": false
+      },
+      "open_closed_drawer": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 14051,
+        "target_visible_final_pixels": 814,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "drawer_open": true,
+        "drawer_joint_minimum": -0.16122154008405476,
+        "information_acquired": true
+      },
+      "direct_after_actual_open": {
+        "target_visible_initial_pixels": 813,
+        "target_visible_after_subtask_pixels": 311,
+        "target_visible_final_pixels": 652,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "task_success": false
+      },
+      "direct_visible_cream_cheese": {
+        "target_visible_initial_pixels": 1083,
+        "target_visible_after_subtask_pixels": 506,
+        "target_visible_final_pixels": 500,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": true,
+        "target_destination": true,
+        "target_destination_final": true,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": false
+      },
+      "reports": {
+        "direct_closed_butter": {
+          "path": "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/report.json",
+          "sha256": "b0ab80f316b4f2051ad367defd6e75ab4c38e17ff6e55f22a14f0839e29fbf3c",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/public_action_history.json",
+            "sha256": "0bd54512abdd360065008a8ac924bf6e30f4bc9cccb83393a8b8ffff07abd236"
+          }
+        },
+        "open_closed_drawer": {
+          "path": "runs/paper_cycle_executor_v2/seed1403/open_butter/report.json",
+          "sha256": "5fa77dfb2537b4a871ecdb16f0622a7fdde09b19f18beb6f397d1f0825ed8894",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/public_action_history.json",
+            "sha256": "f8c50fda90ae7825732a3afb8ca37d1ff7ee6a890b21ef1460e68e9297325eb2"
+          }
+        },
+        "direct_after_actual_open": {
+          "path": "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/report.json",
+          "sha256": "90066804c64feaf624519e40e5760332c600d7c6d7948ad175e08da15427c837",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/public_action_history.json",
+            "sha256": "0c1fb4260989dde9a8af9f1f31a6dba61acfdba5927b9757435fe74bc2be95c3"
+          }
+        },
+        "direct_visible_cream_cheese": {
+          "path": "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/report.json",
+          "sha256": "88770d6eeac168f76bb458591ee7cb584c2c1aa86cd275564060b7154ea758d9",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/public_action_history.json",
+            "sha256": "dfaeda0463889f6d5b09ef1a3ce1268bac6adadd063d823347f41b482db74c76"
+          }
+        }
+      }
+    },
+    {
+      "seed": 1404,
+      "direct_closed_butter": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 54,
+        "return_complete": false,
+        "task_success": false
+      },
+      "open_closed_drawer": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 3241,
+        "target_visible_final_pixels": 741,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "drawer_open": true,
+        "drawer_joint_minimum": -0.16173892596721087,
+        "information_acquired": true
+      },
+      "direct_after_actual_open": {
+        "target_visible_initial_pixels": 742,
+        "target_visible_after_subtask_pixels": 315,
+        "target_visible_final_pixels": 729,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "task_success": false
+      },
+      "direct_visible_cream_cheese": {
+        "target_visible_initial_pixels": 1115,
+        "target_visible_after_subtask_pixels": 17348,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": true,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true
+      },
+      "reports": {
+        "direct_closed_butter": {
+          "path": "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/report.json",
+          "sha256": "0a68365148a95edeecab1b7077e3cbfbde68ba471ef910f787c41a36d1db0ec3",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/public_action_history.json",
+            "sha256": "b44cab7f758a98e4bf6a0a315a531c5fbb8f1808342ae71c7a0fc582985df1f4"
+          }
+        },
+        "open_closed_drawer": {
+          "path": "runs/paper_cycle_executor_v2/seed1404/open_butter/report.json",
+          "sha256": "c4a1bd9da3af9f9fc3730ea8600acf8cbd89348f9da682002335132fc486d3ed",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/public_action_history.json",
+            "sha256": "6a067f4f2e0a7b1c035ecbe90847a7bca59ae0ef37baa0932b1bc402c93fe65f"
+          }
+        },
+        "direct_after_actual_open": {
+          "path": "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/report.json",
+          "sha256": "e25cc207585595c96660f3624fa8386d017e01231be6fbc5bf454edb54d0e00b",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/public_action_history.json",
+            "sha256": "d10068f5987253a80e76c6bec76fcddb383d7aa220f3a92be3dac8d6ed0cc17a"
+          }
+        },
+        "direct_visible_cream_cheese": {
+          "path": "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/report.json",
+          "sha256": "2c33a8fbb16ed0384bb821529a8bd04e27c35a007f0cd829840fd2720e058a08",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/public_action_history.json",
+            "sha256": "0e21e210a9049aa26f711dd9ff3d384f4d97d815f55535f63bc39666399ebb13"
+          }
+        }
+      }
+    },
+    {
+      "seed": 1405,
+      "direct_closed_butter": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 72,
+        "return_complete": true,
+        "task_success": false
+      },
+      "open_closed_drawer": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 323,
+        "target_visible_final_pixels": 817,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "drawer_open": true,
+        "drawer_joint_minimum": -0.16121439682599034,
+        "information_acquired": true
+      },
+      "direct_after_actual_open": {
+        "target_visible_initial_pixels": 818,
+        "target_visible_after_subtask_pixels": 323,
+        "target_visible_final_pixels": 1150,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 88,
+        "return_complete": false,
+        "task_success": false
+      },
+      "direct_visible_cream_cheese": {
+        "target_visible_initial_pixels": 1108,
+        "target_visible_after_subtask_pixels": 904,
+        "target_visible_final_pixels": 1135,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": true,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": false
+      },
+      "reports": {
+        "direct_closed_butter": {
+          "path": "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/report.json",
+          "sha256": "8b3d44244c6ee561d90266cf54fe941b959a0aca41190cf25a34ed43ed2d417f",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/public_action_history.json",
+            "sha256": "0d8bb5faa5b867f9cf975beb15a5adfc541c69bca26955a0ca86e9cf30f086a9"
+          }
+        },
+        "open_closed_drawer": {
+          "path": "runs/paper_cycle_executor_v2/seed1405/open_butter/report.json",
+          "sha256": "ceb7e2882771088144f3495e18e44c8a3b49e6fcb28b86d3b1f4dad7ec926152",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/public_action_history.json",
+            "sha256": "834c66b8b4e90bcabe599bad04ce9c2b93f95fae968f0e3520bf3834c0ce5e0f"
+          }
+        },
+        "direct_after_actual_open": {
+          "path": "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/report.json",
+          "sha256": "50101c35b5d8b30a109edab14f0641d4f22087b9c8e12da19af444d661d770de",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/public_action_history.json",
+            "sha256": "240d4b8bbcebdb6cdd990b425456ec8362b24717570c22027416667f9b66f2d3"
+          }
+        },
+        "direct_visible_cream_cheese": {
+          "path": "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/report.json",
+          "sha256": "62ff513e22b4e06bdca187b1c5a28c666f77ba208e5470098760d7ef70966e87",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/public_action_history.json",
+            "sha256": "22fe5838714153a2f8980a55ac163dec2dc03dc9e3b7f10854e6f75d95e37914"
+          }
+        }
+      }
+    },
+    {
+      "seed": 1406,
+      "direct_closed_butter": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 62,
+        "return_complete": false,
+        "task_success": false
+      },
+      "open_closed_drawer": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 306,
+        "target_visible_final_pixels": 863,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "drawer_open": true,
+        "drawer_joint_minimum": -0.16102077852663907,
+        "information_acquired": true
+      },
+      "direct_after_actual_open": {
+        "target_visible_initial_pixels": 863,
+        "target_visible_after_subtask_pixels": 312,
+        "target_visible_final_pixels": 707,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "task_success": false
+      },
+      "direct_visible_cream_cheese": {
+        "target_visible_initial_pixels": 1102,
+        "target_visible_after_subtask_pixels": 1063,
+        "target_visible_final_pixels": 491,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": true,
+        "target_destination": true,
+        "target_destination_final": true,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true
+      },
+      "reports": {
+        "direct_closed_butter": {
+          "path": "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/report.json",
+          "sha256": "f8d5e3f744ee942a728ffc71eec3ff59c895445c9c8becdcd26ee6ea90f80218",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/public_action_history.json",
+            "sha256": "209408a870e737d19a6de085f24e101540bbe149eddd0c6d522f458a0d2b9452"
+          }
+        },
+        "open_closed_drawer": {
+          "path": "runs/paper_cycle_executor_v2/seed1406/open_butter/report.json",
+          "sha256": "e1cc2de8c1bcf3e726c5f8473146b08ca858c1603a57da69954a464eb61c9b26",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/public_action_history.json",
+            "sha256": "647935c7e7e312bd32729ab0140108011e9ba55fd65acf1d7897e629f84d40a3"
+          }
+        },
+        "direct_after_actual_open": {
+          "path": "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/report.json",
+          "sha256": "222e6cdb5e8f98b7cd7fccc496413c1ce945770d3a7b3e94ed21e3c4f6b706fd",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/public_action_history.json",
+            "sha256": "1c7bf68a8d4041f15a6f9a2944d2a2e22634659373aa970486ba80efeb74e433"
+          }
+        },
+        "direct_visible_cream_cheese": {
+          "path": "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/report.json",
+          "sha256": "1c10f5f3144c80b8c416d09035b3d22f6cd32d576190906bc645158aea93c0b0",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/public_action_history.json",
+            "sha256": "8065db64106f0e926c8384cf40a09c8a0526a078695069411759ec94aaaedbc2"
+          }
+        }
+      }
+    },
+    {
+      "seed": 1407,
+      "direct_closed_butter": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 56,
+        "return_complete": true,
+        "task_success": false
+      },
+      "open_closed_drawer": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 327,
+        "target_visible_final_pixels": 630,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "drawer_open": true,
+        "drawer_joint_minimum": -0.16131190774082038,
+        "information_acquired": true
+      },
+      "direct_after_actual_open": {
+        "target_visible_initial_pixels": 630,
+        "target_visible_after_subtask_pixels": 320,
+        "target_visible_final_pixels": 673,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 105,
+        "return_complete": true,
+        "task_success": false
+      },
+      "direct_visible_cream_cheese": {
+        "target_visible_initial_pixels": 1104,
+        "target_visible_after_subtask_pixels": 92,
+        "target_visible_final_pixels": 35,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": false,
+        "target_pick": true,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true
+      },
+      "reports": {
+        "direct_closed_butter": {
+          "path": "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/report.json",
+          "sha256": "381e5c3be9377ae31dbcca8c6d1913b41a9abc0a6600fb39175d7774aac9b974",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/public_action_history.json",
+            "sha256": "fb42d6b88d11daf1fdf545128a3869252915be47286532764e2aa5e0632fad39"
+          }
+        },
+        "open_closed_drawer": {
+          "path": "runs/paper_cycle_executor_v2/seed1407/open_butter/report.json",
+          "sha256": "fa377fd74ed60c45af498eaf4ef3b7d72fa993f7b26340c52edec97b03f9b339",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/public_action_history.json",
+            "sha256": "48e99de647670dcc408038b619fd0686f37afd5e1dace0eead971d5ac3e8eb75"
+          }
+        },
+        "direct_after_actual_open": {
+          "path": "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/report.json",
+          "sha256": "e0f140948b653a65f5e023f0fd1a6d0db599d4d7cd2fa6478513c1d39189594b",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/public_action_history.json",
+            "sha256": "ac47454379ccea38824cf0e4c2d480c040faf07c45b408ac506c719db5c3345d"
+          }
+        },
+        "direct_visible_cream_cheese": {
+          "path": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/report.json",
+          "sha256": "d3ad606b4303df15dfc9988f651a77dff0ec66da48230a10848145f68f70a955",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/public_action_history.json",
+            "sha256": "baf67727469222024ee5e9ef176512e2aa46cb9c366a3cdb8483ff153121736e"
+          }
+        }
+      }
+    },
+    {
+      "seed": 1408,
+      "direct_closed_butter": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": true,
+        "wrong_object_contact_steps": 57,
+        "return_complete": true,
+        "task_success": false
+      },
+      "open_closed_drawer": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "drawer_open": true,
+        "drawer_joint_minimum": -0.16125274746264137,
+        "information_acquired": false
+      },
+      "direct_after_actual_open": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "task_success": false
+      },
+      "direct_visible_cream_cheese": {
+        "target_visible_initial_pixels": 1123,
+        "target_visible_after_subtask_pixels": 10961,
+        "target_visible_final_pixels": 634,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": true,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": false
+      },
+      "reports": {
+        "direct_closed_butter": {
+          "path": "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/report.json",
+          "sha256": "384424096b75baa870bf0b4d0c2452bd684f5ef0853a4a43865f98381e109a4d",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/public_action_history.json",
+            "sha256": "87b58ec8a5ef1ea8d381e344fd57138c8c50e880cfec59c8d0f8b4b9a9f3a916"
+          }
+        },
+        "open_closed_drawer": {
+          "path": "runs/paper_cycle_executor_v2/seed1408/open_butter/report.json",
+          "sha256": "00677350c28d16b0d35dfee3db98a954f2e2fbec0ac6387d31f37b23c836a4fc",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/public_action_history.json",
+            "sha256": "7c3ec3de2b4c6b4bfe1e6e0ee318c0fc5bedf039150e568cac6efc9bf67b2274"
+          }
+        },
+        "direct_after_actual_open": {
+          "path": "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/report.json",
+          "sha256": "3db4a2d81c87bbf668adf19de75054a8b8de3a4270f9f465fce954b9d580c54e",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/public_action_history.json",
+            "sha256": "3e043716b53ef526903fed8e4b30667fe4776cd7c893429e6efd05d70fc707e1"
+          }
+        },
+        "direct_visible_cream_cheese": {
+          "path": "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/report.json",
+          "sha256": "e010dffc939edf6048691ecd39df93f56918aa4bc1f932af0271106ef8e270b9",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/public_action_history.json",
+            "sha256": "3990c3a0d3baac28b40a27da4b64a0c1280e920385f14a43906d93915b64fdad"
+          }
+        }
+      }
+    },
+    {
+      "seed": 1409,
+      "direct_closed_butter": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "task_success": false
+      },
+      "open_closed_drawer": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "drawer_open": false,
+        "drawer_joint_minimum": -6.361769335027796e-09,
+        "information_acquired": false
+      },
+      "direct_after_actual_open": {
+        "target_visible_initial_pixels": 0,
+        "target_visible_after_subtask_pixels": 0,
+        "target_visible_final_pixels": 0,
+        "target_visible_initial": false,
+        "target_visible_after_or_final": false,
+        "target_pick": false,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true,
+        "task_success": false
+      },
+      "direct_visible_cream_cheese": {
+        "target_visible_initial_pixels": 1062,
+        "target_visible_after_subtask_pixels": 1960,
+        "target_visible_final_pixels": 66,
+        "target_visible_initial": true,
+        "target_visible_after_or_final": true,
+        "target_pick": true,
+        "target_destination": false,
+        "target_destination_final": false,
+        "scenario_task_success": false,
+        "wrong_object_contact": false,
+        "wrong_object_contact_steps": 0,
+        "return_complete": true
+      },
+      "reports": {
+        "direct_closed_butter": {
+          "path": "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/report.json",
+          "sha256": "e611e075a966a3bbc9392c7de369837178c5cfdd96a36778f902b5c0dd9c5dd7",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/public_action_history.json",
+            "sha256": "b85866f10098c24e46021d436e9ebe2c700641141d477ebd3af1cdd29c42292c"
+          }
+        },
+        "open_closed_drawer": {
+          "path": "runs/paper_cycle_executor_v2/seed1409/open_butter/report.json",
+          "sha256": "63de337323ea3dcae6d111926bcafcdc2fc8eb83f3275afd1c7d8bf37a7510c7",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/public_action_history.json",
+            "sha256": "e150bbd1d94b3829fdf1059ea4d786eefbdb68fe79ce12671fa8b3b3dfc9019b"
+          }
+        },
+        "direct_after_actual_open": {
+          "path": "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/report.json",
+          "sha256": "dcd28cf6d8ab626f4343c4e4eb0718d4fc805079fec85f5086024debd7e2b8e9",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/public_action_history.json",
+            "sha256": "7d0ca8946e3bdbd4761b8f1629d8fc39e94baae64947f3df2b872ed275bb85f2"
+          }
+        },
+        "direct_visible_cream_cheese": {
+          "path": "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/report.json",
+          "sha256": "26d5d98d32210cd9bb5db95927f86aa8a87f6a179ce06fa04326bd7eaa998d91",
+          "action_history": {
+            "path": "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/public_action_history.json",
+            "sha256": "e4eafed6304ac3416ad836cbcd3ee7d41a4bbe43abbe774cc5128946879cd27b"
+          }
+        }
+      }
+    }
+  ]
+}

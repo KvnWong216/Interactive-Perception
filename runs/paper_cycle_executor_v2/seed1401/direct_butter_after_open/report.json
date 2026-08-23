@@ -1,0 +1,249 @@
+{
+  "schema_version": "piu.semantic-option.v1",
+  "scenario": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+  "seed": 1401,
+  "role": "DIRECT_ACT",
+  "prompt": "Place the butter in the basket",
+  "controller": {
+    "policy": "frozen pi05_libero",
+    "server_mode": "external",
+    "server_metadata": {},
+    "online_inputs": [
+      "stock agentview RGB",
+      "wrist RGB",
+      "public proprioception",
+      "semantic subtask",
+      "public action history"
+    ],
+    "online_oracle_inputs": [],
+    "subtask_steps": 400,
+    "completion_source": "SAFETY_BUDGET",
+    "return_steps": 50,
+    "return_phase": "COMPLETE",
+    "keyframes": [
+      {
+        "name": "00_before",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/00_before_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/00_before_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "53675008b2b8a0a33330697b53491575b41aaaa530450b35a39f1a5989fbc128",
+          "wrist": "3ea216a8a75aae7c231527f5c2de11363d02fefd6bd59f3eb296a6c196a0ed00"
+        },
+        "public_robot_state": [
+          -0.21447453278383954,
+          -0.0009010459203326175,
+          1.1630843356898979,
+          3.1378651649353873,
+          0.018471256267754227,
+          -0.055097459222575584,
+          0.03992350259954724,
+          -0.03995029018352659
+        ]
+      },
+      {
+        "name": "01_subtask",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/01_subtask_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/01_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "50346ea253a9aa8ad082b17dcf355a34b08562fd66f7a88e4d5d3ada3484ff72",
+          "wrist": "9d40c20b3006c4be64052c6d4364fbe36a5b31dcec1edc82fb9fcfc26743d620"
+        },
+        "public_robot_state": [
+          0.011169470781189125,
+          -0.05782212543585011,
+          1.2096806385512529,
+          3.0497293726342987,
+          -0.3149813820243192,
+          -0.3141521972300782,
+          0.039075061822850456,
+          -0.039240198033918726
+        ]
+      },
+      {
+        "name": "02_subtask",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/02_subtask_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/02_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "490a6c615ed01969e5d09c96664451f11886386133f7f81eb2ddc715b1d47d59",
+          "wrist": "374c236a17ef131c224a2b7cfb1cc7629b92fabc4ad04bc400db620906435eb0"
+        },
+        "public_robot_state": [
+          0.049345400112585654,
+          -0.08015480414449717,
+          1.1049556337430748,
+          3.0268453019185544,
+          -0.07666380485127591,
+          -0.07010199147480922,
+          0.03928506642538688,
+          -0.03997643468224378
+        ]
+      },
+      {
+        "name": "03_subtask",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/03_subtask_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/03_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "3f990bb1cc944a734164efbf45dbffcf41f44a313cbb6e1bb5d53bbc640b7c0e",
+          "wrist": "dc8801f9603ecf426569143ed8a564b3a2e6c66ef620dbfe3043f80cd7544aa0"
+        },
+        "public_robot_state": [
+          0.05425725055224985,
+          -0.09557329993623634,
+          1.0997484140714697,
+          2.963689655430327,
+          -0.04848111511787118,
+          0.1628540019184363,
+          0.040122712503736876,
+          -0.04000709925549028
+        ]
+      },
+      {
+        "name": "04_subtask_end",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/04_subtask_end_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/04_subtask_end_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "dd8fd6a2a75acd0021bc47f888d75442f367b856fda548ae4d36c335418637b9",
+          "wrist": "b02da89af61fab61167bce69a5ace15828fa400f3b5fb24264fe7db4431521f3"
+        },
+        "public_robot_state": [
+          0.06540243940269784,
+          -0.09733682538407343,
+          1.1186072891986674,
+          2.8551659962013995,
+          -0.012852466332735768,
+          0.036265195538968634,
+          0.03988814431657281,
+          -0.04001165251979603
+        ]
+      },
+      {
+        "name": "05_returned_home",
+        "image_paths": {
+          "agentview": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/05_returned_home_agentview.png",
+          "wrist": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/05_returned_home_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "6f59bb0f223be9b637ae113ad00fd4076519e1185e3bf28e5cb861c840f51d0f",
+          "wrist": "ba94c7c36e81f5fe025b255019987955e6e0190f5e50fc1758ec7c4b9f0271a7"
+        },
+        "public_robot_state": [
+          -0.2165595940057715,
+          -0.0006713694131324178,
+          1.1564846301806895,
+          3.1377327380088267,
+          0.017916220783320683,
+          -0.025084823201845702,
+          0.039969096157858035,
+          -0.04000016031084008
+        ]
+      }
+    ],
+    "video": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/public_wrist_agentview.mp4",
+    "action_history": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/public_action_history.json",
+    "opaque_state_transport": null
+  },
+  "evaluator": {
+    "timing": "separate replay after controller terminal",
+    "privileged_inputs": [
+      "declared evaluator object poses and contacts",
+      "declared evaluator joints",
+      "evaluator-only instance segmentation",
+      "task success predicate"
+    ],
+    "task_success": false,
+    "first_task_success_step": null,
+    "target_object": "butter_1",
+    "target_destination_region": "basket_1_contain_region",
+    "target_reached_destination": false,
+    "first_target_destination_step": null,
+    "target_visibility_pixels": {
+      "initial": {
+        "agentview": 318,
+        "robot0_eye_in_hand": 855
+      },
+      "after_subtask": {
+        "agentview": 322,
+        "robot0_eye_in_hand": 1260
+      },
+      "final": {
+        "agentview": 322,
+        "robot0_eye_in_hand": 880
+      }
+    },
+    "target_pick_success": false,
+    "objects": {
+      "butter_1": {
+        "initial_position": [
+          0.020284352992721712,
+          -0.08826330592015039,
+          1.0031498429281835
+        ],
+        "minimum_eef_distance_m": 0.06817718631742681,
+        "minimum_eef_step": 140,
+        "eef_position_at_minimum": [
+          0.02255384790308447,
+          -0.06197188119840606,
+          1.0650691665423202
+        ],
+        "object_position_at_minimum": [
+          0.020284352995317362,
+          -0.0904143757206414,
+          1.0031498429641563
+        ],
+        "maximum_lift_m": 3.597278031008955e-11,
+        "grasp_contact_steps": 0,
+        "grasp_contact_after_subtask_steps": 0,
+        "final_position": [
+          0.02029723593483398,
+          -0.09453071116326382,
+          1.0031498429484884
+        ]
+      },
+      "cream_cheese_1": {
+        "initial_position": [
+          -0.04539711968804877,
+          0.12490792562691883,
+          0.9089069548372153
+        ],
+        "minimum_eef_distance_m": 0.22127266285202038,
+        "minimum_eef_step": 27,
+        "eef_position_at_minimum": [
+          -0.17156642481519002,
+          -0.029541415059813954,
+          1.0047625698568465
+        ],
+        "object_position_at_minimum": [
+          -0.04539711968804877,
+          0.12490792562691883,
+          0.9089069548372153
+        ],
+        "maximum_lift_m": 9.761316199785597e-10,
+        "grasp_contact_steps": 0,
+        "grasp_contact_after_subtask_steps": 0,
+        "final_position": [
+          -0.04539711968539972,
+          0.12490792562673586,
+          0.9089069548372172
+        ]
+      }
+    },
+    "joints": {
+      "wooden_cabinet_1_middle_level": {
+        "initial": -0.159881155471254,
+        "final": -0.15358892206885133,
+        "minimum": -0.15988115569954156,
+        "maximum": -0.15358891873794459
+      }
+    }
+  }
+}

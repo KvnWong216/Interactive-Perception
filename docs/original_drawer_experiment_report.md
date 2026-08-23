@@ -1,5 +1,11 @@
 # Original-drawer method cycle report
 
+> **Superseded physical qualification:** the later ten-seed executed matrix,
+> terminal-state relabels, and actual-effect development CV are reported in
+> [`paper/main.md`](../paper/main.md) and
+> `results/method/original_drawer_paper_cycle_v2.json`. This document remains
+> the immutable record of the earlier proxy-effect pilot.
+
 **Frozen on:** 2026-08-22
 
 **Scenario:** unchanged `T01D_hidden_butter_retrieval.bddl`

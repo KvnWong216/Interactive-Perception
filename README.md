@@ -21,6 +21,13 @@ The former Grounding DINO/SAM/DINOv2/SigLIP/Qwen/manual-utility pipeline is
 frozen as [`B1 Heuristic V0`](baselines/heuristic_v0/README.md). It remains an
 engineering baseline and is not the proposed method.
 
+**Current decision (2026-08-22):** the broad effect-aware full-loop method is
+rejected for the fixed drawer experiment. OPEN exposes the hidden target in
+8/10 seeds, but the frozen executor grasps it in 0/10 post-OPEN runs; executed
+effect supervision adds 0.00 route macro F1 over route-only in all five grouped
+development folds. The retained paper result is a leakage-controlled failure
+decomposition and benchmark artifact, not a successful ICRA/RSS method claim.
+
 ## Research artifacts
 
 - [Literature lineage](docs/literature_lineage.md), audited through 2026-08-22
@@ -29,6 +36,8 @@ engineering baseline and is not the proposed method.
 - [Research question, math, data, experiments, compute, and go/no-go plan](docs/research_plan.md)
 - [Internal ICRA-cadence schedule](docs/icra_cadence_plan.md)
 - [Original-drawer method cycle and negative-result report](docs/original_drawer_experiment_report.md)
+- [Executed counterfactual effect-label policy](docs/executed_effect_dataset.md)
+- [Submission-shaped internal paper draft](paper/main.md)
 - [Learned-package contracts](src/calibrated_interaction/README.md)
 - [中文旧系统总览与复现教程](docs/TAKEAWAY_AND_TUTORIAL_CN.md), retained as
   Heuristic V0 documentation
@@ -126,16 +135,19 @@ Do not add rules or scores to these legacy entry points.
 
 | evidence | result | claim boundary |
 |---|---:|---|
-| full repository test suite | 54 passed | software and retained-artifact integrity |
+| full repository test suite | 58 passed | software and retained-artifact integrity |
 | same-RGB prompt router, held-out | B6 95.83% vs B7 93.75% mean accuracy | pilot only; proxy effects |
 | calibrated B7 pilot | 93.75% coverage, 68.75% abstain, 6.25% wrong execute | 16 held-out samples |
-| fresh frozen-pi0.5 executor qualification | OPEN 1/1; target pick 1/7; task 0/7 | single seed; executor blocked |
+| fresh 10-seed OPEN qualification | drawer 9/10; hidden-target evidence 8/10 | fixed scenario; physical acquisition works |
+| DIRECT after actual OPEN | butter visible initially 8/10; pick 0/10; task 0/10 | information-utilization failure |
+| visible-object executor control | pick 10/10; terminal placement 3/10 | placement gate fails |
+| executed-effect grouped development CV | B6/B7 route macro F1 both 100%; effect accuracy 94.17% | CPU baseline; 10 inspected seed groups; no formal calibration claim |
 | [original-drawer calibrated replay](results/diagnostics/original_drawer_calibrated_replay_v1.json) | OPEN -> reobserve -> DIRECT | wiring only; fixture probabilities |
 | six-frame RGB legacy outcome, clean development | 119/120 singleton-correct | legacy outcome component only |
 | six-frame RGB legacy outcome, sealed audit | 294/300 singleton-correct | legacy outcome component only |
 | legacy object PIU scene-disjoint | NOT-GO, 6 false singleton routes | Heuristic V0 is not paper-ready |
 | legacy current cluttered-drawer demo | OPEN_CONTAINER -> REVEALED -> MOVE_CLOSER | one disposable information trace |
-| final butter retrieval | 0/5 | full task remains NOT-GO |
+| legacy five-seed final butter retrieval | 0/5 | historical Heuristic V0 result |
 
 Current assets include the original frontend under
 `results/assets/original_drawer_frontend_v1/`, its public Scene Packet under
