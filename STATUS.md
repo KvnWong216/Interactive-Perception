@@ -1,6 +1,6 @@
 # Project status
 
-Current phase: PIU drawer-binding sprint, external causal gate pending.
+Current phase: PIU offline mainline release, external causal gate pending.
 
 The unique main line is acquisition -> prompt-conditioned spatial binding ->
 information utilization in the unchanged hidden-butter drawer scenario. The
@@ -20,6 +20,65 @@ conformal calibration roles, sealed-test authorization, and sealed evaluation.
 This is software verification, not learned-method evidence; no real full-prefix
 cache or newly collected train/development/calibration label set exists yet.
 
+The downstream action-effect/control/execution path is also software-complete and
+CPU-verified on synthetic fixtures. Candidate prompts retain their complete
+frozen token sequences. A label-free online join consumes the binder target
+token, public candidate prefixes, and public history; evaluator targets enter a
+separate training/evaluation join only. Training retains route-only,
+stop-gradient-effect, and joint-effect variants with learned task scales.
+Temperature and conformal roles are group-disjoint. The controller distinguishes
+EXECUTE, INTERACT, ABSTAIN, STOP, and REPORT_NOT_FOUND and has no confidence
+cutoff, top-1 fallback, or hand-weighted utility. PICK/DIRECT require singleton
+presence plus a calibrated current-frame spatial set. Its exact per-camera
+normalized enclosure is serialized to frozen pi0.5 as structured text. The
+external dispatcher rejects every live action without a prospectively issued
+formal primitive certificate.
+The B3/B4 uncalibrated ablation runner and B5 no-spatial-bridge mode are also
+explicit: B3 uses an exact-zero factor channel, B4 uses predicted effects, exact
+route ties abstain, and B5 retains calibrated sets while sending no geometry.
+Qualified dispatch receipts can be exported into new public transitions without
+copying evaluator fields.
+
+Fair-comparison and inference contracts are frozen before real outcomes. Public
+B0--B5 and B8 share paired initial states, the identified frozen policy, action
+budgets, and evaluator. B6 oracle effect and B7 oracle target binding are
+separate upper-bound columns. The primary sealed comparison is B8 versus B0
+target grasp contact with an exact paired test. Named secondary comparisons form
+one Holm family. A complete-matrix validator prevents dropping failed, missing,
+timeout, or abstaining runs.
+The B1 prompted-VLM baseline now has a public-only external-service protocol:
+the exact service identity and canonical request are hash-bound, the response
+may contain only one candidate ID, and a hallucinated ID becomes ABSTAIN with
+no rule fallback. A real identified B1 endpoint and outcome episodes are still
+absent.
+The B6 evaluator-only route is now executable both as a one-step decision and
+as a hash-chained replay over an actually executed counterfactual tree. The
+replay verifies each selected public-observation and opaque-state edge and emits
+an oracle-upper-bound episode; no real tree has yet been collected.
+The B7 runner now starts from the same paired hidden-target state as B0 and
+runs one full-task DIRECT budget. Its evaluator mask is an audited pixel-exact
+no-op while the butter is hidden and applies only the uniquely
+development-selected marker after visibility. It emits a standard B7 oracle
+episode, but the selected-style artifact and external rollout remain absent.
+The frozen B2 tag was audited as a one-decision system rather than a complete
+closed loop. Its adapter now verifies the exact tag commit, paired public RGB,
+all legacy model-tree hashes, and inference report; it executes at most the one
+shared primitive selected by that report and never grants B2 later replanning.
+Real B2 inference remains pending an external legacy-model runtime.
+
+Counterfactual data collection now has a separate immutable execution plan
+derived only from calibrated public binder sets. It prevents collection-time
+execution of task primitives outside their sufficiency/holding/presence/spatial
+context, while retaining every candidate and its evaluator route label with all
+unobserved effects masked. This removes a causal mismatch between effect-data
+forks and the deployed controller; it is software verification, not physical
+evidence.
+All prospective physical paths now validate the same content-addressed
+`pi05_libero` checkpoint tree before the first action. B0, public controllers,
+counterfactual collection, B2, B6 replay, B7, and the legacy oracle screen use
+one field-closed metadata contract; endpoint metadata is no longer merely
+recorded after execution.
+
 The context-specific primitive registry has also been rebuilt without the old
 8/10 count gates. Retrospective estimates are OPEN-middle-drawer 9/10,
 PICK-visible-work-surface 10/10, PICK-post-OPEN-drawer 0/10, and
@@ -27,6 +86,9 @@ PLACE-visible-work-surface 3/10. No primitive is called formally qualified:
 the absolute reliability contract is intentionally null until it is derived
 from the downstream controller risk allocation. REMOVE, ROTATE, MOVE_CLOSER,
 and post-OPEN PLACE remain unevaluated.
+The formal planner, exact-binomial certificate evaluator, and dispatch hard gate
+are implemented; this does not fill the missing external risk contract or new
+groups.
 
 The rebuilt retrospective chain is OPEN 9/10, acquisition 8/9 conditional on
 OPEN, and target contact 0/8 conditional on acquisition. Wrong-object contact

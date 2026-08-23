@@ -22,6 +22,9 @@ The authoritative current-cycle artifacts are:
 - `diagnostics/piu_drawer_sprint_stage_evaluation_v1.json` for the rebuilt
   leakage-separated `L2 9/10 -> L3 8/9 -> L4 0/8` stage chain and the `3/8`
   wrong-object-contact rate conditional on acquired evidence.
+- `diagnostics/piu_offline_repro_preflight_v1.json` for the hash-bound offline
+  implementation inventory. `offline_ready` is distinct from the still-false
+  external empirical and paper-claim gates.
 
 The retained checkpoints are runnable evidence. New scenarios use the generic
 collection, training, evaluation, and rendering entry points under `scripts/`;

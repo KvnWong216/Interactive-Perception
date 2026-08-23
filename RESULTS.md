@@ -26,3 +26,42 @@ New non-performance artifacts:
 - The rebuilt primitive registry reports context-specific rates and Wilson
   intervals but authorizes no paper-method primitive. Historical 8/10 and 7/10
   engineering count gates are not reused.
+- The action-effect train/calibrate/controller path passes a synthetic CPU
+  end-to-end regression. The online controller accepts no evaluator-label
+  argument and unsupported factor sets cause abstention. Predicted effects feed
+  the route head through learned weights rather than a manual utility.
+- The online binder, current-frame conformal spatial bridge, and external
+  dispatcher pass synthetic/contract tests. Geometry is an exact enclosure of
+  selected patches, with no score cutoff. Live dispatch rejects an absent or
+  failed formal primitive certificate.
+- Candidate generation, finite search memory, all declared spatial/temporal
+  ablations, B0--B8 fairness validation, exact paired analysis, Holm adjustment,
+  and a hash-bound offline release audit are implemented. None is new physical
+  performance evidence.
+- B3/B4 now have distinct executable online paths rather than labels only:
+  route-only fixes its factor channel to zero, route+effect enables the learned
+  factor bridge, and exact ties abstain. B5 explicitly disables only the spatial
+  executor bridge; B8 enables it. These are software contracts, not results.
+- B6 now has a separate oracle-effect trace replayer. It follows only real
+  candidate branches from an exact counterfactual matrix, rejects a broken
+  physical/public state chain, and declares evaluator labels online. This is
+  upper-bound plumbing, not a new oracle or public-method result.
+- B7 now has a same-source full-loop runner rather than reusing the conditional
+  post-OPEN pilot. The marker is pixel-identical to stock RGB while the target
+  is hidden and activates only after target visibility; a uniquely selected
+  development style and real external episode are still missing.
+- B1 now has an external prompted-VLM routing contract and dispatch-compatible
+  report. Contract fixtures verify identity/request binding and safe handling
+  of an unknown candidate; no real prompted-VLM baseline result exists.
+- B2 now has a non-upgrading frozen-tag adapter. It attests the exact commit and
+  legacy model trees, retains the original one-decision limit, and maps an
+  unsupported option to abstention instead of inventing an implementation.
+  No new B2 physical episode exists.
+- Counterfactual collection now binds an immutable public-only execution plan.
+  Contract tests show that an ineligible PLACE remains a route candidate, is
+  not dispatched, and exports no invented effect targets. This is a leakage and
+  causal-alignment result only, not learned or physical performance evidence.
+- Every prospective executor path now hard-validates the exact frozen
+  `pi05_libero` checkpoint-tree identity before acting. Contract tests also
+  cover the server's declared capability list. This is an execution-integrity
+  result, not task performance.

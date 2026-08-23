@@ -18,6 +18,7 @@ decision.
 | old executor gates `8/10`, `7/10`, `8/10` | engineering qualification | retain as history; never treat as a statistical paper claim |
 | DIRECT/OPEN step counts | safety/resource budgets | report saturation and completion source; never equate budget exhaustion with success |
 | pi0.5 replan every five steps | frozen-policy interface contract | keep fixed and hash policy/checkpoint identity |
+| external pi0.5 identity | frozen-policy interface contract | exact checkpoint-tree match is mandatory before every prospective action; registered capabilities may be declared but unknown metadata fields fail |
 | conformal prediction threshold | fitted calibration statistic | allowed only when fit on an isolated calibration split |
 | conformal alpha | declared risk contract | freeze before calibration and report risk/coverage across preregistered levels |
 | formal `alpha=0.05`, target power `0.80` | preregistered inferential design | conventional Type-I/II error controls; report achieved power and effect interval, never use as an online threshold |
@@ -28,6 +29,20 @@ decision.
 | decoder width/heads/optimizer/gradient bounds | development hyperparameters | rejected pilot only; successor uses a declared development search and ablation |
 | four-token PaliGemma prefix summary | unsupported fixed pooling | rejected pilot only; sharing encoder weights is not sharing the action expert's full-prefix interface |
 | candidate `mean(prompt-last,prompt-mean)` | unsupported fixed pooling | rejected pilot only; successor retains candidate token masks and learns readout on training groups |
+| full candidate-prefix serialization | protocol identifier | retain candidate IDs, primitives, time/token masks, and all valid frozen states; no fixed numerical pooling |
+| executed-action embedding | public protocol identifier | read the exact dispatched candidate from public history; evaluator action labels are join checks only |
+| candidate enumeration over public affordances | protocol identifier | enumerate all registered sources; never use hidden correct-container labels |
+| binding/effect multi-task scales | training-learned | homoscedastic log variances only; unsupported tasks remain masked |
+| predicted-effect-to-route bridge | training-learned | route logits consume predicted factor probabilities through trained weights; no manual utility |
+| route/effect temperature and conformal boundaries | isolated calibration | temperature and conformal roles are group-disjoint; no manual confidence threshold |
+| singleton controller logic | preregistered protocol semantics | typed execution authorization; STOP, NOT_FOUND, and ABSTAIN remain distinct |
+| current spatial patch-to-text bridge | protocol identifier | exact enclosure of every calibrated latest-frame patch; no probability cutoff or oracle geometry |
+| B3/B4 unique argmax | baseline protocol | exact ties abstain; B3's factor channel is exactly zero and B4's is learned |
+| B5 spatial-bridge disable | baseline protocol | same calibrated scores/sets, but no patch geometry reaches pi0.5 |
+| primitive execution certificate | external risk contract plus formal exact test | complete prospective denominator required; historical count gates and budgets never authorize live execution |
+| Fréchet joint lower bound | formal diagnostic | reports a dependence-robust lower bound; never selects an action |
+| B0--B8 comparison registry | protocol identifier | same paired states, frozen policy, budgets, evaluator, and failure denominator; oracle is a separate column |
+| exact paired primary and Holm secondary family | formal statistical procedure | frozen before sealed outcomes; no automatic method pass threshold |
 
 ## Threshold-invariance evidence
 
@@ -70,3 +85,8 @@ The frozen pi0.5 encoder may still be reused, but the successor representation
 must preserve valid prompt/image token masks, camera spans, and spatial token
 indices. Global pooling is retained as an explicit ablation, never as an
 unexamined main-method default.
+
+Pre-interaction target pixels are not localization supervision. They remain
+public contextual tokens, while only current/interaction-post patches define
+the spatial target and conformal coverage event. This prevents a previously
+visible target from certifying that the post-action referent is localized.

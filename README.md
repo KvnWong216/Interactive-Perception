@@ -12,17 +12,22 @@ hidden-butter drawer scenario:
 closed drawer -> OPEN -> new butter evidence
   -> full frozen PaliGemma patch tokens + prompt + public OPEN history
   -> learned prompt-conditioned spatial binding
-  -> target-conditioned PICK -> PLACE
+  -> calibrated current-frame patch set -> structured target-conditioned PICK
+  -> separately qualified PLACE
 ```
 
-The spatial binder and full-prefix cache contract are implemented but not yet
-trained or validated. The evaluator-only oracle intervention must first show a
-positive causal executor ceiling on a prospectively sized paired experiment.
-Action-effect prediction, information-value weighting, conformal control, and
-scenario expansion are deferred until that gate.
+The full-prefix binder, candidate-conditioned action-effect model, isolated
+calibration, set-valued controller, current-patch-to-text bridge, and
+certificate-gated external dispatcher are implemented but not yet trained or
+validated on new real groups. The evaluator-only oracle intervention must first
+show a positive causal executor ceiling on a prospectively sized paired
+experiment. Real action-effect training, controller rollout, and scenario
+expansion remain empirically gated. There is no information-value weighting:
+multi-task scales are learned and decisions use typed singleton prediction-set
+conditions.
 
 The former Grounding DINO/SAM/DINOv2/SigLIP/Qwen/manual-utility pipeline is
-frozen as [`B1 Heuristic V0`](baselines/heuristic_v0/README.md). It remains an
+frozen as [`B2 Heuristic V0`](baselines/heuristic_v0/README.md). It remains an
 engineering baseline and is not the proposed method.
 
 **Current decision (2026-08-22):** the broad effect-aware full-loop method is
@@ -52,6 +57,8 @@ target-binding method is claimed or rejected.
 - [Spatial-prefix successor contract](docs/spatial_prefix_successor_contract.md)
 - [Frozen PIU research charter](docs/research_charter.md)
 - [Drawer-binding preregistration](docs/preregistration.md)
+- [Target-binding train/calibration pipeline](docs/piu_binding_pipeline.md)
+- [Action-effect and calibrated-control pipeline](docs/piu_action_effect_pipeline.md)
 - [Claim--evidence ledger](docs/claim_evidence_ledger.md)
 - [Original-drawer method cycle and negative-result report](docs/original_drawer_experiment_report.md)
 - [Executed counterfactual effect-label policy](docs/executed_effect_dataset.md)
@@ -88,6 +95,15 @@ RGB history, and public action/observation history. Simulator segmentation,
 semantic IDs, hidden object poses, articulated joint truth, depth by default,
 and task predicates are forbidden policy inputs. Privileged state is allowed
 only for offline labels, evaluator metrics, and oracle upper bounds.
+The online binder/effect/controller path accepts no evaluator-label argument.
+PICK/DIRECT can execute only with a nonempty current-frame conformal patch set,
+which is converted to exact normalized boxes in a deterministic pi0.5 subtask.
+Live dispatch additionally requires a prospective exact-binomial primitive
+qualification certificate; the existing retrospective registry authorizes none.
+The same-state collector first creates a hash-bound public execution plan from
+calibrated binder sets. Candidates outside their typed execution context remain
+in the route matrix but are not physically forked and receive no invented
+effect labels.
 
 ## Install and validate
 
@@ -105,6 +121,18 @@ Run the full repository suite (legacy tests need PyTorch and Pillow too):
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --extra learned --extra vlm --extra dev \
   pytest -q
 ```
+
+Create the CPU-only hash lock for the offline mainline, or verify a checkout
+against the retained lock:
+
+```bash
+python scripts/repro/check_piu_offline_pipeline.py \
+  --output runs/piu_offline_repro_check.json \
+  --reference results/diagnostics/piu_offline_repro_preflight_v1.json
+```
+
+This command reports the external pi0.5/oracle/real-data gates as pending; it
+does not reinterpret software readiness as empirical readiness.
 
 Run the CPU-only, no-training closed-loop replay on the same original drawer
 scenario:
@@ -168,6 +196,76 @@ Run the selected style on the five disjoint confirmation seeds with
 phase and style. Every oracle report declares two online privileged inputs and
 uses the claim scope `EVALUATOR_ONLY_ORACLE_UPPER_BOUND`.
 
+### B1 prompted-VLM baseline
+
+B1 uses a separate identified external VLM router; it is not silently replaced
+by π0.5 prefix similarity or a local heuristic. The service exposes `GET
+/metadata` and `POST /route`, and its frozen identity is supplied as a
+`piu.prompted-vlm-router-identity.v1` artifact. The client sends only public RGB,
+prompt, public history, and registered candidate descriptions. A response is
+hash-bound to the exact request and may contain only one candidate ID; anything
+outside the registered set is retained as ABSTAIN.
+
+```bash
+python scripts/pipeline/run_piu_prompted_vlm_closed_loop.py \
+  --scenario-config configs/scenarios/original_drawer.yaml \
+  --candidate-set PATH/candidates.jsonl --initial-sample-id SAMPLE --seed SEED \
+  --router-identity PATH/router_identity.json \
+  --router-host ROUTER_HOST --router-port ROUTER_PORT \
+  --pi05-host PI05_HOST --pi05-port 8002 \
+  --qualification-map PATH/qualified_executor_map.json \
+  --output-dir PATH/b1_episode --dry-run
+```
+
+Remove `--dry-run` only after both external identities and every physical
+candidate certificate validate. No identified prompted-VLM router is currently
+available, so B1 has software coverage but no empirical result.
+
+### B2 frozen Heuristic V0
+
+B2 is executed from the immutable tag, never reconstructed on the current
+branch. Its tag contains only one inference decision, so the adapter does not
+grant it later replanning. First create the detached worktree, then generate the
+external-GPU plan from a paired initial capture:
+
+```bash
+git worktree add ../Interactive-Perception-heuristic-v0 baseline/heuristic-v0
+
+python scripts/pipeline/run_piu_heuristic_v0_inference.py \
+  --worktree ../Interactive-Perception-heuristic-v0 \
+  --capture-report PATH/capture.json \
+  --output-dir ../Interactive-Perception-heuristic-v0/runs/B2_GROUP --dry-run
+
+python scripts/pipeline/run_piu_heuristic_v0_once.py \
+  --attestation PATH/attestation.json \
+  --scenario-config configs/scenarios/original_drawer.yaml \
+  --seed SEED --host PI05_HOST --port 8002 \
+  --output-dir PATH/b2_episode --dry-run
+```
+
+Actual legacy perception/Qwen inference is prohibited on this workstation by
+the 1500 MiB cap. The attestation hashes all five legacy model trees and the
+exact frozen commit.
+
+### B7 same-source oracle target-binding upper bound
+
+B7 is not the existing conditional post-OPEN pilot. It starts from the same
+paired hidden-target state as B0. The selected evaluator marker is a pixel-exact
+no-op while the target mask is empty, then activates if the frozen policy makes
+the target visible. A uniquely selected development screen artifact is required:
+
+```bash
+python scripts/pipeline/run_piu_oracle_binding_full_loop.py \
+  --scenario-config configs/scenarios/original_drawer.yaml \
+  --style-selection PATH/oracle_screen_result.json \
+  --initial-state PATH/source_state.npz --initial-state-group GROUP \
+  --split sealed_test --seed SEED --host PI05_HOST --port 8002 \
+  --output-dir PATH/b7_episode --dry-run
+```
+
+The runner records target identity and instance segmentation as online oracle
+inputs and cannot support a public-method claim.
+
 ## Legacy baseline entry points
 
 Public-RGB Heuristic V0 inference:
@@ -198,14 +296,14 @@ Do not add rules or scores to these legacy entry points.
 
 | evidence | result | claim boundary |
 |---|---:|---|
-| full repository test suite | 71 passed | software and retained-artifact integrity |
+| full repository test suite | see current CI/preflight report | software and retained-artifact integrity |
 | oracle visual-prompt preflight v2 | 8 eligible, 2 excluded; no policy calls | evaluator-only rendering/packet and identified-server contract, not method performance |
-| same-RGB prompt router, held-out | B6 95.83% vs B7 93.75% mean accuracy | pilot only; proxy effects |
+| same-RGB prompt router, held-out | legacy route-only 95.83% vs legacy route+effect 93.75% mean accuracy | pilot only; proxy effects; old artifact names B6/B7 |
 | calibrated B7 pilot | 93.75% coverage, 68.75% abstain, 6.25% wrong execute | 16 held-out samples |
 | fresh 10-seed OPEN qualification | drawer 9/10; hidden-target evidence 8/10 | fixed scenario; physical acquisition works |
 | DIRECT after actual OPEN | butter visible initially 8/10; pick 0/10; task 0/10 | information-utilization failure |
 | visible-object executor control | pick 10/10; terminal placement 3/10 | placement gate fails |
-| executed-effect grouped development CV | B6/B7 route macro F1 both 100%; effect accuracy 94.17% | CPU baseline; 10 inspected seed groups; no formal calibration claim |
+| executed-effect grouped development CV | legacy route-only/route+effect macro F1 both 100%; effect accuracy 94.17% | CPU baseline; 10 inspected seed groups; old artifact names B6/B7; no formal calibration claim |
 | [original-drawer calibrated replay](results/diagnostics/original_drawer_calibrated_replay_v1.json) | OPEN -> reobserve -> DIRECT | wiring only; fixture probabilities |
 | six-frame RGB legacy outcome, clean development | 119/120 singleton-correct | legacy outcome component only |
 | six-frame RGB legacy outcome, sealed audit | 294/300 singleton-correct | legacy outcome component only |

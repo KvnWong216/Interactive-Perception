@@ -3,7 +3,8 @@
 Status: software-ready, real causal gate and data collection pending.
 
 This pipeline retains every valid frozen PaliGemma image/prompt token for the
-pre/post observations, learns prompt-conditioned spatial binding on CPU, and
+pre/post observations and every public candidate prompt at both times, learns
+prompt-conditioned spatial binding on CPU, and
 calibrates the frozen score function without exposing evaluator masks to the
 policy. A passing synthetic regression proves only that the interfaces execute.
 
@@ -47,6 +48,20 @@ python scripts/data/extract_piu_spatial_prefix_features.py \
 Both commands are immutable and hash their source artifacts. The mask exporter
 replays retained simulator states and verifies the raw per-camera pixel counts
 against evaluator sidecars. Masks are labels only.
+The executed primitive embedded by the binder is copied from
+`public_action_history.last_executed_candidate`; extraction rejects a missing or
+non-candidate action instead of substituting the evaluator label. The
+interaction-pre image is context only. Spatial supervision is nonzero only on
+the current/interaction-post patches, preventing a pre-action sighting from
+satisfying the post-action localization objective.
+
+Prospective transitions are created only after a qualified dispatcher writes an
+immutable receipt. `scripts/data/export_piu_public_transition.py` verifies the
+controller, qualification certificate, execution report, low-level history,
+and keyframe hashes, then projects only public observations, the full public
+candidate set, and `last_executed_candidate`. Although the source execution
+report contains an evaluator section, no evaluator field is copied into the
+public JSONL.
 
 ## CPU train and calibration
 
@@ -73,6 +88,16 @@ chosen confidence threshold. Formal evaluation uses
 `scripts/evaluation/evaluate_piu_target_binding.py` after a
 `piu.sealed-test-authorization.v1` manifest binds the checkpoint, feature cache,
 labels, and single output path.
+
+Offline prediction/evaluation joins evaluator labels only after public inputs
+are built. Online inference uses
+`scripts/pipeline/predict_piu_target_binding_online.py`, accepts no label path,
+and writes the learned `target_token`, logits, masks, patch coordinates, camera
+IDs, and temporal IDs needed by the controller. The frozen binder prediction
+artifact also exposes its learned `target_token`.
+That token is the only binding interface consumed by the downstream
+candidate-conditioned action-effect model. Evaluator masks, target patch
+targets, and binder labels are not joined into the policy artifact.
 
 ## Current blockers and claim boundary
 

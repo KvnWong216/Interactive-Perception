@@ -1,0 +1,700 @@
+{
+  "schema_version": "piu.offline-repro-audit.v1",
+  "manifest": {
+    "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_offline_repro_v1.yaml",
+    "sha256": "bb9de46ea46e8c25dcd68b76390bea500ef3c58756834e81802f74d74504b7be"
+  },
+  "mode": "CREATE_RELEASE_LOCK",
+  "offline_ready": true,
+  "empirical_ready": false,
+  "paper_claim_ready": false,
+  "paper_claim_ready_reason": "external artifacts are only presence-checked here and require their own identity, split, authorization, and evaluator validation",
+  "local_gpu_actions_performed": false,
+  "offline_inventory": [
+    {
+      "path": "configs/experiments/method_provenance_v1.yaml",
+      "sha256": "30f082bde78163c5201d164a030c49767a9e1fce40aa1e03edf1f6909f565029",
+      "bytes": "30030"
+    },
+    {
+      "path": "configs/experiments/piu_action_effect_calibration_v1.yaml",
+      "sha256": "e0d886ce39e70a3bb44ed6dc9d1e8eec2506fb8b1ab09940f9fa24d7b8c01a10",
+      "bytes": "1776"
+    },
+    {
+      "path": "configs/experiments/piu_action_effect_v1.yaml",
+      "sha256": "bc0ccc4a25a92cd0521d03767adddcd62c563818164945aa92c1d4aa69bc1bc5",
+      "bytes": "3114"
+    },
+    {
+      "path": "configs/experiments/piu_baselines_v1.yaml",
+      "sha256": "f197de097eb527dcbf115289183efee8877d0cd8be75143f96634f0898d5f1c1",
+      "bytes": "6297"
+    },
+    {
+      "path": "configs/experiments/piu_binding_adapter_v1.yaml",
+      "sha256": "1d2d86ef9e8beef9bf2d63ed0719912449567cdd6f574f0096935842df3c1efb",
+      "bytes": "2813"
+    },
+    {
+      "path": "configs/experiments/piu_binding_calibration_v1.yaml",
+      "sha256": "cef89f7f5efe6d7c52dd26f20ab97d26db4868f5067703a2191d284af09a349b",
+      "bytes": "1216"
+    },
+    {
+      "path": "configs/experiments/piu_formal_analysis_v1.yaml",
+      "sha256": "63eb552c1d029f38b91ef3ecfaefbaab042482d9f41fd1461c74239100a76bc6",
+      "bytes": "1855"
+    },
+    {
+      "path": "configs/experiments/piu_primitive_registry_v1.yaml",
+      "sha256": "a1591fd22c709918cf5a2d9324960058b3a2008d09c0072dab594fe6752215a0",
+      "bytes": "1633"
+    },
+    {
+      "path": "docs/claim_evidence_ledger.md",
+      "sha256": "ec5bc4409d1bbc6c6b0803177140e3db7d7ede90499a2dc8a2fb636e4ec36129",
+      "bytes": "3500"
+    },
+    {
+      "path": "docs/preregistration.md",
+      "sha256": "c51dce509e0804008972e9655db26156aee56b84e1697fbbbc4c494aa81410e4",
+      "bytes": "9431"
+    },
+    {
+      "path": "scripts/calibration/calibrate_piu_action_effect.py",
+      "sha256": "74f343261d837ee694bdf07a3713236863a4effc980e4b0c1d9fbf34f0ebe42d",
+      "bytes": "5149"
+    },
+    {
+      "path": "scripts/calibration/calibrate_piu_target_binding.py",
+      "sha256": "62c430c007f1533c1f0395ee9c6bdf780dbddfb1392c631cc148741cdcb299ec",
+      "bytes": "14188"
+    },
+    {
+      "path": "scripts/data/build_piu_candidate_sets.py",
+      "sha256": "cd076248bb611dd48d99f6ef6d9def6049b0973cd08d89d89462ef3de6156ede",
+      "bytes": "4846"
+    },
+    {
+      "path": "scripts/data/build_piu_controller_public_states.py",
+      "sha256": "3a353b81ffddafb0c5ecd44c55920772ee9c09b96e881516fe5c7c64cc920826",
+      "bytes": "3113"
+    },
+    {
+      "path": "scripts/data/build_piu_counterfactual_execution_plan.py",
+      "sha256": "ec379b479cacb5485328e9ebad1f6f5ee429da86fb4944c3c1dfc3de18142370",
+      "bytes": "10451"
+    },
+    {
+      "path": "scripts/data/capture_piu_initial_observation.py",
+      "sha256": "7676f5fbf6db3d73de9121b70adb7ea7f3372a92bfc507412bc82e8fe60efcc5",
+      "bytes": "6782"
+    },
+    {
+      "path": "scripts/data/collect_piu_counterfactual_branches.py",
+      "sha256": "c08c6fe21c870f24fc1a3828682a1c27fafbcde0b3ee54c0826afc0d5f2755d3",
+      "bytes": "18706"
+    },
+    {
+      "path": "scripts/data/export_piu_action_effect_matrix.py",
+      "sha256": "2236d02ea53dfab08f18434cbff58bc92db9b33f5cf7698f4c5ae292dd57fb02",
+      "bytes": "10931"
+    },
+    {
+      "path": "scripts/data/export_piu_binding_labels.py",
+      "sha256": "862610f1a1a5f002d5e30bba99861db209ca95e5221ad2a398428c4f49ed8021",
+      "bytes": "9097"
+    },
+    {
+      "path": "scripts/data/export_piu_post_observation_labels.py",
+      "sha256": "94e108f84fa64c39d8bdb1798104da896e1f20be58a1d8ff35d1b2a88662ac3a",
+      "bytes": "12721"
+    },
+    {
+      "path": "scripts/data/export_piu_public_transition.py",
+      "sha256": "90e259206f0011b8d921b247ab3c22d5cf7f3ec772e4e2c97c4b379a33683203",
+      "bytes": "6414"
+    },
+    {
+      "path": "scripts/data/extract_piu_spatial_prefix_features.py",
+      "sha256": "b5449682a9a25c5283b5c2362314d887a779e1292c40544fd09951babbefdff7",
+      "bytes": "16736"
+    },
+    {
+      "path": "scripts/data/extract_piu_spatial_prefix_features_remote.py",
+      "sha256": "ee35edbad58a5096dcdd4c97289cdc71eabe368e1c1ab85a7b9f18cbe0a2a03c",
+      "bytes": "12346"
+    },
+    {
+      "path": "scripts/data/update_piu_temporal_memory.py",
+      "sha256": "eda8a336a57a040b6311602df5a86b48f8f1f4b6d3cc55237dfab78df2684e48",
+      "bytes": "9983"
+    },
+    {
+      "path": "scripts/data/validate_piu_split_manifest.py",
+      "sha256": "cfc3ca7ee4cc5ae991b9f790ca0f4733e7a1408fadae645523ac9093166077c0",
+      "bytes": "1834"
+    },
+    {
+      "path": "scripts/evaluation/aggregate_piu_closed_loop_episode.py",
+      "sha256": "23a8911759269b7f642865b903d3e005252e6684dd81c9d28570c93164f856fc",
+      "bytes": "10656"
+    },
+    {
+      "path": "scripts/evaluation/analyze_piu_formal_experiment.py",
+      "sha256": "69ba174d8aa48c8bd08551fb598debb2e7820d57f2a1a144c49d7e57cdc52336",
+      "bytes": "2453"
+    },
+    {
+      "path": "scripts/evaluation/assemble_piu_formal_outcomes.py",
+      "sha256": "be0aa88da89638c026a2e5460c1dfbbe873e53e6a9e5717dcee2585bcd5e0cf9",
+      "bytes": "5428"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_qualified_executor_map.py",
+      "sha256": "a8b6150d3d1114cb1b3fe75a3f2911d6ab5ca2748a4fdeff819b2436c873ae18",
+      "bytes": "2483"
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_action_effect.py",
+      "sha256": "fa797ae40188da6f792c6ccd06acc8c7af5c21ecc26b94527fd5e06baeebe37f",
+      "bytes": "6364"
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_primitive_qualification.py",
+      "sha256": "0fe84d67440f04759bd232099ec40f2021766086a64c77e688518b3d896e9189",
+      "bytes": "4291"
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_target_binding.py",
+      "sha256": "ce1ce332c7c519f39b0fb88fcf58d623b33c2f71788f3534a9ad4e35272bc108",
+      "bytes": "9828"
+    },
+    {
+      "path": "scripts/evaluation/export_piu_formal_outcome.py",
+      "sha256": "bf4baf67625ab15cbb0fa49ff854381374907dd07d842bd5f443b3bb423b6233",
+      "bytes": "4361"
+    },
+    {
+      "path": "scripts/evaluation/plan_piu_primitive_qualification.py",
+      "sha256": "77a1ad7a0f503c1ad304ab2cf7226f4cd17abebde91ec0120c9b6ebfa138b295",
+      "bytes": "4175"
+    },
+    {
+      "path": "scripts/pipeline/execute_piu_controller_decision.py",
+      "sha256": "c5cc28e7d995e8e1b9a5d94a3abb34a7110033560c6e5cd55c84335ccfb9aee7",
+      "bytes": "11426"
+    },
+    {
+      "path": "scripts/pipeline/predict_piu_target_binding_online.py",
+      "sha256": "423174ac3562e33d58c840ccc456d41bd4f6338547d1a269a182b50f11624f57",
+      "bytes": "7690"
+    },
+    {
+      "path": "scripts/pipeline/replay_piu_oracle_effect_trace.py",
+      "sha256": "6935be1cafa08615a12c66fbb4a5126455ca7ba392abd24d7b7add2cf96f3bbe",
+      "bytes": "14541"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_b0_direct.py",
+      "sha256": "426af34e8745fba3c61dd70d5d56bb7afaf0b06c303aca02c3c1fa4e5b542a2f",
+      "bytes": "6365"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_calibrated_controller.py",
+      "sha256": "1b7db554178d7729007a260b2d1574d339d2bac3b1c824048361c7e39f88e694",
+      "bytes": "18090"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_closed_loop.py",
+      "sha256": "9c9dd1a474d37e8c18e8ff03f55c20e40505e8dbc4e6715aea0e6b37ef14e482",
+      "bytes": "20540"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_heuristic_v0_inference.py",
+      "sha256": "64ad72f5dc11cb63baaa9b58495690263f9b7e2ef3d22b07a1ed92b07170a025",
+      "bytes": "8553"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_heuristic_v0_once.py",
+      "sha256": "378474658ac233ef4cc65bd57e77ba41b20a1d0013238659cc7e0f9c2da384d1",
+      "bytes": "13107"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_oracle_binding_full_loop.py",
+      "sha256": "1b02b2ec61688468f5385f22e22a21e0021d2117794221ff9660b0c0f4ac0990",
+      "bytes": "11816"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_oracle_effect_controller.py",
+      "sha256": "ea00aa11701d8db10cb655f4c625670f918c7525571769027087f166cc01b1b0",
+      "bytes": "5371"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_prompted_vlm_closed_loop.py",
+      "sha256": "697fca79f519c8a55d36aeb54098a2d9a10394c5a56674c2a634b5197836070f",
+      "bytes": "11787"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_prompted_vlm_router.py",
+      "sha256": "b792d07c54dbe1f7aad2470bd64a9bac0c46eff4d72e4ab6a55db1d95480782d",
+      "bytes": "11036"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_uncalibrated_ablation_controller.py",
+      "sha256": "d2aface4017c057bbc1840ede8e338c0c8ccfc1db13799ea10194ce9bb1d0180",
+      "bytes": "9601"
+    },
+    {
+      "path": "scripts/training/train_piu_action_effect.py",
+      "sha256": "f6430101e8800164615617b0f4e4cc7cb3ba39aea232c3f87df9be2e29ede39e",
+      "bytes": "12430"
+    },
+    {
+      "path": "scripts/training/train_piu_target_binding.py",
+      "sha256": "80bd98ff4f9a454685458394d69a2d9bfff3caa481af406584767903c9b43d37",
+      "bytes": "14136"
+    },
+    {
+      "path": "src/piu/ablation_controller.py",
+      "sha256": "5e37d61c4b481584ff153ab899705f9848809964c996a6b22254854d713694a5",
+      "bytes": "2456"
+    },
+    {
+      "path": "src/piu/action_effect.py",
+      "sha256": "684d0b35f1b34f775451db9ef7b7a44c05208166f78475615ac452d09c81515b",
+      "bytes": "24807"
+    },
+    {
+      "path": "src/piu/baselines.py",
+      "sha256": "8b7db67a0b0eeaff519f10bed95a533aef7300045d9b3fa35e990aab11a40824",
+      "bytes": "4933"
+    },
+    {
+      "path": "src/piu/binding_calibration.py",
+      "sha256": "272a32ba5ddbd90b4a572dbdeeac273ea7446c09257f2cc400c2d8f0bce0e014",
+      "bytes": "22590"
+    },
+    {
+      "path": "src/piu/binding_training.py",
+      "sha256": "18eb06def911b2669135c236c3acfc5af4c23999f0662eae801b11128514f510",
+      "bytes": "13756"
+    },
+    {
+      "path": "src/piu/calibrated_controller.py",
+      "sha256": "8eec5301729d8e3029c6e8ab579f291836134e43f7c331405dec3c371024fa0d",
+      "bytes": "13113"
+    },
+    {
+      "path": "src/piu/candidate_generator.py",
+      "sha256": "bcfc98739cc3a1a397ed98e3278c88ba86f147586ad36ebe7a44e22b79f1198e",
+      "bytes": "4606"
+    },
+    {
+      "path": "src/piu/effect_calibration.py",
+      "sha256": "54ab50f7f8d7a11d2cb4a621f3cd62593abd265da7b94ee0e9f7afb9afaf1b6f",
+      "bytes": "9214"
+    },
+    {
+      "path": "src/piu/effect_training.py",
+      "sha256": "75bdf2ea61582d6995dbce3891cdb55f4d22a719e514c6fbc39ca6e1db23c7da",
+      "bytes": "10078"
+    },
+    {
+      "path": "src/piu/execution_plan.py",
+      "sha256": "9c5c699be3a1c85317eb2dcc1ed1ec2d8d5fcb7acf4b44e4c3b7fde378ad4266",
+      "bytes": "3761"
+    },
+    {
+      "path": "src/piu/executor_bridge.py",
+      "sha256": "367d0906f03366cb131cf4a17f8e85a015ebd7468c06c008d8b17c76d50a9e77",
+      "bytes": "5410"
+    },
+    {
+      "path": "src/piu/oracle_effect.py",
+      "sha256": "42e8f5d33903bed66309561baa3832580408e1fe8489e7cb09ce8d5292ad9e51",
+      "bytes": "2021"
+    },
+    {
+      "path": "src/piu/policy_identity.py",
+      "sha256": "d25e41c3dc0c28b9ef90aa605fc46974480e77aa5f80d92d5e436933762b6630",
+      "bytes": "1816"
+    },
+    {
+      "path": "src/piu/spatial_prefix.py",
+      "sha256": "1c55b924050917869553e8153fa1e8f7c3c65f7fc77e3cd92b29161b5a207ec9",
+      "bytes": "8732"
+    },
+    {
+      "path": "src/piu/splits.py",
+      "sha256": "cde9b5e6951edc8faa9d6025d12c0b1cb4a9ea43742d1baad23237a53d1f3f91",
+      "bytes": "3029"
+    },
+    {
+      "path": "src/piu/statistics.py",
+      "sha256": "571b89410f4f7ecaea6f0ac40f8301e837814f80d785bad2e9cc4972d1484aab",
+      "bytes": "13456"
+    },
+    {
+      "path": "src/piu/target_binding.py",
+      "sha256": "ae85f287c038bb1c98632c8ce2f14bc38ac1040fca25774511fe35a1ffd26541",
+      "bytes": "14129"
+    },
+    {
+      "path": "src/piu/temporal_memory.py",
+      "sha256": "3b2dc5484fb265deadf3d0ddf0c7edc91d62ebc4edd26c41c1b2213bb6f5d935",
+      "bytes": "7609"
+    }
+  ],
+  "offline_inventory_sha256": "e99aceff33f69cd3f5a5f6cedb061841022503bc9b49b4f8bdde6199505e0814",
+  "reference_inventory_match": null,
+  "entrypoints": [
+    {
+      "path": "scripts/data/export_piu_binding_labels.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/export_piu_post_observation_labels.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/export_piu_action_effect_matrix.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/collect_piu_counterfactual_branches.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/build_piu_counterfactual_execution_plan.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/export_piu_public_transition.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/update_piu_temporal_memory.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/build_piu_controller_public_states.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/build_piu_candidate_sets.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/capture_piu_initial_observation.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/validate_piu_split_manifest.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/extract_piu_spatial_prefix_features.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/extract_piu_spatial_prefix_features_remote.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/training/train_piu_target_binding.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/training/train_piu_action_effect.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/calibration/calibrate_piu_target_binding.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/calibration/calibrate_piu_action_effect.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/predict_piu_target_binding.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/predict_piu_action_effect.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_target_binding.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_action_effect.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/analyze_piu_formal_experiment.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/aggregate_piu_closed_loop_episode.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/export_piu_formal_outcome.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/assemble_piu_formal_outcomes.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_primitive_qualification.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/plan_piu_primitive_qualification.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_qualified_executor_map.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_calibrated_controller.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_uncalibrated_ablation_controller.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/predict_piu_target_binding_online.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/execute_piu_controller_decision.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_closed_loop.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_b0_direct.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_prompted_vlm_router.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_prompted_vlm_closed_loop.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_oracle_effect_controller.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/replay_piu_oracle_effect_trace.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_oracle_binding_full_loop.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_heuristic_v0_inference.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_heuristic_v0_once.py",
+      "executable": true,
+      "syntax_valid": true
+    }
+  ],
+  "external_empirical_gates": [
+    {
+      "id": "external_prompted_vlm_router_identity",
+      "artifact": "results/diagnostics/external_prompted_vlm_router_identity_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "external_prompted_vlm_router_probe",
+      "artifact": "results/diagnostics/external_prompted_vlm_router_probe_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "external_pi05_identity_probe",
+      "artifact": "results/diagnostics/external_pi05_endpoint_check_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "b2_frozen_heuristic_v0_results",
+      "artifact": "results/method/piu_fixed_drawer_b2_heuristic_v0_v1.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "oracle_prompt_screen",
+      "artifact": "results/method/original_drawer_oracle_prompt_screen_v2.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "oracle_prompt_pilot",
+      "artifact": "results/method/original_drawer_oracle_prompt_pilot_v2.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "prospective_oracle_plan",
+      "artifact": "results/method/original_drawer_oracle_formal_plan_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "prospective_oracle_formal_result",
+      "artifact": "results/method/original_drawer_oracle_formal_result_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "open_primitive_certificate",
+      "artifact": "results/method/piu_open_primitive_certificate_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "pick_primitive_certificate",
+      "artifact": "results/method/piu_pick_primitive_certificate_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "place_primitive_certificate",
+      "artifact": "results/method/piu_place_primitive_certificate_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "group_split_manifest",
+      "artifact": "data/piu/mainline_v1/split_manifest.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "real_spatial_prefix_cache",
+      "artifact": "data/piu/mainline_v1/spatial_prefix_features.npz",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "new_group_disjoint_binding_labels",
+      "artifact": "data/piu/mainline_v1/binding_labels.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "new_group_disjoint_effect_labels",
+      "artifact": "data/piu/mainline_v1/action_effect_labels.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "binder_training_report",
+      "artifact": "runs/piu_mainline_v1/binder/training_report.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "binder_calibration",
+      "artifact": "runs/piu_mainline_v1/binder/calibration.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "effect_training_report",
+      "artifact": "runs/piu_mainline_v1/effect/training_report.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "effect_calibration",
+      "artifact": "runs/piu_mainline_v1/effect/calibration.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "complete_sealed_outcome_matrix",
+      "artifact": "results/method/piu_fixed_drawer_sealed_outcomes_v1.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "sealed_full_loop_report",
+      "artifact": "results/method/piu_fixed_drawer_sealed_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "b6_oracle_effect_trace_results",
+      "artifact": "results/method/piu_fixed_drawer_b6_oracle_effect_v1.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "b7_oracle_binding_results",
+      "artifact": "results/method/piu_fixed_drawer_b7_oracle_binding_v1.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    }
+  ],
+  "errors": []
+}

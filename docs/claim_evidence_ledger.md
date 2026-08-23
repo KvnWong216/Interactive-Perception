@@ -9,10 +9,15 @@
 | Learned spatial binding helps | software path and synthetic regression exist; real spatial training labels, full-prefix cache, checkpoint, and rollout are absent | untested | no positive performance claim |
 | Effect prediction improves selection | executed-effect route result is saturated with no gain | negative development evidence | no effect-improvement claim |
 | Binder calibration has leakage-safe software | temperature and conformal roles are group-disjoint in code and synthetic tests | software verification | calibration protocol is implemented; no risk-reduction claim |
+| Candidate-conditioned effect learning is implemented | full candidate prompt tokens, exact executed/null labels, three gradient variants, learned task scales, and synthetic CPU regression | software verification | implementation exists; no route, effect, or control performance claim |
+| Calibrated controller has typed decision semantics | synthetic tests cover EXECUTE, INTERACT, ABSTAIN, STOP, and REPORT_NOT_FOUND with singleton set requirements | software verification | authorization semantics are implemented; no physical reliability claim |
+| The new comparison is fair and preregistered | B0--B8 registry, complete paired-matrix validator, exact primary test, and Holm secondary family | software/protocol verification | the analysis is frozen; no sealed result exists |
 | Calibration reduces wrong execution | no new-method calibrated physical comparison | untested | deferred |
 | Primitive reliability is context dependent | contact/predicate reconstruction gives OPEN 9/10, visible PICK 10/10, post-OPEN PICK 0/10, visible PLACE 3/10 | retrospective fixed-scenario diagnostic | do not collapse these into a global executor reliability |
 | A primitive is formally qualified | no prospective absolute-risk contract or formal groups | untested | no primitive is authorized for a paper-method action set |
+| Unqualified actions cannot reach the physical dispatcher | immutable certificate evaluator and dispatch rejection tests | software verification | live external policy calls require an exact candidate/primitive `FORMALLY_QUALIFIED` certificate; no primitive currently has one |
 | PIU-VLA improves full-loop success | no complete learned closed loop | untested | no positive claim |
+| Offline release is reproducible | hash inventory and syntax/executable preflight implemented; external gates remain absent | software verification | offline artifacts can be locked and rechecked; empirical reproduction is pending |
 
 Every new numeric claim must link to raw reports or a machine-readable aggregate.
 Oracle, retrospective, development, calibration, and sealed evidence remain

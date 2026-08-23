@@ -1,0 +1,177 @@
+schema_version: piu.offline-repro-manifest.v1
+id: piu_mainline_offline_release_v1
+status: software_release_candidate
+
+resource_contract:
+  local_gpu_memory_mib_max: 1500
+  local_model_device: cpu
+  local_pi05_checkpoint_load_allowed: false
+  local_simulator_gpu_render_allowed: false
+  pi05_execution_location: identified_external_server_only
+
+required_files:
+  - configs/experiments/piu_binding_adapter_v1.yaml
+  - configs/experiments/piu_binding_calibration_v1.yaml
+  - configs/experiments/piu_action_effect_v1.yaml
+  - configs/experiments/piu_action_effect_calibration_v1.yaml
+  - configs/experiments/piu_baselines_v1.yaml
+  - configs/experiments/piu_formal_analysis_v1.yaml
+  - configs/experiments/method_provenance_v1.yaml
+  - configs/experiments/piu_primitive_registry_v1.yaml
+  - src/piu/spatial_prefix.py
+  - src/piu/target_binding.py
+  - src/piu/binding_training.py
+  - src/piu/binding_calibration.py
+  - src/piu/action_effect.py
+  - src/piu/effect_training.py
+  - src/piu/effect_calibration.py
+  - src/piu/candidate_generator.py
+  - src/piu/temporal_memory.py
+  - src/piu/calibrated_controller.py
+  - src/piu/ablation_controller.py
+  - src/piu/executor_bridge.py
+  - src/piu/baselines.py
+  - src/piu/statistics.py
+  - src/piu/splits.py
+  - src/piu/oracle_effect.py
+  - src/piu/execution_plan.py
+  - src/piu/policy_identity.py
+  - scripts/data/export_piu_binding_labels.py
+  - scripts/data/export_piu_post_observation_labels.py
+  - scripts/data/export_piu_action_effect_matrix.py
+  - scripts/data/collect_piu_counterfactual_branches.py
+  - scripts/data/build_piu_counterfactual_execution_plan.py
+  - scripts/data/export_piu_public_transition.py
+  - scripts/data/update_piu_temporal_memory.py
+  - scripts/data/build_piu_controller_public_states.py
+  - scripts/data/build_piu_candidate_sets.py
+  - scripts/data/capture_piu_initial_observation.py
+  - scripts/data/validate_piu_split_manifest.py
+  - scripts/data/extract_piu_spatial_prefix_features.py
+  - scripts/data/extract_piu_spatial_prefix_features_remote.py
+  - scripts/training/train_piu_target_binding.py
+  - scripts/training/train_piu_action_effect.py
+  - scripts/calibration/calibrate_piu_target_binding.py
+  - scripts/calibration/calibrate_piu_action_effect.py
+  - scripts/evaluation/evaluate_piu_target_binding.py
+  - scripts/evaluation/evaluate_piu_action_effect.py
+  - scripts/evaluation/analyze_piu_formal_experiment.py
+  - scripts/evaluation/aggregate_piu_closed_loop_episode.py
+  - scripts/evaluation/export_piu_formal_outcome.py
+  - scripts/evaluation/assemble_piu_formal_outcomes.py
+  - scripts/evaluation/evaluate_piu_primitive_qualification.py
+  - scripts/evaluation/plan_piu_primitive_qualification.py
+  - scripts/evaluation/build_piu_qualified_executor_map.py
+  - scripts/pipeline/run_piu_calibrated_controller.py
+  - scripts/pipeline/run_piu_uncalibrated_ablation_controller.py
+  - scripts/pipeline/predict_piu_target_binding_online.py
+  - scripts/pipeline/execute_piu_controller_decision.py
+  - scripts/pipeline/run_piu_closed_loop.py
+  - scripts/pipeline/run_piu_b0_direct.py
+  - scripts/pipeline/run_piu_prompted_vlm_router.py
+  - scripts/pipeline/run_piu_prompted_vlm_closed_loop.py
+  - scripts/pipeline/run_piu_oracle_effect_controller.py
+  - scripts/pipeline/replay_piu_oracle_effect_trace.py
+  - scripts/pipeline/run_piu_oracle_binding_full_loop.py
+  - scripts/pipeline/run_piu_heuristic_v0_inference.py
+  - scripts/pipeline/run_piu_heuristic_v0_once.py
+  - docs/preregistration.md
+  - docs/claim_evidence_ledger.md
+
+python_entrypoints:
+  - scripts/data/export_piu_binding_labels.py
+  - scripts/data/export_piu_post_observation_labels.py
+  - scripts/data/export_piu_action_effect_matrix.py
+  - scripts/data/collect_piu_counterfactual_branches.py
+  - scripts/data/build_piu_counterfactual_execution_plan.py
+  - scripts/data/export_piu_public_transition.py
+  - scripts/data/update_piu_temporal_memory.py
+  - scripts/data/build_piu_controller_public_states.py
+  - scripts/data/build_piu_candidate_sets.py
+  - scripts/data/capture_piu_initial_observation.py
+  - scripts/data/validate_piu_split_manifest.py
+  - scripts/data/extract_piu_spatial_prefix_features.py
+  - scripts/data/extract_piu_spatial_prefix_features_remote.py
+  - scripts/training/train_piu_target_binding.py
+  - scripts/training/train_piu_action_effect.py
+  - scripts/calibration/calibrate_piu_target_binding.py
+  - scripts/calibration/calibrate_piu_action_effect.py
+  - scripts/evaluation/predict_piu_target_binding.py
+  - scripts/evaluation/predict_piu_action_effect.py
+  - scripts/evaluation/evaluate_piu_target_binding.py
+  - scripts/evaluation/evaluate_piu_action_effect.py
+  - scripts/evaluation/analyze_piu_formal_experiment.py
+  - scripts/evaluation/aggregate_piu_closed_loop_episode.py
+  - scripts/evaluation/export_piu_formal_outcome.py
+  - scripts/evaluation/assemble_piu_formal_outcomes.py
+  - scripts/evaluation/evaluate_piu_primitive_qualification.py
+  - scripts/evaluation/plan_piu_primitive_qualification.py
+  - scripts/evaluation/build_piu_qualified_executor_map.py
+  - scripts/pipeline/run_piu_calibrated_controller.py
+  - scripts/pipeline/run_piu_uncalibrated_ablation_controller.py
+  - scripts/pipeline/predict_piu_target_binding_online.py
+  - scripts/pipeline/execute_piu_controller_decision.py
+  - scripts/pipeline/run_piu_closed_loop.py
+  - scripts/pipeline/run_piu_b0_direct.py
+  - scripts/pipeline/run_piu_prompted_vlm_router.py
+  - scripts/pipeline/run_piu_prompted_vlm_closed_loop.py
+  - scripts/pipeline/run_piu_oracle_effect_controller.py
+  - scripts/pipeline/replay_piu_oracle_effect_trace.py
+  - scripts/pipeline/run_piu_oracle_binding_full_loop.py
+  - scripts/pipeline/run_piu_heuristic_v0_inference.py
+  - scripts/pipeline/run_piu_heuristic_v0_once.py
+
+external_empirical_gates:
+  - id: external_prompted_vlm_router_identity
+    artifact: results/diagnostics/external_prompted_vlm_router_identity_v1.json
+  - id: external_prompted_vlm_router_probe
+    artifact: results/diagnostics/external_prompted_vlm_router_probe_v1.json
+  - id: external_pi05_identity_probe
+    artifact: results/diagnostics/external_pi05_endpoint_check_v1.json
+  - id: b2_frozen_heuristic_v0_results
+    artifact: results/method/piu_fixed_drawer_b2_heuristic_v0_v1.jsonl
+  - id: oracle_prompt_screen
+    artifact: results/method/original_drawer_oracle_prompt_screen_v2.json
+  - id: oracle_prompt_pilot
+    artifact: results/method/original_drawer_oracle_prompt_pilot_v2.json
+  - id: prospective_oracle_plan
+    artifact: results/method/original_drawer_oracle_formal_plan_v1.json
+  - id: prospective_oracle_formal_result
+    artifact: results/method/original_drawer_oracle_formal_result_v1.json
+  - id: open_primitive_certificate
+    artifact: results/method/piu_open_primitive_certificate_v1.json
+  - id: pick_primitive_certificate
+    artifact: results/method/piu_pick_primitive_certificate_v1.json
+  - id: place_primitive_certificate
+    artifact: results/method/piu_place_primitive_certificate_v1.json
+  - id: group_split_manifest
+    artifact: data/piu/mainline_v1/split_manifest.json
+  - id: real_spatial_prefix_cache
+    artifact: data/piu/mainline_v1/spatial_prefix_features.npz
+  - id: new_group_disjoint_binding_labels
+    artifact: data/piu/mainline_v1/binding_labels.jsonl
+  - id: new_group_disjoint_effect_labels
+    artifact: data/piu/mainline_v1/action_effect_labels.jsonl
+  - id: binder_training_report
+    artifact: runs/piu_mainline_v1/binder/training_report.json
+  - id: binder_calibration
+    artifact: runs/piu_mainline_v1/binder/calibration.json
+  - id: effect_training_report
+    artifact: runs/piu_mainline_v1/effect/training_report.json
+  - id: effect_calibration
+    artifact: runs/piu_mainline_v1/effect/calibration.json
+  - id: complete_sealed_outcome_matrix
+    artifact: results/method/piu_fixed_drawer_sealed_outcomes_v1.jsonl
+  - id: sealed_full_loop_report
+    artifact: results/method/piu_fixed_drawer_sealed_v1.json
+  - id: b6_oracle_effect_trace_results
+    artifact: results/method/piu_fixed_drawer_b6_oracle_effect_v1.jsonl
+  - id: b7_oracle_binding_results
+    artifact: results/method/piu_fixed_drawer_b7_oracle_binding_v1.jsonl
+
+claim_contract:
+  synthetic_tests_are_performance_evidence: false
+  missing_external_gate_can_be_imputed: false
+  old_256_pixel_labels_can_train_main_method: false
+  unsealed_results_can_enter_main_table: false
+  unqualified_primitive_can_dispatch: false

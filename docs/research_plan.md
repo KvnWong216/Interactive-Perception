@@ -179,14 +179,14 @@ pass the method-paper go gate.
 | ID | method | learned route | effects | calibration | executor |
 |---|---|---:|---:|---:|---|
 | B0 | π0.5 Direct | N | N | N | frozen π0.5 |
-| B1 | Heuristic V0 | manual | manual/scored | partial legacy | frozen π0.5 |
-| B2 | Prompted VLM Router | N | prompted | N | frozen π0.5 |
-| B3 | ReAct-style VLM | N | implicit history | N | frozen π0.5 |
-| B4 | KnowNo-only | N | N | route set | frozen π0.5 |
-| B5 | binary sufficiency + fixed action | binary | N | optional | frozen π0.5 |
-| B6 | Route-only decoder | Y | N | route set | frozen π0.5 |
-| B7 | Proposed | Y | Y | route + effects | frozen π0.5 |
-| B8 | Oracle route | privileged | privileged | N/A | same executor |
+| B1 | Prompted VLM Router | N | prompted | N | frozen π0.5 |
+| B2 | Heuristic V0 | manual | manual/scored | partial legacy | frozen π0.5 |
+| B3 | Route-only decoder | Y | N | N | frozen π0.5 |
+| B4 | Route + executed-effect decoder | Y | Y | N | frozen π0.5 |
+| B5 | Route + effect + calibration, no spatial bridge | Y | Y | route/belief/effects | frozen π0.5 |
+| B6 | Oracle executed effects | evaluator | evaluator | N/A | same executor |
+| B7 | Oracle target binding | evaluator mask rendered only after visibility | N | N/A | same executor |
+| B8 | Calibrated action-causal binding (ours) | Y | Y | route/belief/effects | frozen π0.5 |
 
 ## 12. Main experiment matrix
 
@@ -216,14 +216,14 @@ pass the method-paper go gate.
 
 ## 14. Compute estimate
 
-Stage 0 replay is CPU-only and under one second after installation. A frozen
-Qwen2.5-VL-3B backbone in bf16 is about 6 GB of parameters; with four temporal
-frames, activations, processor, and a 1024-wide one-layer decoder, budget
-approximately 14–22 GB for batch 2 inference/training of the head. Reserve
-24 GB minimum and 48 GB recommended. Use batch 2, accumulation 16, bf16, frozen
-backbone, and precomputed hidden tokens when image augmentation is not being
-studied. A 100-step smoke fit should take minutes; a first 20k-sample head fit
-should be hours, not days. Measure actual peak allocation before scheduling.
+Stage 0 replay and learned-head training are CPU-only after feature extraction.
+This workstation has a hard 1500 MiB GPU-use cap and therefore never loads
+π0.5 or a replacement Qwen stack locally. Feature collection calls an
+identified external `pi05_libero` service and retains the frozen PaliGemma
+multimodal-prefix patch tokens used by the downstream policy. Binder and effect
+heads train from those cached tensors with `CUDA_VISIBLE_DEVICES=''`; every
+external extraction report records checkpoint identity, protocol version, and
+public-input hashes. Measure and retain server-side peak allocation separately.
 
 Full π0.5 fine-tuning, multi-node training, video generation, and eight-H100
 ActiveVLA-scale experiments are out of scope.
@@ -240,10 +240,12 @@ ActiveVLA-scale experiments are out of scope.
 | data safety | sample schema, policy projection, split/leakage checks | implemented |
 | executor loop | deterministic text + closed-loop controller | implemented |
 | Stage 0 trace | original drawer fixture replay | passed: OPEN -> reobserve -> DIRECT; wiring evidence only |
-| VLM feature extraction | shared Qwen hidden-token dataset | planned after review |
-| counterfactual collection | state restore and candidate forks | planned; no expensive collection yet |
+| VLM feature extraction | external frozen PaliGemma full-prefix protocol | implemented and contract-tested; real cache pending endpoint |
+| counterfactual collection | calibrated public execution plan, exact same-state candidate-fork collector, and causal matrix exporter | implemented and contract-tested; ineligible candidates stay in the route matrix with masked effects; real branches pending certificates/endpoint |
 | training | effect then route then calibration | blocked by data, intentionally not run |
-| live full loop | learned model + fresh π0.5 rollout | planned after smoke training passes |
+| live full loop | B3/B4/B5/B8 hash-chained runner | implemented and dry-run verified; physical run blocked by checkpoint/certificates/endpoint |
+| oracle columns | B6 executed-effect trace and same-source B7 dynamic target-marker full loop | implemented and contract-tested; real tree/style selection/endpoint pending |
+| frozen B2 adapter | exact tag inference attestation and one-decision episode projection | implemented and contract-tested; external legacy-model inference pending |
 
 One-command Stage 0 validation:
 
@@ -264,7 +266,7 @@ alpha, ontology, and the non-guarantee of task success.
 | novelty collision with PROBE/ZS-IP | reviewers reduce claim to “VLM explores” | lead with calibrated candidate effects + continuous task completion; cite directly |
 | shortcut labels | prompted router matches learned head | group splits, prompt swaps, counterfactual same-state forks |
 | visually inaccessible supervision | good train, random OOD | audit each label from public pre/post RGB; privileged labels evaluator-only |
-| effect factors do not help route | B6 equals B7 | remove effect head; benchmark/calibrated baseline paper |
+| effect factors do not help route | route-only B3 equals route+effect B4 | remove effect head; benchmark/calibrated baseline paper |
 | conformal sets too large | high coverage, unusable autonomy | report set size/risk-coverage; improve data/model, never hide ambiguity |
 | π0.5 cannot execute primitive | low primitive success | capability-specific validation; report separately, do not blame router |
 | one drawer overfit | all gain from OPEN | no method claim until two enrichment primitives + articulated container pass |

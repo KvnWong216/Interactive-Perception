@@ -24,9 +24,9 @@ function. The official dates are maintained by the
 |---|---|---|
 | Aug 22-24 | environment audit, frozen protocol, B0 direct and oracle-route executor qualification | exact commands reproduce; no online privileged input |
 | Aug 25-28 | same-state prompt counterfactual collection and shared-VLM feature cache | hashes valid; paired seeds never cross splits |
-| Aug 29-Sep 2 | route-only B6 and effect+route B7 smoke training | overfit a tiny batch; development loss beats uniform; no leakage |
+| Aug 29-Sep 2 | route-only B3 and effect+route B4 smoke training | overfit a tiny batch; development loss beats uniform; no leakage |
 | Sep 3-6 | temperature/effect calibration and abstention evaluation | empirical coverage reported with set size; zero forced top-1 |
-| Sep 7-10 | main B0/B2/B6/B7 comparisons and prespecified ablations | report macro F1, false-direct, NLL, Brier, coverage, singleton precision |
+| Sep 7-10 | public B0--B5/B8 comparisons, B6/B7 oracle columns, and prespecified ablations | report macro F1, false-direct, NLL, Brier, coverage, singleton precision |
 | Sep 11-13 | fresh closed-loop rollouts and failure taxonomy | OPEN, recognition, reroute, grasp, place, task success scored separately |
 | Sep 14-15 | internal “submission-quality” freeze | one-command reproduction, table generated from immutable JSON, claim/no-claim memo |
 | Sep 16-Oct 4 | robustness cycle | new seeds and prompt paraphrases without changing the frozen test result |
@@ -42,7 +42,7 @@ function. The official dates are maintained by the
 | E1 | Does OPEN expose the target? | live OPEN branch and evaluator replay | drawer opening, target pixels |
 | E2 | Can pi0.5 use acquired information? | actual OPEN state followed by DIRECT | target grasp and final task success |
 | E3 | Does the router use the prompt on identical RGB? | butter/cream-cheese prompt pairs per seed | paired route accuracy, prompt-swap accuracy |
-| E4 | Does effect supervision help? | same-state executed candidate forks | B7 minus B6 route F1 and counterfactual ranking |
+| E4 | Does effect supervision help? | same-state executed candidate forks | B4 minus B3 route F1 and counterfactual ranking |
 | E5 | Is the decision calibrated? | isolated calibration seeds | coverage, set size, singleton precision, false-direct |
 | E6 | Which input is necessary? | no-prompt, last-frame, no-effect, no-calibration | delta in E3-E5 metrics |
 | E7 | Does the full loop help? | B0 versus learned OPEN/reobserve/DIRECT | final task success per physical interaction |
@@ -54,15 +54,16 @@ Fresh executor qualification shows that DIRECT fails from both idealized and
 actually opened states and frequently approaches or grasps the visible cream
 cheese instead of the butter. Consequently:
 
-- freeze further route/effect-head tuning: executed-effect B7 ties route-only
-  B6 on every grouped development fold;
+- freeze further route/effect-head tuning in the retained pilot: the legacy
+  executed-effect artifact ties its route-only counterpart on every grouped
+  development fold (those archived artifacts predate the frozen B0--B8 IDs);
 - treat full task success as executor-blocked until a frozen, public-history-only
   bridge or supported capability passes a preregistered qualification set;
 - use the isolated oracle visual-prompt screen only to decide whether a learned
   public-RGB target-binding bridge is technically plausible;
 - do not count fixture replay, ideal state transitions, or evaluator labels as
   learned method performance;
-- do not spend the September cycle scaling the router if B6/B7 cannot beat the
+- do not spend the September cycle scaling the router if B3/B4 cannot beat the
   paired prompt counterfactual baselines.
 
 ## Daily rhythm

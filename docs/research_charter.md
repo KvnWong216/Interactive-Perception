@@ -29,8 +29,9 @@ PICK primitive.
 2. The evaluator-only visual-prompt experiment asks whether target indication
    can causally change the frozen executor. It is an oracle ceiling, never the
    public-input method.
-3. Only after a prospectively sized formal oracle test is positive may a learned
-   public-RGB spatial binder be activated as the main-method candidate.
+3. The learned public-RGB binder and downstream controller may be implemented
+   and synthetic-tested offline, but only a positive prospectively sized formal
+   oracle test may activate real training and physical method evaluation.
 4. A learned binder must improve both a spatial binding metric and downstream
    target contact on disjoint groups. Target contact alone is information
    utilization, not direct proof of binding accuracy.
@@ -54,14 +55,25 @@ PICK primitive.
 - No hand-weighted information value is used in this sprint. Future value terms
   require either learned parameters or a frozen, preregistered user/physics
   contract plus ablations.
+- Candidate-effect supervision must come from a context-eligible actual action
+  fork or an exact STOP/REPORT_NOT_FOUND null transition. Eligibility is fixed
+  from calibrated public binder sets before execution and cannot inspect an
+  effect prediction or outcome. Ineligible candidates retain route supervision
+  but have every unobserved effect masked. Capability proxies and unsupported
+  all-negative factors are prohibited.
+- Public decisions are set-valued: an ambiguous route, belief, or required
+  effect produces ABSTAIN. STOP and REPORT_NOT_FOUND require their own explicit
+  completion or exhaustive-search evidence.
 - Engineering budgets and primitive enablement gates are reported as such; they
   are not statistical evidence for a paper claim.
 
 ## Two-day sprint exit gate
 
 The offline exit is a validated, leakage-controlled transition/evaluation
-pipeline plus an external-GPU full-prefix extractor and a lightweight spatial
-binder implementation. The empirical exit additionally requires the external
+pipeline, external-GPU full-prefix extractor, spatial binder, action-effect
+learner, isolated calibration, label-free controller, fair baseline registry,
+formal analysis, and hash-bound reproduction audit. The empirical exit
+additionally requires the external
 identified pi0.5 endpoint: nine development screen runs, five independent pilot
 runs, and a prospectively frozen formal sample-size plan.
 

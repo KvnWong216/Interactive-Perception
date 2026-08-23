@@ -14,4 +14,15 @@ git worktree add ../Interactive-Perception-heuristic-v0 baseline/heuristic-v0
 ```
 
 The learned reference path lives in `src/calibrated_interaction/`. Legacy
-results must be reported as `B1 Heuristic V0`, never as the proposed method.
+results must be reported as `B2 Heuristic V0` under the frozen B0--B8
+comparison registry, never as the proposed method. The historical tag remains
+unchanged.
+
+The tag exposes one inference decision, not a full replanning loop. The formal
+adapter therefore runs exactly that decision from a hash-bound paired public
+capture and executes at most its one selected primitive. It never adds a second
+decision on the current branch. A non-shared observation primitive is an
+abstention; failure to finish in one supported option remains a failed episode.
+`run_piu_heuristic_v0_inference.py` requires an external GPU runtime and records
+tree hashes for all five legacy model directories before
+`run_piu_heuristic_v0_once.py` creates the B2 episode.

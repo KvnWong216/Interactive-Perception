@@ -83,8 +83,85 @@ and metrics are unsupported whenever evaluator annotations are null.
 Calibration is split by initial-state group into a temperature role and a
 conformal role. Primary miscoverage is alpha 0.10; alpha 0.05 and 0.20 are
 reported without choosing among them from results. The spatial conformal event
-is that the returned patch set intersects at least one true target patch,
-conditional on a localizable target. If the finite calibration set cannot
+is that the returned patch set intersects at least one true target patch in the
+current/interaction-post observation, conditional on a localizable target.
+Pre-interaction tokens remain public context but are never positive
+localization targets. If the finite calibration set cannot
 resolve an alpha, the set saturates conservatively instead of interpolating a
 smaller quantile. The sealed split requires a hash-bound single-use
 authorization manifest.
+
+## Amendment 2: action-causal controller and sealed comparison freeze
+
+Frozen on 2026-08-22 before any real action-effect cache, calibration artifact,
+controller rollout, or sealed full-loop outcome existed. Every public
+affordance is enumerated; the candidate generator cannot receive a hidden
+correct-container annotation. Candidate-conditioned frozen prompt tokens,
+the selected binder target token, and public action history feed a route head
+and eight typed effect heads. Nonterminal factors require an actually executed
+counterfactual branch. STOP and REPORT_NOT_FOUND are exact zero-action,
+identical-observation null transitions. Unsupported factors are null/masked,
+never imputed from capability or filled with an all-negative target.
+
+Development retains `route_only`, `stop_gradient_effect`, and `joint_effect`.
+Architecture and initialization are selected by route NLL, supported-factor
+Brier score, then parameter count. Multi-task scales are learned on training
+groups; no manual effect or information-value weight is accepted. All binding
+ablations alter public tensors without inspecting a label.
+
+Route temperature and factor temperatures use one calibration group set;
+multiclass and class-conditional LAC order statistics use a second disjoint
+group set. The primary risk is alpha 0.10, with 0.05 and 0.20 reported. An
+unsupported factor cannot authorize execution. A physical action requires a
+singleton route set, the appropriate singleton sufficiency set, and singleton
+positive execution plus task-progress or task-relevant-change sets. DIRECT and
+PICK additionally require singleton target presence and a nonempty calibrated
+current-frame patch set. Its exact normalized enclosure, selected public
+primitive, referent, and destination are serialized as deterministic text to
+the frozen pi0.5 executor; neither score values nor evaluator labels are
+serialized. STOP
+requires singleton task completion. REPORT_NOT_FOUND requires both singleton
+absence and exhaustive registered-search coverage. Neither is an alias for
+ABSTAIN.
+
+The fair comparison registry is `piu_baselines_v1.yaml`. Public B0--B5 and B8
+share the initial state, frozen pi0.5 checkpoint, option budgets, evaluator, and
+failure denominator. B6 uses evaluator effect labels and B7 uses evaluator
+target masks; both are shown only as oracle upper-bound columns. The sealed
+primary comparison is B8 versus B0 target grasp contact with a two-sided exact
+paired binomial test at alpha 0.05. All declared secondary binary comparisons
+form one Holm-corrected family. Continuous lift, interaction count, and executed
+steps are descriptive; no empirical pass threshold is introduced.
+
+Physical dispatch is a separate gate from calibrated selection. Every exact
+candidate/primitive must carry an immutable `FORMALLY_QUALIFIED` certificate
+from a prospectively frozen external minimum-reliability contract, complete new
+initial-state-group denominator, and exact one-sided binomial test. Historical
+counts and action budgets cannot issue that certificate. Without it, the
+dispatcher may emit a dry-run plan but must not contact the external executor.
+Every external execution additionally validates the exact content-addressed
+`pi05_libero` checkpoint tree before its first action. Unverified metadata
+recorded only after a rollout cannot establish a fair frozen-policy comparison.
+
+## Amendment 3: prospective counterfactual execution eligibility
+
+Frozen on 2026-08-23 before any successor counterfactual branch, action-effect
+label, or real binder checkpoint existed. The registered candidate superset is
+never reduced by an evaluator label or predicted effect. Before a physical
+training-data fork, an immutable execution plan applies only calibrated public
+binder sets: information primitives require singleton insufficient evidence;
+DIRECT/PICK require singleton sufficient evidence, singleton non-holding,
+singleton target presence, and a nonempty current-frame spatial set; PLACE
+requires singleton sufficient evidence and singleton holding. STOP and
+REPORT_NOT_FOUND remain eligible exact null branches.
+
+These are the controller's typed primitive prerequisites, not fitted numeric
+cutoffs. The plan is hash-bound to the public transition, binder prediction,
+calibration artifact, and prefix layout. It cannot read an effect prediction,
+candidate outcome, evaluator mask, or correct-route label. A context-ineligible
+candidate remains in the exact candidate matrix and may retain the independent
+evaluator's correct-route label; it is not executed, its pre/post causal digest
+is the same decision-state digest, and every unobserved effect factor is null
+and loss-masked. Therefore conservative binder ambiguity changes execution
+coverage, not route ground truth, and cannot be converted into fabricated
+negative effects.

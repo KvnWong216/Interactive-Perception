@@ -132,10 +132,12 @@ then predicts a route distribution and independent observable effect factors:
 
 `p(a[j] | x[t])` and `p(y[f] | x[t], a[j])`,
 
-where x contains only public inputs and y contains execution success,
-task-relevant change, ambiguity reduction, target confirmation, candidate
-rejection, and empty-region confirmation. Independent Bernoulli factors are
-used because these outcomes can co-occur.
+where x contains only public inputs and y contains execution success, task
+progress, task-relevant change, target reveal, post-action identity resolution,
+candidate rejection, empty-region confirmation, and post-action information
+sufficiency. Independent Bernoulli factors are used because these outcomes can
+co-occur. A missing independent annotation is masked; a capability declaration
+is never used as an effect label.
 
 For a hidden-object trajectory, define nested stage events:
 
@@ -239,6 +241,37 @@ initializations are selected by validation objective. B6 receives route loss
 only; B7 receives route plus gradient-matched effect loss. This baseline is
 explicitly not the shared frozen VLM main method.
 
+### Action-causal binding successor (implemented, unvalidated)
+
+The successor retains all valid frozen pre/post image and prompt tokens,
+camera spans, patch coordinates, temporal order, and complete candidate-prompt
+token sequences. A lightweight prompt-conditioned binder predicts a patch
+distribution, target presence, and task sufficiency; its learned target token
+feeds a candidate-conditioned route/effect decoder. Route-only,
+stop-gradient-effect, and joint-effect variants separate representation benefit
+from auxiliary-label regularization. Multi-task log variances are learned on
+training groups instead of fixed loss or information-value weights.
+
+Only current/interaction-post patches carry spatial localization targets;
+pre-interaction tokens remain context. The route head consumes predicted effect
+probabilities through learned weights rather than a hand-designed information
+utility. For PICK/DIRECT, a nonempty calibrated current-frame patch set is
+converted to its exact normalized enclosure per camera and serialized with the
+public primitive/referent as deterministic text for frozen pi0.5.
+
+Temperature fitting and conformal order statistics use disjoint calibration
+groups. The controller executes only when the route set, relevant belief set,
+and required execution/progress or execution/change factor sets are singleton.
+STOP requires certified task completion. REPORT_NOT_FOUND requires certified
+absence and exhaustive registered search; otherwise the system abstains. The
+online join has no evaluator-label input. These interfaces pass synthetic CPU
+regression tests. Live execution additionally requires an immutable exact
+candidate/primitive certificate from a prospectively frozen minimum-reliability
+contract and complete exact-binomial test; historical pilot counts cannot issue
+one. No real full-prefix cache, successor checkpoint,
+calibration artifact, or physical rollout exists, so this subsection makes no
+performance claim.
+
 ## 6. Results
 
 ### Physical stage decomposition
@@ -271,12 +304,14 @@ both fail.
 
 ### Route and effect learning
 
-| experiment | B6 route-only | B7 route+effect | B7-B6 macro F1 |
+| experiment | legacy route-only | legacy route+effect | effect-route delta macro F1 |
 |---|---:|---:|---:|
 | frozen shared-VLM held-out pilot | 95.83% +/- 2.95% accuracy | 93.75% +/- 0.00% | negative |
 | executed-effect CPU group CV | 100.00% macro F1 | 100.00% macro F1 | 0.00 in all 5 folds |
 
-In the shared-VLM pilot, effect-proxy supervision does not improve route
+The retained artifacts call these two columns B6/B7; they predate and must not
+be confused with the frozen B0--B8 successor registry. In the shared-VLM pilot,
+effect-proxy supervision does not improve route
 quality. In the executed-effect development CV, B7 predicts the four supported
 effect factors with 94.17% +/- 6.64% micro accuracy, 0.0579 +/- 0.0615 Brier,
 and 86.67% +/- 13.54% candidate-level factor exact match. Nonetheless, route
@@ -291,6 +326,17 @@ held-out samples, with 68.75% abstention and 6.25% wrong execution. Those
 figures remain route-pilot results because their effects are capability
 proxies. We make no formal calibration claim for the 10-group executed-effect
 dataset.
+
+### Successor software verification
+
+The full-prefix binder, label-free action-effect inference, isolated
+temperature/conformal roles, five-way decision semantics, dynamic public
+candidate generation, finite search memory, current-patch-to-text bridge,
+certificate-gated external dispatcher, fair B0--B8 registry, and sealed
+paired-analysis code execute end to end on synthetic CPU fixtures. This checks
+shapes, hashes, split firewalls, unsupported-label behavior, and immutability.
+It is not entered in the physical result table and cannot support a method
+claim.
 
 ## 7. Discussion
 
@@ -357,10 +403,11 @@ confirmatory split. Finally, frozen pi0.5 itself fails the preregistered
 placement and post-OPEN grasp gates, so no routing method can establish
 full-loop success with this executor under the frozen protocol.
 
-These limitations force a narrow conclusion. The proposed broad
-candidate-effect method is rejected for this experiment. The retained result
-is the protocol, executed counterfactual artifact, and observed acquisition-to-
-utilization gap.
+These limitations force a narrow conclusion. The original broad
+candidate-effect pilot is rejected for this experiment. A more constrained
+action-causal binding successor is implemented but remains empirically
+untested. The retained result is still the protocol, executed counterfactual
+artifact, and observed acquisition-to-utilization gap.
 
 ## 9. Reproducibility
 
@@ -402,10 +449,15 @@ CUDA_VISIBLE_DEVICES='' .venv/bin/python \
   --epochs 300 --force
 
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/pytest -q
+
+.venv/bin/python scripts/repro/check_piu_offline_pipeline.py \
+  --reference results/diagnostics/piu_offline_repro_preflight_v1.json \
+  --output runs/piu_offline_repro_check.json
 ```
 
-The post-processing and development baseline use CPU only. During this cycle,
-the GPU process list remains limited to the user's pre-existing 590 MB process.
+The post-processing and learned successor use CPU only after external frozen
+feature extraction. No local pi0.5 checkpoint or simulator-GPU job is started
+by the successor pipeline.
 
 ## 10. Conclusion
 
@@ -413,8 +465,10 @@ In this frozen-VLA drawer task, physical interaction works as sensing but not
 as task completion. OPEN usually exposes the hidden target; the subsequent VLA
 still never grasps it. Executed effect supervision predicts supported outcomes
 but cannot improve a route problem already solved by two fixed prompts. These
-results reject the intended full-loop method claim and motivate a stricter
-evaluation standard: measure whether acquired evidence is actually used.
+results reject the original full-loop pilot and motivate a stricter evaluation
+standard: measure whether acquired evidence is actually used. The new
+action-causal binding implementation remains a prospective hypothesis, not a
+successful method result.
 
 ## References
 

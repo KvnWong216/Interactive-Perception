@@ -19,6 +19,44 @@ def test_repository_method_provenance_is_claim_safe() -> None:
     assert by_id["historical_pick_lift_3cm"]["claim_use"] == "historical_only"
     assert by_id["oracle_marker_geometry"]["claim_use"] == "diagnostic_only"
     assert by_id["conformal_threshold"]["provenance"] == ("fit_on_isolated_calibration")
+    assert by_id["public_candidate_enumeration"]["provenance"] == (
+        "protocol_identifier"
+    )
+    assert by_id["public_post_observation_memory"]["claim_use"] == (
+        "main_method_online"
+    )
+    assert by_id["canonical_public_observation_identity"]["claim_use"] == (
+        "main_method_online"
+    )
+    assert by_id["calibrated_post_observation_holding_belief"]["claim_use"] == (
+        "main_method_online"
+    )
+    assert by_id["action_effect_causal_state_alignment"]["claim_use"] == (
+        "main_method_online"
+    )
+    assert by_id["sealed_primary_paired_test"]["claim_use"] == "main_evaluator"
+    assert by_id["public_executed_action_history"]["provenance"] == (
+        "protocol_identifier"
+    )
+    assert by_id["learned_effect_to_route_bridge"]["claim_use"] == (
+        "main_method_online"
+    )
+    assert by_id["calibrated_spatial_subtask_bridge"]["claim_use"] == (
+        "main_method_online"
+    )
+    assert by_id["formally_qualified_primitive_certificate"]["claim_use"] == (
+        "main_evaluator"
+    )
+    assert by_id["uncalibrated_ablation_unique_argmax"]["claim_use"] == (
+        "baseline_only"
+    )
+    assert by_id["prompted_vlm_router_protocol"]["claim_use"] == "baseline_only"
+    assert by_id["calibrated_no_spatial_bridge_ablation"]["claim_use"] == (
+        "baseline_only"
+    )
+    assert by_id["oracle_effect_branch_selection"]["provenance"] == (
+        "oracle_intervention"
+    )
     assert len(registry["tracked_protocols"]) == 1
 
 

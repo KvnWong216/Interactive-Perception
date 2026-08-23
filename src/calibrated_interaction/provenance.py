@@ -49,6 +49,11 @@ _MAIN_ONLINE_ALLOWED = frozenset(
         "simulator_or_physics_contract",
         "frozen_policy_contract",
         "user_risk_contract",
+        # Discrete, preregistered type/serialization rules (for example, STOP
+        # versus ABSTAIN) are method definitions rather than fitted scores.
+        # They remain individually auditable in the registry and may not hide
+        # an unsupported numeric threshold or hand-weighted utility.
+        "protocol_identifier",
     }
 )
 _MAIN_EVALUATOR_ALLOWED = frozenset(

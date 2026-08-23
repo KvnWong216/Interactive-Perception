@@ -2,8 +2,9 @@
 
 ## Status and hypothesis boundary
 
-This is a design contract, not an implemented or successful method claim. It
-may be activated only if the evaluator-only oracle experiment establishes on a
+This contract is now implemented and synthetic-tested, but it is not a
+successful method claim. Real training and physical activation remain blocked
+until the evaluator-only oracle experiment establishes on a
 prospectively sized formal set that spatial target binding can causally improve
 the frozen executor. Until then, the retained four-token Stage 1 pipeline is a
 rejected development baseline.
@@ -36,11 +37,18 @@ A successor must retain, for every public pre/post interaction observation:
 - the frozen checkpoint tree identity and the OpenPI source revision defining
   token order.
 
-The learned component may project the 2048-wide frozen tokens to a smaller
-width and use candidate-to-context cross-attention. Pooling/readout weights
+The implemented learned component projects the frozen tokens to a smaller
+width and uses candidate-to-context cross-attention. Pooling/readout weights
 must be learned on training groups. Any action or abstention boundary must be
 fit on an isolated calibration split. Simulator masks, instance IDs, object
 poses, contacts, and oracle marker pixels remain forbidden inputs.
+
+The localization target is restricted to the current/interaction-post image
+tokens. Pre-interaction tokens remain available as causal context, but their
+target weights are identically zero and cannot satisfy the calibrated spatial
+coverage event. At execution, every selected current-frame conformal patch is
+retained and converted to its exact normalized enclosing box per camera; no
+probability cutoff is applied.
 
 ## Mandatory causal ablations
 

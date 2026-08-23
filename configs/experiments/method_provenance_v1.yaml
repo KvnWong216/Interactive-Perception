@@ -77,6 +77,14 @@ entries:
     rationale: The frozen pi0.5 LIBERO inference example executes five actions before replanning.
     evidence: frozen OpenPI policy serving/execution contract
 
+  - id: external_pi05_checkpoint_identity
+    location: src/piu/policy_identity.py:validate_server_metadata
+    value: exact pi05_libero checkpoint-tree identity plus required action_chunks capability
+    provenance: frozen_policy_contract
+    claim_use: main_method_online
+    rationale: Every prospective external execution validates the same content-addressed checkpoint before the first action. A capability list may add the registered spatial-prefix service, but policy config, environment, checkpoint tree, and metadata field closure cannot drift across B0--B8.
+    evidence: the unified executor, baseline/oracle adapters, counterfactual collector, and endpoint probe share one validator; regression tests accept declared capabilities and reject a mismatched checkpoint identity
+
   - id: rollout_step_limits
     location: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:execution.steps
     value: DIRECT 400; OPEN 300 in retained matrix
@@ -140,6 +148,14 @@ entries:
     claim_use: baseline_only
     rationale: The implementation is frozen as Heuristic V0 and is prohibited from the proposed learned pipeline.
     evidence: baselines/heuristic_v0/README.md and README claim boundary
+
+  - id: frozen_heuristic_v0_comparison_adapter
+    location: scripts/pipeline/run_piu_heuristic_v0_inference.py and scripts/pipeline/run_piu_heuristic_v0_once.py
+    value: exact tag/commit one-step inference followed by at most its one selected shared physical option
+    provenance: baseline_only_heuristic
+    claim_use: baseline_only
+    rationale: The frozen tag never implemented a full replanning loop. The adapter hash-binds the paired public observation, exact Git commit, every legacy model tree, inference report, and source state, but does not add a second decision. Unsupported legacy observation primitives become recorded abstention; a supported one-step rollout that fails to finish remains a failure.
+    evidence: adapter tests check the detached frozen worktree, external-GPU-only plan, shared option budget, exact one-step limit, and standard abstention episode
 
   - id: decoder_training_hyperparameters
     location: configs/experiments and scripts/training/train_calibrated_interaction.py
@@ -212,6 +228,198 @@ entries:
     claim_use: safety_only
     rationale: The historical 8/10 gate is not reused and an absolute pass rate is not inferred from the same pilot.
     evidence: context-specific registry authorizes no paper-method action
+
+  - id: full_candidate_prefix_serialization
+    location: src/piu/spatial_prefix.py:candidate_conditioned_prompt
+    value: complete public candidate fields plus pre/post prompt tokens and masks
+    provenance: protocol_identifier
+    claim_use: main_method_online
+    rationale: Candidate text is a typed public interface retained as a full frozen token sequence; it is not compressed by a fixed numerical pooling rule.
+    evidence: spatial-prefix and action-effect regression tests retain candidate IDs, primitives, time order, token masks, and all valid hidden states
+
+  - id: public_executed_action_history
+    location: scripts/data/extract_piu_spatial_prefix_features.py:public_executed_action
+    value: semantic candidate identity copied from public execution history
+    provenance: protocol_identifier
+    claim_use: main_method_online
+    rationale: Action conditioning is the action the controller actually dispatched, not an evaluator-provided correct-action label or a hidden simulator event.
+    evidence: extraction rejects absent, incomplete, or non-candidate public executed actions and the label join separately checks agreement
+
+  - id: public_candidate_enumeration
+    location: src/piu/candidate_generator.py:generate_candidates
+    value: expand every registered public affordance plus a PICK/PLACE task-action superset, REPORT_NOT_FOUND, and STOP
+    provenance: protocol_identifier
+    claim_use: main_method_online
+    rationale: The generator enumerates all public affordances and never selects the hidden correct container, reads a task predicate, or accepts an injected holding belief. Both PICK and PLACE remain until the independently calibrated post-observation binder gates execution, avoiding a circular feature dependency.
+    evidence: leakage tests reject privileged and holding-state fields and verify that all declared affordances plus both task actions are retained
+
+  - id: public_post_observation_memory
+    location: src/piu/temporal_memory.py:PublicTemporalMemory
+    value: hash-chained region-empty and task-complete sets from calibrated post-observation verifier heads
+    provenance: protocol_identifier
+    claim_use: main_method_online
+    rationale: Search memory accepts only beliefs inferred after reobservation and never propagates predicted execution or task-progress effects as accomplished facts. Holding and task-complete action gates come directly from the current calibrated binder.
+    evidence: memory-update tests verify causal observation hashes, reject broken state chains, and require every public information source to be singleton empty before NOT_FOUND
+
+  - id: canonical_public_observation_identity
+    location: src/piu/contracts.py:public_observation_sha256
+    value: decoded RGB uint8 pixel SHA-256 plus canonical public robot state
+    provenance: protocol_identifier
+    claim_use: main_method_online
+    rationale: Causal branch alignment is invariant to PNG encoder bytes while each file retains a separate integrity SHA-256. Legacy file-only observations are domain-tagged and cannot collide with prospective pixel hashes.
+    evidence: regression tests show identical pixels with different file hashes produce one causal identity and extractors verify both file and pixel hashes
+
+  - id: post_observation_verifier_supervision
+    location: scripts/data/export_piu_post_observation_labels.py
+    value: evaluator-only target masks, target holding, task predicate, and protocol-bound nullable sufficiency/region-empty labels
+    provenance: protocol_identifier
+    claim_use: diagnostic_only
+    rationale: Deployment never reads simulator predicates. Unsupported semantic annotations remain null rather than being replaced by visibility thresholds or expected action effects.
+    evidence: label contract and dry-run tests verify state hashes, blinded annotation provenance, and the public/evaluator firewall
+
+  - id: calibrated_post_observation_holding_belief
+    location: src/piu/target_binding.py:PromptConditionedTargetBinder.holding_head
+    value: class-conditional conformal set over requested-target holding after observation
+    provenance: learned_on_training_split
+    claim_use: main_method_online
+    rationale: PICK/PLACE authorization uses a calibrated belief inferred after reobservation from public RGB, gripper state, prompt, and action history; evaluator grasp identity is supervision only.
+    evidence: label firewall, isolated calibration, online prediction, and controller singleton-gate tests
+
+  - id: action_effect_multitask_weighting
+    location: src/piu/action_effect.py:LearnedEffectObjective
+    value: learned homoscedastic log variances for supported route/effect objectives
+    provenance: learned_on_training_split
+    claim_use: main_method_online
+    rationale: Task scales are optimized on training groups and unsupported factors remain masked, replacing manual information-value and loss weights.
+    evidence: route-only, stop-gradient-effect, and joint-effect training tests verify finite learned objectives without fixed scalar utilities
+
+  - id: action_effect_causal_state_alignment
+    location: src/piu/action_effect.py:join_effect_features
+    value: feature decision-observation SHA-256 equals candidate-outcome pre-observation SHA-256
+    provenance: protocol_identifier
+    claim_use: main_method_online
+    rationale: The model scores a candidate from the public state before that candidate executes; its outcome post frame cannot leak into the predictor input.
+    evidence: label parsing and join tests reject null-transition drift, mismatched decision states, and old labels without causal hashes
+
+  - id: counterfactual_candidate_execution_eligibility
+    location: src/piu/execution_plan.py:candidate_eligibility
+    value: typed binder-only primitive preconditions evaluated before a physical fork
+    provenance: protocol_identifier
+    claim_use: main_method_online
+    rationale: The public candidate superset remains unchanged, but a physical branch is collected only when the calibrated binder establishes the same sufficiency, holding, presence, and spatial prerequisites used by the controller. No predicted effect or outcome selects its own training branch. An ineligible candidate keeps its independently annotated route target while every unobserved effect is null/masked.
+    evidence: execution-plan, collector, label-parser, and matrix-export tests verify public hash binding, deterministic prompt serialization, no execution outcome, and complete effect masking for ineligible candidates
+
+  - id: action_effect_architecture_search
+    location: configs/experiments/piu_action_effect_v1.yaml:model_search
+    value: declared finite development-only grid across all three gradient variants
+    provenance: learned_on_training_split
+    claim_use: main_method_online
+    rationale: Width, dropout, learning rate, seed, and checkpoint epoch are selected only by proper scores on development groups and every trial is retained.
+    evidence: CPU trainer rejects calibration/test inputs and writes each variant checkpoint, trial record, and raw development predictions
+
+  - id: learned_effect_to_route_bridge
+    location: src/piu/action_effect.py:CandidateConditionedEffectPredictor.forward
+    value: route head consumes the interaction token concatenated with predicted factor probabilities
+    provenance: learned_on_training_split
+    claim_use: main_method_online
+    rationale: Effect prediction can influence route logits through trained parameters without a hand-weighted information-value score; gradient routing is controlled only by the declared ablation variant.
+    evidence: action-effect tests verify the route-head input width and route-only, stop-gradient-effect, and joint-effect gradients
+
+  - id: action_effect_conformal_risk_contract
+    location: configs/experiments/piu_action_effect_calibration_v1.yaml:risk_contract
+    value: primary alpha 0.10; report alpha 0.05, 0.10, 0.20
+    provenance: user_risk_contract
+    claim_use: main_method_online
+    rationale: Route and factor risks are frozen before real calibration; thresholds are finite-sample statistics from group-disjoint calibration roles.
+    evidence: calibration tests cover dynamic candidate counts, unsupported factors, and isolated temperature/conformal groups
+
+  - id: calibrated_controller_singleton_semantics
+    location: src/piu/calibrated_controller.py:decide
+    value: singleton route, belief, and required-effect prediction sets; STOP, ABSTAIN, and REPORT_NOT_FOUND are distinct
+    provenance: protocol_identifier
+    claim_use: main_method_online
+    rationale: These are typed logical authorization conditions with no confidence cutoff, top-1 fallback, or manually weighted utility.
+    evidence: controller tests verify each execution, interaction, abstention, task-completion, and exhaustive-search branch
+
+  - id: uncalibrated_ablation_unique_argmax
+    location: src/piu/ablation_controller.py:decide_unique_argmax
+    value: B3/B4 choose the unique maximum route logit and abstain on exact ties
+    provenance: protocol_identifier
+    claim_use: baseline_only
+    rationale: The uncalibrated comparison needs a deterministic decision rule, but array order is not allowed to resolve an exact tie and no confidence cutoff is introduced.
+    evidence: ablation-controller tests check unique selection and tie abstention; B3 fixes the effect channel to exact zeros while B4 enables predicted effects
+
+  - id: prompted_vlm_router_protocol
+    location: scripts/pipeline/run_piu_prompted_vlm_router.py
+    value: exact external server identity and request hash; one registered candidate ID or ABSTAIN
+    provenance: protocol_identifier
+    claim_use: baseline_only
+    rationale: B1 is a frozen prompted-VLM comparison without learned effects or calibration. An unknown candidate is retained as abstention and is never repaired by a heuristic fallback.
+    evidence: endpoint-contract tests verify public RGB/prompt/history/candidates, response-field closure, request binding, and hallucinated-candidate abstention
+
+  - id: calibrated_no_spatial_bridge_ablation
+    location: scripts/pipeline/run_piu_calibrated_controller.py:main
+    value: B5 uses calibrated route/belief/effect sets but serializes no spatial reference; B8 enables the calibrated spatial bridge
+    provenance: protocol_identifier
+    claim_use: baseline_only
+    rationale: This isolates the contribution of passing learned target geometry to the same frozen executor without changing candidates, scores, calibration, or budgets.
+    evidence: controller tests require an explicit spatial-gate override and report the method ID and bridge state
+
+  - id: oracle_effect_branch_selection
+    location: scripts/pipeline/replay_piu_oracle_effect_trace.py
+    value: follow the unique evaluator selection_correct branch in each exact same-state counterfactual matrix
+    provenance: oracle_intervention
+    claim_use: diagnostic_only
+    rationale: B6 intentionally loads executed outcome labels online to measure a perfect-effect upper bound; it is never eligible for a public-method comparison or method selection.
+    evidence: oracle trace tests verify label declaration, formal primitive certificates, and both public-observation and opaque-state continuity
+
+  - id: oracle_binding_full_loop_activation
+    location: scripts/pipeline/run_piu_oracle_binding_full_loop.py
+    value: development-selected marker is an audited RGB no-op while the target mask is empty and activates only when the target becomes visible
+    provenance: oracle_intervention
+    claim_use: diagnostic_only
+    rationale: B7 starts from the same paired hidden-target state as B0. It reads evaluator target identity and segmentation at every policy call, but does not fabricate a marker before the target exists in either camera. The visual style must be uniquely selected by the frozen development screen and cannot be chosen from formal outcomes.
+    evidence: visual-prompt tests prove the empty-mask transformation is pixel-identical; the B7 runner binds the style artifact, external policy identity, source state, full policy-call audit, and standard closed-loop episode schema
+
+  - id: calibrated_spatial_subtask_bridge
+    location: src/piu/executor_bridge.py:serialize_pi05_subtask
+    value: exact enclosing normalized boxes of every calibrated current-frame patch, serialized with the selected public primitive and referent
+    provenance: protocol_identifier
+    claim_use: main_method_online
+    rationale: PICK and DIRECT cannot execute without a nonempty current-frame conformal patch set, and no score threshold, oracle mask, confidence value, or chain of thought enters the frozen executor prompt.
+    evidence: executor-bridge and controller tests check latest-frame filtering, exact patch enclosure, privileged-field rejection, and spatial abstention
+
+  - id: formally_qualified_primitive_certificate
+    location: scripts/evaluation/evaluate_piu_primitive_qualification.py
+    value: exact one-sided binomial rejection under a prospectively frozen external risk contract and complete new-group denominator
+    provenance: formal_statistical_procedure
+    claim_use: main_evaluator
+    rationale: A historical count or shared step budget cannot authorize physical execution; the dispatcher requires an immutable certificate for the exact candidate and primitive.
+    evidence: qualification and dispatch tests reject incomplete denominators and unqualified physical actions
+
+  - id: frechet_joint_diagnostic
+    location: src/piu/calibrated_controller.py:frechet_joint_lower_bound
+    value: max(0, p_execution + p_outcome - 1)
+    provenance: formal_statistical_procedure
+    claim_use: diagnostic_only
+    rationale: The bound reports a conservative joint-event diagnostic without assuming independence and is explicitly prohibited from selecting an action.
+    evidence: controller returns the value only in diagnostic_values after the set-valued decision is fixed
+
+  - id: sealed_primary_paired_test
+    location: configs/experiments/piu_formal_analysis_v1.yaml:primary
+    value: B8 versus B0 target grasp contact; two-sided exact paired binomial test at alpha 0.05
+    provenance: formal_statistical_procedure
+    claim_use: main_evaluator
+    rationale: The initial-state group is the paired unit and the endpoint/comparison are frozen before sealed outcomes exist.
+    evidence: src/piu/statistics.py reproduces the retained eight-discordance p-value and rejects incomplete method matrices
+
+  - id: sealed_secondary_holm_family
+    location: configs/experiments/piu_formal_analysis_v1.yaml:secondary
+    value: Holm familywise adjustment at alpha 0.05
+    provenance: formal_statistical_procedure
+    claim_use: main_evaluator
+    rationale: All named secondary comparisons form one predeclared family; no result-dependent endpoint selection is allowed.
+    evidence: monotone Holm implementation and formal-analysis regression tests
 
 tracked_protocols:
   - path: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
