@@ -47,6 +47,9 @@ def main() -> None:
     if episode.get("split") != "sealed_test":
         raise ValueError("formal rows require a sealed-test episode")
     method = str(episode.get("method_id", ""))
+    simulator_seed = episode.get("simulator_seed")
+    if not isinstance(simulator_seed, int) or isinstance(simulator_seed, bool):
+        raise TypeError("formal episode requires an integer simulator seed")
     oracle = method in {"B6", "B7"}
     if episode.get("evidence_class") != (
         "oracle_upper_bound" if oracle else "public_method"
@@ -84,6 +87,7 @@ def main() -> None:
     row = {
         "schema_version": "piu.formal-outcome.v1",
         "initial_state_group": episode["initial_state_group"],
+        "simulator_seed": simulator_seed,
         "method_id": method,
         "split": "sealed_test",
         "evidence_class": episode["evidence_class"],

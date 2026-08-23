@@ -19,6 +19,29 @@ primary:
   alpha: 0.05
   report: [paired_risk_difference, discordance_table, arm_wilson_95]
 
+prospective_design:
+  pilot_split: development
+  treatment: B8
+  comparator: B0
+  outcome: target_grasp_contact
+  target_power: 0.80
+  report_confidence: 0.95
+  conservative_joint_confidence: 0.95
+  numerical_search_limit: 200
+  design_point: >-
+    Bonferroni joint lower Clopper-Pearson bounds for the discordant-pair
+    probability and the conditional B8-win probability. A bound at or below
+    chance freezes no formal group count.
+  pilot_significance_is_a_gate: false
+  pilot_groups_excluded_from_formal: true
+
+execution_schedule:
+  method: sha256_keyed_outcome_independent_permutation
+  namespace: piu_fixed_drawer_sealed_analysis_v1
+  group_order_randomized: true
+  within_group_method_order_randomized: true
+  outcomes_loaded: false
+
 secondary:
   multiplicity: holm_familywise
   alpha: 0.05
@@ -29,11 +52,32 @@ secondary:
     - {id: ours_vs_prompted_vlm_target_contact, treatment: B8, comparator: B1, outcome: target_grasp_contact}
     - {id: ours_vs_route_only_target_contact, treatment: B8, comparator: B3, outcome: target_grasp_contact}
     - {id: ours_vs_calibrated_no_binding_target_contact, treatment: B8, comparator: B5, outcome: target_grasp_contact}
+    - {id: ours_vs_prompted_vlm_task_success, treatment: B8, comparator: B1, outcome: task_success}
+    - {id: ours_vs_route_only_task_success, treatment: B8, comparator: B3, outcome: task_success}
+    - {id: ours_vs_prompted_vlm_wrong_contact, treatment: B8, comparator: B1, outcome: wrong_object_grasp_contact}
+    - {id: ours_vs_route_only_wrong_contact, treatment: B8, comparator: B3, outcome: wrong_object_grasp_contact}
+    - {id: effect_vs_route_only_target_contact, treatment: B4, comparator: B3, outcome: target_grasp_contact}
 
 descriptive_continuous:
   outcomes: [target_maximum_lift_m, interaction_count, executed_steps]
   summaries: [arm_mean, arm_median, paired_mean_difference, paired_median_difference]
+  paired_references: [B0, B1, B3]
   inferential_test: null
+
+interpretation_contract:
+  automatic_boolean_gate: false
+  main_method_evidence_requires:
+    - B8 full-task effect and interval against B1 and B3
+    - B8 wrong-contact effect against B0, B1, and B3
+    - interaction-count and executed-step cost against B0, B1, and B3
+    - sealed binder/effect empirical coverage with prediction-set efficiency
+    - B8 fraction of the B0-to-B7 target-contact oracle gap
+    - B4-versus-B3 effect evidence on a development-declared nonsaturated cohort
+  unresolved_noninferiority_margin: >-
+    No unnecessary-interaction noninferiority claim is allowed until an
+    external task-cost contract declares a margin before sealed outcomes.
+  no_p_value_only_success_claim: true
+  no_posthoc_nonsaturated_subgroup: true
 
 reporting:
   method_registry: configs/experiments/piu_baselines_v1.yaml

@@ -390,6 +390,7 @@ def test_oracle_effect_trace_follows_only_the_selected_real_branch(
                 "method_id": "B6",
                 "split": "development",
                 "initial_state_group": "group",
+                "simulator_seed": 17,
                 "source_state": _artifact(state_a),
                 "nodes": [
                     {

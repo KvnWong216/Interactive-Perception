@@ -47,6 +47,35 @@ def _inventory_digest(inventory: Sequence[Mapping[str, str]]) -> str:
     return hashlib.sha256(canonical.encode()).hexdigest()
 
 
+def validate_repro_lock(
+    lock_path: Path, *, manifest_path: Path, repository_root: Path
+) -> dict[str, Any]:
+    """Verify that a release lock still identifies every current offline file."""
+
+    value = json.loads(lock_path.read_text())
+    if value.get("schema_version") != "piu.offline-repro-audit.v1":
+        raise ValueError("unsupported PIU offline reproduction lock")
+    if value.get("offline_ready") is not True or value.get("errors") != []:
+        raise ValueError("PIU offline reproduction lock is not ready")
+    if value.get("local_gpu_actions_performed") is not False:
+        raise ValueError("PIU offline reproduction lock performed local GPU actions")
+    if value.get("manifest", {}).get("sha256") != sha256_file(manifest_path):
+        raise ValueError("PIU reproduction manifest differs from the release lock")
+    inventory = value.get("offline_inventory")
+    if not isinstance(inventory, list) or not inventory:
+        raise ValueError("PIU reproduction lock has no offline inventory")
+    for row in inventory:
+        if not isinstance(row, Mapping):
+            raise TypeError("PIU reproduction inventory row must be a mapping")
+        relative = str(row.get("path", ""))
+        path = repository_root / relative
+        if not relative or not path.is_file() or sha256_file(path) != row.get("sha256"):
+            raise ValueError(f"offline release file differs from lock: {relative}")
+    if value.get("offline_inventory_sha256") != _inventory_digest(inventory):
+        raise ValueError("PIU reproduction inventory digest differs")
+    return value
+
+
 def audit_repro_manifest(
     manifest_path: Path,
     *,

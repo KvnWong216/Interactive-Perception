@@ -119,6 +119,9 @@ def load_formal_outcomes(path: Path) -> list[dict[str, Any]]:
         if not all(key) or key in unique:
             raise ValueError("formal group/method keys must be nonempty and unique")
         unique.add(key)
+        simulator_seed = row.get("simulator_seed")
+        if not isinstance(simulator_seed, int) or isinstance(simulator_seed, bool):
+            raise TypeError("formal outcomes require an integer simulator seed")
         expected_evidence = (
             "oracle_upper_bound" if key[1] in {"B6", "B7"} else "public_method"
         )
@@ -177,6 +180,43 @@ def load_analysis_config(path: Path) -> dict[str, Any]:
         raise ValueError("formal analysis must separate the oracle column")
     if reporting.get("no_success_threshold") is not True:
         raise ValueError("formal analysis cannot add an empirical pass threshold")
+    primary = value.get("primary", {})
+    if (
+        primary.get("test") != "exact_two_sided_paired_binomial"
+        or primary.get("outcome") not in REQUIRED_BINARY_OUTCOMES
+        or primary.get("treatment") not in required_methods
+        or primary.get("comparator") not in required_methods
+    ):
+        raise ValueError("formal primary comparison is unsupported")
+    secondary = value.get("secondary", {}).get("comparisons")
+    if not isinstance(secondary, Sequence) or isinstance(secondary, (str, bytes)):
+        raise TypeError("formal secondary comparisons must be an explicit sequence")
+    comparison_ids: set[str] = set()
+    for comparison in secondary:
+        if not isinstance(comparison, Mapping):
+            raise TypeError("formal secondary comparison must be a mapping")
+        identifier = str(comparison.get("id", ""))
+        if not identifier or identifier in comparison_ids:
+            raise ValueError("formal secondary comparison IDs must be unique")
+        comparison_ids.add(identifier)
+        if (
+            comparison.get("outcome") not in REQUIRED_BINARY_OUTCOMES
+            or comparison.get("treatment") not in required_methods
+            or comparison.get("comparator") not in required_methods
+        ):
+            raise ValueError(f"unsupported formal secondary comparison {identifier}")
+    descriptive_references = value.get("descriptive_continuous", {}).get(
+        "paired_references"
+    )
+    if tuple(descriptive_references or ()) != ("B0", "B1", "B3"):
+        raise ValueError("formal descriptive references must remain B0, B1, and B3")
+    interpretation = value.get("interpretation_contract", {})
+    if (
+        interpretation.get("automatic_boolean_gate") is not False
+        or interpretation.get("no_p_value_only_success_claim") is not True
+        or interpretation.get("no_posthoc_nonsaturated_subgroup") is not True
+    ):
+        raise ValueError("formal interpretation contract permits a post hoc claim")
     return dict(value)
 
 
@@ -219,6 +259,7 @@ def analyze_formal_outcomes(
     matrix: dict[str, dict[str, Mapping[str, Any]]] = {method: {} for method in methods}
     evidence_class: dict[str, str] = {}
     source_state_by_group: dict[str, str] = {}
+    seed_by_group: dict[str, int] = {}
     policy_identities: set[str] = set()
     for row in rows:
         method = str(row["method_id"])
@@ -230,6 +271,10 @@ def analyze_formal_outcomes(
             raise ValueError(
                 f"formal group {group} mixes different paired source states"
             )
+        simulator_seed = int(row["simulator_seed"])
+        previous_seed = seed_by_group.setdefault(group, simulator_seed)
+        if previous_seed != simulator_seed:
+            raise ValueError(f"formal group {group} mixes different simulator seeds")
         policy_identities.add(str(row["policy_identity_sha256"]))
         observed_class = str(row.get("evidence_class", ""))
         previous = evidence_class.setdefault(method, observed_class)
@@ -270,8 +315,15 @@ def analyze_formal_outcomes(
             values = [float(matrix[method][group][outcome]) for group in groups]
             method_summary[method] = {"mean": mean(values), "median": median(values)}
         paired = {}
-        reference = str(config["primary"]["comparator"])
-        if reference in matrix:
+        references = [
+            str(item)
+            for item in config["descriptive_continuous"].get(
+                "paired_references", [config["primary"]["comparator"]]
+            )
+        ]
+        for reference in references:
+            if reference not in matrix:
+                raise ValueError(f"unknown descriptive reference {reference}")
             for method in methods:
                 if method == reference:
                     continue
@@ -285,6 +337,26 @@ def analyze_formal_outcomes(
                     "median": median(differences),
                 }
         continuous[str(outcome)] = {"arms": method_summary, "paired": paired}
+    contact_rates = {
+        method: mean(
+            bool(matrix[method][group]["target_grasp_contact"])
+            for group in groups
+        )
+        for method in ("B0", "B7", "B8")
+    }
+    oracle_gap = contact_rates["B7"] - contact_rates["B0"]
+    closed_gap = contact_rates["B8"] - contact_rates["B0"]
+    gap_diagnostic = {
+        "outcome": "target_grasp_contact",
+        "rates": contact_rates,
+        "raw_to_oracle_gap": oracle_gap,
+        "ours_minus_raw": closed_gap,
+        "fraction_of_raw_to_oracle_gap_closed": (
+            closed_gap / oracle_gap if oracle_gap > 0.0 else None
+        ),
+        "inferential_test": None,
+        "warning": "B7 is an evaluator-only upper bound, not a public method.",
+    }
     return {
         "schema_version": "piu.formal-analysis.v1",
         "claim_scope": "SEALED_ONLY_IF_INPUT_AUTHORIZATION_IS_VALID",
@@ -294,6 +366,8 @@ def analyze_formal_outcomes(
         "primary": primary,
         "secondary_holm_family": secondary,
         "continuous_descriptive_only": continuous,
+        "oracle_binding_gap_descriptive_only": gap_diagnostic,
+        "interpretation_contract": dict(config["interpretation_contract"]),
         "automatic_method_pass": None,
     }
 

@@ -72,8 +72,12 @@ def main() -> None:
         raise ValueError(
             "PIU closed-loop aggregator accepts public B1/B3/B4/B5/B8 runs"
         )
-    if manifest.get("split") != "sealed_test":
-        raise ValueError("formal closed-loop aggregation requires sealed_test")
+    split = str(manifest.get("split", ""))
+    if split not in {"development", "sealed_test"}:
+        raise ValueError("closed-loop aggregation requires development or sealed_test")
+    simulator_seed = manifest.get("simulator_seed")
+    if not isinstance(simulator_seed, int) or isinstance(simulator_seed, bool):
+        raise TypeError("closed-loop manifest requires an integer simulator seed")
     source_state = dict(manifest.get("source_state", {}))
     source_path = verified_artifact(source_state, name="source state")
     expected_state_hash = sha256(source_path)
@@ -195,6 +199,7 @@ def main() -> None:
         "schema_version": "piu.closed-loop-public-action-history.v1",
         "method_id": method_id,
         "initial_state_group": group,
+        "simulator_seed": simulator_seed,
         "dispatches": history_rows,
         "terminal_decision_kind": decision_kinds[-1],
     }
@@ -202,10 +207,15 @@ def main() -> None:
     history_output.write_text(json.dumps(history, indent=2) + "\n")
     episode = {
         "schema_version": "piu.closed-loop-episode.v1",
-        "claim_scope": "SEALED_PUBLIC_METHOD_EPISODE_NOT_AGGREGATE_RESULT",
+        "claim_scope": (
+            "SEALED_PUBLIC_METHOD_EPISODE_NOT_AGGREGATE_RESULT"
+            if split == "sealed_test"
+            else "DEVELOPMENT_PUBLIC_METHOD_EPISODE_NOT_FORMAL_EVIDENCE"
+        ),
         "method_id": method_id,
         "initial_state_group": group,
-        "split": "sealed_test",
+        "simulator_seed": simulator_seed,
+        "split": split,
         "evidence_class": "public_method",
         "rollout_status": status,
         "source_state": {

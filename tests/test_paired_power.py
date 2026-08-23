@@ -3,10 +3,21 @@ from __future__ import annotations
 import pytest
 
 from calibrated_interaction.paired_power import (
+    clopper_pearson_interval,
+    clopper_pearson_lower_bound,
     exact_paired_binomial_p,
     prospective_power,
     smallest_prospective_group_count,
 )
+
+
+def test_exact_binomial_bounds_cover_boundary_cases() -> None:
+    lower, upper = clopper_pearson_interval(5, 5, confidence=0.95)
+    assert lower == pytest.approx(0.47817625)
+    assert upper == 1.0
+    assert clopper_pearson_lower_bound(5, 5, confidence=0.95) == pytest.approx(
+        0.54928027
+    )
 
 
 def test_exact_paired_binomial_known_values() -> None:

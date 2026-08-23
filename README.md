@@ -266,6 +266,43 @@ python scripts/pipeline/run_piu_oracle_binding_full_loop.py \
 The runner records target identity and instance segmentation as online oracle
 inputs and cannot support a public-method claim.
 
+### Main paired pilot and formal schedule
+
+B8 and B0 pilot episodes must use the development split, the same opaque source
+state and simulator seed within each pair, and one registered pi0.5 identity.
+The public closed-loop aggregator accepts development episodes for this purpose;
+the formal-row exporter still accepts sealed episodes only.
+
+```bash
+python scripts/evaluation/aggregate_piu_closed_loop_episode.py \
+  --manifest PATH/b8_group/closed_loop_manifest.json \
+  --output PATH/b8_group/episode.json
+
+python scripts/evaluation/plan_piu_formal_paired_test.py \
+  --treatment-episodes PATH/B8_*/episode.json \
+  --comparator-episodes PATH/B0_*/episode.json \
+  --output results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json
+```
+
+The planner does not turn a small pilot p-value into a gate. It reports paired
+effect/discordance/variance and uses joint 95% lower exact-binomial bounds for a
+conservative exact-power operating point. A nonpositive or insufficiently
+identified directional effect produces no sample size, not a round-number
+fallback. Before loading the episodes it verifies every hash in the retained
+offline reproduction lock. After allocating exactly the planned number of new sealed groups,
+freeze the outcome-independent B0--B8 order:
+
+```bash
+python scripts/evaluation/build_piu_formal_schedule.py \
+  --formal-plan results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json \
+  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --output results/method/piu_fixed_drawer_formal_schedule_v1.json
+```
+
+Formal matrix authorization must bind this schedule hash in addition to row and
+split hashes. Matrix assembly rejects pilot-group reuse, cohort-size drift,
+missing B0--B8 cells, seed drift, and policy-identity drift.
+
 ## Legacy baseline entry points
 
 Public-RGB Heuristic V0 inference:

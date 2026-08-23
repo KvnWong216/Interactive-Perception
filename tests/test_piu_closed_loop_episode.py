@@ -102,6 +102,7 @@ def test_closed_loop_episode_requires_and_aggregates_a_state_hash_chain(
                 "schema_version": "piu.closed-loop-run-manifest.v1",
                 "method_id": "B8",
                 "initial_state_group": "group",
+                "simulator_seed": 17,
                 "split": "sealed_test",
                 "rollout_status": "COMPLETE",
                 "source_state": _artifact(initial),
@@ -131,3 +132,29 @@ def test_closed_loop_episode_requires_and_aggregates_a_state_hash_chain(
     assert report["outcomes"]["executed_steps"] == 2
     assert report["online_oracle_inputs"] == []
     assert report["policy_identity"]["sha256"] == _sha256(identity_path)
+
+    development_manifest = json.loads(manifest.read_text())
+    development_manifest["split"] = "development"
+    development_path = tmp_path / "development_manifest.json"
+    development_path.write_text(json.dumps(development_manifest))
+    development_output = tmp_path / "development_episode.json"
+    subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/evaluation/aggregate_piu_closed_loop_episode.py"),
+            "--manifest",
+            str(development_path),
+            "--output",
+            str(development_output),
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    development = json.loads(development_output.read_text())
+    assert development["split"] == "development"
+    assert development["simulator_seed"] == 17
+    assert development["claim_scope"] == (
+        "DEVELOPMENT_PUBLIC_METHOD_EPISODE_NOT_FORMAL_EVIDENCE"
+    )

@@ -136,6 +136,9 @@ def main() -> None:
     group = " ".join(str(trace.get("initial_state_group", "")).split())
     if not group:
         raise ValueError("oracle-effect trace group is required")
+    simulator_seed = trace.get("simulator_seed")
+    if not isinstance(simulator_seed, int) or isinstance(simulator_seed, bool):
+        raise TypeError("oracle-effect trace requires an integer simulator seed")
     source_state = verified(dict(trace.get("source_state", {})), name="source state")
     expected_state_sha256 = sha256(source_state)
     nodes = trace.get("nodes")
@@ -312,6 +315,7 @@ def main() -> None:
         "claim_scope": "EVALUATOR_ONLY_ORACLE_UPPER_BOUND_EPISODE",
         "method_id": "B6",
         "initial_state_group": group,
+        "simulator_seed": simulator_seed,
         "split": split,
         "evidence_class": "oracle_upper_bound",
         "rollout_status": status,

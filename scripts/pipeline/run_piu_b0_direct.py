@@ -136,6 +136,7 @@ def main() -> None:
         "claim_scope": "SEALED_PUBLIC_BASELINE_EPISODE_NOT_AGGREGATE_RESULT",
         "method_id": "B0",
         "initial_state_group": " ".join(args.initial_state_group.split()),
+        "simulator_seed": args.seed,
         "split": args.split,
         "evidence_class": "public_method",
         "rollout_status": "COMPLETE" if task_success else "FAILED",

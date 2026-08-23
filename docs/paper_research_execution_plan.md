@@ -146,3 +146,35 @@ Development chooses architecture. A new group-disjoint calibration split fits
 all thresholds. A sealed test split is opened once. Report Wilson intervals and
 paired exact tests, preserve every action history and source-state hash, and
 keep oracle results in a visually separate upper-bound column.
+
+## Main B8-vs-B0 Phase 9 design
+
+After real, group-disjoint training/calibration artifacts and primitive
+certificates exist, collect paired B8 and B0 development episodes and aggregate
+them into the standard episode schema. The main planner validates identical
+source-state hash, simulator seed, and pi0.5 identity within each pair:
+
+```bash
+python scripts/evaluation/plan_piu_formal_paired_test.py \
+  --treatment-episodes PATH/B8_*/episode.json \
+  --comparator-episodes PATH/B0_*/episode.json \
+  --output results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json
+```
+
+The formal N is calculated only if the joint 95% lower exact-binomial design
+point supports a directional B8 effect and exact two-sided paired power reaches
+0.80 within 200 groups. Otherwise the blocked plan is retained. After assigning
+exactly N new sealed groups, freeze execution order without reading outcomes:
+
+```bash
+python scripts/evaluation/build_piu_formal_schedule.py \
+  --formal-plan results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json \
+  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --output results/method/piu_fixed_drawer_formal_schedule_v1.json
+```
+
+The schedule's SHA-256 permutation randomizes group and within-group B0--B8
+order and retains every seed. Sealed matrix authorization binds its hash. Main
+interpretation reports full-task/wrong-contact comparisons against B1/B3,
+interaction cost, calibration efficiency, the B0-to-B7 oracle gap, and the
+B4-versus-B3 effect ablation; no p-value alone creates a success claim.

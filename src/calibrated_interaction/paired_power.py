@@ -5,6 +5,100 @@ from __future__ import annotations
 import math
 
 
+def _binomial_lower_tail(successes: int, trials: int, probability: float) -> float:
+    return float(
+        sum(
+            math.comb(trials, count)
+            * probability**count
+            * (1.0 - probability) ** (trials - count)
+            for count in range(successes + 1)
+        )
+    )
+
+
+def _binomial_upper_tail(successes: int, trials: int, probability: float) -> float:
+    return float(
+        sum(
+            math.comb(trials, count)
+            * probability**count
+            * (1.0 - probability) ** (trials - count)
+            for count in range(successes, trials + 1)
+        )
+    )
+
+
+def _bisect_increasing(function, target: float) -> float:
+    low, high = 0.0, 1.0
+    for _ in range(80):
+        middle = (low + high) / 2.0
+        if function(middle) < target:
+            low = middle
+        else:
+            high = middle
+    return (low + high) / 2.0
+
+
+def _bisect_decreasing(function, target: float) -> float:
+    low, high = 0.0, 1.0
+    for _ in range(80):
+        middle = (low + high) / 2.0
+        if function(middle) > target:
+            low = middle
+        else:
+            high = middle
+    return (low + high) / 2.0
+
+
+def clopper_pearson_interval(
+    successes: int, trials: int, *, confidence: float = 0.95
+) -> tuple[float, float]:
+    """Return an equal-tailed exact binomial confidence interval."""
+
+    if trials < 1 or not 0 <= successes <= trials:
+        raise ValueError("invalid binomial counts")
+    if not 0.0 < confidence < 1.0:
+        raise ValueError("confidence must lie in (0,1)")
+    tail = (1.0 - confidence) / 2.0
+    lower = (
+        0.0
+        if successes == 0
+        else _bisect_increasing(
+            lambda probability: _binomial_upper_tail(
+                successes, trials, probability
+            ),
+            tail,
+        )
+    )
+    upper = (
+        1.0
+        if successes == trials
+        else _bisect_decreasing(
+            lambda probability: _binomial_lower_tail(
+                successes, trials, probability
+            ),
+            tail,
+        )
+    )
+    return lower, upper
+
+
+def clopper_pearson_lower_bound(
+    successes: int, trials: int, *, confidence: float
+) -> float:
+    """Return a one-sided exact lower confidence bound."""
+
+    if trials < 1 or not 0 <= successes <= trials:
+        raise ValueError("invalid binomial counts")
+    if not 0.0 < confidence < 1.0:
+        raise ValueError("confidence must lie in (0,1)")
+    if successes == 0:
+        return 0.0
+    return _bisect_increasing(
+        lambda probability: _binomial_upper_tail(successes, trials, probability),
+        1.0 - confidence,
+    )
+
+
 def _advance_distribution(
     distribution: dict[tuple[int, int], float],
     *,

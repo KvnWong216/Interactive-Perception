@@ -533,6 +533,7 @@ def main() -> None:
         "schema_version": "piu.closed-loop-run-manifest.v1",
         "method_id": args.method_id,
         "initial_state_group": group,
+        "simulator_seed": args.seed,
         "split": split,
         "rollout_status": status,
         "source_state": {

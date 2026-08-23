@@ -36,6 +36,9 @@ required_files:
   - src/piu/oracle_effect.py
   - src/piu/execution_plan.py
   - src/piu/policy_identity.py
+  - src/piu/formal_design.py
+  - src/piu/reproducibility.py
+  - src/calibrated_interaction/paired_power.py
   - scripts/data/export_piu_binding_labels.py
   - scripts/data/export_piu_post_observation_labels.py
   - scripts/data/export_piu_action_effect_matrix.py
@@ -59,6 +62,9 @@ required_files:
   - scripts/evaluation/aggregate_piu_closed_loop_episode.py
   - scripts/evaluation/export_piu_formal_outcome.py
   - scripts/evaluation/assemble_piu_formal_outcomes.py
+  - scripts/evaluation/plan_piu_formal_paired_test.py
+  - scripts/evaluation/build_piu_formal_schedule.py
+  - scripts/repro/check_piu_offline_pipeline.py
   - scripts/evaluation/evaluate_piu_primitive_qualification.py
   - scripts/evaluation/plan_piu_primitive_qualification.py
   - scripts/evaluation/build_piu_qualified_executor_map.py
@@ -104,6 +110,9 @@ python_entrypoints:
   - scripts/evaluation/aggregate_piu_closed_loop_episode.py
   - scripts/evaluation/export_piu_formal_outcome.py
   - scripts/evaluation/assemble_piu_formal_outcomes.py
+  - scripts/evaluation/plan_piu_formal_paired_test.py
+  - scripts/evaluation/build_piu_formal_schedule.py
+  - scripts/repro/check_piu_offline_pipeline.py
   - scripts/evaluation/evaluate_piu_primitive_qualification.py
   - scripts/evaluation/plan_piu_primitive_qualification.py
   - scripts/evaluation/build_piu_qualified_executor_map.py
@@ -162,6 +171,10 @@ external_empirical_gates:
     artifact: runs/piu_mainline_v1/effect/calibration.json
   - id: complete_sealed_outcome_matrix
     artifact: results/method/piu_fixed_drawer_sealed_outcomes_v1.jsonl
+  - id: main_paired_pilot_plan
+    artifact: results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json
+  - id: formal_execution_schedule
+    artifact: results/method/piu_fixed_drawer_formal_schedule_v1.json
   - id: sealed_full_loop_report
     artifact: results/method/piu_fixed_drawer_sealed_v1.json
   - id: b6_oracle_effect_trace_results

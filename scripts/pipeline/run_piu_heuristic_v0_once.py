@@ -298,6 +298,7 @@ def main() -> None:
         "claim_scope": "FROZEN_ONE_STEP_ENGINEERING_BASELINE_EPISODE",
         "method_id": "B2",
         "initial_state_group": transition.initial_state_group,
+        "simulator_seed": args.seed,
         "split": transition.split.value,
         "evidence_class": "public_method",
         "rollout_status": status,

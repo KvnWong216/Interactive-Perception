@@ -38,6 +38,7 @@ def _row(group: str, method: str, success: bool) -> dict[str, object]:
     return {
         "schema_version": "piu.formal-outcome.v1",
         "initial_state_group": group,
+        "simulator_seed": 17,
         "method_id": method,
         "split": "sealed_test",
         "rollout_status": "COMPLETE",
@@ -74,6 +75,12 @@ def test_complete_formal_matrix_is_paired_and_oracle_separated(tmp_path: Path) -
     assert report["groups"] == ["g0", "g1"]
     assert report["primary"]["paired_risk_difference"] == 1.0
     assert report["oracle_upper_bound_methods"] == ["B6", "B7"]
+    assert report["oracle_binding_gap_descriptive_only"][
+        "fraction_of_raw_to_oracle_gap_closed"
+    ] == 1.0
+    assert "B8_minus_B1" in report["continuous_descriptive_only"][
+        "interaction_count"
+    ]["paired"]
     assert report["automatic_method_pass"] is None
 
 
@@ -162,6 +169,7 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
                     "schema_version": "piu.closed-loop-episode.v1",
                     "method_id": method,
                     "initial_state_group": "sealed_group",
+                    "simulator_seed": 17,
                     "split": "sealed_test",
                     "evidence_class": (
                         "oracle_upper_bound"
@@ -248,7 +256,7 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
                         "initial_state_group": (
                             "sealed_group" if role == "sealed_test" else role
                         ),
-                        "seed": index,
+                        "seed": 17 if role == "sealed_test" else index,
                         "split_role": role,
                     }
                     for index, role in enumerate(roles)
@@ -257,6 +265,37 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
         )
     )
     matrix = tmp_path / "matrix.jsonl"
+    formal_schedule = tmp_path / "formal_schedule.json"
+    formal_schedule.write_text(
+        json.dumps(
+            {
+                "schema_version": "piu.formal-execution-schedule.v1",
+                "status": "FROZEN_BEFORE_FORMAL_OUTCOME_COLLECTION",
+                "outcomes_loaded": False,
+                "inputs": {
+                    "split_manifest": {
+                        "path": str(split_manifest),
+                        "sha256": hashlib.sha256(
+                            split_manifest.read_bytes()
+                        ).hexdigest(),
+                    },
+                    "policy_identity": {
+                        "path": str(identity),
+                        "sha256": hashlib.sha256(identity.read_bytes()).hexdigest(),
+                    },
+                },
+                "entries": [
+                    {
+                        "execution_index": index,
+                        "initial_state_group": "sealed_group",
+                        "simulator_seed": 17,
+                        "method_id": f"B{index}",
+                    }
+                    for index in range(9)
+                ],
+            }
+        )
+    )
     matrix_authorization = tmp_path / "matrix_authorization.json"
     matrix_authorization.write_text(
         json.dumps(
@@ -267,6 +306,9 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
                 ),
                 "split_manifest_sha256": hashlib.sha256(
                     split_manifest.read_bytes()
+                ).hexdigest(),
+                "formal_schedule_sha256": hashlib.sha256(
+                    formal_schedule.read_bytes()
                 ).hexdigest(),
                 "single_use_output": str(matrix),
             }
@@ -280,6 +322,8 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
             *(str(path) for path in row_paths),
             "--split-manifest",
             str(split_manifest),
+            "--formal-schedule",
+            str(formal_schedule),
             "--sealed-authorization",
             str(matrix_authorization),
             "--output",

@@ -65,3 +65,10 @@ New non-performance artifacts:
   `pi05_libero` checkpoint-tree identity before acting. Contract tests also
   cover the server's declared capability list. This is an execution-integrity
   result, not task performance.
+- The main B8-vs-B0 paired-pilot planner and formal scheduler pass contract
+  tests. As a falsification check, five perfect treatment-only pairs are still
+  insufficient under the frozen joint 95% lower-bound design; ten such
+  synthetic pairs produce an exact-power design of 81 new groups. These values
+  validate the calculation only and are not empirical estimates or a planned
+  real sample size. No formal count is frozen until real development episodes
+  pass the same provenance checks.

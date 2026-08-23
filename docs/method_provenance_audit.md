@@ -22,7 +22,10 @@ decision.
 | conformal prediction threshold | fitted calibration statistic | allowed only when fit on an isolated calibration split |
 | conformal alpha | declared risk contract | freeze before calibration and report risk/coverage across preregistered levels |
 | formal `alpha=0.05`, target power `0.80` | preregistered inferential design | conventional Type-I/II error controls; report achieved power and effect interval, never use as an online threshold |
+| formal pilot report/joint-design confidence `0.95/0.95` | preregistered inferential design | exact intervals plus Bonferroni joint lower bounds replace a hand-selected effect shrinkage; a lower directional bound at chance freezes no N |
 | paired-power search limit `200` | numerical resource bound | failure to find a design blocks collection; it is not evidence for or against the method |
+| formal B0--B8 order | hash-keyed protocol permutation | plan/split/config/registry hashes determine order before outcomes; order is retained and cannot be optimized after results |
+| formal code identity | offline release inventory SHA-256 | pilot planning and schedule freezing fail if any required mainline file differs; schedule binds the verified lock |
 | effect-selector singleton rules | semantic design in rejected pilot | do not promote; successor method requires a new preregistered justification |
 | CPU fusion `0.4/0.4/0.2` | manual diagnostic baseline | baseline-only |
 | `src/interaction_uncertainty` weights and utility thresholds | legacy heuristics | frozen Heuristic V0 baseline only |

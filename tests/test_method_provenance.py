@@ -35,6 +35,13 @@ def test_repository_method_provenance_is_claim_safe() -> None:
         "main_method_online"
     )
     assert by_id["sealed_primary_paired_test"]["claim_use"] == "main_evaluator"
+    assert by_id["formal_pilot_confidence_levels"]["provenance"] == (
+        "formal_statistical_procedure"
+    )
+    assert by_id["formal_execution_permutation"]["claim_use"] == "main_evaluator"
+    assert by_id["formal_offline_release_lock"]["provenance"] == (
+        "protocol_identifier"
+    )
     assert by_id["public_executed_action_history"]["provenance"] == (
         "protocol_identifier"
     )
@@ -57,7 +64,7 @@ def test_repository_method_provenance_is_claim_safe() -> None:
     assert by_id["oracle_effect_branch_selection"]["provenance"] == (
         "oracle_intervention"
     )
-    assert len(registry["tracked_protocols"]) == 1
+    assert len(registry["tracked_protocols"]) == 2
 
 
 def test_unsupported_heuristic_cannot_be_promoted_to_main_method(

@@ -35,11 +35,13 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--rows", type=Path, nargs="+", required=True)
     parser.add_argument("--split-manifest", type=Path, required=True)
+    parser.add_argument("--formal-schedule", type=Path, required=True)
     parser.add_argument("--sealed-authorization", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     row_paths = [resolve(path) for path in args.rows]
     split_path = resolve(args.split_manifest)
+    schedule_path = resolve(args.formal_schedule)
     authorization_path = resolve(args.sealed_authorization)
     output = resolve(args.output)
     if output.exists():
@@ -91,6 +93,40 @@ def main() -> None:
     observed = {(row["initial_state_group"], row["method_id"]) for row in rows}
     if observed != expected or len(rows) != len(expected):
         raise ValueError("formal matrix must contain every sealed group x B0--B8 row")
+    schedule = json.loads(schedule_path.read_text())
+    if (
+        schedule.get("schema_version") != "piu.formal-execution-schedule.v1"
+        or schedule.get("status")
+        != "FROZEN_BEFORE_FORMAL_OUTCOME_COLLECTION"
+        or schedule.get("outcomes_loaded") is not False
+    ):
+        raise ValueError("formal matrix requires a frozen outcome-independent schedule")
+    if schedule.get("inputs", {}).get("split_manifest", {}).get("sha256") != sha256(
+        split_path
+    ):
+        raise ValueError("formal schedule used another split manifest")
+    schedule_entries = schedule.get("entries")
+    if not isinstance(schedule_entries, list):
+        raise TypeError("formal schedule entries must be a list")
+    scheduled = {
+        (row.get("initial_state_group"), row.get("method_id")): row.get(
+            "simulator_seed"
+        )
+        for row in schedule_entries
+    }
+    if set(scheduled) != expected or len(schedule_entries) != len(expected):
+        raise ValueError("formal schedule differs from the complete method matrix")
+    if any(
+        scheduled[(row["initial_state_group"], row["method_id"])]
+        != row["simulator_seed"]
+        for row in rows
+    ):
+        raise ValueError("formal rows differ from scheduled simulator seeds")
+    schedule_policy = schedule.get("inputs", {}).get("policy_identity", {}).get(
+        "sha256"
+    )
+    if {row["policy_identity_sha256"] for row in rows} != {schedule_policy}:
+        raise ValueError("formal rows differ from the scheduled frozen policy")
     for group in sealed_groups:
         source_hashes = {
             row["source_state_sha256"]
@@ -109,6 +145,7 @@ def main() -> None:
     expected_authorization = {
         "row_sha256_sorted": sorted(row_hashes),
         "split_manifest_sha256": sha256(split_path),
+        "formal_schedule_sha256": sha256(schedule_path),
         "single_use_output": portable(output),
     }
     for name, value in expected_authorization.items():

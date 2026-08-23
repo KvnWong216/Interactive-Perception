@@ -102,12 +102,20 @@ entries:
     evidence: external_only resource contract and GPU audit
 
   - id: formal_test_design_levels
-    location: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:formal_followup
+    location: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:formal_followup and configs/experiments/piu_formal_analysis_v1.yaml
     value: alpha 0.05; target power 0.80
     provenance: formal_statistical_procedure
     claim_use: main_evaluator
     rationale: Conventional Type-I and Type-II error controls are frozen before formal data and paired with effect sizes and confidence intervals; the five-group pilot is excluded.
     evidence: exact paired binomial test and exact prospective power on an independent formal group set
+
+  - id: formal_pilot_confidence_levels
+    location: configs/experiments/piu_formal_analysis_v1.yaml:prospective_design
+    value: 0.95 report confidence; 0.95 joint conservative design confidence
+    provenance: formal_statistical_procedure
+    claim_use: main_evaluator
+    rationale: The report interval and conservative power operating point are frozen before any real B8 pilot outcome. Bonferroni allocation plus exact Clopper-Pearson bounds replaces an arbitrary effect-size shrinkage factor.
+    evidence: tests block a five-pair perfect pilot whose directional lower bound does not exceed chance and reproduce the exact ten-pair design
 
   - id: conformal_risk_level
     location: training experiment configs:calibration.alpha
@@ -182,12 +190,28 @@ entries:
     evidence: frozen pilot feature shape is one 2048-wide vector per candidate with no retained token mask or span
 
   - id: paired_power_search_limit
-    location: scripts/evaluation/plan_oracle_paired_test.py:--search-limit
+    location: configs/experiments/piu_formal_analysis_v1.yaml:prospective_design.numerical_search_limit and scripts/evaluation/plan_oracle_paired_test.py:--search-limit
     value: 200 groups
     provenance: numerical_optimization
     claim_use: safety_only
     rationale: This bounds computation only; failure to find a design blocks the experiment and never counts as evidence against the method.
     evidence: exact paired power is evaluated for every prospective count through the bound
+
+  - id: formal_execution_permutation
+    location: configs/experiments/piu_formal_analysis_v1.yaml:execution_schedule
+    value: SHA-256-keyed group and within-group B0--B8 permutation
+    provenance: protocol_identifier
+    claim_use: main_evaluator
+    rationale: Method order is derived only from frozen artifact hashes and a declared namespace before outcome collection; it is retained to expose temporal/order effects and cannot select a favorable ordering from outcomes.
+    evidence: formal-schedule tests reject pilot-group reuse and the matrix assembler requires the schedule hash, exact seeds, methods, and policy identity
+
+  - id: formal_offline_release_lock
+    location: results/diagnostics/piu_offline_repro_preflight_v1.json
+    value: content-addressed inventory of all required mainline code and configs
+    provenance: protocol_identifier
+    claim_use: main_evaluator
+    rationale: Pilot planning and schedule freezing validate every inventory hash before reading outcomes, so a schedule cannot silently use code that differs from the retained offline release.
+    evidence: reproduction-lock mutation tests reject a changed source file; the prospective plan and schedule retain the lock hash
 
   - id: binding_mask_to_patch_target
     location: src/piu/binding_data.py:mask_to_patch_coverage
@@ -435,6 +459,14 @@ tracked_protocols:
       - preflight.expected_eligible_seeds
       - screen.seeds
       - confirmation.seeds
+  - path: configs/experiments/piu_formal_analysis_v1.yaml
+    numeric_controls:
+      primary.alpha: formal_test_design_levels
+      prospective_design.target_power: formal_test_design_levels
+      prospective_design.report_confidence: formal_pilot_confidence_levels
+      prospective_design.conservative_joint_confidence: formal_pilot_confidence_levels
+      prospective_design.numerical_search_limit: paired_power_search_limit
+      secondary.alpha: formal_test_design_levels
 
 deprecated_protocols:
   - path: configs/experiments/candidate_interaction_stage1.yaml

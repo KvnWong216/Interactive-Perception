@@ -46,6 +46,18 @@ separate upper-bound columns. The primary sealed comparison is B8 versus B0
 target grasp contact with an exact paired test. Named secondary comparisons form
 one Holm family. A complete-matrix validator prevents dropping failed, missing,
 timeout, or abstaining runs.
+The Phase 9 main-test planner consumes paired B8/B0 development episodes,
+verifies the same opaque source state, simulator seed, and policy identity,
+reports effect/discordance/variance, and sizes a disjoint formal cohort at an
+exact-power operating point built from joint lower exact-binomial bounds. If
+the directional lower bound does not exceed chance, it freezes no sample size;
+a hand-picked fallback N is forbidden. A content-bound SHA-256 permutation
+freezes group and within-group B0--B8 execution order without loading outcomes.
+Both pilot planning and schedule construction first verify every file in the
+offline release inventory, so the formal design also binds the code/config
+snapshot rather than only the outcome artifacts.
+The sealed matrix is rejected unless every row matches that schedule's group,
+seed, method, split manifest, and policy identity.
 The B1 prompted-VLM baseline now has a public-only external-service protocol:
 the exact service identity and canonical request are hash-bound, the response
 may contain only one candidate ID, and a hallucinated ID becomes ABSTAIN with
@@ -99,3 +111,5 @@ Blocking empirical gates: no accessible identified external pi0.5 `host:port`
 is available for the nine screen and five pilot rollouts; local full-prefix or
 simulator work is prohibited by the 1500 MiB GPU cap. The offline pipeline does
 not bypass the causal oracle gate or fabricate those missing outcomes.
+Consequently no real B8/B0 development pilot, conservative formal group count,
+or sealed execution schedule exists yet; Phase 9 is software-ready only.

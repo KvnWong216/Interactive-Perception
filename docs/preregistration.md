@@ -165,3 +165,50 @@ is the same decision-state digest, and every unobserved effect factor is null
 and loss-masked. Therefore conservative binder ambiguity changes execution
 coverage, not route ground truth, and cannot be converted into fabricated
 negative effects.
+
+## Amendment 4: main paired pilot, power, and execution order
+
+Frozen on 2026-08-23 before any real B8 development episode, B8-versus-B0
+sample-size plan, formal group allocation, or sealed full-loop outcome existed.
+The main pilot consists only of paired public-method B8 and B0 episodes from
+the development split. Every pair must share the exact opaque source-state
+hash and simulator seed, and all episodes must share the registered frozen
+pi0.5 policy identity. Failed, timed-out, and abstaining episodes remain binary
+observations in the denominator with their recorded evaluator outcome; they are
+never dropped. Oracle B6/B7 episodes cannot enter this pilot.
+
+The pilot reports the B8-minus-B0 target-contact risk difference, the four
+paired cells, exact paired-binomial p-value, sample variance of the paired
+difference, marginal Wilson intervals, and a conservative 95% risk-difference
+interval formed from Bonferroni simultaneous Clopper-Pearson intervals for the
+two discordant cell probabilities. Pilot significance never opens the sealed
+test and does not select an endpoint.
+
+Prospective power uses the primary two-sided exact paired-binomial test at
+alpha 0.05 and target power 0.80. Its operating point uses a joint 95% lower
+confidence construction: exact one-sided Clopper-Pearson lower bounds are
+formed for the discordant-pair probability and for the probability that B8
+wins conditional on discordance, with Bonferroni allocation. If the observed
+paired effect is nonpositive, the directional lower bound is at or below 0.5,
+or no design reaches power within the declared 200-group numerical search
+bound, no formal group count is frozen. This retained blocked result cannot be
+replaced with a round-number or post hoc sample size.
+
+Pilot groups are excluded from every later split. After a valid count exists,
+the sealed split must contain exactly that many new initial-state groups. A
+SHA-256-keyed, outcome-independent permutation freezes group order and the
+within-group B0--B8 order from the hashes of the plan, split, analysis config,
+and baseline registry. The schedule retains every simulator seed and the frozen
+policy identity. Formal matrix assembly requires the schedule hash and rejects
+missing, extra, differently seeded, or policy-drifted rows.
+
+The sealed interpretation is not reduced to `p < 0.05`. The Holm family also
+contains B8 full-task and wrong-contact comparisons against B1 and B3, plus the
+B4-versus-B3 effect ablation. Interaction counts and executed steps are paired
+descriptively against B0, B1, and B3. B8's fraction of the B0-to-B7
+target-contact gap is descriptive because B7 is privileged. A claim that
+unnecessary interaction did not increase is blocked until an external task-cost
+contract declares a noninferiority margin; no margin is inferred from results.
+Calibration efficiency requires separate sealed label-sidecar evaluation. Any
+"nonsaturated" effect subgroup must be declared on development data before the
+sealed split and cannot be selected after outcomes.

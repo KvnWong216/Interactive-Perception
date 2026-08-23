@@ -272,6 +272,7 @@ def main() -> None:
         "claim_scope": "SEALED_ORACLE_UPPER_BOUND_EPISODE_NOT_PUBLIC_METHOD",
         "method_id": "B7",
         "initial_state_group": group,
+        "simulator_seed": args.seed,
         "split": args.split,
         "evidence_class": "oracle_upper_bound",
         "rollout_status": "COMPLETE" if outcomes["task_success"] else "FAILED",
