@@ -1,0 +1,69 @@
+schema_version: piu.primitive-registry-protocol.v1
+id: piu_same_scenario_primitive_registry_v2
+scenario: configs/scenarios/original_drawer.yaml
+source: results/method/original_drawer_paper_cycle_v2.json
+claim_scope: retrospective_same_scenario_capability_evidence
+
+success_definitions:
+  OPEN.middle_drawer:
+    source: retained summary drawer_open
+    source_candidate_id: open_middle_drawer
+    executed_semantic_option: OPEN
+    event: drawer joint enters the simulator-declared open interval
+    threshold_provenance: simulator_physics_contract
+  DIRECT.visible_work_surface_grasp_contact:
+    source: raw evaluator object contact history
+    source_candidate_id: direct_visible_cream_cheese_to_basket
+    executed_semantic_option: DIRECT
+    event: LIBERO gripper/object grasp contact occurs for the requested object
+    threshold_provenance: simulator_contact_predicate
+  DIRECT.post_open_middle_drawer_grasp_contact:
+    source: raw evaluator object contact history
+    source_candidate_id: direct_butter_to_basket_after_open
+    executed_semantic_option: DIRECT
+    event: LIBERO gripper/object grasp contact occurs for the requested object
+    threshold_provenance: simulator_contact_predicate
+  DIRECT.visible_work_surface_terminal_destination:
+    source: retained task-specific relabel
+    source_candidate_id: direct_visible_cream_cheese_to_basket
+    executed_semantic_option: DIRECT
+    event: requested object satisfies the terminal destination predicate
+    threshold_provenance: task_predicate
+
+formal_qualification:
+  minimum_reliable_rate: null
+  status: BLOCKED_AWAITING_EXTERNAL_EPISODE_RISK_BUDGET
+  risk_allocation: configs/experiments/piu_executor_risk_allocation_v1.yaml
+  rationale: >-
+    An absolute primitive pass rate cannot be inferred from the same pilot,
+    copied from the historical 8/10 engineering rule, or equated with conformal
+    miscoverage. A task owner must first freeze an episode-level executor risk
+    budget; the registered union-bound allocation then derives the per-dispatch
+    minimum before prospective groups are collected.
+  alpha: 0.05
+  target_power: 0.80
+  method: exact_one_sided_binomial
+
+prospective_success_contracts:
+  OPEN:
+    metric: simulator_articulated_object_is_open
+    tracked_joint: wooden_cabinet_1_middle_level
+    implementation_source: third_party/LIBERO/libero/libero/envs/objects/articulated_objects.py
+    articulated_object_class: WoodenCabinet
+    comparison: qpos_strictly_less_than_maximum_default_open_range
+  PICK:
+    metric: target_grasp_contact_success
+    predicate: LIBERO_gripper_object_contact_observed_at_least_once
+  PLACE:
+    metric: target_in_destination_final
+    predicate: LIBERO_task_declared_in_relation_at_terminal_state
+  DIRECT:
+    metric: task_success_final
+    predicate: LIBERO_task_goal_at_terminal_state
+
+unevaluated_contexts:
+  - PICK.calibrated_current_spatial_reference
+  - PLACE.calibrated_holding_reference
+  - REMOVE.occluder
+  - ROTATE.label
+  - MOVE_CLOSER.identification

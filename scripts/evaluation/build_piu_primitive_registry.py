@@ -57,7 +57,7 @@ def main() -> None:
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs/experiments/piu_primitive_registry_v1.yaml",
+        default=ROOT / "configs/experiments/piu_primitive_registry_v2.yaml",
     )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -107,28 +107,26 @@ def main() -> None:
                 ],
             }
         },
-        "PICK": {
-            "visible_work_surface": {
+        "DIRECT": {
+            "visible_work_surface_grasp_contact": {
                 "status": "RETROSPECTIVE_PILOT_NOT_FORMALLY_QUALIFIED",
                 "estimate": reliability_record(visible_pick_values),
                 "success_definition": config["success_definitions"][
-                    "PICK.visible_work_surface"
+                    "DIRECT.visible_work_surface_grasp_contact"
                 ],
             },
-            "post_open_middle_drawer": {
+            "post_open_middle_drawer_grasp_contact": {
                 "status": "RETROSPECTIVE_PILOT_NOT_FORMALLY_QUALIFIED",
                 "estimate": reliability_record(post_open_pick_values),
                 "success_definition": config["success_definitions"][
-                    "PICK.post_open_middle_drawer"
+                    "DIRECT.post_open_middle_drawer_grasp_contact"
                 ],
             },
-        },
-        "PLACE": {
-            "visible_work_surface": {
+            "visible_work_surface_terminal_destination": {
                 "status": "RETROSPECTIVE_PILOT_NOT_FORMALLY_QUALIFIED",
                 "estimate": reliability_record(place_values),
                 "success_definition": config["success_definitions"][
-                    "PLACE.visible_work_surface"
+                    "DIRECT.visible_work_surface_terminal_destination"
                 ],
             }
         },

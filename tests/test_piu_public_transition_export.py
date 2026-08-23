@@ -10,6 +10,7 @@ import numpy as np
 from PIL import Image
 
 from piu.contracts import PublicTransition
+from piu_test_artifacts import write_formal_primitive_certificate
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -68,16 +69,10 @@ def test_qualified_dispatch_exports_only_public_transition_fields(
     )
     controller = tmp_path / "controller.json"
     controller.write_text("{}\n")
-    qualification = tmp_path / "qualification.json"
-    qualification.write_text(
-        json.dumps(
-            {
-                "schema_version": "piu.primitive-qualification-certificate.v1",
-                "status": "FORMALLY_QUALIFIED",
-                "candidate_id": "open_middle_drawer",
-                "primitive": "OPEN",
-            }
-        )
+    qualification = write_formal_primitive_certificate(
+        tmp_path / "qualification",
+        candidate_id="open_middle_drawer",
+        primitive="OPEN",
     )
     candidate = {
         "candidate_id": "open_middle_drawer",

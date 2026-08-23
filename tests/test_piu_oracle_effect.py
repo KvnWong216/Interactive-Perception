@@ -11,6 +11,7 @@ import pytest
 from piu.action_effect import EffectLabel
 from piu.contracts import public_observation_sha256
 from piu.oracle_effect import decide_oracle_effect
+from piu_test_artifacts import write_formal_primitive_certificate
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -283,6 +284,7 @@ def test_oracle_effect_trace_follows_only_the_selected_real_branch(
         json.dumps(
             {
                 "schema_version": "piu.semantic-option.v2",
+                "prompt": "Open the middle drawer.",
                 "controller": {
                     "online_oracle_inputs": [],
                     "action_history": str(actions),
@@ -313,20 +315,34 @@ def test_oracle_effect_trace_follows_only_the_selected_real_branch(
             }
         )
     )
-    certificate = tmp_path / "certificate.json"
-    certificate.write_text(
-        json.dumps(
-            {
-                "schema_version": "piu.primitive-qualification-certificate.v1",
-                "status": "FORMALLY_QUALIFIED",
-                "paper_method_action_authorized": True,
-                "candidate_id": "open_drawer",
-                "primitive": "OPEN",
-            }
-        )
+    certificate = write_formal_primitive_certificate(
+        tmp_path / "qualification",
+        candidate_id="open_drawer",
+        primitive="OPEN",
     )
     branch_a = tmp_path / "branches_a.json"
     branch_b = tmp_path / "branches_b.json"
+    execution_plan = tmp_path / "execution_plan.json"
+    execution_plan.write_text(
+        json.dumps(
+            {
+                "candidates": [
+                    {
+                        "candidate_id": "open_drawer",
+                        "primitive": "OPEN",
+                        "structured_pi05_subtask": "Open the middle drawer.",
+                        "spatial_references": [],
+                    },
+                    {
+                        "candidate_id": "stop",
+                        "primitive": "STOP",
+                        "structured_pi05_subtask": None,
+                        "spatial_references": [],
+                    },
+                ]
+            }
+        )
+    )
     branch_a.write_text(
         json.dumps(
             {
@@ -336,6 +352,7 @@ def test_oracle_effect_trace_follows_only_the_selected_real_branch(
                 "split": "development",
                 "decision_observation_sha256": digest_a,
                 "source_state": _artifact(state_a),
+                "execution_plan": _artifact(execution_plan),
                 "branches": [
                     {
                         "candidate_id": "open_drawer",
@@ -366,6 +383,7 @@ def test_oracle_effect_trace_follows_only_the_selected_real_branch(
                 "split": "development",
                 "decision_observation_sha256": digest_b,
                 "source_state": _artifact(state_b),
+                "execution_plan": _artifact(execution_plan),
                 "branches": [
                     {
                         "candidate_id": "open_drawer",

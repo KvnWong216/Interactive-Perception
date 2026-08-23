@@ -123,16 +123,25 @@ counterfactual collection, B2, B6 replay, B7, and the legacy oracle screen use
 one field-closed metadata contract; endpoint metadata is no longer merely
 recorded after execution.
 
-The context-specific primitive registry has also been rebuilt without the old
-8/10 count gates. Retrospective estimates are OPEN-middle-drawer 9/10,
-PICK-visible-work-surface 10/10, PICK-post-OPEN-drawer 0/10, and
-PLACE-visible-work-surface 3/10. No primitive is called formally qualified:
-the absolute reliability contract is intentionally null until it is derived
-from the downstream controller risk allocation. REMOVE, ROTATE, MOVE_CLOSER,
-and post-OPEN PLACE remain unevaluated.
-The formal planner, exact-binomial certificate evaluator, and dispatch hard gate
-are implemented; this does not fill the missing external risk contract or new
-groups.
+The executor registry has also been rebuilt without the old 8/10 count gates or
+primitive relabeling. Retrospective estimates are OPEN-middle-drawer 9/10 and,
+for the compound DIRECT option actually executed, visible-object contact 10/10,
+post-OPEN butter contact 0/10, and visible-object terminal destination 3/10.
+PICK and PLACE remain unevaluated as separate primitives. No primitive is
+called formally qualified.
+
+The formal executor gate now has no hand-entered absolute rate. A task owner
+must prospectively declare an episode-level probability `delta` of any
+primitive failure and a power-design alternative. The per-dispatch null is
+derived as `1-delta/8` by a dependence-free union bound; calibration alpha and
+retrospective successes cannot supply either value. A hash-permuted schedule
+then binds unique new state/seed groups, public controller reports, exact
+serialized subtasks, policy identity, and one single-use receipt path. Started
+failures remain in the denominator, and the evaluator re-derives outcomes from
+registered simulator/task predicates rather than accepting Boolean labels.
+Certificates authorize only the exact candidate payload and serializer mode
+tested. This complete software chain does not fill the missing external budget,
+new states, endpoint, or outcomes.
 
 The rebuilt retrospective chain is OPEN 9/10, acquisition 8/9 conditional on
 OPEN, and target contact 0/8 conditional on acquisition. Wrong-object contact
@@ -146,6 +155,6 @@ not bypass the causal oracle gate or fabricate those missing outcomes.
 Consequently no real B8/B0 development pilot, conservative formal group count,
 formal initial-state cohort, or sealed execution schedule exists yet; Phase 9
 and the Phase 10 cohort/one-shot execution freeze are software-ready only. The
-current CPU-only repository suite passes 217 tests; the existing approved
+current CPU-only repository suite passes 220 tests; the existing approved
 Python GPU process remains at 590 MiB, below the 1500 MiB cap (the GPU safety
 check refuses to interfere with it).

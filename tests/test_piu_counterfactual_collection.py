@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from piu.contracts import public_observation_sha256
+from piu_test_artifacts import write_formal_primitive_certificate
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -88,31 +89,25 @@ def test_counterfactual_collection_plan_requires_qualified_physical_branches(
             }
         )
     )
-    certificate = tmp_path / "open_certificate.json"
-    certificate.write_text(
-        json.dumps(
-            {
-                "schema_version": "piu.primitive-qualification-certificate.v1",
-                "status": "FORMALLY_QUALIFIED",
-                "paper_method_action_authorized": True,
-                "candidate_id": "open_drawer",
-                "primitive": "OPEN",
-            }
-        )
+    certificate = write_formal_primitive_certificate(
+        tmp_path / "qualification",
+        candidate_id="open_drawer",
+        primitive="OPEN",
     )
     qualification_map = tmp_path / "qualification_map.json"
-    qualification_map.write_text(
-        json.dumps(
-            {
-                "schema_version": "piu.qualified-executor-map.v1",
-                "candidates": {
-                    "open_drawer": {
-                        "path": str(certificate),
-                        "sha256": hashlib.sha256(certificate.read_bytes()).hexdigest(),
-                    }
-                },
-            }
-        )
+    subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/evaluation/build_piu_qualified_executor_map.py"),
+            "--certificate",
+            str(certificate),
+            "--output",
+            str(qualification_map),
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
     )
     state = tmp_path / "state.npz"
     state.write_bytes(b"opaque")

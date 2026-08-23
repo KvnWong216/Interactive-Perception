@@ -6,9 +6,16 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+
+from piu.primitive_registry import (
+    load_primitive_qualification_certificate,
+    load_qualified_executor_map,
+)
 
 
 def sha256(path: Path) -> str:
@@ -38,13 +45,10 @@ def main() -> None:
     candidates = {}
     primitives = {}
     for path in certificates:
-        value = json.loads(path.read_text())
-        if (
-            value.get("schema_version") != "piu.primitive-qualification-certificate.v1"
-            or value.get("status") != "FORMALLY_QUALIFIED"
-            or value.get("paper_method_action_authorized") is not True
-            or value.get("result", {}).get("qualified") is not True
-        ):
+        value = load_primitive_qualification_certificate(
+            path, repository_root=ROOT
+        )
+        if value.get("status") != "FORMALLY_QUALIFIED":
             raise ValueError(f"certificate does not authorize a method action: {path}")
         candidate_id = " ".join(str(value.get("candidate_id", "")).split())
         primitive = " ".join(str(value.get("primitive", "")).split()).upper()
@@ -61,6 +65,7 @@ def main() -> None:
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2) + "\n")
+    load_qualified_executor_map(output, repository_root=ROOT)
     print(json.dumps({"output": portable(output), "sha256": sha256(output)}, indent=2))
 
 

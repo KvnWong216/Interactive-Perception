@@ -30,10 +30,14 @@ required_files:
   - configs/experiments/piu_baselines_v1.yaml
   - configs/experiments/piu_formal_analysis_v1.yaml
   - configs/experiments/piu_robustness_reporting_v1.yaml
+  - configs/experiments/piu_executor_risk_allocation_v1.yaml
   - configs/experiments/method_provenance_v1.yaml
   - configs/experiments/piu_primitive_registry_v1.yaml
+  - configs/experiments/piu_primitive_registry_v2.yaml
+  - configs/templates/piu_external_execution_risk_budget_template.yaml
   - configs/scenarios/original_drawer.yaml
   - scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+  - third_party/LIBERO/libero/libero/envs/objects/articulated_objects.py
   - results/diagnostics/pi05_libero_checkpoint_identity_v1.json
   - src/calibrated_interaction/__init__.py
   - src/calibrated_interaction/calibration.py
@@ -116,12 +120,17 @@ required_files:
   - scripts/infra/serve_identified_pi05.py
   - scripts/infra/serve_pi05.sh
   - scripts/evaluation/evaluate_piu_primitive_qualification.py
+  - scripts/evaluation/build_piu_primitive_registry.py
+  - scripts/evaluation/derive_piu_primitive_risk_contract.py
   - scripts/evaluation/plan_piu_primitive_qualification.py
+  - scripts/evaluation/build_piu_primitive_qualification_schedule.py
+  - scripts/evaluation/close_piu_primitive_qualification_failure.py
   - scripts/evaluation/build_piu_qualified_executor_map.py
   - scripts/pipeline/run_piu_calibrated_controller.py
   - scripts/pipeline/run_piu_uncalibrated_ablation_controller.py
   - scripts/pipeline/predict_piu_target_binding_online.py
   - scripts/pipeline/execute_piu_controller_decision.py
+  - scripts/pipeline/run_piu_primitive_qualification.py
   - scripts/pipeline/run_piu_closed_loop.py
   - scripts/pipeline/run_piu_b0_direct.py
   - scripts/pipeline/run_piu_prompted_vlm_router.py
@@ -137,6 +146,7 @@ required_files:
   - docs/claim_evidence_ledger.md
   - paper/generated/piu_evidence_tables_v1.json
   - paper/generated/piu_evidence_tables_v1.md
+  - results/method/piu_primitive_reliability_registry_v2.json
 
 python_entrypoints:
   - scripts/data/export_piu_binding_labels.py
@@ -177,12 +187,17 @@ python_entrypoints:
   - scripts/infra/check_external_pi05.py
   - scripts/infra/serve_identified_pi05.py
   - scripts/evaluation/evaluate_piu_primitive_qualification.py
+  - scripts/evaluation/build_piu_primitive_registry.py
+  - scripts/evaluation/derive_piu_primitive_risk_contract.py
   - scripts/evaluation/plan_piu_primitive_qualification.py
+  - scripts/evaluation/build_piu_primitive_qualification_schedule.py
+  - scripts/evaluation/close_piu_primitive_qualification_failure.py
   - scripts/evaluation/build_piu_qualified_executor_map.py
   - scripts/pipeline/run_piu_calibrated_controller.py
   - scripts/pipeline/run_piu_uncalibrated_ablation_controller.py
   - scripts/pipeline/predict_piu_target_binding_online.py
   - scripts/pipeline/execute_piu_controller_decision.py
+  - scripts/pipeline/run_piu_primitive_qualification.py
   - scripts/pipeline/run_piu_closed_loop.py
   - scripts/pipeline/run_piu_b0_direct.py
   - scripts/pipeline/run_piu_prompted_vlm_router.py
@@ -196,6 +211,26 @@ python_entrypoints:
   - scripts/pipeline/run_oracle_target_prompt_gate.py
 
 external_empirical_gates:
+  - id: external_executor_risk_budget
+    artifact: results/method/piu_external_execution_risk_budget_v1.yaml
+  - id: open_primitive_risk_contract
+    artifact: results/method/piu_open_primitive_risk_contract_v1.json
+  - id: open_primitive_qualification_plan
+    artifact: results/method/piu_open_primitive_qualification_plan_v1.json
+  - id: open_primitive_qualification_schedule
+    artifact: results/method/piu_open_primitive_qualification_schedule_v1.json
+  - id: pick_primitive_risk_contract
+    artifact: results/method/piu_pick_primitive_risk_contract_v1.json
+  - id: pick_primitive_qualification_plan
+    artifact: results/method/piu_pick_primitive_qualification_plan_v1.json
+  - id: pick_primitive_qualification_schedule
+    artifact: results/method/piu_pick_primitive_qualification_schedule_v1.json
+  - id: place_primitive_risk_contract
+    artifact: results/method/piu_place_primitive_risk_contract_v1.json
+  - id: place_primitive_qualification_plan
+    artifact: results/method/piu_place_primitive_qualification_plan_v1.json
+  - id: place_primitive_qualification_schedule
+    artifact: results/method/piu_place_primitive_qualification_schedule_v1.json
   - id: external_prompted_vlm_router_identity
     artifact: results/diagnostics/external_prompted_vlm_router_identity_v1.json
   - id: external_prompted_vlm_router_probe

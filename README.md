@@ -101,6 +101,13 @@ PICK/DIRECT can execute only with a nonempty current-frame conformal patch set,
 which is converted to exact normalized boxes in a deterministic pi0.5 subtask.
 Live dispatch additionally requires a prospective exact-binomial primitive
 qualification certificate; the existing retrospective registry authorizes none.
+Its minimum reliability is not a repository constant: an external task owner
+must freeze an episode failure budget and a power-design alternative using
+`configs/templates/piu_external_execution_risk_budget_template.yaml`. The code
+derives the per-dispatch null as `1-delta/8`, freezes new state/controller
+groups, and recomputes every outcome from a scheduled execution receipt. A
+certificate covers the exact public candidate payload and spatial-serializer
+mode, not merely a primitive name.
 The same-state collector first creates a hash-bound public execution plan from
 calibrated binder sets. Candidates outside their typed execution context remain
 in the route matrix but are not physically forked and receive no invented

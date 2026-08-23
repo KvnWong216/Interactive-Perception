@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from piu.contracts import PublicTransition
+from piu.primitive_registry import load_primitive_qualification_certificate
 
 
 def sha256(path: Path) -> str:
@@ -111,7 +112,9 @@ def main() -> None:
     qualification_path = resolve(Path(receipt["primitive_qualification"]["path"]))
     if sha256(qualification_path) != receipt["primitive_qualification"]["sha256"]:
         raise ValueError("primitive certificate differs from dispatch receipt")
-    qualification = json.loads(qualification_path.read_text())
+    qualification = load_primitive_qualification_certificate(
+        qualification_path, repository_root=ROOT
+    )
     if qualification.get("status") != "FORMALLY_QUALIFIED":
         raise ValueError("public transition source primitive was not qualified")
     if qualification.get("candidate_id") != selected.get("candidate_id"):

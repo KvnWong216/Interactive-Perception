@@ -1,0 +1,43 @@
+schema_version: piu.executor-risk-allocation.v1
+id: piu_same_scenario_equal_dispatch_risk_allocation_v1
+status: frozen_derivation_waiting_for_external_episode_risk_budget
+
+scope:
+  scenario: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+  risk_event: at_least_one_dispatched_physical_primitive_fails_in_an_episode
+  executor_only: true
+  task_success_guarantee: false
+
+inputs:
+  baseline_registry: configs/experiments/piu_baselines_v1.yaml
+  primitive_registry_protocol: configs/experiments/piu_primitive_registry_v2.yaml
+  external_budget_schema: piu.external-execution-risk-budget.v1
+
+allocation:
+  method: bonferroni_union_bound_equal_per_dispatch
+  maximum_physical_dispatches_source: shared maximum_controller_decisions
+  dependence_assumption: none
+  derivation: >-
+    For an externally declared episode failure budget delta and at most M
+    physical dispatches, require each dispatched primitive to have failure
+    probability at most delta/M. The union bound then gives probability of any
+    primitive failure at most delta, without assuming independent failures.
+  minimum_reliable_rate_expression: 1 - delta / M
+  outcome_dependent_choice: false
+
+prospective_design:
+  alternative_source: external_task_owner_contract
+  retrospective_pilot_used_for_effect_size: false
+  requirement: >-
+    The external contract must declare a per-dispatch success probability
+    strictly above 1-delta/M. It is a power-design alternative only, not an
+    empirical estimate or a success claim.
+
+claim_contract:
+  external_budget_required: true
+  budget_may_be_inferred_from_retrospective_successes: false
+  budget_may_reuse_historical_count_gate: false
+  calibration_alpha_is_executor_failure_budget: false
+  derived_rate_is_task_success_probability: false
+  qualification_outcomes_loaded_during_derivation: false
+  retrospective_pilot_may_set_design_alternative: false

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import subprocess
 import sys
 from pathlib import Path
@@ -9,16 +10,22 @@ import pytest
 import yaml
 
 from piu.primitive_registry import (
+    allocate_episode_primitive_risk,
     evaluate_frozen_binomial_design,
     exact_binomial_power,
     reliability_record,
+    load_primitive_qualification_certificate,
+    load_primitive_qualification_execution_receipt,
+    load_primitive_qualification_schedule,
     smallest_binomial_design,
+    validate_derived_primitive_risk_contract,
 )
+from piu_test_artifacts import write_formal_primitive_certificate
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_qualified_executor_map_accepts_only_formal_certificates(
+def test_qualified_executor_map_rejects_a_fabricated_certificate(
     tmp_path: Path,
 ) -> None:
     certificate = tmp_path / "certificate.json"
@@ -35,7 +42,7 @@ def test_qualified_executor_map_accepts_only_formal_certificates(
         )
     )
     output = tmp_path / "map.json"
-    subprocess.run(
+    completed = subprocess.run(
         [
             sys.executable,
             str(ROOT / "scripts/evaluation/build_piu_qualified_executor_map.py"),
@@ -45,13 +52,13 @@ def test_qualified_executor_map_accepts_only_formal_certificates(
             str(output),
         ],
         cwd=ROOT,
-        check=True,
+        check=False,
         capture_output=True,
         text=True,
     )
-    value = json.loads(output.read_text())
-    assert value["primitives"] == {"open_drawer": "OPEN"}
-    assert value["paper_method_action_authorized"] is True
+    assert completed.returncode != 0
+    assert "artifact reference" in completed.stderr
+    assert not output.exists()
 
 
 def test_reliability_record_has_no_pass_threshold() -> None:
@@ -84,6 +91,19 @@ def test_exact_primitive_power_is_one_sided_and_prospective() -> None:
     )
 
 
+def test_episode_risk_allocation_is_a_dependence_free_union_bound() -> None:
+    allocation = allocate_episode_primitive_risk(
+        maximum_episode_failure_probability=0.2,
+        maximum_physical_dispatches=8,
+    )
+    assert allocation["per_dispatch_failure_probability"] == pytest.approx(0.025)
+    assert allocation["minimum_reliable_rate"] == pytest.approx(0.975)
+    assert allocation["union_bound_maximum_episode_failure_probability"] == (
+        pytest.approx(0.2)
+    )
+    assert allocation["dependence_assumption"] == "none"
+
+
 def test_registry_rebuild_and_explicit_risk_contract_planner(tmp_path: Path) -> None:
     registry_path = tmp_path / "registry.json"
     subprocess.run(
@@ -100,32 +120,57 @@ def test_registry_rebuild_and_explicit_risk_contract_planner(tmp_path: Path) -> 
     )
     registry = json.loads(registry_path.read_text())
     assert registry["evaluated"]["OPEN"]["middle_drawer"]["estimate"]["successes"] == 9
+    assert registry["evaluated"]["DIRECT"][
+        "visible_work_surface_grasp_contact"
+    ]["estimate"]["successes"] == 10
     assert (
-        registry["evaluated"]["PICK"]["visible_work_surface"]["estimate"]["successes"]
-        == 10
-    )
-    assert (
-        registry["evaluated"]["PICK"]["post_open_middle_drawer"]["estimate"][
+        registry["evaluated"]["DIRECT"][
+            "post_open_middle_drawer_grasp_contact"
+        ]["estimate"][
             "successes"
         ]
         == 0
     )
     assert registry["historical_count_gates_used"] is False
-    contract_path = tmp_path / "risk.yaml"
-    contract_path.write_text(
+    budget_path = tmp_path / "external_budget.yaml"
+    budget_path.write_text(
         yaml.safe_dump(
             {
-                "schema_version": "piu.primitive-risk-contract.v1",
-                "primitive": "PICK",
-                "context": "visible_work_surface",
-                "candidate_id": "pick_cream_cheese",
-                "minimum_reliable_rate": 0.5,
-                "minimum_reliable_rate_provenance": "synthetic_test_contract",
-                "alpha": 0.05,
-                "target_power": 0.8,
+                "schema_version": "piu.external-execution-risk-budget.v1",
+                "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES",
+                "maximum_episode_probability_of_any_primitive_failure": 0.8,
+                "design_alternative_per_dispatch_success_probability": 1.0,
+                "authority": "synthetic fixture task owner",
+                "rationale": "exercise the derivation without making a claim",
+                "outcomes_loaded": False,
             }
         )
     )
+    contract_path = tmp_path / "risk.json"
+    subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/evaluation/derive_piu_primitive_risk_contract.py"),
+            "--external-budget",
+            str(budget_path),
+            "--primitive",
+            "PICK",
+            "--context",
+            "visible_work_surface",
+            "--candidate-id",
+            "pick_cream_cheese",
+            "--output",
+            str(contract_path),
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    contract = json.loads(contract_path.read_text())
+    validate_derived_primitive_risk_contract(contract)
+    assert contract["minimum_reliable_rate"] == pytest.approx(0.9)
+    assert contract["outcomes_loaded"] is False
     plan_path = tmp_path / "plan.json"
     subprocess.run(
         [
@@ -146,7 +191,39 @@ def test_registry_rebuild_and_explicit_risk_contract_planner(tmp_path: Path) -> 
     plan = json.loads(plan_path.read_text())
     assert plan["status"] == "PROSPECTIVE_GROUP_COUNT_FROZEN"
     assert plan["candidate_id"] == "pick_cream_cheese"
-    assert plan["design"]["trials"] == 5
+    assert plan["risk_contract"]["provenance"] == (
+        "derived_union_bound_from_external_episode_budget"
+    )
+    assert plan["alternative_success_probability"] == 1.0
+    assert plan["retrospective_pilot_used_for_effect_size"] is False
+    assert plan["design"]["trials"] > 5
+
+
+def test_risk_contract_rejects_a_hand_modified_minimum_rate(tmp_path: Path) -> None:
+    allocation = allocate_episode_primitive_risk(
+        maximum_episode_failure_probability=0.2,
+        maximum_physical_dispatches=8,
+    )
+    value = {
+        "schema_version": "piu.primitive-risk-contract.v1",
+        "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES",
+        "outcomes_loaded": False,
+        "minimum_reliable_rate_provenance": (
+            "derived_union_bound_from_external_episode_budget"
+        ),
+        "primitive": "OPEN",
+        "context": "middle_drawer",
+        "candidate_id": "open_middle_drawer",
+        "minimum_reliable_rate": allocation["minimum_reliable_rate"] - 0.1,
+        "design_alternative_success_probability": 1.0,
+        "design_alternative_provenance": "external_task_owner_contract",
+        "retrospective_pilot_used_for_effect_size": False,
+        "risk_allocation": allocation,
+        "alpha": 0.05,
+        "target_power": 0.8,
+    }
+    with pytest.raises(ValueError, match="differs from derivation"):
+        validate_derived_primitive_risk_contract(value)
 
 
 def test_frozen_primitive_design_requires_complete_boolean_denominator() -> None:
@@ -181,61 +258,122 @@ def test_power_rejects_a_nonseparated_alternative() -> None:
 def test_formal_primitive_certificate_uses_every_frozen_group(
     tmp_path: Path,
 ) -> None:
-    plan = tmp_path / "plan.json"
-    plan.write_text(
-        json.dumps(
-            {
-                "schema_version": "piu.primitive-qualification-plan.v1",
-                "status": "PROSPECTIVE_GROUP_COUNT_FROZEN",
-                "claim_scope": "DESIGN_ONLY_NO_FORMAL_OUTCOME_DATA",
-                "candidate_id": "pick_butter",
-                "primitive": "PICK",
-                "context": "calibrated_current_spatial_reference",
-                "risk_contract": {
-                    "minimum_reliable_rate": 0.5,
-                    "provenance": "synthetic_test_contract",
-                },
-                "alpha": 0.05,
-                "design": {
-                    "trials": 5,
-                    "rejection_success_count": 5,
-                    "power": 1.0,
-                },
-            }
-        )
+    certificate = write_formal_primitive_certificate(
+        tmp_path,
+        candidate_id="pick_butter",
+        primitive="PICK",
+        context="calibrated_current_spatial_reference",
     )
-    outcomes = tmp_path / "outcomes.jsonl"
-    rows = [
-        {
-            "schema_version": "piu.primitive-qualification-outcome.v1",
-            "candidate_id": "pick_butter",
-            "primitive": "PICK",
-            "context": "calibrated_current_spatial_reference",
-            "initial_state_group": f"group-{index}",
-            "success": True,
-            "evaluator_sidecar_only": True,
-        }
-        for index in range(5)
-    ]
-    outcomes.write_text("".join(json.dumps(row) + "\n" for row in rows))
-    certificate = tmp_path / "certificate.json"
+    value = json.loads(certificate.read_text())
+    assert value["status"] == "FORMALLY_QUALIFIED"
+    assert value["paper_method_action_authorized"] is True
+    assert value["result"]["exact_one_sided_p_value"] <= 0.05
+    output = tmp_path / "qualified_map.json"
     subprocess.run(
         [
             sys.executable,
-            str(ROOT / "scripts/evaluation/evaluate_piu_primitive_qualification.py"),
-            "--plan",
-            str(plan),
-            "--outcomes",
-            str(outcomes),
-            "--output",
+            str(ROOT / "scripts/evaluation/build_piu_qualified_executor_map.py"),
+            "--certificate",
             str(certificate),
+            "--output",
+            str(output),
         ],
         cwd=ROOT,
         check=True,
         capture_output=True,
         text=True,
     )
-    value = json.loads(certificate.read_text())
-    assert value["status"] == "FORMALLY_QUALIFIED"
-    assert value["paper_method_action_authorized"] is True
-    assert value["result"]["exact_one_sided_p_value"] == pytest.approx(0.03125)
+    qualified = json.loads(output.read_text())
+    assert qualified["primitives"] == {"pick_butter": "PICK"}
+    schedule_path = Path(value["schedule"]["path"])
+    if not schedule_path.is_absolute():
+        schedule_path = ROOT / schedule_path
+    schedule = json.loads(schedule_path.read_text())
+    dry_schedule_value = json.loads(json.dumps(schedule))
+    dry_run_root = tmp_path / "dry_qualification_runs"
+    dry_schedule_value["run_root"] = str(dry_run_root)
+    for entry in dry_schedule_value["entries"]:
+        run_id = hashlib.sha256(
+            entry["initial_state_group"].encode()
+        ).hexdigest()[:12]
+        entry["expected_execution_receipt"] = str(
+            dry_run_root
+            / f"{entry['execution_index']:05d}_{run_id}"
+            / "report.json"
+        )
+    dry_schedule = tmp_path / "dry_schedule.json"
+    dry_schedule.write_text(json.dumps(dry_schedule_value, indent=2) + "\n")
+    dry = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/pipeline/run_piu_primitive_qualification.py"),
+            "--schedule",
+            str(dry_schedule),
+            "--execution-index",
+            "0",
+            "--host",
+            "pi05.example.internal",
+            "--dry-run",
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    dry_plan = json.loads(dry.stdout)
+    assert dry_plan["external_server_only"] is True
+    assert dry_plan["paper_method_dispatch_authorized"] is False
+    assert not dry_run_root.exists()
+
+    chained_entry = schedule["entries"][1]
+    chained_receipt_path = Path(chained_entry["expected_execution_receipt"])
+    if not chained_receipt_path.is_absolute():
+        chained_receipt_path = ROOT / chained_receipt_path
+    chained_receipt_text = chained_receipt_path.read_text()
+    chained_receipt = json.loads(chained_receipt_text)
+    chained_attempt_path = Path(chained_receipt["attempt"]["path"])
+    if not chained_attempt_path.is_absolute():
+        chained_attempt_path = ROOT / chained_attempt_path
+    chained_attempt_text = chained_attempt_path.read_text()
+    chained_attempt = json.loads(chained_attempt_text)
+    chained_attempt["previous_receipt_sha256"] = "0" * 64
+    chained_attempt_path.write_text(json.dumps(chained_attempt, indent=2) + "\n")
+    chained_receipt["attempt"]["sha256"] = hashlib.sha256(
+        chained_attempt_path.read_bytes()
+    ).hexdigest()
+    chained_receipt_path.write_text(json.dumps(chained_receipt, indent=2) + "\n")
+    with pytest.raises(ValueError, match="receipt chain"):
+        load_primitive_qualification_execution_receipt(
+            chained_receipt_path,
+            schedule_path=schedule_path,
+            schedule=schedule,
+            execution_index=1,
+            repository_root=ROOT,
+        )
+    chained_attempt_path.write_text(chained_attempt_text)
+    chained_receipt_path.write_text(chained_receipt_text)
+
+    tampered_schedule = tmp_path / "tampered_schedule.json"
+    schedule["entries"][1]["source_state"] = schedule["entries"][0][
+        "source_state"
+    ]
+    tampered_schedule.write_text(json.dumps(schedule, indent=2) + "\n")
+    with pytest.raises(ValueError, match="reuse an opaque source state"):
+        load_primitive_qualification_schedule(
+            tampered_schedule, repository_root=ROOT
+        )
+
+    outcomes_path = Path(value["outcomes"]["path"])
+    if not outcomes_path.is_absolute():
+        outcomes_path = ROOT / outcomes_path
+    rows = [json.loads(line) for line in outcomes_path.read_text().splitlines()]
+    rows[0]["success"] = False
+    outcomes_path.write_text("".join(json.dumps(row) + "\n" for row in rows))
+    value["outcomes"]["sha256"] = hashlib.sha256(
+        outcomes_path.read_bytes()
+    ).hexdigest()
+    certificate.write_text(json.dumps(value, indent=2) + "\n")
+    with pytest.raises(ValueError, match="evaluator recomputation"):
+        load_primitive_qualification_certificate(
+            certificate, repository_root=ROOT
+        )

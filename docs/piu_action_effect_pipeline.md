@@ -150,10 +150,15 @@ python scripts/pipeline/execute_piu_controller_decision.py \
 ```
 
 The second command refuses live execution unless the certificate is
-`FORMALLY_QUALIFIED` for the exact candidate and primitive. Qualification uses
-`plan_piu_primitive_qualification.py` followed by
-`evaluate_piu_primitive_qualification.py`; missing or failed certificates
-permit only `--dry-run`, never a policy call.
+`FORMALLY_QUALIFIED` for the exact candidate payload, primitive, and serializer
+mode. Qualification first derives a rate contract from an externally declared
+episode risk budget, plans the exact-binomial design, freezes unique new
+state/controller groups with `build_piu_primitive_qualification_schedule.py`,
+and executes them in order with `run_piu_primitive_qualification.py`.
+`evaluate_piu_primitive_qualification.py` generates its own outcome JSONL from
+those single-use receipts and registered simulator/task predicates; it does not
+accept user-written success flags. Missing or failed certificates permit only
+`--dry-run`, never a paper-method policy call.
 
 For the preregistered ablations, B3/B4 use
 `run_piu_uncalibrated_ablation_controller.py`: B3 requires the `route_only`

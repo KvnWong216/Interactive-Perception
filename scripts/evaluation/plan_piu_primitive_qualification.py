@@ -9,12 +9,13 @@ import json
 import sys
 from pathlib import Path
 
-import yaml
-
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from piu.primitive_registry import smallest_binomial_design
+from piu.primitive_registry import (
+    load_derived_primitive_risk_contract,
+    smallest_binomial_design,
+)
 
 
 def sha256(path: Path) -> str:
@@ -48,17 +49,16 @@ def main() -> None:
     registry = json.loads(registry_path.read_text())
     if registry.get("schema_version") != "piu.primitive-reliability-registry.v1":
         raise ValueError("unsupported primitive registry")
-    contract = yaml.safe_load(contract_path.read_text())
-    if contract.get("schema_version") != "piu.primitive-risk-contract.v1":
-        raise ValueError("unsupported primitive risk contract")
+    contract = load_derived_primitive_risk_contract(
+        contract_path, repository_root=ROOT
+    )
     primitive = str(contract["primitive"])
     context = str(contract["context"])
     candidate_id = " ".join(str(contract.get("candidate_id", "")).split())
     if not candidate_id:
         raise ValueError("primitive risk contract requires an exact candidate_id")
-    pilot = registry["evaluated"][primitive][context]["estimate"]
     null_rate = float(contract["minimum_reliable_rate"])
-    alternative_rate = float(pilot["rate"])
+    alternative_rate = float(contract["design_alternative_success_probability"])
     alpha = float(contract["alpha"])
     target_power = float(contract["target_power"])
     if alternative_rate > null_rate:
@@ -93,18 +93,24 @@ def main() -> None:
             "sha256": sha256(contract_path),
             "minimum_reliable_rate": null_rate,
             "provenance": contract["minimum_reliable_rate_provenance"],
+            "external_budget": contract["inputs"]["external_budget"],
+            "risk_allocation": contract["risk_allocation"],
         },
-        "pilot": pilot,
-        "pilot_role": "design_alternative_only_excluded_from_formal_test",
+        "retrospective_registry_role": "diagnostic_and_seed_exclusion_only",
+        "retrospective_pilot_used_for_effect_size": False,
         "alternative_success_probability": alternative_rate,
+        "alternative_success_probability_provenance": (
+            "external_task_owner_contract"
+        ),
         "alpha": alpha,
         "target_power": target_power,
         "design": design,
         "search_limit": args.search_limit,
         "test": "exact_one_sided_binomial",
         "warning": (
-            "The minimum reliable rate is an external downstream risk contract, "
-            "not a value selected from this pilot. Formal groups must be new."
+            "Both the minimum reliable rate and design alternative come from an "
+            "external downstream contract. The retrospective registry is used "
+            "only to exclude old seeds; formal groups must be new."
         ),
     }
     output.parent.mkdir(parents=True, exist_ok=True)

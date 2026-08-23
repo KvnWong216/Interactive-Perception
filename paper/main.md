@@ -266,11 +266,16 @@ STOP requires certified task completion. REPORT_NOT_FOUND requires certified
 absence and exhaustive registered search; otherwise the system abstains. The
 online join has no evaluator-label input. These interfaces pass synthetic CPU
 regression tests. Live execution additionally requires an immutable exact
-candidate/primitive certificate from a prospectively frozen minimum-reliability
-contract and complete exact-binomial test; historical pilot counts cannot issue
-one. No real full-prefix cache, successor checkpoint,
-calibration artifact, or physical rollout exists, so this subsection makes no
-performance claim.
+candidate/primitive certificate. The minimum rate is derived as `1-delta/8`
+from an externally declared episode primitive-failure budget by a
+dependence-free union bound, and the external contract also supplies the
+power-design alternative. Historical pilots, conformal alpha, and action counts
+cannot set either value. Qualification binds new exact states, public
+controller reports, serialized subtasks, single-use receipts, and registered
+simulator/task-predicate outcomes; the certificate covers the exact candidate
+payload and serializer mode. No real external risk contract, full-prefix cache,
+successor checkpoint, calibration artifact, or physical rollout exists, so
+this subsection makes no performance claim.
 
 ## 6. Results
 
@@ -344,6 +349,13 @@ retained fixed-scenario negative evidence is available; every real binder,
 effect, calibration, and sealed B0--B8 cell remains explicitly `PENDING`.
 The generator cannot promote development ablations to sealed evidence, keeps
 B6/B7 in oracle-only columns, and exposes no automatic success threshold.
+
+The corrected retrospective executor registry does not reinterpret endpoints
+from one compound DIRECT rollout as separately evaluated PICK and PLACE
+primitives. It reports OPEN 9/10 and DIRECT endpoint diagnostics (visible-object
+contact 10/10, post-OPEN butter contact 0/10, terminal destination 3/10), while
+leaving the target-conditioned PICK and PLACE primitives empirically
+unevaluated and unauthorized.
 
 ## 7. Discussion
 

@@ -44,3 +44,20 @@ def test_split_manifest_rejects_duplicate_seed_and_missing_role() -> None:
     value["assignments"].pop()
     with pytest.raises(ValueError, match="every isolated split role"):
         validate_split_manifest(value)
+
+
+def test_split_manifest_can_reserve_disjoint_primitive_qualification_groups() -> None:
+    value = _manifest()
+    value["assignments"].append(
+        {
+            "initial_state_group": "primitive-q0",
+            "seed": 500,
+            "split_role": "primitive_qualification",
+        }
+    )
+    manifest = validate_split_manifest(value)
+    assert assignment_for(manifest, "primitive-q0")["split_role"] == (
+        "primitive_qualification"
+    )
+    with pytest.raises(ValueError):
+        role_to_split("primitive_qualification")

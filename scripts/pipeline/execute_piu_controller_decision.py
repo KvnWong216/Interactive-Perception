@@ -16,6 +16,11 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from piu.contracts import assert_public_policy_value
+from piu.primitive_registry import (
+    load_primitive_qualification_certificate,
+    load_qualification_controller_decision,
+    validate_qualification_candidate_contract,
+)
 
 
 def sha256(path: Path) -> str:
@@ -142,12 +147,9 @@ def main() -> None:
         raise ValueError("selected primitive has no shared qualified step budget")
     qualification = None
     if args.primitive_qualification is not None:
-        qualification = json.loads(args.primitive_qualification.read_text())
-        if (
-            qualification.get("schema_version")
-            != "piu.primitive-qualification-certificate.v1"
-        ):
-            raise ValueError("unsupported primitive qualification certificate")
+        qualification = load_primitive_qualification_certificate(
+            args.primitive_qualification, repository_root=ROOT
+        )
         if qualification.get("status") != "FORMALLY_QUALIFIED":
             raise ValueError("selected physical action is not formally qualified")
         if qualification.get("paper_method_action_authorized") is not True:
@@ -167,6 +169,19 @@ def main() -> None:
             raise ValueError("primitive certificate result is not qualified")
         if result.get("trials") != len(qualification.get("initial_state_groups", [])):
             raise ValueError("primitive certificate denominator is incomplete")
+        qualified_decision = load_qualification_controller_decision(
+            args.controller_report,
+            candidate_id=str(candidate_id),
+            primitive=primitive,
+            initial_state_group=" ".join(
+                str(decision.get("initial_state_group", "")).split()
+            ),
+        )
+        validate_qualification_candidate_contract(
+            qualification,
+            candidate=qualified_decision["candidate"],
+            spatial_reference_mode=qualified_decision["spatial_reference_mode"],
+        )
     run_report = args.run_dir / "report.json"
     command = [
         sys.executable,

@@ -280,3 +280,48 @@ intervals for every prespecified binary outcome and every method so no table
 cell needs manual transcription. Even a complete table sets automatic method
 success to null: the preregistered multi-metric claim audit, rather than an
 invented score cutoff, determines permissible wording.
+
+## Amendment 7: externally allocated executor risk and single-use qualification
+
+Frozen on 2026-08-23 before any external executor-risk budget, successor
+primitive qualification state, controller report, execution receipt, or
+outcome existed. The old 8/10 and 7/10 engineering gates are historical only.
+Binder conformal miscoverage is not executor failure risk, and the retained ten
+rollouts cannot set either a primitive null or the power-design alternative.
+
+A task owner must copy the null-valued external budget template to an immutable
+artifact and declare (i) the maximum acceptable episode probability `delta` of
+at least one dispatched primitive failure and (ii) a per-dispatch design
+alternative strictly above the derived null. With at most `M=8` physical
+dispatches, the registered dependence-free equal allocation sets the maximum
+per-dispatch failure probability to `delta/M` and the minimum reliable rate to
+`1-delta/M`. The alternative is used for prospective power only; it is not an
+estimated reliability or a task-success claim. Both values, authority, and
+rationale must be frozen before qualification outcomes. No repository default
+numeric budget exists.
+
+The retrospective v2 registry is diagnostic and excludes its seeds from the
+new cohort. It correctly records that the cream-cheese and post-OPEN reports
+executed compound DIRECT instructions: their contact and destination endpoints
+are not relabeled as separately evaluated PICK or PLACE primitives and do not
+set the formal effect size. Each formal plan is sized by the external contract
+with an exact one-sided binomial rejection region at alpha 0.05 and target
+power 0.80.
+
+Every qualification group has a unique finite opaque NPZ state, unique seed,
+public-only controller report, and exact serializer output. A hash permutation
+freezes execution order and one receipt path per group while binding the split,
+scenario, policy identity, and complete offline release. The selected candidate
+payload and whether the deterministic bridge uses calibrated current-frame
+boxes must be identical across the cohort; boxes and exact subtasks remain
+state-specific and hash-bound.
+
+The endpoint identity is checked before a single-use `STARTED` ticket exists.
+After that ticket is written, a runtime or interrupted attempt is counted as a
+failure and cannot be rerun. The certificate evaluator accepts no hand-written
+Boolean outcomes: it loads every scheduled receipt and re-derives success from
+the registered LIBERO contact predicate, task-declared terminal `in` relation,
+terminal task goal, or the versioned `WoodenCabinet.is_open` range. A complete
+certificate binds this evidence chain and authorizes only the exact candidate
+payload and serializer mode it tested. Missing external artifacts remain
+`PENDING` and authorize no physical paper-method action.

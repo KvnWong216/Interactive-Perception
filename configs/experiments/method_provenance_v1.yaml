@@ -278,12 +278,20 @@ entries:
     evidence: preregistration amendment 1 and calibration pipeline tests
 
   - id: primitive_absolute_reliability_contract
-    location: configs/experiments/piu_primitive_registry_v1.yaml:formal_qualification.minimum_reliable_rate
-    value: null
-    provenance: protocol_identifier
+    location: configs/experiments/piu_executor_risk_allocation_v1.yaml
+    value: externally declared episode failure budget delta; per-dispatch null rate 1-delta/M under an equal Bonferroni allocation
+    provenance: user_risk_contract
     claim_use: safety_only
-    rationale: The historical 8/10 gate is not reused and an absolute pass rate is not inferred from the same pilot.
-    evidence: context-specific registry authorizes no paper-method action
+    rationale: The historical 8/10 gate, conformal alpha, and retrospective successes cannot set executor risk. M is the frozen maximum of eight physical dispatches, delta and the power-design alternative must be declared externally before qualification outcomes, and the union bound assumes no independence.
+    evidence: risk-contract loader re-derives every rate from hash-bound external budget, baseline registry, and protocol inputs; the template contains no default numeric budget
+
+  - id: retrospective_primitive_semantics
+    location: configs/experiments/piu_primitive_registry_v2.yaml
+    value: OPEN plus compound DIRECT contact/destination diagnostics; PICK and PLACE remain unevaluated
+    provenance: protocol_identifier
+    claim_use: diagnostic_only
+    rationale: The retained visible-object and post-OPEN runs executed a compound DIRECT instruction. Their contact or destination endpoints cannot be relabeled as separately tested PICK or PLACE primitives, and their rates cannot set the prospective effect size.
+    evidence: the v2 immutable registry retains exact source candidate IDs, semantic options, report hashes, and an empty authorized action set
 
   - id: full_candidate_prefix_serialization
     location: src/piu/spatial_prefix.py:candidate_conditioned_prompt
@@ -447,11 +455,19 @@ entries:
 
   - id: formally_qualified_primitive_certificate
     location: scripts/evaluation/evaluate_piu_primitive_qualification.py
-    value: exact one-sided binomial rejection under a prospectively frozen external risk contract and complete new-group denominator
+    value: exact one-sided binomial rejection under a prospectively frozen external risk contract, hash-permuted new-group schedule, and complete single-use denominator
     provenance: formal_statistical_procedure
     claim_use: main_evaluator
-    rationale: A historical count or shared step budget cannot authorize physical execution; the dispatcher requires an immutable certificate for the exact candidate and primitive.
-    evidence: qualification and dispatch tests reject incomplete denominators and unqualified physical actions
+    rationale: A historical count or shared step budget cannot authorize physical execution. The certificate binds the exact public candidate payload, spatial-serializer mode, per-state controller report, opaque state, simulator seed, policy identity, execution receipt, and registered simulator/task success predicate; a failed started attempt remains a failure.
+    evidence: qualification and dispatch tests reject incomplete denominators, changed prompts/candidates, unscheduled reports, reused states/seeds, fabricated outcomes, and unqualified physical actions
+
+  - id: primitive_qualification_single_use_schedule
+    location: scripts/evaluation/build_piu_primitive_qualification_schedule.py and scripts/pipeline/run_piu_primitive_qualification.py
+    value: SHA-256-keyed order over exact new states with one immutable attempt path per group
+    provenance: formal_statistical_procedure
+    claim_use: main_evaluator
+    rationale: Controller reports and serialized subtasks are frozen before physical outcomes. Endpoint identity is checked before STARTED; after STARTED, runtime failure is counted and the same state cannot be rerun. Interrupted attempts have an explicit failure-only close path.
+    evidence: schedule and receipt loaders revalidate split roles, unique state hashes, old-seed exclusion, release lock, exact candidate serialization, order, attempt tickets, and v2 semantic reports
 
   - id: frechet_joint_diagnostic
     location: src/piu/calibrated_controller.py:frechet_joint_lower_bound

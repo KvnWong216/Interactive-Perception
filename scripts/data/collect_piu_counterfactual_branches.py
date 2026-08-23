@@ -25,6 +25,11 @@ from piu.contracts import (
     public_observation_sha256,
 )
 from piu.executor_bridge import SpatialReference, serialize_pi05_subtask
+from piu.primitive_registry import (
+    load_primitive_qualification_certificate,
+    load_qualified_executor_map,
+    validate_qualification_candidate_contract,
+)
 
 
 def sha256(path: Path) -> str:
@@ -82,24 +87,7 @@ def public_observation(frame: dict[str, Any]) -> dict[str, Any]:
 
 
 def qualifications(path: Path) -> dict[str, Path]:
-    value = json.loads(path.read_text())
-    if value.get("schema_version") != "piu.qualified-executor-map.v1":
-        raise ValueError("unsupported qualified-executor map")
-    result = {}
-    for candidate_id, item in dict(value.get("candidates", {})).items():
-        certificate = resolve(Path(item["path"]))
-        if not certificate.is_file() or sha256(certificate) != item.get("sha256"):
-            raise ValueError(f"qualification differs for {candidate_id}")
-        report = json.loads(certificate.read_text())
-        if (
-            report.get("schema_version") != "piu.primitive-qualification-certificate.v1"
-            or report.get("status") != "FORMALLY_QUALIFIED"
-            or report.get("paper_method_action_authorized") is not True
-            or report.get("candidate_id") != candidate_id
-        ):
-            raise ValueError(f"candidate {candidate_id} is not formally qualified")
-        result[str(candidate_id)] = certificate
-    return result
+    return load_qualified_executor_map(path, repository_root=ROOT)
 
 
 def main() -> None:
@@ -232,6 +220,16 @@ def main() -> None:
         )
         if subtask != expected_subtask:
             raise ValueError("execution-plan subtask differs from deterministic bridge")
+        certificate = load_primitive_qualification_certificate(
+            certificates[candidate_id], repository_root=ROOT
+        )
+        validate_qualification_candidate_contract(
+            certificate,
+            candidate=candidate,
+            spatial_reference_mode=(
+                "calibrated_current_frame_boxes" if references else "none"
+            ),
+        )
         branch = args.output_dir / slug(candidate_id)
         command = [
             sys.executable,

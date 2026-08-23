@@ -17,6 +17,7 @@ SPLIT_ROLES = (
     "calibration_conformal",
     "sealed_test",
 )
+OPTIONAL_SPLIT_ROLES = ("primitive_qualification",)
 
 
 def validate_split_manifest(value: Mapping[str, Any]) -> dict[str, Any]:
@@ -44,7 +45,7 @@ def validate_split_manifest(value: Mapping[str, Any]) -> dict[str, Any]:
         role = str(row.get("split_role", ""))
         if not group or group in groups or seed in seeds:
             raise ValueError("split groups and simulator seeds must be unique")
-        if role not in SPLIT_ROLES:
+        if role not in {*SPLIT_ROLES, *OPTIONAL_SPLIT_ROLES}:
             raise ValueError(f"unsupported split role {role!r}")
         groups.add(group)
         seeds.add(seed)
@@ -52,7 +53,7 @@ def validate_split_manifest(value: Mapping[str, Any]) -> dict[str, Any]:
         normalized.append(
             {"initial_state_group": group, "seed": seed, "split_role": role}
         )
-    if roles != set(SPLIT_ROLES):
+    if not set(SPLIT_ROLES) <= roles:
         raise ValueError("split manifest must allocate every isolated split role")
     return {**dict(value), "scenario": scenario, "assignments": normalized}
 

@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from piu.formal_attempt import artifact as formal_artifact
 from piu.formal_attempt import validate_attempt_ticket
+from piu.primitive_registry import load_qualified_executor_map
 
 
 def sha256(path: Path) -> str:
@@ -64,19 +65,7 @@ def candidate_identity(path: Path, sample_id: str) -> tuple[str, str, tuple[str,
 def load_qualifications(path: Path | None) -> dict[str, Path]:
     if path is None:
         return {}
-    value = json.loads(path.read_text())
-    if value.get("schema_version") != "piu.qualified-executor-map.v1":
-        raise ValueError("unsupported qualified-executor map")
-    result = {}
-    for candidate_id, artifact in dict(value.get("candidates", {})).items():
-        candidate = " ".join(str(candidate_id).split())
-        if not isinstance(artifact, dict) or not candidate:
-            raise TypeError("qualified-executor map entries are malformed")
-        certificate = resolve(Path(artifact["path"]))
-        if not certificate.is_file() or sha256(certificate) != artifact.get("sha256"):
-            raise ValueError(f"qualification certificate differs for {candidate}")
-        result[candidate] = certificate
-    return result
+    return load_qualified_executor_map(path, repository_root=ROOT)
 
 
 def command_paths(args: argparse.Namespace) -> dict[str, Path]:

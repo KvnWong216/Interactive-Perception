@@ -24,8 +24,17 @@ New non-performance artifacts:
   The spatial coverage event is intersection with at least one evaluator-labeled
   target patch; there is no pixel-count decision threshold.
 - The rebuilt primitive registry reports context-specific rates and Wilson
-  intervals but authorizes no paper-method primitive. Historical 8/10 and 7/10
-  engineering count gates are not reused.
+  intervals but authorizes no paper-method primitive. It no longer calls
+  contact/destination endpoints from a compound DIRECT rollout separately
+  tested PICK/PLACE primitives. Historical 8/10 and 7/10 engineering gates are
+  not reused.
+- Formal primitive reliability now requires an externally frozen episode risk
+  and power-design alternative. The per-dispatch null is re-derived by a
+  dependence-free union bound; retrospective outcomes and conformal alpha are
+  excluded. Qualification uses new hash-permuted states, exact public
+  controller prompts, single-use receipts, and registered-predicate outcome
+  recomputation. This is protocol evidence; no external budget or certificate
+  exists.
 - The action-effect train/calibrate/controller path passes a synthetic CPU
   end-to-end regression. The online controller accepts no evaluator-label
   argument and unsupported factor sets cause abstention. Predicted effects feed

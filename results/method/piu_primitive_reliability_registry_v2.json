@@ -1,0 +1,209 @@
+{
+  "schema_version": "piu.primitive-reliability-registry.v1",
+  "claim_scope": "retrospective_same_scenario_capability_evidence",
+  "scenario": "configs/scenarios/original_drawer.yaml",
+  "config": {
+    "path": "configs/experiments/piu_primitive_registry_v2.yaml",
+    "sha256": "dcc2656a4fa20deb97faac55f93444d2d370e2ed106f1bb6a3287d36eeff494b"
+  },
+  "source": {
+    "path": "results/method/original_drawer_paper_cycle_v2.json",
+    "sha256": "25e666cfcd23671957c99ba2157e98e65365e9667d6827ad8de4814b7bcb0eed"
+  },
+  "seeds": [
+    1400,
+    1401,
+    1402,
+    1403,
+    1404,
+    1405,
+    1406,
+    1407,
+    1408,
+    1409
+  ],
+  "evaluated": {
+    "OPEN": {
+      "middle_drawer": {
+        "status": "RETROSPECTIVE_PILOT_NOT_FORMALLY_QUALIFIED",
+        "estimate": {
+          "successes": 9,
+          "trials": 10,
+          "rate": 0.9,
+          "wilson_95": [
+            0.5958499732047615,
+            0.9821237869049271
+          ]
+        },
+        "success_definition": {
+          "source": "retained summary drawer_open",
+          "source_candidate_id": "open_middle_drawer",
+          "executed_semantic_option": "OPEN",
+          "event": "drawer joint enters the simulator-declared open interval",
+          "threshold_provenance": "simulator_physics_contract"
+        }
+      }
+    },
+    "DIRECT": {
+      "visible_work_surface_grasp_contact": {
+        "status": "RETROSPECTIVE_PILOT_NOT_FORMALLY_QUALIFIED",
+        "estimate": {
+          "successes": 10,
+          "trials": 10,
+          "rate": 1.0,
+          "wilson_95": [
+            0.7224672001371107,
+            0.9999999999999999
+          ]
+        },
+        "success_definition": {
+          "source": "raw evaluator object contact history",
+          "source_candidate_id": "direct_visible_cream_cheese_to_basket",
+          "executed_semantic_option": "DIRECT",
+          "event": "LIBERO gripper/object grasp contact occurs for the requested object",
+          "threshold_provenance": "simulator_contact_predicate"
+        }
+      },
+      "post_open_middle_drawer_grasp_contact": {
+        "status": "RETROSPECTIVE_PILOT_NOT_FORMALLY_QUALIFIED",
+        "estimate": {
+          "successes": 0,
+          "trials": 10,
+          "rate": 0.0,
+          "wilson_95": [
+            0.0,
+            0.2775327998628892
+          ]
+        },
+        "success_definition": {
+          "source": "raw evaluator object contact history",
+          "source_candidate_id": "direct_butter_to_basket_after_open",
+          "executed_semantic_option": "DIRECT",
+          "event": "LIBERO gripper/object grasp contact occurs for the requested object",
+          "threshold_provenance": "simulator_contact_predicate"
+        }
+      },
+      "visible_work_surface_terminal_destination": {
+        "status": "RETROSPECTIVE_PILOT_NOT_FORMALLY_QUALIFIED",
+        "estimate": {
+          "successes": 3,
+          "trials": 10,
+          "rate": 0.3,
+          "wilson_95": [
+            0.10779126740630099,
+            0.6032218525388546
+          ]
+        },
+        "success_definition": {
+          "source": "retained task-specific relabel",
+          "source_candidate_id": "direct_visible_cream_cheese_to_basket",
+          "executed_semantic_option": "DIRECT",
+          "event": "requested object satisfies the terminal destination predicate",
+          "threshold_provenance": "task_predicate"
+        }
+      }
+    }
+  },
+  "not_evaluated": [
+    "PICK.calibrated_current_spatial_reference",
+    "PLACE.calibrated_holding_reference",
+    "REMOVE.occluder",
+    "ROTATE.label",
+    "MOVE_CLOSER.identification"
+  ],
+  "formal_qualification": {
+    "minimum_reliable_rate": null,
+    "status": "BLOCKED_AWAITING_EXTERNAL_EPISODE_RISK_BUDGET",
+    "risk_allocation": "configs/experiments/piu_executor_risk_allocation_v1.yaml",
+    "rationale": "An absolute primitive pass rate cannot be inferred from the same pilot, copied from the historical 8/10 engineering rule, or equated with conformal miscoverage. A task owner must first freeze an episode-level executor risk budget; the registered union-bound allocation then derives the per-dispatch minimum before prospective groups are collected.",
+    "alpha": 0.05,
+    "target_power": 0.8,
+    "method": "exact_one_sided_binomial"
+  },
+  "raw_contact_sources": [
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/report.json",
+      "sha256": "666194facc55926d37991b00457eeab39cb753b947e4918d1c6736d8fb70f215"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/report.json",
+      "sha256": "9bb0342ffc3c3548324150b3157fe68dbbb5718db9831234d6616d7149504b3c"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/report.json",
+      "sha256": "0e04517ef3eda0976a7fefc6eb21f03287d698d424d308f4acecdd363ec4325f"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/report.json",
+      "sha256": "402b2f3ab000b5d3192929212ba81db014a95bac69696ab35104ec2c2a31dbe0"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/report.json",
+      "sha256": "099c3c373fa5b67cf7ffce1d42aefdf046fe6a4fcf3646480479cbf42699f51d"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/report.json",
+      "sha256": "4c555774b7d9726db9792febe32f5c52f3d91dc2ca82a3d44d7d75b86630614d"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/report.json",
+      "sha256": "88770d6eeac168f76bb458591ee7cb584c2c1aa86cd275564060b7154ea758d9"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/report.json",
+      "sha256": "90066804c64feaf624519e40e5760332c600d7c6d7948ad175e08da15427c837"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/report.json",
+      "sha256": "2c33a8fbb16ed0384bb821529a8bd04e27c35a007f0cd829840fd2720e058a08"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/report.json",
+      "sha256": "e25cc207585595c96660f3624fa8386d017e01231be6fbc5bf454edb54d0e00b"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/report.json",
+      "sha256": "62ff513e22b4e06bdca187b1c5a28c666f77ba208e5470098760d7ef70966e87"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/report.json",
+      "sha256": "50101c35b5d8b30a109edab14f0641d4f22087b9c8e12da19af444d661d770de"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/report.json",
+      "sha256": "1c10f5f3144c80b8c416d09035b3d22f6cd32d576190906bc645158aea93c0b0"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/report.json",
+      "sha256": "222e6cdb5e8f98b7cd7fccc496413c1ce945770d3a7b3e94ed21e3c4f6b706fd"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/report.json",
+      "sha256": "d3ad606b4303df15dfc9988f651a77dff0ec66da48230a10848145f68f70a955"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/report.json",
+      "sha256": "e0f140948b653a65f5e023f0fd1a6d0db599d4d7cd2fa6478513c1d39189594b"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/report.json",
+      "sha256": "e010dffc939edf6048691ecd39df93f56918aa4bc1f932af0271106ef8e270b9"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/report.json",
+      "sha256": "3db4a2d81c87bbf668adf19de75054a8b8de3a4270f9f465fce954b9d580c54e"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/report.json",
+      "sha256": "26d5d98d32210cd9bb5db95927f86aa8a87f6a179ce06fa04326bd7eaa998d91"
+    },
+    {
+      "path": "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/report.json",
+      "sha256": "dcd28cf6d8ab626f4343c4e4eb0718d4fc805079fec85f5086024debd7e2b8e9"
+    }
+  ],
+  "global_primitive_reliability_collapsed_across_contexts": false,
+  "historical_count_gates_used": false,
+  "paper_method_action_set_authorized": [],
+  "paper_method_claim_allowed": false
+}

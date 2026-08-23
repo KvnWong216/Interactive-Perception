@@ -18,8 +18,13 @@ sys.path.insert(0, str(ROOT / "src"))
 from piu.action_effect import load_effect_labels
 from piu.contracts import load_public_transitions, public_observation_sha256
 from piu.formal_attempt import artifact, validate_attempt_ticket
+from piu.executor_bridge import SpatialReference, serialize_pi05_subtask
 from piu.oracle_effect import decide_oracle_effect
 from piu.policy_identity import load_checkpoint_identity, validate_server_metadata
+from piu.primitive_registry import (
+    load_primitive_qualification_certificate,
+    validate_qualification_candidate_contract,
+)
 
 
 def sha256(path: Path) -> str:
@@ -287,7 +292,43 @@ def main() -> None:
             dict(branch.get("qualification", {})),
             name=f"node {step} qualification",
         )
-        certificate = json.loads(qualification.read_text())
+        certificate = load_primitive_qualification_certificate(
+            qualification, repository_root=ROOT
+        )
+        execution_plan_path = verified(
+            dict(branch_manifest.get("execution_plan", {})),
+            name=f"node {step} execution plan",
+        )
+        execution_plan = json.loads(execution_plan_path.read_text())
+        planned_rows = [
+            row
+            for row in execution_plan.get("candidates", ())
+            if row.get("candidate_id") == oracle.candidate_id
+        ]
+        candidate_rows = [
+            row
+            for row in decision_state.candidate_actions
+            if row.get("candidate_id") == oracle.candidate_id
+        ]
+        if len(planned_rows) != 1 or len(candidate_rows) != 1:
+            raise ValueError("oracle-effect qualification candidate is ambiguous")
+        reference_rows = planned_rows[0].get("spatial_references", ())
+        references = tuple(
+            SpatialReference(
+                camera=str(row["camera"]),
+                selected_patch_indices=tuple(row["selected_patch_indices"]),
+                x_interval=tuple(row["x_interval"]),
+                y_interval=tuple(row["y_interval"]),
+            )
+            for row in reference_rows
+        )
+        validate_qualification_candidate_contract(
+            certificate,
+            candidate=candidate_rows[0],
+            spatial_reference_mode=(
+                "calibrated_current_frame_boxes" if references else "none"
+            ),
+        )
         if (
             certificate.get("status") != "FORMALLY_QUALIFIED"
             or certificate.get("paper_method_action_authorized") is not True
@@ -300,6 +341,17 @@ def main() -> None:
             raise ValueError("oracle-effect branch lacks metric contract v2")
         if report.get("controller", {}).get("online_oracle_inputs") != []:
             raise ValueError("oracle-effect branch execution consumed oracle inputs")
+        expected_subtask = serialize_pi05_subtask(
+            candidate_rows[0],
+            spatial_references=(
+                references if oracle.primitive in {"PICK", "DIRECT"} else ()
+            ),
+        )
+        if (
+            planned_rows[0].get("structured_pi05_subtask") != expected_subtask
+            or report.get("prompt") != expected_subtask
+        ):
+            raise ValueError("oracle-effect execution differs from qualified subtask")
         controller = report["controller"]
         reported_identity = controller.get("expected_policy_identity", {})
         if (
