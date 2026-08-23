@@ -47,6 +47,7 @@ decision.
 | Fréchet joint lower bound | formal diagnostic | reports a dependence-robust lower bound; never selects an action |
 | B0--B8 comparison registry | protocol identifier | same paired states, frozen policy, budgets, evaluator, and failure denominator; oracle is a separate column |
 | exact paired primary and Holm secondary family | formal statistical procedure | frozen before sealed outcomes; no automatic method pass threshold |
+| public claim surfaces | hash-bound semantic regression protocol | require explicit PENDING/primitive boundaries and reject retired visibility/PICK/PLACE interpretations |
 
 ## Threshold-invariance evidence
 
@@ -63,6 +64,27 @@ following directly from hashed retained reports:
 
 The old results therefore remain numerically intact, but the unsupported
 binary definitions are not inherited by new experiments.
+
+## Public claim-surface audit
+
+`scripts/evaluation/build_piu_claim_audit.py` scans `paper/main.md`,
+`README.md`, `STATUS.md`, and `RESULTS.md` under the machine-readable registry.
+Whitespace and case are normalized before checking seven retired semantic
+fragments. The current immutable report is
+`results/diagnostics/piu_public_claim_audit_v1.json`; it records each surface's
+SHA-256, all required boundary fragments, zero retired-fragment matches, and an
+explicit statement that the audit is not performance evidence.
+
+The same report expands every numerical value from ten active training,
+calibration, baseline, formal-analysis, qualification, and sprint protocols.
+Each path resolves to a named provenance entry. Parent declarations cover list
+elements but must resolve to at least one real numerical field; a stale mapping
+or a newly introduced unclassified value fails validation. This reports actual
+config values, avoiding reliance on manually copied prose summaries.
+
+This check is intentionally narrow. It prevents previously observed claim
+regressions; it does not infer scientific validity from arbitrary prose or turn
+software verification into a result.
 
 The v3 policy-free oracle preflight originally recorded the hash of the same
 YAML payload with one extra trailing newline, while Git retained the canonical

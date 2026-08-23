@@ -290,7 +290,7 @@ lower lane is evaluator-only and never enters online public methods.
 
 ### Physical stage decomposition
 
-| condition | mechanical / evidence | target pick | wrong-object contact | destination | final task |
+| condition | mechanical / evidence | target grasp contact | wrong-object contact | destination predicate | final task |
 |---|---:|---:|---:|---:|---:|
 | DIRECT butter, closed | target evidence 0/10 | 0/10 | 9/10 | 0/10 | 0/10 |
 | OPEN, closed | drawer 9/10; evidence 8/10 | n/a | n/a | n/a | n/a |
@@ -306,15 +306,16 @@ input-evidence versus grasp comparison has eight discordances (p=0.0078125).
 
 Opening changes the error mode without solving the task. Wrong cream-cheese
 contact falls from 9/10 in paired closed DIRECT runs to 3/10 after OPEN (six
-discordances, p=0.03125), yet butter pick and task success remain zero. This is
-the central failure: the action changes what is observable and what the policy
-does, but does not produce the requested manipulation.
+discordances, p=0.03125), yet butter grasp contact and task success remain zero.
+This is the central failure: the action changes what is observable and what the
+policy does, but does not produce the requested manipulation.
 
-The visible-object control separates grasp from placement. Cream cheese is
-picked in every seed but enters and remains in the basket in only 3/10. The
-pick-to-terminal-place attrition has seven discordant pairs (exact two-sided
-p=0.015625). The predeclared 7/10 placement and 8/10 post-OPEN butter-pick gates
-both fail.
+The visible-object control separates contact from destination completion. The
+compound DIRECT rollout produces cream-cheese grasp contact in every seed but
+the task destination predicate holds terminally in only 3/10. This endpoint
+attrition has seven discordant pairs (exact two-sided p=0.015625). The old 7/10
+placement and 8/10 post-OPEN butter-pick engineering gates both fail, but these
+rollouts do not separately qualify PICK or PLACE primitives.
 
 ### Route and effect learning
 
@@ -387,12 +388,13 @@ compositions, variable target locations, and negative empty/rejected regions.
 ### Information acquisition is not utilization
 
 The post-OPEN results rule out the simplest diagnosis that butter failure is
-caused only by invisibility. In eight runs, butter crosses a fixed evaluator
-visibility threshold before DIRECT begins; no run produces butter contact plus
-lift. At the same time, wrong-object contact decreases. Thus OPEN causally
-changes the observation and downstream behavior, but the frozen semantic text
-bridge does not bind the newly visible object strongly enough for successful
-control.
+caused only by complete occlusion. In eight runs, the evaluator instance mask
+is nonempty before DIRECT begins; no run produces butter grasp contact. The
+historical 256-pixel marker is not used for this statement (and its retained
+8/10 count is invariant over integer cutoffs 1--447). At the same time,
+wrong-object contact decreases. Thus OPEN causally changes the observation and
+downstream behavior, but the frozen semantic text bridge does not bind the
+newly visible object strongly enough for successful control.
 
 ### Falsifiable executor-repair pilot
 
@@ -433,10 +435,12 @@ any public-input method comparison.
 Instance-pixel visibility is an operational evidence proxy, not a human
 recognition measure. The CPU effect baseline is intentionally weak and is not
 comparable to a frozen VLM encoder. Two effect factors have no positive support.
-The physical matrix is qualification/development evidence, not an untouched
-confirmatory split. Finally, frozen pi0.5 itself fails the preregistered
-placement and post-OPEN grasp gates, so no routing method can establish
-full-loop success with this executor under the frozen protocol.
+The physical matrix is retrospective development evidence, not an untouched
+confirmatory split or a primitive-qualification study. Finally, compound DIRECT
+produces zero post-OPEN butter contacts and only 3/10 terminal destination
+events in the visible-object control, so the retained evidence cannot establish
+full-loop success with this executor. Prospective PICK/PLACE reliability remains
+unmeasured rather than inferred from those DIRECT endpoints.
 
 These limitations force a narrow conclusion. The original broad
 candidate-effect pilot is rejected for this experiment. A more constrained

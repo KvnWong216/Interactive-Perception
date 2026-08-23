@@ -325,3 +325,28 @@ terminal task goal, or the versioned `WoodenCabinet.is_open` range. A complete
 certificate binds this evidence chain and authorizes only the exact candidate
 payload and serializer mode it tested. Missing external artifacts remain
 `PENDING` and authorize no physical paper-method action.
+
+## Amendment 8: public claim semantics and endpoint identity
+
+Frozen on 2026-08-23 before any successor empirical artifact existed. Public
+prose must distinguish an executed compound DIRECT instruction from separately
+qualified PICK or PLACE primitives. Retrospective grasp-contact and destination
+endpoints may diagnose the compound trajectory, but cannot populate a
+prospective primitive registry or authorize dispatch. Likewise, the retained
+nonempty evaluator mask is evidence that complete occlusion ended; neither it
+nor the historical 256-pixel marker is a calibrated human/policy recognition
+threshold.
+
+The paper, README, status, and results surfaces are content-hashed and checked
+against required evidence-boundary statements plus an explicit list of retired
+interpretations. Missing successor evidence remains `PENDING`, never zero. A
+passing prose audit establishes only semantic consistency of the repository; it
+is not physical, learned-model, calibration, or task-success evidence.
+
+The same audit requires field-level classification of every numeric value in
+the ten active training, calibration, baseline, formal-analysis,
+qualification, and sprint protocols. Values are read from the tracked configs
+into the report rather than manually transcribed. Training-development search,
+isolated-calibration risk, simulator/policy contracts, external risk,
+statistical design, and safety/resource budgets remain distinct; a new
+unclassified numeric path blocks the release.

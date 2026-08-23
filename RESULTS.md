@@ -101,3 +101,9 @@ New non-performance artifacts:
   frozen contracts and evidence table. They visibly separate public inputs from
   evaluator-only data and observed negative counts from `PENDING` successor
   experiments; they add no performance evidence.
+- A deterministic public-claim audit hash-binds four reader-facing prose
+  surfaces, requires the explicit missing-evidence and primitive-semantics
+  boundaries, and reports zero matches across seven retired interpretations.
+  It also records the actual values and provenance IDs for every numeric field
+  in ten active protocols, with no unclassified numeric path. This is semantic
+  and configuration regression evidence, not method performance.

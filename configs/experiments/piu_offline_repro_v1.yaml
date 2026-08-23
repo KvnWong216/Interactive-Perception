@@ -45,6 +45,7 @@ required_files:
   - src/calibrated_interaction/capabilities.py
   - src/calibrated_interaction/contracts.py
   - src/calibrated_interaction/controller.py
+  - src/calibrated_interaction/provenance.py
   - src/interactive_perception/__init__.py
   - src/interactive_perception/action_options.py
   - src/interactive_perception/observation_option.py
@@ -104,6 +105,7 @@ required_files:
   - scripts/evaluation/analyze_piu_formal_experiment.py
   - scripts/evaluation/build_piu_paper_tables.py
   - scripts/evaluation/build_piu_paper_figures.py
+  - scripts/evaluation/build_piu_claim_audit.py
   - scripts/evaluation/aggregate_piu_closed_loop_episode.py
   - scripts/evaluation/export_piu_formal_outcome.py
   - scripts/evaluation/assemble_piu_formal_outcomes.py
@@ -147,11 +149,16 @@ required_files:
   - scripts/pipeline/run_oracle_target_prompt_gate.py
   - docs/preregistration.md
   - docs/claim_evidence_ledger.md
+  - README.md
+  - STATUS.md
+  - RESULTS.md
+  - paper/main.md
   - paper/generated/piu_evidence_tables_v1.json
   - paper/generated/piu_evidence_tables_v1.md
   - paper/generated/piu_method_pipeline_v1.svg
   - paper/generated/piu_evidence_boundary_v1.svg
   - results/method/piu_primitive_reliability_registry_v2.json
+  - results/diagnostics/piu_public_claim_audit_v1.json
 
 python_entrypoints:
   - scripts/data/export_piu_binding_labels.py
@@ -178,6 +185,7 @@ python_entrypoints:
   - scripts/evaluation/analyze_piu_formal_experiment.py
   - scripts/evaluation/build_piu_paper_tables.py
   - scripts/evaluation/build_piu_paper_figures.py
+  - scripts/evaluation/build_piu_claim_audit.py
   - scripts/evaluation/aggregate_piu_closed_loop_episode.py
   - scripts/evaluation/export_piu_formal_outcome.py
   - scripts/evaluation/assemble_piu_formal_outcomes.py

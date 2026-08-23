@@ -6,7 +6,10 @@ from pathlib import Path
 import pytest
 import yaml
 
-from calibrated_interaction.provenance import load_and_validate_registry
+from calibrated_interaction.provenance import (
+    audit_claim_surfaces,
+    load_and_validate_registry,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "configs/experiments/method_provenance_v1.yaml"
@@ -73,7 +76,37 @@ def test_repository_method_provenance_is_claim_safe() -> None:
     assert by_id["same_scenario_prompt_stress"]["provenance"] == (
         "protocol_identifier"
     )
-    assert len(registry["tracked_protocols"]) == 3
+    assert by_id["public_claim_surface_semantics"]["claim_use"] == (
+        "main_evaluator"
+    )
+    assert len(registry["tracked_protocols"]) == 10
+
+
+def test_claim_surface_audit_rejects_retired_direct_as_pick_semantics(
+    tmp_path: Path,
+) -> None:
+    surface = tmp_path / "paper.md"
+    surface.write_text(
+        "Visible-object executor control | pick 10/10. "
+        "Missing evidence is PENDING."
+    )
+    registry = {
+        "claim_surfaces": [
+            {
+                "path": "paper.md",
+                "required_fragments": ["Missing evidence is PENDING"],
+            }
+        ],
+        "retired_claim_fragments": [
+            {
+                "id": "direct_control_called_pick_qualification",
+                "fragment": "visible-object executor control | pick 10/10",
+                "replacement": "Report compound DIRECT contact.",
+            }
+        ],
+    }
+    with pytest.raises(ValueError, match="retired claim semantics"):
+        audit_claim_surfaces(registry, repository_root=tmp_path)
 
 
 def test_unsupported_heuristic_cannot_be_promoted_to_main_method(

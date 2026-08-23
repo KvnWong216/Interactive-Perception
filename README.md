@@ -154,6 +154,16 @@ The v1 table intentionally shows real successor rows as `PENDING`. Missing
 artifacts are never printed as zero, development ablations stay separate from
 sealed evidence, and B6/B7 remain oracle upper bounds.
 
+Verify that public prose has not restored a retired threshold or relabeled a
+compound DIRECT endpoint as a separately qualified PICK/PLACE primitive:
+
+```bash
+python scripts/evaluation/build_piu_claim_audit.py --verify
+```
+
+The retained JSON hashes the paper, README, status, and results surfaces. This
+is a claim-semantics check, not performance evidence.
+
 Run the CPU-only, no-training closed-loop replay on the same original drawer
 scenario:
 
@@ -423,8 +433,8 @@ Do not add rules or scores to these legacy entry points.
 | same-RGB prompt router, held-out | legacy route-only 95.83% vs legacy route+effect 93.75% mean accuracy | pilot only; proxy effects; old artifact names B6/B7 |
 | calibrated B7 pilot | 93.75% coverage, 68.75% abstain, 6.25% wrong execute | 16 held-out samples |
 | fresh 10-seed OPEN qualification | drawer 9/10; hidden-target evidence 8/10 | fixed scenario; physical acquisition works |
-| DIRECT after actual OPEN | butter visible initially 8/10; pick 0/10; task 0/10 | information-utilization failure |
-| visible-object executor control | pick 10/10; terminal placement 3/10 | placement gate fails |
+| DIRECT after actual OPEN | nonempty butter mask initially 8/10; butter grasp contact 0/10; task 0/10 | retrospective information-utilization failure |
+| visible-object executor control | compound DIRECT contact 10/10; terminal destination predicate 3/10 | endpoint diagnostic, not separate PICK/PLACE qualification |
 | executed-effect grouped development CV | legacy route-only/route+effect macro F1 both 100%; effect accuracy 94.17% | CPU baseline; 10 inspected seed groups; old artifact names B6/B7; no formal calibration claim |
 | [original-drawer calibrated replay](results/diagnostics/original_drawer_calibrated_replay_v1.json) | OPEN -> reobserve -> DIRECT | wiring only; fixture probabilities |
 | six-frame RGB legacy outcome, clean development | 119/120 singleton-correct | legacy outcome component only |
