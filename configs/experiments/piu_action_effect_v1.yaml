@@ -1,0 +1,91 @@
+schema_version: piu.action-effect-experiment.v1
+id: piu_candidate_conditioned_executed_effect_v1
+status: software_ready_waiting_for_executed_counterfactual_data
+paper_method_claim_allowed: false
+
+inputs:
+  belief: frozen_selected_piu_target_token
+  candidates: full_candidate_conditioned_frozen_prefix_tokens
+  execution_plan: calibrated_public_binder_preconditions_only
+  label_schema: piu.action-effect-label.v1
+  action_vocabulary:
+    - DIRECT
+    - OPEN
+    - REMOVE
+    - ROTATE
+    - MOVE_CLOSER
+    - PICK_TO_INSPECT
+    - PICK
+    - PLACE
+    - REPORT_NOT_FOUND
+    - STOP
+
+variants:
+  - route_only
+  - stop_gradient_effect
+  - joint_effect
+
+model_search:
+  model_width: [32, 64]
+  num_heads: [4]
+  dropout: [0.0, 0.1]
+  learning_rate: [0.001, 0.0003]
+  seeds: [17, 29, 43]
+  epochs: 20
+  batch_size: 8
+  maximum_parameter_count: 2000000
+  selection_order:
+    - minimize_development_route_nll
+    - minimize_development_supported_factor_brier
+    - minimize_parameter_count
+  retained_trials: all
+
+objectives:
+  route: exactly_one_evaluator_correct_public_candidate
+  route_conditioning: learned_from_interaction_token_and_predicted_factor_probabilities
+  route_only_effect_channel: exact_zeros_no_factor_head_gradient
+  effect_factors:
+    - execution_succeeded
+    - task_progress_succeeded
+    - task_relevant_change
+    - target_revealed
+    - identity_resolved_post
+    - candidate_rejected
+    - region_confirmed_empty
+    - task_information_sufficient_post
+  weighting: learned_homoscedastic_log_variance
+  manual_loss_weights: null
+  unsupported_factor_policy: mask_and_report
+
+data_contract:
+  same_initial_state_candidate_matrix: required
+  decision_input: public_history_transition_ending_at_decision_state
+  effect_outcome: separately_executed_next_candidate_transition
+  causal_alignment: >-
+    feature decision_observation_sha256 must equal every candidate rollout's
+    outcome pre-observation SHA-256; candidate outcome post frames are forbidden
+    from the model input used to predict that candidate
+  non_null_effect_source: actually_executed_rollout_only
+  nonphysical_terminal_source: exact_public_observation_null_transition_for_STOP_and_REPORT_NOT_FOUND
+  candidate_execution_eligibility: >-
+    derive from calibrated public binder sets before forking; do not use effect
+    predictions or evaluator outcomes to decide which physical branch executes
+  context_ineligible_candidate_policy: >-
+    retain candidate and evaluator route label, do not execute it, and mask every
+    effect factor; eligibility never changes the exactly-one route target
+  capability_proxy_allowed: false
+  train: train_only
+  development: architecture_and_ablation_only
+  calibration_loaded_by_trainer: false
+  sealed_test_loaded_by_trainer: false
+
+compute:
+  device: cpu
+  torch_threads: 2
+  local_gpu_memory_mib_max: 1500
+
+activation_gate: >-
+  Real training begins only after qualified, public-context-eligible candidate
+  executions produce a group-disjoint counterfactual matrix with positive and
+  negative examples. A joint-effect route improvement is a development
+  hypothesis, not a result.

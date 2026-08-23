@@ -119,3 +119,34 @@ def smallest_binomial_design(
         if float(design["power"]) >= target_power:
             return design
     return None
+
+
+def evaluate_frozen_binomial_design(
+    values: Sequence[bool],
+    *,
+    null_success_probability: float,
+    alpha: float,
+    expected_trials: int,
+    rejection_success_count: int,
+) -> dict[str, Any]:
+    """Evaluate a prospectively frozen exact-binomial rejection region."""
+
+    if len(values) != expected_trials:
+        raise ValueError("formal primitive outcomes do not match the frozen trial count")
+    if not 0 <= rejection_success_count <= expected_trials:
+        raise ValueError("invalid frozen primitive rejection count")
+    if any(not isinstance(value, bool) for value in values):
+        raise TypeError("formal primitive outcomes must be booleans")
+    successes = sum(values)
+    p_value = binomial_upper_tail(
+        successes, expected_trials, null_success_probability
+    )
+    qualified = successes >= rejection_success_count and p_value <= alpha
+    return {
+        "successes": successes,
+        "trials": expected_trials,
+        "rate": successes / expected_trials,
+        "exact_one_sided_p_value": p_value,
+        "rejection_success_count": rejection_success_count,
+        "qualified": qualified,
+    }

@@ -53,6 +53,9 @@ def main() -> None:
         raise ValueError("unsupported primitive risk contract")
     primitive = str(contract["primitive"])
     context = str(contract["context"])
+    candidate_id = " ".join(str(contract.get("candidate_id", "")).split())
+    if not candidate_id:
+        raise ValueError("primitive risk contract requires an exact candidate_id")
     pilot = registry["evaluated"][primitive][context]["estimate"]
     null_rate = float(contract["minimum_reliable_rate"])
     alternative_rate = float(pilot["rate"])
@@ -80,6 +83,7 @@ def main() -> None:
         "claim_scope": "DESIGN_ONLY_NO_FORMAL_OUTCOME_DATA",
         "primitive": primitive,
         "context": context,
+        "candidate_id": candidate_id,
         "registry": {
             "path": portable(registry_path),
             "sha256": sha256(registry_path),

@@ -1,0 +1,50 @@
+schema_version: piu.action-effect-calibration-experiment.v1
+id: piu_action_effect_isolated_calibration_v1
+status: software_ready_waiting_for_group_disjoint_effect_predictions
+paper_method_claim_allowed: false
+
+split_contract:
+  temperature_role: calibration_temperature_only
+  conformal_role: calibration_conformal_only
+  require_group_disjoint_roles: true
+  model_selection_loaded: false
+  sealed_test_loaded: false
+
+risk_contract:
+  primary_alpha: 0.10
+  reported_alpha: [0.05, 0.10, 0.20]
+  route_method: multiclass_LAC
+  factor_method: class_conditional_LAC
+  interpolation: none_order_statistic
+
+controller_contract:
+  route_execute_condition: singleton_candidate_set
+  effect_execute_condition: required_factor_sets_are_singleton_positive
+  target_action_condition:
+    primitives: [DIRECT, PICK]
+    target_presence: singleton_positive
+    spatial_reference: nonempty_current_frame_conformal_patch_set
+  holding_condition:
+    DIRECT: singleton_not_holding_requested_target
+    PICK: singleton_not_holding_requested_target
+    PLACE: singleton_holding_requested_target
+    source: calibrated_post_observation_task_belief
+  executor_interface:
+    type: deterministic_structured_text
+    content: [selected_primitive, public_referent, exact_normalized_patch_enclosure]
+    confidence_values_serialized: false
+    evaluator_labels_serialized: false
+  confidence_threshold: null
+  stop_is_abstain: false
+  abstain_is_not_found: false
+  not_found_requires: [singleton_absent, singleton_search_coverage_sufficient]
+
+physical_dispatch_contract:
+  primitive_certificate: mandatory
+  certificate_test: prospectively_frozen_exact_one_sided_binomial
+  historical_count_gate_allowed: false
+  unqualified_dry_run_only: true
+
+compute:
+  device: cpu
+  local_gpu_memory_mib_max: 1500
