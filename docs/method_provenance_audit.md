@@ -24,6 +24,7 @@ decision.
 | formal `alpha=0.05`, target power `0.80` | preregistered inferential design | conventional Type-I/II error controls; report achieved power and effect interval, never use as an online threshold |
 | formal pilot report/joint-design confidence `0.95/0.95` | preregistered inferential design | exact intervals plus Bonferroni joint lower bounds replace a hand-selected effect shrinkage; a lower directional bound at chance freezes no N |
 | paired-power search limit `200` | numerical resource bound | failure to find a design blocks collection; it is not evidence for or against the method |
+| primitive qualification maximum groups | external collection-resource contract | no CLI/repository default; task owner freezes a positive integer before outcomes, and failure to fit blocks the plan rather than changing the test |
 | formal B0--B8 order | hash-keyed protocol permutation | plan/split/config/registry hashes determine order before outcomes; order is retained and cannot be optimized after results |
 | formal paired source state | pre-outcome content-addressed NPZ cohort | one numeric finite opaque state per sealed group is bound to its simulator seed; it is transport-only and never a policy feature |
 | formal code identity | offline release inventory SHA-256 | pilot planning and schedule freezing fail if any required mainline file differs; schedule binds the verified lock |

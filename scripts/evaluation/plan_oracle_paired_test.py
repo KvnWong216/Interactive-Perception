@@ -24,7 +24,16 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def plan(config_path: Path, pilot_path: Path, search_limit: int) -> dict[str, Any]:
+def portable(path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(ROOT.resolve()))
+    except ValueError:
+        return str(path.resolve())
+
+
+def plan(
+    config_path: Path, pilot_path: Path, resource_contract_path: Path
+) -> dict[str, Any]:
     config = yaml.safe_load(config_path.read_text())
     if config.get("schema_version") != (
         "calibrated-interaction.oracle-target-prompt-pilot.v2"
@@ -41,6 +50,24 @@ def plan(config_path: Path, pilot_path: Path, search_limit: int) -> dict[str, An
     left_probability = left_only / trials
     right_probability = right_only / trials
     formal = config["formal_followup"]
+    resource_contract = yaml.safe_load(resource_contract_path.read_text())
+    if (
+        resource_contract.get("schema_version")
+        != "piu.formal-analysis-experiment.v1"
+        or resource_contract.get("status")
+        != "frozen_software_contract_waiting_for_sealed_outcomes"
+        or resource_contract.get("paper_method_claim_allowed") is not False
+    ):
+        raise ValueError("oracle planning requires the frozen formal resource contract")
+    search_limit = resource_contract["prospective_design"][
+        "numerical_search_limit"
+    ]
+    if (
+        not isinstance(search_limit, int)
+        or isinstance(search_limit, bool)
+        or search_limit < 1
+    ):
+        raise ValueError("formal numerical resource cap must be a positive integer")
     result = smallest_prospective_group_count(
         intervention_only_probability=left_probability,
         baseline_only_probability=right_probability,
@@ -53,19 +80,24 @@ def plan(config_path: Path, pilot_path: Path, search_limit: int) -> dict[str, An
         "status": (
             "PROSPECTIVE_GROUP_COUNT_FROZEN"
             if result
-            else "NO_PLAN_WITHIN_NUMERICAL_SEARCH_BOUND"
+            else "NO_PLAN_WITHIN_FROZEN_RESOURCE_CAP"
         ),
         "claim_scope": "DESIGN_ONLY_NO_FORMAL_OUTCOME_DATA",
         "protocol": {
-            "path": str(config_path.relative_to(ROOT)),
+            "path": portable(config_path),
             "sha256": sha256(config_path),
         },
         "pilot": {
-            "path": str(pilot_path.relative_to(ROOT)),
+            "path": portable(pilot_path),
             "sha256": sha256(pilot_path),
             "trials": trials,
             "intervention_only": left_only,
             "baseline_only": right_only,
+        },
+        "resource_contract": {
+            "path": portable(resource_contract_path),
+            "sha256": sha256(resource_contract_path),
+            "numerical_search_limit": search_limit,
         },
         "pilot_maximum_likelihood_discordant_probabilities": {
             "intervention_only": left_probability,
@@ -96,18 +128,27 @@ def main() -> None:
     )
     parser.add_argument("--pilot", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--search-limit", type=int, default=200)
+    parser.add_argument(
+        "--resource-contract",
+        type=Path,
+        default=ROOT / "configs/experiments/piu_formal_analysis_v1.yaml",
+    )
     args = parser.parse_args()
     config = args.config if args.config.is_absolute() else ROOT / args.config
     pilot = args.pilot if args.pilot.is_absolute() else ROOT / args.pilot
     output = args.output if args.output.is_absolute() else ROOT / args.output
+    resource_contract = (
+        args.resource_contract
+        if args.resource_contract.is_absolute()
+        else ROOT / args.resource_contract
+    )
     if output.exists():
         raise FileExistsError(f"formal test plan is immutable: {output}")
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
-        json.dumps(plan(config, pilot, args.search_limit), indent=2) + "\n"
+        json.dumps(plan(config, pilot, resource_contract), indent=2) + "\n"
     )
-    print(output.relative_to(ROOT))
+    print(portable(output))
 
 
 if __name__ == "__main__":

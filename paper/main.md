@@ -269,8 +269,9 @@ regression tests. Live execution additionally requires an immutable exact
 candidate/primitive certificate. The minimum rate is derived as `1-delta/8`
 from an externally declared episode primitive-failure budget by a
 dependence-free union bound, and the external contract also supplies the
-power-design alternative. Historical pilots, conformal alpha, and action counts
-cannot set either value. Qualification binds new exact states, public
+power-design alternative and a positive-integer collection-resource cap per
+primitive. Historical pilots, conformal alpha, action counts, and a CLI default
+cannot set these values. Qualification binds new exact states, public
 controller reports, serialized subtasks, single-use receipts, and registered
 simulator/task-predicate outcomes; the certificate covers the exact candidate
 payload and serializer mode. No real external risk contract, full-prefix cache,

@@ -13,23 +13,23 @@
   "offline_inventory": [
     {
       "path": "README.md",
-      "sha256": "3feec247958cdbf5af0f861566e182a182958be3462d77e228d49685b65c3221",
-      "bytes": "22068"
+      "sha256": "52316f5f67f2a22bc71b081280c1c000cc254c20b4dad5c637094c3933fafe99",
+      "bytes": "22130"
     },
     {
       "path": "RESULTS.md",
-      "sha256": "27d480cf2fec8faa9e67f440851f7f3510892e30b433682c6bc0fe224a0418ab",
-      "bytes": "7176"
+      "sha256": "a6a0b8276c483a93f9784a81a4b0610954ef78e8dd242c65ed98fedab04dc596",
+      "bytes": "7230"
     },
     {
       "path": "STATUS.md",
-      "sha256": "4b951f6ae53b551763040be8c5e64914ffd9420dd67129faad6a9df9ec671cc9",
-      "bytes": "11475"
+      "sha256": "d1c445655d98bb95421f295c28378be8db570c5b058d7a8e7562faf694222ee6",
+      "bytes": "11603"
     },
     {
       "path": "configs/experiments/method_provenance_v1.yaml",
-      "sha256": "33d7e11ef126396bee18e4901a2ce6d5c825600747123402563159f5b03e05ea",
-      "bytes": "46635"
+      "sha256": "e435ef70174cc44c9768bb69dac08ce41d0f91babe8f4c8d5db0435f87ab4aa2",
+      "bytes": "47519"
     },
     {
       "path": "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
@@ -68,8 +68,8 @@
     },
     {
       "path": "configs/experiments/piu_executor_risk_allocation_v1.yaml",
-      "sha256": "57e08fa6e146a15b35205fedcff5993da21d8bfc31be2a2a43339efb8a70d65c",
-      "bytes": "1887"
+      "sha256": "000668f14493ec92db8ccb9991044521c970a19762fafafef14bb0f33088c2e2",
+      "bytes": "2139"
     },
     {
       "path": "configs/experiments/piu_formal_analysis_v1.yaml",
@@ -108,18 +108,18 @@
     },
     {
       "path": "configs/templates/piu_external_execution_risk_budget_template.yaml",
-      "sha256": "852884c3dc347533471c5fe8f172a9798f7611ae3db6feecca3e5565b8b9dee6",
-      "bytes": "723"
+      "sha256": "e109021ecc8647c2e09e892deec818392506a51d0ef1de5c503d3d48ea60ea9b",
+      "bytes": "946"
     },
     {
       "path": "docs/claim_evidence_ledger.md",
-      "sha256": "70393b028d60d14ca022128edbc8b53fefb24c4ceaf11e8e7fe6eae2733802a3",
-      "bytes": "6025"
+      "sha256": "950188171a31d4f37c77717482c3334d5e9e9c59f61fe82af41fdbed544f868c",
+      "bytes": "6115"
     },
     {
       "path": "docs/preregistration.md",
-      "sha256": "b80695b6b88cdf10981a86847f03330b3e2c8da30331504302f6187b77257c03",
-      "bytes": "21047"
+      "sha256": "9b98679c56dfb0eccd5f748a7b2fdb96854eb7d5ae7d8948d0f3183007ac633d",
+      "bytes": "22441"
     },
     {
       "path": "paper/generated/piu_evidence_boundary_v1.svg",
@@ -143,8 +143,8 @@
     },
     {
       "path": "paper/main.md",
-      "sha256": "2aea4b4e4dc946c140c540da2b21738871bdbdbe59cfcb9fb516913517469499",
-      "bytes": "30128"
+      "sha256": "88ade563b050eb26281900a3af1db32892d87c5223461496b92fb3306c34c2f8",
+      "bytes": "30204"
     },
     {
       "path": "results/diagnostics/pi05_libero_checkpoint_identity_v1.json",
@@ -153,7 +153,7 @@
     },
     {
       "path": "results/diagnostics/piu_public_claim_audit_v1.json",
-      "sha256": "e375ba799e2caf055e20fc4d0e01bbd4ff00f4bdf854fcb5d723045b9afbbfa5",
+      "sha256": "0607307ff6f40f3810014419409430f5677796372a060ed73c58333b9c467db3",
       "bytes": "13545"
     },
     {
@@ -318,8 +318,8 @@
     },
     {
       "path": "scripts/evaluation/derive_piu_primitive_risk_contract.py",
-      "sha256": "8e5800c2f2922c7943dbfcc1f605082801b3d0188b797b90c7c6164b37d2879e",
-      "bytes": "8169"
+      "sha256": "aab73867dfeac40cccbe7ae97a5ad859dd9ff153a25c31e53bc3a2321bf5db33",
+      "bytes": "8950"
     },
     {
       "path": "scripts/evaluation/evaluate_piu_action_effect.py",
@@ -348,8 +348,8 @@
     },
     {
       "path": "scripts/evaluation/plan_piu_primitive_qualification.py",
-      "sha256": "e24fc83c23910e43b8259289d8ecc5e716058c0f486f198c99500f86182b4048",
-      "bytes": "4437"
+      "sha256": "a70c302d077ccac0bfcd53cb66c459e48aa344af42de943efc07985d8e1188f9",
+      "bytes": "4709"
     },
     {
       "path": "scripts/evaluation/preflight_oracle_target_prompt.py",
@@ -513,8 +513,8 @@
     },
     {
       "path": "src/calibrated_interaction/paired_power.py",
-      "sha256": "e3e1cafdcc8e17c4dc3b0f04c3e8cbb89ef84a19fae36225947718c6d0ec7ec2",
-      "bytes": "6209"
+      "sha256": "ef36f8aad0045aab9917656c0ea676a81d5c8956141f76282570d9701d7fc032",
+      "bytes": "6203"
     },
     {
       "path": "src/calibrated_interaction/provenance.py",
@@ -668,8 +668,8 @@
     },
     {
       "path": "src/piu/primitive_registry.py",
-      "sha256": "913e038ad75a50a50397e9fe254fd9716c2ba894a42760880c62cb67e0bb8a66",
-      "bytes": "54538"
+      "sha256": "5affa07fb11e7abc5ccfc9f8c0f537d6f5f71b6dc1f9ab530e4c80acf7a0efd0",
+      "bytes": "56264"
     },
     {
       "path": "src/piu/reproducibility.py",
@@ -707,7 +707,7 @@
       "bytes": "8126"
     }
   ],
-  "offline_inventory_sha256": "0e790de8f1a51284e298db4baf0d363f332e8fce1cec1135d377b4967b1ba041",
+  "offline_inventory_sha256": "1e8e7e205846e27526dbcd71ff6eccc5d61f7682b794be560b8e48fc8f8c071d",
   "dependency_closure_exceptions": {
     "results/diagnostics/piu_offline_repro_preflight_v1.json": "The release lock cannot contain its own content hash; it is validated as the output of this manifest and bound separately by every formal design.",
     "scripts/pipeline/infer.py": "The B2 adapter executes this path only inside a detached worktree at the attested frozen tag commit, never from the current release checkout."

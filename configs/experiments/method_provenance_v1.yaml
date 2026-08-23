@@ -198,12 +198,12 @@ entries:
     evidence: frozen pilot feature shape is one 2048-wide vector per candidate with no retained token mask or span
 
   - id: paired_power_search_limit
-    location: configs/experiments/piu_formal_analysis_v1.yaml:prospective_design.numerical_search_limit and scripts/evaluation/plan_oracle_paired_test.py:--search-limit
+    location: configs/experiments/piu_formal_analysis_v1.yaml:prospective_design.numerical_search_limit
     value: 200 groups
     provenance: numerical_optimization
     claim_use: safety_only
     rationale: This bounds computation only; failure to find a design blocks the experiment and never counts as evidence against the method.
-    evidence: exact paired power is evaluated for every prospective count through the bound
+    evidence: exact paired power is evaluated for every prospective count through the bound; both oracle and main planners read and hash the single frozen config value, with no numeric CLI default
 
   - id: formal_execution_permutation
     location: configs/experiments/piu_formal_analysis_v1.yaml:execution_schedule
@@ -295,11 +295,19 @@ entries:
 
   - id: primitive_absolute_reliability_contract
     location: configs/experiments/piu_executor_risk_allocation_v1.yaml
-    value: externally declared episode failure budget delta; per-dispatch null rate 1-delta/M under an equal Bonferroni allocation
+    value: externally declared episode failure budget delta; per-dispatch null rate 1-delta/M under an equal Bonferroni allocation; externally declared maximum qualification groups per primitive
     provenance: user_risk_contract
     claim_use: safety_only
-    rationale: The historical 8/10 gate, conformal alpha, and retrospective successes cannot set executor risk. M is the frozen maximum of eight physical dispatches, delta and the power-design alternative must be declared externally before qualification outcomes, and the union bound assumes no independence.
-    evidence: risk-contract loader re-derives every rate from hash-bound external budget, baseline registry, and protocol inputs; the template contains no default numeric budget
+    rationale: The historical 8/10 gate, conformal alpha, retrospective successes, and a CLI search default cannot set executor risk or collection scale. M is the frozen maximum of eight physical dispatches; delta, the power-design alternative, and the positive-integer collection-resource cap must be declared externally before qualification outcomes, and the union bound assumes no independence.
+    evidence: risk-contract loader re-derives every rate and revalidates the collection cap from the hash-bound external budget, baseline registry, and protocol inputs; the template contains no numeric defaults
+
+  - id: primitive_qualification_group_resource_cap
+    location: configs/templates/piu_external_execution_risk_budget_template.yaml:maximum_qualification_groups_per_primitive
+    value: externally declared positive integer with no repository default
+    provenance: safety_or_resource_budget
+    claim_use: safety_only
+    rationale: This bounds external collection cost and decides only whether a powered design fits the declared resources; it does not authorize an action or define empirical success.
+    evidence: derivation rejects null/noninteger caps, the planner has no CLI/default cap, and risk/plan loaders bind the exact externally declared value
 
   - id: retrospective_primitive_semantics
     location: configs/experiments/piu_primitive_registry_v2.yaml

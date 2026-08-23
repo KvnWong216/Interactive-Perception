@@ -74,6 +74,7 @@ def test_exact_primitive_power_is_one_sided_and_prospective() -> None:
         alternative_success_probability=1.0,
         alpha=0.05,
         target_power=0.8,
+        search_limit=100,
     )
     assert design == {
         "trials": 5,
@@ -140,6 +141,7 @@ def test_registry_rebuild_and_explicit_risk_contract_planner(tmp_path: Path) -> 
                 "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES",
                 "maximum_episode_probability_of_any_primitive_failure": 0.8,
                 "design_alternative_per_dispatch_success_probability": 1.0,
+                "maximum_qualification_groups_per_primitive": 1000,
                 "authority": "synthetic fixture task owner",
                 "rationale": "exercise the derivation without making a claim",
                 "outcomes_loaded": False,
@@ -171,6 +173,7 @@ def test_registry_rebuild_and_explicit_risk_contract_planner(tmp_path: Path) -> 
     validate_derived_primitive_risk_contract(contract)
     assert contract["minimum_reliable_rate"] == pytest.approx(0.9)
     assert contract["outcomes_loaded"] is False
+    assert contract["maximum_qualification_groups"] == 1000
     plan_path = tmp_path / "plan.json"
     subprocess.run(
         [
@@ -196,6 +199,10 @@ def test_registry_rebuild_and_explicit_risk_contract_planner(tmp_path: Path) -> 
     )
     assert plan["alternative_success_probability"] == 1.0
     assert plan["retrospective_pilot_used_for_effect_size"] is False
+    assert plan["maximum_qualification_groups"] == 1000
+    assert plan["maximum_qualification_groups_provenance"] == (
+        "external_task_owner_resource_contract"
+    )
     assert plan["design"]["trials"] > 5
 
 
@@ -217,6 +224,10 @@ def test_risk_contract_rejects_a_hand_modified_minimum_rate(tmp_path: Path) -> N
         "minimum_reliable_rate": allocation["minimum_reliable_rate"] - 0.1,
         "design_alternative_success_probability": 1.0,
         "design_alternative_provenance": "external_task_owner_contract",
+        "maximum_qualification_groups": 1000,
+        "maximum_qualification_groups_provenance": (
+            "external_task_owner_resource_contract"
+        ),
         "retrospective_pilot_used_for_effect_size": False,
         "risk_allocation": allocation,
         "alpha": 0.05,
@@ -224,6 +235,49 @@ def test_risk_contract_rejects_a_hand_modified_minimum_rate(tmp_path: Path) -> N
     }
     with pytest.raises(ValueError, match="differs from derivation"):
         validate_derived_primitive_risk_contract(value)
+
+
+def test_external_budget_cannot_omit_qualification_group_resource_cap(
+    tmp_path: Path,
+) -> None:
+    budget = tmp_path / "budget.yaml"
+    budget.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": "piu.external-execution-risk-budget.v1",
+                "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES",
+                "maximum_episode_probability_of_any_primitive_failure": 0.8,
+                "design_alternative_per_dispatch_success_probability": 1.0,
+                "authority": "synthetic fixture task owner",
+                "rationale": "exercise missing resource-cap rejection",
+                "outcomes_loaded": False,
+            }
+        )
+    )
+    completed = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/evaluation/derive_piu_primitive_risk_contract.py"),
+            "--external-budget",
+            str(budget),
+            "--primitive",
+            "OPEN",
+            "--context",
+            "middle_drawer",
+            "--candidate-id",
+            "open_middle_drawer",
+            "--output",
+            str(tmp_path / "risk.json"),
+        ],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert completed.returncode != 0
+    assert "resource cap" in completed.stderr
+    planner = ROOT / "scripts/evaluation/plan_piu_primitive_qualification.py"
+    assert "--search-limit" not in planner.read_text()
 
 
 def test_frozen_primitive_design_requires_complete_boolean_denominator() -> None:

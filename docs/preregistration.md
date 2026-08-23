@@ -350,3 +350,27 @@ into the report rather than manually transcribed. Training-development search,
 isolated-calibration risk, simulator/policy contracts, external risk,
 statistical design, and safety/resource budgets remain distinct; a new
 unclassified numeric path blocks the release.
+
+## Amendment 9: external qualification resources and planner single source
+
+Frozen on 2026-08-23 after the CLI-default audit and before any external risk
+budget, primitive qualification outcome, or oracle confirmation outcome
+existed. Amendment 7 specified executor risk and a power alternative but left
+the primitive planner's numerical search/collection bound at an unexplained
+CLI default of 1000 groups. That default is removed.
+
+The external task-owner contract now additionally requires a positive-integer
+maximum qualification-group count per primitive. It is a collection-resource
+cap, not a null, alternative, action threshold, empirical result, or success
+criterion. If the first exact one-sided binomial design attaining frozen power
+does not fit, the planner retains
+`NO_PLAN_WITHIN_EXTERNAL_COLLECTION_RESOURCE_CAP`; it may not change alpha,
+power, risk, the alternative, or the resource value after outcomes. The budget,
+derived risk contract, plan, qualification schedule, and certificate loaders
+bind the same value. The repository template contains null, not a suggested
+number.
+
+The oracle paired-power planner's duplicated CLI default of 200 is also
+removed. That planner now reads and hashes the sole numerical resource bound in
+`piu_formal_analysis_v1.yaml`, already classified as a resource-only control.
+This amendment changes no retained outcome or empirical estimate.

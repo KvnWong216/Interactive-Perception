@@ -32,6 +32,7 @@ def test_all_pairs_improve_requires_six_groups_at_alpha_005() -> None:
         baseline_only_probability=0.0,
         alpha=0.05,
         target_power=0.80,
+        search_limit=200,
     )
     assert result == (6, 1.0)
 

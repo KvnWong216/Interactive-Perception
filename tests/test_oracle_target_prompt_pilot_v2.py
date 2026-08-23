@@ -24,6 +24,7 @@ SCHEDULE_CONFIG = (
     ROOT
     / "configs/experiments/original_drawer_oracle_target_prompt_schedule_v1.yaml"
 )
+FORMAL_PLANNER = ROOT / "scripts/evaluation/plan_oracle_paired_test.py"
 
 
 def sha256(path: Path) -> str:
@@ -262,3 +263,50 @@ def test_v2_executor_has_no_binary_lift_threshold() -> None:
     assert 'default="v2"' in source
     assert '"target_pick_threshold": None' in source
     assert 'if metric_contract_version == "v1"' in source
+
+
+def test_oracle_power_planner_hash_binds_one_frozen_resource_cap(
+    tmp_path: Path,
+) -> None:
+    pilot = tmp_path / "pilot.json"
+    pilot.write_text(
+        json.dumps(
+            {
+                "status": "INDEPENDENT_DEVELOPMENT_PILOT_COMPLETE",
+                "confirmation": {
+                    "aggregates": {"target_grasp_contact": {"trials": 5}},
+                    "paired_target_grasp_contact_comparison": {
+                        "left_only": 5,
+                        "right_only": 0,
+                    },
+                },
+            }
+        )
+    )
+    output = tmp_path / "plan.json"
+    subprocess.run(
+        [
+            sys.executable,
+            str(FORMAL_PLANNER),
+            "--pilot",
+            str(pilot),
+            "--output",
+            str(output),
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    plan = json.loads(output.read_text())
+    resource = ROOT / "configs/experiments/piu_formal_analysis_v1.yaml"
+    assert plan["resource_contract"] == {
+        "path": "configs/experiments/piu_formal_analysis_v1.yaml",
+        "sha256": sha256(resource),
+        "numerical_search_limit": 200,
+    }
+    assert plan["search_limit"] == 200
+    assert plan["search_limit_role"] == (
+        "numerical resource bound; never a success threshold"
+    )
+    assert "--search-limit" not in FORMAL_PLANNER.read_text()

@@ -75,6 +75,11 @@ def main() -> None:
         or claims.get("derived_rate_is_task_success_probability") is not False
         or claims.get("qualification_outcomes_loaded_during_derivation") is not False
         or claims.get("retrospective_pilot_may_set_design_alternative") is not False
+        or claims.get("qualification_group_resource_cap_required") is not True
+        or claims.get("qualification_group_resource_cap_may_use_cli_default")
+        is not False
+        or claims.get("qualification_group_resource_cap_is_success_threshold")
+        is not False
     ):
         raise ValueError("executor risk-allocation claim firewall was weakened")
     allocation = allocation_config.get("allocation", {})
@@ -130,6 +135,15 @@ def main() -> None:
     alternative = float(
         budget["design_alternative_per_dispatch_success_probability"]
     )
+    maximum_groups = budget.get("maximum_qualification_groups_per_primitive")
+    if (
+        not isinstance(maximum_groups, int)
+        or isinstance(maximum_groups, bool)
+        or maximum_groups < 1
+    ):
+        raise ValueError(
+            "external qualification-group resource cap must be a positive integer"
+        )
     if not derived["minimum_reliable_rate"] < alternative <= 1.0:
         raise ValueError(
             "external design alternative must exceed the derived per-dispatch rate"
@@ -156,6 +170,10 @@ def main() -> None:
         "target_power": float(protocol["formal_qualification"]["target_power"]),
         "design_alternative_success_probability": alternative,
         "design_alternative_provenance": "external_task_owner_contract",
+        "maximum_qualification_groups": maximum_groups,
+        "maximum_qualification_groups_provenance": (
+            "external_task_owner_resource_contract"
+        ),
         "retrospective_pilot_used_for_effect_size": False,
         "risk_allocation": derived,
         "external_authority": authority,

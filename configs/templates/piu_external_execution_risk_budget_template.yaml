@@ -2,13 +2,16 @@ schema_version: piu.external-execution-risk-budget.v1
 status: TEMPLATE_NOT_A_FROZEN_CONTRACT
 maximum_episode_probability_of_any_primitive_failure: null
 design_alternative_per_dispatch_success_probability: null
+maximum_qualification_groups_per_primitive: null
 authority: null
 rationale: null
 outcomes_loaded: false
 
 # Copy this template to a new immutable path. A task owner must declare a value
 # strictly between 0 and 1, declare a per-dispatch design alternative strictly
-# above the union-bound minimum, identify the authority and rationale, and
-# change the status to FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES before
-# derivation. The alternative is used only for prospective power; it is not an
-# estimated success probability or an automatic performance claim.
+# above the union-bound minimum, declare a positive integer collection-resource
+# cap per primitive, identify the authority and rationale, and change the status
+# to FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES before derivation. The
+# alternative is used only for prospective power and the group count is only a
+# resource bound; neither is an estimated success probability or an automatic
+# performance claim. This template intentionally supplies no numeric defaults.

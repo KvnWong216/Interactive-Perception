@@ -3,8 +3,8 @@
   "status": "PASS",
   "registry": {
     "path": "configs/experiments/method_provenance_v1.yaml",
-    "sha256": "33d7e11ef126396bee18e4901a2ce6d5c825600747123402563159f5b03e05ea",
-    "entry_count": 67,
+    "sha256": "e435ef70174cc44c9768bb69dac08ce41d0f91babe8f4c8d5db0435f87ab4aa2",
+    "entry_count": 68,
     "provenance_counts": {
       "baseline_only_heuristic": 3,
       "fit_on_isolated_calibration": 1,
@@ -14,7 +14,7 @@
       "numerical_optimization": 2,
       "oracle_intervention": 4,
       "protocol_identifier": 25,
-      "safety_or_resource_budget": 5,
+      "safety_or_resource_budget": 6,
       "simulator_or_physics_contract": 3,
       "unsupported_heuristic": 5,
       "user_risk_contract": 4
@@ -26,7 +26,7 @@
       "main_evaluator": 18,
       "main_method_online": 21,
       "rejected_method_only": 4,
-      "safety_only": 7
+      "safety_only": 8
     },
     "tracked_protocol_count": 10,
     "deprecated_protocol_count": 3
@@ -34,25 +34,25 @@
   "claim_surfaces": [
     {
       "path": "paper/main.md",
-      "sha256": "2aea4b4e4dc946c140c540da2b21738871bdbdbe59cfcb9fb516913517469499",
+      "sha256": "88ade563b050eb26281900a3af1db32892d87c5223461496b92fb3306c34c2f8",
       "required_fragments_verified": 4,
       "retired_fragments_matched": []
     },
     {
       "path": "README.md",
-      "sha256": "3feec247958cdbf5af0f861566e182a182958be3462d77e228d49685b65c3221",
+      "sha256": "52316f5f67f2a22bc71b081280c1c000cc254c20b4dad5c637094c3933fafe99",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     },
     {
       "path": "STATUS.md",
-      "sha256": "4b951f6ae53b551763040be8c5e64914ffd9420dd67129faad6a9df9ec671cc9",
+      "sha256": "d1c445655d98bb95421f295c28378be8db570c5b058d7a8e7562faf694222ee6",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     },
     {
       "path": "RESULTS.md",
-      "sha256": "27d480cf2fec8faa9e67f440851f7f3510892e30b433682c6bc0fe224a0418ab",
+      "sha256": "a6a0b8276c483a93f9784a81a4b0610954ef78e8dd242c65ed98fedab04dc596",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     }

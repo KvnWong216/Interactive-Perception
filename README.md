@@ -102,8 +102,9 @@ PICK/DIRECT can execute only with a nonempty current-frame conformal patch set,
 which is converted to exact normalized boxes in a deterministic pi0.5 subtask.
 Live dispatch additionally requires a prospective exact-binomial primitive
 qualification certificate; the existing retrospective registry authorizes none.
-Its minimum reliability is not a repository constant: an external task owner
-must freeze an episode failure budget and a power-design alternative using
+Its minimum reliability and qualification scale are not repository constants:
+an external task owner must freeze an episode failure budget, a power-design
+alternative, and a maximum group count per primitive using
 `configs/templates/piu_external_execution_risk_budget_template.yaml`. The code
 derives the per-dispatch null as `1-delta/8`, freezes new state/controller
 groups, and recomputes every outcome from a scheduled execution receipt. A

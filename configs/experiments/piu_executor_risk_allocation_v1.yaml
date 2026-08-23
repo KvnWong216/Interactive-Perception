@@ -27,6 +27,7 @@ allocation:
 
 prospective_design:
   alternative_source: external_task_owner_contract
+  maximum_qualification_groups_source: external_task_owner_resource_contract
   retrospective_pilot_used_for_effect_size: false
   requirement: >-
     The external contract must declare a per-dispatch success probability
@@ -41,3 +42,6 @@ claim_contract:
   derived_rate_is_task_success_probability: false
   qualification_outcomes_loaded_during_derivation: false
   retrospective_pilot_may_set_design_alternative: false
+  qualification_group_resource_cap_required: true
+  qualification_group_resource_cap_may_use_cli_default: false
+  qualification_group_resource_cap_is_success_threshold: false

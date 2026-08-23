@@ -171,7 +171,7 @@ def smallest_prospective_group_count(
     baseline_only_probability: float,
     alpha: float,
     target_power: float,
-    search_limit: int = 200,
+    search_limit: int,
 ) -> tuple[int, float] | None:
     """Find the first prospectively frozen group count reaching target power."""
 

@@ -106,6 +106,17 @@ def validate_derived_primitive_risk_contract(
         raise ValueError("primitive design alternative is not externally declared")
     if value.get("retrospective_pilot_used_for_effect_size") is not False:
         raise ValueError("primitive risk contract reused a retrospective pilot")
+    maximum_groups = value.get("maximum_qualification_groups")
+    if (
+        not isinstance(maximum_groups, int)
+        or isinstance(maximum_groups, bool)
+        or maximum_groups < 1
+    ):
+        raise ValueError("primitive risk contract lacks an external group cap")
+    if value.get("maximum_qualification_groups_provenance") != (
+        "external_task_owner_resource_contract"
+    ):
+        raise ValueError("primitive qualification group cap is not external")
     return value
 
 
@@ -205,7 +216,7 @@ def smallest_binomial_design(
     alternative_success_probability: float,
     alpha: float,
     target_power: float,
-    search_limit: int = 1000,
+    search_limit: int,
 ) -> dict[str, float | int | None] | None:
     """Freeze the first exact one-sided binomial design reaching target power."""
 
@@ -325,6 +336,11 @@ def load_derived_primitive_risk_contract(
         or claims.get("derived_rate_is_task_success_probability") is not False
         or claims.get("qualification_outcomes_loaded_during_derivation") is not False
         or claims.get("retrospective_pilot_may_set_design_alternative") is not False
+        or claims.get("qualification_group_resource_cap_required") is not True
+        or claims.get("qualification_group_resource_cap_may_use_cli_default")
+        is not False
+        or claims.get("qualification_group_resource_cap_is_success_threshold")
+        is not False
     ):
         raise ValueError("primitive risk claim firewall was weakened")
     if baseline.get("schema_version") != "piu.baseline-registry.v1":
@@ -344,6 +360,13 @@ def load_derived_primitive_risk_contract(
     alternative = float(
         budget["design_alternative_per_dispatch_success_probability"]
     )
+    maximum_groups = budget.get("maximum_qualification_groups_per_primitive")
+    if (
+        not isinstance(maximum_groups, int)
+        or isinstance(maximum_groups, bool)
+        or maximum_groups < 1
+    ):
+        raise ValueError("primitive external risk budget has no valid group cap")
     authority = " ".join(str(budget.get("authority", "")).split())
     rationale = " ".join(str(budget.get("rationale", "")).split())
     if (
@@ -368,6 +391,12 @@ def load_derived_primitive_risk_contract(
         raise ValueError("primitive risk contract differs from external budget")
     if alternative != float(value["design_alternative_success_probability"]):
         raise ValueError("primitive design alternative differs from external budget")
+    if maximum_groups != value.get("maximum_qualification_groups"):
+        raise ValueError("primitive qualification group cap differs from budget")
+    if value.get("maximum_qualification_groups_provenance") != (
+        "external_task_owner_resource_contract"
+    ):
+        raise ValueError("primitive qualification group cap lacks provenance")
     if protocol["formal_qualification"].get("minimum_reliable_rate") is not None:
         raise ValueError("primitive registry protocol contains a hand-entered rate")
     if float(protocol["formal_qualification"]["alpha"]) != float(value["alpha"]):
@@ -463,12 +492,19 @@ def load_primitive_qualification_plan(
         value.get("target_power")
     ) != float(risk["target_power"]):
         raise ValueError("primitive plan alpha/power differs from its risk contract")
+    if (
+        value.get("maximum_qualification_groups_provenance")
+        != risk["maximum_qualification_groups_provenance"]
+        or value.get("maximum_qualification_groups")
+        != risk["maximum_qualification_groups"]
+    ):
+        raise ValueError("primitive plan group cap differs from its risk contract")
     expected = smallest_binomial_design(
         null_success_probability=null_rate,
         alternative_success_probability=alternative,
         alpha=float(risk["alpha"]),
         target_power=float(risk["target_power"]),
-        search_limit=int(value["search_limit"]),
+        search_limit=int(value["maximum_qualification_groups"]),
     )
     if expected is None or value.get("design") != expected:
         raise ValueError("primitive plan design differs from exact recomputation")

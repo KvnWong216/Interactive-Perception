@@ -75,6 +75,7 @@ def write_formal_primitive_certificate(
                 "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES",
                 "maximum_episode_probability_of_any_primitive_failure": 0.999,
                 "design_alternative_per_dispatch_success_probability": 1.0,
+                "maximum_qualification_groups_per_primitive": 1000,
                 "authority": "synthetic regression fixture",
                 "rationale": "exercise certificate provenance only",
                 "outcomes_loaded": False,
@@ -104,6 +105,10 @@ def write_formal_primitive_certificate(
         "target_power": float(protocol["formal_qualification"]["target_power"]),
         "design_alternative_success_probability": 1.0,
         "design_alternative_provenance": "external_task_owner_contract",
+        "maximum_qualification_groups": 1000,
+        "maximum_qualification_groups_provenance": (
+            "external_task_owner_resource_contract"
+        ),
         "retrospective_pilot_used_for_effect_size": False,
         "risk_allocation": allocation,
         "external_authority": "synthetic regression fixture",
@@ -153,7 +158,10 @@ def write_formal_primitive_certificate(
         "alpha": risk["alpha"],
         "target_power": risk["target_power"],
         "design": design,
-        "search_limit": 1000,
+        "maximum_qualification_groups": 1000,
+        "maximum_qualification_groups_provenance": (
+            "external_task_owner_resource_contract"
+        ),
         "test": "exact_one_sided_binomial",
     }
     plan_path.write_text(json.dumps(plan, indent=2) + "\n")

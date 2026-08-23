@@ -39,7 +39,6 @@ def main() -> None:
     parser.add_argument("--registry", type=Path, required=True)
     parser.add_argument("--risk-contract", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--search-limit", type=int, default=1000)
     args = parser.parse_args()
     registry_path = resolve(args.registry)
     contract_path = resolve(args.risk_contract)
@@ -61,18 +60,19 @@ def main() -> None:
     alternative_rate = float(contract["design_alternative_success_probability"])
     alpha = float(contract["alpha"])
     target_power = float(contract["target_power"])
+    maximum_groups = int(contract["maximum_qualification_groups"])
     if alternative_rate > null_rate:
         design = smallest_binomial_design(
             null_success_probability=null_rate,
             alternative_success_probability=alternative_rate,
             alpha=alpha,
             target_power=target_power,
-            search_limit=args.search_limit,
+            search_limit=maximum_groups,
         )
         status = (
             "PROSPECTIVE_GROUP_COUNT_FROZEN"
             if design is not None
-            else "NO_PLAN_WITHIN_NUMERICAL_SEARCH_BOUND"
+            else "NO_PLAN_WITHIN_EXTERNAL_COLLECTION_RESOURCE_CAP"
         )
     else:
         design = None
@@ -105,12 +105,17 @@ def main() -> None:
         "alpha": alpha,
         "target_power": target_power,
         "design": design,
-        "search_limit": args.search_limit,
+        "maximum_qualification_groups": maximum_groups,
+        "maximum_qualification_groups_provenance": (
+            contract["maximum_qualification_groups_provenance"]
+        ),
         "test": "exact_one_sided_binomial",
         "warning": (
             "Both the minimum reliable rate and design alternative come from an "
-            "external downstream contract. The retrospective registry is used "
-            "only to exclude old seeds; formal groups must be new."
+            "external downstream contract. The maximum group count is an "
+            "external collection-resource bound, never a success threshold. The "
+            "retrospective registry is used only to exclude old seeds; formal "
+            "groups must be new."
         ),
     }
     output.parent.mkdir(parents=True, exist_ok=True)
