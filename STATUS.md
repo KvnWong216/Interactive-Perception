@@ -56,6 +56,9 @@ freezes group and within-group B0--B8 execution order without loading outcomes.
 Both pilot planning and schedule construction first verify every file in the
 offline release inventory, so the formal design also binds the code/config
 snapshot rather than only the outcome artifacts.
+Before schedule construction, a separate manifest must freeze one unique,
+finite numeric opaque NPZ simulator state for every sealed group and bind it to
+the prospective seed. Those states are transport-only, never policy inputs.
 The sealed matrix is rejected unless every row matches that schedule's group,
 seed, method, split manifest, and policy identity.
 The B1 prompted-VLM baseline now has a public-only external-service protocol:
@@ -112,4 +115,5 @@ is available for the nine screen and five pilot rollouts; local full-prefix or
 simulator work is prohibited by the 1500 MiB GPU cap. The offline pipeline does
 not bypass the causal oracle gate or fabricate those missing outcomes.
 Consequently no real B8/B0 development pilot, conservative formal group count,
-or sealed execution schedule exists yet; Phase 9 is software-ready only.
+formal initial-state cohort, or sealed execution schedule exists yet; Phase 9
+and the Phase 10 cohort freeze are software-ready only.

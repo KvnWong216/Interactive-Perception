@@ -196,7 +196,10 @@ replaced with a round-number or post hoc sample size.
 
 Pilot groups are excluded from every later split. After a valid count exists,
 the sealed split must contain exactly that many new initial-state groups. A
-SHA-256-keyed, outcome-independent permutation freezes group order and the
+pre-outcome state manifest binds every group and simulator seed to one unique,
+finite numeric opaque NPZ state and its exact state key/hash. The simulator may
+load this transport state, but no policy method may read the privileged vector.
+The SHA-256-keyed, outcome-independent permutation freezes group order and the
 within-group B0--B8 order from the hashes of the plan, split, analysis config,
 and baseline registry. The schedule retains every simulator seed and the frozen
 policy identity. Formal matrix assembly requires the schedule hash and rejects

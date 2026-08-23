@@ -205,6 +205,14 @@ entries:
     rationale: Method order is derived only from frozen artifact hashes and a declared namespace before outcome collection; it is retained to expose temporal/order effects and cannot select a favorable ordering from outcomes.
     evidence: formal-schedule tests reject pilot-group reuse and the matrix assembler requires the schedule hash, exact seeds, methods, and policy identity
 
+  - id: formal_initial_state_cohort
+    location: scripts/evaluation/build_piu_formal_initial_states.py
+    value: one content-addressed opaque NPZ simulator state per sealed initial-state group
+    provenance: protocol_identifier
+    claim_use: main_evaluator
+    rationale: Exact source states are frozen before method outcomes and are transport-only, so paired methods cannot be compared on post hoc state variants and the policy receives no privileged simulator vector.
+    evidence: the builder validates split groups/seeds, NPZ key/dtype/finiteness, and unique content; the schedule and matrix bind every state hash
+
   - id: formal_offline_release_lock
     location: results/diagnostics/piu_offline_repro_preflight_v1.json
     value: content-addressed inventory of all required mainline code and configs

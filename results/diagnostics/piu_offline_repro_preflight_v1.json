@@ -2,7 +2,7 @@
   "schema_version": "piu.offline-repro-audit.v1",
   "manifest": {
     "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_offline_repro_v1.yaml",
-    "sha256": "5d7e9e35c5ced2967c632e93d4f0e4e7b016457071d9cdde83506bb102ba31e7"
+    "sha256": "c36ad898280dd363ce133522838be527cf18697b73b9040b999dbb660c55e13f"
   },
   "mode": "CREATE_RELEASE_LOCK",
   "offline_ready": true,
@@ -13,8 +13,8 @@
   "offline_inventory": [
     {
       "path": "configs/experiments/method_provenance_v1.yaml",
-      "sha256": "00c0bcfb1f0a09d3c6139ebde962dd533826403be9e53905b2dafe93f24006c0",
-      "bytes": "32513"
+      "sha256": "fcbb35c5268dcc834f7d14dbfabd00015f80c4ba04cb1f5e9f78e4c66aa8a5cd",
+      "bytes": "33136"
     },
     {
       "path": "configs/experiments/piu_action_effect_calibration_v1.yaml",
@@ -53,13 +53,13 @@
     },
     {
       "path": "docs/claim_evidence_ledger.md",
-      "sha256": "062a011f93d7bb7c49d8319dc673f13e7e881cb04d1b521faa7ad0b44eacdc2a",
-      "bytes": "3617"
+      "sha256": "26d0ac311ceb725d345952a350350c32da34d9117d10a754b4b2e58754333cca",
+      "bytes": "3678"
     },
     {
       "path": "docs/preregistration.md",
-      "sha256": "c52b6f43d9d1288dd8e33a3e03c087e6976469e0f700de4bef9ad9a08eb99940",
-      "bytes": "12459"
+      "sha256": "bbcb17eb90168df3f4f32fc354a1fd4edae6cce44994070d1c82904df0221c61",
+      "bytes": "12702"
     },
     {
       "path": "scripts/calibration/calibrate_piu_action_effect.py",
@@ -148,13 +148,18 @@
     },
     {
       "path": "scripts/evaluation/assemble_piu_formal_outcomes.py",
-      "sha256": "51d4fab4c678f54fb841ae016d0e23f5881d6fe84f120544a5ad5aedbd9b3f31",
-      "bytes": "7141"
+      "sha256": "a133dcf8a874118ed114e04dbd8dced9eb63de1188473e78ea08468523402bb1",
+      "bytes": "7427"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_formal_initial_states.py",
+      "sha256": "1b4d6188dea4fc450ef56bb37927b1c6ee0898626d993a84bc4abbf713d24971",
+      "bytes": "4297"
     },
     {
       "path": "scripts/evaluation/build_piu_formal_schedule.py",
-      "sha256": "2d34d0d034c3b27735b7f54ab617d7120b479c22ae98f998f6bebdba1ab24038",
-      "bytes": "8142"
+      "sha256": "41f7c515d7039e18cd20887f73efa61441ccd4983b9a1e7e847beb26c58488b0",
+      "bytes": "10655"
     },
     {
       "path": "scripts/evaluation/build_piu_qualified_executor_map.py",
@@ -337,6 +342,11 @@
       "bytes": "7518"
     },
     {
+      "path": "src/piu/formal_states.py",
+      "sha256": "674d38f1a5a2049b4dfcfc4c4b4a20025b464e5d27128ffbee18aa3ced0ad3d2",
+      "bytes": "1073"
+    },
+    {
       "path": "src/piu/oracle_effect.py",
       "sha256": "42e8f5d33903bed66309561baa3832580408e1fe8489e7cb09ce8d5292ad9e51",
       "bytes": "2021"
@@ -377,7 +387,7 @@
       "bytes": "7609"
     }
   ],
-  "offline_inventory_sha256": "e5e7ae84a55b77cd9929502ed648456941692406b973d6bb1bde74a2b59d2e81",
+  "offline_inventory_sha256": "d061e465fb0e63e22514da8f567c4feddf56f3e5460f5c1ae012317592ee026d",
   "reference_inventory_match": null,
   "entrypoints": [
     {
@@ -512,6 +522,11 @@
     },
     {
       "path": "scripts/evaluation/build_piu_formal_schedule.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_formal_initial_states.py",
       "executable": true,
       "syntax_valid": true
     },
@@ -731,6 +746,12 @@
     {
       "id": "formal_execution_schedule",
       "artifact": "results/method/piu_fixed_drawer_formal_schedule_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "formal_initial_state_manifest",
+      "artifact": "data/piu/mainline_v1/formal_initial_states_v1.json",
       "status": "PENDING_EXTERNAL",
       "sha256": null
     },

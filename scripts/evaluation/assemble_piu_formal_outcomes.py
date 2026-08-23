@@ -109,19 +109,27 @@ def main() -> None:
     if not isinstance(schedule_entries, list):
         raise TypeError("formal schedule entries must be a list")
     scheduled = {
-        (row.get("initial_state_group"), row.get("method_id")): row.get(
-            "simulator_seed"
-        )
+        (row.get("initial_state_group"), row.get("method_id")): row
         for row in schedule_entries
     }
     if set(scheduled) != expected or len(schedule_entries) != len(expected):
         raise ValueError("formal schedule differs from the complete method matrix")
     if any(
-        scheduled[(row["initial_state_group"], row["method_id"])]
+        scheduled[(row["initial_state_group"], row["method_id"])].get(
+            "simulator_seed"
+        )
         != row["simulator_seed"]
         for row in rows
     ):
         raise ValueError("formal rows differ from scheduled simulator seeds")
+    if any(
+        scheduled[(row["initial_state_group"], row["method_id"])]
+        .get("source_state", {})
+        .get("sha256")
+        != row["source_state_sha256"]
+        for row in rows
+    ):
+        raise ValueError("formal rows differ from scheduled opaque source states")
     schedule_policy = schedule.get("inputs", {}).get("policy_identity", {}).get(
         "sha256"
     )

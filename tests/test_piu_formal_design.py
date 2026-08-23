@@ -6,12 +6,15 @@ import subprocess
 import sys
 from pathlib import Path
 
+import numpy as np
+import pytest
 import yaml
 
 from piu.formal_design import (
     paired_risk_difference_interval,
     prospective_paired_design,
 )
+from piu.formal_states import validate_state_archive
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs/experiments/piu_formal_analysis_v1.yaml"
@@ -91,6 +94,19 @@ def test_conservative_design_blocks_five_perfect_pairs_but_sizes_ten() -> None:
     assert interval[1] == 1.0
 
 
+def test_formal_state_archive_rejects_extra_keys_and_nonfinite_values(
+    tmp_path: Path,
+) -> None:
+    extra = tmp_path / "extra.npz"
+    np.savez(extra, state=np.asarray([1.0]), hidden=np.asarray([2.0]))
+    with pytest.raises(ValueError, match="exactly key"):
+        validate_state_archive(extra, state_key="state")
+    nonfinite = tmp_path / "nonfinite.npz"
+    np.savez(nonfinite, state=np.asarray([np.nan]))
+    with pytest.raises(ValueError, match="nonfinite"):
+        validate_state_archive(nonfinite, state_key="state")
+
+
 def test_pilot_plan_and_schedule_are_paired_disjoint_and_hash_bound(
     tmp_path: Path,
 ) -> None:
@@ -168,6 +184,28 @@ def test_pilot_plan_and_schedule_are_paired_disjoint_and_hash_bound(
             }
         )
     )
+    state_arguments = []
+    for index in range(81):
+        group = f"formal-{index:03d}"
+        state = tmp_path / f"{group}.npz"
+        np.savez_compressed(state, state=np.asarray([index], dtype=np.float32))
+        state_arguments.extend(["--state", group, str(state)])
+    initial_states = tmp_path / "initial_states.json"
+    subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/evaluation/build_piu_formal_initial_states.py"),
+            "--split-manifest",
+            str(split),
+            *state_arguments,
+            "--output",
+            str(initial_states),
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
     schedule = tmp_path / "schedule.json"
     subprocess.run(
         [
@@ -177,6 +215,8 @@ def test_pilot_plan_and_schedule_are_paired_disjoint_and_hash_bound(
             str(plan),
             "--split-manifest",
             str(split),
+            "--initial-state-manifest",
+            str(initial_states),
             "--output",
             str(schedule),
         ],
@@ -192,6 +232,12 @@ def test_pilot_plan_and_schedule_are_paired_disjoint_and_hash_bound(
         f"B{index}" for index in range(9)
     }
     assert len({row["execution_index"] for row in frozen["entries"]}) == 81 * 9
+    source_by_group = {
+        row["initial_state_group"]: row["source_state"]["sha256"]
+        for row in frozen["entries"]
+    }
+    assert len(source_by_group) == 81
+    assert len(set(source_by_group.values())) == 81
 
 
 def test_schedule_rejects_reused_pilot_group(tmp_path: Path) -> None:
@@ -248,6 +294,33 @@ def test_schedule_rejects_reused_pilot_group(tmp_path: Path) -> None:
             }
         )
     )
+    state = tmp_path / "reused.npz"
+    np.savez_compressed(state, state=np.asarray([1.0], dtype=np.float32))
+    initial_states = tmp_path / "initial_states.json"
+    initial_states.write_text(
+        json.dumps(
+            {
+                "schema_version": "piu.formal-initial-state-manifest.v1",
+                "status": "FROZEN_BEFORE_FORMAL_OUTCOME_COLLECTION",
+                "outcomes_loaded": False,
+                "split_manifest": {"sha256": _sha256(split)},
+                "offline_repro_lock": {
+                    "sha256": _sha256(
+                        ROOT
+                        / "results/diagnostics/piu_offline_repro_preflight_v1.json"
+                    )
+                },
+                "states": [
+                    {
+                        "initial_state_group": "reused",
+                        "simulator_seed": 4,
+                        "state_key": "state",
+                        "source_state": _artifact(state),
+                    }
+                ],
+            }
+        )
+    )
     completed = subprocess.run(
         [
             sys.executable,
@@ -256,6 +329,8 @@ def test_schedule_rejects_reused_pilot_group(tmp_path: Path) -> None:
             str(plan),
             "--split-manifest",
             str(split),
+            "--initial-state-manifest",
+            str(initial_states),
             "--output",
             str(tmp_path / "schedule.json"),
         ],

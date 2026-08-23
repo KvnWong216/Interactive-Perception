@@ -37,6 +37,7 @@ required_files:
   - src/piu/execution_plan.py
   - src/piu/policy_identity.py
   - src/piu/formal_design.py
+  - src/piu/formal_states.py
   - src/piu/reproducibility.py
   - src/calibrated_interaction/paired_power.py
   - scripts/data/export_piu_binding_labels.py
@@ -64,6 +65,7 @@ required_files:
   - scripts/evaluation/assemble_piu_formal_outcomes.py
   - scripts/evaluation/plan_piu_formal_paired_test.py
   - scripts/evaluation/build_piu_formal_schedule.py
+  - scripts/evaluation/build_piu_formal_initial_states.py
   - scripts/repro/check_piu_offline_pipeline.py
   - scripts/evaluation/evaluate_piu_primitive_qualification.py
   - scripts/evaluation/plan_piu_primitive_qualification.py
@@ -112,6 +114,7 @@ python_entrypoints:
   - scripts/evaluation/assemble_piu_formal_outcomes.py
   - scripts/evaluation/plan_piu_formal_paired_test.py
   - scripts/evaluation/build_piu_formal_schedule.py
+  - scripts/evaluation/build_piu_formal_initial_states.py
   - scripts/repro/check_piu_offline_pipeline.py
   - scripts/evaluation/evaluate_piu_primitive_qualification.py
   - scripts/evaluation/plan_piu_primitive_qualification.py
@@ -175,6 +178,8 @@ external_empirical_gates:
     artifact: results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json
   - id: formal_execution_schedule
     artifact: results/method/piu_fixed_drawer_formal_schedule_v1.json
+  - id: formal_initial_state_manifest
+    artifact: data/piu/mainline_v1/formal_initial_states_v1.json
   - id: sealed_full_loop_report
     artifact: results/method/piu_fixed_drawer_sealed_v1.json
   - id: b6_oracle_effect_trace_results

@@ -14,6 +14,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
+from piu.formal_states import validate_state_archive
 from piu.reproducibility import validate_repro_lock
 from piu.splits import load_split_manifest
 
@@ -46,6 +47,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--formal-plan", type=Path, required=True)
     parser.add_argument("--split-manifest", type=Path, required=True)
+    parser.add_argument("--initial-state-manifest", type=Path, required=True)
     parser.add_argument(
         "--analysis-config",
         type=Path,
@@ -70,6 +72,7 @@ def main() -> None:
     args = parser.parse_args()
     plan_path = resolve(args.formal_plan)
     split_path = resolve(args.split_manifest)
+    state_manifest_path = resolve(args.initial_state_manifest)
     config_path = resolve(args.analysis_config)
     registry_path = resolve(args.baseline_registry)
     repro_manifest_path = resolve(args.repro_manifest)
@@ -86,6 +89,7 @@ def main() -> None:
     config = yaml.safe_load(config_path.read_text())
     registry = yaml.safe_load(registry_path.read_text())
     split = load_split_manifest(split_path)
+    state_manifest = json.loads(state_manifest_path.read_text())
     if (
         plan.get("schema_version") != "piu.formal-paired-test-plan.v1"
         or plan.get("status") != "PROSPECTIVE_GROUP_COUNT_FROZEN"
@@ -95,6 +99,20 @@ def main() -> None:
         raise ValueError("unsupported formal analysis config")
     if registry.get("schema_version") != "piu.baseline-registry.v1":
         raise ValueError("unsupported baseline registry")
+    if (
+        state_manifest.get("schema_version")
+        != "piu.formal-initial-state-manifest.v1"
+        or state_manifest.get("status")
+        != "FROZEN_BEFORE_FORMAL_OUTCOME_COLLECTION"
+        or state_manifest.get("outcomes_loaded") is not False
+    ):
+        raise ValueError("formal schedule requires a frozen initial-state manifest")
+    if state_manifest.get("split_manifest", {}).get("sha256") != sha256(split_path):
+        raise ValueError("formal initial states used another split manifest")
+    if state_manifest.get("offline_repro_lock", {}).get("sha256") != sha256(
+        repro_lock_path
+    ):
+        raise ValueError("formal initial states used another offline release lock")
     if plan.get("config", {}).get("sha256") != sha256(config_path):
         raise ValueError("formal plan was created under another analysis config")
     if plan.get("baseline_registry", {}).get("sha256") != sha256(registry_path):
@@ -136,9 +154,37 @@ def main() -> None:
         raise ValueError("formal execution schedule is not outcome-independent")
     namespace = str(schedule_config["namespace"])
     binding = "\0".join(
-        (sha256(plan_path), sha256(split_path), sha256(config_path), sha256(registry_path))
+        (
+            sha256(plan_path),
+            sha256(split_path),
+            sha256(state_manifest_path),
+            sha256(config_path),
+            sha256(registry_path),
+            sha256(repro_lock_path),
+        )
     )
     by_group = {row["initial_state_group"]: row for row in sealed_rows}
+    state_rows = state_manifest.get("states")
+    if not isinstance(state_rows, list):
+        raise TypeError("formal initial-state rows must be a list")
+    states_by_group = {
+        str(row.get("initial_state_group", "")): row for row in state_rows
+    }
+    if set(states_by_group) != set(by_group) or len(state_rows) != len(by_group):
+        raise ValueError("formal initial-state cohort differs from sealed groups")
+    for group, assignment in by_group.items():
+        state_row = states_by_group[group]
+        state_value = state_row.get("source_state", {})
+        state_path = resolve(Path(str(state_value.get("path", ""))))
+        state_key = str(state_row.get("state_key", ""))
+        shape, dtype = validate_state_archive(state_path, state_key=state_key)
+        if (
+            state_row.get("simulator_seed") != assignment["seed"]
+            or sha256(state_path) != state_value.get("sha256")
+            or shape != state_value.get("shape")
+            or dtype != state_value.get("dtype")
+        ):
+            raise ValueError(f"formal initial state differs for {group}")
     group_order = keyed_order(namespace, binding, list(by_group))
     entries = []
     for group_position, group in enumerate(group_order):
@@ -154,6 +200,8 @@ def main() -> None:
                     "initial_state_group": group,
                     "simulator_seed": int(by_group[group]["seed"]),
                     "method_id": method,
+                    "state_key": states_by_group[group]["state_key"],
+                    "source_state": states_by_group[group]["source_state"],
                 }
             )
     result = {
@@ -171,6 +219,10 @@ def main() -> None:
         "inputs": {
             "formal_plan": {"path": portable(plan_path), "sha256": sha256(plan_path)},
             "split_manifest": {"path": portable(split_path), "sha256": sha256(split_path)},
+            "initial_state_manifest": {
+                "path": portable(state_manifest_path),
+                "sha256": sha256(state_manifest_path),
+            },
             "analysis_config": {"path": portable(config_path), "sha256": sha256(config_path)},
             "baseline_registry": {"path": portable(registry_path), "sha256": sha256(registry_path)},
             "policy_identity": {"path": portable(identity_path), "sha256": identity_digest},

@@ -290,12 +290,64 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
                         "initial_state_group": "sealed_group",
                         "simulator_seed": 17,
                         "method_id": f"B{index}",
+                        "source_state": {
+                            "path": str(source),
+                            "sha256": hashlib.sha256(
+                                source.read_bytes()
+                            ).hexdigest(),
+                        },
                     }
                     for index in range(9)
                 ],
             }
         )
     )
+    wrong_schedule = tmp_path / "wrong_formal_schedule.json"
+    wrong_value = json.loads(formal_schedule.read_text())
+    wrong_value["entries"][0]["source_state"]["sha256"] = "f" * 64
+    wrong_schedule.write_text(json.dumps(wrong_value))
+    wrong_matrix = tmp_path / "wrong_matrix.jsonl"
+    wrong_authorization = tmp_path / "wrong_matrix_authorization.json"
+    wrong_authorization.write_text(
+        json.dumps(
+            {
+                "schema_version": "piu.formal-matrix-sealed-authorization.v1",
+                "row_sha256_sorted": sorted(
+                    hashlib.sha256(path.read_bytes()).hexdigest()
+                    for path in row_paths
+                ),
+                "split_manifest_sha256": hashlib.sha256(
+                    split_manifest.read_bytes()
+                ).hexdigest(),
+                "formal_schedule_sha256": hashlib.sha256(
+                    wrong_schedule.read_bytes()
+                ).hexdigest(),
+                "single_use_output": str(wrong_matrix),
+            }
+        )
+    )
+    rejected = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/evaluation/assemble_piu_formal_outcomes.py"),
+            "--rows",
+            *(str(path) for path in row_paths),
+            "--split-manifest",
+            str(split_manifest),
+            "--formal-schedule",
+            str(wrong_schedule),
+            "--sealed-authorization",
+            str(wrong_authorization),
+            "--output",
+            str(wrong_matrix),
+        ],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert rejected.returncode != 0
+    assert "scheduled opaque source states" in rejected.stderr
     matrix_authorization = tmp_path / "matrix_authorization.json"
     matrix_authorization.write_text(
         json.dumps(

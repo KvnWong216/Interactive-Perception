@@ -289,19 +289,33 @@ effect/discordance/variance and uses joint 95% lower exact-binomial bounds for a
 conservative exact-power operating point. A nonpositive or insufficiently
 identified directional effect produces no sample size, not a round-number
 fallback. Before loading the episodes it verifies every hash in the retained
-offline reproduction lock. After allocating exactly the planned number of new sealed groups,
-freeze the outcome-independent B0--B8 order:
+offline reproduction lock. After allocating exactly the planned number of new
+sealed groups, first freeze the exact opaque state that every method will load:
+
+```bash
+python scripts/evaluation/build_piu_formal_initial_states.py \
+  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --state GROUP_1 PATH/state_1.npz \
+  --state GROUP_2 PATH/state_2.npz \
+  --output data/piu/mainline_v1/formal_initial_states_v1.json
+```
+
+The state files are validated numeric NPZ transport artifacts and never policy
+features. Then freeze the outcome-independent B0--B8 order:
 
 ```bash
 python scripts/evaluation/build_piu_formal_schedule.py \
   --formal-plan results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json \
   --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --initial-state-manifest data/piu/mainline_v1/formal_initial_states_v1.json \
   --output results/method/piu_fixed_drawer_formal_schedule_v1.json
 ```
 
 Formal matrix authorization must bind this schedule hash in addition to row and
 split hashes. Matrix assembly rejects pilot-group reuse, cohort-size drift,
 missing B0--B8 cells, seed drift, and policy-identity drift.
+It also rejects any row whose source-state hash differs from the state frozen
+before outcome collection.
 
 ## Legacy baseline entry points
 

@@ -39,6 +39,9 @@ def test_repository_method_provenance_is_claim_safe() -> None:
         "formal_statistical_procedure"
     )
     assert by_id["formal_execution_permutation"]["claim_use"] == "main_evaluator"
+    assert by_id["formal_initial_state_cohort"]["provenance"] == (
+        "protocol_identifier"
+    )
     assert by_id["formal_offline_release_lock"]["provenance"] == (
         "protocol_identifier"
     )

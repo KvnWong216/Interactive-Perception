@@ -167,14 +167,21 @@ point supports a directional B8 effect and exact two-sided paired power reaches
 exactly N new sealed groups, freeze execution order without reading outcomes:
 
 ```bash
+python scripts/evaluation/build_piu_formal_initial_states.py \
+  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --state GROUP_1 PATH/state_1.npz --state GROUP_2 PATH/state_2.npz \
+  --output data/piu/mainline_v1/formal_initial_states_v1.json
+
 python scripts/evaluation/build_piu_formal_schedule.py \
   --formal-plan results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json \
   --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --initial-state-manifest data/piu/mainline_v1/formal_initial_states_v1.json \
   --output results/method/piu_fixed_drawer_formal_schedule_v1.json
 ```
 
 The schedule's SHA-256 permutation randomizes group and within-group B0--B8
-order and retains every seed. Sealed matrix authorization binds its hash. Main
+order and retains every seed. Sealed matrix authorization binds its hash. The
+schedule also binds the pre-outcome source-state hash for every row. Main
 interpretation reports full-task/wrong-contact comparisons against B1/B3,
 interaction cost, calibration efficiency, the B0-to-B7 oracle gap, and the
 B4-versus-B3 effect ablation; no p-value alone creates a success claim.
