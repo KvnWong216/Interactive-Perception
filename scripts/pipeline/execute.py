@@ -8,8 +8,6 @@ frozen executor's target-binding ceiling.  Reports distinguish these claim
 scopes and enumerate all online oracle inputs.
 """
 
-# ruff: noqa: E402
-
 from __future__ import annotations
 
 import argparse
@@ -138,6 +136,7 @@ def evaluator_replay(
     target_destination_region: str | None,
     tracked_objects: tuple[str, ...],
     tracked_joints: tuple[str, ...],
+    metric_contract_version: str = "v2",
 ) -> dict[str, Any]:
     from libero.libero.envs import SegmentationRenderEnv
 
@@ -247,7 +246,9 @@ def evaluator_replay(
                 ["in", target_object, target_destination_region]
             )
         )
-        return {
+        if metric_contract_version not in {"v1", "v2"}:
+            raise ValueError("metric_contract_version must be v1 or v2")
+        result = {
             "timing": "separate replay after controller terminal",
             "privileged_inputs": [
                 "declared evaluator object poses and contacts",
@@ -268,22 +269,43 @@ def evaluator_replay(
                 "after_subtask": target_visibility_after_subtask,
                 "final": target_visibility_final,
             },
-            "target_pick_success": bool(
+        }
+        if metric_contract_version == "v1":
+            result["target_pick_success"] = bool(
                 target
                 and target["grasp_contact_steps"] > 0
                 and target["maximum_lift_m"] >= 0.03
-            ),
-            "objects": objects,
-            "joints": {
-                name: {
-                    "initial": values[0],
-                    "final": values[-1],
-                    "minimum": min(values),
-                    "maximum": max(values),
-                }
-                for name, values in joint_values.items()
-            },
+            )
+        else:
+            result["target_grasp_contact_success"] = bool(
+                target and target["grasp_contact_steps"] > 0
+            )
+            result["target_maximum_lift_m"] = (
+                float(target["maximum_lift_m"]) if target is not None else None
+            )
+            result["metric_contract"] = {
+                "target_grasp_contact_success": (
+                    "LIBERO gripper/object contact predicate observed at least once"
+                ),
+                "target_maximum_lift_m": (
+                    "continuous maximum object-z displacement from replay initial state"
+                ),
+                "target_pick_threshold": None,
+                "note": (
+                    "No hand-selected lift threshold determines a v2 binary outcome"
+                ),
+            }
+        result["objects"] = objects
+        result["joints"] = {
+            name: {
+                "initial": values[0],
+                "final": values[-1],
+                "minimum": min(values),
+                "maximum": max(values),
+            }
+            for name, values in joint_values.items()
         }
+        return result
     finally:
         env.close()
 
@@ -308,6 +330,12 @@ def main() -> None:
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8002)
     parser.add_argument("--server-timeout", type=float, default=180.0)
+    parser.add_argument(
+        "--report-schema",
+        choices=("v1", "v2"),
+        default="v2",
+        help="v1 is retained only for exact historical metric reproduction",
+    )
     parser.add_argument(
         "--external-server",
         action="store_true",
@@ -619,9 +647,10 @@ def main() -> None:
         target_destination_region=args.target_destination_region,
         tracked_objects=tracked,
         tracked_joints=tuple(args.track_joint),
+        metric_contract_version=args.report_schema,
     )
     report = {
-        "schema_version": "piu.semantic-option.v1",
+        "schema_version": f"piu.semantic-option.{args.report_schema}",
         "claim_scope": (
             "EVALUATOR_ONLY_ORACLE_UPPER_BOUND"
             if args.oracle_target_visual_prompt
@@ -690,23 +719,25 @@ def main() -> None:
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n")
-    print(
-        json.dumps(
-            {
-                "output": portable_path(args.output),
-                "seed": args.seed,
-                "role": args.role,
-                "prompt": args.prompt,
-                "subtask_steps": execution.subtask_steps,
-                "return_phase": execution.return_status.phase.value,
-                "task_success": evaluator["task_success"],
-                "target_pick_success": evaluator["target_pick_success"],
-                "target_reached_destination": evaluator["target_reached_destination"],
-                "target_visibility_pixels": evaluator["target_visibility_pixels"],
-            },
-            indent=2,
-        )
-    )
+    terminal_metrics = {
+        "output": portable_path(args.output),
+        "seed": args.seed,
+        "role": args.role,
+        "prompt": args.prompt,
+        "subtask_steps": execution.subtask_steps,
+        "return_phase": execution.return_status.phase.value,
+        "task_success": evaluator["task_success"],
+        "target_reached_destination": evaluator["target_reached_destination"],
+        "target_visibility_pixels": evaluator["target_visibility_pixels"],
+    }
+    if args.report_schema == "v1":
+        terminal_metrics["target_pick_success"] = evaluator["target_pick_success"]
+    else:
+        terminal_metrics["target_grasp_contact_success"] = evaluator[
+            "target_grasp_contact_success"
+        ]
+        terminal_metrics["target_maximum_lift_m"] = evaluator["target_maximum_lift_m"]
+    print(json.dumps(terminal_metrics, indent=2))
 
 
 if __name__ == "__main__":

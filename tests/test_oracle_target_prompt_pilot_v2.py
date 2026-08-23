@@ -1,0 +1,126 @@
+from __future__ import annotations
+
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+from types import ModuleType
+
+import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+CONFIG = ROOT / "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml"
+PREFLIGHT = ROOT / "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json"
+AUDIT = ROOT / "results/diagnostics/original_drawer_threshold_audit_v1.json"
+RUNNER = ROOT / "scripts/pipeline/run_oracle_target_prompt_gate.py"
+SUMMARIZER = ROOT / "scripts/evaluation/summarize_oracle_target_prompt_gate.py"
+EXECUTOR = ROOT / "scripts/pipeline/execute.py"
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def load_script(name: str, path: Path) -> ModuleType:
+    spec = importlib.util.spec_from_file_location(name, path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"cannot import {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_v2_pilot_has_no_small_count_pass_fail_gate() -> None:
+    config = yaml.safe_load(CONFIG.read_text())
+    assert config["schema_version"].endswith("pilot.v2")
+    assert config["execution"]["target_presence_minimum_pixels"] == 1
+    assert config["confirmation"]["automatic_method_branch"] is False
+    assert "development_gate" not in config["confirmation"]
+    assert "prefer_style_order" not in config["screen"]
+    assert set(config["screen"]["seeds"]).isdisjoint(config["confirmation"]["seeds"])
+
+
+def test_v2_preflight_uses_nonempty_masks_and_hashed_sources() -> None:
+    result = json.loads(PREFLIGHT.read_text())
+    assert result["status"] == "PASS"
+    assert result["policy_server_contacted"] is False
+    assert result["target_presence_minimum_pixels"] == 1
+    assert result["experiment"]["sha256"] == sha256(CONFIG)
+    assert result["eligible_seeds"] == list(range(1400, 1408))
+    assert result["excluded_seeds"] == [1408, 1409]
+    for row in result["rows"]:
+        source = ROOT / row["source_initial_state"]["path"]
+        assert sha256(source) == row["source_initial_state"]["sha256"]
+
+
+def test_v2_runner_uses_external_server_and_new_report_root() -> None:
+    runner = load_script("oracle_pilot_runner_v2", RUNNER)
+    config = runner.load_config(CONFIG)
+    command, report = runner.command_for(
+        config=config,
+        phase="screen",
+        style="point",
+        seed=1400,
+        host="pi05.example",
+        port=8002,
+        server_timeout=30.0,
+    )
+    assert "--external-server" in command
+    schema = command.index("--report-schema") + 1
+    assert command[schema] == "v2"
+    minimum = command.index("--oracle-minimum-visible-pixels") + 1
+    assert command[minimum] == "1"
+    assert report == (
+        ROOT / "runs/oracle_target_prompt_pilot_v2/screen/point/seed1400/report.json"
+    )
+
+
+def test_v2_style_selection_has_no_manual_preference_order() -> None:
+    summarizer = load_script("oracle_pilot_summarizer_v2", SUMMARIZER)
+    config = yaml.safe_load(CONFIG.read_text())
+    rows = []
+    for style, contacts, changed in (
+        ("box", 2, 400),
+        ("point", 2, 100),
+        ("spotlight", 1, 1000),
+    ):
+        for index in range(3):
+            rows.append(
+                {
+                    "style": style,
+                    "target_grasp_contact": index < contacts,
+                    "target_destination": False,
+                    "target_destination_final": False,
+                    "task_success": False,
+                    "wrong_object_contact": False,
+                    "initial_changed_rgb_pixels": changed,
+                }
+            )
+    selected, aggregates = summarizer.select_style(config, rows)
+    assert selected == "point"
+    assert aggregates["point"]["target_grasp_contact"]["successes"] == 2
+
+
+def test_threshold_audit_proves_retained_conclusions_are_invariant() -> None:
+    result = json.loads(AUDIT.read_text())
+    assert result["visibility"]["threshold_invariant_integer_interval_raw_pixels"] == [
+        1,
+        447,
+    ]
+    target = result["target_manipulation"]
+    assert target["post_open_butter"]["grasp_contact_successes"] == 0
+    assert target["visible_cream_cheese_control"]["grasp_contact_successes"] == 10
+    assert (
+        target["visible_cream_cheese_control"][
+            "minimum_maximum_lift_among_contact_runs_m"
+        ]
+        > 0.15
+    )
+    assert result["drawer_open"]["successes"] == 9
+
+
+def test_v2_executor_has_no_binary_lift_threshold() -> None:
+    source = EXECUTOR.read_text()
+    assert 'default="v2"' in source
+    assert '"target_pick_threshold": None' in source
+    assert 'if metric_contract_version == "v1"' in source

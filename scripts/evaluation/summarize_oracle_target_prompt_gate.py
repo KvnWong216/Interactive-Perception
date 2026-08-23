@@ -13,7 +13,9 @@ from typing import Any
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
-SCHEMA = "calibrated-interaction.oracle-target-prompt-gate.v1"
+V1_SCHEMA = "calibrated-interaction.oracle-target-prompt-gate.v1"
+V2_SCHEMA = "calibrated-interaction.oracle-target-prompt-pilot.v2"
+SCHEMAS = frozenset((V1_SCHEMA, V2_SCHEMA))
 
 
 def sha256(path: Path) -> str:
@@ -76,7 +78,7 @@ def exact_paired_binomial(left: list[bool], right: list[bool]) -> dict[str, Any]
 
 def load_config(path: Path) -> dict[str, Any]:
     config = yaml.safe_load(path.read_text())
-    if config.get("schema_version") != SCHEMA:
+    if config.get("schema_version") not in SCHEMAS:
         raise ValueError(f"unsupported oracle gate schema in {path}")
     return config
 
@@ -98,7 +100,11 @@ def validate_oracle_report(
     report = json.loads(path.read_text())
     execution = config["execution"]
     expected = {
-        "schema_version": "piu.semantic-option.v1",
+        "schema_version": (
+            "piu.semantic-option.v2"
+            if config["schema_version"] == V2_SCHEMA
+            else "piu.semantic-option.v1"
+        ),
         "claim_scope": "EVALUATOR_ONLY_ORACLE_UPPER_BOUND",
         "seed": seed,
         "role": execution["role"],
@@ -136,7 +142,12 @@ def validate_oracle_report(
     audits = oracle["policy_call_audit"]
     if len(audits) != controller["policy_calls"] or not audits:
         raise ValueError(f"{path}: policy-call oracle audit is incomplete")
-    visible_minimum = int(execution["target_visible_pixels_minimum"])
+    visible_minimum = int(
+        execution.get(
+            "target_presence_minimum_pixels",
+            execution.get("target_visible_pixels_minimum"),
+        )
+    )
     if max(audits[0]["visible_pixels"].values()) < visible_minimum:
         raise ValueError(f"{path}: target was not initially visible")
     for collection in (controller["keyframes"], oracle["keyframes"]):
@@ -150,10 +161,18 @@ def validate_oracle_report(
     if evaluator["target_object"] != execution["target_object"]:
         raise ValueError(f"{path}: evaluator target mismatch")
     wrong_object = execution["wrong_object"]
+    target_contact = bool(
+        evaluator["objects"][execution["target_object"]]["grasp_contact_steps"] > 0
+    )
+    changed = audits[0].get("changed_rgb_pixels", {})
     return {
         "seed": seed,
         "style": style,
-        "target_pick": bool(evaluator["target_pick_success"]),
+        "target_pick": bool(evaluator.get("target_pick_success", target_contact)),
+        "target_grasp_contact": target_contact,
+        "target_maximum_lift_m": float(
+            evaluator["objects"][execution["target_object"]]["maximum_lift_m"]
+        ),
         "target_destination": bool(evaluator["target_reached_destination"]),
         "target_destination_final": bool(evaluator["target_in_destination_final"]),
         "task_success": bool(evaluator["task_success"]),
@@ -161,6 +180,7 @@ def validate_oracle_report(
             evaluator["objects"][wrong_object]["grasp_contact_steps"] > 0
         ),
         "initial_visible_pixels": max(audits[0]["visible_pixels"].values()),
+        "initial_changed_rgb_pixels": sum(int(value) for value in changed.values()),
         "report": {"path": portable(path), "sha256": sha256(path)},
         "action_history": {
             "path": portable(action_path),
@@ -197,10 +217,51 @@ def aggregate(rows: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def aggregate_v2(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    return {
+        metric: rate([bool(row[metric]) for row in rows])
+        for metric in (
+            "target_grasp_contact",
+            "target_destination",
+            "target_destination_final",
+            "task_success",
+            "wrong_object_contact",
+        )
+    }
+
+
 def select_style(
     config: dict[str, Any], rows: list[dict[str, Any]]
-) -> tuple[str, dict[str, dict[str, Any]]]:
+) -> tuple[str | None, dict[str, dict[str, Any]]]:
     styles = [str(style) for style in config["screen"]["styles"]]
+    if config["schema_version"] == V2_SCHEMA:
+        by_style = {
+            style: aggregate_v2([row for row in rows if row["style"] == style])
+            for style in styles
+        }
+        changed = {
+            style: sum(
+                int(row["initial_changed_rgb_pixels"])
+                for row in rows
+                if row["style"] == style
+            )
+            for style in styles
+        }
+        scores = {
+            style: (
+                by_style[style]["target_grasp_contact"]["successes"],
+                by_style[style]["target_destination_final"]["successes"],
+                -by_style[style]["wrong_object_contact"]["successes"],
+                -changed[style],
+            )
+            for style in styles
+        }
+        best = max(scores.values())
+        winners = [style for style in styles if scores[style] == best]
+        for style in styles:
+            by_style[style]["initial_changed_rgb_pixels_total"] = changed[style]
+            by_style[style]["selection_score"] = list(scores[style])
+        return (winners[0] if len(winners) == 1 else None), by_style
     by_style = {
         style: aggregate([row for row in rows if row["style"] == style])
         for style in styles
@@ -235,10 +296,13 @@ def baseline_rows(config: dict[str, Any], seeds: list[int]) -> list[dict[str, An
         if report["seed"] != seed or report["controller"]["online_oracle_inputs"]:
             raise ValueError(f"invalid public-input baseline {path}")
         evaluator = report["evaluator"]
+        target = evaluator["objects"][config["execution"]["target_object"]]
         rows.append(
             {
                 "seed": seed,
                 "target_pick": bool(evaluator["target_pick_success"]),
+                "target_grasp_contact": bool(target["grasp_contact_steps"] > 0),
+                "target_maximum_lift_m": float(target["maximum_lift_m"]),
                 "target_destination_final": bool(
                     evaluator["target_in_destination_final"]
                 ),
@@ -257,7 +321,13 @@ def summarize(config_path: Path, phase: str, selected_style: str | None) -> dict
         config, phase="screen", styles=screen_styles, seeds=screen_seeds
     )
     selected, screen_aggregates = select_style(config, screen_rows)
-    if selected_style is not None and selected_style != selected:
+    if selected is None:
+        if phase == "confirmation":
+            raise ValueError(
+                "screen has an exact tie; collect another development group before "
+                "confirmation"
+            )
+    elif selected_style is not None and selected_style != selected:
         raise ValueError(
             f"requested style {selected_style!r} differs from preregistered "
             f"screen selection {selected!r}"
@@ -279,6 +349,12 @@ def summarize(config_path: Path, phase: str, selected_style: str | None) -> dict
         "formal_method_claim": False,
     }
     if phase == "screen":
+        if selected is None:
+            return {
+                **common,
+                "status": "SCREEN_TIED_NEEDS_MORE_DEVELOPMENT",
+                "decision": "COLLECT_ANOTHER_SCREEN_GROUP",
+            }
         return {
             **common,
             "status": "SCREEN_COMPLETE_AWAITING_CONFIRMATION",
@@ -298,6 +374,30 @@ def summarize(config_path: Path, phase: str, selected_style: str | None) -> dict
             raise ValueError(
                 f"seed {oracle['seed']}: oracle/baseline RGB is not paired"
             )
+    if config["schema_version"] == V2_SCHEMA:
+        aggregates_v2 = aggregate_v2(rows)
+        comparison_v2 = exact_paired_binomial(
+            [row["target_grasp_contact"] for row in rows],
+            [row["target_grasp_contact"] for row in baselines],
+        )
+        return {
+            **common,
+            "status": "INDEPENDENT_DEVELOPMENT_PILOT_COMPLETE",
+            "confirmation": {
+                "selected_style": selected,
+                "rows": rows,
+                "aggregates": aggregates_v2,
+                "public_baselines": baselines,
+                "paired_target_grasp_contact_comparison": comparison_v2,
+                "primary_estimand": config["confirmation"]["primary_estimand"],
+                "evidence_grade": config["confirmation"]["evidence_grade"],
+                "passed": None,
+            },
+            "decision": "DESIGN_PROSPECTIVE_FORMAL_TEST_FROM_PILOT",
+            "automatic_method_branch": False,
+            "decision_rationale": config["confirmation"]["rationale"],
+            "formal_followup": config["formal_followup"],
+        }
     aggregates = aggregate(rows)
     gate = config["confirmation"]["development_gate"]
     passed = aggregates["target_pick"]["successes"] >= int(
@@ -340,7 +440,7 @@ def main() -> None:
         "--config",
         type=Path,
         default=ROOT
-        / "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml",
+        / "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
     )
     parser.add_argument("--phase", choices=("screen", "confirmation"), required=True)
     parser.add_argument("--style", choices=("box", "point", "spotlight"))

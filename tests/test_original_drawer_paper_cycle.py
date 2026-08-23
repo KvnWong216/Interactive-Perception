@@ -11,6 +11,7 @@ from calibrated_interaction.data import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
+CONFIG = ROOT / "configs/experiments/original_drawer_paper_cycle_v2.yaml"
 RESULT = ROOT / "results/method/original_drawer_paper_cycle_v2.json"
 RELABEL = ROOT / "results/method/original_drawer_open_cream_relabel_v2.json"
 DIRECT_FINAL_RELABEL = (
@@ -34,6 +35,7 @@ def read_jsonl(path: Path) -> list[dict]:
 
 def test_physical_matrix_freezes_separate_information_and_execution_gates() -> None:
     result = json.loads(RESULT.read_text())
+    assert sha256(CONFIG) == result["config"]["sha256"]
     assert result["online_oracle_input_count"] == 0
     aggregates = result["aggregates"]
     assert aggregates["direct_closed_butter"]["wrong_object_contact"]["successes"] == 9
@@ -76,6 +78,7 @@ def test_physical_matrix_freezes_separate_information_and_execution_gates() -> N
 
 def test_task_specific_relabel_is_offline_and_trajectory_preserving() -> None:
     result = json.loads(RELABEL.read_text())
+    assert sha256(CONFIG) == result["config"]["sha256"]
     assert result["evaluator_only"] is True
     assert result["policy_rerun"] is False
     assert result["policy_inputs_changed"] is False
@@ -84,6 +87,7 @@ def test_task_specific_relabel_is_offline_and_trajectory_preserving() -> None:
         for key in ("source_report", "source_action_history"):
             assert sha256(ROOT / row[key]["path"]) == row[key]["sha256"]
     direct = json.loads(DIRECT_FINAL_RELABEL.read_text())
+    assert sha256(CONFIG) == direct["config"]["sha256"]
     assert direct["source_condition"] == "direct_visible_cream_cheese"
     assert sum(
         row["evaluator"]["target_in_destination_final"] for row in direct["rows"]
@@ -93,6 +97,7 @@ def test_task_specific_relabel_is_offline_and_trajectory_preserving() -> None:
 def test_executed_effect_dataset_is_grouped_and_policy_clean() -> None:
     rows = read_jsonl(DATA)
     manifest = json.loads(MANIFEST.read_text())
+    assert sha256(CONFIG) == manifest["sources"]["config"]["sha256"]
     assert len(rows) == manifest["rows"] == 60
     assert sha256(DATA) == manifest["dataset"]["sha256"]
     assert manifest["initial_state_groups"] == 10

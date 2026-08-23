@@ -43,3 +43,4 @@ preregistered_executor_gate: >-
   Require at least 8/10 visible requested-object picks, 7/10 visible
   requested-object placements, and 8/10 butter picks from states produced by
   the actual OPEN option before claiming a full-loop executor qualification.
+

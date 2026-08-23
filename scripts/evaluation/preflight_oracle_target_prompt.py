@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Preflight oracle prompts on retained post-OPEN states without a policy server."""
 
-# ruff: noqa: E402
-
 from __future__ import annotations
 
 import argparse
@@ -21,7 +19,12 @@ import bootstrap  # noqa: F401
 
 from interactive_perception.oracle_visual_prompt import build_oracle_target_packet
 
-SCHEMA = "calibrated-interaction.oracle-target-prompt-gate.v1"
+SCHEMAS = frozenset(
+    {
+        "calibrated-interaction.oracle-target-prompt-gate.v1",
+        "calibrated-interaction.oracle-target-prompt-pilot.v2",
+    }
+)
 
 
 def sha256(path: Path) -> str:
@@ -34,7 +37,7 @@ def portable(path: Path) -> str:
 
 def load_config(path: Path) -> dict[str, Any]:
     config = yaml.safe_load(path.read_text())
-    if config.get("schema_version") != SCHEMA:
+    if config.get("schema_version") not in SCHEMAS:
         raise ValueError(f"unsupported oracle gate schema in {path}")
     return config
 
@@ -46,7 +49,12 @@ def preflight(config_path: Path) -> dict[str, Any]:
     scenario = yaml.safe_load((ROOT / config["scenario_config"]).read_text())
     bddl = ROOT / scenario["scene"]["bddl"]
     execution = config["execution"]
-    threshold = int(execution["target_visible_pixels_minimum"])
+    threshold = int(
+        execution.get(
+            "target_presence_minimum_pixels",
+            execution.get("target_visible_pixels_minimum"),
+        )
+    )
     env = SegmentationRenderEnv(
         bddl_file_name=str(bddl), camera_heights=256, camera_widths=256
     )
@@ -106,13 +114,13 @@ def preflight(config_path: Path) -> dict[str, Any]:
             f"eligible seeds {eligible} differ from preregistered {expected}"
         )
     return {
-        "schema_version": "calibrated-interaction.oracle-prompt-preflight.v1",
+        "schema_version": "calibrated-interaction.oracle-prompt-preflight.v2",
         "status": "PASS",
         "policy_server_contacted": False,
         "policy_actions_sampled": False,
         "claim_scope": "EVALUATOR_ONLY_INPUT_AND_RENDERING_PREFLIGHT",
         "experiment": {"path": portable(config_path), "sha256": sha256(config_path)},
-        "target_visible_pixels_minimum": threshold,
+        "target_presence_minimum_pixels": threshold,
         "eligible_seeds": eligible,
         "excluded_seeds": [row["seed"] for row in rows if not row["eligible"]],
         "rows": rows,
@@ -125,7 +133,7 @@ def main() -> None:
         "--config",
         type=Path,
         default=ROOT
-        / "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml",
+        / "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
     )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()

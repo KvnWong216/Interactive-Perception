@@ -14,12 +14,17 @@ from typing import Any
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
-SCHEMA = "calibrated-interaction.oracle-target-prompt-gate.v1"
+SCHEMAS = frozenset(
+    {
+        "calibrated-interaction.oracle-target-prompt-gate.v1",
+        "calibrated-interaction.oracle-target-prompt-pilot.v2",
+    }
+)
 
 
 def load_config(path: Path) -> dict[str, Any]:
     config = yaml.safe_load(path.read_text())
-    if config.get("schema_version") != SCHEMA:
+    if config.get("schema_version") not in SCHEMAS:
         raise ValueError(f"unsupported oracle gate schema in {path}")
     contract = config.get("resource_contract", {})
     if contract.get("policy_server") != "external_only":
@@ -82,6 +87,13 @@ def command_for(
         str(execution["steps"]),
         "--replan-steps",
         str(execution["replan_steps"]),
+        "--report-schema",
+        (
+            "v2"
+            if config["schema_version"]
+            == "calibrated-interaction.oracle-target-prompt-pilot.v2"
+            else "v1"
+        ),
         "--target-object",
         str(execution["target_object"]),
         "--external-server",
@@ -94,7 +106,12 @@ def command_for(
         "--oracle-target-visual-prompt",
         style,
         "--oracle-minimum-visible-pixels",
-        str(execution["target_visible_pixels_minimum"]),
+        str(
+            execution.get(
+                "target_presence_minimum_pixels",
+                execution.get("target_visible_pixels_minimum"),
+            )
+        ),
         "--assets",
         str(run_directory / "assets"),
         "--work",
@@ -111,7 +128,7 @@ def main() -> None:
         "--config",
         type=Path,
         default=ROOT
-        / "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml",
+        / "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
     )
     parser.add_argument("--phase", choices=("screen", "confirmation"), required=True)
     parser.add_argument("--style", choices=("box", "point", "spotlight"))

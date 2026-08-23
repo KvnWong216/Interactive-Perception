@@ -20,13 +20,14 @@ execution`, with calibration and abstention at each failed conversion.
 
 ## Blocking decision sequence
 
-| gate | experiment | pass condition | consequence |
+| stage | experiment | decision statistic | consequence |
 |---|---|---|---|
 | G0, complete | raw post-OPEN DIRECT | target pick | 0/8; freezes the utilization failure |
-| G1 | oracle target prompt screen | best of box/point/spotlight on 3 groups | freeze one style without using confirmation groups |
-| G2 | oracle target prompt confirmation | >=4/5 target picks and <=1/5 wrong-object contacts | pass: learn public RGB binder; fail: switch primitive |
-| G3 | learned binder development | >=80% pick and <=10% wrong contact on new groups | qualify public-input target binding |
-| G4 | placement decomposition | >=80% final placement after successful pick | otherwise split PICK and PLACE or add destination binding |
+| G1 | oracle target prompt screen | target grasp contact, destination, wrong contact, then minimum changed RGB pixels | freeze one intervention without a hand-written style preference |
+| G2 | oracle target prompt pilot | paired grasp-contact effect and continuous lift on five disjoint groups | estimate feasibility and prospectively size a separate formal test; no automatic branch |
+| G2F | formal oracle mechanism test | exact paired test at predeclared alpha on new groups | a positive causal ceiling motivates binder development; null/negative evidence motivates a primitive study |
+| G3 | learned binder development | development effect curves and failure modes on new groups | select architecture without touching calibration/test groups |
+| G4 | placement decomposition | grasp contact, continuous lift, destination entry, and terminal placement | localize failure; do not impose an arbitrary percent gate |
 | G5 | isolated calibration/test | risk, coverage, stage conversion, final task success | only sealed evidence enters the main table |
 
 The oracle experiments are upper bounds and always report two online privileged
@@ -39,8 +40,8 @@ performance.
 |---|---|
 | 0 | identified external pi0.5 endpoint and one finite action probe |
 | 1 | nine G1 reports: 3 prompt styles x 3 development groups |
-| 2 | frozen style choice and five G2 confirmation reports |
-| 3-5 | public RGB binder if G2 passes, otherwise targeted PICK primitive |
+| 2 | frozen style choice and five G2 pilot reports; prospective G2F sample-size calculation |
+| 3-5 | collect formal oracle groups, then develop the supported executor-repair branch |
 | 6 | explicit placement gate and destination-binding diagnosis |
 | 7-9 | new same-scenario training/development seed groups; no reuse of G1/G2 for final claims |
 | 10 | isolated calibration split, temperature/conformal thresholds frozen |
@@ -103,7 +104,7 @@ After the endpoint check passes:
 
 /path/to/simulator-python scripts/evaluation/summarize_oracle_target_prompt_gate.py \
   --phase screen \
-  --output results/method/original_drawer_oracle_prompt_screen_v1.json
+  --output results/method/original_drawer_oracle_prompt_screen_v2.json
 ```
 
 Read `screen.selected_style`, then run the disjoint confirmation:
@@ -115,11 +116,23 @@ Read `screen.selected_style`, then run the disjoint confirmation:
 
 /path/to/simulator-python scripts/evaluation/summarize_oracle_target_prompt_gate.py \
   --phase confirmation --style SELECTED_STYLE \
-  --output results/method/original_drawer_oracle_prompt_confirmation_v1.json
+  --output results/method/original_drawer_oracle_prompt_pilot_v2.json
 ```
 
-The confirmation summary makes the branch decision automatically. No prompt
-patching or threshold change is permitted after screening.
+The pilot summary reports paired effects and explicitly sets `passed: null`.
+It never makes a method branch automatically. The formal group count is frozen
+after a power calculation based on this independent pilot; no prompt patching
+or threshold change is permitted after screening.
+
+```bash
+/path/to/simulator-python scripts/evaluation/plan_oracle_paired_test.py \
+  --pilot results/method/original_drawer_oracle_prompt_pilot_v2.json \
+  --output results/method/original_drawer_oracle_formal_plan_v1.json
+```
+
+For reference, even five intervention-only discordances give a two-sided exact
+`p=0.0625`; six give `p=0.03125`. The calculator uses the full pilot-estimated
+discordant-pair probabilities rather than treating `4/5` as evidence.
 
 ## Paper experiment table after executor qualification
 

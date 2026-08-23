@@ -1,0 +1,2 @@
+# Preserve the exact config blob hashed by the immutable v2 paper-cycle artifacts.
+configs/experiments/original_drawer_paper_cycle_v2.yaml whitespace=-blank-at-eof

@@ -25,7 +25,6 @@ sys.path[:0] = [str(ROOT), str(ROOT / "scripts/infra"), str(ROOT / "src")]
 importlib.import_module("bootstrap")
 
 
-
 def load_evaluator_replay() -> Any:
     path = ROOT / "scripts/pipeline/execute.py"
     spec = importlib.util.spec_from_file_location("piu_pipeline_execute", path)
@@ -93,10 +92,9 @@ def relabel(
             target_destination_region=target_destination_region,
             tracked_objects=("butter_1", "cream_cheese_1"),
             tracked_joints=(
-                (condition["tracked_joint"],)
-                if condition.get("tracked_joint")
-                else ()
+                (condition["tracked_joint"],) if condition.get("tracked_joint") else ()
             ),
+            metric_contract_version="v1",
         )
         rows.append(
             {
@@ -156,7 +154,9 @@ def main() -> None:
     )
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2) + "\n")
-    print(json.dumps({"output": portable(output), "rows": len(result["rows"])}, indent=2))
+    print(
+        json.dumps({"output": portable(output), "rows": len(result["rows"])}, indent=2)
+    )
 
 
 if __name__ == "__main__":

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Extract shared frozen-pi0.5 context and candidate prefix features.
+"""Reproduce the rejected four-token frozen-pi0.5 development features.
 
 The same PaliGemma prefix encoder is used for the task context and every
 schema-validated candidate. Candidate prompts contain only public task text and
 capability data; route/effect labels are loaded by the later trainer, never by
-this process.
+this process. The fixed global pooling below is retained for historical pilot
+reproduction only. It is not the successor target-binding representation.
 """
 
 from __future__ import annotations
@@ -206,6 +207,7 @@ def main() -> None:
     )
     report = {
         "schema_version": "calibrated-interaction.shared-vlm-features.v1",
+        "claim_scope": "REJECTED_DEVELOPMENT_PILOT_FIXED_GLOBAL_POOLING",
         "repository_commit": subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
         ).strip(),
@@ -219,6 +221,19 @@ def main() -> None:
         "candidate_shape": list(candidate_tokens.shape),
         "encoder": "frozen pi05_libero PaliGemma multimodal prefix",
         "shared_encoder_for_context_and_candidates": True,
+        "shared_full_prefix_interface_with_action_expert": False,
+        "pooling": {
+            "context": [
+                "prompt_last",
+                "prompt_mean",
+                "agentview_global_mean",
+                "wrist_global_mean",
+            ],
+            "candidate": "mean(prompt_last, prompt_mean)",
+            "spatial_token_indices_retained": False,
+            "hand_designed": True,
+            "paper_method_claim_allowed": False,
+        },
         "checkpoint_metadata_sha256": digest(args.checkpoint / "params/_METADATA"),
         "policy_inputs": [
             "agentview RGB",

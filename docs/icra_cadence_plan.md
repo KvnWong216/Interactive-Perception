@@ -92,13 +92,13 @@ frozen.
 
 ## 2026-08-22 target-binding repair gate
 
-The next branch is preregistered in
-`configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml`. A
-policy-free preflight passes on the eight post-OPEN states where butter reaches
-256 instance pixels and excludes the two zero-visibility states. Three visual
-prompt styles are screened on three groups; the selected style is confirmed on
-five disjoint groups. The gate requires 4/5 target picks and at most 1/5
-wrong-object contacts. Passing authorizes a public-RGB binding adapter; failure
-forces a switch to a target-conditioned grasp-and-place primitive. The local
-1.5 GB GPU limit forbids starting pi0.5, so all policy rollouts require an
-external frozen server.
+The next branch is specified in
+`configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml`. A
+policy-free preflight passes on eight post-OPEN states with a nonempty butter
+mask and excludes the two exact zero-pixel states. Three visual-prompt styles
+are screened on three groups without a preferred-style tie breaker, followed
+by a five-group independent feasibility pilot. The former `4/5` and `1/5`
+cutoffs are deprecated: the pilot estimates paired grasp-contact effects and
+sizes a separate prospective formal test before a research branch is selected.
+The local 1.5 GB GPU limit forbids starting pi0.5, so all policy rollouts
+require an external frozen server.

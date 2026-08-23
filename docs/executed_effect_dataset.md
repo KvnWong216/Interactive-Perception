@@ -37,7 +37,7 @@ arbitrary scalar utility.
 |---|---|
 | `execution_succeeded` | intended physical result holds: target remains in the destination at terminal replay for DIRECT, drawer threshold crossed for OPEN, or STOP completed |
 | `task_relevant_change` | target was picked/placed, or OPEN produced new target evidence for the hidden-target prompt |
-| `ambiguity_reduced` | target evidence crossed from below 256 instance pixels before the action to at least 256 after it |
+| `ambiguity_reduced` | historical v2-dataset label: target evidence crossed from below 256 instance pixels before the action to at least 256 after it |
 | `target_confirmed` | target is publicly observable after the action or was physically picked |
 | `candidate_rejected` | a target/location hypothesis was disproved |
 | `region_confirmed_empty` | an inspected region was shown empty |
@@ -46,6 +46,11 @@ The last two factors have no positive examples in T01D because the butter is
 always inside the drawer. They are marked unsupported rather than assigned
 synthetic positives. A learned six-factor generalization claim therefore
 remains blocked until a preregistered empty/rejected fork exists.
+
+The 256-pixel crossing is retained only to reproduce this frozen development
+dataset. It was not calibrated as a recognition threshold and is prohibited
+from successor-method claims. The threshold audit shows that its 8/10 physical
+conclusion is unchanged for every integer cutoff from 1 through 447 pixels.
 
 Instance segmentation, object contact, object lift, destination predicates,
 and drawer joints are evaluator-only label sources. The online policy receives

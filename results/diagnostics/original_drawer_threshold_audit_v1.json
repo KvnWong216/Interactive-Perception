@@ -1,0 +1,301 @@
+{
+  "schema_version": "calibrated-interaction.threshold-audit.v1",
+  "claim_scope": "RETAINED_RESULT_ROBUSTNESS_AND_METRIC_DEPRECATION",
+  "visibility": {
+    "rows": [
+      {
+        "seed": 1400,
+        "maximum_raw_camera_pixels": 731
+      },
+      {
+        "seed": 1401,
+        "maximum_raw_camera_pixels": 855
+      },
+      {
+        "seed": 1402,
+        "maximum_raw_camera_pixels": 447
+      },
+      {
+        "seed": 1403,
+        "maximum_raw_camera_pixels": 813
+      },
+      {
+        "seed": 1404,
+        "maximum_raw_camera_pixels": 742
+      },
+      {
+        "seed": 1405,
+        "maximum_raw_camera_pixels": 818
+      },
+      {
+        "seed": 1406,
+        "maximum_raw_camera_pixels": 863
+      },
+      {
+        "seed": 1407,
+        "maximum_raw_camera_pixels": 630
+      },
+      {
+        "seed": 1408,
+        "maximum_raw_camera_pixels": 0
+      },
+      {
+        "seed": 1409,
+        "maximum_raw_camera_pixels": 0
+      }
+    ],
+    "positive_seed_count": 8,
+    "zero_pixel_seed_count": 2,
+    "threshold_invariant_integer_interval_raw_pixels": [
+      1,
+      447
+    ],
+    "historical_threshold_raw_pixels": 256,
+    "historical_threshold_changes_result_within_interval": false,
+    "interpretation": "Every integer threshold from one through the minimum positive visibility count selects the same eight seeds. Future oracle enrollment uses mask non-emptiness only; visibility is continuous.",
+    "source": {
+      "path": "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json",
+      "sha256": "31c37614a6747b2542c9f387a09e52c1ab4cac90ade07600990cab7fe97e814b"
+    }
+  },
+  "target_manipulation": {
+    "post_open_butter": {
+      "rows": [
+        {
+          "seed": 1400,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 6.661338147750939e-16,
+          "historical_pick_3cm": false,
+          "report_sha256": "9bb0342ffc3c3548324150b3157fe68dbbb5718db9831234d6616d7149504b3c"
+        },
+        {
+          "seed": 1401,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 3.597278031008955e-11,
+          "historical_pick_3cm": false,
+          "report_sha256": "402b2f3ab000b5d3192929212ba81db014a95bac69696ab35104ec2c2a31dbe0"
+        },
+        {
+          "seed": 1402,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 0.0,
+          "historical_pick_3cm": false,
+          "report_sha256": "4c555774b7d9726db9792febe32f5c52f3d91dc2ca82a3d44d7d75b86630614d"
+        },
+        {
+          "seed": 1403,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 2.932414311374032e-10,
+          "historical_pick_3cm": false,
+          "report_sha256": "90066804c64feaf624519e40e5760332c600d7c6d7948ad175e08da15427c837"
+        },
+        {
+          "seed": 1404,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 5.078888807119597e-05,
+          "historical_pick_3cm": false,
+          "report_sha256": "e25cc207585595c96660f3624fa8386d017e01231be6fbc5bf454edb54d0e00b"
+        },
+        {
+          "seed": 1405,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 2.220446049250313e-16,
+          "historical_pick_3cm": false,
+          "report_sha256": "50101c35b5d8b30a109edab14f0641d4f22087b9c8e12da19af444d661d770de"
+        },
+        {
+          "seed": 1406,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 0.0002495294003490578,
+          "historical_pick_3cm": false,
+          "report_sha256": "222e6cdb5e8f98b7cd7fccc496413c1ce945770d3a7b3e94ed21e3c4f6b706fd"
+        },
+        {
+          "seed": 1407,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 0.00010951977109474598,
+          "historical_pick_3cm": false,
+          "report_sha256": "e0f140948b653a65f5e023f0fd1a6d0db599d4d7cd2fa6478513c1d39189594b"
+        },
+        {
+          "seed": 1408,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 6.257884512139711e-05,
+          "historical_pick_3cm": false,
+          "report_sha256": "3db4a2d81c87bbf668adf19de75054a8b8de3a4270f9f465fce954b9d580c54e"
+        },
+        {
+          "seed": 1409,
+          "grasp_contact_steps": 0,
+          "maximum_lift_m": 0.0,
+          "historical_pick_3cm": false,
+          "report_sha256": "dcd28cf6d8ab626f4343c4e4eb0718d4fc805079fec85f5086024debd7e2b8e9"
+        }
+      ],
+      "grasp_contact_successes": 0,
+      "trials": 10,
+      "maximum_observed_passive_z_displacement_m": 0.0002495294003490578,
+      "threshold_independent_conclusion": "Zero target grasp contacts; no positive lift cutoff can turn these runs into target-grasp successes."
+    },
+    "visible_cream_cheese_control": {
+      "rows": [
+        {
+          "seed": 1400,
+          "grasp_contact_steps": 106,
+          "maximum_lift_m": 0.20944804897142144,
+          "historical_pick_3cm": true,
+          "report_sha256": "666194facc55926d37991b00457eeab39cb753b947e4918d1c6736d8fb70f215"
+        },
+        {
+          "seed": 1401,
+          "grasp_contact_steps": 36,
+          "maximum_lift_m": 0.20999251153030252,
+          "historical_pick_3cm": true,
+          "report_sha256": "0e04517ef3eda0976a7fefc6eb21f03287d698d424d308f4acecdd363ec4325f"
+        },
+        {
+          "seed": 1402,
+          "grasp_contact_steps": 56,
+          "maximum_lift_m": 0.2348807156086108,
+          "historical_pick_3cm": true,
+          "report_sha256": "099c3c373fa5b67cf7ffce1d42aefdf046fe6a4fcf3646480479cbf42699f51d"
+        },
+        {
+          "seed": 1403,
+          "grasp_contact_steps": 59,
+          "maximum_lift_m": 0.22200324760984969,
+          "historical_pick_3cm": true,
+          "report_sha256": "88770d6eeac168f76bb458591ee7cb584c2c1aa86cd275564060b7154ea758d9"
+        },
+        {
+          "seed": 1404,
+          "grasp_contact_steps": 187,
+          "maximum_lift_m": 0.15034345619875666,
+          "historical_pick_3cm": true,
+          "report_sha256": "2c33a8fbb16ed0384bb821529a8bd04e27c35a007f0cd829840fd2720e058a08"
+        },
+        {
+          "seed": 1405,
+          "grasp_contact_steps": 128,
+          "maximum_lift_m": 0.2007393838605347,
+          "historical_pick_3cm": true,
+          "report_sha256": "62ff513e22b4e06bdca187b1c5a28c666f77ba208e5470098760d7ef70966e87"
+        },
+        {
+          "seed": 1406,
+          "grasp_contact_steps": 234,
+          "maximum_lift_m": 0.22770629310083468,
+          "historical_pick_3cm": true,
+          "report_sha256": "1c10f5f3144c80b8c416d09035b3d22f6cd32d576190906bc645158aea93c0b0"
+        },
+        {
+          "seed": 1407,
+          "grasp_contact_steps": 57,
+          "maximum_lift_m": 0.2055899802754828,
+          "historical_pick_3cm": true,
+          "report_sha256": "d3ad606b4303df15dfc9988f651a77dff0ec66da48230a10848145f68f70a955"
+        },
+        {
+          "seed": 1408,
+          "grasp_contact_steps": 180,
+          "maximum_lift_m": 0.2249904872662647,
+          "historical_pick_3cm": true,
+          "report_sha256": "e010dffc939edf6048691ecd39df93f56918aa4bc1f932af0271106ef8e270b9"
+        },
+        {
+          "seed": 1409,
+          "grasp_contact_steps": 56,
+          "maximum_lift_m": 0.19101225963087587,
+          "historical_pick_3cm": true,
+          "report_sha256": "26d5d98d32210cd9bb5db95927f86aa8a87f6a179ce06fa04326bd7eaa998d91"
+        }
+      ],
+      "grasp_contact_successes": 10,
+      "trials": 10,
+      "minimum_maximum_lift_among_contact_runs_m": 0.15034345619875666,
+      "historical_lift_threshold_m": 0.03,
+      "threshold_invariant_interval_m": [
+        0.0,
+        0.15034345619875666
+      ]
+    },
+    "future_primary_binary_metric": "LIBERO target grasp-contact predicate",
+    "future_lift_metric": "continuous maximum target z displacement",
+    "deprecated_metric": "piu.semantic-option.v1 target_pick_success (contact at any time and maximum lift >=0.03 m at any time)"
+  },
+  "drawer_open": {
+    "libero_open_range_m": [
+      -0.16,
+      -0.14
+    ],
+    "rows": [
+      {
+        "seed": 1400,
+        "minimum_joint_position": -0.160810187159774,
+        "open_by_libero_contract": true,
+        "report_sha256": "26e582e7a8fb3f20c35185f55afd4c2d50f364baa375280acddb1ccc45b3158b"
+      },
+      {
+        "seed": 1401,
+        "minimum_joint_position": -0.1610853267841078,
+        "open_by_libero_contract": true,
+        "report_sha256": "4ada1a0212f9df99d04eda0b79fc66a735e14dfebc2bbb3c0f0a74fd48446515"
+      },
+      {
+        "seed": 1402,
+        "minimum_joint_position": -0.16116351283715416,
+        "open_by_libero_contract": true,
+        "report_sha256": "9ec8fcba295944bd3f64afc72a4dc31b56dfc96b0917168151e725ff29130c4d"
+      },
+      {
+        "seed": 1403,
+        "minimum_joint_position": -0.16122154008405476,
+        "open_by_libero_contract": true,
+        "report_sha256": "5fa77dfb2537b4a871ecdb16f0622a7fdde09b19f18beb6f397d1f0825ed8894"
+      },
+      {
+        "seed": 1404,
+        "minimum_joint_position": -0.16173892596721087,
+        "open_by_libero_contract": true,
+        "report_sha256": "c4a1bd9da3af9f9fc3730ea8600acf8cbd89348f9da682002335132fc486d3ed"
+      },
+      {
+        "seed": 1405,
+        "minimum_joint_position": -0.16121439682599034,
+        "open_by_libero_contract": true,
+        "report_sha256": "ceb7e2882771088144f3495e18e44c8a3b49e6fcb28b86d3b1f4dad7ec926152"
+      },
+      {
+        "seed": 1406,
+        "minimum_joint_position": -0.16102077852663907,
+        "open_by_libero_contract": true,
+        "report_sha256": "e1cc2de8c1bcf3e726c5f8473146b08ca858c1603a57da69954a464eb61c9b26"
+      },
+      {
+        "seed": 1407,
+        "minimum_joint_position": -0.16131190774082038,
+        "open_by_libero_contract": true,
+        "report_sha256": "fa377fd74ed60c45af498eaf4ef3b7d72fa993f7b26340c52edec97b03f9b339"
+      },
+      {
+        "seed": 1408,
+        "minimum_joint_position": -0.16125274746264137,
+        "open_by_libero_contract": true,
+        "report_sha256": "00677350c28d16b0d35dfee3db98a954f2e2fbec0ac6387d31f37b23c836a4fc"
+      },
+      {
+        "seed": 1409,
+        "minimum_joint_position": -6.361769335027796e-09,
+        "open_by_libero_contract": false,
+        "report_sha256": "63de337323ea3dcae6d111926bcafcdc2fc8eb83f3275afd1c7d8bf37a7510c7"
+      }
+    ],
+    "successes": 9,
+    "trials": 10,
+    "source": {
+      "path": "third_party/LIBERO/libero/libero/envs/objects/articulated_objects.py",
+      "sha256": "f5187b0381d69a2a8736c1dcb646e5fa7c138a42950f92e30c21c2efaed52faa"
+    },
+    "interpretation": "The -0.14 boundary is a simulator contract, not a fitted threshold."
+  }
+}

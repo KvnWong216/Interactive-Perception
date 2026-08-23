@@ -60,6 +60,7 @@ class OraclePromptDiagnostics:
     target_instance_id: int
     visible_pixels: Mapping[str, int]
     boxes: Mapping[str, PromptBox | None]
+    changed_pixels: Mapping[str, int]
 
     def to_json(self) -> dict[str, Any]:
         return {
@@ -70,6 +71,7 @@ class OraclePromptDiagnostics:
                 camera: box.as_list() if box is not None else None
                 for camera, box in self.boxes.items()
             },
+            "changed_rgb_pixels": dict(self.changed_pixels),
         }
 
 
@@ -204,6 +206,7 @@ def build_oracle_target_packet(
     prompted_images: dict[str, np.ndarray] = {}
     visible_pixels: dict[str, int] = {}
     boxes: dict[str, PromptBox | None] = {}
+    changed_pixels: dict[str, int] = {}
     for camera in (primary_camera, wrist_camera):
         image_key = f"{camera}_image"
         image = np.asarray(observation[image_key])
@@ -217,7 +220,11 @@ def build_oracle_target_packet(
         box = target_box(mask)
         visible_pixels[camera] = int(np.count_nonzero(mask))
         boxes[camera] = box
-        prompted_images[image_key] = render_visual_prompt(image, box, style=style)
+        prompted = render_visual_prompt(image, box, style=style)
+        prompted_images[image_key] = prompted
+        changed_pixels[camera] = int(
+            np.count_nonzero(np.any(prompted != image, axis=-1))
+        )
 
     # Deliberately reconstruct only the stock public observation fields.  This
     # is the hard boundary that prevents masks or object ids from entering the
@@ -240,5 +247,6 @@ def build_oracle_target_packet(
             target_instance_id=int(target_instance_id),
             visible_pixels=visible_pixels,
             boxes=boxes,
+            changed_pixels=changed_pixels,
         ),
     )

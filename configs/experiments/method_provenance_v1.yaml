@@ -1,0 +1,200 @@
+schema_version: calibrated-interaction.provenance.v1
+scope: >-
+  Provenance audit for the fixed-drawer research cycle. Every rule that can
+  change an action, evaluator outcome, experiment branch, or paper conclusion
+  must be classified here before it is promoted to a public-input main method.
+
+entries:
+  - id: drawer_open_joint_boundary
+    location: configs/experiments/original_drawer_paper_cycle_v2.yaml:thresholds.drawer_open_joint_maximum
+    value: -0.14
+    provenance: simulator_or_physics_contract
+    claim_use: main_evaluator
+    rationale: The threshold is the upper endpoint of LIBERO's declared open range for the wooden cabinet drawer.
+    evidence: third_party/LIBERO/libero/libero/envs/objects/articulated_objects.py default_open_ranges [-0.16, -0.14]
+
+  - id: target_grasp_contact
+    location: scripts/pipeline/execute.py:evaluator.target_grasp_contact_success
+    value: LIBERO _check_grasp predicate
+    provenance: simulator_or_physics_contract
+    claim_use: main_evaluator
+    rationale: Contact is defined by the simulator gripper/object contact geometry rather than a tuned distance or lift cutoff.
+    evidence: LIBERO environment _check_grasp evaluated during action replay
+
+  - id: target_destination
+    location: scripts/pipeline/execute.py:evaluator.target_reached_destination
+    value: LIBERO in predicate
+    provenance: simulator_or_physics_contract
+    claim_use: main_evaluator
+    rationale: Destination entry and terminal placement use the task's declared spatial predicate.
+    evidence: LIBERO _eval_predicate([in, target_object, target_destination_region])
+
+  - id: historical_target_visibility_256
+    location: configs/experiments/original_drawer_paper_cycle_v2.yaml:thresholds.target_visible_pixels_minimum
+    value: 256 raw pixels
+    provenance: unsupported_heuristic
+    claim_use: historical_only
+    rationale: It approximates one 14x14 policy-image patch after 256-to-224 resize but was not calibrated as a recognition boundary.
+    evidence: retained sensitivity audit shows the 8/10 result is invariant for every integer threshold from 1 through 447 raw pixels
+
+  - id: oracle_target_presence
+    location: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:execution.target_presence_minimum_pixels
+    value: 1 raw pixel
+    provenance: oracle_intervention
+    claim_use: diagnostic_only
+    rationale: A nonempty instance mask is a logical precondition for rendering an evaluator-only marker, not a visibility-performance claim.
+    evidence: target box is undefined exactly when the target mask has zero pixels
+
+  - id: historical_pick_lift_3cm
+    location: retained piu.semantic-option.v1 reports:evaluator.target_pick_success
+    value: 0.03 m
+    provenance: unsupported_heuristic
+    claim_use: historical_only
+    rationale: The old rule combined contact at any time with lift at any time and had no recorded calibration source.
+    evidence: future v2 reports replace it with grasp contact plus a continuous maximum-lift diagnostic
+
+  - id: historical_executor_count_gates
+    location: configs/experiments/original_drawer_paper_cycle_v2.yaml:thresholds.*_gate_count
+    value: visible pick 8/10; terminal place 7/10; post-OPEN butter pick 8/10
+    provenance: unsupported_heuristic
+    claim_use: historical_only
+    rationale: These were engineering qualification targets without a power calculation or inferential interpretation.
+    evidence: retained paper-cycle config and negative-result report; successor protocols use effect estimates and prospective tests
+
+  - id: oracle_marker_geometry
+    location: src/interactive_perception/oracle_visual_prompt.py
+    value: padding 4; line width 4; point radius >=6; spotlight multiplier 0.25
+    provenance: oracle_intervention
+    claim_use: diagnostic_only
+    rationale: These are deliberately hand-designed causal interventions and cannot be presented as the public-input method.
+    evidence: oracle reports declare two online privileged inputs and retain changed-pixel counts
+
+  - id: pi05_replan_chunk
+    location: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:execution.replan_steps
+    value: 5 steps
+    provenance: frozen_policy_contract
+    claim_use: main_method_online
+    rationale: The frozen pi0.5 LIBERO inference example executes five actions before replanning.
+    evidence: frozen OpenPI policy serving/execution contract
+
+  - id: rollout_step_limits
+    location: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:execution.steps
+    value: DIRECT 400; OPEN 300 in retained matrix
+    provenance: safety_or_resource_budget
+    claim_use: safety_only
+    rationale: Step counts cap rollout cost and are reported with budget saturation; they do not certify task completion.
+    evidence: controller completion source and executed step counts are retained per report
+
+  - id: local_gpu_cap
+    location: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:resource_contract.local_gpu_memory_mib_max
+    value: 1500 MiB
+    provenance: safety_or_resource_budget
+    claim_use: safety_only
+    rationale: This is the user's resource constraint and forces external pi0.5 serving.
+    evidence: external_only resource contract and GPU audit
+
+  - id: formal_test_design_levels
+    location: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:formal_followup
+    value: alpha 0.05; target power 0.80
+    provenance: formal_statistical_procedure
+    claim_use: main_evaluator
+    rationale: Conventional Type-I and Type-II error controls are frozen before formal data and paired with effect sizes and confidence intervals; the five-group pilot is excluded.
+    evidence: exact paired binomial test and exact prospective power on an independent formal group set
+
+  - id: conformal_risk_level
+    location: training experiment configs:calibration.alpha
+    value: protocol-specific alpha
+    provenance: user_risk_contract
+    claim_use: main_method_online
+    rationale: Alpha represents a declared acceptable marginal miscoverage risk; thresholds themselves are fitted only on calibration data.
+    evidence: src/calibrated_interaction/calibration.py finite-sample split-conformal quantile
+
+  - id: conformal_threshold
+    location: src/calibrated_interaction/calibration.py:LACCalibrator.fit
+    value: calibration order statistic
+    provenance: fit_on_isolated_calibration
+    claim_use: main_method_online
+    rationale: The action-set boundary is calculated from the isolated calibration split rather than manually selected.
+    evidence: ceil((n+1)(1-alpha)) finite-sample conformal rank
+
+  - id: rejected_effect_selector_semantics
+    location: src/calibrated_interaction/controller.py:CalibratedSelector._effect_reliable
+    value: singleton execution success; singleton ambiguity reduction for information actions
+    provenance: protocol_identifier
+    claim_use: rejected_method_only
+    rationale: This semantic rule belonged to the rejected effect-aware pilot and is not an active paper method.
+    evidence: paper result reports no route gain and rejects the broad candidate-effect method
+
+  - id: cpu_baseline_feature_fusion
+    location: src/calibrated_interaction/cpu_baseline.py:fused
+    value: 0.4 agent + 0.4 wrist + 0.2 language
+    provenance: baseline_only_heuristic
+    claim_use: baseline_only
+    rationale: The weights define a deliberately small deterministic diagnostic baseline, not the shared-VLM method.
+    evidence: paper and module label the CPU system as development baseline only
+
+  - id: legacy_uncertainty_utilities
+    location: src/interaction_uncertainty
+    value: multiple manual weights and thresholds
+    provenance: baseline_only_heuristic
+    claim_use: baseline_only
+    rationale: The implementation is frozen as Heuristic V0 and is prohibited from the proposed learned pipeline.
+    evidence: baselines/heuristic_v0/README.md and README claim boundary
+
+  - id: decoder_training_hyperparameters
+    location: configs/experiments and scripts/training/train_calibrated_interaction.py
+    value: architecture width, heads, optimizer, patience, clipping, and gradient-weight bounds
+    provenance: numerical_optimization
+    claim_use: rejected_method_only
+    rationale: These were development choices for a rejected pilot; any successor must predeclare a development-only search and ablation.
+    evidence: retained grouped development results and no paper-level method claim
+
+  - id: rejected_four_token_prefix_pooling
+    location: scripts/data/extract_candidate_interaction_features.py:PrefixTokenEncoder.encode
+    value: prompt last; prompt mean; agent-view global mean; wrist-view global mean
+    provenance: unsupported_heuristic
+    claim_use: rejected_method_only
+    rationale: Reusing the frozen encoder does not justify discarding all spatial token indices through fixed global means.
+    evidence: candidate_interaction_stage1 is rejected and has no spatial-pooling ablation or executor-utilization gain
+
+  - id: rejected_candidate_prompt_pooling
+    location: scripts/data/extract_candidate_interaction_features.py:candidate_values
+    value: mean of prompt-last and prompt-mean summaries
+    provenance: unsupported_heuristic
+    claim_use: rejected_method_only
+    rationale: The fixed average is an uncalibrated architecture choice and not the full prefix interface consumed by the action expert.
+    evidence: frozen pilot feature shape is one 2048-wide vector per candidate with no retained token mask or span
+
+  - id: paired_power_search_limit
+    location: scripts/evaluation/plan_oracle_paired_test.py:--search-limit
+    value: 200 groups
+    provenance: numerical_optimization
+    claim_use: safety_only
+    rationale: This bounds computation only; failure to find a design blocks the experiment and never counts as evidence against the method.
+    evidence: exact paired power is evaluated for every prospective count through the bound
+
+tracked_protocols:
+  - path: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
+    numeric_controls:
+      resource_contract.local_gpu_memory_mib_max: local_gpu_cap
+      execution.steps: rollout_step_limits
+      execution.replan_steps: pi05_replan_chunk
+      execution.target_presence_minimum_pixels: oracle_target_presence
+      formal_followup.alpha: formal_test_design_levels
+      formal_followup.target_power: formal_test_design_levels
+    numeric_identifiers:
+      - preflight.source_seeds
+      - preflight.expected_eligible_seeds
+      - screen.seeds
+      - confirmation.seeds
+
+deprecated_protocols:
+  - path: configs/experiments/candidate_interaction_stage1.yaml
+    paper_claim_allowed: false
+    reason: Fixed four-token global pooling and fixed candidate pooling are rejected development bottlenecks, not a spatial target-binding method.
+  - path: configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml
+    paper_claim_allowed: false
+    reason: The 4/5 target-pick and 1/5 wrong-contact count cutoffs have no formal small-sample justification.
+  - path: configs/experiments/original_drawer_paper_cycle_v2.yaml
+    paper_claim_allowed: false
+    reason: The 8/10, 7/10, and 256-pixel values are retained engineering qualification rules, not statistical method evidence.

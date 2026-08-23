@@ -176,19 +176,25 @@ task predicate. A separate replay evaluator consumes the recorded continuous
 actions after the controller terminates. Public keyframes and action histories
 are hashed; evaluator-only relabels point back to the same source action hash.
 
-### Metrics and fixed thresholds
+### Metrics and provenance
 
-Mechanical OPEN succeeds when the middle-drawer joint reaches at most -0.14.
-Target evidence is present when either 256x256 camera contains at least 256
-target-instance pixels. A pick requires target gripper contact and at least
-3 cm lift. Destination entry uses LIBERO's declared `in` predicate. Terminal
-placement re-evaluates that predicate after the return phase. We report Wilson
-95% intervals for binomial rates and exact two-sided paired binomial/McNemar
-tests for paired binary outcomes.
+Mechanical OPEN succeeds when the middle-drawer joint reaches at most -0.14,
+the upper endpoint of LIBERO's declared `[-0.16,-0.14]` open range. Target
+instance pixels are reported continuously. The historical matrix used 256 raw
+pixels as an operational evidence marker, but this was not a calibrated
+recognition threshold: all integer thresholds from 1 through 447 select the
+same eight positive-visibility seeds. Future binary manipulation outcomes use
+LIBERO's gripper/object grasp-contact predicate, while maximum lift remains a
+continuous diagnostic. This replaces the historical unsupported rule that
+combined contact at any time with at least 3 cm lift at any time. Destination
+entry uses LIBERO's declared `in` predicate and terminal placement re-evaluates
+it after return. We report Wilson 95% intervals for binomial rates and exact
+two-sided paired binomial/McNemar tests for paired binary outcomes.
 
-The preregistered executor gate requires at least 8/10 visible-object picks,
-7/10 visible-object terminal placements, and 8/10 butter picks after actual
-OPEN states. No prompt patching is allowed after this gate.
+The old 8/10 pick, 7/10 placement, and 8/10 post-OPEN pick counts are retained
+only as preregistered engineering qualification history. They are not
+statistical paper acceptance thresholds. The full provenance and invariance
+audit is machine checked by `configs/experiments/method_provenance_v1.yaml`.
 
 ### Executed effect dataset
 
@@ -208,12 +214,18 @@ unsupported instead of trained as all-negative factors.
 
 ### Shared-VLM routing pilot
 
-Our initial compact decoder uses frozen pi0.5 PaliGemma prefix features, one
-cross-attention block, a factorized effect head, and a route head. Thirty-six
+Our initial compact decoder uses frozen pi0.5 PaliGemma prefix features, then
+hand-pools them into prompt-last, prompt-mean, agent-view global-mean, and
+wrist-view global-mean vectors. Candidate text is a fixed average of two prompt
+summaries. Thus the pilot shares encoder weights but not the complete prefix-KV
+interface consumed by the pi0.5 action expert, and it discards spatial token
+indices. One cross-attention block, a factorized effect head, and a route head
+operate on this rejected low-capacity representation. Thirty-six
 seed groups (72 same-RGB prompt samples) are split by seed into train,
 development, calibration, and held-out test. This pilot uses real route labels
 but only a repeated seed-1399 capability proxy for effects; it therefore tests
-routing and calibration, not executed effect learning.
+routing and calibration, not executed effect learning or spatial target
+binding.
 
 ### Executed-effect development cross-validation
 
@@ -241,7 +253,7 @@ explicitly not the shared frozen VLM main method.
 OPEN acquires target evidence in 8/10 paired seeds while closed-state DIRECT
 does so in 0/10 (eight left-only discordances, exact two-sided p=0.0078125).
 Mechanical success and information success also differ: one seed opens the
-drawer but leaves butter below the evidence threshold. Among the eight states
+drawer but leaves butter at exactly zero visible pixels. Among the eight states
 with post-OPEN butter evidence, downstream target grasp is 0/8. The post-OPEN
 input-evidence versus grasp comparison has eight discordances (p=0.0078125).
 
@@ -301,19 +313,23 @@ changes the observation and downstream behavior, but the frozen semantic text
 bridge does not bind the newly visible object strongly enough for successful
 control.
 
-### Falsifiable executor-repair gate
+### Falsifiable executor-repair pilot
 
 Before learning another router, we isolate the target-binding hypothesis with
 an evaluator-only upper bound. Simulator instance segmentation is rendered as
 a magenta box, point, or spotlight in the otherwise stock two-camera RGB input;
 the mask and instance identifier are not serialized to the policy. Three
 styles are screened on three post-OPEN groups and the selected style is frozen
-before five disjoint development-confirmation groups. At least four target
-picks and at most one wrong-object contact are required. Passing this gate only
-justifies training a public-RGB prompt predictor; it is not method performance.
-Failure rejects visual target binding and requires a target-conditioned
-grasp-and-place primitive. A policy-free packet preflight finds eight eligible
-visible groups and excludes two groups with zero target pixels in both cameras.
+before five disjoint development-pilot groups. Selection maximizes target
+grasp contact and terminal destination, minimizes wrong-object contact, then
+minimizes changed RGB pixels; there is no preferred-style tie breaker. The
+former four-success/one-wrong-contact rule is deprecated because five groups
+cannot support that automatic branch. The pilot instead estimates paired
+grasp-contact effects and prospectively sizes a separate exact paired test on
+new groups. Only that formal causal ceiling may motivate a public-RGB binder or
+a target-conditioned primitive study. A policy-free packet preflight finds
+eight groups with a nonempty target mask and excludes two exact zero-pixel
+groups.
 
 ### Implication for active-perception evaluation
 
@@ -355,14 +371,17 @@ hashes are validated during summarization. The executed dataset and manifest
 are under `data/calibrated_interaction/original_drawer_executed_v2/`. No online
 oracle input is present in the retained main-method reports. The separate
 oracle qualification is configured in
-`configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml`; its
+`configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml`; its
 policy-free packet preflight is
-`results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json`, and any
+`results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json`, and any
 future policy report must use the explicit oracle claim scope.
 
 The complete CPU analysis is:
 
 ```bash
+.venv/bin/python scripts/evaluation/audit_original_drawer_thresholds.py \
+  --output results/diagnostics/original_drawer_threshold_audit_v1.json --force
+
 .venv/bin/python scripts/evaluation/summarize_original_drawer_paper_cycle.py \
   --output results/method/original_drawer_paper_cycle_v2.json --force
 

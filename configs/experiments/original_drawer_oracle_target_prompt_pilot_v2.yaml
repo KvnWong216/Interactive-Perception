@@ -1,0 +1,69 @@
+schema_version: calibrated-interaction.oracle-target-prompt-pilot.v2
+id: original_drawer_post_open_oracle_target_prompt_pilot_v2
+claim_scope: >-
+  Evaluator-only causal diagnostic in the unchanged T01D drawer scenario.
+  Instance segmentation and target identity are intentionally privileged online
+  inputs. This pilot cannot support a public-input method or confirmatory claim.
+
+scenario_config: configs/scenarios/original_drawer.yaml
+source_run_root: runs/paper_cycle_executor_v2
+run_root: runs/oracle_target_prompt_pilot_v2
+baseline_condition: direct_butter_after_open
+
+resource_contract:
+  policy_server: external_only
+  local_policy_server_allowed: false
+  local_gpu_memory_mib_max: 1500
+  identified_server_schema: piu.identified-pi05-server.v1
+  checkpoint_identity: results/diagnostics/pi05_libero_checkpoint_identity_v1.json
+
+execution:
+  role: DIRECT_ACT
+  prompt: Place the butter indicated by the magenta marker in the basket
+  steps: 400
+  replan_steps: 5
+  target_object: butter_1
+  wrong_object: cream_cheese_1
+  target_presence_minimum_pixels: 1
+
+preflight:
+  source_seeds: [1400, 1401, 1402, 1403, 1404, 1405, 1406, 1407, 1408, 1409]
+  expected_eligible_seeds: [1400, 1401, 1402, 1403, 1404, 1405, 1406, 1407]
+
+screen:
+  seeds: [1400, 1403, 1406]
+  styles: [box, point, spotlight]
+  selection_estimand:
+    - maximize_target_grasp_contact_successes
+    - maximize_target_destination_final_successes
+    - minimize_wrong_object_grasp_contact_successes
+    - minimize_changed_rgb_pixels
+  tie_policy: >-
+    Do not use a manually preferred style order. If outcome counts and RGB
+    intervention size tie exactly, collect another development group before
+    opening the pilot-confirmation groups.
+
+confirmation:
+  seeds: [1401, 1402, 1404, 1405, 1407]
+  evidence_grade: independent_development_pilot
+  primary_estimand: paired target-grasp-contact risk difference versus raw post-OPEN DIRECT
+  secondary_estimands:
+    - wrong-object grasp-contact risk difference
+    - target destination-final risk difference
+    - continuous maximum target lift
+  automatic_method_branch: false
+  rationale: >-
+    Five groups cannot justify the former 4/5 and 1/5 pass/fail rule. Results
+    estimate feasibility and inform the sample size of a separate formal test;
+    they do not authorize a learned binder or reject one automatically.
+
+formal_followup:
+  data: new initial-state groups disjoint from screen and pilot confirmation
+  alpha: 0.05
+  target_power: 0.80
+  test: exact two-sided paired binomial test
+  sample_size_rule: >-
+    Estimate discordant-pair probabilities from the completed independent
+    pilot, then choose the smallest prospective group count reaching target
+    power. Freeze that count before collecting formal data. Report paired risk
+    difference and confidence interval even when the null is not rejected.

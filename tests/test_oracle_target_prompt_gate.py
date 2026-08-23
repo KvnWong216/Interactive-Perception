@@ -96,6 +96,8 @@ def test_runner_never_constructs_a_local_policy_server_command() -> None:
         server_timeout=30.0,
     )
     assert "--external-server" in command
+    schema = command.index("--report-schema") + 1
+    assert command[schema] == "v1"
     assert command[command.index("--host") + 1] == "frozen-policy.example"
     assert "--gpu" not in command
     assert report == (

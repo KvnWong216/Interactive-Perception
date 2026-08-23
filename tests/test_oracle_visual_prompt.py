@@ -66,6 +66,8 @@ def test_oracle_mask_is_rendered_but_never_serialized() -> None:
         "robot0_eye_in_hand": 25,
     }
     assert result.diagnostics.boxes["agentview"] == PromptBox(2, 0, 15, 13)
+    assert result.diagnostics.changed_pixels["agentview"] > 0
+    assert result.diagnostics.changed_pixels["robot0_eye_in_hand"] > 0
     assert np.any(
         np.all(payload["observation/image"] == np.asarray([255, 0, 255]), axis=-1)
     )
@@ -87,6 +89,10 @@ def test_invisible_target_is_an_audited_noop() -> None:
     assert result.diagnostics.boxes == {
         "agentview": None,
         "robot0_eye_in_hand": None,
+    }
+    assert result.diagnostics.changed_pixels == {
+        "agentview": 0,
+        "robot0_eye_in_hand": 0,
     }
     assert np.array_equal(result.packet.image, stock.image)
     assert np.array_equal(result.packet.wrist_image, stock.wrist_image)

@@ -1,5 +1,12 @@
 schema_version: calibrated-interaction.experiment.v1
 id: candidate_effect_route_pi05_shared_prefix_v1
+status: rejected_development_pilot
+paper_method_claim_allowed: false
+rejection_reasons:
+  - fixed four-token pooling discards image-token spatial indices
+  - candidate text uses a fixed average of two prompt summaries
+  - one-frame input does not test action-conditioned temporal binding
+  - executed effect supervision did not improve route quality
 seed: 20270822
 
 inputs:
@@ -15,6 +22,15 @@ model:
   candidate_text_encoded_by_shared_vlm: true
   context_token_width: 2048
   context_summary_tokens: 4
+  context_pooling:
+    type: fixed_hand_designed
+    outputs: [prompt_last, prompt_mean, agentview_global_mean, wrist_global_mean]
+    spatial_token_indices_retained: false
+    main_method_allowed: false
+  candidate_pooling:
+    type: fixed_hand_designed
+    operation: mean_of_prompt_last_and_prompt_mean
+    main_method_allowed: false
   interaction_decoder:
     layers: 1
     width: 128

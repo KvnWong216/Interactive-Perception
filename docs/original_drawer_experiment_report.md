@@ -34,13 +34,21 @@ segmentation, semantic instance IDs, visibility, and location labels are kept
 in a physically separate evaluator index.
 
 The frozen `pi05_libero` PaliGemma prefix is reused as the only multimodal
-encoder. It emits four 2048-wide context summaries and one 2048-wide token for
-each of three public candidates. The learned component is one 128-wide
+encoder. The rejected pilot then hand-pools it to four 2048-wide context
+summaries and one fixed-pooled 2048-wide token for each of three public
+candidates. These are real VLM hidden states, but the pooling discards spatial
+indices and is not the full-prefix KV interface consumed by the pi0.5 action
+expert. The learned component is one 128-wide
 cross-attention decoder with route and factorized-effect heads. Input
 LayerNorm is non-affine. Route-only B6 and effect+route B7 each use three
 training seeds; the effect weight is fixed from initial shared-trunk gradient
 norm matching. Model selection uses development only, and temperature/LAC
 calibration uses the isolated calibration split.
+
+Accordingly, this experiment supports a low-capacity shared-encoder baseline,
+not the claim that representation mismatch has been solved. A successor must
+retain spatial image tokens and pre/post action history; the global summaries
+remain a mandatory ablation.
 
 ## Held-out routing and ablations
 
@@ -109,18 +117,18 @@ stopped.
   success, multi-primitive generalization, or paper-level novelty evidence.
 - **Do not scale yet:** B7 is not better than B6 and current effect labels lack
   per-seed counterfactual signal.
-- **Immediate causal gate:** on the unchanged post-OPEN states, render an
+- **Immediate causal pilot:** on the unchanged post-OPEN states, render an
   evaluator-only target box/point/spotlight into the two policy RGB streams.
-  Screen three styles on seeds 1400/1403/1406, then require at least 4/5 target
-  picks and at most 1/5 wrong-object contacts on the disjoint confirmation
-  seeds. This is an oracle upper bound, not public-input method evidence.
-- **If the oracle gate passes:** learn a public-RGB target-binding adapter and
-  evaluate predicted prompts on new initial-state groups and scenes.
-- **If the oracle gate fails:** stop visual-binding work and add a registered
-  target-conditioned grasp-and-place primitive before collecting router data.
-- **Deferred data gate:** only after an executor repair passes, execute
-  `DIRECT`, `OPEN`, and `STOP` forks from at least 20 fresh calibration seeds
-  and 20 untouched test seeds with evaluator-only effect labels.
+  Screen three styles on seeds 1400/1403/1406, then estimate paired target and
+  wrong-object grasp-contact effects on five disjoint pilot groups. This is an
+  oracle upper bound, not public-input method evidence or an automatic gate.
+- **After the pilot:** prospectively size a new exact paired mechanism test.
+  A positive causal ceiling motivates a public-RGB binder; null or negative
+  evidence motivates a registered target-conditioned manipulation primitive.
+- **Deferred data design:** only after an executor repair has formal causal
+  support, prospectively size fresh group-disjoint training, calibration, and
+  sealed-test forks. The count must follow the declared risk/coverage or paired
+  power calculation rather than the former round-number `20/20` heuristic.
 
 ## Reproduction
 
@@ -131,10 +139,10 @@ The retained source artifacts are:
 - frozen features: `outputs/calibrated_interaction/original_drawer_v1/`;
 - final pilot: `results/method/original_drawer_pilot_v4_reproducible.json`;
 - executor summary: `results/method/original_drawer_executor_qualification_v1.json`.
-- oracle gate protocol:
-  `configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml`;
+- active oracle pilot protocol:
+  `configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml`;
 - policy-free oracle packet preflight:
-  `results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json`.
+  `results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json`.
 
 Feature extraction uses the sibling openpi environment and a bounded JAX
 allocator:

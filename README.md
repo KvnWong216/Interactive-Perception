@@ -28,11 +28,12 @@ effect supervision adds 0.00 route macro F1 over route-only in all five grouped
 development folds. The retained paper result is a leakage-controlled failure
 decomposition and benchmark artifact, not a successful ICRA/RSS method claim.
 
-The next falsifiable repair test is now implemented: an evaluator-only visual
-prompt gives frozen pi0.5 the exact target region after OPEN. This is an oracle
-upper bound, never the proposed method. If it cannot produce at least 4/5
-correct target picks on the preregistered confirmation groups, the project
-switches from target binding to a targeted grasp-and-place primitive.
+The next falsifiable repair test is implemented as an evaluator-only visual
+prompt that gives frozen pi0.5 the exact target region after OPEN. This is an
+oracle upper bound, never the proposed method. Its five disjoint groups are now
+an independent feasibility pilot, not an automatic `4/5` pass/fail rule. A
+separate prospective test will be sized from the pilot before any public-RGB
+target-binding method is claimed or rejected.
 
 ## Research artifacts
 
@@ -42,6 +43,8 @@ switches from target binding to a targeted grasp-and-place primitive.
 - [Research question, math, data, experiments, compute, and go/no-go plan](docs/research_plan.md)
 - [Internal ICRA-cadence schedule](docs/icra_cadence_plan.md)
 - [Paper research execution plan and external pi0.5 setup](docs/paper_research_execution_plan.md)
+- [Method and threshold provenance audit](docs/method_provenance_audit.md)
+- [Spatial-prefix successor contract](docs/spatial_prefix_successor_contract.md)
 - [Original-drawer method cycle and negative-result report](docs/original_drawer_experiment_report.md)
 - [Executed counterfactual effect-label policy](docs/executed_effect_dataset.md)
 - [Submission-shaped internal paper draft](paper/main.md)
