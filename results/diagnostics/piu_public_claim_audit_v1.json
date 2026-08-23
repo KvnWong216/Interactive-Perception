@@ -3,8 +3,8 @@
   "status": "PASS",
   "registry": {
     "path": "configs/experiments/method_provenance_v1.yaml",
-    "sha256": "c8c6e948ad4cb967bc37dcf23ee60584682a88732931f96d753745f2576ea342",
-    "entry_count": 69,
+    "sha256": "a5edc01cf411fb402580205d71356b33ec2bc260a1a5b8f5f6a061fdb0227fac",
+    "entry_count": 70,
     "provenance_counts": {
       "baseline_only_heuristic": 3,
       "fit_on_isolated_calibration": 1,
@@ -13,7 +13,7 @@
       "learned_on_training_split": 6,
       "numerical_optimization": 2,
       "oracle_intervention": 4,
-      "protocol_identifier": 26,
+      "protocol_identifier": 27,
       "safety_or_resource_budget": 6,
       "simulator_or_physics_contract": 3,
       "unsupported_heuristic": 5,
@@ -21,38 +21,38 @@
     },
     "claim_use_counts": {
       "baseline_only": 6,
-      "diagnostic_only": 8,
+      "diagnostic_only": 9,
       "historical_only": 3,
       "main_evaluator": 19,
       "main_method_online": 21,
       "rejected_method_only": 4,
       "safety_only": 8
     },
-    "tracked_protocol_count": 10,
+    "tracked_protocol_count": 11,
     "deprecated_protocol_count": 3
   },
   "claim_surfaces": [
     {
       "path": "paper/main.md",
-      "sha256": "fb9e75d8ec2b1c21bcbf1ce7ad217e1663b4b30c7e2b443563c859862e3a6861",
+      "sha256": "778e9efda6201ac498074b93a522ad279ba10e1fcf52ff93e4649b80ceaa10b9",
       "required_fragments_verified": 4,
       "retired_fragments_matched": []
     },
     {
       "path": "README.md",
-      "sha256": "00f3a4412a1dc7b292b3c9a3a5cf185f2c35685c1cac7c63b2273e010fa98c23",
+      "sha256": "0a52d308038128e6daeeda533625b94e3ea12d7f4cc164b34c7e2f4819197e6f",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     },
     {
       "path": "STATUS.md",
-      "sha256": "3124d6d81572a244822fc5c13ca400e071009ddafb713360f4caf5d81dd4d895",
+      "sha256": "b24a23662c3a92e82bb629a08bb552c18c4e5f506ead4b464f24ec199687e28e",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     },
     {
       "path": "RESULTS.md",
-      "sha256": "5fb57f206a1a4412a8d63b7952461cfbc25ec74b97bf7e9b4fff3b69ccf5381c",
+      "sha256": "58fb9b8153b6a7bf6f13c9c1208d105586452e78444265b8c26f61910fb9bdde",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     }
@@ -146,6 +146,13 @@
           "provenance_id": "oracle_prompt_phase_execution_order"
         }
       ],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/piu_oracle_formal_v1.yaml",
+      "sha256": "2c51fa2c7b011adcc2a8931e8ac72d4eef9593669b11033b505b69713f9ce64c",
+      "controls": [],
+      "identifiers": [],
       "unclassified_numeric_paths": []
     },
     {

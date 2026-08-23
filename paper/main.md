@@ -308,6 +308,17 @@ drawer but leaves butter at exactly zero visible pixels. Among the eight states
 with post-OPEN butter evidence, downstream target grasp is 0/8. The post-OPEN
 input-evidence versus grasp comparison has eight discordances (p=0.0078125).
 
+The prospective privileged-mechanism follow-up is implemented but unexecuted.
+Its pilot-sized `oracle_formal` cohort first attempts the exact formally
+qualified OPEN stimulus on each new group, then hash-randomizes an evaluator
+target-marker arm and raw post-OPEN DIRECT arm from the identical transported
+state. Started OPEN/arm failures and interruptions remain false in the complete
+intention-to-treat denominator. The exact paired result is regenerated from
+hash-bound v2 evaluator reports under one session within each paired group;
+identity-matched restarts may occur only between groups. It cannot be
+used as public-method performance. No real plan, cohort, certificate, or formal
+oracle result currently exists.
+
 Opening changes the error mode without solving the task. Wrong cream-cheese
 contact falls from 9/10 in paired closed DIRECT runs to 3/10 after OPEN (six
 discordances, p=0.03125), yet butter grasp contact and task success remain zero.

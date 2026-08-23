@@ -245,6 +245,7 @@ ActiveVLA-scale experiments are out of scope.
 | training | effect then route then calibration | blocked by data, intentionally not run |
 | live full loop | B3/B4/B5/B8 hash-chained runner | implemented and dry-run verified; physical run blocked by checkpoint/certificates/endpoint |
 | oracle columns | B6 executed-effect trace and same-source B7 dynamic target-marker full loop | implemented and contract-tested; real tree/style selection/endpoint pending |
+| formal oracle causal gate | pilot-sized disjoint state freeze, qualified attempted OPEN, paired same-state oracle/raw execution, single-use receipts, and exact analysis | implemented and contract-tested; real pilot plan/certificate/cohort/endpoint pending |
 | frozen B2 adapter | exact tag inference attestation and one-decision episode projection | implemented and contract-tested; external legacy-model inference pending |
 
 One-command Stage 0 validation:

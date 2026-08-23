@@ -46,6 +46,7 @@ decision.
 | B5 spatial-bridge disable | baseline protocol | same calibrated scores/sets, but no patch geometry reaches pi0.5 |
 | primitive execution certificate | external risk contract plus formal exact test | complete prospective denominator required; historical count gates and budgets never authorize live execution |
 | model-free OPEN qualification probe | protocol-identified executor stimulus | allowed only to break OPEN-before-training data dependency; public candidate/plan bound, no selection claim, forbidden for PICK/DIRECT |
+| formal oracle paired schedule | protocol identifier plus exact paired test | new `oracle_formal` groups; qualified attempted OPEN; identical post-OPEN state; arm order hash-randomized; started failures remain false; privileged mechanism evidence only |
 | Fréchet joint lower bound | formal diagnostic | reports a dependence-robust lower bound; never selects an action |
 | B0--B8 comparison registry | protocol identifier | same paired states, frozen policy, budgets, evaluator, and failure denominator; oracle is a separate column |
 | exact paired primary and Holm secondary family | formal statistical procedure | frozen before sealed outcomes; no automatic method pass threshold |
@@ -77,7 +78,7 @@ fragments. The current immutable report is
 SHA-256, all required boundary fragments, zero retired-fragment matches, and an
 explicit statement that the audit is not performance evidence.
 
-The same report expands every numerical value from ten active training,
+The same report expands every numerical value from eleven active training,
 calibration, baseline, formal-analysis, qualification, and sprint protocols.
 Each path resolves to a named provenance entry. Parent declarations cover list
 elements but must resolve to at least one real numerical field; a stale mapping

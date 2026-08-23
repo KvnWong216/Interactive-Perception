@@ -41,6 +41,12 @@ New non-performance artifacts:
   hash-bound public candidate-set row, while declaring no method-selection
   claim. The same path rejects PICK/DIRECT probes so learned calibrated spatial
   binding cannot be bypassed. This is dependency-closure evidence only.
+- The formerly missing G2F causal gate is now an executable prospective chain:
+  a disjoint cohort freezes exact pre-OPEN states, attempts the formally
+  qualified OPEN stimulus once, and randomizes oracle-marker versus raw DIRECT
+  from the identical post-OPEN state. Interrupted/failed execution stays false
+  in the complete paired denominator, and outcomes are recomputed from reports.
+  This is protocol evidence; no formal oracle result exists.
 - The action-effect train/calibrate/controller path passes a synthetic CPU
   end-to-end regression. The online controller accepts no evaluator-label
   argument and unsupported factor sets cause abstention. Predicted effects feed
@@ -111,5 +117,5 @@ New non-performance artifacts:
   surfaces, requires the explicit missing-evidence and primitive-semantics
   boundaries, and reports zero matches across seven retired interpretations.
   It also records the actual values and provenance IDs for every numeric field
-  in ten active protocols, with no unclassified numeric path. This is semantic
+  in eleven active protocols, with no unclassified numeric path. This is semantic
   and configuration regression evidence, not method performance.

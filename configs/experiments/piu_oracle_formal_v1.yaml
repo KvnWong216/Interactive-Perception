@@ -1,0 +1,36 @@
+schema_version: piu.oracle-formal-experiment.v1
+id: original_drawer_oracle_target_prompt_formal_v1
+status: frozen_before_formal_oracle_outcomes
+claim_scope: privileged_causal_mechanism_only_not_public_method
+
+oracle_pilot_protocol: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
+scenario_config: configs/scenarios/original_drawer.yaml
+
+outcome: target_grasp_contact
+treatment_arm: oracle_target_prompt
+comparator_arm: raw_post_open_direct
+source_primitive: OPEN
+source_candidate_id: open_middle_drawer
+run_root: runs/oracle_target_prompt_formal_v1
+failure_accounting: attempted_open_or_arm_failure_retained_as_false
+
+execution_schedule:
+  method: sha256_keyed_outcome_independent_permutation
+  namespace: original_drawer_oracle_target_prompt_formal_v1
+  group_order_randomized: true
+  within_group_arm_order_randomized: true
+  outcomes_loaded: false
+
+claim_contract:
+  condition_on_successful_open: false
+  reuse_screen_or_confirmation_groups: false
+  incomplete_denominator_allowed: false
+  interrupted_group_may_rerun: false
+  privileged_result_is_public_method_evidence: false
+  within_group_server_session_fixed: true
+  cross_group_server_session_restart_allowed: true
+
+causal_interpretation:
+  require_positive_paired_risk_difference: true
+  reject_when_exact_two_sided_p_is_at_most_plan_alpha: true
+  automatic_public_method_success_claim: false

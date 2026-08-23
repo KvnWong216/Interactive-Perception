@@ -2,7 +2,7 @@
   "schema_version": "piu.offline-repro-audit.v1",
   "manifest": {
     "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_offline_repro_v1.yaml",
-    "sha256": "26f3ac12ea9cfecd06e8fe3a5e7b0e0f569963d8d0efcdfb28058cc9f0686723"
+    "sha256": "e66fc7f2b1127ff6689b558289ef9a1fbc217323bcc57c4638ecf0297db52824"
   },
   "mode": "CREATE_RELEASE_LOCK",
   "offline_ready": true,
@@ -13,23 +13,23 @@
   "offline_inventory": [
     {
       "path": "README.md",
-      "sha256": "00f3a4412a1dc7b292b3c9a3a5cf185f2c35685c1cac7c63b2273e010fa98c23",
-      "bytes": "22560"
+      "sha256": "0a52d308038128e6daeeda533625b94e3ea12d7f4cc164b34c7e2f4819197e6f",
+      "bytes": "24556"
     },
     {
       "path": "RESULTS.md",
-      "sha256": "5fb57f206a1a4412a8d63b7952461cfbc25ec74b97bf7e9b4fff3b69ccf5381c",
-      "bytes": "7607"
+      "sha256": "58fb9b8153b6a7bf6f13c9c1208d105586452e78444265b8c26f61910fb9bdde",
+      "bytes": "8061"
     },
     {
       "path": "STATUS.md",
-      "sha256": "3124d6d81572a244822fc5c13ca400e071009ddafb713360f4caf5d81dd4d895",
-      "bytes": "11793"
+      "sha256": "b24a23662c3a92e82bb629a08bb552c18c4e5f506ead4b464f24ec199687e28e",
+      "bytes": "12573"
     },
     {
       "path": "configs/experiments/method_provenance_v1.yaml",
-      "sha256": "c8c6e948ad4cb967bc37dcf23ee60584682a88732931f96d753745f2576ea342",
-      "bytes": "48504"
+      "sha256": "a5edc01cf411fb402580205d71356b33ec2bc260a1a5b8f5f6a061fdb0227fac",
+      "bytes": "49599"
     },
     {
       "path": "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
@@ -78,8 +78,13 @@
     },
     {
       "path": "configs/experiments/piu_offline_repro_v1.yaml",
-      "sha256": "26f3ac12ea9cfecd06e8fe3a5e7b0e0f569963d8d0efcdfb28058cc9f0686723",
-      "bytes": "14895"
+      "sha256": "e66fc7f2b1127ff6689b558289ef9a1fbc217323bcc57c4638ecf0297db52824",
+      "bytes": "15766"
+    },
+    {
+      "path": "configs/experiments/piu_oracle_formal_v1.yaml",
+      "sha256": "2c51fa2c7b011adcc2a8931e8ac72d4eef9593669b11033b505b69713f9ce64c",
+      "bytes": "1376"
     },
     {
       "path": "configs/experiments/piu_paper_figures_v1.yaml",
@@ -113,13 +118,13 @@
     },
     {
       "path": "docs/claim_evidence_ledger.md",
-      "sha256": "77aa0550c90774a442aa3466dbe681abdf30c86de89c05e43fd4185178e2be03",
-      "bytes": "6495"
+      "sha256": "4266c13e0c1854d838e40bdbdfccadaeadaab62d6f56fea486acc4319a50e465",
+      "bytes": "6919"
     },
     {
       "path": "docs/preregistration.md",
-      "sha256": "867ee30ec396791c0bb0107ecf762b10f3402712153de4fa8c9019c3947ebdd7",
-      "bytes": "23912"
+      "sha256": "049c665f9bf029033e0554e916f2c996043a5d517e21fe73bfdaffb2a47bd0ba",
+      "bytes": "25798"
     },
     {
       "path": "paper/generated/piu_evidence_boundary_v1.svg",
@@ -143,8 +148,8 @@
     },
     {
       "path": "paper/main.md",
-      "sha256": "fb9e75d8ec2b1c21bcbf1ce7ad217e1663b4b30c7e2b443563c859862e3a6861",
-      "bytes": "30400"
+      "sha256": "778e9efda6201ac498074b93a522ad279ba10e1fcf52ff93e4649b80ceaa10b9",
+      "bytes": "31121"
     },
     {
       "path": "results/diagnostics/pi05_libero_checkpoint_identity_v1.json",
@@ -153,8 +158,8 @@
     },
     {
       "path": "results/diagnostics/piu_public_claim_audit_v1.json",
-      "sha256": "95c8ade0318c327d5739b8747f4e9d02a133e2d78cc18f7f0ee03c2b3e8d5489",
-      "bytes": "13545"
+      "sha256": "a9e6a601f16ed3ffb9522090b38d5f1d4d69ca3807e51d6c256d29a2ec40998e",
+      "bytes": "13791"
     },
     {
       "path": "results/method/piu_primitive_reliability_registry_v2.json",
@@ -247,6 +252,11 @@
       "bytes": "14110"
     },
     {
+      "path": "scripts/evaluation/analyze_oracle_formal_experiment.py",
+      "sha256": "faaaf6bbb8a5fa56c4d9cbbdb0bf035dd205c13107dd23b09bb532e93ed02539",
+      "bytes": "1881"
+    },
+    {
       "path": "scripts/evaluation/analyze_piu_formal_experiment.py",
       "sha256": "69ba174d8aa48c8bd08551fb598debb2e7820d57f2a1a144c49d7e57cdc52336",
       "bytes": "2453"
@@ -260,6 +270,16 @@
       "path": "scripts/evaluation/begin_piu_formal_attempt.py",
       "sha256": "48c6bc9be7f5b9c4f79bcdf7d39b2857b34adb6def922418bb90bdcbef50fc17",
       "bytes": "4581"
+    },
+    {
+      "path": "scripts/evaluation/build_oracle_formal_initial_states.py",
+      "sha256": "16d0d00f71bc8ab75cc1e1e642ced77601f12b26d2324deb60a77cd7283f16f0",
+      "bytes": "4878"
+    },
+    {
+      "path": "scripts/evaluation/build_oracle_formal_schedule.py",
+      "sha256": "e2d6b24a85e3e3a5cfba1c89ef9eb9b2576fa5e05c94df0ab6062a22784347b5",
+      "bytes": "12659"
     },
     {
       "path": "scripts/evaluation/build_oracle_target_prompt_schedule.py",
@@ -310,6 +330,11 @@
       "path": "scripts/evaluation/build_piu_qualified_executor_map.py",
       "sha256": "74a1f947b7d4789a30c7e37c1f476a6e04273ea899e08ed1ba8e82eb180887ed",
       "bytes": "2521"
+    },
+    {
+      "path": "scripts/evaluation/close_oracle_formal_group_failure.py",
+      "sha256": "359bcf8fa33723b36202f88d8c0830a7598449b413f4617ad99892a3ba5fef60",
+      "bytes": "4436"
     },
     {
       "path": "scripts/evaluation/close_piu_formal_attempt.py",
@@ -415,6 +440,11 @@
       "path": "scripts/pipeline/replay_piu_oracle_effect_trace.py",
       "sha256": "507a1883cfd4040d5d98efd6ed8de249c24330325ee656a666a328131106b4d3",
       "bytes": "18658"
+    },
+    {
+      "path": "scripts/pipeline/run_oracle_formal_group.py",
+      "sha256": "28ad1bd320188b0fa01aebbc9c67ea2713f1116f0c94bb00c079c0a8093f4262",
+      "bytes": "15173"
     },
     {
       "path": "scripts/pipeline/run_oracle_target_prompt_gate.py",
@@ -652,6 +682,11 @@
       "bytes": "2021"
     },
     {
+      "path": "src/piu/oracle_formal.py",
+      "sha256": "d9bbec0889418c379dbd8aca6900229bd3b9029e708029d70b2e4943a36355eb",
+      "bytes": "43505"
+    },
+    {
       "path": "src/piu/oracle_schedule.py",
       "sha256": "dc25734e022ba2b6567868f3dc36e08d0dd6e792c82efffbe072bc16559a2ce6",
       "bytes": "11365"
@@ -688,8 +723,8 @@
     },
     {
       "path": "src/piu/splits.py",
-      "sha256": "999a4d2c62d6671b0573ff2186eb848449e66887c952554e9a471985920799d9",
-      "bytes": "3111"
+      "sha256": "b04a63c753bb4c24e203d6adf01ac7972608ddb2f3f720a71d68d273e2c89695",
+      "bytes": "3127"
     },
     {
       "path": "src/piu/statistics.py",
@@ -712,7 +747,7 @@
       "bytes": "8126"
     }
   ],
-  "offline_inventory_sha256": "af02fa6abf3b8ef8c3d51f07d1f19ec58d65e26943067873cfe186217bb56735",
+  "offline_inventory_sha256": "6ff39d472a6d1edec493623ffcb2b48f3039cddd5838acc439b9d86181d74b20",
   "dependency_closure_exceptions": {
     "results/diagnostics/piu_offline_repro_preflight_v1.json": "The release lock cannot contain its own content hash; it is validated as the output of this manifest and bound separately by every formal design.",
     "scripts/pipeline/infer.py": "The B2 adapter executes this path only inside a detached worktree at the attested frozen tag commit, never from the current release checkout."
@@ -880,6 +915,26 @@
       "syntax_valid": true
     },
     {
+      "path": "scripts/evaluation/build_oracle_formal_initial_states.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_oracle_formal_schedule.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/close_oracle_formal_group_failure.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/analyze_oracle_formal_experiment.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
       "path": "scripts/evaluation/begin_piu_formal_attempt.py",
       "executable": true,
       "syntax_valid": true
@@ -1033,6 +1088,11 @@
       "path": "scripts/pipeline/run_oracle_target_prompt_gate.py",
       "executable": true,
       "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_oracle_formal_group.py",
+      "executable": true,
+      "syntax_valid": true
     }
   ],
   "external_empirical_gates": [
@@ -1135,6 +1195,18 @@
     {
       "id": "prospective_oracle_plan",
       "artifact": "results/method/original_drawer_oracle_formal_plan_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "prospective_oracle_initial_states",
+      "artifact": "data/piu/mainline_v1/oracle_formal_initial_states_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "prospective_oracle_schedule",
+      "artifact": "results/method/original_drawer_oracle_formal_schedule_v1.json",
       "status": "PENDING_EXTERNAL",
       "sha256": null
     },

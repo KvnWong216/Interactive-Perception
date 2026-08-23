@@ -17,7 +17,7 @@ SPLIT_ROLES = (
     "calibration_conformal",
     "sealed_test",
 )
-OPTIONAL_SPLIT_ROLES = ("primitive_qualification",)
+OPTIONAL_SPLIT_ROLES = ("primitive_qualification", "oracle_formal")
 
 
 def validate_split_manifest(value: Mapping[str, Any]) -> dict[str, Any]:

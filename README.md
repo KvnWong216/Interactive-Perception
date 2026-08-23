@@ -262,6 +262,44 @@ Then summarize with the same phase and style. Every oracle report declares two
 online privileged inputs and uses the claim scope
 `EVALUATOR_ONLY_ORACLE_UPPER_BOUND`.
 
+If the independent pilot yields a prospective count within the frozen resource
+bound, allocate exactly that many new `oracle_formal` split groups, freeze their
+pre-OPEN states, and bind the qualified OPEN certificate before any formal
+outcome exists:
+
+```bash
+python scripts/evaluation/plan_oracle_paired_test.py \
+  --pilot results/method/original_drawer_oracle_prompt_pilot_v2.json \
+  --output results/method/original_drawer_oracle_formal_plan_v1.json
+
+python scripts/evaluation/build_oracle_formal_initial_states.py \
+  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --state GROUP_1 PATH/state_1.npz --state GROUP_2 PATH/state_2.npz \
+  --output data/piu/mainline_v1/oracle_formal_initial_states_v1.json
+
+python scripts/evaluation/build_oracle_formal_schedule.py \
+  --formal-plan results/method/original_drawer_oracle_formal_plan_v1.json \
+  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --initial-state-manifest data/piu/mainline_v1/oracle_formal_initial_states_v1.json \
+  --open-certificate results/method/piu_open_primitive_certificate_v1.json \
+  --output results/method/original_drawer_oracle_formal_schedule_v1.json
+
+python scripts/pipeline/run_oracle_formal_group.py \
+  --schedule results/method/original_drawer_oracle_formal_schedule_v1.json \
+  --execution-index INDEX \
+  --endpoint-check results/diagnostics/external_pi05_endpoint_check_v1.json \
+  --host <external-pi05-host> --execution-location external_simulator
+
+python scripts/evaluation/analyze_oracle_formal_experiment.py \
+  --schedule results/method/original_drawer_oracle_formal_schedule_v1.json \
+  --output results/method/original_drawer_oracle_formal_result_v1.json
+```
+
+Indices must run in the frozen order. A process interruption leaves an open
+single-use ticket; close it with `close_oracle_formal_group_failure.py`, which
+retains both arms as false, instead of rerunning the group. This experiment is
+an evaluator-privileged causal mechanism test and never a public PIU result.
+
 ### B1 prompted-VLM baseline
 
 B1 uses a separate identified external VLM router; it is not silently replaced

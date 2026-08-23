@@ -149,6 +149,44 @@ For reference, even five intervention-only discordances give a two-sided exact
 `p=0.0625`; six give `p=0.03125`. The calculator uses the full pilot-estimated
 discordant-pair probabilities rather than treating `4/5` as evidence.
 
+When the plan status is `PROSPECTIVE_GROUP_COUNT_FROZEN`, add exactly that many
+new `oracle_formal` groups to the prospective split, excluding every oracle
+preflight/pilot and OPEN-qualification group/seed, and freeze their pre-OPEN
+opaque states. G2F itself requires a formal OPEN executor certificate: every
+group attempts that exact candidate once, regardless of whether OPEN succeeds,
+then starts the target-marker and raw-DIRECT arms from the same resulting state
+in a hash-keyed order. Failed or interrupted source/arm executions remain false
+in the complete intention-to-treat denominator.
+
+```bash
+python scripts/evaluation/build_oracle_formal_initial_states.py \
+  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --state GROUP_1 PATH/state_1.npz --state GROUP_2 PATH/state_2.npz \
+  --output data/piu/mainline_v1/oracle_formal_initial_states_v1.json
+
+python scripts/evaluation/build_oracle_formal_schedule.py \
+  --formal-plan results/method/original_drawer_oracle_formal_plan_v1.json \
+  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --initial-state-manifest data/piu/mainline_v1/oracle_formal_initial_states_v1.json \
+  --open-certificate results/method/piu_open_primitive_certificate_v1.json \
+  --output results/method/original_drawer_oracle_formal_schedule_v1.json
+
+python scripts/pipeline/run_oracle_formal_group.py \
+  --schedule results/method/original_drawer_oracle_formal_schedule_v1.json \
+  --execution-index INDEX \
+  --endpoint-check results/diagnostics/external_pi05_endpoint_check_v1.json \
+  --host 127.0.0.1 --port 8002 --execution-location external_simulator
+
+python scripts/evaluation/analyze_oracle_formal_experiment.py \
+  --schedule results/method/original_drawer_oracle_formal_schedule_v1.json \
+  --output results/method/original_drawer_oracle_formal_result_v1.json
+```
+
+The result uses the predeclared exact two-sided paired test and reports a
+conservative paired-risk-difference interval. It establishes at most a
+privileged target-binding mechanism in this fixed scenario; it cannot serve as
+learned-method performance.
+
 ## Paper experiment table after executor qualification
 
 The main paired comparison will contain raw frozen DIRECT, best text-only

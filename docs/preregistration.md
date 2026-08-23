@@ -344,7 +344,7 @@ passing prose audit establishes only semantic consistency of the repository; it
 is not physical, learned-model, calibration, or task-success evidence.
 
 The same audit requires field-level classification of every numeric value in
-the ten active training, calibration, baseline, formal-analysis,
+the eleven active training, calibration, baseline, formal-analysis,
 qualification, and sprint protocols. Values are read from the tracked configs
 into the report rather than manually transcribed. Training-development search,
 isolated-calibration risk, simulator/policy contracts, external risk,
@@ -398,3 +398,33 @@ because those actions require the learned, calibrated current-frame spatial
 reference whose contribution the paper tests. Later PICK qualification must use
 a real public-input controller report after binder training. Thus the cycle is
 removed without inserting a hand box, oracle target, or synthetic success.
+
+## Amendment 11: prospective formal oracle execution chain
+
+Frozen on 2026-08-23 before an external endpoint, independent oracle pilot,
+formal oracle plan, external executor-risk declaration, qualification outcome,
+or successor data existed. The v2 protocol specified a disjoint formal
+target-prompt test but previously implemented only its pilot-based sample-size
+planner. The missing runtime is now fixed prospectively.
+
+If and only if the planner returns `PROSPECTIVE_GROUP_COUNT_FROZEN`, the split
+must contain exactly that many new `oracle_formal` groups, disjoint from every
+oracle preflight/screen/confirmation seed and every OPEN-qualification
+group/seed. Exact finite pre-OPEN NPZ states, code/config
+release lock, pi0.5 identity, selected development style, and a
+`FORMALLY_QUALIFIED` certificate for candidate `open_middle_drawer` are bound
+before formal outcomes. A blocked power plan cannot be replaced by a chosen
+round number.
+
+For each group the executor attempts the certified OPEN stimulus once. The
+estimand is intention-to-treat and never conditions on OPEN success. When a
+post-OPEN state exists, oracle-target-prompt and raw post-OPEN DIRECT start from
+that identical state; their order is a SHA-256-keyed permutation. The source
+and both arms within a group use one endpoint session; an identity-matched
+restart is allowed only between groups. A start ticket is irreversible: source/arm runtime
+failure is false, and a process interruption is closed conservatively with both
+arms false rather than rerun. Complete receipts retain report, image, action,
+state, certificate, schedule, and session hashes. The analyzer recomputes
+grasp-contact outcomes from the registered v2 evaluator reports and applies the
+already frozen exact two-sided paired test. A positive result is privileged
+causal-mechanism evidence only, never evidence for the public-input method.

@@ -20,7 +20,7 @@ hash-checked table and displays observed 9/10 -> 8/10 -> 0/10 evidence separatel
 from `PENDING` binder, calibration, and sealed results.
 The public claim audit additionally hash-binds the paper, README, status, and
 results prose. It rejects seven retired interpretations, including the old
-fixed-visibility wording and any DIRECT-to-PICK/PLACE primitive relabeling. Ten
+fixed-visibility wording and any DIRECT-to-PICK/PLACE primitive relabeling. Eleven
 active method/evaluation protocols also have field-level numeric closure, so a
 new unclassified numeric control fails validation.
 
@@ -114,6 +114,16 @@ endpoint-check artifact, and resume validates completed reports before skipping
 them. New identified servers expose a session ID; the endpoint check and all
 reports in one phase must share it, preventing an unnoticed policy-RNG reset
 mid-comparison. The schedule is frozen; no oracle outcome has been collected.
+The G2F follow-up is no longer a planner-only placeholder. A pilot-sized,
+group-disjoint `oracle_formal` cohort now freezes exact pre-OPEN states and the
+complete offline release, requires the exact qualified OPEN candidate, and
+runs oracle-marker/raw-DIRECT arms from one identical post-OPEN state in a
+hash-randomized order. Each group has one irreversible start/close path;
+executor errors and interrupted attempts remain false in the paired denominator.
+The analyzer verifies one server session within each paired group
+(identity-matched restarts are allowed only between groups), report/image/state
+hashes, privileged input declarations, and evaluator-derived outcomes before the exact paired
+test. No endpoint, cohort, OPEN certificate, or real formal result exists yet.
 The frozen B2 tag was audited as a one-decision system rather than a complete
 closed loop. Its adapter now verifies the exact tag commit, paired public RGB,
 all legacy model-tree hashes, and inference report; it executes at most the one
@@ -169,6 +179,6 @@ not bypass the causal oracle gate or fabricate those missing outcomes.
 Consequently no real B8/B0 development pilot, conservative formal group count,
 formal initial-state cohort, or sealed execution schedule exists yet; Phase 9
 and the Phase 10 cohort/one-shot execution freeze are software-ready only. The
-current CPU-only repository suite passes 229 tests; the existing approved
+current CPU-only repository suite passes 233 tests; the existing approved
 Python GPU process remains at 590 MiB, below the 1500 MiB cap (the GPU safety
 check refuses to interfere with it).

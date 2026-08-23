@@ -17,7 +17,7 @@ def test_public_claim_audit_is_current_and_evidence_bound() -> None:
     assert retained["status"] == "PASS"
     assert retained["retired_fragments_checked"] >= 7
     assert len(retained["claim_surfaces"]) == 4
-    assert len(retained["numeric_protocols"]) == 10
+    assert len(retained["numeric_protocols"]) == 11
     assert all(
         row["unclassified_numeric_paths"] == []
         for row in retained["numeric_protocols"]

@@ -245,6 +245,14 @@ entries:
     rationale: The nine style-by-group screen cells and five confirmation groups execute in a content-bound order frozen before that phase's outcomes, preventing style-blocked temporal drift from becoming an unrecorded confound.
     evidence: the schedule builder binds the unchanged v2 experiment, offline release, source-state hashes, expected report paths, and prior unique screen selection; the runner rejects reordered or incomplete schedules, endpoint-session drift, and phase reports spanning multiple sessions
 
+  - id: oracle_formal_attempted_open_pairing
+    location: configs/experiments/piu_oracle_formal_v1.yaml, src/piu/oracle_formal.py, and scripts/pipeline/run_oracle_formal_group.py
+    value: hash-permuted new groups with one qualified attempted OPEN followed by randomized oracle-target-prompt and raw-post-OPEN DIRECT arms from the identical transported state
+    provenance: protocol_identifier
+    claim_use: diagnostic_only
+    rationale: The formal causal estimand cannot condition on successful OPEN, reuse screen/pilot seeds, select an arm order after outcomes, or drop an executor failure. Every started group is single-use; failed or interrupted OPEN/arm execution remains a false intention-to-treat outcome in both the exact paired test and reported effect.
+    evidence: schedule/receipt tests bind the pilot-sized count, exact OPEN certificate/candidate, split, opaque state, release lock, endpoint session, arm reports, public starting RGB, and evaluator recomputation; interruption closes conservatively and cannot be rerun
+
   - id: binding_mask_to_patch_target
     location: src/piu/binding_data.py:mask_to_patch_coverage
     value: exact target-pixel fraction per frozen patch
@@ -614,6 +622,7 @@ tracked_protocols:
       preflight.expected_eligible_seeds: oracle_prompt_phase_execution_order
       screen.seeds: oracle_prompt_phase_execution_order
       confirmation.seeds: oracle_prompt_phase_execution_order
+  - path: configs/experiments/piu_oracle_formal_v1.yaml
   - path: configs/experiments/piu_formal_analysis_v1.yaml
     numeric_controls:
       primary.alpha: formal_test_design_levels
