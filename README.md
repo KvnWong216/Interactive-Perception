@@ -110,6 +110,12 @@ derives the per-dispatch null as `1-delta/8`, freezes new state/controller
 groups, and recomputes every outcome from a scheduled execution receipt. A
 certificate covers the exact public candidate payload and spatial-serializer
 mode, not merely a primitive name.
+To avoid a pretraining cycle, OPEN qualification may use the model-free
+`build_piu_primitive_qualification_probe.py`: it reads the exact candidate from
+a public candidate-set row and the frozen qualification plan. This measures the
+executor stimulus only and cannot be reported as controller selection. The
+probe is deliberately forbidden for PICK/DIRECT, which still require learned,
+calibrated current-frame spatial references.
 The same-state collector first creates a hash-bound public execution plan from
 calibrated binder sets. Candidates outside their typed execution context remain
 in the route matrix but are not physically forked and receive no invented

@@ -2,7 +2,7 @@
   "schema_version": "piu.offline-repro-audit.v1",
   "manifest": {
     "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_offline_repro_v1.yaml",
-    "sha256": "d927a770662d6d8f6206f5bf125f7086e9e7311797fe696df314451f4ec6c845"
+    "sha256": "26f3ac12ea9cfecd06e8fe3a5e7b0e0f569963d8d0efcdfb28058cc9f0686723"
   },
   "mode": "CREATE_RELEASE_LOCK",
   "offline_ready": true,
@@ -13,23 +13,23 @@
   "offline_inventory": [
     {
       "path": "README.md",
-      "sha256": "52316f5f67f2a22bc71b081280c1c000cc254c20b4dad5c637094c3933fafe99",
-      "bytes": "22130"
+      "sha256": "00f3a4412a1dc7b292b3c9a3a5cf185f2c35685c1cac7c63b2273e010fa98c23",
+      "bytes": "22560"
     },
     {
       "path": "RESULTS.md",
-      "sha256": "a6a0b8276c483a93f9784a81a4b0610954ef78e8dd242c65ed98fedab04dc596",
-      "bytes": "7230"
+      "sha256": "5fb57f206a1a4412a8d63b7952461cfbc25ec74b97bf7e9b4fff3b69ccf5381c",
+      "bytes": "7607"
     },
     {
       "path": "STATUS.md",
-      "sha256": "d1c445655d98bb95421f295c28378be8db570c5b058d7a8e7562faf694222ee6",
-      "bytes": "11603"
+      "sha256": "3124d6d81572a244822fc5c13ca400e071009ddafb713360f4caf5d81dd4d895",
+      "bytes": "11793"
     },
     {
       "path": "configs/experiments/method_provenance_v1.yaml",
-      "sha256": "e435ef70174cc44c9768bb69dac08ce41d0f91babe8f4c8d5db0435f87ab4aa2",
-      "bytes": "47519"
+      "sha256": "c8c6e948ad4cb967bc37dcf23ee60584682a88732931f96d753745f2576ea342",
+      "bytes": "48504"
     },
     {
       "path": "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
@@ -78,8 +78,8 @@
     },
     {
       "path": "configs/experiments/piu_offline_repro_v1.yaml",
-      "sha256": "d927a770662d6d8f6206f5bf125f7086e9e7311797fe696df314451f4ec6c845",
-      "bytes": "14763"
+      "sha256": "26f3ac12ea9cfecd06e8fe3a5e7b0e0f569963d8d0efcdfb28058cc9f0686723",
+      "bytes": "14895"
     },
     {
       "path": "configs/experiments/piu_paper_figures_v1.yaml",
@@ -113,13 +113,13 @@
     },
     {
       "path": "docs/claim_evidence_ledger.md",
-      "sha256": "950188171a31d4f37c77717482c3334d5e9e9c59f61fe82af41fdbed544f868c",
-      "bytes": "6115"
+      "sha256": "77aa0550c90774a442aa3466dbe681abdf30c86de89c05e43fd4185178e2be03",
+      "bytes": "6495"
     },
     {
       "path": "docs/preregistration.md",
-      "sha256": "9b98679c56dfb0eccd5f748a7b2fdb96854eb7d5ae7d8948d0f3183007ac633d",
-      "bytes": "22441"
+      "sha256": "867ee30ec396791c0bb0107ecf762b10f3402712153de4fa8c9019c3947ebdd7",
+      "bytes": "23912"
     },
     {
       "path": "paper/generated/piu_evidence_boundary_v1.svg",
@@ -143,8 +143,8 @@
     },
     {
       "path": "paper/main.md",
-      "sha256": "88ade563b050eb26281900a3af1db32892d87c5223461496b92fb3306c34c2f8",
-      "bytes": "30204"
+      "sha256": "fb9e75d8ec2b1c21bcbf1ce7ad217e1663b4b30c7e2b443563c859862e3a6861",
+      "bytes": "30400"
     },
     {
       "path": "results/diagnostics/pi05_libero_checkpoint_identity_v1.json",
@@ -153,7 +153,7 @@
     },
     {
       "path": "results/diagnostics/piu_public_claim_audit_v1.json",
-      "sha256": "0607307ff6f40f3810014419409430f5677796372a060ed73c58333b9c467db3",
+      "sha256": "95c8ade0318c327d5739b8747f4e9d02a133e2d78cc18f7f0ee03c2b3e8d5489",
       "bytes": "13545"
     },
     {
@@ -292,9 +292,14 @@
       "bytes": "3248"
     },
     {
+      "path": "scripts/evaluation/build_piu_primitive_qualification_probe.py",
+      "sha256": "89ac681ca9172a80b72fc88a784d578631218537ec49aa36c83ce10a6c9d4e87",
+      "bytes": "6036"
+    },
+    {
       "path": "scripts/evaluation/build_piu_primitive_qualification_schedule.py",
-      "sha256": "2d72496891277a4ef176962d39f5d9c7b0397f5c7f044e4a906aca2039aa4c9e",
-      "bytes": "9521"
+      "sha256": "eec16b818ec2c77424edd6a09f85428eb52d4d86e0bdebc6b8db5881c87f6c80",
+      "bytes": "9555"
     },
     {
       "path": "scripts/evaluation/build_piu_primitive_registry.py",
@@ -398,8 +403,8 @@
     },
     {
       "path": "scripts/pipeline/execute_piu_controller_decision.py",
-      "sha256": "dbe198bb454ae4ddf999458d90fb94a6bdab20a62fe5767c00615fe736f08451",
-      "bytes": "11994"
+      "sha256": "5c57ef7d995b535ed37c762bd35e818a2f987d05fbf974c3c56eee5b3d22e4b6",
+      "bytes": "12028"
     },
     {
       "path": "scripts/pipeline/predict_piu_target_binding_online.py",
@@ -453,8 +458,8 @@
     },
     {
       "path": "scripts/pipeline/run_piu_primitive_qualification.py",
-      "sha256": "7fced5d82b8aada7d33d415dabe3704b0a9436b6c6d27d3db36739f7ce7202ed",
-      "bytes": "8884"
+      "sha256": "d3b92c4479b561c9bf95b16f2a0a88ec9f2d5d3dcdf4c595cdda85d81d215e33",
+      "bytes": "8914"
     },
     {
       "path": "scripts/pipeline/run_piu_prompted_vlm_closed_loop.py",
@@ -668,8 +673,8 @@
     },
     {
       "path": "src/piu/primitive_registry.py",
-      "sha256": "5affa07fb11e7abc5ccfc9f8c0f537d6f5f71b6dc1f9ab530e4c80acf7a0efd0",
-      "bytes": "56264"
+      "sha256": "19ce263a5d061ed3871423174f4252336245072de88797a9efb09d5410991a4e",
+      "bytes": "59605"
     },
     {
       "path": "src/piu/reproducibility.py",
@@ -707,7 +712,7 @@
       "bytes": "8126"
     }
   ],
-  "offline_inventory_sha256": "1e8e7e205846e27526dbcd71ff6eccc5d61f7682b794be560b8e48fc8f8c071d",
+  "offline_inventory_sha256": "af02fa6abf3b8ef8c3d51f07d1f19ec58d65e26943067873cfe186217bb56735",
   "dependency_closure_exceptions": {
     "results/diagnostics/piu_offline_repro_preflight_v1.json": "The release lock cannot contain its own content hash; it is validated as the output of this manifest and bound separately by every formal design.",
     "scripts/pipeline/infer.py": "The B2 adapter executes this path only inside a detached worktree at the attested frozen tag commit, never from the current release checkout."
@@ -931,6 +936,11 @@
     },
     {
       "path": "scripts/evaluation/build_piu_primitive_qualification_schedule.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_primitive_qualification_probe.py",
       "executable": true,
       "syntax_valid": true
     },

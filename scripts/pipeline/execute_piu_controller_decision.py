@@ -176,6 +176,7 @@ def main() -> None:
             initial_state_group=" ".join(
                 str(decision.get("initial_state_group", "")).split()
             ),
+            repository_root=ROOT,
         )
         validate_qualification_candidate_contract(
             qualification,

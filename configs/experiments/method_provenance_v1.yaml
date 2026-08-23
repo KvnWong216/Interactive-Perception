@@ -482,7 +482,7 @@ entries:
     value: exact one-sided binomial rejection under a prospectively frozen external risk contract, hash-permuted new-group schedule, and complete single-use denominator
     provenance: formal_statistical_procedure
     claim_use: main_evaluator
-    rationale: A historical count or shared step budget cannot authorize physical execution. The certificate binds the exact public candidate payload, spatial-serializer mode, per-state controller report, opaque state, simulator seed, policy identity, execution receipt, and registered simulator/task success predicate; a failed started attempt remains a failure.
+    rationale: A historical count or shared step budget cannot authorize physical execution. The certificate binds the exact public candidate payload, spatial-serializer mode, per-state public decision/probe report, opaque state, simulator seed, policy identity, execution receipt, and registered simulator/task success predicate; a failed started attempt remains a failure.
     evidence: qualification and dispatch tests reject incomplete denominators, changed prompts/candidates, unscheduled reports, reused states/seeds, fabricated outcomes, and unqualified physical actions
 
   - id: primitive_qualification_single_use_schedule
@@ -490,8 +490,16 @@ entries:
     value: SHA-256-keyed order over exact new states with one immutable attempt path per group
     provenance: formal_statistical_procedure
     claim_use: main_evaluator
-    rationale: Controller reports and serialized subtasks are frozen before physical outcomes. Endpoint identity is checked before STARTED; after STARTED, runtime failure is counted and the same state cannot be rerun. Interrupted attempts have an explicit failure-only close path.
+    rationale: Public controller reports or the OPEN-only plan-bound probe and their serialized subtasks are frozen before physical outcomes. Endpoint identity is checked before STARTED; after STARTED, runtime failure is counted and the same state cannot be rerun. Interrupted attempts have an explicit failure-only close path.
     evidence: schedule and receipt loaders revalidate split roles, unique state hashes, old-seed exclusion, release lock, exact candidate serialization, order, attempt tickets, and v2 semantic reports
+
+  - id: open_executor_qualification_probe
+    location: scripts/evaluation/build_piu_primitive_qualification_probe.py
+    value: exact OPEN candidate read from a public candidate-set row and the prospectively frozen primitive plan, serialized without a trained model or calibration artifact
+    provenance: protocol_identifier
+    claim_use: main_evaluator
+    rationale: OPEN must be qualified before new interaction data can be collected, so requiring a trained controller would create a circular dependency. The probe measures executor reliability for a predeclared stimulus only and cannot count as method selection. It is OPEN-only; PICK/DIRECT still require calibrated current-frame spatial references from the learned public-input path.
+    evidence: probe and schedule loaders hash-check the plan and public candidate set, reject outcome/oracle/model/calibration inputs, and reject using the model-free probe for PICK
 
   - id: evidence_bound_paper_figures
     location: scripts/evaluation/build_piu_paper_figures.py

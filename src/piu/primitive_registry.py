@@ -578,14 +578,17 @@ def load_qualification_controller_decision(
     candidate_id: str,
     primitive: str,
     initial_state_group: str,
+    repository_root: Path | None = None,
 ) -> dict[str, Any]:
     """Bind qualification to the exact public candidate and serializer output."""
 
     report = json.loads(path.read_text())
-    if report.get("schema_version") not in {
+    schema = report.get("schema_version")
+    if schema not in {
         "piu.calibrated-controller-report.v1",
         "piu.uncalibrated-ablation-controller-report.v1",
         "piu.prompted-vlm-router-report.v1",
+        "piu.primitive-qualification-probe.v1",
     }:
         raise ValueError("unsupported qualification controller report")
     if report.get("evaluator_labels_loaded") is not False:
@@ -605,6 +608,72 @@ def load_qualification_controller_decision(
         raise ValueError("qualification group/candidate does not select one decision")
     decision = dict(matches[0])
     normalized_primitive = " ".join(primitive.split()).upper()
+    if schema == "piu.primitive-qualification-probe.v1":
+        if repository_root is None:
+            raise ValueError("qualification probe validation requires repository root")
+        if (
+            len(decisions) != 1
+            or decision.get("decision_kind") != "INTERACT"
+            or not " ".join(str(decision.get("sample_id", "")).split())
+            or report.get("status")
+            != "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES"
+            or report.get("claim_scope")
+            != "EXECUTOR_STIMULUS_ONLY_NOT_METHOD_SELECTION"
+            or report.get("outcomes_loaded") is not False
+            or report.get("selection_source")
+            != "preregistered_executor_probe_not_method_decision"
+            or report.get("candidate_choice_outcome_dependent") is not False
+            or report.get("paper_method_selection_claim_allowed") is not False
+            or report.get("trained_model_loaded") is not False
+            or report.get("calibration_loaded") is not False
+            or report.get("online_oracle_inputs") != []
+            or normalized_primitive != "OPEN"
+        ):
+            raise ValueError("qualification probe crossed its selection firewall")
+        inputs = report.get("inputs")
+        if not isinstance(inputs, Mapping):
+            raise TypeError("qualification probe lacks input provenance")
+        plan_path = _verified_reference(
+            inputs.get("plan"),
+            name="qualification probe plan",
+            repository_root=repository_root,
+        )
+        candidate_set_path = _verified_reference(
+            inputs.get("candidate_set"),
+            name="qualification probe candidate set",
+            repository_root=repository_root,
+        )
+        plan = load_primitive_qualification_plan(
+            plan_path, repository_root=repository_root
+        )
+        if (
+            str(plan.get("candidate_id")) != candidate_id
+            or str(plan.get("primitive", "")).upper() != normalized_primitive
+        ):
+            raise ValueError("qualification probe differs from its frozen plan")
+        source_rows = [
+            json.loads(line)
+            for line in candidate_set_path.read_text().splitlines()
+            if line
+        ]
+        if any(not isinstance(row, Mapping) for row in source_rows):
+            raise TypeError("qualification probe candidate-set rows must be objects")
+        source_matches = [
+            row
+            for row in source_rows
+            if row.get("schema_version") == "piu.public-candidate-set.v1"
+            and row.get("sample_id") == decision.get("sample_id")
+            and row.get("initial_state_group") == initial_state_group
+        ]
+        if len(source_matches) != 1:
+            raise ValueError("qualification probe lacks one public candidate row")
+        source = source_matches[0]
+        if (
+            source.get("public_inputs_only") is not True
+            or source.get("online_oracle_inputs") != []
+            or source.get("candidates") != decision.get("public_candidates")
+        ):
+            raise ValueError("qualification probe candidate source is not public")
     if (
         decision.get("decision_kind") not in {"EXECUTE", "INTERACT"}
         or " ".join(
@@ -783,6 +852,7 @@ def load_primitive_qualification_schedule(
             candidate_id=str(plan["candidate_id"]),
             primitive=str(plan["primitive"]),
             initial_state_group=group,
+            repository_root=repository_root,
         )
         if (
             row.get("structured_subtask_sha256")
@@ -1009,6 +1079,7 @@ def load_primitive_qualification_execution_receipt(
         candidate_id=str(entry["candidate_id"]),
         primitive=str(entry["primitive"]),
         initial_state_group=str(entry["initial_state_group"]),
+        repository_root=repository_root,
     )
     expected_identity = load_checkpoint_identity(identity_path)
     validate_server_metadata(controller.get("server_metadata", {}), expected_identity)

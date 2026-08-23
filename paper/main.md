@@ -271,10 +271,13 @@ from an externally declared episode primitive-failure budget by a
 dependence-free union bound, and the external contract also supplies the
 power-design alternative and a positive-integer collection-resource cap per
 primitive. Historical pilots, conformal alpha, action counts, and a CLI default
-cannot set these values. Qualification binds new exact states, public
-controller reports, serialized subtasks, single-use receipts, and registered
-simulator/task-predicate outcomes; the certificate covers the exact candidate
-payload and serializer mode. No real external risk contract, full-prefix cache,
+cannot set these values. Qualification binds new exact states, public decision
+reports, serialized subtasks, single-use receipts, and registered simulator/task
+predicate outcomes; the certificate covers the exact candidate payload and
+serializer mode. OPEN may use a frozen model-free public probe solely to break
+the pretraining/interaction-data cycle; it is not controller-selection evidence
+and is forbidden for spatial PICK/DIRECT qualification. No real external risk
+contract, full-prefix cache,
 successor checkpoint, calibration artifact, or physical rollout exists, so
 this subsection makes no performance claim.
 

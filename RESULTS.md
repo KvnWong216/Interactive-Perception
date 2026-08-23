@@ -36,6 +36,11 @@ New non-performance artifacts:
   controller prompts, single-use receipts, and registered-predicate outcome
   recomputation. This is protocol evidence; no external budget or certificate
   exists.
+- OPEN qualification no longer depends circularly on a trained binder. A
+  model-free probe reads the exact OPEN candidate from the frozen plan and a
+  hash-bound public candidate-set row, while declaring no method-selection
+  claim. The same path rejects PICK/DIRECT probes so learned calibrated spatial
+  binding cannot be bypassed. This is dependency-closure evidence only.
 - The action-effect train/calibrate/controller path passes a synthetic CPU
   end-to-end regression. The online controller accepts no evaluator-label
   argument and unsupported factor sets cause abstention. Predicted effects feed

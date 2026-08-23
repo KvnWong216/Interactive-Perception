@@ -45,6 +45,7 @@ decision.
 | B3/B4 unique argmax | baseline protocol | exact ties abstain; B3's factor channel is exactly zero and B4's is learned |
 | B5 spatial-bridge disable | baseline protocol | same calibrated scores/sets, but no patch geometry reaches pi0.5 |
 | primitive execution certificate | external risk contract plus formal exact test | complete prospective denominator required; historical count gates and budgets never authorize live execution |
+| model-free OPEN qualification probe | protocol-identified executor stimulus | allowed only to break OPEN-before-training data dependency; public candidate/plan bound, no selection claim, forbidden for PICK/DIRECT |
 | Fréchet joint lower bound | formal diagnostic | reports a dependence-robust lower bound; never selects an action |
 | B0--B8 comparison registry | protocol identifier | same paired states, frozen policy, budgets, evaluator, and failure denominator; oracle is a separate column |
 | exact paired primary and Holm secondary family | formal statistical procedure | frozen before sealed outcomes; no automatic method pass threshold |

@@ -174,6 +174,7 @@ def main() -> None:
             candidate_id=str(plan["candidate_id"]),
             primitive=str(plan["primitive"]),
             initial_state_group=group,
+            repository_root=ROOT,
         )
         observed_contract = {
             "selected_candidate": controller["candidate"],

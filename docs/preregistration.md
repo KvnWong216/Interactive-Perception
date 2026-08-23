@@ -374,3 +374,27 @@ The oracle paired-power planner's duplicated CLI default of 200 is also
 removed. That planner now reads and hashes the sole numerical resource bound in
 `piu_formal_analysis_v1.yaml`, already classified as a resource-only control.
 This amendment changes no retained outcome or empirical estimate.
+
+## Amendment 10: model-free OPEN qualification stimulus
+
+Frozen on 2026-08-23 before any external risk budget, new qualification state,
+qualification outcome, or successor training data existed. The previous
+schedule contract required a controller-shaped decision report for every
+primitive. For OPEN this creates a dependency cycle: new interaction data needs
+a qualified OPEN executor, while a learned controller needs those new data.
+
+OPEN executor qualification may therefore use a preregistered stimulus report
+generated from two hash-bound public artifacts: the exact candidate ID and
+primitive in the frozen qualification plan, and the complete candidate payload
+in that group's public candidate set. The serializer remains unchanged. The
+report loads no trained model, calibration artifact, evaluator field, oracle
+input, or qualification outcome and declares that candidate choice is
+outcome-independent. It estimates executor reliability conditional on the
+predeclared OPEN stimulus only; it cannot enter controller-selection metrics or
+establish the PIU method claim.
+
+This exception is OPEN-only. A model-free probe for PICK or DIRECT is rejected,
+because those actions require the learned, calibrated current-frame spatial
+reference whose contribution the paper tests. Later PICK qualification must use
+a real public-input controller report after binder training. Thus the cycle is
+removed without inserting a hand box, oracle target, or synthetic success.

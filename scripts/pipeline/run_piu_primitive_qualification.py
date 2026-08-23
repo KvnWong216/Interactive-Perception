@@ -90,6 +90,7 @@ def main() -> None:
         candidate_id=str(entry["candidate_id"]),
         primitive=str(entry["primitive"]),
         initial_state_group=str(entry["initial_state_group"]),
+        repository_root=ROOT,
     )
     baseline_path = resolve(Path(schedule["inputs"]["baseline_registry"]["path"]))
     scenario_path = resolve(Path(schedule["inputs"]["scenario_config"]["path"]))

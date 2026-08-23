@@ -3,8 +3,8 @@
   "status": "PASS",
   "registry": {
     "path": "configs/experiments/method_provenance_v1.yaml",
-    "sha256": "e435ef70174cc44c9768bb69dac08ce41d0f91babe8f4c8d5db0435f87ab4aa2",
-    "entry_count": 68,
+    "sha256": "c8c6e948ad4cb967bc37dcf23ee60584682a88732931f96d753745f2576ea342",
+    "entry_count": 69,
     "provenance_counts": {
       "baseline_only_heuristic": 3,
       "fit_on_isolated_calibration": 1,
@@ -13,7 +13,7 @@
       "learned_on_training_split": 6,
       "numerical_optimization": 2,
       "oracle_intervention": 4,
-      "protocol_identifier": 25,
+      "protocol_identifier": 26,
       "safety_or_resource_budget": 6,
       "simulator_or_physics_contract": 3,
       "unsupported_heuristic": 5,
@@ -23,7 +23,7 @@
       "baseline_only": 6,
       "diagnostic_only": 8,
       "historical_only": 3,
-      "main_evaluator": 18,
+      "main_evaluator": 19,
       "main_method_online": 21,
       "rejected_method_only": 4,
       "safety_only": 8
@@ -34,25 +34,25 @@
   "claim_surfaces": [
     {
       "path": "paper/main.md",
-      "sha256": "88ade563b050eb26281900a3af1db32892d87c5223461496b92fb3306c34c2f8",
+      "sha256": "fb9e75d8ec2b1c21bcbf1ce7ad217e1663b4b30c7e2b443563c859862e3a6861",
       "required_fragments_verified": 4,
       "retired_fragments_matched": []
     },
     {
       "path": "README.md",
-      "sha256": "52316f5f67f2a22bc71b081280c1c000cc254c20b4dad5c637094c3933fafe99",
+      "sha256": "00f3a4412a1dc7b292b3c9a3a5cf185f2c35685c1cac7c63b2273e010fa98c23",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     },
     {
       "path": "STATUS.md",
-      "sha256": "d1c445655d98bb95421f295c28378be8db570c5b058d7a8e7562faf694222ee6",
+      "sha256": "3124d6d81572a244822fc5c13ca400e071009ddafb713360f4caf5d81dd4d895",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     },
     {
       "path": "RESULTS.md",
-      "sha256": "a6a0b8276c483a93f9784a81a4b0610954ef78e8dd242c65ed98fedab04dc596",
+      "sha256": "5fb57f206a1a4412a8d63b7952461cfbc25ec74b97bf7e9b4fff3b69ccf5381c",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     }

@@ -146,8 +146,11 @@ primitive failure, a power-design alternative, and a positive-integer maximum
 qualification-group count per primitive. The per-dispatch null is derived as
 `1-delta/8` by a dependence-free union bound; calibration alpha, retrospective
 successes, and a CLI default cannot supply these values. A hash-permuted schedule
-then binds unique new state/seed groups, public controller reports, exact
-serialized subtasks, policy identity, and one single-use receipt path. Started
+then binds unique new state/seed groups, exact public decision/probe reports,
+serialized subtasks, policy identity, and one single-use receipt path. OPEN may
+use a plan-bound, model-free public probe so executor qualification can precede
+interaction-data collection; that probe is not method selection and is rejected
+for PICK/DIRECT. Started
 failures remain in the denominator, and the evaluator re-derives outcomes from
 registered simulator/task predicates rather than accepting Boolean labels.
 Certificates authorize only the exact candidate payload and serializer mode
@@ -166,6 +169,6 @@ not bypass the causal oracle gate or fabricate those missing outcomes.
 Consequently no real B8/B0 development pilot, conservative formal group count,
 formal initial-state cohort, or sealed execution schedule exists yet; Phase 9
 and the Phase 10 cohort/one-shot execution freeze are software-ready only. The
-current CPU-only repository suite passes 227 tests; the existing approved
+current CPU-only repository suite passes 229 tests; the existing approved
 Python GPU process remains at 590 MiB, below the 1500 MiB cap (the GPU safety
 check refuses to interfere with it).

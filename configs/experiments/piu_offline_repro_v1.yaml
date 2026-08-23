@@ -129,6 +129,7 @@ required_files:
   - scripts/evaluation/derive_piu_primitive_risk_contract.py
   - scripts/evaluation/plan_piu_primitive_qualification.py
   - scripts/evaluation/build_piu_primitive_qualification_schedule.py
+  - scripts/evaluation/build_piu_primitive_qualification_probe.py
   - scripts/evaluation/close_piu_primitive_qualification_failure.py
   - scripts/evaluation/build_piu_qualified_executor_map.py
   - scripts/pipeline/run_piu_calibrated_controller.py
@@ -205,6 +206,7 @@ python_entrypoints:
   - scripts/evaluation/derive_piu_primitive_risk_contract.py
   - scripts/evaluation/plan_piu_primitive_qualification.py
   - scripts/evaluation/build_piu_primitive_qualification_schedule.py
+  - scripts/evaluation/build_piu_primitive_qualification_probe.py
   - scripts/evaluation/close_piu_primitive_qualification_failure.py
   - scripts/evaluation/build_piu_qualified_executor_map.py
   - scripts/pipeline/run_piu_calibrated_controller.py

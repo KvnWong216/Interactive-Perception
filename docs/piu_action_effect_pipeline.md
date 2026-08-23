@@ -159,6 +159,13 @@ binomial design within that collection-resource cap or retains a blocked plan
 without changing the test. It then freezes unique new state/controller groups
 with `build_piu_primitive_qualification_schedule.py` and executes them in order
 with `run_piu_primitive_qualification.py`.
+Before a binder exists, each OPEN group may obtain its decision artifact from
+`build_piu_primitive_qualification_probe.py`. The probe reads the candidate ID
+from the frozen plan and the full candidate payload from a hash-bound public
+candidate set; it loads no model, calibration, outcome, or oracle field. This
+breaks only the OPEN-before-data dependency and is not a controller result.
+PICK/DIRECT probes are rejected because those primitives must retain calibrated
+current-frame boxes from the learned path.
 `evaluate_piu_primitive_qualification.py` generates its own outcome JSONL from
 those single-use receipts and registered simulator/task predicates; it does not
 accept user-written success flags. Missing or failed certificates permit only
