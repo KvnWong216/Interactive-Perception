@@ -162,6 +162,29 @@ def test_semantic_subtask_retains_evidence_then_returns_exact_home() -> None:
     assert np.linalg.norm(final_observation["robot0_eef_pos"]) <= 0.012
 
 
+def test_semantic_subtask_uses_explicit_policy_observation_builder() -> None:
+    env = _FakeEnvironment(position=(0.15, 0.0, 0.0))
+    calls = []
+
+    def audited_builder(observation, prompt):
+        from interactive_perception.policy_client import build_observation
+
+        calls.append((prompt, observation["robot0_eef_pos"].copy()))
+        return build_observation(observation, prompt)
+
+    execute_subtask_and_return_home(
+        env=env,
+        initial_observation=env.observation(),
+        policy=ScriptedStubPolicy(horizon=1, noise_scale=0.0),
+        subtask_prompt="Pick up the marked butter",
+        maximum_subtask_steps=2,
+        replan_steps=1,
+        home_config=_config(release_steps=0),
+        policy_observation_builder=audited_builder,
+    )
+    assert [prompt for prompt, _ in calls] == ["Pick up the marked butter"] * 2
+
+
 def test_home_contract_rejects_fallback_completion_pose() -> None:
     env = _FakeEnvironment()
     with np.testing.assert_raises_regex(ValueError, "alternative completion"):
@@ -172,13 +195,9 @@ def test_home_contract_rejects_fallback_completion_pose() -> None:
             subtask_prompt="Pick up the butter",
             maximum_subtask_steps=1,
             home_config=ObservationReturnConfig(
-                pose=ObservationPose(
-                    (0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)
-                ),
+                pose=ObservationPose((0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)),
                 alternative_completion_poses=(
-                    ObservationPose(
-                        (0.1, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)
-                    ),
+                    ObservationPose((0.1, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)),
                 ),
             ),
         )

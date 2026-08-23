@@ -28,6 +28,12 @@ effect supervision adds 0.00 route macro F1 over route-only in all five grouped
 development folds. The retained paper result is a leakage-controlled failure
 decomposition and benchmark artifact, not a successful ICRA/RSS method claim.
 
+The next falsifiable repair test is now implemented: an evaluator-only visual
+prompt gives frozen pi0.5 the exact target region after OPEN. This is an oracle
+upper bound, never the proposed method. If it cannot produce at least 4/5
+correct target picks on the preregistered confirmation groups, the project
+switches from target binding to a targeted grasp-and-place primitive.
+
 ## Research artifacts
 
 - [Literature lineage](docs/literature_lineage.md), audited through 2026-08-22
@@ -105,6 +111,36 @@ bash scripts/infra/check_gpu.sh
 bash scripts/infra/serve_pi05.sh
 ```
 
+### Oracle target-binding qualification
+
+The 1.5 GB local GPU contract prohibits loading pi0.5 on this workstation, so
+the qualification runner accepts only an external frozen-policy server. First
+reproduce the policy-free preflight in the simulator environment:
+
+```bash
+python scripts/evaluation/preflight_oracle_target_prompt.py \
+  --output runs/preflight/original_drawer_oracle_prompt.json
+```
+
+Then inspect and run the nine screening jobs against an external service:
+
+```bash
+python scripts/pipeline/run_oracle_target_prompt_gate.py \
+  --phase screen --host <external-pi05-host> --dry-run
+
+python scripts/pipeline/run_oracle_target_prompt_gate.py \
+  --phase screen --host <external-pi05-host>
+
+python scripts/evaluation/summarize_oracle_target_prompt_gate.py \
+  --phase screen \
+  --output results/method/original_drawer_oracle_prompt_screen_v1.json
+```
+
+Run the selected style on the five disjoint confirmation seeds with
+`--phase confirmation --style <selected-style>`, then summarize with the same
+phase and style. Every oracle report declares two online privileged inputs and
+uses the claim scope `EVALUATOR_ONLY_ORACLE_UPPER_BOUND`.
+
 ## Legacy baseline entry points
 
 Public-RGB Heuristic V0 inference:
@@ -135,7 +171,8 @@ Do not add rules or scores to these legacy entry points.
 
 | evidence | result | claim boundary |
 |---|---:|---|
-| full repository test suite | 58 passed | software and retained-artifact integrity |
+| full repository test suite | 67 passed | software and retained-artifact integrity |
+| oracle visual-prompt preflight | 8 eligible, 2 excluded; no policy calls | evaluator-only rendering/packet contract, not method performance |
 | same-RGB prompt router, held-out | B6 95.83% vs B7 93.75% mean accuracy | pilot only; proxy effects |
 | calibrated B7 pilot | 93.75% coverage, 68.75% abstain, 6.25% wrong execute | 16 held-out samples |
 | fresh 10-seed OPEN qualification | drawer 9/10; hidden-target evidence 8/10 | fixed scenario; physical acquisition works |

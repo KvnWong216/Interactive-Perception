@@ -1,0 +1,51 @@
+schema_version: calibrated-interaction.oracle-target-prompt-gate.v1
+id: original_drawer_post_open_oracle_target_prompt_v1
+claim_scope: >-
+  Evaluator-only development upper bound in the unchanged T01D drawer scenario.
+  Instance segmentation and target identity are intentionally privileged online
+  inputs. Results cannot support a public-input method claim.
+
+scenario_config: configs/scenarios/original_drawer.yaml
+source_run_root: runs/paper_cycle_executor_v2
+run_root: runs/oracle_target_prompt_gate_v1
+baseline_condition: direct_butter_after_open
+
+resource_contract:
+  policy_server: external_only
+  local_policy_server_allowed: false
+  local_gpu_memory_mib_max: 1500
+
+execution:
+  role: DIRECT_ACT
+  prompt: Place the butter indicated by the magenta marker in the basket
+  steps: 400
+  replan_steps: 5
+  target_object: butter_1
+  wrong_object: cream_cheese_1
+  target_visible_pixels_minimum: 256
+
+preflight:
+  source_seeds: [1400, 1401, 1402, 1403, 1404, 1405, 1406, 1407, 1408, 1409]
+  expected_eligible_seeds: [1400, 1401, 1402, 1403, 1404, 1405, 1406, 1407]
+
+screen:
+  seeds: [1400, 1403, 1406]
+  styles: [box, point, spotlight]
+  selection_order:
+    - maximize_target_pick_successes
+    - maximize_target_destination_final_successes
+    - minimize_wrong_object_contact_successes
+    - prefer_style_order
+  prefer_style_order: [box, point, spotlight]
+
+confirmation:
+  seeds: [1401, 1402, 1404, 1405, 1407]
+  development_gate:
+    minimum_target_pick_successes: 4
+    maximum_wrong_object_contact_successes: 1
+  decision_if_passed: >-
+    Train a public-RGB target-binding adapter to predict the selected visual
+    prompt and evaluate it on new initial-state groups and new scenes.
+  decision_if_failed: >-
+    Reject visual target binding as the executor repair and switch to a
+    target-conditioned grasp-and-place primitive before further router work.

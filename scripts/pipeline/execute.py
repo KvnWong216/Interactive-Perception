@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """Execute any semantic option with frozen pi0.5 and return to public home.
 
-All scenario details are CLI data.  The controller consumes only stock RGB,
-public proprioception, the semantic subtask, and public action history.
-Simulator objects, joints, contacts, and task predicates are read only by a
-separate evaluator replay after the controller terminates.
+The default controller consumes only stock RGB, public proprioception, the
+semantic subtask, and public action history.  An explicitly named evaluator-only
+oracle mode renders target instance segmentation into RGB solely to measure the
+frozen executor's target-binding ceiling.  Reports distinguish these claim
+scopes and enumerate all online oracle inputs.
 """
+
+# ruff: noqa: E402
 
 from __future__ import annotations
 
@@ -32,6 +35,7 @@ import bootstrap  # noqa: F401
 
 from interactive_perception.action_options import execute_subtask_and_return_home
 from interactive_perception.observation_option import home_return_config
+from interactive_perception.oracle_visual_prompt import build_oracle_target_packet
 from interactive_perception.policy_client import (
     OpenPiWebsocketPolicy,
     build_observation,
@@ -63,15 +67,15 @@ def portable_path(path: Path) -> str:
         return str(resolved)
 
 
-def wait_for_port(port: int, timeout: float = 180.0) -> None:
+def wait_for_port(host: str, port: int, timeout: float = 180.0) -> None:
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
         try:
-            with socket.create_connection(("127.0.0.1", port), timeout=1.0):
+            with socket.create_connection((host, port), timeout=1.0):
                 return
         except OSError:
             time.sleep(1.0)
-    raise TimeoutError(f"pi0.5 server did not become ready on port {port}")
+    raise TimeoutError(f"pi0.5 server did not become ready at {host}:{port}")
 
 
 def save_views(
@@ -296,11 +300,27 @@ def main() -> None:
     parser.add_argument("--track-object", action="append", default=[])
     parser.add_argument("--track-joint", action="append", default=[])
     parser.add_argument("--gpu", type=int, default=0)
+    parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8002)
+    parser.add_argument("--server-timeout", type=float, default=180.0)
     parser.add_argument(
         "--external-server",
         action="store_true",
         help="connect to an already validated pi0.5 server and do not own its process",
+    )
+    parser.add_argument(
+        "--oracle-target-visual-prompt",
+        choices=("box", "point", "spotlight"),
+        help=(
+            "evaluator-only upper bound: render the declared target's simulator "
+            "instance segmentation into the policy RGB; never a public-input run"
+        ),
+    )
+    parser.add_argument(
+        "--oracle-minimum-visible-pixels",
+        type=int,
+        default=1,
+        help="fail before policy execution unless the oracle target reaches this count",
     )
     parser.add_argument("--assets", type=Path, required=True)
     parser.add_argument("--work", type=Path, required=True)
@@ -340,6 +360,19 @@ def main() -> None:
         raise ValueError("seed is required directly or through scenario-config")
     if not args.prompt:
         raise ValueError("prompt is required directly or through scenario-config")
+    if args.server_timeout <= 0:
+        raise ValueError("server-timeout must be positive")
+    if args.oracle_target_visual_prompt and not args.target_object:
+        raise ValueError("oracle visual prompt requires target-object")
+    if args.oracle_target_visual_prompt and not args.external_server:
+        raise ValueError(
+            "oracle visual-prompt qualification requires --external-server; "
+            "the experiment runner must not start a local GPU model"
+        )
+    if not args.external_server and args.host not in {"127.0.0.1", "localhost"}:
+        raise ValueError("an owned policy server must use a loopback host")
+    if args.oracle_minimum_visible_pixels < 1:
+        raise ValueError("oracle-minimum-visible-pixels must be positive")
     for name in (
         "scenario_config",
         "bddl",
@@ -360,6 +393,11 @@ def main() -> None:
     ):
         raise FileExistsError("run outputs are immutable")
 
+    # Fail an unavailable remote endpoint before creating an immutable run
+    # directory or starting the simulator. This makes a network retry safe.
+    if args.external_server:
+        wait_for_port(args.host, args.port, timeout=args.server_timeout)
+
     if not args.external_server:
         subprocess.run(
             ["bash", str(ROOT / "scripts/infra/check_gpu.sh")],
@@ -371,13 +409,16 @@ def main() -> None:
             },
             check=True,
         )
-    from libero.libero.envs import OffScreenRenderEnv
+    if args.oracle_target_visual_prompt:
+        from libero.libero.envs import SegmentationRenderEnv as RenderEnv
+    else:
+        from libero.libero.envs import OffScreenRenderEnv as RenderEnv
 
     args.assets.mkdir(parents=True)
     args.work.mkdir(parents=True)
     random.seed(args.seed)
     np.random.seed(args.seed)
-    env = OffScreenRenderEnv(
+    env = RenderEnv(
         bddl_file_name=str(args.bddl), camera_heights=256, camera_widths=256
     )
     recording = RecordingEnvironment(env)
@@ -385,6 +426,8 @@ def main() -> None:
     server_log = None
     writer = None
     keyframes: list[dict[str, Any]] = []
+    oracle_prompt_audit: list[dict[str, Any]] = []
+    oracle_prompt_keyframes: list[dict[str, Any]] = []
     last_subtask: Mapping[str, Any] | None = None
     final_state: np.ndarray | None = None
     try:
@@ -396,6 +439,27 @@ def main() -> None:
             observation = env.set_init_state(initial_state)
         else:
             initial_state = env.get_sim_state().copy()
+        target_instance_id = (
+            int(env.instance_to_id[args.target_object])
+            if args.oracle_target_visual_prompt
+            else None
+        )
+        if args.oracle_target_visual_prompt:
+            initial_prompt_preview = build_oracle_target_packet(
+                observation,
+                args.prompt,
+                target_instance_id=target_instance_id,
+                style=args.oracle_target_visual_prompt,
+            )
+            if (
+                max(initial_prompt_preview.diagnostics.visible_pixels.values())
+                < args.oracle_minimum_visible_pixels
+            ):
+                raise ValueError(
+                    f"oracle target {args.target_object!r} is not sufficiently "
+                    "visible in the initial state: "
+                    f"{dict(initial_prompt_preview.diagnostics.visible_pixels)}"
+                )
         home_config = home_return_config(
             observation, preserve_grasp=args.preserve_grasp
         )
@@ -418,14 +482,52 @@ def main() -> None:
                 stdout=server_log,
                 stderr=subprocess.STDOUT,
             )
-        wait_for_port(args.port)
-        policy = OpenPiWebsocketPolicy(host="127.0.0.1", port=args.port)
+        if not args.external_server:
+            wait_for_port(args.host, args.port, timeout=args.server_timeout)
+        policy = OpenPiWebsocketPolicy(host=args.host, port=args.port)
         metadata = policy.server_metadata
         writer = imageio.get_writer(args.assets / "public_wrist_agentview.mp4", fps=20)
         capture_steps = {
             max(0, round(args.steps * fraction) - 1): index
             for index, fraction in enumerate((0.25, 0.50, 0.75), start=1)
         }
+
+        def build_policy_observation(current: Mapping[str, Any], prompt: str):
+            if args.oracle_target_visual_prompt is None:
+                return build_observation(current, prompt)
+            if target_instance_id is None:
+                raise RuntimeError("oracle target instance id was not initialized")
+            prompted = build_oracle_target_packet(
+                current,
+                prompt,
+                target_instance_id=target_instance_id,
+                style=args.oracle_target_visual_prompt,
+            )
+            row = {
+                "policy_call_index": len(oracle_prompt_audit),
+                **prompted.diagnostics.to_json(),
+            }
+            oracle_prompt_audit.append(row)
+            if len(oracle_prompt_audit) == 1:
+                paths: dict[str, str] = {}
+                hashes: dict[str, str] = {}
+                for view, image in (
+                    ("agentview", prompted.packet.image),
+                    ("wrist", prompted.packet.wrist_image),
+                ):
+                    path = args.assets / f"00_oracle_prompt_{view}.png"
+                    imageio.imwrite(path, image)
+                    paths[view] = portable_path(path)
+                    hashes[view] = digest(path)
+                oracle_prompt_keyframes.append(
+                    {
+                        "name": "00_first_policy_call",
+                        "image_paths": paths,
+                        "image_sha256": hashes,
+                        "diagnostics": row,
+                    }
+                )
+            return prompted.packet
 
         def observe_step(phase: str, step: int, current: Mapping[str, Any]) -> None:
             nonlocal last_subtask
@@ -452,6 +554,7 @@ def main() -> None:
             replan_steps=args.replan_steps,
             home_config=home_config,
             step_observer=observe_step,
+            policy_observation_builder=build_policy_observation,
         )
         if last_subtask is not None:
             keyframes.append(
@@ -514,6 +617,11 @@ def main() -> None:
     )
     report = {
         "schema_version": "piu.semantic-option.v1",
+        "claim_scope": (
+            "EVALUATOR_ONLY_ORACLE_UPPER_BOUND"
+            if args.oracle_target_visual_prompt
+            else "PUBLIC_INPUT_EXECUTION"
+        ),
         "scenario": str(args.bddl.relative_to(ROOT)),
         "seed": args.seed,
         "role": args.role,
@@ -529,8 +637,38 @@ def main() -> None:
                 "semantic subtask",
                 "public action history",
             ],
-            "online_oracle_inputs": [],
+            "online_oracle_inputs": (
+                [
+                    "declared target simulator instance identity",
+                    "online evaluator instance segmentation rendered into policy RGB",
+                ]
+                if args.oracle_target_visual_prompt
+                else []
+            ),
+            "oracle_visual_prompt": (
+                {
+                    "style": args.oracle_target_visual_prompt,
+                    "target_instance_id": target_instance_id,
+                    "minimum_initial_visible_pixels": (
+                        args.oracle_minimum_visible_pixels
+                    ),
+                    "source_initial_state": (
+                        {
+                            "path": portable_path(args.initial_state),
+                            "sha256": digest(args.initial_state),
+                            "state_key": args.state_key,
+                        }
+                        if args.initial_state is not None
+                        else None
+                    ),
+                    "policy_call_audit": oracle_prompt_audit,
+                    "keyframes": oracle_prompt_keyframes,
+                }
+                if args.oracle_target_visual_prompt
+                else None
+            ),
             "subtask_steps": execution.subtask_steps,
+            "policy_calls": execution.policy_calls,
             "completion_source": execution.completion_source,
             "return_steps": execution.return_steps,
             "return_phase": execution.return_status.phase.value,

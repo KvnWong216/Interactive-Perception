@@ -109,15 +109,18 @@ stopped.
   success, multi-primitive generalization, or paper-level novelty evidence.
 - **Do not scale yet:** B7 is not better than B6 and current effect labels lack
   per-seed counterfactual signal.
-- **Next data gate:** execute `DIRECT`, `OPEN`, and `STOP` forks from at least
-  20 fresh calibration seeds and 20 untouched test seeds, retaining pre/action/
-  post public frames and evaluator-only effect labels.
-- **Next executor gate:** before full-loop evaluation, require at least 8/10
-  correct picks and 7/10 correct placements for visible requested objects,
-  plus 8/10 butter picks from actually opened drawer states. If that gate
-  fails, the task-level study remains executor-blocked.
-- **Next method gate:** retain B7 only if it beats B6 on unseen-seed route F1,
-  counterfactual ranking, or calibrated risk with confidence intervals.
+- **Immediate causal gate:** on the unchanged post-OPEN states, render an
+  evaluator-only target box/point/spotlight into the two policy RGB streams.
+  Screen three styles on seeds 1400/1403/1406, then require at least 4/5 target
+  picks and at most 1/5 wrong-object contacts on the disjoint confirmation
+  seeds. This is an oracle upper bound, not public-input method evidence.
+- **If the oracle gate passes:** learn a public-RGB target-binding adapter and
+  evaluate predicted prompts on new initial-state groups and scenes.
+- **If the oracle gate fails:** stop visual-binding work and add a registered
+  target-conditioned grasp-and-place primitive before collecting router data.
+- **Deferred data gate:** only after an executor repair passes, execute
+  `DIRECT`, `OPEN`, and `STOP` forks from at least 20 fresh calibration seeds
+  and 20 untouched test seeds with evaluator-only effect labels.
 
 ## Reproduction
 
@@ -128,6 +131,10 @@ The retained source artifacts are:
 - frozen features: `outputs/calibrated_interaction/original_drawer_v1/`;
 - final pilot: `results/method/original_drawer_pilot_v4_reproducible.json`;
 - executor summary: `results/method/original_drawer_executor_qualification_v1.json`.
+- oracle gate protocol:
+  `configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml`;
+- policy-free oracle packet preflight:
+  `results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json`.
 
 Feature extraction uses the sibling openpi environment and a bounded JAX
 allocator:

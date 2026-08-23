@@ -301,6 +301,20 @@ changes the observation and downstream behavior, but the frozen semantic text
 bridge does not bind the newly visible object strongly enough for successful
 control.
 
+### Falsifiable executor-repair gate
+
+Before learning another router, we isolate the target-binding hypothesis with
+an evaluator-only upper bound. Simulator instance segmentation is rendered as
+a magenta box, point, or spotlight in the otherwise stock two-camera RGB input;
+the mask and instance identifier are not serialized to the policy. Three
+styles are screened on three post-OPEN groups and the selected style is frozen
+before five disjoint development-confirmation groups. At least four target
+picks and at most one wrong-object contact are required. Passing this gate only
+justifies training a public-RGB prompt predictor; it is not method performance.
+Failure rejects visual target binding and requires a target-conditioned
+grasp-and-place primitive. A policy-free packet preflight finds eight eligible
+visible groups and excludes two groups with zero target pixels in both cameras.
+
 ### Implication for active-perception evaluation
 
 Benchmarks should report at least mechanical option success, prompt-relevant
@@ -314,8 +328,11 @@ modules may disagree about object identity or spatial reference.
 
 This study has one LIBERO scenario, one articulated container, two object
 prompts, one information primitive, and ten inspected physical seed groups.
-It does not establish out-of-distribution or real-robot performance. Simulator
-segmentation and predicates are used for labels, although never online.
+It does not establish out-of-distribution or real-robot performance. In the
+retained main physical matrix, simulator segmentation and predicates are used
+for labels but never online. The separately declared executor-repair upper
+bound intentionally uses target instance segmentation online and cannot enter
+any public-input method comparison.
 Instance-pixel visibility is an operational evidence proxy, not a human
 recognition measure. The CPU effect baseline is intentionally weak and is not
 comparable to a frozen VLM encoder. Two effect factors have no positive support.
@@ -336,7 +353,12 @@ The experiment configuration is
 public evidence are under `runs/paper_cycle_executor_v2/`; report and frame
 hashes are validated during summarization. The executed dataset and manifest
 are under `data/calibrated_interaction/original_drawer_executed_v2/`. No online
-oracle input is present in any retained report.
+oracle input is present in the retained main-method reports. The separate
+oracle qualification is configured in
+`configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml`; its
+policy-free packet preflight is
+`results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json`, and any
+future policy report must use the explicit oracle claim scope.
 
 The complete CPU analysis is:
 

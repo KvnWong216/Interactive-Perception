@@ -54,10 +54,12 @@ Fresh executor qualification shows that DIRECT fails from both idealized and
 actually opened states and frequently approaches or grasps the visible cream
 cheese instead of the butter. Consequently:
 
-- continue route/calibration experiments, because their hypotheses remain
-  independently testable;
+- freeze further route/effect-head tuning: executed-effect B7 ties route-only
+  B6 on every grouped development fold;
 - treat full task success as executor-blocked until a frozen, public-history-only
   bridge or supported capability passes a preregistered qualification set;
+- use the isolated oracle visual-prompt screen only to decide whether a learned
+  public-RGB target-binding bridge is technically plausible;
 - do not count fixture replay, ideal state transitions, or evaluator labels as
   learned method performance;
 - do not spend the September cycle scaling the router if B6/B7 cannot beat the
@@ -87,3 +89,16 @@ ICRA/RSS method claim. Any later method resurrection requires new primitives,
 variable target/location compositions, positive empty/rejected effects, and a
 fresh group-disjoint calibration/test set; the current negative result remains
 frozen.
+
+## 2026-08-22 target-binding repair gate
+
+The next branch is preregistered in
+`configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml`. A
+policy-free preflight passes on the eight post-OPEN states where butter reaches
+256 instance pixels and excludes the two zero-visibility states. Three visual
+prompt styles are screened on three groups; the selected style is confirmed on
+five disjoint groups. The gate requires 4/5 target picks and at most 1/5
+wrong-object contacts. Passing authorizes a public-RGB binding adapter; failure
+forces a switch to a target-conditioned grasp-and-place primitive. The local
+1.5 GB GPU limit forbids starting pi0.5, so all policy rollouts require an
+external frozen server.

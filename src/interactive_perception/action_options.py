@@ -14,7 +14,7 @@ from .observation_option import (
     ObservationReturnController,
     ObservationReturnStatus,
 )
-from .policy_client import PolicyBackend, build_observation
+from .policy_client import ObservationPacket, PolicyBackend, build_observation
 
 __all__ = [
     "OpenAndObserveResult",
@@ -26,10 +26,13 @@ __all__ = [
 
 
 class StepEnvironment(Protocol):
-    def step(self, action: list[float]) -> tuple[Mapping[str, Any], float, bool, dict]: ...
+    def step(
+        self, action: list[float]
+    ) -> tuple[Mapping[str, Any], float, bool, dict]: ...
 
 
 StepObserver = Callable[[str, int, Mapping[str, Any]], None]
+PolicyObservationBuilder = Callable[[Mapping[str, Any], str], ObservationPacket]
 
 
 @dataclasses.dataclass(frozen=True)
@@ -82,6 +85,7 @@ def execute_subtask_and_return_home(
     home_config: ObservationReturnConfig,
     completion_monitor: SubtaskCompletionMonitor | None = None,
     step_observer: StepObserver | None = None,
+    policy_observation_builder: PolicyObservationBuilder = build_observation,
 ) -> tuple[Mapping[str, Any], SemanticSubtaskHomeResult]:
     """Execute one semantic subtask, retain evidence, then return home.
 
@@ -109,7 +113,7 @@ def execute_subtask_and_return_home(
     for step in range(maximum_subtask_steps):
         if not plan:
             chunk = policy.sample_chunks(
-                build_observation(observation, subtask_prompt), 1
+                policy_observation_builder(observation, subtask_prompt), 1
             )[0]
             plan.extend(chunk[:replan_steps])
             policy_calls += 1
@@ -153,6 +157,7 @@ def execute_open_and_observe(
     open_steps: int = 300,
     replan_steps: int = 5,
     step_observer: StepObserver | None = None,
+    policy_observation_builder: PolicyObservationBuilder = build_observation,
 ) -> tuple[Mapping[str, Any], OpenAndObserveResult]:
     """Execute frozen-VLA opening followed by proprioceptive camera recovery.
 
@@ -173,7 +178,7 @@ def execute_open_and_observe(
     for step in range(open_steps):
         if not plan:
             chunk = policy.sample_chunks(
-                build_observation(observation, open_prompt), 1
+                policy_observation_builder(observation, open_prompt), 1
             )[0]
             plan.extend(chunk[:replan_steps])
             policy_calls += 1

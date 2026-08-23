@@ -1,0 +1,498 @@
+{
+  "schema_version": "calibrated-interaction.oracle-prompt-preflight.v1",
+  "status": "PASS",
+  "policy_server_contacted": false,
+  "policy_actions_sampled": false,
+  "claim_scope": "EVALUATOR_ONLY_INPUT_AND_RENDERING_PREFLIGHT",
+  "experiment": {
+    "path": "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml",
+    "sha256": "933de57b6cf677f6f5d4e47d5ba620549215fbb1020ee9ba80a61b56490cff56"
+  },
+  "target_visible_pixels_minimum": 256,
+  "eligible_seeds": [
+    1400,
+    1401,
+    1402,
+    1403,
+    1404,
+    1405,
+    1406,
+    1407
+  ],
+  "excluded_seeds": [
+    1408,
+    1409
+  ],
+  "rows": [
+    {
+      "seed": 1400,
+      "source_initial_state": {
+        "path": "runs/paper_cycle_executor_v2/seed1400/open_butter/final_state.npz",
+        "sha256": "5cc60607a5f0e926f1d8b98ad23d8eddcae66aabde541b9112256b9a67626709",
+        "state_key": "state"
+      },
+      "target_instance_id": 1,
+      "visible_pixels": {
+        "agentview": 321,
+        "robot0_eye_in_hand": 731
+      },
+      "boxes_xyxy_half_open": {
+        "agentview": [
+          86,
+          85,
+          110,
+          116
+        ],
+        "robot0_eye_in_hand": [
+          167,
+          226,
+          204,
+          256
+        ]
+      },
+      "packet": {
+        "serialized_keys": [
+          "observation/image",
+          "observation/state",
+          "observation/wrist_image",
+          "prompt"
+        ],
+        "agentview_shape": [
+          224,
+          224,
+          3
+        ],
+        "wrist_shape": [
+          224,
+          224,
+          3
+        ],
+        "state_shape": [
+          8
+        ]
+      },
+      "eligible": true
+    },
+    {
+      "seed": 1401,
+      "source_initial_state": {
+        "path": "runs/paper_cycle_executor_v2/seed1401/open_butter/final_state.npz",
+        "sha256": "65ed785c84c5222c61d9fa2e4016476c5c7d4189d121e8062bdb5cecf06f0e3a",
+        "state_key": "state"
+      },
+      "target_instance_id": 1,
+      "visible_pixels": {
+        "agentview": 318,
+        "robot0_eye_in_hand": 855
+      },
+      "boxes_xyxy_half_open": {
+        "agentview": [
+          85,
+          87,
+          108,
+          118
+        ],
+        "robot0_eye_in_hand": [
+          170,
+          222,
+          207,
+          256
+        ]
+      },
+      "packet": {
+        "serialized_keys": [
+          "observation/image",
+          "observation/state",
+          "observation/wrist_image",
+          "prompt"
+        ],
+        "agentview_shape": [
+          224,
+          224,
+          3
+        ],
+        "wrist_shape": [
+          224,
+          224,
+          3
+        ],
+        "state_shape": [
+          8
+        ]
+      },
+      "eligible": true
+    },
+    {
+      "seed": 1402,
+      "source_initial_state": {
+        "path": "runs/paper_cycle_executor_v2/seed1402/open_butter/final_state.npz",
+        "sha256": "feddc27b46ab0a5f667bec5ac70a8b7f9ba07e6c46778b904fa6b8bbc783d0c1",
+        "state_key": "state"
+      },
+      "target_instance_id": 1,
+      "visible_pixels": {
+        "agentview": 326,
+        "robot0_eye_in_hand": 447
+      },
+      "boxes_xyxy_half_open": {
+        "agentview": [
+          85,
+          83,
+          109,
+          114
+        ],
+        "robot0_eye_in_hand": [
+          167,
+          236,
+          204,
+          256
+        ]
+      },
+      "packet": {
+        "serialized_keys": [
+          "observation/image",
+          "observation/state",
+          "observation/wrist_image",
+          "prompt"
+        ],
+        "agentview_shape": [
+          224,
+          224,
+          3
+        ],
+        "wrist_shape": [
+          224,
+          224,
+          3
+        ],
+        "state_shape": [
+          8
+        ]
+      },
+      "eligible": true
+    },
+    {
+      "seed": 1403,
+      "source_initial_state": {
+        "path": "runs/paper_cycle_executor_v2/seed1403/open_butter/final_state.npz",
+        "sha256": "2fdc34655124e610ef73982e11ffc865443ea3de35f4776ccdc87871919716f2",
+        "state_key": "state"
+      },
+      "target_instance_id": 1,
+      "visible_pixels": {
+        "agentview": 312,
+        "robot0_eye_in_hand": 813
+      },
+      "boxes_xyxy_half_open": {
+        "agentview": [
+          88,
+          86,
+          112,
+          116
+        ],
+        "robot0_eye_in_hand": [
+          163,
+          223,
+          200,
+          256
+        ]
+      },
+      "packet": {
+        "serialized_keys": [
+          "observation/image",
+          "observation/state",
+          "observation/wrist_image",
+          "prompt"
+        ],
+        "agentview_shape": [
+          224,
+          224,
+          3
+        ],
+        "wrist_shape": [
+          224,
+          224,
+          3
+        ],
+        "state_shape": [
+          8
+        ]
+      },
+      "eligible": true
+    },
+    {
+      "seed": 1404,
+      "source_initial_state": {
+        "path": "runs/paper_cycle_executor_v2/seed1404/open_butter/final_state.npz",
+        "sha256": "2c077e9233acc05755fa8cb494eea23bf572b43245fcc68a74b82082230d7c88",
+        "state_key": "state"
+      },
+      "target_instance_id": 1,
+      "visible_pixels": {
+        "agentview": 311,
+        "robot0_eye_in_hand": 742
+      },
+      "boxes_xyxy_half_open": {
+        "agentview": [
+          86,
+          85,
+          110,
+          115
+        ],
+        "robot0_eye_in_hand": [
+          168,
+          225,
+          205,
+          256
+        ]
+      },
+      "packet": {
+        "serialized_keys": [
+          "observation/image",
+          "observation/state",
+          "observation/wrist_image",
+          "prompt"
+        ],
+        "agentview_shape": [
+          224,
+          224,
+          3
+        ],
+        "wrist_shape": [
+          224,
+          224,
+          3
+        ],
+        "state_shape": [
+          8
+        ]
+      },
+      "eligible": true
+    },
+    {
+      "seed": 1405,
+      "source_initial_state": {
+        "path": "runs/paper_cycle_executor_v2/seed1405/open_butter/final_state.npz",
+        "sha256": "6919d783bf8a9b972d1b45437eb72c79b5d97d4bbe4cde8c6453a41b358e18ba",
+        "state_key": "state"
+      },
+      "target_instance_id": 1,
+      "visible_pixels": {
+        "agentview": 323,
+        "robot0_eye_in_hand": 818
+      },
+      "boxes_xyxy_half_open": {
+        "agentview": [
+          80,
+          85,
+          105,
+          116
+        ],
+        "robot0_eye_in_hand": [
+          177,
+          224,
+          215,
+          256
+        ]
+      },
+      "packet": {
+        "serialized_keys": [
+          "observation/image",
+          "observation/state",
+          "observation/wrist_image",
+          "prompt"
+        ],
+        "agentview_shape": [
+          224,
+          224,
+          3
+        ],
+        "wrist_shape": [
+          224,
+          224,
+          3
+        ],
+        "state_shape": [
+          8
+        ]
+      },
+      "eligible": true
+    },
+    {
+      "seed": 1406,
+      "source_initial_state": {
+        "path": "runs/paper_cycle_executor_v2/seed1406/open_butter/final_state.npz",
+        "sha256": "7b609608eb3ee6e33d05949c5d42462fa84615f247dfd29ca92346e5b82cc4f0",
+        "state_key": "state"
+      },
+      "target_instance_id": 1,
+      "visible_pixels": {
+        "agentview": 306,
+        "robot0_eye_in_hand": 863
+      },
+      "boxes_xyxy_half_open": {
+        "agentview": [
+          82,
+          88,
+          106,
+          118
+        ],
+        "robot0_eye_in_hand": [
+          170,
+          222,
+          208,
+          256
+        ]
+      },
+      "packet": {
+        "serialized_keys": [
+          "observation/image",
+          "observation/state",
+          "observation/wrist_image",
+          "prompt"
+        ],
+        "agentview_shape": [
+          224,
+          224,
+          3
+        ],
+        "wrist_shape": [
+          224,
+          224,
+          3
+        ],
+        "state_shape": [
+          8
+        ]
+      },
+      "eligible": true
+    },
+    {
+      "seed": 1407,
+      "source_initial_state": {
+        "path": "runs/paper_cycle_executor_v2/seed1407/open_butter/final_state.npz",
+        "sha256": "cdd329b39289b6244ffeab93e585947b8e1b5bf11545ea2b7346808145a1455d",
+        "state_key": "state"
+      },
+      "target_instance_id": 1,
+      "visible_pixels": {
+        "agentview": 327,
+        "robot0_eye_in_hand": 630
+      },
+      "boxes_xyxy_half_open": {
+        "agentview": [
+          74,
+          84,
+          98,
+          115
+        ],
+        "robot0_eye_in_hand": [
+          181,
+          230,
+          219,
+          256
+        ]
+      },
+      "packet": {
+        "serialized_keys": [
+          "observation/image",
+          "observation/state",
+          "observation/wrist_image",
+          "prompt"
+        ],
+        "agentview_shape": [
+          224,
+          224,
+          3
+        ],
+        "wrist_shape": [
+          224,
+          224,
+          3
+        ],
+        "state_shape": [
+          8
+        ]
+      },
+      "eligible": true
+    },
+    {
+      "seed": 1408,
+      "source_initial_state": {
+        "path": "runs/paper_cycle_executor_v2/seed1408/open_butter/final_state.npz",
+        "sha256": "b308ddcc8e48a6b2907a6e9259288b8595df5ec13273b9fb1e887a450a19b298",
+        "state_key": "state"
+      },
+      "target_instance_id": 1,
+      "visible_pixels": {
+        "agentview": 0,
+        "robot0_eye_in_hand": 0
+      },
+      "boxes_xyxy_half_open": {
+        "agentview": null,
+        "robot0_eye_in_hand": null
+      },
+      "packet": {
+        "serialized_keys": [
+          "observation/image",
+          "observation/state",
+          "observation/wrist_image",
+          "prompt"
+        ],
+        "agentview_shape": [
+          224,
+          224,
+          3
+        ],
+        "wrist_shape": [
+          224,
+          224,
+          3
+        ],
+        "state_shape": [
+          8
+        ]
+      },
+      "eligible": false
+    },
+    {
+      "seed": 1409,
+      "source_initial_state": {
+        "path": "runs/paper_cycle_executor_v2/seed1409/open_butter/final_state.npz",
+        "sha256": "c901926928bbcf97de6fd192804b64e7aa37ed3bd9a7dba13e71876c0b95902c",
+        "state_key": "state"
+      },
+      "target_instance_id": 1,
+      "visible_pixels": {
+        "agentview": 0,
+        "robot0_eye_in_hand": 0
+      },
+      "boxes_xyxy_half_open": {
+        "agentview": null,
+        "robot0_eye_in_hand": null
+      },
+      "packet": {
+        "serialized_keys": [
+          "observation/image",
+          "observation/state",
+          "observation/wrist_image",
+          "prompt"
+        ],
+        "agentview_shape": [
+          224,
+          224,
+          3
+        ],
+        "wrist_shape": [
+          224,
+          224,
+          3
+        ],
+        "state_shape": [
+          8
+        ]
+      },
+      "eligible": false
+    }
+  ]
+}
