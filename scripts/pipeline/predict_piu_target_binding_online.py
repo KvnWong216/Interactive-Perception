@@ -61,7 +61,13 @@ def main() -> None:
     parser.add_argument("--feature-report", type=Path, required=True)
     parser.add_argument(
         "--expected-split",
-        choices=("train", "development", "calibration", "sealed_test"),
+        choices=(
+            "train",
+            "development",
+            "calibration",
+            "sealed_test",
+            "primitive_qualification",
+        ),
         required=True,
     )
     parser.add_argument("--sealed-authorization", type=Path)

@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import dataclasses
 import hashlib
 import json
 import sys
@@ -15,10 +14,9 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from piu.binding_calibration import apply_binding_calibration
 from piu.contracts import load_public_transitions, public_observation_sha256
-from piu.execution_plan import PublicExecutionContext, candidate_eligibility
-from piu.executor_bridge import current_spatial_references, serialize_pi05_subtask
+from piu.execution_plan import calibrated_candidate_plan
+from piu.splits import assignment_for, effect_collection_role, load_split_manifest
 
 
 def sha256(path: Path) -> str:
@@ -44,17 +42,6 @@ def load_npz(path: Path, report_path: Path) -> tuple[dict[str, np.ndarray], dict
         raise ValueError("online binder predictions differ from their report")
     with np.load(path) as store:
         return {name: np.asarray(store[name]) for name in store.files}, report
-
-
-def members(values: np.ndarray) -> list[bool]:
-    membership = np.asarray(values, dtype=bool)
-    if membership.shape != (2,):
-        raise ValueError("binder binary prediction-set shape is invalid")
-    return [
-        label
-        for label, included in zip((False, True), membership, strict=True)
-        if included
-    ]
 
 
 def verify_sealed(
@@ -90,6 +77,7 @@ def main() -> None:
     parser.add_argument("--binding-report", type=Path, required=True)
     parser.add_argument("--binder-calibration", type=Path, required=True)
     parser.add_argument("--feature-report", type=Path, required=True)
+    parser.add_argument("--split-manifest", type=Path, required=True)
     parser.add_argument("--alpha", type=float)
     parser.add_argument("--sealed-authorization", type=Path)
     parser.add_argument("--output", type=Path, required=True)
@@ -100,6 +88,7 @@ def main() -> None:
         "binding_report",
         "binder_calibration",
         "feature_report",
+        "split_manifest",
         "sealed_authorization",
         "output",
     ):
@@ -116,8 +105,18 @@ def main() -> None:
     if len(transitions) != 1:
         raise ValueError("execution-plan sample must select one public transition")
     transition = transitions[0]
-    if transition.split.value == "calibration":
-        raise ValueError("effect collection cannot consume calibration groups")
+    split_manifest = load_split_manifest(args.split_manifest)
+    if transition.split.value == "primitive_qualification":
+        assignment = assignment_for(split_manifest, transition.initial_state_group)
+        split_role = str(assignment["split_role"])
+        if split_role != "primitive_qualification":
+            raise ValueError("qualification transition uses another group role")
+    else:
+        split_role = effect_collection_role(
+            split_manifest,
+            initial_state_group=transition.initial_state_group,
+            split=transition.split,
+        )
     if transition.split.value == "sealed_test":
         if args.sealed_authorization is None:
             raise ValueError("sealed execution plans require authorization")
@@ -165,62 +164,14 @@ def main() -> None:
         if args.alpha is None
         else args.alpha
     )
-    if alpha not in [
-        float(value) for value in calibration["risk_contract"]["reported_alpha"]
-    ]:
-        raise ValueError("execution-plan alpha was not preregistered")
-    calibrated = apply_binding_calibration(binding, calibration, alpha=alpha)
-    camera_names = tuple(feature_report["layout"]["camera_names"])
-    references = current_spatial_references(
-        prediction_set=calibrated["spatial_prediction_set"][index],
-        patch_xy=binding["patch_xy"][index],
-        camera_id=binding["camera_id"][index],
-        temporal_id=binding["temporal_id"][index],
-        camera_names=camera_names,
+    planned = calibrated_candidate_plan(
+        transition=transition,
+        binding=binding,
+        calibration=calibration,
+        feature_report=feature_report,
+        sample_index=index,
+        alpha=alpha,
     )
-    context = PublicExecutionContext.create(
-        task_sufficiency=members(
-            calibrated["task_sufficiency_prediction_set"][index]
-        ),
-        target_presence=members(
-            calibrated["target_presence_prediction_set"][index]
-        ),
-        holding_requested_target=members(
-            calibrated["holding_requested_target_prediction_set"][index]
-        ),
-        spatial_reference_available=bool(references),
-    )
-    rows = []
-    for candidate in transition.candidate_actions:
-        candidate = dict(candidate)
-        candidate_id = str(candidate["candidate_id"])
-        primitive = str(candidate["primitive"]).upper()
-        eligibility = candidate_eligibility(candidate, context)
-        physical = primitive not in {"STOP", "REPORT_NOT_FOUND"}
-        spatial = references if primitive in {"PICK", "DIRECT"} else ()
-        subtask = (
-            serialize_pi05_subtask(candidate, spatial_references=spatial)
-            if physical and eligibility.eligible
-            else None
-        )
-        rows.append(
-            {
-                "candidate_id": candidate_id,
-                "primitive": primitive,
-                "eligible_for_execution": eligibility.eligible,
-                "eligibility_reason": eligibility.reason,
-                "structured_pi05_subtask": subtask,
-                "spatial_references": [
-                    {
-                        **dataclasses.asdict(item),
-                        "selected_patch_indices": list(item.selected_patch_indices),
-                        "x_interval": list(item.x_interval),
-                        "y_interval": list(item.y_interval),
-                    }
-                    for item in spatial
-                ],
-            }
-        )
     decision_digest = public_observation_sha256(
         transition.observations["post_interaction"]
     )
@@ -230,15 +181,9 @@ def main() -> None:
         "decision_sample_id": transition.sample_id,
         "initial_state_group": transition.initial_state_group,
         "split": transition.split.value,
+        "split_role": split_role,
         "decision_observation_sha256": decision_digest,
-        "alpha": alpha,
-        "public_execution_context": {
-            "task_sufficiency": sorted(context.task_sufficiency),
-            "target_presence": sorted(context.target_presence),
-            "holding_requested_target": sorted(context.holding_requested_target),
-            "spatial_reference_available": context.spatial_reference_available,
-        },
-        "candidates": rows,
+        **planned,
         "public_inputs_only": True,
         "online_oracle_inputs": [],
         "inputs": {
@@ -249,6 +194,7 @@ def main() -> None:
                 "binding_report": args.binding_report,
                 "binder_calibration": args.binder_calibration,
                 "feature_report": args.feature_report,
+                "split_manifest": args.split_manifest,
             }.items()
         },
         "paper_method_claim_allowed": False,

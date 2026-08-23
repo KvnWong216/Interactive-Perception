@@ -509,6 +509,14 @@ entries:
     rationale: OPEN must be qualified before new interaction data can be collected, so requiring a trained controller would create a circular dependency. The probe measures executor reliability for a predeclared stimulus only and cannot count as method selection. It is OPEN-only; PICK/DIRECT still require calibrated current-frame spatial references from the learned public-input path.
     evidence: probe and schedule loaders hash-check the plan and public candidate set, reject outcome/oracle/model/calibration inputs, and reject using the model-free probe for PICK
 
+  - id: binder_grounded_task_primitive_qualification_stimulus
+    location: scripts/evaluation/build_piu_binding_qualification_stimulus.py
+    value: preregistered PICK/PLACE/DIRECT candidate gated by recomputed frozen-binder calibration sets and exact current-frame spatial serialization, without an effect model
+    provenance: protocol_identifier
+    claim_use: main_evaluator
+    rationale: Task-primitive certificates must precede executed effect-data collection, so requiring the later effect-aware controller would be circular. This artifact does not select a route; it freezes the plan-selected candidate only when the isolated binder establishes the deployed typed preconditions. PICK/DIRECT retain nonempty calibrated boxes, PLACE retains calibrated holding, and outcomes/effect predictions remain absent.
+    evidence: the stimulus and schedule loaders re-hash every public/model/calibration/split input, recompute eligibility and serialization, reject hand-edited boxes, and forbid the qualification split from action-effect collection
+
   - id: evidence_bound_paper_figures
     location: scripts/evaluation/build_piu_paper_figures.py
     value: deterministic method and evidence-boundary SVGs generated from frozen contracts and the hash-checked v1 evidence table

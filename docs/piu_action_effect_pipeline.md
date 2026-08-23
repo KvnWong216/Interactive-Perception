@@ -108,7 +108,9 @@ CUDA_VISIBLE_DEVICES='' python \
   --public-transition PATH/decision.jsonl --sample-id SAMPLE \
   --binding-predictions PATH/binder.npz --binding-report PATH/binder.json \
   --binder-calibration PATH/binder_calibration.json \
-  --feature-report PATH/features.json --output PATH/execution_plan.json
+  --feature-report PATH/features.json \
+  --split-manifest data/piu/mainline_v1/learning_split_manifest.json \
+  --output PATH/execution_plan.json
 
 python scripts/data/collect_piu_counterfactual_branches.py \
   --decision-transition PATH/decision.jsonl --decision-sample-id SAMPLE \
@@ -120,10 +122,17 @@ python scripts/data/collect_piu_counterfactual_branches.py \
 
 CUDA_VISIBLE_DEVICES='' python scripts/training/train_piu_action_effect.py \
   --config configs/experiments/piu_action_effect_v1.yaml \
-  --features PATH/features.npz --feature-report PATH/features.json \
-  --binding-predictions PATH/binder.npz \
-  --binding-report PATH/binder.json \
-  --labels PATH/effects.jsonl --output-dir PATH/train
+  --train-features PATH/train/features.npz \
+  --train-feature-report PATH/train/features.json \
+  --train-binding-predictions PATH/train/binder.npz \
+  --train-binding-report PATH/train/binder.json \
+  --train-labels PATH/train/effects.jsonl \
+  --development-features PATH/development/features.npz \
+  --development-feature-report PATH/development/features.json \
+  --development-binding-predictions PATH/development/binder.npz \
+  --development-binding-report PATH/development/binder.json \
+  --development-labels PATH/development/effects.jsonl \
+  --output-dir PATH/train
 
 CUDA_VISIBLE_DEVICES='' python scripts/calibration/calibrate_piu_action_effect.py \
   --config configs/experiments/piu_action_effect_calibration_v1.yaml \
@@ -165,7 +174,61 @@ from the frozen plan and the full candidate payload from a hash-bound public
 candidate set; it loads no model, calibration, outcome, or oracle field. This
 breaks only the OPEN-before-data dependency and is not a controller result.
 PICK/DIRECT probes are rejected because those primitives must retain calibrated
-current-frame boxes from the learned path.
+current-frame boxes from the learned path. After binder calibration, those
+task primitives do not wait for an effect model: run label-free online binder
+inference on the reserved `primitive_qualification` group, build the same
+public calibrated execution plan, then freeze its predeclared candidate as an
+executor-only stimulus:
+
+```bash
+CUDA_VISIBLE_DEVICES='' python scripts/pipeline/predict_piu_target_binding_online.py \
+  --checkpoint PATH/binder.pt --training-report PATH/binder.json \
+  --features PATH/qualification_features.npz \
+  --feature-report PATH/qualification_features.json \
+  --expected-split primitive_qualification \
+  --output PATH/qualification_binder.npz
+
+python scripts/data/build_piu_counterfactual_execution_plan.py \
+  --public-transition PATH/qualification_public.jsonl --sample-id SAMPLE \
+  --binding-predictions PATH/qualification_binder.npz \
+  --binding-report PATH/qualification_binder.json \
+  --binder-calibration PATH/binder_calibration.json \
+  --feature-report PATH/qualification_features.json \
+  --split-manifest PATH/primitive_qualification_split.json \
+  --output PATH/binder_execution_plan.json
+
+python scripts/evaluation/build_piu_binding_qualification_stimulus.py \
+  --plan PATH/pick_or_place_qualification_plan.json \
+  --execution-plan PATH/binder_execution_plan.json \
+  --output PATH/binding_qualification_stimulus.json
+```
+
+The schedule loader recomputes the calibration sets, eligibility, current-frame
+boxes, and serialized subtask from all hashed inputs. The stimulus cannot enter
+route/effect evaluation, and the counterfactual collector rejects its split.
+
+Binder calibration and action-effect calibration use four different role
+cohorts. Counterfactual collection rejects
+`calibration_temperature`/`calibration_conformal` groups and accepts only
+`effect_calibration_temperature`/`effect_calibration_conformal` for effect
+calibration. This prevents binder-fit labels from also determining which
+physical effect branches are observed. Assemble each role's per-decision
+matrices without manual concatenation:
+
+```bash
+python scripts/data/assemble_piu_action_effect_role.py \
+  --split-manifest data/piu/mainline_v1/learning_split_manifest.json \
+  --split-role train \
+  --public data/piu/mainline_v1/train/public.jsonl \
+  --public-binding-manifest data/piu/mainline_v1/train/public_binding_manifest.json \
+  --effect-label-manifest PATH/decision_1/effects.manifest.json \
+  --effect-label-manifest PATH/decision_2/effects.manifest.json \
+  --output-labels data/piu/mainline_v1/train/action_effect_labels.jsonl \
+  --output-manifest data/piu/mainline_v1/train/action_effect_labels.manifest.json
+```
+
+The output is accepted only when it exactly equals the public candidate
+matrix and every sample has exactly one evaluator-selected route.
 `evaluate_piu_primitive_qualification.py` generates its own outcome JSONL from
 those single-use receipts and registered simulator/task predicates; it does not
 accept user-written success flags. Missing or failed certificates permit only

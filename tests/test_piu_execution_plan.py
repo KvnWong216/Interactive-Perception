@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import yaml
 
 from piu.binding_calibration import MondrianBinaryLAC
 from piu.execution_plan import PublicExecutionContext, candidate_eligibility
@@ -187,6 +188,34 @@ def test_execution_plan_masks_task_superset_outside_calibrated_context(
             }
         )
     )
+    split_manifest = tmp_path / "split.yaml"
+    split_manifest.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": "piu.group-split-manifest.v1",
+                "status": "FROZEN_BEFORE_COLLECTION",
+                "allocation_method": "prospective_without_outcome_access",
+                "scenario": "fixed drawer",
+                "assignments": [
+                    {
+                        "initial_state_group": name,
+                        "seed": 100 + index,
+                        "split_role": role,
+                    }
+                    for index, (name, role) in enumerate(
+                        (
+                            ("group", "train"),
+                            ("development", "development"),
+                            ("temperature", "calibration_temperature"),
+                            ("conformal", "calibration_conformal"),
+                            ("sealed", "sealed_test"),
+                        )
+                    )
+                ],
+            },
+            sort_keys=False,
+        )
+    )
     output = tmp_path / "execution_plan.json"
     subprocess.run(
         [
@@ -204,6 +233,8 @@ def test_execution_plan_masks_task_superset_outside_calibrated_context(
             str(calibration),
             "--feature-report",
             str(feature_report),
+            "--split-manifest",
+            str(split_manifest),
             "--output",
             str(output),
         ],

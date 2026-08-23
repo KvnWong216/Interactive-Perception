@@ -428,3 +428,63 @@ state, certificate, schedule, and session hashes. The analyzer recomputes
 grasp-contact outcomes from the registered v2 evaluator reports and applies the
 already frozen exact two-sided paired test. A positive result is privileged
 causal-mechanism evidence only, never evidence for the public-input method.
+
+## Amendment 12: purpose-specific cohorts and empirical execution DAG
+
+Frozen on 2026-08-23 before any external risk contract, successor split,
+formal oracle outcome, successor training datum, calibration prediction, or
+sealed result existed. A single appendable split file is prohibited. OPEN,
+PICK, and PLACE qualification schedules each bind their own prospective
+qualification cohort; the oracle mechanism test binds a separate
+`oracle_formal` cohort after its pilot-sized count is frozen; learned-model
+roles bind a separate training/development/calibration cohort only after the
+causal gate; and the main B8-vs-B0 test binds a new `sealed_test` cohort only
+after its independent development pilot fixes the count. A purpose-specific
+manifest declares the roles it must completely allocate. Earlier manifests
+are immutable and cannot be extended to satisfy a later sample-size result.
+
+Binder calibration roles and action-effect calibration roles are disjoint.
+The latter are named `effect_calibration_temperature` and
+`effect_calibration_conformal`. Counterfactual execution rejects the binder
+calibration groups, because reusing them would let binder-fit labels influence
+which action-effect outcomes are physically observed. Every learned-data role
+is assembled by an immutable exact join: public and binding sample IDs must
+match; counterfactual labels must equal the full public candidate matrix; and
+each decision must have exactly one evaluator-selected route. Manual JSONL
+concatenation is not a mainline artifact.
+
+The frozen empirical DAG is the sole readiness authority. A file is complete
+only after schema, recursive content references, required flags, and complete
+prospective role membership validate. Missing, malformed, partially present,
+and predecessor-blocked states remain distinct. A valid negative oracle result
+or `NOT_QUALIFIED` primitive certificate is terminal scientific evidence: it
+blocks successors without being relabeled as a software error or ignored.
+
+## Amendment 13: binder-grounded task-primitive qualification stimulus
+
+Frozen on 2026-08-23 before successor binder data, a trained binder, binder
+calibration, PICK/PLACE qualification inputs or outcomes, counterfactual effect
+data, or an effect model existed. Task-primitive qualification must occur after
+binder calibration but before effect-data collection. Requiring the complete
+effect-aware controller at that point would create a cycle: effect data require
+qualified physical candidates, while their certificates would require the
+effect model trained from those data.
+
+For PICK, PLACE, or DIRECT only, the qualification planner may therefore bind a
+candidate fixed by the prospective qualification plan to a public,
+binder-calibrated eligibility artifact from a reserved
+`primitive_qualification` group. This is not a model-free exception. The frozen
+binder and its isolated calibration must produce the typed sufficiency,
+presence, holding, and current-frame spatial sets. PICK/DIRECT require a
+nonempty calibrated current-frame box; PLACE requires the calibrated holding
+condition and carries no box. The effect model, route score, evaluator labels,
+oracle inputs, and qualification outcomes are forbidden.
+
+At schedule load, all prediction, feature, calibration, public-transition,
+split, and plan hashes are verified. The calibration sets, candidate
+eligibility, spatial enclosure, and deterministic pi0.5 subtask are recomputed;
+a hand-edited box or eligibility Boolean is rejected. The artifact estimates
+executor reliability conditional on this exact preregistered binder-grounded
+stimulus only. It cannot be reported as route selection, learned effect-model
+performance, or end-to-end task success, and it cannot be collected into the
+action-effect dataset.

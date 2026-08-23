@@ -2,19 +2,19 @@
   "schema_version": "piu.offline-repro-audit.v1",
   "manifest": {
     "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_offline_repro_v1.yaml",
-    "sha256": "e66fc7f2b1127ff6689b558289ef9a1fbc217323bcc57c4638ecf0297db52824"
+    "sha256": "dd6500b7f9a047acfc2df4523bbca6445173f58baa1301153305bc766e5e83c5"
   },
   "mode": "CREATE_RELEASE_LOCK",
   "offline_ready": true,
   "empirical_ready": false,
   "paper_claim_ready": false,
-  "paper_claim_ready_reason": "external artifacts are only presence-checked here and require their own identity, split, authorization, and evaluator validation",
+  "paper_claim_ready_reason": "external artifacts require the empirical DAG's identity, split, authorization, hash-chain, and evaluator validation",
   "local_gpu_actions_performed": false,
   "offline_inventory": [
     {
       "path": "README.md",
-      "sha256": "0a52d308038128e6daeeda533625b94e3ea12d7f4cc164b34c7e2f4819197e6f",
-      "bytes": "24556"
+      "sha256": "e453e749dae55aa867a8f49a7dfc0c210a2b23c54b790c10fcd6b1843234c3fc",
+      "bytes": "25514"
     },
     {
       "path": "RESULTS.md",
@@ -23,13 +23,13 @@
     },
     {
       "path": "STATUS.md",
-      "sha256": "b24a23662c3a92e82bb629a08bb552c18c4e5f506ead4b464f24ec199687e28e",
-      "bytes": "12573"
+      "sha256": "9996a7bfd0bf068d0132b77bc8ac679efc83020b8643db157141dc52680d7154",
+      "bytes": "13776"
     },
     {
       "path": "configs/experiments/method_provenance_v1.yaml",
-      "sha256": "a5edc01cf411fb402580205d71356b33ec2bc260a1a5b8f5f6a061fdb0227fac",
-      "bytes": "49599"
+      "sha256": "ba4d816d73678c1fb3e07aee1816c6d66c1863a3f4890fca66aa05eb8f328ebe",
+      "bytes": "50648"
     },
     {
       "path": "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
@@ -43,8 +43,8 @@
     },
     {
       "path": "configs/experiments/piu_action_effect_calibration_v1.yaml",
-      "sha256": "e0d886ce39e70a3bb44ed6dc9d1e8eec2506fb8b1ab09940f9fa24d7b8c01a10",
-      "bytes": "1776"
+      "sha256": "2113f7deab3c9dc841fdd3ed332a7b6fe0601d29a76ae486fc7523f5ac8dd2ff",
+      "bytes": "1832"
     },
     {
       "path": "configs/experiments/piu_action_effect_v1.yaml",
@@ -67,6 +67,11 @@
       "bytes": "1216"
     },
     {
+      "path": "configs/experiments/piu_empirical_stage_dag_v1.yaml",
+      "sha256": "6db759254516de36a68b5a236523e2445a530996af8f20670cecd41f5414e3c7",
+      "bytes": "27700"
+    },
+    {
       "path": "configs/experiments/piu_executor_risk_allocation_v1.yaml",
       "sha256": "000668f14493ec92db8ccb9991044521c970a19762fafafef14bb0f33088c2e2",
       "bytes": "2139"
@@ -78,8 +83,8 @@
     },
     {
       "path": "configs/experiments/piu_offline_repro_v1.yaml",
-      "sha256": "e66fc7f2b1127ff6689b558289ef9a1fbc217323bcc57c4638ecf0297db52824",
-      "bytes": "15766"
+      "sha256": "dd6500b7f9a047acfc2df4523bbca6445173f58baa1301153305bc766e5e83c5",
+      "bytes": "16793"
     },
     {
       "path": "configs/experiments/piu_oracle_formal_v1.yaml",
@@ -117,14 +122,19 @@
       "bytes": "946"
     },
     {
+      "path": "configs/templates/piu_learning_collection_budget_template.yaml",
+      "sha256": "9fdb7af17dd93e47c171ac4cec541003aed71ccde09c18dc4e4dfc303698b656",
+      "bytes": "748"
+    },
+    {
       "path": "docs/claim_evidence_ledger.md",
-      "sha256": "4266c13e0c1854d838e40bdbdfccadaeadaab62d6f56fea486acc4319a50e465",
-      "bytes": "6919"
+      "sha256": "3b622a883e920746e3788fba2ac4a97bc13a7181f3c105e3823e2e8010e1dda8",
+      "bytes": "7350"
     },
     {
       "path": "docs/preregistration.md",
-      "sha256": "049c665f9bf029033e0554e916f2c996043a5d517e21fe73bfdaffb2a47bd0ba",
-      "bytes": "25798"
+      "sha256": "06841e7cd15c520062c0ff419585e78c1f13f5cb2448687ce4e1e9d3d6561957",
+      "bytes": "29566"
     },
     {
       "path": "paper/generated/piu_evidence_boundary_v1.svg",
@@ -158,7 +168,7 @@
     },
     {
       "path": "results/diagnostics/piu_public_claim_audit_v1.json",
-      "sha256": "a9e6a601f16ed3ffb9522090b38d5f1d4d69ca3807e51d6c256d29a2ec40998e",
+      "sha256": "bf9f0bb051841e1aca5270bc147fec11e4c93c746e36666e3d8dee4fd0ea5dd5",
       "bytes": "13791"
     },
     {
@@ -182,6 +192,16 @@
       "bytes": "14188"
     },
     {
+      "path": "scripts/data/assemble_piu_action_effect_role.py",
+      "sha256": "ab87ba04cef07fc15ac30aacec8163fdf8d3d99178dcdc3baa46dfa13a8732ab",
+      "bytes": "1620"
+    },
+    {
+      "path": "scripts/data/assemble_piu_public_binding_role.py",
+      "sha256": "69fbaf76e2ae16a31a8799cc5abebbfad8dd5a683fda85a643224f2c27424814",
+      "bytes": "1604"
+    },
+    {
       "path": "scripts/data/build_piu_candidate_sets.py",
       "sha256": "cd076248bb611dd48d99f6ef6d9def6049b0973cd08d89d89462ef3de6156ede",
       "bytes": "4846"
@@ -193,8 +213,18 @@
     },
     {
       "path": "scripts/data/build_piu_counterfactual_execution_plan.py",
-      "sha256": "ec379b479cacb5485328e9ebad1f6f5ee429da86fb4944c3c1dfc3de18142370",
-      "bytes": "10451"
+      "sha256": "7c4766168d15b58b3356915f61c8eec07b16825297811c720b2c85342998fd6c",
+      "bytes": "8128"
+    },
+    {
+      "path": "scripts/data/build_piu_learning_split_manifest.py",
+      "sha256": "2ee6f0a41236c7729ec6f42e8881f76d10e5820c57672551a08a5ff76154b8ce",
+      "bytes": "4304"
+    },
+    {
+      "path": "scripts/data/build_piu_planned_split_manifest.py",
+      "sha256": "25dadea1a76508e5430f30b86026628a6cf26a3d6d35f3c2f3d9092e8a77c990",
+      "bytes": "5377"
     },
     {
       "path": "scripts/data/capture_piu_initial_observation.py",
@@ -203,8 +233,8 @@
     },
     {
       "path": "scripts/data/collect_piu_counterfactual_branches.py",
-      "sha256": "9f04c7ce9e3933c76a9f8c18a4ef77d823ba2a883d3f4cf4a7e1dc9688b82602",
-      "bytes": "18342"
+      "sha256": "d5c693f1566d587150e5ee6d80ad09cece4a0a6b7f32959bd1f25f20d199bbc9",
+      "bytes": "18514"
     },
     {
       "path": "scripts/data/export_piu_action_effect_matrix.py",
@@ -285,6 +315,11 @@
       "path": "scripts/evaluation/build_oracle_target_prompt_schedule.py",
       "sha256": "a9c2d16c9df5cb08a8011e3e5f919a425044e046be1bc306f50a3dc6764b0089",
       "bytes": "6384"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_binding_qualification_stimulus.py",
+      "sha256": "989f382278608a89e861adcda02d455856f42bbb5dc743af5632246fb92cea9b",
+      "bytes": "6823"
     },
     {
       "path": "scripts/evaluation/build_piu_claim_audit.py",
@@ -433,8 +468,8 @@
     },
     {
       "path": "scripts/pipeline/predict_piu_target_binding_online.py",
-      "sha256": "423174ac3562e33d58c840ccc456d41bd4f6338547d1a269a182b50f11624f57",
-      "bytes": "7690"
+      "sha256": "f6df6b104138f0473266770b86eadbba86cfa4325df71b24062e60b7457a21ca",
+      "bytes": "7788"
     },
     {
       "path": "scripts/pipeline/replay_piu_oracle_effect_trace.py",
@@ -505,6 +540,11 @@
       "path": "scripts/pipeline/run_piu_uncalibrated_ablation_controller.py",
       "sha256": "d2aface4017c057bbc1840ede8e338c0c8ccfc1db13799ea10194ce9bb1d0180",
       "bytes": "9601"
+    },
+    {
+      "path": "scripts/repro/check_piu_empirical_dag.py",
+      "sha256": "e1a4611a70d531133095dc16a6ce14562c24618b5d2253f8921bd9fa4e9f9869",
+      "bytes": "1589"
     },
     {
       "path": "scripts/repro/check_piu_offline_pipeline.py",
@@ -633,8 +673,13 @@
     },
     {
       "path": "src/piu/contracts.py",
-      "sha256": "80a9f2935e612c4b27684173c3f87c1fcf7f6899aa06c11d02d5b2ba7a630ac5",
-      "bytes": "13300"
+      "sha256": "c644416f7583250af8562163ff76b76a2121166527ebdb7f125ca4af326a0d3a",
+      "bytes": "13356"
+    },
+    {
+      "path": "src/piu/dataset_assembly.py",
+      "sha256": "1464673d5e2b4caca371e5c6f74fc12ead2da9424276f9c844194e20b07fe719",
+      "bytes": "11294"
     },
     {
       "path": "src/piu/effect_calibration.py",
@@ -647,14 +692,19 @@
       "bytes": "10078"
     },
     {
+      "path": "src/piu/empirical_dag.py",
+      "sha256": "fd48f6b347cea030a79fd1ad488e76f3d9f526ee1b19d436370c83960d7d7d33",
+      "bytes": "14260"
+    },
+    {
       "path": "src/piu/evaluation.py",
       "sha256": "9869fba97c141a0b1e140d61f029c30871fcba22274c6fb14bfb781eaf9c01a0",
       "bytes": "4105"
     },
     {
       "path": "src/piu/execution_plan.py",
-      "sha256": "9c5c699be3a1c85317eb2dcc1ed1ec2d8d5fcb7acf4b44e4c3b7fde378ad4266",
-      "bytes": "3761"
+      "sha256": "be18444828510926b92dc5c1dec53eb551f88157129f546ed78cdb4d32ad6061",
+      "bytes": "7463"
     },
     {
       "path": "src/piu/executor_bridge.py",
@@ -708,13 +758,13 @@
     },
     {
       "path": "src/piu/primitive_registry.py",
-      "sha256": "19ce263a5d061ed3871423174f4252336245072de88797a9efb09d5410991a4e",
-      "bytes": "59605"
+      "sha256": "af440c89142d6abbb216f8e8b52f5f5dc986f6fff6be34bab94c32e310019c87",
+      "bytes": "67355"
     },
     {
       "path": "src/piu/reproducibility.py",
-      "sha256": "b40f5f3509cf698853e5612ba4d5c55ea391e5a8a712745cc1b68d486de51a1c",
-      "bytes": "15617"
+      "sha256": "502ef3f7a9184eba2976a3f9fc9fc170491fb81807aa2d42ea34f40330ac2883",
+      "bytes": "16587"
     },
     {
       "path": "src/piu/spatial_prefix.py",
@@ -723,8 +773,8 @@
     },
     {
       "path": "src/piu/splits.py",
-      "sha256": "b04a63c753bb4c24e203d6adf01ac7972608ddb2f3f720a71d68d273e2c89695",
-      "bytes": "3127"
+      "sha256": "444a87ffa3e54f75179072fab8e85ac1a53a7d23cea2a8ea296494832763729b",
+      "bytes": "7162"
     },
     {
       "path": "src/piu/statistics.py",
@@ -747,7 +797,7 @@
       "bytes": "8126"
     }
   ],
-  "offline_inventory_sha256": "6ff39d472a6d1edec493623ffcb2b48f3039cddd5838acc439b9d86181d74b20",
+  "offline_inventory_sha256": "6286eb4978769696d8ba15734557861facca8f6bb21898323061d560b2b90c7d",
   "dependency_closure_exceptions": {
     "results/diagnostics/piu_offline_repro_preflight_v1.json": "The release lock cannot contain its own content hash; it is validated as the output of this manifest and bound separately by every formal design.",
     "scripts/pipeline/infer.py": "The B2 adapter executes this path only inside a detached worktree at the attested frozen tag commit, never from the current release checkout."
@@ -756,6 +806,26 @@
   "entrypoints": [
     {
       "path": "scripts/data/export_piu_binding_labels.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/assemble_piu_public_binding_role.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/assemble_piu_action_effect_role.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/build_piu_learning_split_manifest.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/build_piu_planned_split_manifest.py",
       "executable": true,
       "syntax_valid": true
     },
@@ -960,6 +1030,11 @@
       "syntax_valid": true
     },
     {
+      "path": "scripts/repro/check_piu_empirical_dag.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
       "path": "scripts/infra/check_external_pi05.py",
       "executable": true,
       "syntax_valid": true
@@ -996,6 +1071,11 @@
     },
     {
       "path": "scripts/evaluation/build_piu_primitive_qualification_probe.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_binding_qualification_stimulus.py",
       "executable": true,
       "syntax_valid": true
     },
@@ -1236,7 +1316,13 @@
     },
     {
       "id": "group_split_manifest",
-      "artifact": "data/piu/mainline_v1/split_manifest.json",
+      "artifact": "data/piu/mainline_v1/learning_split_manifest.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "external_learning_collection_budget",
+      "artifact": "results/method/piu_learning_collection_budget_v1.yaml",
       "status": "PENDING_EXTERNAL",
       "sha256": null
     },
@@ -1325,5 +1411,805 @@
       "sha256": null
     }
   ],
+  "empirical_stage_dag": {
+    "schema_version": "piu.empirical-stage-status.v1",
+    "dag": {
+      "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_empirical_stage_dag_v1.yaml",
+      "sha256": "6db759254516de36a68b5a236523e2445a530996af8f20670cecd41f5414e3c7"
+    },
+    "status": "INCOMPLETE",
+    "empirical_pipeline_complete": false,
+    "paper_claim_ready": false,
+    "paper_claim_ready_reason": "one or more external empirical stages remain incomplete",
+    "next_actionable_stages": [
+      "S00_external_authority_and_endpoint"
+    ],
+    "stages": [
+      {
+        "id": "S00_external_authority_and_endpoint",
+        "title": "External task-owner risk contract and identified pi0.5 endpoint",
+        "depends_on": [],
+        "dependency_status": {},
+        "status": "READY_FOR_EXTERNAL_WORK",
+        "artifacts": [
+          {
+            "id": "external_executor_risk_budget",
+            "path": "results/method/piu_external_execution_risk_budget_v1.yaml",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "external_pi05_identity_probe",
+            "path": "results/diagnostics/external_pi05_endpoint_check_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "RESOURCE_AND_IDENTITY_CONTRACT_NOT_PERFORMANCE_EVIDENCE"
+      },
+      {
+        "id": "S02_open_primitive_qualification",
+        "title": "OPEN primitive plan, schedule, and formal certificate",
+        "depends_on": [
+          "S00_external_authority_and_endpoint"
+        ],
+        "dependency_status": {
+          "S00_external_authority_and_endpoint": "READY_FOR_EXTERNAL_WORK"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "open_primitive_risk_contract",
+            "path": "results/method/piu_open_primitive_risk_contract_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "open_primitive_qualification_plan",
+            "path": "results/method/piu_open_primitive_qualification_plan_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "open_primitive_qualification_schedule",
+            "path": "results/method/piu_open_primitive_qualification_schedule_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "open_primitive_certificate",
+            "path": "results/method/piu_open_primitive_certificate_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "EXECUTOR_RELIABILITY_ONLY_NOT_TASK_SUCCESS"
+      },
+      {
+        "id": "S03_oracle_development_gate",
+        "title": "Independent development prompt screen and confirmation pilot",
+        "depends_on": [
+          "S02_open_primitive_qualification"
+        ],
+        "dependency_status": {
+          "S02_open_primitive_qualification": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "oracle_prompt_screen",
+            "path": "results/method/original_drawer_oracle_prompt_screen_v2.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "oracle_prompt_pilot",
+            "path": "results/method/original_drawer_oracle_prompt_pilot_v2.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "DEVELOPMENT_MECHANISM_EVIDENCE_NOT_METHOD_RESULT"
+      },
+      {
+        "id": "S04_oracle_formal_freeze",
+        "title": "Prospective oracle causal sample-size plan",
+        "depends_on": [
+          "S03_oracle_development_gate"
+        ],
+        "dependency_status": {
+          "S03_oracle_development_gate": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "prospective_oracle_plan",
+            "path": "results/method/original_drawer_oracle_formal_plan_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "PROSPECTIVE_DESIGN_ONLY"
+      },
+      {
+        "id": "S04b_mainline_split_and_oracle_schedule",
+        "title": "One-time mainline split freeze and prospective oracle schedule",
+        "depends_on": [
+          "S04_oracle_formal_freeze"
+        ],
+        "dependency_status": {
+          "S04_oracle_formal_freeze": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "oracle_formal_split_manifest",
+            "path": "data/piu/mainline_v1/oracle_formal_split_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "prospective_oracle_initial_states",
+            "path": "data/piu/mainline_v1/oracle_formal_initial_states_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "prospective_oracle_schedule",
+            "path": "results/method/original_drawer_oracle_formal_schedule_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "PROSPECTIVE_DESIGN_ONLY"
+      },
+      {
+        "id": "S05_oracle_formal_causal_gate",
+        "title": "Same-state prospective privileged target-binding causal test",
+        "depends_on": [
+          "S04b_mainline_split_and_oracle_schedule"
+        ],
+        "dependency_status": {
+          "S04b_mainline_split_and_oracle_schedule": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "prospective_oracle_formal_result",
+            "path": "results/method/original_drawer_oracle_formal_result_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "PRIVILEGED_CAUSAL_MECHANISM_ONLY_NOT_PUBLIC_METHOD"
+      },
+      {
+        "id": "S06_binding_role_data_and_prefixes",
+        "title": "New role-disjoint public/binding data and full frozen prefix caches",
+        "depends_on": [
+          "S05_oracle_formal_causal_gate"
+        ],
+        "dependency_status": {
+          "S05_oracle_formal_causal_gate": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "external_learning_collection_budget",
+            "path": "results/method/piu_learning_collection_budget_v1.yaml",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "learning_split_manifest",
+            "path": "data/piu/mainline_v1/learning_split_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "train_public_binding_dataset",
+            "path": "data/piu/mainline_v1/train/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "development_public_binding_dataset",
+            "path": "data/piu/mainline_v1/development/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_temperature_public_binding_dataset",
+            "path": "data/piu/mainline_v1/calibration_temperature/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_conformal_public_binding_dataset",
+            "path": "data/piu/mainline_v1/calibration_conformal/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_temperature_public_binding_dataset",
+            "path": "data/piu/mainline_v1/effect_calibration_temperature/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_conformal_public_binding_dataset",
+            "path": "data/piu/mainline_v1/effect_calibration_conformal/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "train_spatial_prefix",
+            "path": "data/piu/mainline_v1/train/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "development_spatial_prefix",
+            "path": "data/piu/mainline_v1/development/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_temperature_spatial_prefix",
+            "path": "data/piu/mainline_v1/calibration_temperature/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_conformal_spatial_prefix",
+            "path": "data/piu/mainline_v1/calibration_conformal/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_temperature_spatial_prefix",
+            "path": "data/piu/mainline_v1/effect_calibration_temperature/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_conformal_spatial_prefix",
+            "path": "data/piu/mainline_v1/effect_calibration_conformal/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "TRAINING_AND_CALIBRATION_INPUTS_NOT_PERFORMANCE_EVIDENCE"
+      },
+      {
+        "id": "S07_binder_training",
+        "title": "CPU target-binder model selection on train/development only",
+        "depends_on": [
+          "S06_binding_role_data_and_prefixes"
+        ],
+        "dependency_status": {
+          "S06_binding_role_data_and_prefixes": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "binder_training_report",
+            "path": "runs/piu_mainline_v1/binder/training_report.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "DEVELOPMENT_MODEL_SELECTION_NOT_TEST_EVIDENCE"
+      },
+      {
+        "id": "S08_binder_calibration",
+        "title": "Independent binder temperature and conformal calibration",
+        "depends_on": [
+          "S07_binder_training"
+        ],
+        "dependency_status": {
+          "S07_binder_training": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "binder_temperature_predictions",
+            "path": "runs/piu_mainline_v1/binder/temperature_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_conformal_predictions",
+            "path": "runs/piu_mainline_v1/binder/conformal_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_calibration",
+            "path": "runs/piu_mainline_v1/binder/calibration.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "CALIBRATION_ARTIFACT_NOT_TEST_EVIDENCE"
+      },
+      {
+        "id": "S09_task_primitive_qualification",
+        "title": "Binder-grounded PICK and PLACE executor qualification",
+        "depends_on": [
+          "S08_binder_calibration",
+          "S00_external_authority_and_endpoint"
+        ],
+        "dependency_status": {
+          "S08_binder_calibration": "WAITING_FOR_PREDECESSOR",
+          "S00_external_authority_and_endpoint": "READY_FOR_EXTERNAL_WORK"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "pick_primitive_risk_contract",
+            "path": "results/method/piu_pick_primitive_risk_contract_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "pick_primitive_qualification_plan",
+            "path": "results/method/piu_pick_primitive_qualification_plan_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "pick_primitive_qualification_schedule",
+            "path": "results/method/piu_pick_primitive_qualification_schedule_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "pick_primitive_certificate",
+            "path": "results/method/piu_pick_primitive_certificate_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "place_primitive_risk_contract",
+            "path": "results/method/piu_place_primitive_risk_contract_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "place_primitive_qualification_plan",
+            "path": "results/method/piu_place_primitive_qualification_plan_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "place_primitive_qualification_schedule",
+            "path": "results/method/piu_place_primitive_qualification_schedule_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "place_primitive_certificate",
+            "path": "results/method/piu_place_primitive_certificate_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "qualified_executor_map",
+            "path": "results/method/piu_qualified_executor_map_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "EXECUTOR_RELIABILITY_ONLY_NOT_TASK_SUCCESS"
+      },
+      {
+        "id": "S10_action_effect_role_data",
+        "title": "Executed counterfactual matrices on train/development/effect-calibration roles",
+        "depends_on": [
+          "S09_task_primitive_qualification"
+        ],
+        "dependency_status": {
+          "S09_task_primitive_qualification": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "train_binder_online_predictions",
+            "path": "runs/piu_mainline_v1/binder/train_online_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "development_binder_online_predictions",
+            "path": "runs/piu_mainline_v1/binder/development_online_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_temperature_binder_online_predictions",
+            "path": "runs/piu_mainline_v1/binder/effect_temperature_online_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_conformal_binder_online_predictions",
+            "path": "runs/piu_mainline_v1/binder/effect_conformal_online_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "train_action_effect_dataset",
+            "path": "data/piu/mainline_v1/train/action_effect_labels.manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "development_action_effect_dataset",
+            "path": "data/piu/mainline_v1/development/action_effect_labels.manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_temperature_action_effect_dataset",
+            "path": "data/piu/mainline_v1/effect_calibration_temperature/action_effect_labels.manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_conformal_action_effect_dataset",
+            "path": "data/piu/mainline_v1/effect_calibration_conformal/action_effect_labels.manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "EXECUTED_COUNTERFACTUAL_DATA_NOT_PERFORMANCE_EVIDENCE"
+      },
+      {
+        "id": "S11_action_effect_training",
+        "title": "CPU route/effect model selection and preregistered ablations",
+        "depends_on": [
+          "S10_action_effect_role_data"
+        ],
+        "dependency_status": {
+          "S10_action_effect_role_data": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "effect_training_report",
+            "path": "runs/piu_mainline_v1/effect/training_report.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "DEVELOPMENT_ABLATION_NOT_TEST_EVIDENCE"
+      },
+      {
+        "id": "S12_action_effect_calibration",
+        "title": "Independent action-effect temperature and conformal calibration",
+        "depends_on": [
+          "S11_action_effect_training"
+        ],
+        "dependency_status": {
+          "S11_action_effect_training": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "effect_temperature_predictions",
+            "path": "runs/piu_mainline_v1/effect/temperature_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_conformal_predictions",
+            "path": "runs/piu_mainline_v1/effect/conformal_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_calibration",
+            "path": "runs/piu_mainline_v1/effect/calibration.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "CALIBRATION_ARTIFACT_NOT_TEST_EVIDENCE"
+      },
+      {
+        "id": "S13_development_baselines_and_paired_design",
+        "title": "Frozen baselines, external prompted router, and paired formal design",
+        "depends_on": [
+          "S12_action_effect_calibration"
+        ],
+        "dependency_status": {
+          "S12_action_effect_calibration": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "external_prompted_vlm_router_identity",
+            "path": "results/diagnostics/external_prompted_vlm_router_identity_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "external_prompted_vlm_router_probe",
+            "path": "results/diagnostics/external_prompted_vlm_router_probe_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "b2_frozen_heuristic_v0_results",
+            "path": "results/method/piu_fixed_drawer_b2_heuristic_v0_v1.jsonl",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "main_paired_pilot_plan",
+            "path": "results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "DEVELOPMENT_DESIGN_NOT_SEALED_TEST_EVIDENCE"
+      },
+      {
+        "id": "S14_sealed_formal_freeze",
+        "title": "Sealed initial states and immutable B0-B8 schedule",
+        "depends_on": [
+          "S13_development_baselines_and_paired_design"
+        ],
+        "dependency_status": {
+          "S13_development_baselines_and_paired_design": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "formal_split_manifest",
+            "path": "data/piu/mainline_v1/formal_split_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "formal_initial_state_manifest",
+            "path": "data/piu/mainline_v1/formal_initial_states_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "formal_execution_schedule",
+            "path": "results/method/piu_fixed_drawer_formal_schedule_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "SEALED_DESIGN_ONLY_NO_OUTCOME_ACCESS"
+      },
+      {
+        "id": "S15_sealed_execution_and_analysis",
+        "title": "Complete sealed outcomes, component evaluations, and paired analysis",
+        "depends_on": [
+          "S14_sealed_formal_freeze"
+        ],
+        "dependency_status": {
+          "S14_sealed_formal_freeze": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "complete_sealed_outcome_matrix",
+            "path": "results/method/piu_fixed_drawer_sealed_outcomes_v1.jsonl",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "target_binding_sealed",
+            "path": "results/method/piu_fixed_drawer_binder_sealed_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "action_effect_sealed",
+            "path": "results/method/piu_fixed_drawer_effect_sealed_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "b6_oracle_effect_trace_results",
+            "path": "results/method/piu_fixed_drawer_b6_oracle_effect_v1.jsonl",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "b7_oracle_binding_results",
+            "path": "results/method/piu_fixed_drawer_b7_oracle_binding_v1.jsonl",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "sealed_full_loop_report",
+            "path": "results/method/piu_fixed_drawer_sealed_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "SEALED_EMPIRICAL_EVIDENCE"
+      },
+      {
+        "id": "S16_evidence_bound_paper_release",
+        "title": "Regenerated evidence tables, figures, and public claim audit",
+        "depends_on": [
+          "S15_sealed_execution_and_analysis"
+        ],
+        "dependency_status": {
+          "S15_sealed_execution_and_analysis": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "paper_evidence_tables",
+            "path": "paper/generated/piu_evidence_tables_v1.json",
+            "status": "INVALID",
+            "sha256": "f7895908d46cd65e5680f1442fbb6a98ae363940d15b7cae6cd4610daa098af5",
+            "errors": [
+              "artifact.artifacts.binding_development has malformed SHA-256",
+              "artifact.artifacts.effect_development has malformed SHA-256",
+              "artifact.artifacts.target_binding_sealed has malformed SHA-256",
+              "artifact.artifacts.action_effect_sealed has malformed SHA-256",
+              "artifact.artifacts.closed_loop_sealed has malformed SHA-256",
+              "field artifacts.binding_development.status differs from frozen contract",
+              "field artifacts.effect_development.status differs from frozen contract",
+              "field artifacts.target_binding_sealed.status differs from frozen contract",
+              "field artifacts.action_effect_sealed.status differs from frozen contract",
+              "field artifacts.closed_loop_sealed.status differs from frozen contract"
+            ],
+            "terminal_reason": null
+          },
+          {
+            "id": "public_claim_audit",
+            "path": "results/diagnostics/piu_public_claim_audit_v1.json",
+            "status": "VALID",
+            "sha256": "bf9f0bb051841e1aca5270bc147fec11e4c93c746e36666e3d8dee4fd0ea5dd5",
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "PAPER_RELEASE_BOUND_TO_VALIDATED_EVIDENCE"
+      }
+    ],
+    "local_gpu_actions_performed": false
+  },
   "errors": []
 }

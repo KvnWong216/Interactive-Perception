@@ -359,6 +359,21 @@ def audit_repro_manifest(
                 "sha256": sha256_file(path) if path.is_file() else None,
             }
         )
+    empirical_dag = None
+    dag_relative = manifest.get("empirical_stage_dag")
+    if dag_relative is not None:
+        dag_path = repository_root / str(dag_relative)
+        if not dag_path.is_file():
+            errors.append(f"missing empirical stage DAG: {dag_relative}")
+        else:
+            try:
+                from .empirical_dag import evaluate_empirical_dag
+
+                empirical_dag = evaluate_empirical_dag(
+                    dag_path, repository_root=repository_root
+                )
+            except Exception as exc:
+                errors.append(f"invalid empirical stage DAG: {exc}")
     inventory_sha = _inventory_digest(inventory)
     reference_match: bool | None = None
     if reference_report is not None:
@@ -367,8 +382,13 @@ def audit_repro_manifest(
         if not reference_match:
             errors.append("offline inventory differs from the reference release")
     offline_ready = not errors and len(inventory) == len(required)
-    empirical_ready = offline_ready and all(
-        row["status"] == "PRESENT_UNVERIFIED" for row in external_rows
+    empirical_ready = bool(
+        offline_ready
+        and empirical_dag is not None
+        and empirical_dag.get("empirical_pipeline_complete") is True
+    )
+    paper_claim_ready = bool(
+        empirical_ready and empirical_dag.get("paper_claim_ready") is True
     )
     return {
         "schema_version": "piu.offline-repro-audit.v1",
@@ -383,10 +403,14 @@ def audit_repro_manifest(
         ),
         "offline_ready": offline_ready,
         "empirical_ready": empirical_ready,
-        "paper_claim_ready": False,
+        "paper_claim_ready": paper_claim_ready,
         "paper_claim_ready_reason": (
-            "external artifacts are only presence-checked here and require their own "
-            "identity, split, authorization, and evaluator validation"
+            "the machine-verified empirical DAG and offline release are complete"
+            if paper_claim_ready
+            else (
+                "external artifacts require the empirical DAG's identity, split, "
+                "authorization, hash-chain, and evaluator validation"
+            )
         ),
         "local_gpu_actions_performed": False,
         "offline_inventory": inventory,
@@ -395,5 +419,6 @@ def audit_repro_manifest(
         "reference_inventory_match": reference_match,
         "entrypoints": entrypoint_rows,
         "external_empirical_gates": external_rows,
+        "empirical_stage_dag": empirical_dag,
         "errors": errors,
     }

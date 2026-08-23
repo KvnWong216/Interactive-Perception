@@ -149,24 +149,36 @@ For reference, even five intervention-only discordances give a two-sided exact
 `p=0.0625`; six give `p=0.03125`. The calculator uses the full pilot-estimated
 discordant-pair probabilities rather than treating `4/5` as evidence.
 
-When the plan status is `PROSPECTIVE_GROUP_COUNT_FROZEN`, add exactly that many
-new `oracle_formal` groups to the prospective split, excluding every oracle
-preflight/pilot and OPEN-qualification group/seed, and freeze their pre-OPEN
-opaque states. G2F itself requires a formal OPEN executor certificate: every
+When the plan status is `PROSPECTIVE_GROUP_COUNT_FROZEN`, create a new immutable
+`oracle_formal_split_manifest.json` containing exactly that many
+`oracle_formal` groups, excluding every oracle preflight/pilot and
+OPEN-qualification group/seed, and freeze their pre-OPEN opaque states. Do not
+append them to a qualification or later sealed-test manifest: those counts are
+known at different prospective decision points, and changing one hash-bound
+split would invalidate earlier schedules. G2F itself requires a formal OPEN
+executor certificate: every
 group attempts that exact candidate once, regardless of whether OPEN succeeds,
 then starts the target-marker and raw-DIRECT arms from the same resulting state
 in a hash-keyed order. Failed or interrupted source/arm executions remain false
 in the complete intention-to-treat denominator.
 
 ```bash
+python scripts/data/build_piu_planned_split_manifest.py \
+  --purpose oracle_formal \
+  --plan results/method/original_drawer_oracle_formal_plan_v1.json \
+  --seed-start EXTERNALLY_RESERVED_SEED_START \
+  --group-prefix oracle-formal \
+  --exclude-split PATH/open_qualification_split.json \
+  --output data/piu/mainline_v1/oracle_formal_split_manifest.json
+
 python scripts/evaluation/build_oracle_formal_initial_states.py \
-  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --split-manifest data/piu/mainline_v1/oracle_formal_split_manifest.json \
   --state GROUP_1 PATH/state_1.npz --state GROUP_2 PATH/state_2.npz \
   --output data/piu/mainline_v1/oracle_formal_initial_states_v1.json
 
 python scripts/evaluation/build_oracle_formal_schedule.py \
   --formal-plan results/method/original_drawer_oracle_formal_plan_v1.json \
-  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --split-manifest data/piu/mainline_v1/oracle_formal_split_manifest.json \
   --initial-state-manifest data/piu/mainline_v1/oracle_formal_initial_states_v1.json \
   --open-certificate results/method/piu_open_primitive_certificate_v1.json \
   --output results/method/original_drawer_oracle_formal_schedule_v1.json
@@ -217,17 +229,31 @@ python scripts/evaluation/plan_piu_formal_paired_test.py \
 The formal N is calculated only if the joint 95% lower exact-binomial design
 point supports a directional B8 effect and exact two-sided paired power reaches
 0.80 within 200 groups. Otherwise the blocked plan is retained. After assigning
-exactly N new sealed groups, freeze execution order without reading outcomes:
+exactly N new sealed groups, create a separate immutable
+`formal_split_manifest.json` and freeze execution order without reading
+outcomes:
 
 ```bash
+python scripts/data/build_piu_planned_split_manifest.py \
+  --purpose sealed_test \
+  --plan results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json \
+  --seed-start EXTERNALLY_RESERVED_SEED_START \
+  --group-prefix sealed-main \
+  --exclude-split PATH/open_qualification_split.json \
+  --exclude-split PATH/pick_qualification_split.json \
+  --exclude-split PATH/place_qualification_split.json \
+  --exclude-split data/piu/mainline_v1/oracle_formal_split_manifest.json \
+  --exclude-split data/piu/mainline_v1/learning_split_manifest.json \
+  --output data/piu/mainline_v1/formal_split_manifest.json
+
 python scripts/evaluation/build_piu_formal_initial_states.py \
-  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --split-manifest data/piu/mainline_v1/formal_split_manifest.json \
   --state GROUP_1 PATH/state_1.npz --state GROUP_2 PATH/state_2.npz \
   --output data/piu/mainline_v1/formal_initial_states_v1.json
 
 python scripts/evaluation/build_piu_formal_schedule.py \
   --formal-plan results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json \
-  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --split-manifest data/piu/mainline_v1/formal_split_manifest.json \
   --initial-state-manifest data/piu/mainline_v1/formal_initial_states_v1.json \
   --output results/method/piu_fixed_drawer_formal_schedule_v1.json
 ```

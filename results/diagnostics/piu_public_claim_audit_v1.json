@@ -3,8 +3,8 @@
   "status": "PASS",
   "registry": {
     "path": "configs/experiments/method_provenance_v1.yaml",
-    "sha256": "a5edc01cf411fb402580205d71356b33ec2bc260a1a5b8f5f6a061fdb0227fac",
-    "entry_count": 70,
+    "sha256": "ba4d816d73678c1fb3e07aee1816c6d66c1863a3f4890fca66aa05eb8f328ebe",
+    "entry_count": 71,
     "provenance_counts": {
       "baseline_only_heuristic": 3,
       "fit_on_isolated_calibration": 1,
@@ -13,7 +13,7 @@
       "learned_on_training_split": 6,
       "numerical_optimization": 2,
       "oracle_intervention": 4,
-      "protocol_identifier": 27,
+      "protocol_identifier": 28,
       "safety_or_resource_budget": 6,
       "simulator_or_physics_contract": 3,
       "unsupported_heuristic": 5,
@@ -23,7 +23,7 @@
       "baseline_only": 6,
       "diagnostic_only": 9,
       "historical_only": 3,
-      "main_evaluator": 19,
+      "main_evaluator": 20,
       "main_method_online": 21,
       "rejected_method_only": 4,
       "safety_only": 8
@@ -40,13 +40,13 @@
     },
     {
       "path": "README.md",
-      "sha256": "0a52d308038128e6daeeda533625b94e3ea12d7f4cc164b34c7e2f4819197e6f",
+      "sha256": "e453e749dae55aa867a8f49a7dfc0c210a2b23c54b790c10fcd6b1843234c3fc",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     },
     {
       "path": "STATUS.md",
-      "sha256": "b24a23662c3a92e82bb629a08bb552c18c4e5f506ead4b464f24ec199687e28e",
+      "sha256": "9996a7bfd0bf068d0132b77bc8ac679efc83020b8643db157141dc52680d7154",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     },
@@ -375,7 +375,7 @@
     },
     {
       "path": "configs/experiments/piu_action_effect_calibration_v1.yaml",
-      "sha256": "e0d886ce39e70a3bb44ed6dc9d1e8eec2506fb8b1ab09940f9fa24d7b8c01a10",
+      "sha256": "2113f7deab3c9dc841fdd3ed332a7b6fe0601d29a76ae486fc7523f5ac8dd2ff",
       "controls": [
         {
           "field": "compute.local_gpu_memory_mib_max",

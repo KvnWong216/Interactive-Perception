@@ -237,15 +237,16 @@ ActiveVLA-scale experiments are out of scope.
 | contracts | candidates, capabilities, factorized effects | implemented |
 | learned head | one cross-attention decoder + two heads | implemented; shape/gradient test passed |
 | calibration | temperature, route LAC, Bonferroni effect LAC | implemented |
-| data safety | sample schema, policy projection, split/leakage checks | implemented |
+| data safety | purpose-specific prospective splits, immutable role assemblers, policy projection, split/leakage checks | implemented |
 | executor loop | deterministic text + closed-loop controller | implemented |
 | Stage 0 trace | original drawer fixture replay | passed: OPEN -> reobserve -> DIRECT; wiring evidence only |
 | VLM feature extraction | external frozen PaliGemma full-prefix protocol | implemented and contract-tested; real cache pending endpoint |
-| counterfactual collection | calibrated public execution plan, exact same-state candidate-fork collector, and causal matrix exporter | implemented and contract-tested; ineligible candidates stay in the route matrix with masked effects; real branches pending certificates/endpoint |
-| training | effect then route then calibration | blocked by data, intentionally not run |
+| counterfactual collection | calibrated public execution plan, exact same-state candidate-fork collector, causal matrix exporter, and exact role-matrix assembler | implemented and contract-tested; ineligible candidates stay in the route matrix with masked effects; real branches pending certificates/endpoint |
+| training | binder, isolated binder calibration, effect/route ablations, isolated effect calibration | blocked by data, intentionally not run; binder/effect calibration groups are disjoint |
 | live full loop | B3/B4/B5/B8 hash-chained runner | implemented and dry-run verified; physical run blocked by checkpoint/certificates/endpoint |
 | oracle columns | B6 executed-effect trace and same-source B7 dynamic target-marker full loop | implemented and contract-tested; real tree/style selection/endpoint pending |
 | formal oracle causal gate | pilot-sized disjoint state freeze, qualified attempted OPEN, paired same-state oracle/raw execution, single-use receipts, and exact analysis | implemented and contract-tested; real pilot plan/certificate/cohort/endpoint pending |
+| empirical orchestration | schema/hash/split-validating stage DAG with terminal negative outcomes | implemented; current first unblocked stage is the external authority/endpoint contract |
 | frozen B2 adapter | exact tag inference attestation and one-decision episode projection | implemented and contract-tested; external legacy-model inference pending |
 
 One-command Stage 0 validation:

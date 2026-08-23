@@ -55,6 +55,44 @@ interaction-pre image is context only. Spatial supervision is nonzero only on
 the current/interaction-post patches, preventing a pre-action sighting from
 satisfying the post-action localization objective.
 
+Per-observation outputs are assembled by prospective role before extraction;
+concatenating JSONL files manually is not an admissible dataset operation:
+
+First copy the null-only template
+`configs/templates/piu_learning_collection_budget_template.yaml` to
+`results/method/piu_learning_collection_budget_v1.yaml` and have the external
+resource owner fill/freeze each role count, seed namespace, authority, and
+rationale before successor collection. The repository provides no suggested
+counts. Then build the immutable learning split while excluding the already
+used qualification and formal-oracle manifests:
+
+```bash
+python scripts/data/build_piu_learning_split_manifest.py \
+  --budget results/method/piu_learning_collection_budget_v1.yaml \
+  --exclude-split PATH/open_qualification_split.json \
+  --exclude-split data/piu/mainline_v1/oracle_formal_split_manifest.json \
+  --output data/piu/mainline_v1/learning_split_manifest.json
+```
+
+The counts are collection-resource allocations, not performance gates. A class
+without calibration support remains `UNSUPPORTED`; data collection may not be
+extended after inspecting its outcomes. Assemble each role next:
+
+```bash
+python scripts/data/assemble_piu_public_binding_role.py \
+  --split-manifest data/piu/mainline_v1/learning_split_manifest.json \
+  --split-role train \
+  --public PATH/transition_1.jsonl --public PATH/transition_2.jsonl \
+  --binding-label PATH/label_1.jsonl --binding-label PATH/label_2.jsonl \
+  --output-public data/piu/mainline_v1/train/public.jsonl \
+  --output-labels data/piu/mainline_v1/train/binding_labels.jsonl \
+  --output-manifest data/piu/mainline_v1/train/public_binding_manifest.json
+```
+
+Repeat with distinct development, binder-temperature, binder-conformal,
+effect-temperature, and effect-conformal roles. The assembler requires an
+exact sample join and the complete set of groups assigned to that role.
+
 Prospective transitions are created only after a qualified dispatcher writes an
 immutable receipt. `scripts/data/export_piu_public_transition.py` verifies the
 controller, qualification certificate, execution report, low-level history,

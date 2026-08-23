@@ -1,0 +1,22 @@
+schema_version: piu.learning-collection-budget.v1
+status: TEMPLATE_NOT_A_FROZEN_CONTRACT
+scenario: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+
+groups_per_role:
+  train: null
+  development: null
+  calibration_temperature: null
+  calibration_conformal: null
+  effect_calibration_temperature: null
+  effect_calibration_conformal: null
+
+seed_start: null
+authority: null
+rationale: null
+outcomes_loaded: false
+model_predictions_loaded: false
+
+interpretation:
+  group_counts: external collection-resource allocation, not a success threshold
+  seed_start: namespace allocation only, not a random-seed search
+  calibration_support: unsupported classes remain unsupported; collection may not adapt after inspecting calibration outcomes

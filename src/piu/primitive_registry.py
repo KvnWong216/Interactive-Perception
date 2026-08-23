@@ -589,6 +589,7 @@ def load_qualification_controller_decision(
         "piu.uncalibrated-ablation-controller-report.v1",
         "piu.prompted-vlm-router-report.v1",
         "piu.primitive-qualification-probe.v1",
+        "piu.binding-qualification-stimulus.v1",
     }:
         raise ValueError("unsupported qualification controller report")
     if report.get("evaluator_labels_loaded") is not False:
@@ -674,6 +675,157 @@ def load_qualification_controller_decision(
             or source.get("candidates") != decision.get("public_candidates")
         ):
             raise ValueError("qualification probe candidate source is not public")
+    elif schema == "piu.binding-qualification-stimulus.v1":
+        if repository_root is None:
+            raise ValueError("binding qualification validation requires repository root")
+        if (
+            len(decisions) != 1
+            or report.get("status")
+            != "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES"
+            or report.get("claim_scope")
+            != "BINDER_GROUNDED_EXECUTOR_STIMULUS_NOT_METHOD_SELECTION"
+            or report.get("outcomes_loaded") is not False
+            or report.get("selection_source")
+            != "preregistered_candidate_with_calibrated_binder_eligibility"
+            or report.get("candidate_choice_outcome_dependent") is not False
+            or report.get("paper_method_selection_claim_allowed") is not False
+            or report.get("trained_binder_loaded") is not True
+            or report.get("binder_calibration_loaded") is not True
+            or report.get("effect_model_loaded") is not False
+            or report.get("online_oracle_inputs") != []
+            or normalized_primitive not in {"PICK", "PLACE", "DIRECT"}
+        ):
+            raise ValueError("binding qualification stimulus crossed its firewall")
+        inputs = report.get("inputs")
+        if not isinstance(inputs, Mapping):
+            raise TypeError("binding qualification stimulus lacks input provenance")
+        plan_path = _verified_reference(
+            inputs.get("plan"),
+            name="binding qualification plan",
+            repository_root=repository_root,
+        )
+        execution_plan_path = _verified_reference(
+            inputs.get("execution_plan"),
+            name="binder execution plan",
+            repository_root=repository_root,
+        )
+        plan = load_primitive_qualification_plan(
+            plan_path, repository_root=repository_root
+        )
+        execution_plan = json.loads(execution_plan_path.read_text())
+        if (
+            str(plan.get("candidate_id")) != candidate_id
+            or str(plan.get("primitive", "")).upper() != normalized_primitive
+            or execution_plan.get("schema_version")
+            != "piu.counterfactual-execution-plan.v1"
+            or execution_plan.get("initial_state_group") != initial_state_group
+            or execution_plan.get("split") != "primitive_qualification"
+            or execution_plan.get("public_inputs_only") is not True
+            or execution_plan.get("online_oracle_inputs") != []
+            or execution_plan.get("paper_method_claim_allowed") is not False
+        ):
+            raise ValueError("binding qualification inputs differ from their plan")
+        execution_inputs = execution_plan.get("inputs")
+        required_inputs = {
+            "public_transition",
+            "binding_predictions",
+            "binding_report",
+            "binder_calibration",
+            "feature_report",
+            "split_manifest",
+        }
+        if not isinstance(execution_inputs, Mapping) or set(execution_inputs) != required_inputs:
+            raise ValueError("binding qualification execution inputs are not field-closed")
+        verified_inputs = {
+            name: _verified_reference(
+                execution_inputs[name],
+                name=f"binding qualification {name}",
+                repository_root=repository_root,
+            )
+            for name in sorted(required_inputs)
+        }
+        import numpy as np
+
+        from .contracts import load_public_transitions, public_observation_sha256
+        from .execution_plan import calibrated_candidate_plan
+        from .splits import assignment_for, load_split_manifest
+
+        public_rows = [
+            row
+            for row in load_public_transitions(verified_inputs["public_transition"])
+            if row.sample_id == execution_plan.get("decision_sample_id")
+        ]
+        if len(public_rows) != 1:
+            raise ValueError("binding qualification lacks one public decision row")
+        transition = public_rows[0]
+        split = load_split_manifest(verified_inputs["split_manifest"])
+        if assignment_for(split, initial_state_group)["split_role"] != (
+            "primitive_qualification"
+        ):
+            raise ValueError("binding qualification group is not prospectively reserved")
+        binding_report = json.loads(verified_inputs["binding_report"].read_text())
+        calibration = json.loads(verified_inputs["binder_calibration"].read_text())
+        feature_report = json.loads(verified_inputs["feature_report"].read_text())
+        if (
+            binding_report.get("schema_version")
+            != "piu.target-binder-online-predictions.v1"
+            or binding_report.get("output", {}).get("sha256")
+            != _sha256(verified_inputs["binding_predictions"])
+            or calibration.get("schema_version")
+            != "piu.target-binder-calibration.v1"
+            or calibration.get("checkpoint_sha256")
+            != binding_report.get("inputs", {}).get("checkpoint", {}).get("sha256")
+            or feature_report.get("schema_version")
+            != "piu.spatial-prefix-features.v1"
+            or binding_report.get("inputs", {}).get("feature_report", {}).get(
+                "sha256"
+            )
+            != _sha256(verified_inputs["feature_report"])
+        ):
+            raise ValueError("binding qualification model/calibration chain differs")
+        with np.load(verified_inputs["binding_predictions"], allow_pickle=False) as store:
+            binding = {name: np.asarray(store[name]) for name in store.files}
+        sample_ids = np.asarray(binding["sample_id"]).astype(str)
+        indices = np.flatnonzero(sample_ids == transition.sample_id)
+        if len(indices) != 1:
+            raise ValueError("binding qualification prediction sample differs")
+        sample_index = int(indices[0])
+        if (
+            str(np.asarray(binding["initial_state_group"]).astype(str)[sample_index])
+            != initial_state_group
+            or str(np.asarray(binding["split"]).astype(str)[sample_index])
+            != "primitive_qualification"
+            or public_observation_sha256(transition.observations["post_interaction"])
+            != execution_plan.get("decision_observation_sha256")
+        ):
+            raise ValueError("binding qualification prediction provenance differs")
+        recomputed = calibrated_candidate_plan(
+            transition=transition,
+            binding=binding,
+            calibration=calibration,
+            feature_report=feature_report,
+            sample_index=sample_index,
+            alpha=float(execution_plan["alpha"]),
+        )
+        if any(
+            execution_plan.get(name) != recomputed[name]
+            for name in ("alpha", "public_execution_context", "candidates")
+        ):
+            raise ValueError("binding qualification execution plan was not recomputed")
+        planned = [
+            row
+            for row in execution_plan.get("candidates", ())
+            if isinstance(row, Mapping) and row.get("candidate_id") == candidate_id
+        ]
+        if (
+            len(planned) != 1
+            or planned[0].get("eligible_for_execution") is not True
+            or planned[0].get("structured_pi05_subtask")
+            != decision.get("structured_pi05_subtask")
+            or planned[0].get("spatial_references")
+            != decision.get("spatial_references")
+        ):
+            raise ValueError("binding qualification decision was not binder-eligible")
     if (
         decision.get("decision_kind") not in {"EXECUTE", "INTERACT"}
         or " ".join(
@@ -705,6 +857,12 @@ def load_qualification_controller_decision(
     )
     if normalized_primitive not in {"PICK", "DIRECT"} and references:
         raise ValueError("qualification uses spatial boxes for a non-spatial primitive")
+    if (
+        schema == "piu.binding-qualification-stimulus.v1"
+        and normalized_primitive in {"PICK", "DIRECT"}
+        and not references
+    ):
+        raise ValueError("binding qualification lacks calibrated spatial boxes")
     expected_subtask = serialize_pi05_subtask(
         candidate,
         spatial_references=(

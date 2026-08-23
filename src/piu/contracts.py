@@ -20,6 +20,7 @@ class Split(str, Enum):
     RETROSPECTIVE_DEVELOPMENT = "retrospective_development"
     CALIBRATION = "calibration"
     SEALED_TEST = "sealed_test"
+    PRIMITIVE_QUALIFICATION = "primitive_qualification"
 
 
 _FORBIDDEN_POLICY_KEYS = (

@@ -9,6 +9,8 @@ resource_contract:
   local_simulator_gpu_render_allowed: false
   pi05_execution_location: identified_external_server_only
 
+empirical_stage_dag: configs/experiments/piu_empirical_stage_dag_v1.yaml
+
 dependency_closure_exceptions:
   - path: results/diagnostics/piu_offline_repro_preflight_v1.json
     rationale: >-
@@ -21,6 +23,7 @@ dependency_closure_exceptions:
 
 required_files:
   - configs/experiments/piu_offline_repro_v1.yaml
+  - configs/experiments/piu_empirical_stage_dag_v1.yaml
   - configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
   - configs/experiments/original_drawer_oracle_target_prompt_schedule_v1.yaml
   - configs/experiments/piu_oracle_formal_v1.yaml
@@ -37,6 +40,7 @@ required_files:
   - configs/experiments/piu_primitive_registry_v1.yaml
   - configs/experiments/piu_primitive_registry_v2.yaml
   - configs/templates/piu_external_execution_risk_budget_template.yaml
+  - configs/templates/piu_learning_collection_budget_template.yaml
   - configs/scenarios/original_drawer.yaml
   - scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
   - third_party/LIBERO/libero/libero/envs/objects/articulated_objects.py
@@ -84,8 +88,14 @@ required_files:
   - src/piu/evaluation.py
   - src/piu/primitive_registry.py
   - src/piu/reproducibility.py
+  - src/piu/empirical_dag.py
+  - src/piu/dataset_assembly.py
   - src/calibrated_interaction/paired_power.py
   - scripts/data/export_piu_binding_labels.py
+  - scripts/data/assemble_piu_public_binding_role.py
+  - scripts/data/assemble_piu_action_effect_role.py
+  - scripts/data/build_piu_learning_split_manifest.py
+  - scripts/data/build_piu_planned_split_manifest.py
   - scripts/data/export_piu_post_observation_labels.py
   - scripts/data/export_piu_action_effect_matrix.py
   - scripts/data/collect_piu_counterfactual_branches.py
@@ -124,6 +134,7 @@ required_files:
   - scripts/evaluation/preflight_oracle_target_prompt.py
   - scripts/evaluation/summarize_oracle_target_prompt_gate.py
   - scripts/repro/check_piu_offline_pipeline.py
+  - scripts/repro/check_piu_empirical_dag.py
   - scripts/infra/check_external_pi05.py
   - scripts/infra/bootstrap.py
   - scripts/infra/check_gpu.sh
@@ -136,6 +147,7 @@ required_files:
   - scripts/evaluation/plan_piu_primitive_qualification.py
   - scripts/evaluation/build_piu_primitive_qualification_schedule.py
   - scripts/evaluation/build_piu_primitive_qualification_probe.py
+  - scripts/evaluation/build_piu_binding_qualification_stimulus.py
   - scripts/evaluation/close_piu_primitive_qualification_failure.py
   - scripts/evaluation/build_piu_qualified_executor_map.py
   - scripts/pipeline/run_piu_calibrated_controller.py
@@ -170,6 +182,10 @@ required_files:
 
 python_entrypoints:
   - scripts/data/export_piu_binding_labels.py
+  - scripts/data/assemble_piu_public_binding_role.py
+  - scripts/data/assemble_piu_action_effect_role.py
+  - scripts/data/build_piu_learning_split_manifest.py
+  - scripts/data/build_piu_planned_split_manifest.py
   - scripts/data/export_piu_post_observation_labels.py
   - scripts/data/export_piu_action_effect_matrix.py
   - scripts/data/collect_piu_counterfactual_branches.py
@@ -210,6 +226,7 @@ python_entrypoints:
   - scripts/evaluation/preflight_oracle_target_prompt.py
   - scripts/evaluation/summarize_oracle_target_prompt_gate.py
   - scripts/repro/check_piu_offline_pipeline.py
+  - scripts/repro/check_piu_empirical_dag.py
   - scripts/infra/check_external_pi05.py
   - scripts/infra/serve_identified_pi05.py
   - scripts/evaluation/evaluate_piu_primitive_qualification.py
@@ -218,6 +235,7 @@ python_entrypoints:
   - scripts/evaluation/plan_piu_primitive_qualification.py
   - scripts/evaluation/build_piu_primitive_qualification_schedule.py
   - scripts/evaluation/build_piu_primitive_qualification_probe.py
+  - scripts/evaluation/build_piu_binding_qualification_stimulus.py
   - scripts/evaluation/close_piu_primitive_qualification_failure.py
   - scripts/evaluation/build_piu_qualified_executor_map.py
   - scripts/pipeline/run_piu_calibrated_controller.py
@@ -286,7 +304,9 @@ external_empirical_gates:
   - id: place_primitive_certificate
     artifact: results/method/piu_place_primitive_certificate_v1.json
   - id: group_split_manifest
-    artifact: data/piu/mainline_v1/split_manifest.json
+    artifact: data/piu/mainline_v1/learning_split_manifest.json
+  - id: external_learning_collection_budget
+    artifact: results/method/piu_learning_collection_budget_v1.yaml
   - id: real_spatial_prefix_cache
     artifact: data/piu/mainline_v1/spatial_prefix_features.npz
   - id: new_group_disjoint_binding_labels

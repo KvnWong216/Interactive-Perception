@@ -134,6 +134,10 @@ def main() -> None:
         decision.observations["post_interaction"]
     )
     execution_plan = json.loads(args.execution_plan.read_text())
+    if decision.split.value == "primitive_qualification":
+        raise ValueError(
+            "executor-qualification stimuli cannot become action-effect data"
+        )
     if (
         execution_plan.get("schema_version")
         != "piu.counterfactual-execution-plan.v1"

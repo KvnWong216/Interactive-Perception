@@ -46,6 +46,7 @@ decision.
 | B5 spatial-bridge disable | baseline protocol | same calibrated scores/sets, but no patch geometry reaches pi0.5 |
 | primitive execution certificate | external risk contract plus formal exact test | complete prospective denominator required; historical count gates and budgets never authorize live execution |
 | model-free OPEN qualification probe | protocol-identified executor stimulus | allowed only to break OPEN-before-training data dependency; public candidate/plan bound, no selection claim, forbidden for PICK/DIRECT |
+| binder-grounded task-primitive qualification stimulus | frozen binder predictions plus isolated binder calibration | predeclared PICK/PLACE/DIRECT candidate only; schedule recomputes typed eligibility and current-frame boxes; effect model/outcomes absent; executor evidence only |
 | formal oracle paired schedule | protocol identifier plus exact paired test | new `oracle_formal` groups; qualified attempted OPEN; identical post-OPEN state; arm order hash-randomized; started failures remain false; privileged mechanism evidence only |
 | Fréchet joint lower bound | formal diagnostic | reports a dependence-robust lower bound; never selects an action |
 | B0--B8 comparison registry | protocol identifier | same paired states, frozen policy, budgets, evaluator, and failure denominator; oracle is a separate column |

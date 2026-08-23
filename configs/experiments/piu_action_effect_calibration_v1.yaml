@@ -4,9 +4,10 @@ status: software_ready_waiting_for_group_disjoint_effect_predictions
 paper_method_claim_allowed: false
 
 split_contract:
-  temperature_role: calibration_temperature_only
-  conformal_role: calibration_conformal_only
+  temperature_role: effect_calibration_temperature_only
+  conformal_role: effect_calibration_conformal_only
   require_group_disjoint_roles: true
+  reuse_binding_calibration_groups: false
   model_selection_loaded: false
   sealed_test_loaded: false
 

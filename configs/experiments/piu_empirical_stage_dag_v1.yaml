@@ -1,0 +1,553 @@
+schema_version: piu.empirical-stage-dag.v1
+id: piu_mainline_external_experiment_v1
+status: frozen_machine_verifiable_orchestration
+
+claim_contract:
+  file_presence_is_completion: false
+  invalid_artifact_may_unlock_successor: false
+  negative_causal_gate_may_be_ignored: false
+  negative_qualification_may_dispatch: false
+  development_or_calibration_is_test_evidence: false
+  paper_claim_requires_all_stages: true
+  local_gpu_actions_performed: false
+
+split_manifest:
+  id: learning_split_manifest
+  path: data/piu/mainline_v1/learning_split_manifest.json
+  format: json
+  schema_version: piu.group-split-manifest.v1
+  expected:
+    status: FROZEN_BEFORE_COLLECTION
+    allocation_method: prospective_without_outcome_access
+
+required_split_roles:
+  - train
+  - development
+  - calibration_temperature
+  - calibration_conformal
+  - effect_calibration_temperature
+  - effect_calibration_conformal
+
+stages:
+  - id: S00_external_authority_and_endpoint
+    title: External task-owner risk contract and identified pi0.5 endpoint
+    depends_on: []
+    claim_scope: RESOURCE_AND_IDENTITY_CONTRACT_NOT_PERFORMANCE_EVIDENCE
+    artifacts:
+      - id: external_executor_risk_budget
+        path: results/method/piu_external_execution_risk_budget_v1.yaml
+        format: yaml
+        schema_version: piu.external-execution-risk-budget.v1
+        expected:
+          status: FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES
+          outcomes_loaded: false
+      - id: external_pi05_identity_probe
+        path: results/diagnostics/external_pi05_endpoint_check_v1.json
+        format: json
+        schema_version: piu.external-pi05-check.v1
+        expected:
+          status: PASS
+          action_probe.finite: true
+
+  - id: S02_open_primitive_qualification
+    title: OPEN primitive plan, schedule, and formal certificate
+    depends_on: [S00_external_authority_and_endpoint]
+    claim_scope: EXECUTOR_RELIABILITY_ONLY_NOT_TASK_SUCCESS
+    artifacts:
+      - id: open_primitive_risk_contract
+        path: results/method/piu_open_primitive_risk_contract_v1.json
+        format: json
+        schema_version: piu.primitive-risk-contract.v1
+        expected:
+          paper_method_claim_allowed: false
+      - id: open_primitive_qualification_plan
+        path: results/method/piu_open_primitive_qualification_plan_v1.json
+        format: json
+        schema_version: piu.primitive-qualification-plan.v1
+        state_field: status
+        success_values: [PROSPECTIVE_GROUP_COUNT_FROZEN]
+        terminal_values:
+          NO_PLAN_WITHIN_EXTERNAL_COLLECTION_RESOURCE_CAP: external resource contract cannot support the frozen test
+      - id: open_primitive_qualification_schedule
+        path: results/method/piu_open_primitive_qualification_schedule_v1.json
+        format: json
+        schema_version: piu.primitive-qualification-schedule.v1
+        expected:
+          status: FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES
+      - id: open_primitive_certificate
+        path: results/method/piu_open_primitive_certificate_v1.json
+        format: json
+        schema_version: piu.primitive-qualification-certificate.v1
+        state_field: status
+        success_values: [FORMALLY_QUALIFIED]
+        terminal_values:
+          NOT_QUALIFIED: OPEN executor failed its prospectively frozen qualification
+
+  - id: S03_oracle_development_gate
+    title: Independent development prompt screen and confirmation pilot
+    depends_on: [S02_open_primitive_qualification]
+    claim_scope: DEVELOPMENT_MECHANISM_EVIDENCE_NOT_METHOD_RESULT
+    artifacts:
+      - id: oracle_prompt_screen
+        path: results/method/original_drawer_oracle_prompt_screen_v2.json
+        format: json
+        schema_version: calibrated-interaction.oracle-target-prompt-result.v1
+      - id: oracle_prompt_pilot
+        path: results/method/original_drawer_oracle_prompt_pilot_v2.json
+        format: json
+        schema_version: calibrated-interaction.oracle-target-prompt-result.v1
+        expected:
+          status: INDEPENDENT_DEVELOPMENT_PILOT_COMPLETE
+          formal_method_claim: false
+
+  - id: S04_oracle_formal_freeze
+    title: Prospective oracle causal sample-size plan
+    depends_on: [S03_oracle_development_gate]
+    claim_scope: PROSPECTIVE_DESIGN_ONLY
+    artifacts:
+      - id: prospective_oracle_plan
+        path: results/method/original_drawer_oracle_formal_plan_v1.json
+        format: json
+        schema_version: calibrated-interaction.oracle-formal-test-plan.v1
+        state_field: status
+        success_values: [PROSPECTIVE_GROUP_COUNT_FROZEN]
+        terminal_values:
+          NO_PLAN_WITHIN_FROZEN_RESOURCE_CAP: oracle causal test has no plan within the frozen cap
+  - id: S04b_mainline_split_and_oracle_schedule
+    title: One-time mainline split freeze and prospective oracle schedule
+    depends_on: [S04_oracle_formal_freeze]
+    claim_scope: PROSPECTIVE_DESIGN_ONLY
+    artifacts:
+      - id: oracle_formal_split_manifest
+        path: data/piu/mainline_v1/oracle_formal_split_manifest.json
+        format: json
+        schema_version: piu.group-split-manifest.v1
+        expected:
+          required_roles: [oracle_formal]
+      - id: prospective_oracle_initial_states
+        path: data/piu/mainline_v1/oracle_formal_initial_states_v1.json
+        format: json
+        schema_version: piu.oracle-formal-initial-state-manifest.v1
+      - id: prospective_oracle_schedule
+        path: results/method/original_drawer_oracle_formal_schedule_v1.json
+        format: json
+        schema_version: piu.oracle-formal-execution-schedule.v1
+
+  - id: S05_oracle_formal_causal_gate
+    title: Same-state prospective privileged target-binding causal test
+    depends_on: [S04b_mainline_split_and_oracle_schedule]
+    claim_scope: PRIVILEGED_CAUSAL_MECHANISM_ONLY_NOT_PUBLIC_METHOD
+    artifacts:
+      - id: prospective_oracle_formal_result
+        path: results/method/original_drawer_oracle_formal_result_v1.json
+        format: json
+        schema_version: piu.oracle-formal-result.v1
+        expected:
+          complete_frozen_denominator: true
+          formal_method_claim: false
+          automatic_public_method_success_claim: false
+        state_field: status
+        success_values: [FORMAL_ORACLE_CAUSAL_EFFECT_SUPPORTED]
+        terminal_values:
+          FORMAL_ORACLE_CAUSAL_EFFECT_NOT_SUPPORTED: privileged binding did not causally improve the frozen executor
+
+  - id: S06_binding_role_data_and_prefixes
+    title: New role-disjoint public/binding data and full frozen prefix caches
+    depends_on: [S05_oracle_formal_causal_gate]
+    claim_scope: TRAINING_AND_CALIBRATION_INPUTS_NOT_PERFORMANCE_EVIDENCE
+    artifacts:
+      - id: external_learning_collection_budget
+        path: results/method/piu_learning_collection_budget_v1.yaml
+        format: yaml
+        schema_version: piu.learning-collection-budget.v1
+        validator: learning_collection_budget
+        expected:
+          status: FROZEN_BEFORE_SUCCESSOR_COLLECTION
+          outcomes_loaded: false
+          model_predictions_loaded: false
+      - id: learning_split_manifest
+        path: data/piu/mainline_v1/learning_split_manifest.json
+        format: json
+        schema_version: piu.group-split-manifest.v1
+      - &train_binding_data
+        id: train_public_binding_dataset
+        path: data/piu/mainline_v1/train/public_binding_manifest.json
+        format: json
+        schema_version: piu.public-binding-role-dataset.v1
+        expected: {split_role: train, sample_join_exact: true, evaluator_labels_in_public_output: false}
+        group_bindings: [{field: initial_state_groups, split_role: train}]
+      - &development_binding_data
+        id: development_public_binding_dataset
+        path: data/piu/mainline_v1/development/public_binding_manifest.json
+        format: json
+        schema_version: piu.public-binding-role-dataset.v1
+        expected: {split_role: development, sample_join_exact: true, evaluator_labels_in_public_output: false}
+        group_bindings: [{field: initial_state_groups, split_role: development}]
+      - id: binder_temperature_public_binding_dataset
+        path: data/piu/mainline_v1/calibration_temperature/public_binding_manifest.json
+        format: json
+        schema_version: piu.public-binding-role-dataset.v1
+        expected: {split_role: calibration_temperature, sample_join_exact: true, evaluator_labels_in_public_output: false}
+        group_bindings: [{field: initial_state_groups, split_role: calibration_temperature}]
+      - id: binder_conformal_public_binding_dataset
+        path: data/piu/mainline_v1/calibration_conformal/public_binding_manifest.json
+        format: json
+        schema_version: piu.public-binding-role-dataset.v1
+        expected: {split_role: calibration_conformal, sample_join_exact: true, evaluator_labels_in_public_output: false}
+        group_bindings: [{field: initial_state_groups, split_role: calibration_conformal}]
+      - id: effect_temperature_public_binding_dataset
+        path: data/piu/mainline_v1/effect_calibration_temperature/public_binding_manifest.json
+        format: json
+        schema_version: piu.public-binding-role-dataset.v1
+        expected: {split_role: effect_calibration_temperature, sample_join_exact: true, evaluator_labels_in_public_output: false}
+        group_bindings: [{field: initial_state_groups, split_role: effect_calibration_temperature}]
+      - id: effect_conformal_public_binding_dataset
+        path: data/piu/mainline_v1/effect_calibration_conformal/public_binding_manifest.json
+        format: json
+        schema_version: piu.public-binding-role-dataset.v1
+        expected: {split_role: effect_calibration_conformal, sample_join_exact: true, evaluator_labels_in_public_output: false}
+        group_bindings: [{field: initial_state_groups, split_role: effect_calibration_conformal}]
+      - id: train_spatial_prefix
+        path: data/piu/mainline_v1/train/spatial_prefix_features.json
+        format: json
+        schema_version: piu.spatial-prefix-features.v1
+        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        npz_group_role: train
+      - id: development_spatial_prefix
+        path: data/piu/mainline_v1/development/spatial_prefix_features.json
+        format: json
+        schema_version: piu.spatial-prefix-features.v1
+        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        npz_group_role: development
+      - id: binder_temperature_spatial_prefix
+        path: data/piu/mainline_v1/calibration_temperature/spatial_prefix_features.json
+        format: json
+        schema_version: piu.spatial-prefix-features.v1
+        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        npz_group_role: calibration_temperature
+      - id: binder_conformal_spatial_prefix
+        path: data/piu/mainline_v1/calibration_conformal/spatial_prefix_features.json
+        format: json
+        schema_version: piu.spatial-prefix-features.v1
+        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        npz_group_role: calibration_conformal
+      - id: effect_temperature_spatial_prefix
+        path: data/piu/mainline_v1/effect_calibration_temperature/spatial_prefix_features.json
+        format: json
+        schema_version: piu.spatial-prefix-features.v1
+        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        npz_group_role: effect_calibration_temperature
+      - id: effect_conformal_spatial_prefix
+        path: data/piu/mainline_v1/effect_calibration_conformal/spatial_prefix_features.json
+        format: json
+        schema_version: piu.spatial-prefix-features.v1
+        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        npz_group_role: effect_calibration_conformal
+
+  - id: S07_binder_training
+    title: CPU target-binder model selection on train/development only
+    depends_on: [S06_binding_role_data_and_prefixes]
+    claim_scope: DEVELOPMENT_MODEL_SELECTION_NOT_TEST_EVIDENCE
+    artifacts:
+      - id: binder_training_report
+        path: runs/piu_mainline_v1/binder/training_report.json
+        format: json
+        schema_version: piu.target-binder-training.v1
+        expected:
+          claim_scope: DEVELOPMENT_MODEL_SELECTION_NOT_TEST_EVIDENCE
+          cuda_visible_to_trainer: false
+          sealed_test_loaded: false
+          calibration_loaded: false
+          paper_method_claim_allowed: false
+        group_bindings:
+          - {field: initial_state_groups.train, split_role: train}
+          - {field: initial_state_groups.development, split_role: development}
+
+  - id: S08_binder_calibration
+    title: Independent binder temperature and conformal calibration
+    depends_on: [S07_binder_training]
+    claim_scope: CALIBRATION_ARTIFACT_NOT_TEST_EVIDENCE
+    artifacts:
+      - id: binder_temperature_predictions
+        path: runs/piu_mainline_v1/binder/temperature_predictions.json
+        format: json
+        schema_version: piu.target-binder-predictions.v1
+        expected: {split: calibration, calibration_role: temperature, cuda_visible_to_predictor: false}
+        group_bindings: [{field: initial_state_groups, split_role: calibration_temperature}]
+      - id: binder_conformal_predictions
+        path: runs/piu_mainline_v1/binder/conformal_predictions.json
+        format: json
+        schema_version: piu.target-binder-predictions.v1
+        expected: {split: calibration, calibration_role: conformal, cuda_visible_to_predictor: false}
+        group_bindings: [{field: initial_state_groups, split_role: calibration_conformal}]
+      - id: binder_calibration
+        path: runs/piu_mainline_v1/binder/calibration.json
+        format: json
+        schema_version: piu.target-binder-calibration.v1
+        expected:
+          sealed_test_loaded: false
+          model_selection_groups_loaded: false
+          paper_method_claim_allowed: false
+        group_bindings:
+          - {field: initial_state_groups.temperature, split_role: calibration_temperature}
+          - {field: initial_state_groups.conformal, split_role: calibration_conformal}
+
+  - id: S09_task_primitive_qualification
+    title: Binder-grounded PICK and PLACE executor qualification
+    depends_on: [S08_binder_calibration, S00_external_authority_and_endpoint]
+    claim_scope: EXECUTOR_RELIABILITY_ONLY_NOT_TASK_SUCCESS
+    artifacts:
+      - id: pick_primitive_risk_contract
+        path: results/method/piu_pick_primitive_risk_contract_v1.json
+        format: json
+        schema_version: piu.primitive-risk-contract.v1
+        expected: {paper_method_claim_allowed: false}
+      - id: pick_primitive_qualification_plan
+        path: results/method/piu_pick_primitive_qualification_plan_v1.json
+        format: json
+        schema_version: piu.primitive-qualification-plan.v1
+        state_field: status
+        success_values: [PROSPECTIVE_GROUP_COUNT_FROZEN]
+        terminal_values:
+          NO_PLAN_WITHIN_EXTERNAL_COLLECTION_RESOURCE_CAP: PICK qualification has no design within the external cap
+      - id: pick_primitive_qualification_schedule
+        path: results/method/piu_pick_primitive_qualification_schedule_v1.json
+        format: json
+        schema_version: piu.primitive-qualification-schedule.v1
+        expected: {status: FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES}
+      - id: pick_primitive_certificate
+        path: results/method/piu_pick_primitive_certificate_v1.json
+        format: json
+        schema_version: piu.primitive-qualification-certificate.v1
+        state_field: status
+        success_values: [FORMALLY_QUALIFIED]
+        terminal_values: {NOT_QUALIFIED: PICK executor failed its prospective qualification}
+      - id: place_primitive_risk_contract
+        path: results/method/piu_place_primitive_risk_contract_v1.json
+        format: json
+        schema_version: piu.primitive-risk-contract.v1
+        expected: {paper_method_claim_allowed: false}
+      - id: place_primitive_qualification_plan
+        path: results/method/piu_place_primitive_qualification_plan_v1.json
+        format: json
+        schema_version: piu.primitive-qualification-plan.v1
+        state_field: status
+        success_values: [PROSPECTIVE_GROUP_COUNT_FROZEN]
+        terminal_values:
+          NO_PLAN_WITHIN_EXTERNAL_COLLECTION_RESOURCE_CAP: PLACE qualification has no design within the external cap
+      - id: place_primitive_qualification_schedule
+        path: results/method/piu_place_primitive_qualification_schedule_v1.json
+        format: json
+        schema_version: piu.primitive-qualification-schedule.v1
+        expected: {status: FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES}
+      - id: place_primitive_certificate
+        path: results/method/piu_place_primitive_certificate_v1.json
+        format: json
+        schema_version: piu.primitive-qualification-certificate.v1
+        state_field: status
+        success_values: [FORMALLY_QUALIFIED]
+        terminal_values: {NOT_QUALIFIED: PLACE executor failed its prospective qualification}
+      - id: qualified_executor_map
+        path: results/method/piu_qualified_executor_map_v1.json
+        format: json
+        schema_version: piu.qualified-executor-map.v1
+        expected: {status: FORMALLY_QUALIFIED_CANDIDATES_ONLY}
+
+  - id: S10_action_effect_role_data
+    title: Executed counterfactual matrices on train/development/effect-calibration roles
+    depends_on: [S09_task_primitive_qualification]
+    claim_scope: EXECUTED_COUNTERFACTUAL_DATA_NOT_PERFORMANCE_EVIDENCE
+    artifacts:
+      - id: train_binder_online_predictions
+        path: runs/piu_mainline_v1/binder/train_online_predictions.json
+        format: json
+        schema_version: piu.target-binder-online-predictions.v1
+        expected: {split: train, evaluator_labels_loaded: false, cuda_visible_to_predictor: false}
+        group_bindings: [{field: initial_state_groups, split_role: train}]
+      - id: development_binder_online_predictions
+        path: runs/piu_mainline_v1/binder/development_online_predictions.json
+        format: json
+        schema_version: piu.target-binder-online-predictions.v1
+        expected: {split: development, evaluator_labels_loaded: false, cuda_visible_to_predictor: false}
+        group_bindings: [{field: initial_state_groups, split_role: development}]
+      - id: effect_temperature_binder_online_predictions
+        path: runs/piu_mainline_v1/binder/effect_temperature_online_predictions.json
+        format: json
+        schema_version: piu.target-binder-online-predictions.v1
+        expected: {split: calibration, evaluator_labels_loaded: false, cuda_visible_to_predictor: false}
+        group_bindings: [{field: initial_state_groups, split_role: effect_calibration_temperature}]
+      - id: effect_conformal_binder_online_predictions
+        path: runs/piu_mainline_v1/binder/effect_conformal_online_predictions.json
+        format: json
+        schema_version: piu.target-binder-online-predictions.v1
+        expected: {split: calibration, evaluator_labels_loaded: false, cuda_visible_to_predictor: false}
+        group_bindings: [{field: initial_state_groups, split_role: effect_calibration_conformal}]
+      - id: train_action_effect_dataset
+        path: data/piu/mainline_v1/train/action_effect_labels.manifest.json
+        format: json
+        schema_version: piu.action-effect-role-dataset.v1
+        expected: {split_role: train, exact_candidate_matrix: true, one_correct_route_per_sample: true}
+        group_bindings: [{field: initial_state_groups, split_role: train}]
+      - id: development_action_effect_dataset
+        path: data/piu/mainline_v1/development/action_effect_labels.manifest.json
+        format: json
+        schema_version: piu.action-effect-role-dataset.v1
+        expected: {split_role: development, exact_candidate_matrix: true, one_correct_route_per_sample: true}
+        group_bindings: [{field: initial_state_groups, split_role: development}]
+      - id: effect_temperature_action_effect_dataset
+        path: data/piu/mainline_v1/effect_calibration_temperature/action_effect_labels.manifest.json
+        format: json
+        schema_version: piu.action-effect-role-dataset.v1
+        expected: {split_role: effect_calibration_temperature, exact_candidate_matrix: true, one_correct_route_per_sample: true}
+        group_bindings: [{field: initial_state_groups, split_role: effect_calibration_temperature}]
+      - id: effect_conformal_action_effect_dataset
+        path: data/piu/mainline_v1/effect_calibration_conformal/action_effect_labels.manifest.json
+        format: json
+        schema_version: piu.action-effect-role-dataset.v1
+        expected: {split_role: effect_calibration_conformal, exact_candidate_matrix: true, one_correct_route_per_sample: true}
+        group_bindings: [{field: initial_state_groups, split_role: effect_calibration_conformal}]
+
+  - id: S11_action_effect_training
+    title: CPU route/effect model selection and preregistered ablations
+    depends_on: [S10_action_effect_role_data]
+    claim_scope: DEVELOPMENT_ABLATION_NOT_TEST_EVIDENCE
+    artifacts:
+      - id: effect_training_report
+        path: runs/piu_mainline_v1/effect/training_report.json
+        format: json
+        schema_version: piu.action-effect-training.v1
+        expected:
+          claim_scope: DEVELOPMENT_ABLATION_NOT_TEST_EVIDENCE
+          cuda_visible_to_trainer: false
+          calibration_loaded: false
+          sealed_test_loaded: false
+          paper_method_claim_allowed: false
+        group_bindings:
+          - {field: initial_state_groups.train, split_role: train}
+          - {field: initial_state_groups.development, split_role: development}
+
+  - id: S12_action_effect_calibration
+    title: Independent action-effect temperature and conformal calibration
+    depends_on: [S11_action_effect_training]
+    claim_scope: CALIBRATION_ARTIFACT_NOT_TEST_EVIDENCE
+    artifacts:
+      - id: effect_temperature_predictions
+        path: runs/piu_mainline_v1/effect/temperature_predictions.json
+        format: json
+        schema_version: piu.action-effect-predictions.v1
+        expected: {split: calibration, calibration_role: temperature, cuda_visible_to_predictor: false}
+        group_bindings: [{field: initial_state_groups, split_role: effect_calibration_temperature}]
+      - id: effect_conformal_predictions
+        path: runs/piu_mainline_v1/effect/conformal_predictions.json
+        format: json
+        schema_version: piu.action-effect-predictions.v1
+        expected: {split: calibration, calibration_role: conformal, cuda_visible_to_predictor: false}
+        group_bindings: [{field: initial_state_groups, split_role: effect_calibration_conformal}]
+      - id: effect_calibration
+        path: runs/piu_mainline_v1/effect/calibration.json
+        format: json
+        schema_version: piu.action-effect-calibration.v1
+        expected:
+          model_selection_loaded: false
+          sealed_test_loaded: false
+          paper_method_claim_allowed: false
+        group_bindings:
+          - {field: initial_state_groups.temperature, split_role: effect_calibration_temperature}
+          - {field: initial_state_groups.conformal, split_role: effect_calibration_conformal}
+
+  - id: S13_development_baselines_and_paired_design
+    title: Frozen baselines, external prompted router, and paired formal design
+    depends_on: [S12_action_effect_calibration]
+    claim_scope: DEVELOPMENT_DESIGN_NOT_SEALED_TEST_EVIDENCE
+    artifacts:
+      - id: external_prompted_vlm_router_identity
+        path: results/diagnostics/external_prompted_vlm_router_identity_v1.json
+        format: json
+      - id: external_prompted_vlm_router_probe
+        path: results/diagnostics/external_prompted_vlm_router_probe_v1.json
+        format: json
+      - id: b2_frozen_heuristic_v0_results
+        path: results/method/piu_fixed_drawer_b2_heuristic_v0_v1.jsonl
+        format: jsonl
+      - id: main_paired_pilot_plan
+        path: results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json
+        format: json
+        schema_version: piu.formal-paired-test-plan.v1
+        state_field: status
+        success_values: [PROSPECTIVE_GROUP_COUNT_FROZEN]
+        terminal_values:
+          PILOT_HAS_NO_DISCORDANT_PAIRS: independent pilot has no effect signal for a paired design
+          PILOT_TOO_UNCERTAIN_FOR_CONSERVATIVE_DIRECTIONAL_PLAN: independent pilot cannot support a directional design
+          NO_PLAN_WITHIN_NUMERICAL_SEARCH_BOUND: main paired experiment has no plan within the frozen numerical bound
+
+  - id: S14_sealed_formal_freeze
+    title: Sealed initial states and immutable B0-B8 schedule
+    depends_on: [S13_development_baselines_and_paired_design]
+    claim_scope: SEALED_DESIGN_ONLY_NO_OUTCOME_ACCESS
+    artifacts:
+      - id: formal_split_manifest
+        path: data/piu/mainline_v1/formal_split_manifest.json
+        format: json
+        schema_version: piu.group-split-manifest.v1
+        expected:
+          required_roles: [sealed_test]
+      - id: formal_initial_state_manifest
+        path: data/piu/mainline_v1/formal_initial_states_v1.json
+        format: json
+        schema_version: piu.formal-initial-state-manifest.v1
+      - id: formal_execution_schedule
+        path: results/method/piu_fixed_drawer_formal_schedule_v1.json
+        format: json
+        schema_version: piu.formal-execution-schedule.v1
+
+  - id: S15_sealed_execution_and_analysis
+    title: Complete sealed outcomes, component evaluations, and paired analysis
+    depends_on: [S14_sealed_formal_freeze]
+    claim_scope: SEALED_EMPIRICAL_EVIDENCE
+    artifacts:
+      - id: complete_sealed_outcome_matrix
+        path: results/method/piu_fixed_drawer_sealed_outcomes_v1.jsonl
+        format: jsonl
+        schema_version: piu.formal-outcome.v1
+      - id: target_binding_sealed
+        path: results/method/piu_fixed_drawer_binder_sealed_v1.json
+        format: json
+        schema_version: piu.target-binder-sealed-evaluation.v1
+      - id: action_effect_sealed
+        path: results/method/piu_fixed_drawer_effect_sealed_v1.json
+        format: json
+        schema_version: piu.action-effect-sealed-evaluation.v1
+      - id: b6_oracle_effect_trace_results
+        path: results/method/piu_fixed_drawer_b6_oracle_effect_v1.jsonl
+        format: jsonl
+      - id: b7_oracle_binding_results
+        path: results/method/piu_fixed_drawer_b7_oracle_binding_v1.jsonl
+        format: jsonl
+      - id: sealed_full_loop_report
+        path: results/method/piu_fixed_drawer_sealed_v1.json
+        format: json
+        schema_version: piu.formal-analysis.v1
+
+  - id: S16_evidence_bound_paper_release
+    title: Regenerated evidence tables, figures, and public claim audit
+    depends_on: [S15_sealed_execution_and_analysis]
+    claim_scope: PAPER_RELEASE_BOUND_TO_VALIDATED_EVIDENCE
+    artifacts:
+      - id: paper_evidence_tables
+        path: paper/generated/piu_evidence_tables_v1.json
+        format: json
+        schema_version: piu.paper-evidence-tables.v1
+        expected:
+          artifacts.binding_development.status: AVAILABLE
+          artifacts.effect_development.status: AVAILABLE
+          artifacts.target_binding_sealed.status: AVAILABLE
+          artifacts.action_effect_sealed.status: AVAILABLE
+          artifacts.closed_loop_sealed.status: AVAILABLE
+      - id: public_claim_audit
+        path: results/diagnostics/piu_public_claim_audit_v1.json
+        format: json
+        schema_version: piu.public-claim-audit.v1
+        expected:
+          status: PASS
+          claim_boundary.missing_successor_evidence_imputed: false
+          claim_boundary.audit_is_performance_evidence: false

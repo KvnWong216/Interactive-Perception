@@ -60,6 +60,7 @@ target-binding method is claimed or rejected.
 - [Target-binding train/calibration pipeline](docs/piu_binding_pipeline.md)
 - [Action-effect and calibrated-control pipeline](docs/piu_action_effect_pipeline.md)
 - [Claim--evidence ledger](docs/claim_evidence_ledger.md)
+- [Machine-verifiable external experiment DAG](configs/experiments/piu_empirical_stage_dag_v1.yaml)
 - [Original-drawer method cycle and negative-result report](docs/original_drawer_experiment_report.md)
 - [Executed counterfactual effect-label policy](docs/executed_effect_dataset.md)
 - [Submission-shaped internal paper draft](paper/main.md)
@@ -148,7 +149,18 @@ python scripts/repro/check_piu_offline_pipeline.py \
 ```
 
 This command reports the external pi0.5/oracle/real-data gates as pending; it
-does not reinterpret software readiness as empirical readiness.
+does not reinterpret software readiness as empirical readiness. Inspect the
+first unblocked external work item with:
+
+```bash
+python scripts/repro/check_piu_empirical_dag.py
+```
+
+This validator follows every `{path, sha256}` reference, checks schemas and
+prospective group roles, distinguishes missing from invalid artifacts, and
+treats a valid negative causal/qualification result as a terminal scientific
+outcome rather than as a corrupt file. The flat external inventory is
+informational only; `empirical_ready` comes from this DAG.
 
 Regenerate a new version of the paper tables from admissible reports, or verify
 the retained v1 snapshot byte-for-byte:
@@ -272,14 +284,22 @@ python scripts/evaluation/plan_oracle_paired_test.py \
   --pilot results/method/original_drawer_oracle_prompt_pilot_v2.json \
   --output results/method/original_drawer_oracle_formal_plan_v1.json
 
+python scripts/data/build_piu_planned_split_manifest.py \
+  --purpose oracle_formal \
+  --plan results/method/original_drawer_oracle_formal_plan_v1.json \
+  --seed-start EXTERNALLY_RESERVED_SEED_START \
+  --group-prefix oracle-formal \
+  --exclude-split PATH/open_qualification_split.json \
+  --output data/piu/mainline_v1/oracle_formal_split_manifest.json
+
 python scripts/evaluation/build_oracle_formal_initial_states.py \
-  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --split-manifest data/piu/mainline_v1/oracle_formal_split_manifest.json \
   --state GROUP_1 PATH/state_1.npz --state GROUP_2 PATH/state_2.npz \
   --output data/piu/mainline_v1/oracle_formal_initial_states_v1.json
 
 python scripts/evaluation/build_oracle_formal_schedule.py \
   --formal-plan results/method/original_drawer_oracle_formal_plan_v1.json \
-  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --split-manifest data/piu/mainline_v1/oracle_formal_split_manifest.json \
   --initial-state-manifest data/piu/mainline_v1/oracle_formal_initial_states_v1.json \
   --open-certificate results/method/piu_open_primitive_certificate_v1.json \
   --output results/method/original_drawer_oracle_formal_schedule_v1.json
