@@ -30,6 +30,7 @@ shared_contract:
     PICK: 400
     PLACE: 400
   replanning_steps: 5
+  maximum_controller_decisions: 8
   episode_interaction_budget: report_actual_and_use_same_cap
   evaluator: piu_evaluator_sidecar_v1
   outcomes:

@@ -93,6 +93,14 @@ entries:
     rationale: Step counts cap rollout cost and are reported with budget saturation; they do not certify task completion.
     evidence: controller completion source and executed step counts are retained per report
 
+  - id: controller_decision_cap
+    location: configs/experiments/piu_baselines_v1.yaml:shared_contract.maximum_controller_decisions
+    value: 8 decisions per episode
+    provenance: safety_or_resource_budget
+    claim_use: safety_only
+    rationale: The cap bounds external execution cost equally across B0--B8 and is frozen before formal outcomes; it does not authorize an action or certify task completion.
+    evidence: public loops read the exact registry value, the oracle-effect replay rejects longer traces, and the sealed schedule retains the cap as a resource contract
+
   - id: local_gpu_cap
     location: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:resource_contract.local_gpu_memory_mib_max
     value: 1500 MiB
@@ -204,6 +212,14 @@ entries:
     claim_use: main_evaluator
     rationale: Method order is derived only from frozen artifact hashes and a declared namespace before outcome collection; it is retained to expose temporal/order effects and cannot select a favorable ordering from outcomes.
     evidence: formal-schedule tests reject pilot-group reuse and the matrix assembler requires the schedule hash, exact seeds, methods, and policy identity
+
+  - id: formal_one_shot_attempt_ledger
+    location: scripts/evaluation/begin_piu_formal_attempt.py and scripts/evaluation/close_piu_formal_attempt.py
+    value: one immutable ordered ticket and close receipt per scheduled B0--B8 cell
+    provenance: protocol_identifier
+    claim_use: main_evaluator
+    rationale: A sealed method/state cell cannot be launched out of order, redirected to another state/output path, or silently rerun after its result is observed.
+    evidence: every runtime entry point requires its exact ticket, every episode retains the ticket hash, and matrix assembly verifies the complete sequential close chain
 
   - id: formal_initial_state_cohort
     location: scripts/evaluation/build_piu_formal_initial_states.py

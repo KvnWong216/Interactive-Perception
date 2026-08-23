@@ -200,10 +200,21 @@ pre-outcome state manifest binds every group and simulator seed to one unique,
 finite numeric opaque NPZ state and its exact state key/hash. The simulator may
 load this transport state, but no policy method may read the privileged vector.
 The SHA-256-keyed, outcome-independent permutation freezes group order and the
-within-group B0--B8 order from the hashes of the plan, split, analysis config,
-and baseline registry. The schedule retains every simulator seed and the frozen
-policy identity. Formal matrix assembly requires the schedule hash and rejects
-missing, extra, differently seeded, or policy-drifted rows.
+within-group B0--B8 order from the hashes of the plan, split, exact state
+manifest, scenario config, analysis config, baseline registry, and offline
+release lock. The schedule retains every simulator seed and the frozen policy
+identity. The shared limit of eight controller decisions is a pre-outcome
+resource cap, not an action threshold or success rule. Formal matrix assembly
+requires the schedule hash and rejects missing, extra, differently seeded, or
+policy-drifted rows.
+
+Every sealed cell is launched through a single-use ordered ticket. The ticket
+binds its schedule index, method, source-state hash, seed, immutable output
+directory, and expected episode path. The next ticket cannot be issued until
+the preceding episode has an immutable close receipt, and every runtime B0--B8
+entry point rejects sealed execution without its exact ticket. Episodes and
+formal rows retain this chain, preventing post-outcome reruns or favorable
+selection among attempts.
 
 The sealed interpretation is not reduced to `p < 0.05`. The Holm family also
 contains B8 full-task and wrong-contact comparisons against B1 and B3, plus the

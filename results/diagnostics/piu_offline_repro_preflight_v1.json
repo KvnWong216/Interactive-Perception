@@ -2,7 +2,7 @@
   "schema_version": "piu.offline-repro-audit.v1",
   "manifest": {
     "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_offline_repro_v1.yaml",
-    "sha256": "c36ad898280dd363ce133522838be527cf18697b73b9040b999dbb660c55e13f"
+    "sha256": "58a44539472c6c3939eb003e5f5e42b1b171e979c9ccc277fa4d8f01fd41983c"
   },
   "mode": "CREATE_RELEASE_LOCK",
   "offline_ready": true,
@@ -13,8 +13,8 @@
   "offline_inventory": [
     {
       "path": "configs/experiments/method_provenance_v1.yaml",
-      "sha256": "fcbb35c5268dcc834f7d14dbfabd00015f80c4ba04cb1f5e9f78e4c66aa8a5cd",
-      "bytes": "33136"
+      "sha256": "dfbae1d93bad89f685820b84b10105528dac3e4ac20664426f7a174b514bec0e",
+      "bytes": "34354"
     },
     {
       "path": "configs/experiments/piu_action_effect_calibration_v1.yaml",
@@ -28,8 +28,8 @@
     },
     {
       "path": "configs/experiments/piu_baselines_v1.yaml",
-      "sha256": "f197de097eb527dcbf115289183efee8877d0cd8be75143f96634f0898d5f1c1",
-      "bytes": "6297"
+      "sha256": "0eec5728d71ddd7eea120e4d1160f204b408377d38119d3cf2a80aa8b3e60d7d",
+      "bytes": "6331"
     },
     {
       "path": "configs/experiments/piu_binding_adapter_v1.yaml",
@@ -53,13 +53,13 @@
     },
     {
       "path": "docs/claim_evidence_ledger.md",
-      "sha256": "26d0ac311ceb725d345952a350350c32da34d9117d10a754b4b2e58754333cca",
-      "bytes": "3678"
+      "sha256": "90cc72bb6f504be93992a70e824e6c272ad2b1d7c9eea05b46497bbcb07aeef6",
+      "bytes": "3755"
     },
     {
       "path": "docs/preregistration.md",
-      "sha256": "bbcb17eb90168df3f4f32fc354a1fd4edae6cce44994070d1c82904df0221c61",
-      "bytes": "12702"
+      "sha256": "56fcc22246751d4debbfeb6ed68ddc7c4d335a84913fc38d5ae2e1ad3ab2e494",
+      "bytes": "13370"
     },
     {
       "path": "scripts/calibration/calibrate_piu_action_effect.py",
@@ -138,8 +138,8 @@
     },
     {
       "path": "scripts/evaluation/aggregate_piu_closed_loop_episode.py",
-      "sha256": "cae8b79fa17267d436d2f06c33fe147cb8e34294e6dfc67a711b9d25f0ad8896",
-      "bytes": "11138"
+      "sha256": "16e3a9ca0624a29d0a6929f1b5bbb0447de31aa017e4b074848360d176cda869",
+      "bytes": "14110"
     },
     {
       "path": "scripts/evaluation/analyze_piu_formal_experiment.py",
@@ -148,8 +148,13 @@
     },
     {
       "path": "scripts/evaluation/assemble_piu_formal_outcomes.py",
-      "sha256": "a133dcf8a874118ed114e04dbd8dced9eb63de1188473e78ea08468523402bb1",
-      "bytes": "7427"
+      "sha256": "ca31be4a377f533b78760a0233c149ea4a9b3f9b645f0edecb654d365f1609d6",
+      "bytes": "9832"
+    },
+    {
+      "path": "scripts/evaluation/begin_piu_formal_attempt.py",
+      "sha256": "48c6bc9be7f5b9c4f79bcdf7d39b2857b34adb6def922418bb90bdcbef50fc17",
+      "bytes": "4581"
     },
     {
       "path": "scripts/evaluation/build_piu_formal_initial_states.py",
@@ -158,13 +163,18 @@
     },
     {
       "path": "scripts/evaluation/build_piu_formal_schedule.py",
-      "sha256": "41f7c515d7039e18cd20887f73efa61441ccd4983b9a1e7e847beb26c58488b0",
-      "bytes": "10655"
+      "sha256": "c5ea3f11f72d7b5f1bc459017ae51043cd05f0f01fb968c66679ef64b30446cc",
+      "bytes": "12231"
     },
     {
       "path": "scripts/evaluation/build_piu_qualified_executor_map.py",
       "sha256": "a8b6150d3d1114cb1b3fe75a3f2911d6ab5ca2748a4fdeff819b2436c873ae18",
       "bytes": "2483"
+    },
+    {
+      "path": "scripts/evaluation/close_piu_formal_attempt.py",
+      "sha256": "b3ada7daad129f84ebdf4d622abbb5681c1a5fbebcd35db8d52f52d4d362c7a6",
+      "bytes": "2811"
     },
     {
       "path": "scripts/evaluation/evaluate_piu_action_effect.py",
@@ -183,8 +193,8 @@
     },
     {
       "path": "scripts/evaluation/export_piu_formal_outcome.py",
-      "sha256": "becd1b7507fbf6aec1fd267e151c0ab5b6fe95073b5e25479093039296a1192b",
-      "bytes": "4611"
+      "sha256": "0cc7fc499405a742904121ce06d7693f9a5bbb82f2b2697d0429fd92471e1c25",
+      "bytes": "6039"
     },
     {
       "path": "scripts/evaluation/plan_piu_formal_paired_test.py",
@@ -208,13 +218,13 @@
     },
     {
       "path": "scripts/pipeline/replay_piu_oracle_effect_trace.py",
-      "sha256": "1b7231684404eedf706cd340d50b036792fe6e9ed5a62651c9ad32a0bf0e70d1",
-      "bytes": "14794"
+      "sha256": "d523b4e72dd670f4200f50f4fb51097ab77a8efef6dfc105e71289db420c1498",
+      "bytes": "16539"
     },
     {
       "path": "scripts/pipeline/run_piu_b0_direct.py",
-      "sha256": "12bd6a71e75bbdaad31042700f44c3be131953477423b9d35fed0535ea55c8ab",
-      "bytes": "6402"
+      "sha256": "ea680491aff545ca2e6a70099bb7c7064143d179087eb57ebfeafff12102e691",
+      "bytes": "8054"
     },
     {
       "path": "scripts/pipeline/run_piu_calibrated_controller.py",
@@ -223,8 +233,8 @@
     },
     {
       "path": "scripts/pipeline/run_piu_closed_loop.py",
-      "sha256": "655150eb01e8917233d4d4f75d9dc94d74fd58dd3b0df6867b7a26acee5238a0",
-      "bytes": "20577"
+      "sha256": "3451f811aa98c0d5326ab3ad329fac241c998a8f5dbda457c38cd85adcafc196",
+      "bytes": "23622"
     },
     {
       "path": "scripts/pipeline/run_piu_heuristic_v0_inference.py",
@@ -233,13 +243,13 @@
     },
     {
       "path": "scripts/pipeline/run_piu_heuristic_v0_once.py",
-      "sha256": "0e02cfee79fa4fb4db47fd82fb588d51e2141259c6e6ab31cc67c39ee43318fc",
-      "bytes": "13144"
+      "sha256": "51ba3b01663dd04fc4e8b03661e8f5096711d106cb32281ff2f126be5d900b48",
+      "bytes": "14570"
     },
     {
       "path": "scripts/pipeline/run_piu_oracle_binding_full_loop.py",
-      "sha256": "706d3b2cba34722dcbff17f55ffee7284a2daf2ec678751c55fcb427f33608f2",
-      "bytes": "11853"
+      "sha256": "14702601445d690ca73bb19bbd0e129ab58979963348a00261db8b417260adb1",
+      "bytes": "13323"
     },
     {
       "path": "scripts/pipeline/run_piu_oracle_effect_controller.py",
@@ -248,8 +258,8 @@
     },
     {
       "path": "scripts/pipeline/run_piu_prompted_vlm_closed_loop.py",
-      "sha256": "5b9ffa46e90e97555e30b0ae852b2a5aa63987da3c8cce1c8a9e3fa89b15ec57",
-      "bytes": "11824"
+      "sha256": "5b42b946ef1d2377b3d2dfcda66298b9152a5088522cdc27370e6fb8a61c7077",
+      "bytes": "14827"
     },
     {
       "path": "scripts/pipeline/run_piu_prompted_vlm_router.py",
@@ -337,6 +347,11 @@
       "bytes": "5410"
     },
     {
+      "path": "src/piu/formal_attempt.py",
+      "sha256": "382470c49cee5ea83b4ce5c4be4a3b6e5e9b8ce1db9994942039494815306765",
+      "bytes": "12542"
+    },
+    {
       "path": "src/piu/formal_design.py",
       "sha256": "a1c8bca638e251a6983aad9d2325ecdf45fbf89402ecd420505292ad163523b0",
       "bytes": "7518"
@@ -387,7 +402,7 @@
       "bytes": "7609"
     }
   ],
-  "offline_inventory_sha256": "d061e465fb0e63e22514da8f567c4feddf56f3e5460f5c1ae012317592ee026d",
+  "offline_inventory_sha256": "d325b3c230d57b90bcbfba91e181811ce741a93c8ae33c7d4682cda5ff87a022",
   "reference_inventory_match": null,
   "entrypoints": [
     {
@@ -527,6 +542,16 @@
     },
     {
       "path": "scripts/evaluation/build_piu_formal_initial_states.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/begin_piu_formal_attempt.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/close_piu_formal_attempt.py",
       "executable": true,
       "syntax_valid": true
     },

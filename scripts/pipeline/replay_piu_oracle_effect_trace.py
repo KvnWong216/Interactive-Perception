@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from piu.action_effect import load_effect_labels
 from piu.contracts import load_public_transitions, public_observation_sha256
+from piu.formal_attempt import artifact, validate_attempt_ticket
 from piu.oracle_effect import decide_oracle_effect
 from piu.policy_identity import load_checkpoint_identity, validate_server_metadata
 
@@ -101,19 +102,44 @@ def main() -> None:
         type=Path,
         default=ROOT / "configs/experiments/piu_baselines_v1.yaml",
     )
+    parser.add_argument(
+        "--scenario-config",
+        type=Path,
+        default=ROOT / "configs/scenarios/original_drawer.yaml",
+    )
     parser.add_argument("--sealed-authorization", type=Path)
+    parser.add_argument("--formal-attempt-ticket", type=Path)
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
     trace_path = resolve(args.trace_manifest)
     registry_path = resolve(args.baseline_registry)
+    scenario_path = resolve(args.scenario_config)
     output_dir = resolve(args.output_dir)
     authorization_path = (
-        None if args.sealed_authorization is None else resolve(args.sealed_authorization)
+        None
+        if args.sealed_authorization is None
+        else resolve(args.sealed_authorization)
+    )
+    ticket_path = (
+        None
+        if args.formal_attempt_ticket is None
+        else resolve(args.formal_attempt_ticket)
     )
     trace = json.loads(trace_path.read_text())
     registry = yaml.safe_load(registry_path.read_text())
     if registry.get("schema_version") != "piu.baseline-registry.v1":
         raise ValueError("unsupported oracle-effect baseline registry")
+    if not scenario_path.is_file():
+        raise FileNotFoundError(scenario_path)
+    maximum_decisions = registry["shared_contract"].get(
+        "maximum_controller_decisions"
+    )
+    if (
+        not isinstance(maximum_decisions, int)
+        or isinstance(maximum_decisions, bool)
+        or maximum_decisions <= 0
+    ):
+        raise ValueError("oracle-effect registry has an invalid decision cap")
     identity_path = resolve(
         Path(registry["shared_contract"]["checkpoint_identity"])
     )
@@ -128,11 +154,15 @@ def main() -> None:
     if split == "sealed_test":
         if authorization_path is None:
             raise ValueError("sealed oracle-effect trace requires authorization")
+        if ticket_path is None:
+            raise ValueError("sealed oracle-effect trace requires its ordered ticket")
         verify_authorization(
             authorization_path, trace=trace_path, output_dir=output_dir
         )
-    elif authorization_path is not None:
-        raise ValueError("development oracle-effect trace cannot use authorization")
+    elif authorization_path is not None or ticket_path is not None:
+        raise ValueError(
+            "development oracle-effect trace cannot use sealed authorization/ticket"
+        )
     group = " ".join(str(trace.get("initial_state_group", "")).split())
     if not group:
         raise ValueError("oracle-effect trace group is required")
@@ -140,10 +170,26 @@ def main() -> None:
     if not isinstance(simulator_seed, int) or isinstance(simulator_seed, bool):
         raise TypeError("oracle-effect trace requires an integer simulator seed")
     source_state = verified(dict(trace.get("source_state", {})), name="source state")
+    attempt = None
+    if ticket_path is not None:
+        validate_attempt_ticket(
+            ticket_path,
+            repository_root=ROOT,
+            method_id="B6",
+            initial_state_group=group,
+            simulator_seed=simulator_seed,
+            source_state=source_state,
+            output_dir=output_dir,
+            baseline_registry=registry_path,
+            scenario_config=scenario_path,
+        )
+        attempt = artifact(ticket_path, repository_root=ROOT)
     expected_state_sha256 = sha256(source_state)
     nodes = trace.get("nodes")
     if not isinstance(nodes, list) or not nodes:
         raise ValueError("oracle-effect trace requires an ordered nonempty node list")
+    if len(nodes) > maximum_decisions:
+        raise ValueError("oracle-effect trace exceeds the shared decision cap")
     decisions = []
     reports = []
     histories = []
@@ -166,7 +212,10 @@ def main() -> None:
         )
         sample_id = " ".join(str(specification.get("decision_sample_id", "")).split())
         decision_state = one_transition(transition_path, sample_id)
-        if decision_state.initial_state_group != group or decision_state.split.value != split:
+        if (
+            decision_state.initial_state_group != group
+            or decision_state.split.value != split
+        ):
             raise ValueError("oracle-effect node group/split differs from trace")
         decision_digest = public_observation_sha256(
             decision_state.observations["post_interaction"]
@@ -333,6 +382,7 @@ def main() -> None:
         },
         "outcomes": outcomes,
         "online_oracle_inputs": ["executed_candidate_effect_labels"],
+        "formal_attempt_ticket": attempt,
         "inputs": {
             "trace_manifest": {
                 "path": portable(trace_path),

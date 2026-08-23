@@ -44,8 +44,8 @@ B0--B5 and B8 share paired initial states, the identified frozen policy, action
 budgets, and evaluator. B6 oracle effect and B7 oracle target binding are
 separate upper-bound columns. The primary sealed comparison is B8 versus B0
 target grasp contact with an exact paired test. Named secondary comparisons form
-one Holm family. A complete-matrix validator prevents dropping failed, missing,
-timeout, or abstaining runs.
+one Holm family. A complete-matrix validator retains failed, timed-out, and
+abstaining runs and blocks analysis if any scheduled cell is missing.
 The Phase 9 main-test planner consumes paired B8/B0 development episodes,
 verifies the same opaque source state, simulator seed, and policy identity,
 reports effect/discordance/variance, and sizes a disjoint formal cohort at an
@@ -61,6 +61,17 @@ finite numeric opaque NPZ simulator state for every sealed group and bind it to
 the prospective seed. Those states are transport-only, never policy inputs.
 The sealed matrix is rejected unless every row matches that schedule's group,
 seed, method, split manifest, and policy identity.
+Formal execution is now one-shot and ordered at runtime. A started ticket binds
+one schedule index to its exact method, state, seed, immutable output directory,
+episode path, baseline registry, scenario config, policy identity, and offline
+release lock. Every B0--B8 execution entry point rejects a sealed run without
+that ticket; every episode, formal row, and close receipt retains the chain.
+Later tickets remain blocked until the preceding episode closes, and a closed
+ticket cannot be replayed. Capture-time NPZ reserialization is checked by exact
+numeric state equality while the original scheduled byte hash remains the
+formal paired-state identity. The shared cap of eight controller decisions is
+now frozen in the baseline registry and schedule as a resource budget, not a
+learned or hand-tuned decision threshold.
 The B1 prompted-VLM baseline now has a public-only external-service protocol:
 the exact service identity and canonical request are hash-bound, the response
 may contain only one candidate ID, and a hallucinated ID becomes ABSTAIN with
@@ -116,4 +127,6 @@ simulator work is prohibited by the 1500 MiB GPU cap. The offline pipeline does
 not bypass the causal oracle gate or fabricate those missing outcomes.
 Consequently no real B8/B0 development pilot, conservative formal group count,
 formal initial-state cohort, or sealed execution schedule exists yet; Phase 9
-and the Phase 10 cohort freeze are software-ready only.
+and the Phase 10 cohort/one-shot execution freeze are software-ready only. The
+current CPU-only repository suite passes 210 tests; observed GPU use remains
+590 MiB, below the 1500 MiB cap.

@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from piu.contracts import load_public_transitions, public_observation_sha256
+from piu.formal_attempt import artifact, validate_attempt_ticket
 from piu.policy_identity import load_checkpoint_identity, validate_server_metadata
 
 FROZEN_COMMIT = "e7db12b7f35d9be416fc3ed57d36b12560e40cf0"
@@ -89,10 +90,19 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=8002)
     parser.add_argument("--server-timeout", type=float, default=30.0)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--formal-attempt-ticket", type=Path)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    for name in ("attestation", "scenario_config", "baseline_registry", "output_dir"):
-        setattr(args, name, resolve(getattr(args, name)))
+    for name in (
+        "attestation",
+        "scenario_config",
+        "baseline_registry",
+        "output_dir",
+        "formal_attempt_ticket",
+    ):
+        value = getattr(args, name)
+        if value is not None:
+            setattr(args, name, resolve(value))
     if args.server_timeout <= 0:
         raise ValueError("server-timeout must be positive")
     attestation = json.loads(args.attestation.read_text())
@@ -145,6 +155,26 @@ def main() -> None:
     capture_source = capture.get("source_state", {})
     if capture_source.get("sha256") != sha256(source_path):
         raise ValueError("B2 inference source state differs from initial capture")
+    attempt = None
+    if args.formal_attempt_ticket is not None:
+        if args.dry_run:
+            raise ValueError("B2 dry-run cannot consume a formal attempt ticket")
+        if transition.split.value != "sealed_test":
+            raise ValueError("development B2 cannot consume a formal attempt ticket")
+        validate_attempt_ticket(
+            args.formal_attempt_ticket,
+            repository_root=ROOT,
+            method_id="B2",
+            initial_state_group=transition.initial_state_group,
+            simulator_seed=args.seed,
+            source_state=source_path,
+            output_dir=args.output_dir,
+            baseline_registry=args.baseline_registry,
+            scenario_config=args.scenario_config,
+        )
+        attempt = artifact(args.formal_attempt_ticket, repository_root=ROOT)
+    elif transition.split.value == "sealed_test" and not args.dry_run:
+        raise ValueError("sealed B2 execution requires its ordered attempt ticket")
     report_path = verified_artifact(
         attestation["inference_report"], name="inference report"
     )
@@ -247,6 +277,9 @@ def main() -> None:
                     "command": command,
                     "one_step_baseline": True,
                     "local_models_loaded": False,
+                    "formal_attempt_ticket_required_for_execution": (
+                        transition.split.value == "sealed_test"
+                    ),
                 },
                 indent=2,
             )
@@ -310,6 +343,7 @@ def main() -> None:
         },
         "outcomes": outcomes,
         "online_oracle_inputs": [],
+        "formal_attempt_ticket": attempt,
         "inputs": {
             "inference_attestation": {
                 "path": portable(args.attestation),

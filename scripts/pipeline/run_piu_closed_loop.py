@@ -10,7 +10,13 @@ import subprocess
 import sys
 from pathlib import Path
 
+import yaml
+
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+
+from piu.formal_attempt import artifact as formal_artifact
+from piu.formal_attempt import validate_attempt_ticket
 
 
 def sha256(path: Path) -> str:
@@ -76,6 +82,7 @@ def load_qualifications(path: Path | None) -> dict[str, Path]:
 def command_paths(args: argparse.Namespace) -> dict[str, Path]:
     names = (
         "scenario_config",
+        "baseline_registry",
         "candidate_set",
         "binder_checkpoint",
         "binder_training_report",
@@ -85,6 +92,7 @@ def command_paths(args: argparse.Namespace) -> dict[str, Path]:
         "effect_calibration",
         "qualification_map",
         "initial_state",
+        "formal_attempt_ticket",
         "output_dir",
     )
     result = {}
@@ -275,6 +283,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--method-id", choices=("B3", "B4", "B5", "B8"), default="B8")
     parser.add_argument("--scenario-config", type=Path, required=True)
+    parser.add_argument(
+        "--baseline-registry",
+        type=Path,
+        default=ROOT / "configs/experiments/piu_baselines_v1.yaml",
+    )
     parser.add_argument("--candidate-set", type=Path, required=True)
     parser.add_argument("--initial-sample-id", required=True)
     parser.add_argument("--seed", type=int, required=True)
@@ -289,15 +302,15 @@ def main() -> None:
     parser.add_argument("--qualification-map", type=Path)
     parser.add_argument("--host", required=True)
     parser.add_argument("--port", type=int, default=8002)
-    parser.add_argument("--maximum-decisions", type=int, default=8)
+    parser.add_argument("--maximum-decisions", type=int)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--formal-attempt-ticket", type=Path)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    if args.maximum_decisions < 1:
-        raise ValueError("maximum decisions must be positive")
     paths = command_paths(args)
     for name in (
         "scenario_config",
+        "baseline_registry",
         "candidate_set",
         "binder_checkpoint",
         "binder_training_report",
@@ -306,6 +319,22 @@ def main() -> None:
     ):
         if not paths[name].is_file():
             raise FileNotFoundError(paths[name])
+    registry = yaml.safe_load(paths["baseline_registry"].read_text())
+    if registry.get("schema_version") != "piu.baseline-registry.v1":
+        raise ValueError("unsupported PIU baseline registry")
+    frozen_decisions = registry["shared_contract"].get(
+        "maximum_controller_decisions"
+    )
+    if (
+        not isinstance(frozen_decisions, int)
+        or isinstance(frozen_decisions, bool)
+        or frozen_decisions <= 0
+    ):
+        raise ValueError("baseline registry has an invalid controller decision cap")
+    if args.maximum_decisions is None:
+        args.maximum_decisions = frozen_decisions
+    if args.maximum_decisions != frozen_decisions:
+        raise ValueError("closed-loop decision cap differs from baseline registry")
     if args.method_id in {"B5", "B8"}:
         for name in ("binder_calibration", "effect_calibration"):
             if name not in paths or not paths[name].is_file():
@@ -319,6 +348,30 @@ def main() -> None:
         )
     qualifications = load_qualifications(paths.get("qualification_map"))
     output_dir = paths["output_dir"]
+    attempt = None
+    if "formal_attempt_ticket" in paths:
+        if args.dry_run:
+            raise ValueError("dry-run cannot consume a started formal attempt ticket")
+        if split != "sealed_test" or "initial_state" not in paths:
+            raise ValueError(
+                "formal attempt tickets require sealed_test and an exact initial state"
+            )
+        validate_attempt_ticket(
+            paths["formal_attempt_ticket"],
+            repository_root=ROOT,
+            method_id=args.method_id,
+            initial_state_group=group,
+            simulator_seed=args.seed,
+            source_state=paths["initial_state"],
+            output_dir=output_dir,
+            baseline_registry=paths["baseline_registry"],
+            scenario_config=paths["scenario_config"],
+        )
+        attempt = formal_artifact(
+            paths["formal_attempt_ticket"], repository_root=ROOT
+        )
+    elif split == "sealed_test" and not args.dry_run:
+        raise ValueError("sealed closed-loop execution requires its ordered ticket")
     first_step = output_dir / "step000"
     capture = initial_capture_command(args=args, paths=paths, step_dir=first_step)
     dry_commands, _ = inference_commands(
@@ -348,6 +401,9 @@ def main() -> None:
                     ),
                     "execution_ready": set(physical_candidate_ids)
                     <= set(qualifications),
+                    "formal_attempt_ticket_required_for_execution": (
+                        split == "sealed_test"
+                    ),
                     "continuation": (
                         "controller decision selects a hash-verified certificate; "
                         "physical dispatch is reobserved and replanned"
@@ -368,8 +424,9 @@ def main() -> None:
     output_dir.mkdir(parents=True)
     run(capture)
     transition = first_step / "capture/public_transition.jsonl"
-    source_state = first_step / "capture/initial_state.npz"
-    current_state = source_state
+    execution_initial_state = first_step / "capture/initial_state.npz"
+    source_state = paths.get("initial_state", execution_initial_state)
+    current_state = execution_initial_state
     previous_memory = None
     receipts = []
     status = "TIMEOUT"
@@ -497,7 +554,8 @@ def main() -> None:
         if kind in {"EXECUTE", "INTERACT"}:
             if candidate_id not in qualifications:
                 raise ValueError(
-                    f"selected physical candidate {candidate_id!r} has no frozen qualification"
+                    "selected physical candidate "
+                    f"{candidate_id!r} has no frozen qualification"
                 )
             dispatch.extend(
                 ["--primitive-qualification", str(qualifications[candidate_id])]
@@ -536,15 +594,30 @@ def main() -> None:
         "simulator_seed": args.seed,
         "split": split,
         "rollout_status": status,
+        "baseline_registry": {
+            "path": portable(paths["baseline_registry"]),
+            "sha256": sha256(paths["baseline_registry"]),
+        },
+        "scenario_config": {
+            "path": portable(paths["scenario_config"]),
+            "sha256": sha256(paths["scenario_config"]),
+        },
         "source_state": {
             "path": portable(source_state),
             "sha256": sha256(source_state),
+            "state_key": args.state_key if "initial_state" in paths else "state",
+        },
+        "execution_initial_state": {
+            "path": portable(execution_initial_state),
+            "sha256": sha256(execution_initial_state),
+            "state_key": "state",
         },
         "dispatch_receipts": receipts,
         "maximum_decisions": args.maximum_decisions,
         "external_pi05": f"{args.host}:{args.port}",
         "local_pi05_loaded": False,
         "paper_method_claim_allowed": False,
+        "formal_attempt_ticket": attempt,
     }
     manifest_path = output_dir / "closed_loop_manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")

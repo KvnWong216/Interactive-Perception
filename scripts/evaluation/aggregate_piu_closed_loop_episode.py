@@ -10,11 +10,13 @@ import sys
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
+from piu.formal_attempt import artifact, validate_attempt_ticket
 from piu.policy_identity import load_checkpoint_identity, validate_server_metadata
 
 
@@ -40,6 +42,19 @@ def verified_artifact(value: dict[str, Any], *, name: str) -> Path:
     return path
 
 
+def same_opaque_state(
+    left_path: Path,
+    left_key: str,
+    right_path: Path,
+    right_key: str,
+) -> bool:
+    with np.load(left_path, allow_pickle=False) as left_store:
+        left = np.asarray(left_store[left_key])
+    with np.load(right_path, allow_pickle=False) as right_store:
+        right = np.asarray(right_store[right_key])
+    return left.shape == right.shape and np.array_equal(left, right)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", type=Path, required=True)
@@ -60,12 +75,31 @@ def main() -> None:
     registry = yaml.safe_load(registry_path.read_text())
     if registry.get("schema_version") != "piu.baseline-registry.v1":
         raise ValueError("unsupported closed-loop baseline registry")
+    maximum_decisions = registry["shared_contract"].get(
+        "maximum_controller_decisions"
+    )
+    if (
+        not isinstance(maximum_decisions, int)
+        or isinstance(maximum_decisions, bool)
+        or maximum_decisions <= 0
+    ):
+        raise ValueError("closed-loop registry has an invalid decision cap")
     identity_path = resolve(
         Path(registry["shared_contract"]["checkpoint_identity"])
     )
     identity = load_checkpoint_identity(identity_path)
     if manifest.get("schema_version") != "piu.closed-loop-run-manifest.v1":
         raise ValueError("unsupported closed-loop run manifest")
+    if manifest.get("maximum_decisions") != maximum_decisions:
+        raise ValueError("closed-loop manifest differs from the shared decision cap")
+    manifest_registry = verified_artifact(
+        dict(manifest.get("baseline_registry", {})), name="baseline registry"
+    )
+    if sha256(manifest_registry) != sha256(registry_path):
+        raise ValueError("closed-loop manifest used another baseline registry")
+    scenario_path = verified_artifact(
+        dict(manifest.get("scenario_config", {})), name="scenario config"
+    )
     method_id = str(manifest.get("method_id", ""))
     group = " ".join(str(manifest.get("initial_state_group", "")).split())
     if method_id not in {"B1", "B3", "B4", "B5", "B8"} or not group:
@@ -80,10 +114,47 @@ def main() -> None:
         raise TypeError("closed-loop manifest requires an integer simulator seed")
     source_state = dict(manifest.get("source_state", {}))
     source_path = verified_artifact(source_state, name="source state")
-    expected_state_hash = sha256(source_path)
+    execution_initial = dict(manifest.get("execution_initial_state", {}))
+    execution_initial_path = verified_artifact(
+        execution_initial, name="execution initial state"
+    )
+    if not same_opaque_state(
+        source_path,
+        str(source_state.get("state_key", "state")),
+        execution_initial_path,
+        str(execution_initial.get("state_key", "state")),
+    ):
+        raise ValueError("capture working state differs from scheduled source state")
+    attempt = None
+    attempt_value = manifest.get("formal_attempt_ticket")
+    if split == "sealed_test":
+        if not isinstance(attempt_value, dict):
+            raise TypeError(
+                "sealed closed-loop manifest lacks its formal attempt ticket"
+            )
+        ticket_path = verified_artifact(attempt_value, name="formal attempt ticket")
+        validate_attempt_ticket(
+            ticket_path,
+            repository_root=ROOT,
+            method_id=method_id,
+            initial_state_group=group,
+            simulator_seed=simulator_seed,
+            source_state=source_path,
+            output_dir=output.parent,
+            baseline_registry=manifest_registry,
+            scenario_config=scenario_path,
+        )
+        attempt = artifact(ticket_path, repository_root=ROOT)
+    elif attempt_value is not None:
+        raise ValueError("development episode cannot consume a formal attempt ticket")
+    expected_state_hash = sha256(execution_initial_path)
     receipt_specs = manifest.get("dispatch_receipts")
     if not isinstance(receipt_specs, list) or not receipt_specs:
         raise ValueError("closed-loop manifest requires a nonempty dispatch sequence")
+    if len(receipt_specs) > maximum_decisions:
+        raise ValueError(
+            "closed-loop dispatch sequence exceeds the shared decision cap"
+        )
     physical_reports = []
     history_rows = []
     decision_kinds = []
@@ -245,6 +316,7 @@ def main() -> None:
             ),
         },
         "online_oracle_inputs": [],
+        "formal_attempt_ticket": attempt,
         "inputs": {
             "manifest": {
                 "path": portable(manifest_path),

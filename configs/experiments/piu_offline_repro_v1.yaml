@@ -38,6 +38,7 @@ required_files:
   - src/piu/policy_identity.py
   - src/piu/formal_design.py
   - src/piu/formal_states.py
+  - src/piu/formal_attempt.py
   - src/piu/reproducibility.py
   - src/calibrated_interaction/paired_power.py
   - scripts/data/export_piu_binding_labels.py
@@ -66,6 +67,8 @@ required_files:
   - scripts/evaluation/plan_piu_formal_paired_test.py
   - scripts/evaluation/build_piu_formal_schedule.py
   - scripts/evaluation/build_piu_formal_initial_states.py
+  - scripts/evaluation/begin_piu_formal_attempt.py
+  - scripts/evaluation/close_piu_formal_attempt.py
   - scripts/repro/check_piu_offline_pipeline.py
   - scripts/evaluation/evaluate_piu_primitive_qualification.py
   - scripts/evaluation/plan_piu_primitive_qualification.py
@@ -115,6 +118,8 @@ python_entrypoints:
   - scripts/evaluation/plan_piu_formal_paired_test.py
   - scripts/evaluation/build_piu_formal_schedule.py
   - scripts/evaluation/build_piu_formal_initial_states.py
+  - scripts/evaluation/begin_piu_formal_attempt.py
+  - scripts/evaluation/close_piu_formal_attempt.py
   - scripts/repro/check_piu_offline_pipeline.py
   - scripts/evaluation/evaluate_piu_primitive_qualification.py
   - scripts/evaluation/plan_piu_primitive_qualification.py

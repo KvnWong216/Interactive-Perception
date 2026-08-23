@@ -10,7 +10,13 @@ import subprocess
 import sys
 from pathlib import Path
 
+import yaml
+
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+
+from piu.formal_attempt import artifact as formal_artifact
+from piu.formal_attempt import validate_attempt_ticket
 
 
 def sha256(path: Path) -> str:
@@ -127,6 +133,11 @@ def router_command(
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scenario-config", type=Path, required=True)
+    parser.add_argument(
+        "--baseline-registry",
+        type=Path,
+        default=ROOT / "configs/experiments/piu_baselines_v1.yaml",
+    )
     parser.add_argument("--candidate-set", type=Path, required=True)
     parser.add_argument("--initial-sample-id", required=True)
     parser.add_argument("--seed", type=int, required=True)
@@ -139,26 +150,50 @@ def main() -> None:
     parser.add_argument("--pi05-host", required=True)
     parser.add_argument("--pi05-port", type=int, default=8002)
     parser.add_argument("--qualification-map", type=Path)
-    parser.add_argument("--maximum-decisions", type=int, default=8)
+    parser.add_argument("--maximum-decisions", type=int)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--formal-attempt-ticket", type=Path)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     for name in (
         "scenario_config",
+        "baseline_registry",
         "candidate_set",
         "initial_state",
         "router_identity",
         "qualification_map",
+        "formal_attempt_ticket",
         "output_dir",
     ):
         value = getattr(args, name)
         if value is not None:
             setattr(args, name, resolve(value))
-    if args.maximum_decisions < 1 or args.router_timeout <= 0:
-        raise ValueError("B1 decision budget and router timeout must be positive")
-    for path in (args.scenario_config, args.candidate_set, args.router_identity):
+    if args.router_timeout <= 0:
+        raise ValueError("B1 router timeout must be positive")
+    for path in (
+        args.scenario_config,
+        args.baseline_registry,
+        args.candidate_set,
+        args.router_identity,
+    ):
         if not path.is_file():
             raise FileNotFoundError(path)
+    registry = yaml.safe_load(args.baseline_registry.read_text())
+    if registry.get("schema_version") != "piu.baseline-registry.v1":
+        raise ValueError("unsupported B1 baseline registry")
+    frozen_decisions = registry["shared_contract"].get(
+        "maximum_controller_decisions"
+    )
+    if (
+        not isinstance(frozen_decisions, int)
+        or isinstance(frozen_decisions, bool)
+        or frozen_decisions <= 0
+    ):
+        raise ValueError("B1 registry has an invalid controller decision cap")
+    if args.maximum_decisions is None:
+        args.maximum_decisions = frozen_decisions
+    if args.maximum_decisions != frozen_decisions:
+        raise ValueError("B1 decision cap differs from baseline registry")
     group, split, physical = candidate_identity(
         args.candidate_set, args.initial_sample_id
     )
@@ -174,6 +209,28 @@ def main() -> None:
         output=first_controller,
     )
     missing = sorted(set(physical) - set(qualified))
+    attempt = None
+    if args.formal_attempt_ticket is not None:
+        if args.dry_run:
+            raise ValueError("B1 dry-run cannot consume a formal attempt ticket")
+        if split != "sealed_test" or args.initial_state is None:
+            raise ValueError(
+                "B1 formal ticket requires sealed_test and an exact initial state"
+            )
+        validate_attempt_ticket(
+            args.formal_attempt_ticket,
+            repository_root=ROOT,
+            method_id="B1",
+            initial_state_group=group,
+            simulator_seed=args.seed,
+            source_state=args.initial_state,
+            output_dir=args.output_dir,
+            baseline_registry=args.baseline_registry,
+            scenario_config=args.scenario_config,
+        )
+        attempt = formal_artifact(args.formal_attempt_ticket, repository_root=ROOT)
+    elif split == "sealed_test" and not args.dry_run:
+        raise ValueError("sealed B1 execution requires its ordered attempt ticket")
     if args.dry_run:
         print(
             json.dumps(
@@ -188,6 +245,9 @@ def main() -> None:
                     "first_decision_commands": [capture, first_router],
                     "unqualified_physical_candidate_ids": missing,
                     "execution_ready": not missing,
+                    "formal_attempt_ticket_required_for_execution": (
+                        split == "sealed_test"
+                    ),
                 },
                 indent=2,
             )
@@ -201,7 +261,8 @@ def main() -> None:
     run(capture)
     transition = first_transition
     current_state = args.output_dir / "step000/capture/initial_state.npz"
-    source_state = current_state
+    execution_initial_state = current_state
+    source_state = args.initial_state or execution_initial_state
     receipts = []
     status = "TIMEOUT"
     for step in range(args.maximum_decisions):
@@ -301,9 +362,23 @@ def main() -> None:
         "simulator_seed": args.seed,
         "split": split,
         "rollout_status": status,
+        "baseline_registry": {
+            "path": portable(args.baseline_registry),
+            "sha256": sha256(args.baseline_registry),
+        },
+        "scenario_config": {
+            "path": portable(args.scenario_config),
+            "sha256": sha256(args.scenario_config),
+        },
         "source_state": {
             "path": portable(source_state),
             "sha256": sha256(source_state),
+            "state_key": args.state_key if args.initial_state is not None else "state",
+        },
+        "execution_initial_state": {
+            "path": portable(execution_initial_state),
+            "sha256": sha256(execution_initial_state),
+            "state_key": "state",
         },
         "dispatch_receipts": receipts,
         "maximum_decisions": args.maximum_decisions,
@@ -315,6 +390,7 @@ def main() -> None:
         },
         "local_pi05_loaded": False,
         "paper_method_claim_allowed": False,
+        "formal_attempt_ticket": attempt,
     }
     manifest_path = args.output_dir / "closed_loop_manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")

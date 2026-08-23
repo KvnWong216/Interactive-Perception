@@ -6,6 +6,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import numpy as np
 import pytest
 import yaml
 
@@ -20,6 +21,10 @@ from piu.statistics import (
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs/experiments/piu_formal_analysis_v1.yaml"
+
+
+def _artifact(path: Path) -> dict[str, str]:
+    return {"path": str(path), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
 
 
 def test_exact_paired_test_reproduces_eight_one_sided_discordances() -> None:
@@ -155,87 +160,10 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
     tmp_path: Path,
 ) -> None:
     source = tmp_path / "state.npz"
-    source.write_bytes(b"same state")
+    np.savez_compressed(source, state=np.asarray([1.0], dtype=np.float64))
     history = tmp_path / "history.json"
     history.write_text("[]\n")
     identity = ROOT / "results/diagnostics/pi05_libero_checkpoint_identity_v1.json"
-    row_paths = []
-    for index in range(9):
-        method = f"B{index}"
-        episode_path = tmp_path / f"{method}_episode.json"
-        episode_path.write_text(
-            json.dumps(
-                {
-                    "schema_version": "piu.closed-loop-episode.v1",
-                    "method_id": method,
-                    "initial_state_group": "sealed_group",
-                    "simulator_seed": 17,
-                    "split": "sealed_test",
-                    "evidence_class": (
-                        "oracle_upper_bound"
-                        if method in {"B6", "B7"}
-                        else "public_method"
-                    ),
-                    "rollout_status": "COMPLETE",
-                    "source_state": {
-                        "path": str(source),
-                        "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
-                    },
-                    "public_action_history": {
-                        "path": str(history),
-                        "sha256": hashlib.sha256(history.read_bytes()).hexdigest(),
-                    },
-                    "policy_identity": {
-                        "path": str(identity),
-                        "sha256": hashlib.sha256(identity.read_bytes()).hexdigest(),
-                    },
-                    "outcomes": _row("sealed_group", method, index == 8)["outcomes"],
-                    "online_oracle_inputs": (
-                        ["evaluator upper bound"] if method in {"B6", "B7"} else []
-                    ),
-                }
-            )
-        )
-        row_path = tmp_path / f"{method}.jsonl"
-        authorization = tmp_path / f"{method}_authorization.json"
-        authorization.write_text(
-            json.dumps(
-                {
-                    "schema_version": "piu.formal-row-sealed-authorization.v1",
-                    "episode_sha256": hashlib.sha256(
-                        episode_path.read_bytes()
-                    ).hexdigest(),
-                    "source_state_sha256": hashlib.sha256(
-                        source.read_bytes()
-                    ).hexdigest(),
-                    "action_history_sha256": hashlib.sha256(
-                        history.read_bytes()
-                    ).hexdigest(),
-                    "policy_identity_sha256": hashlib.sha256(
-                        identity.read_bytes()
-                    ).hexdigest(),
-                    "method_id": method,
-                    "single_use_output": str(row_path),
-                }
-            )
-        )
-        subprocess.run(
-            [
-                sys.executable,
-                str(ROOT / "scripts/evaluation/export_piu_formal_outcome.py"),
-                "--episode",
-                str(episode_path),
-                "--sealed-authorization",
-                str(authorization),
-                "--output",
-                str(row_path),
-            ],
-            cwd=ROOT,
-            check=True,
-            capture_output=True,
-            text=True,
-        )
-        row_paths.append(row_path)
     split_manifest = tmp_path / "splits.yaml"
     roles = (
         "train",
@@ -266,6 +194,9 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
     )
     matrix = tmp_path / "matrix.jsonl"
     formal_schedule = tmp_path / "formal_schedule.json"
+    repro_lock = ROOT / "results/diagnostics/piu_offline_repro_preflight_v1.json"
+    baseline_registry = ROOT / "configs/experiments/piu_baselines_v1.yaml"
+    scenario_config = ROOT / "configs/scenarios/original_drawer.yaml"
     formal_schedule.write_text(
         json.dumps(
             {
@@ -273,6 +204,15 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
                 "status": "FROZEN_BEFORE_FORMAL_OUTCOME_COLLECTION",
                 "outcomes_loaded": False,
                 "inputs": {
+                    "offline_repro_lock": {
+                        **_artifact(repro_lock),
+                        "manifest_sha256": hashlib.sha256(
+                            (
+                                ROOT
+                                / "configs/experiments/piu_offline_repro_v1.yaml"
+                            ).read_bytes()
+                        ).hexdigest(),
+                    },
                     "split_manifest": {
                         "path": str(split_manifest),
                         "sha256": hashlib.sha256(
@@ -283,6 +223,14 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
                         "path": str(identity),
                         "sha256": hashlib.sha256(identity.read_bytes()).hexdigest(),
                     },
+                    "baseline_registry": _artifact(baseline_registry),
+                    "scenario_config": _artifact(scenario_config),
+                },
+                "shared_execution_contract": {
+                    "maximum_controller_decisions": 8,
+                    "interpretation": (
+                        "resource_cap_not_learned_decision_threshold"
+                    ),
                 },
                 "entries": [
                     {
@@ -290,18 +238,123 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
                         "initial_state_group": "sealed_group",
                         "simulator_seed": 17,
                         "method_id": f"B{index}",
-                        "source_state": {
-                            "path": str(source),
-                            "sha256": hashlib.sha256(
-                                source.read_bytes()
-                            ).hexdigest(),
-                        },
+                        "state_key": "state",
+                        "source_state": _artifact(source),
                     }
                     for index in range(9)
                 ],
             }
         )
     )
+    ledger = tmp_path / "ledger"
+    row_paths = []
+    for index in range(9):
+        method = f"B{index}"
+        run_dir = tmp_path / f"{method}_run"
+        subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts/evaluation/begin_piu_formal_attempt.py"),
+                "--schedule",
+                str(formal_schedule),
+                "--ledger-dir",
+                str(ledger),
+                "--run-output-dir",
+                str(run_dir),
+            ],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        ticket = ledger / f"{index:05d}.started.json"
+        run_dir.mkdir()
+        episode_path = run_dir / "episode.json"
+        episode_path.write_text(
+            json.dumps(
+                {
+                    "schema_version": "piu.closed-loop-episode.v1",
+                    "method_id": method,
+                    "initial_state_group": "sealed_group",
+                    "simulator_seed": 17,
+                    "split": "sealed_test",
+                    "evidence_class": (
+                        "oracle_upper_bound"
+                        if method in {"B6", "B7"}
+                        else "public_method"
+                    ),
+                    "rollout_status": "COMPLETE",
+                    "source_state": _artifact(source),
+                    "public_action_history": _artifact(history),
+                    "policy_identity": _artifact(identity),
+                    "outcomes": _row("sealed_group", method, index == 8)["outcomes"],
+                    "online_oracle_inputs": (
+                        ["evaluator upper bound"] if method in {"B6", "B7"} else []
+                    ),
+                    "formal_attempt_ticket": _artifact(ticket),
+                }
+            )
+        )
+        subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts/evaluation/close_piu_formal_attempt.py"),
+                "--ticket",
+                str(ticket),
+                "--episode",
+                str(episode_path),
+            ],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        close = ledger / f"{index:05d}.closed.json"
+        row_path = tmp_path / f"{method}.jsonl"
+        authorization = tmp_path / f"{method}_authorization.json"
+        authorization.write_text(
+            json.dumps(
+                {
+                    "schema_version": "piu.formal-row-sealed-authorization.v1",
+                    "episode_sha256": hashlib.sha256(
+                        episode_path.read_bytes()
+                    ).hexdigest(),
+                    "source_state_sha256": hashlib.sha256(
+                        source.read_bytes()
+                    ).hexdigest(),
+                    "action_history_sha256": hashlib.sha256(
+                        history.read_bytes()
+                    ).hexdigest(),
+                    "policy_identity_sha256": hashlib.sha256(
+                        identity.read_bytes()
+                    ).hexdigest(),
+                    "method_id": method,
+                    "formal_attempt_close_sha256": hashlib.sha256(
+                        close.read_bytes()
+                    ).hexdigest(),
+                    "single_use_output": str(row_path),
+                }
+            )
+        )
+        subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts/evaluation/export_piu_formal_outcome.py"),
+                "--episode",
+                str(episode_path),
+                "--formal-attempt-close",
+                str(close),
+                "--sealed-authorization",
+                str(authorization),
+                "--output",
+                str(row_path),
+            ],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        row_paths.append(row_path)
     wrong_schedule = tmp_path / "wrong_formal_schedule.json"
     wrong_value = json.loads(formal_schedule.read_text())
     wrong_value["entries"][0]["source_state"]["sha256"] = "f" * 64
@@ -347,7 +400,7 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
         text=True,
     )
     assert rejected.returncode != 0
-    assert "scheduled opaque source states" in rejected.stderr
+    assert "formal schedule source state differs" in rejected.stderr
     matrix_authorization = tmp_path / "matrix_authorization.json"
     matrix_authorization.write_text(
         json.dumps(

@@ -19,7 +19,9 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def _capture(tmp_path: Path) -> tuple[Path, Path, dict]:
+def _capture(
+    tmp_path: Path, *, split: str = "sealed_test"
+) -> tuple[Path, Path, dict]:
     images = {}
     for camera, value in (("agentview", 17), ("wrist", 23)):
         path = tmp_path / f"{camera}.png"
@@ -38,7 +40,7 @@ def _capture(tmp_path: Path) -> tuple[Path, Path, dict]:
                 "schema_version": "piu.public-transition.v1",
                 "sample_id": "sample",
                 "initial_state_group": "group",
-                "split": "sealed_test",
+                "split": split,
                 "prompt": "Place the butter in the basket",
                 "observations": {
                     "pre_interaction": observation,
@@ -204,7 +206,7 @@ def test_frozen_v0_inference_plan_uses_exact_tag_worktree(tmp_path: Path) -> Non
 
 
 def test_b2_adapter_executes_only_one_shared_physical_option(tmp_path: Path) -> None:
-    capture, state, observation = _capture(tmp_path)
+    capture, state, observation = _capture(tmp_path, split="development")
     attestation = _attestation(
         tmp_path,
         capture=capture,
@@ -243,7 +245,7 @@ def test_b2_adapter_executes_only_one_shared_physical_option(tmp_path: Path) -> 
 def test_b2_adapter_abstains_on_a_legacy_option_outside_shared_budget(
     tmp_path: Path,
 ) -> None:
-    capture, state, observation = _capture(tmp_path)
+    capture, state, observation = _capture(tmp_path, split="development")
     attestation = _attestation(
         tmp_path,
         capture=capture,

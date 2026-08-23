@@ -72,3 +72,9 @@ New non-performance artifacts:
   validate the calculation only and are not empirical estimates or a planned
   real sample size. No formal count is frozen until real development episodes
   pass the same provenance checks.
+- Formal sealed execution now has a tested one-shot runtime ledger. Every
+  scheduled B0--B8 cell requires its ordered state/seed/output-bound ticket and
+  immutable close receipt; later cells cannot start while one is open, and the
+  final matrix revalidates the full close chain. The common eight-decision cap
+  is frozen as a resource budget. This prevents selective reruns and unequal
+  controller horizons, but it is protocol evidence rather than task success.

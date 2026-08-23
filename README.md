@@ -317,6 +317,28 @@ missing B0--B8 cells, seed drift, and policy-identity drift.
 It also rejects any row whose source-state hash differs from the state frozen
 before outcome collection.
 
+Sealed cells are run one at a time in the frozen order. Issue the next ticket,
+pass that exact ticket to the scheduled B0--B8 runner, aggregate its episode,
+and close it before requesting the next ticket:
+
+```bash
+python scripts/evaluation/begin_piu_formal_attempt.py \
+  --schedule results/method/piu_fixed_drawer_formal_schedule_v1.json \
+  --ledger-dir runs/piu_formal_v1/ledger \
+  --run-output-dir runs/piu_formal_v1/ENTRY_OUTPUT
+
+# Run the scheduled method with --formal-attempt-ticket
+# runs/piu_formal_v1/ledger/NNNNN.started.json, producing episode.json.
+
+python scripts/evaluation/close_piu_formal_attempt.py \
+  --ticket runs/piu_formal_v1/ledger/NNNNN.started.json \
+  --episode runs/piu_formal_v1/ENTRY_OUTPUT/episode.json
+```
+
+The ledger is deliberately fail-closed: an issued ticket without its bound
+episode and close receipt blocks later cells. Do not delete partial output or
+silently rerun it; retain the interruption for independent protocol review.
+
 ## Legacy baseline entry points
 
 Public-RGB Heuristic V0 inference:

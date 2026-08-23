@@ -12,6 +12,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
+from piu.formal_attempt import (
+    artifact,
+    validate_attempt_close,
+    validate_attempt_ticket,
+)
 from piu.statistics import load_formal_outcomes
 
 
@@ -34,10 +39,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--episode", type=Path, required=True)
     parser.add_argument("--sealed-authorization", type=Path, required=True)
+    parser.add_argument("--formal-attempt-close", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     episode_path = resolve(args.episode)
     authorization_path = resolve(args.sealed_authorization)
+    close_path = resolve(args.formal_attempt_close)
     output = resolve(args.output)
     if output.exists():
         raise FileExistsError("formal outcome rows are immutable")
@@ -70,6 +77,29 @@ def main() -> None:
         raise ValueError("episode state/action provenance differs from content")
     if sha256(identity_path) != policy_identity.get("sha256"):
         raise ValueError("episode policy identity differs from content")
+    ticket_value = episode.get("formal_attempt_ticket")
+    if not isinstance(ticket_value, dict):
+        raise TypeError("formal episode lacks its ordered attempt ticket")
+    ticket_path = resolve(Path(ticket_value["path"]))
+    if sha256(ticket_path) != ticket_value.get("sha256"):
+        raise ValueError("formal episode attempt ticket differs from content")
+    ticket, _ = validate_attempt_ticket(
+        ticket_path,
+        repository_root=ROOT,
+        method_id=method,
+        initial_state_group=str(episode["initial_state_group"]),
+        simulator_seed=simulator_seed,
+        source_state=source_path,
+        output_dir=episode_path.parent,
+        allow_closed=True,
+    )
+    if close_path.resolve() != Path(str(ticket["expected_close_path"])).resolve():
+        raise ValueError("formal close receipt path differs from attempt ticket")
+    validate_attempt_close(
+        close_path,
+        ticket_path=ticket_path,
+        episode_path=episode_path,
+    )
     authorization = json.loads(authorization_path.read_text())
     if authorization.get("schema_version") != "piu.formal-row-sealed-authorization.v1":
         raise ValueError("unsupported formal-row sealed authorization")
@@ -79,6 +109,7 @@ def main() -> None:
         "action_history_sha256": sha256(history_path),
         "policy_identity_sha256": sha256(identity_path),
         "method_id": method,
+        "formal_attempt_close_sha256": sha256(close_path),
         "single_use_output": portable(output),
     }
     for name, value in expected.items():
@@ -101,6 +132,8 @@ def main() -> None:
             "path": portable(authorization_path),
             "sha256": sha256(authorization_path),
         },
+        "formal_attempt_ticket": artifact(ticket_path, repository_root=ROOT),
+        "formal_attempt_close": artifact(close_path, repository_root=ROOT),
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(row, sort_keys=True) + "\n")

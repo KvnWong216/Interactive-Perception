@@ -13,6 +13,9 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+
+from piu.formal_attempt import artifact, validate_attempt_ticket
 
 
 def sha256(path: Path) -> str:
@@ -48,10 +51,19 @@ def main() -> None:
     parser.add_argument("--host", required=True)
     parser.add_argument("--port", type=int, default=8002)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--formal-attempt-ticket", type=Path)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    for name in ("scenario_config", "baseline_registry", "initial_state", "output_dir"):
-        setattr(args, name, resolve(getattr(args, name)))
+    for name in (
+        "scenario_config",
+        "baseline_registry",
+        "initial_state",
+        "output_dir",
+        "formal_attempt_ticket",
+    ):
+        value = getattr(args, name)
+        if value is not None:
+            setattr(args, name, resolve(value))
     if not args.initial_state.is_file():
         raise FileNotFoundError(args.initial_state)
     registry = yaml.safe_load(args.baseline_registry.read_text())
@@ -64,6 +76,29 @@ def main() -> None:
         raise FileNotFoundError(identity)
     report = args.output_dir / "report.json"
     final_state = args.output_dir / "final_state.npz"
+    group = " ".join(args.initial_state_group.split())
+    if not group:
+        raise ValueError("B0 initial-state group is required")
+    attempt = None
+    if args.formal_attempt_ticket is not None:
+        if args.dry_run:
+            raise ValueError("B0 dry-run cannot consume a formal attempt ticket")
+        if args.split != "sealed_test":
+            raise ValueError("development B0 cannot consume a formal attempt ticket")
+        validate_attempt_ticket(
+            args.formal_attempt_ticket,
+            repository_root=ROOT,
+            method_id="B0",
+            initial_state_group=group,
+            simulator_seed=args.seed,
+            source_state=args.initial_state,
+            output_dir=args.output_dir,
+            baseline_registry=args.baseline_registry,
+            scenario_config=args.scenario_config,
+        )
+        attempt = artifact(args.formal_attempt_ticket, repository_root=ROOT)
+    elif args.split == "sealed_test" and not args.dry_run:
+        raise ValueError("sealed B0 execution requires its ordered attempt ticket")
     command = [
         sys.executable,
         str(ROOT / "scripts/pipeline/execute.py"),
@@ -108,6 +143,9 @@ def main() -> None:
                     "external_pi05": f"{args.host}:{args.port}",
                     "local_pi05_loaded": False,
                     "command": command,
+                    "formal_attempt_ticket_required_for_execution": (
+                        args.split == "sealed_test"
+                    ),
                 },
                 indent=2,
             )
@@ -133,9 +171,13 @@ def main() -> None:
     task_success = bool(evaluator.get("task_success_final", False))
     episode = {
         "schema_version": "piu.closed-loop-episode.v1",
-        "claim_scope": "SEALED_PUBLIC_BASELINE_EPISODE_NOT_AGGREGATE_RESULT",
+        "claim_scope": (
+            "SEALED_PUBLIC_BASELINE_EPISODE_NOT_AGGREGATE_RESULT"
+            if args.split == "sealed_test"
+            else "DEVELOPMENT_PUBLIC_BASELINE_EPISODE_NOT_FORMAL_EVIDENCE"
+        ),
         "method_id": "B0",
-        "initial_state_group": " ".join(args.initial_state_group.split()),
+        "initial_state_group": group,
         "simulator_seed": args.seed,
         "split": args.split,
         "evidence_class": "public_method",
@@ -166,6 +208,7 @@ def main() -> None:
             "executed_steps": len(json.loads(actions.read_text())),
         },
         "online_oracle_inputs": [],
+        "formal_attempt_ticket": attempt,
         "inputs": {
             "execution_report": {"path": portable(report), "sha256": sha256(report)}
         },

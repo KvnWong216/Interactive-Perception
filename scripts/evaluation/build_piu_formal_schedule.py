@@ -59,6 +59,11 @@ def main() -> None:
         default=ROOT / "configs/experiments/piu_baselines_v1.yaml",
     )
     parser.add_argument(
+        "--scenario-config",
+        type=Path,
+        default=ROOT / "configs/scenarios/original_drawer.yaml",
+    )
+    parser.add_argument(
         "--repro-manifest",
         type=Path,
         default=ROOT / "configs/experiments/piu_offline_repro_v1.yaml",
@@ -75,6 +80,7 @@ def main() -> None:
     state_manifest_path = resolve(args.initial_state_manifest)
     config_path = resolve(args.analysis_config)
     registry_path = resolve(args.baseline_registry)
+    scenario_path = resolve(args.scenario_config)
     repro_manifest_path = resolve(args.repro_manifest)
     repro_lock_path = resolve(args.repro_lock)
     output = resolve(args.output)
@@ -88,6 +94,7 @@ def main() -> None:
     plan = json.loads(plan_path.read_text())
     config = yaml.safe_load(config_path.read_text())
     registry = yaml.safe_load(registry_path.read_text())
+    scenario = yaml.safe_load(scenario_path.read_text())
     split = load_split_manifest(split_path)
     state_manifest = json.loads(state_manifest_path.read_text())
     if (
@@ -99,6 +106,21 @@ def main() -> None:
         raise ValueError("unsupported formal analysis config")
     if registry.get("schema_version") != "piu.baseline-registry.v1":
         raise ValueError("unsupported baseline registry")
+    maximum_decisions = registry["shared_contract"].get(
+        "maximum_controller_decisions"
+    )
+    if (
+        not isinstance(maximum_decisions, int)
+        or isinstance(maximum_decisions, bool)
+        or maximum_decisions <= 0
+    ):
+        raise ValueError("formal registry has an invalid controller decision cap")
+    if scenario.get("schema_version") != "piu.scenario.v1":
+        raise ValueError("unsupported formal scenario config")
+    registered_bddl = resolve(Path(registry["scenario"]))
+    scenario_bddl = resolve(Path(scenario["scene"]["bddl"]))
+    if scenario_bddl != registered_bddl:
+        raise ValueError("formal scenario config differs from baseline registry")
     if (
         state_manifest.get("schema_version")
         != "piu.formal-initial-state-manifest.v1"
@@ -123,10 +145,15 @@ def main() -> None:
     primary = config["primary"]
     comparison = plan.get("comparison", {})
     for name in ("treatment", "comparator", "outcome"):
-        if comparison.get(name) != prospective[name] or prospective[name] != primary[name]:
+        if (
+            comparison.get(name) != prospective[name]
+            or prospective[name] != primary[name]
+        ):
             raise ValueError(f"formal schedule comparison differs at {name}")
     methods = [str(row["id"]) for row in registry["methods"]]
-    required_methods = [str(item) for item in config["population"]["required_method_ids"]]
+    required_methods = [
+        str(item) for item in config["population"]["required_method_ids"]
+    ]
     if methods != required_methods or methods != [f"B{index}" for index in range(9)]:
         raise ValueError("formal schedule requires the frozen B0--B8 registry order")
     pilot_groups = set(plan.get("pilot", {}).get("groups", ()))
@@ -142,7 +169,9 @@ def main() -> None:
     identity_path = resolve(Path(registry["shared_contract"]["checkpoint_identity"]))
     identity_digest = sha256(identity_path)
     if plan.get("pilot", {}).get("policy_identity_sha256") != identity_digest:
-        raise ValueError("pilot and formal registry use different frozen policy identities")
+        raise ValueError(
+            "pilot and formal registry use different frozen policy identities"
+        )
     schedule_config = config["execution_schedule"]
     if (
         schedule_config.get("method")
@@ -158,6 +187,7 @@ def main() -> None:
             sha256(plan_path),
             sha256(split_path),
             sha256(state_manifest_path),
+            sha256(scenario_path),
             sha256(config_path),
             sha256(registry_path),
             sha256(repro_lock_path),
@@ -218,14 +248,30 @@ def main() -> None:
         },
         "inputs": {
             "formal_plan": {"path": portable(plan_path), "sha256": sha256(plan_path)},
-            "split_manifest": {"path": portable(split_path), "sha256": sha256(split_path)},
+            "split_manifest": {
+                "path": portable(split_path),
+                "sha256": sha256(split_path),
+            },
             "initial_state_manifest": {
                 "path": portable(state_manifest_path),
                 "sha256": sha256(state_manifest_path),
             },
-            "analysis_config": {"path": portable(config_path), "sha256": sha256(config_path)},
-            "baseline_registry": {"path": portable(registry_path), "sha256": sha256(registry_path)},
-            "policy_identity": {"path": portable(identity_path), "sha256": identity_digest},
+            "analysis_config": {
+                "path": portable(config_path),
+                "sha256": sha256(config_path),
+            },
+            "scenario_config": {
+                "path": portable(scenario_path),
+                "sha256": sha256(scenario_path),
+            },
+            "baseline_registry": {
+                "path": portable(registry_path),
+                "sha256": sha256(registry_path),
+            },
+            "policy_identity": {
+                "path": portable(identity_path),
+                "sha256": identity_digest,
+            },
             "offline_repro_lock": {
                 "path": portable(repro_lock_path),
                 "sha256": sha256(repro_lock_path),
@@ -234,6 +280,10 @@ def main() -> None:
         },
         "planned_groups": expected_count,
         "planned_methods": methods,
+        "shared_execution_contract": {
+            "maximum_controller_decisions": maximum_decisions,
+            "interpretation": "resource_cap_not_learned_decision_threshold",
+        },
         "entries": entries,
     }
     output.parent.mkdir(parents=True, exist_ok=True)

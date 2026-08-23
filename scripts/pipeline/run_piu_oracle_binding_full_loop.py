@@ -16,6 +16,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
+from piu.formal_attempt import artifact, validate_attempt_ticket
 from piu.policy_identity import load_checkpoint_identity, validate_server_metadata
 
 
@@ -101,6 +102,7 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=8002)
     parser.add_argument("--server-timeout", type=float, default=30.0)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--formal-attempt-ticket", type=Path)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     for name in (
@@ -110,8 +112,11 @@ def main() -> None:
         "baseline_registry",
         "initial_state",
         "output_dir",
+        "formal_attempt_ticket",
     ):
-        setattr(args, name, resolve(getattr(args, name)))
+        value = getattr(args, name)
+        if value is not None:
+            setattr(args, name, resolve(value))
     if not args.initial_state.is_file():
         raise FileNotFoundError(args.initial_state)
     if args.server_timeout <= 0:
@@ -152,6 +157,26 @@ def main() -> None:
         raise ValueError("B7 oracle and baseline checkpoint identities differ")
     report = args.output_dir / "report.json"
     final_state = args.output_dir / "final_state.npz"
+    attempt = None
+    if args.formal_attempt_ticket is not None:
+        if args.dry_run:
+            raise ValueError("B7 dry-run cannot consume a formal attempt ticket")
+        if args.split != "sealed_test":
+            raise ValueError("development B7 cannot consume a formal attempt ticket")
+        validate_attempt_ticket(
+            args.formal_attempt_ticket,
+            repository_root=ROOT,
+            method_id="B7",
+            initial_state_group=group,
+            simulator_seed=args.seed,
+            source_state=args.initial_state,
+            output_dir=args.output_dir,
+            baseline_registry=args.baseline_registry,
+            scenario_config=args.scenario_config,
+        )
+        attempt = artifact(args.formal_attempt_ticket, repository_root=ROOT)
+    elif args.split == "sealed_test" and not args.dry_run:
+        raise ValueError("sealed B7 execution requires its ordered attempt ticket")
     command = [
         sys.executable,
         str(ROOT / "scripts/pipeline/execute.py"),
@@ -222,6 +247,9 @@ def main() -> None:
                     "local_pi05_loaded": False,
                     "identity_check": identity_check,
                     "command": command,
+                    "formal_attempt_ticket_required_for_execution": (
+                        args.split == "sealed_test"
+                    ),
                 },
                 indent=2,
             )
@@ -269,7 +297,11 @@ def main() -> None:
     )
     episode = {
         "schema_version": "piu.closed-loop-episode.v1",
-        "claim_scope": "SEALED_ORACLE_UPPER_BOUND_EPISODE_NOT_PUBLIC_METHOD",
+        "claim_scope": (
+            "SEALED_ORACLE_UPPER_BOUND_EPISODE_NOT_PUBLIC_METHOD"
+            if args.split == "sealed_test"
+            else "DEVELOPMENT_ORACLE_UPPER_BOUND_NOT_FORMAL_EVIDENCE"
+        ),
         "method_id": "B7",
         "initial_state_group": group,
         "simulator_seed": args.seed,
@@ -290,6 +322,7 @@ def main() -> None:
         },
         "outcomes": outcomes,
         "online_oracle_inputs": ["target_instance_mask", "target_identity"],
+        "formal_attempt_ticket": attempt,
         "oracle_diagnostics": {
             "selected_style": style,
             "intervention_activated_at_least_once": activated,

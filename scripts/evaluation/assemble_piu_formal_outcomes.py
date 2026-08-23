@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
+from piu.formal_attempt import load_formal_schedule, validate_attempt_close
 from piu.splits import load_split_manifest
 from piu.statistics import load_formal_outcomes
 
@@ -56,14 +57,29 @@ def main() -> None:
         row = loaded[0]
         episode = row.get("episode")
         sealed = row.get("sealed_authorization")
-        if not isinstance(episode, dict) or not isinstance(sealed, dict):
+        ticket = row.get("formal_attempt_ticket")
+        close = row.get("formal_attempt_close")
+        if not all(
+            isinstance(value, dict) for value in (episode, sealed, ticket, close)
+        ):
             raise TypeError("formal row lacks episode/authorization provenance")
         episode_path = resolve(Path(episode["path"]))
         sealed_path = resolve(Path(sealed["path"]))
+        ticket_path = resolve(Path(ticket["path"]))
+        close_path = resolve(Path(close["path"]))
         if sha256(episode_path) != episode.get("sha256") or sha256(
             sealed_path
         ) != sealed.get("sha256"):
             raise ValueError("formal row provenance artifact differs from its hash")
+        if sha256(ticket_path) != ticket.get("sha256") or sha256(
+            close_path
+        ) != close.get("sha256"):
+            raise ValueError("formal attempt provenance differs from its hash")
+        validate_attempt_close(
+            close_path,
+            ticket_path=ticket_path,
+            episode_path=episode_path,
+        )
         sealed_value = json.loads(sealed_path.read_text())
         if sealed_value.get("schema_version") != (
             "piu.formal-row-sealed-authorization.v1"
@@ -74,6 +90,7 @@ def main() -> None:
             "source_state_sha256": row["source_state_sha256"],
             "action_history_sha256": row["action_history_sha256"],
             "method_id": row["method_id"],
+            "formal_attempt_close_sha256": sha256(close_path),
             "single_use_output": portable(path),
         }
         for name, value in expected_row_authorization.items():
@@ -93,14 +110,7 @@ def main() -> None:
     observed = {(row["initial_state_group"], row["method_id"]) for row in rows}
     if observed != expected or len(rows) != len(expected):
         raise ValueError("formal matrix must contain every sealed group x B0--B8 row")
-    schedule = json.loads(schedule_path.read_text())
-    if (
-        schedule.get("schema_version") != "piu.formal-execution-schedule.v1"
-        or schedule.get("status")
-        != "FROZEN_BEFORE_FORMAL_OUTCOME_COLLECTION"
-        or schedule.get("outcomes_loaded") is not False
-    ):
-        raise ValueError("formal matrix requires a frozen outcome-independent schedule")
+    schedule = load_formal_schedule(schedule_path, repository_root=ROOT)
     if schedule.get("inputs", {}).get("split_manifest", {}).get("sha256") != sha256(
         split_path
     ):
@@ -135,6 +145,42 @@ def main() -> None:
     )
     if {row["policy_identity_sha256"] for row in rows} != {schedule_policy}:
         raise ValueError("formal rows differ from the scheduled frozen policy")
+    schedule_digest = sha256(schedule_path)
+    ordered_attempts = []
+    for row in rows:
+        ticket_path = resolve(Path(row["formal_attempt_ticket"]["path"]))
+        close_path = resolve(Path(row["formal_attempt_close"]["path"]))
+        ticket = json.loads(ticket_path.read_text())
+        close = json.loads(close_path.read_text())
+        index = ticket.get("execution_index")
+        if (
+            not isinstance(index, int)
+            or isinstance(index, bool)
+            or ticket.get("schedule", {}).get("sha256") != schedule_digest
+            or not 0 <= index < len(schedule_entries)
+            or ticket.get("entry") != schedule_entries[index]
+            or close.get("execution_index") != index
+        ):
+            raise ValueError("formal attempt differs from the frozen execution order")
+        ordered_attempts.append((index, ticket_path, close_path, ticket))
+    if {row[0] for row in ordered_attempts} != set(range(len(schedule_entries))):
+        raise ValueError("formal attempt indices do not cover the frozen schedule")
+    ledger_dirs = {str(row[3].get("ledger_dir", "")) for row in ordered_attempts}
+    if len(ledger_dirs) != 1:
+        raise ValueError("formal attempts do not share one ordered ledger")
+    previous_close_sha256 = None
+    for index, ticket_path, close_path, ticket in sorted(ordered_attempts):
+        if ticket.get("previous_close_sha256") != previous_close_sha256:
+            raise ValueError("formal attempt close chain is not sequential")
+        if ticket_path.resolve() != (
+            Path(next(iter(ledger_dirs))) / f"{index:05d}.started.json"
+        ).resolve():
+            raise ValueError("formal attempt ticket path differs from ledger index")
+        if close_path.resolve() != (
+            Path(next(iter(ledger_dirs))) / f"{index:05d}.closed.json"
+        ).resolve():
+            raise ValueError("formal attempt close path differs from ledger index")
+        previous_close_sha256 = sha256(close_path)
     for group in sealed_groups:
         source_hashes = {
             row["source_state_sha256"]
