@@ -10,6 +10,7 @@ import numpy as np
 import pytest
 import yaml
 
+from piu.empirical_dag import validate_artifact_rule
 from piu.statistics import (
     analyze_formal_outcomes,
     exact_paired_binomial_pvalue,
@@ -446,3 +447,26 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
         text=True,
     )
     assert len(load_formal_outcomes(matrix)) == 9
+    dag_rule = {
+        "id": "sealed-matrix",
+        "path": str(matrix),
+        "format": "jsonl",
+        "schema_version": "piu.formal-outcome.v1",
+        "validator": "scheduled_formal_outcomes",
+        "formal_schedule": str(formal_schedule),
+    }
+    assert (
+        validate_artifact_rule(
+            dag_rule, repository_root=ROOT, split_manifest=None
+        )["status"]
+        == "VALID"
+    )
+    partial = tmp_path / "partial_matrix.jsonl"
+    partial.write_text("".join(row_paths[index].read_text() for index in range(8)))
+    rejected_row = validate_artifact_rule(
+        {**dag_rule, "path": str(partial)},
+        repository_root=ROOT,
+        split_manifest=None,
+    )
+    assert rejected_row["status"] == "INVALID"
+    assert "complete scheduled denominator" in rejected_row["errors"][0]

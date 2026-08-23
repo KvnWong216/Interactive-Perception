@@ -2,7 +2,7 @@
   "schema_version": "piu.offline-repro-audit.v1",
   "manifest": {
     "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_offline_repro_v1.yaml",
-    "sha256": "dd6500b7f9a047acfc2df4523bbca6445173f58baa1301153305bc766e5e83c5"
+    "sha256": "169b20df8c787cda8d5a428dcdeaf5a404e17d07c80c4639df2f1ccaa7b6f7c1"
   },
   "mode": "CREATE_RELEASE_LOCK",
   "offline_ready": true,
@@ -13,23 +13,23 @@
   "offline_inventory": [
     {
       "path": "README.md",
-      "sha256": "e453e749dae55aa867a8f49a7dfc0c210a2b23c54b790c10fcd6b1843234c3fc",
-      "bytes": "25514"
+      "sha256": "e91212f4a158b5a2892dc32e0641dbf90395b89a485d372ebbe4b5d9ea95c667",
+      "bytes": "26796"
     },
     {
       "path": "RESULTS.md",
-      "sha256": "58fb9b8153b6a7bf6f13c9c1208d105586452e78444265b8c26f61910fb9bdde",
-      "bytes": "8061"
+      "sha256": "29f81ab8df94c31209fe0c8c35c601e9af579b406a7307f738009ad3f9a51a5c",
+      "bytes": "8448"
     },
     {
       "path": "STATUS.md",
-      "sha256": "9996a7bfd0bf068d0132b77bc8ac679efc83020b8643db157141dc52680d7154",
-      "bytes": "13776"
+      "sha256": "6cce76a04c9cd65347e102997e4447bd861d78d273b23b4642e6a38e05324574",
+      "bytes": "14300"
     },
     {
       "path": "configs/experiments/method_provenance_v1.yaml",
-      "sha256": "ba4d816d73678c1fb3e07aee1816c6d66c1863a3f4890fca66aa05eb8f328ebe",
-      "bytes": "50648"
+      "sha256": "9d048fcdd25ae5a37ba2eccac803f458f4a3ae5d1f882738ab2db9e1d6dfd286",
+      "bytes": "52381"
     },
     {
       "path": "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
@@ -68,8 +68,8 @@
     },
     {
       "path": "configs/experiments/piu_empirical_stage_dag_v1.yaml",
-      "sha256": "6db759254516de36a68b5a236523e2445a530996af8f20670cecd41f5414e3c7",
-      "bytes": "27700"
+      "sha256": "901ede7ea265e6b3de557eb332c159749458cf864adac2e68634f08e4d8135ce",
+      "bytes": "29499"
     },
     {
       "path": "configs/experiments/piu_executor_risk_allocation_v1.yaml",
@@ -83,8 +83,8 @@
     },
     {
       "path": "configs/experiments/piu_offline_repro_v1.yaml",
-      "sha256": "dd6500b7f9a047acfc2df4523bbca6445173f58baa1301153305bc766e5e83c5",
-      "bytes": "16793"
+      "sha256": "169b20df8c787cda8d5a428dcdeaf5a404e17d07c80c4639df2f1ccaa7b6f7c1",
+      "bytes": "16919"
     },
     {
       "path": "configs/experiments/piu_oracle_formal_v1.yaml",
@@ -128,13 +128,13 @@
     },
     {
       "path": "docs/claim_evidence_ledger.md",
-      "sha256": "3b622a883e920746e3788fba2ac4a97bc13a7181f3c105e3823e2e8010e1dda8",
-      "bytes": "7350"
+      "sha256": "b0697018d271e73cf97a4eca9896ed8dd7585991f05b2584dc3764f02196c42a",
+      "bytes": "7703"
     },
     {
       "path": "docs/preregistration.md",
-      "sha256": "06841e7cd15c520062c0ff419585e78c1f13f5cb2448687ce4e1e9d3d6561957",
-      "bytes": "29566"
+      "sha256": "b9dc8d4764aefff121bc0760675b82cb95f28101ae7e41135bbf222784c9b899",
+      "bytes": "31293"
     },
     {
       "path": "paper/generated/piu_evidence_boundary_v1.svg",
@@ -168,7 +168,7 @@
     },
     {
       "path": "results/diagnostics/piu_public_claim_audit_v1.json",
-      "sha256": "bf9f0bb051841e1aca5270bc147fec11e4c93c746e36666e3d8dee4fd0ea5dd5",
+      "sha256": "00ae8ec21f33852d95234d3a2f5ece59410da2454676d91d62da505014cb54d6",
       "bytes": "13791"
     },
     {
@@ -292,6 +292,11 @@
       "bytes": "2453"
     },
     {
+      "path": "scripts/evaluation/assemble_piu_development_episode_arm.py",
+      "sha256": "7dca84619082510fe8c9aa78e92708138edae89af6eec41d0592ebafc9f900a9",
+      "bytes": "4702"
+    },
+    {
       "path": "scripts/evaluation/assemble_piu_formal_outcomes.py",
       "sha256": "ca31be4a377f533b78760a0233c149ea4a9b3f9b645f0edecb654d365f1609d6",
       "bytes": "9832"
@@ -383,8 +388,8 @@
     },
     {
       "path": "scripts/evaluation/derive_piu_primitive_risk_contract.py",
-      "sha256": "aab73867dfeac40cccbe7ae97a5ad859dd9ff153a25c31e53bc3a2321bf5db33",
-      "bytes": "8950"
+      "sha256": "13e4403e039fe4837c6fc6b2a1947d2ffe3ab06cb6c34d2ca4b8842168b4c24b",
+      "bytes": "8524"
     },
     {
       "path": "scripts/evaluation/evaluate_piu_action_effect.py",
@@ -433,8 +438,8 @@
     },
     {
       "path": "scripts/infra/check_external_pi05.py",
-      "sha256": "3803f7cb11f75932852bbe5bf75f53e9f3b979af3e43137b1b185bc6d1eaa7b9",
-      "bytes": "4706"
+      "sha256": "3112eb8d768c83d04d293f45672745a845857d9402ab6cb2e607482accc27e55",
+      "bytes": "5165"
     },
     {
       "path": "scripts/infra/check_gpu.sh",
@@ -533,8 +538,8 @@
     },
     {
       "path": "scripts/pipeline/run_piu_prompted_vlm_router.py",
-      "sha256": "b792d07c54dbe1f7aad2470bd64a9bac0c46eff4d72e4ab6a55db1d95480782d",
-      "bytes": "11036"
+      "sha256": "bea4dbb2c222f37b6e2463817f6764a1cac0f5588541ac0b13e5018b44f595c2",
+      "bytes": "11285"
     },
     {
       "path": "scripts/pipeline/run_piu_uncalibrated_ablation_controller.py",
@@ -693,8 +698,8 @@
     },
     {
       "path": "src/piu/empirical_dag.py",
-      "sha256": "fd48f6b347cea030a79fd1ad488e76f3d9f526ee1b19d436370c83960d7d7d33",
-      "bytes": "14260"
+      "sha256": "41352ce1a98d767efe8d8b60df72cebb78669b3ae19f5718fd05676f9cda8a5b",
+      "bytes": "34309"
     },
     {
       "path": "src/piu/evaluation.py",
@@ -758,8 +763,8 @@
     },
     {
       "path": "src/piu/primitive_registry.py",
-      "sha256": "af440c89142d6abbb216f8e8b52f5f5dc986f6fff6be34bab94c32e310019c87",
-      "bytes": "67355"
+      "sha256": "f2afeff071e333b8203e4adcb7927f2f0d3f2be3a765a286984833500536dfc8",
+      "bytes": "70176"
     },
     {
       "path": "src/piu/reproducibility.py",
@@ -797,7 +802,7 @@
       "bytes": "8126"
     }
   ],
-  "offline_inventory_sha256": "6286eb4978769696d8ba15734557861facca8f6bb21898323061d560b2b90c7d",
+  "offline_inventory_sha256": "00ef9083d7e20965f8354f275dea6cdff814f8fded8301f45ddf2f0c88b0ebea",
   "dependency_closure_exceptions": {
     "results/diagnostics/piu_offline_repro_preflight_v1.json": "The release lock cannot contain its own content hash; it is validated as the output of this manifest and bound separately by every formal design.",
     "scripts/pipeline/infer.py": "The B2 adapter executes this path only inside a detached worktree at the attested frozen tag commit, never from the current release checkout."
@@ -961,6 +966,11 @@
     },
     {
       "path": "scripts/evaluation/assemble_piu_formal_outcomes.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/assemble_piu_development_episode_arm.py",
       "executable": true,
       "syntax_valid": true
     },
@@ -1415,19 +1425,20 @@
     "schema_version": "piu.empirical-stage-status.v1",
     "dag": {
       "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_empirical_stage_dag_v1.yaml",
-      "sha256": "6db759254516de36a68b5a236523e2445a530996af8f20670cecd41f5414e3c7"
+      "sha256": "901ede7ea265e6b3de557eb332c159749458cf864adac2e68634f08e4d8135ce"
     },
     "status": "INCOMPLETE",
     "empirical_pipeline_complete": false,
     "paper_claim_ready": false,
     "paper_claim_ready_reason": "one or more external empirical stages remain incomplete",
     "next_actionable_stages": [
-      "S00_external_authority_and_endpoint"
+      "S00a_external_risk_authority",
+      "S00b_identified_pi05_endpoint"
     ],
     "stages": [
       {
-        "id": "S00_external_authority_and_endpoint",
-        "title": "External task-owner risk contract and identified pi0.5 endpoint",
+        "id": "S00a_external_risk_authority",
+        "title": "External task-owner risk and collection resource contract",
         "depends_on": [],
         "dependency_status": {},
         "status": "READY_FOR_EXTERNAL_WORK",
@@ -1439,7 +1450,17 @@
             "sha256": null,
             "errors": [],
             "terminal_reason": null
-          },
+          }
+        ],
+        "claim_scope": "RESOURCE_CONTRACT_NOT_PERFORMANCE_EVIDENCE"
+      },
+      {
+        "id": "S00b_identified_pi05_endpoint",
+        "title": "Identified external pi0.5 endpoint and finite action probe",
+        "depends_on": [],
+        "dependency_status": {},
+        "status": "READY_FOR_EXTERNAL_WORK",
+        "artifacts": [
           {
             "id": "external_pi05_identity_probe",
             "path": "results/diagnostics/external_pi05_endpoint_check_v1.json",
@@ -1449,16 +1470,18 @@
             "terminal_reason": null
           }
         ],
-        "claim_scope": "RESOURCE_AND_IDENTITY_CONTRACT_NOT_PERFORMANCE_EVIDENCE"
+        "claim_scope": "EXTERNAL_IDENTITY_CONTRACT_NOT_PERFORMANCE_EVIDENCE"
       },
       {
         "id": "S02_open_primitive_qualification",
         "title": "OPEN primitive plan, schedule, and formal certificate",
         "depends_on": [
-          "S00_external_authority_and_endpoint"
+          "S00a_external_risk_authority",
+          "S00b_identified_pi05_endpoint"
         ],
         "dependency_status": {
-          "S00_external_authority_and_endpoint": "READY_FOR_EXTERNAL_WORK"
+          "S00a_external_risk_authority": "READY_FOR_EXTERNAL_WORK",
+          "S00b_identified_pi05_endpoint": "READY_FOR_EXTERNAL_WORK"
         },
         "status": "WAITING_FOR_PREDECESSOR",
         "artifacts": [
@@ -1799,12 +1822,10 @@
         "id": "S09_task_primitive_qualification",
         "title": "Binder-grounded PICK and PLACE executor qualification",
         "depends_on": [
-          "S08_binder_calibration",
-          "S00_external_authority_and_endpoint"
+          "S08_binder_calibration"
         ],
         "dependency_status": {
-          "S08_binder_calibration": "WAITING_FOR_PREDECESSOR",
-          "S00_external_authority_and_endpoint": "READY_FOR_EXTERNAL_WORK"
+          "S08_binder_calibration": "WAITING_FOR_PREDECESSOR"
         },
         "status": "WAITING_FOR_PREDECESSOR",
         "artifacts": [
@@ -2201,7 +2222,25 @@
             "id": "public_claim_audit",
             "path": "results/diagnostics/piu_public_claim_audit_v1.json",
             "status": "VALID",
-            "sha256": "bf9f0bb051841e1aca5270bc147fec11e4c93c746e36666e3d8dee4fd0ea5dd5",
+            "sha256": "00ae8ec21f33852d95234d3a2f5ece59410da2454676d91d62da505014cb54d6",
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "paper_method_figure",
+            "path": "paper/generated/piu_method_pipeline_v1.svg",
+            "status": "INVALID",
+            "sha256": "b0b1c96c76c67d5c096accd1d766c9ede2d093a01841826127d3a76f9776ee83",
+            "errors": [
+              "paper SVG is not uniquely bound to the evidence table"
+            ],
+            "terminal_reason": null
+          },
+          {
+            "id": "paper_evidence_boundary_figure",
+            "path": "paper/generated/piu_evidence_boundary_v1.svg",
+            "status": "VALID",
+            "sha256": "5f8e3ae87523a5e1be809345b524e491b1181cc1633fca19ee79011eefc51c77",
             "errors": [],
             "terminal_reason": null
           }

@@ -49,6 +49,73 @@ def allocate_episode_primitive_risk(
     }
 
 
+def validate_external_execution_risk_budget(
+    value: Mapping[str, Any], *, maximum_physical_dispatches: int
+) -> dict[str, Any]:
+    """Validate a prospective task-owner budget without using outcomes."""
+
+    expected_fields = {
+        "schema_version",
+        "status",
+        "maximum_episode_probability_of_any_primitive_failure",
+        "design_alternative_per_dispatch_success_probability",
+        "maximum_qualification_groups_per_primitive",
+        "authority",
+        "rationale",
+        "outcomes_loaded",
+    }
+    if "maximum_qualification_groups_per_primitive" not in value:
+        raise ValueError(
+            "external qualification-group resource cap must be a positive integer"
+        )
+    if set(value) != expected_fields:
+        raise ValueError("external execution-risk budget fields are not closed")
+    if value.get("schema_version") != "piu.external-execution-risk-budget.v1":
+        raise ValueError("unsupported external execution-risk budget")
+    if value.get("status") != "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES":
+        raise ValueError("external risk budget is not prospectively frozen")
+    if value.get("outcomes_loaded") is not False:
+        raise ValueError("external risk budget may not load qualification outcomes")
+    authority_value = value.get("authority")
+    rationale_value = value.get("rationale")
+    if not isinstance(authority_value, str) or not isinstance(rationale_value, str):
+        raise TypeError("external risk authority and rationale must be strings")
+    authority = " ".join(authority_value.split())
+    rationale = " ".join(rationale_value.split())
+    if not authority or not rationale:
+        raise ValueError("external risk budget requires an authority and rationale")
+    episode_risk = value.get(
+        "maximum_episode_probability_of_any_primitive_failure"
+    )
+    if not isinstance(episode_risk, (int, float)) or isinstance(episode_risk, bool):
+        raise TypeError("external episode risk must be numeric")
+    allocation = allocate_episode_primitive_risk(
+        maximum_episode_failure_probability=float(episode_risk),
+        maximum_physical_dispatches=maximum_physical_dispatches,
+    )
+    alternative = value.get("design_alternative_per_dispatch_success_probability")
+    if not isinstance(alternative, (int, float)) or isinstance(alternative, bool):
+        raise TypeError("external design alternative must be numeric")
+    alternative = float(alternative)
+    if (
+        not math.isfinite(alternative)
+        or not allocation["minimum_reliable_rate"] < alternative <= 1.0
+    ):
+        raise ValueError(
+            "external design alternative must exceed the derived per-dispatch rate"
+        )
+    maximum_groups = value.get("maximum_qualification_groups_per_primitive")
+    if (
+        not isinstance(maximum_groups, int)
+        or isinstance(maximum_groups, bool)
+        or maximum_groups < 1
+    ):
+        raise ValueError(
+            "external qualification-group resource cap must be a positive integer"
+        )
+    return dict(value)
+
+
 def validate_derived_primitive_risk_contract(
     value: dict[str, Any],
 ) -> dict[str, Any]:
@@ -351,12 +418,12 @@ def load_derived_primitive_risk_contract(
         "prospective_success_contracts", {}
     ):
         raise ValueError("primitive risk contract lacks a registered success event")
-    if budget.get("schema_version") != "piu.external-execution-risk-budget.v1":
-        raise ValueError("primitive external risk budget is unsupported")
-    if budget.get("status") != "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES":
-        raise ValueError("primitive external risk budget is not frozen")
-    if budget.get("outcomes_loaded") is not False:
-        raise ValueError("primitive external risk budget loaded outcomes")
+    validate_external_execution_risk_budget(
+        budget,
+        maximum_physical_dispatches=baseline["shared_contract"][
+            "maximum_controller_decisions"
+        ],
+    )
     alternative = float(
         budget["design_alternative_per_dispatch_success_probability"]
     )

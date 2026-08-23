@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
 from collections.abc import Mapping, Sequence
 from pathlib import Path
@@ -13,11 +14,21 @@ import numpy as np
 import yaml
 
 from .spatial_prefix import validate_feature_arrays
+from .formal_attempt import (
+    load_formal_schedule,
+    validate_attempt_close,
+    validate_attempt_ticket,
+)
+from .formal_design import validate_development_episode
+from .contracts import load_public_transitions
+from .policy_identity import load_checkpoint_identity, validate_server_metadata
+from .primitive_registry import validate_external_execution_risk_budget
 from .splits import (
     load_split_manifest,
     role_to_split,
     validate_learning_collection_budget,
 )
+from .statistics import load_formal_outcomes
 
 _SHA256 = re.compile(r"[0-9a-f]{64}")
 
@@ -155,9 +166,480 @@ def _load_value(path: Path, format_name: str) -> tuple[Any, list[str]]:
             if not rows:
                 raise ValueError("JSONL is empty")
             return rows, []
+        if format_name == "text":
+            value = path.read_text()
+            if not value:
+                raise ValueError("text artifact is empty")
+            return value, []
     except Exception as exc:
         return None, [f"cannot parse {format_name}: {exc}"]
     return None, [f"unsupported artifact format {format_name!r}"]
+
+
+def _configured_path(
+    rule: Mapping[str, Any], name: str, *, repository_root: Path
+) -> Path:
+    raw = rule.get(name)
+    if not isinstance(raw, str) or not raw:
+        raise ValueError(f"validator requires configured path {name}")
+    return _resolve(raw, repository_root=repository_root)
+
+
+def _referenced_path(
+    value: Any, name: str, *, repository_root: Path
+) -> Path:
+    if not isinstance(value, Mapping):
+        raise TypeError(f"{name} must be an artifact reference")
+    path = _resolve(str(value.get("path", "")), repository_root=repository_root)
+    if not path.is_file() or value.get("sha256") != sha256(path):
+        raise ValueError(f"{name} differs from its content hash")
+    return path
+
+
+def _portable(path: Path, *, repository_root: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(repository_root))
+    except ValueError:
+        return str(path.resolve())
+
+
+def _validate_external_budget(
+    value: Mapping[str, Any], rule: Mapping[str, Any], *, repository_root: Path
+) -> None:
+    registry_path = _configured_path(
+        rule, "baseline_registry", repository_root=repository_root
+    )
+    registry = yaml.safe_load(registry_path.read_text())
+    if registry.get("schema_version") != "piu.baseline-registry.v1":
+        raise ValueError("external risk budget baseline registry is unsupported")
+    maximum = registry.get("shared_contract", {}).get(
+        "maximum_controller_decisions"
+    )
+    validate_external_execution_risk_budget(
+        value, maximum_physical_dispatches=maximum
+    )
+
+
+def _validate_external_pi05_endpoint(
+    value: Mapping[str, Any], rule: Mapping[str, Any], *, repository_root: Path
+) -> None:
+    if set(value) != {
+        "schema_version",
+        "status",
+        "endpoint",
+        "identity",
+        "checkpoint_identity",
+        "action_probe",
+    }:
+        raise ValueError("endpoint check fields are not closed")
+    identity_path = _configured_path(
+        rule, "checkpoint_identity", repository_root=repository_root
+    )
+    identity = load_checkpoint_identity(identity_path)
+    reference = value.get("checkpoint_identity")
+    if not isinstance(reference, Mapping) or (
+        _resolve(str(reference.get("path", "")), repository_root=repository_root)
+        .resolve()
+        != identity_path.resolve()
+        or reference.get("sha256") != sha256(identity_path)
+    ):
+        raise ValueError("endpoint check uses another checkpoint identity")
+    metadata = value.get("identity")
+    if not isinstance(metadata, Mapping):
+        raise TypeError("endpoint check lacks server metadata")
+    validate_server_metadata(metadata, identity)
+    endpoint = value.get("endpoint")
+    if not isinstance(endpoint, Mapping):
+        raise TypeError("endpoint check lacks endpoint identity")
+    host = " ".join(str(endpoint.get("host", "")).split())
+    port = endpoint.get("port")
+    if (
+        not host
+        or not isinstance(port, int)
+        or isinstance(port, bool)
+        or not 1 <= port <= 65535
+    ):
+        raise ValueError("endpoint host/port are invalid")
+    probe = value.get("action_probe")
+    if not isinstance(probe, Mapping) or probe.get("finite") is not True:
+        raise ValueError("endpoint check lacks a finite action probe")
+    if set(probe) != {
+        "source_report",
+        "keyframe",
+        "shape",
+        "finite",
+        "elapsed_seconds",
+    }:
+        raise ValueError("endpoint action probe fields are not closed")
+    if not " ".join(str(probe.get("keyframe", "")).split()):
+        raise ValueError("endpoint action probe lacks a keyframe identity")
+    shape = probe.get("shape")
+    elapsed = probe.get("elapsed_seconds")
+    if (
+        not isinstance(shape, list)
+        or not shape
+        or any(
+            not isinstance(item, int) or isinstance(item, bool) or item < 1
+            for item in shape
+        )
+        or not isinstance(elapsed, (int, float))
+        or isinstance(elapsed, bool)
+        or not math.isfinite(float(elapsed))
+        or float(elapsed) < 0.0
+    ):
+        raise ValueError("endpoint action probe shape/timing are invalid")
+    if not isinstance(probe.get("source_report"), Mapping):
+        raise TypeError("endpoint action probe lacks hash-bound source report")
+
+
+def _validate_prompted_vlm_identity(value: Mapping[str, Any]) -> None:
+    metadata = value.get("server_metadata")
+    if not isinstance(metadata, Mapping):
+        raise TypeError("prompted-VLM identity lacks server metadata")
+    if metadata.get("schema_version") != "piu.prompted-vlm-router-server.v1":
+        raise ValueError("prompted-VLM server metadata schema is unsupported")
+    if any(
+        not " ".join(str(metadata.get(name, "")).split())
+        for name in ("model_id", "revision")
+    ):
+        raise ValueError("prompted-VLM identity requires model ID and revision")
+    capabilities = metadata.get("capabilities")
+    if (
+        not isinstance(capabilities, list)
+        or "public_candidate_routing_v1" not in capabilities
+        or any(not isinstance(item, str) for item in capabilities)
+    ):
+        raise ValueError("prompted-VLM identity lacks public routing capability")
+
+
+def _canonical_sha256(value: Any) -> str:
+    payload = json.dumps(value, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(payload.encode()).hexdigest()
+
+
+def _validate_prompted_vlm_probe(
+    value: Mapping[str, Any], *, repository_root: Path
+) -> None:
+    if (
+        value.get("method_id") != "B1"
+        or value.get("split") != "development"
+        or value.get("evaluator_labels_loaded") is not False
+        or value.get("online_oracle_inputs") != []
+        or value.get("manual_confidence_threshold") is not None
+        or value.get("paper_method_claim_allowed") is not False
+    ):
+        raise ValueError("prompted-VLM probe crossed its public development firewall")
+    external = value.get("external_router")
+    if not isinstance(external, Mapping):
+        raise TypeError("prompted-VLM probe lacks external router provenance")
+    identity_ref = external.get("identity")
+    if not isinstance(identity_ref, Mapping):
+        raise TypeError("prompted-VLM probe lacks router identity reference")
+    identity_path = _resolve(
+        str(identity_ref.get("path", "")), repository_root=repository_root
+    )
+    identity = json.loads(identity_path.read_text())
+    _validate_prompted_vlm_identity(identity)
+    if external.get("server_metadata") != identity["server_metadata"]:
+        raise ValueError("prompted-VLM probe server differs from frozen identity")
+    response = external.get("response")
+    if not isinstance(response, Mapping) or set(response) != {
+        "schema_version",
+        "request_sha256",
+        "selected_candidate_id",
+    }:
+        raise ValueError("prompted-VLM probe lacks the exact bounded response")
+    if (
+        response.get("schema_version") != "piu.prompted-vlm-router-response.v1"
+        or response.get("request_sha256") != external.get("request_sha256")
+        or _canonical_sha256(response) != external.get("response_sha256")
+    ):
+        raise ValueError("prompted-VLM response transcript differs from its hashes")
+    decisions = value.get("decisions")
+    if not isinstance(decisions, list) or len(decisions) != 1:
+        raise ValueError("prompted-VLM probe must contain one decision")
+    decision = decisions[0]
+    if not isinstance(decision, Mapping):
+        raise TypeError("prompted-VLM probe decision must be a mapping")
+    response_id = " ".join(str(response.get("selected_candidate_id", "")).split())
+    candidates = decision.get("public_candidates")
+    if not isinstance(candidates, list):
+        raise TypeError("prompted-VLM probe lacks its public candidates")
+    matches = [row for row in candidates if row.get("candidate_id") == response_id]
+    selected_id = decision.get("selected_candidate_id")
+    expected_selected = (
+        response_id
+        if len(matches) == 1 and decision.get("decision_kind") != "ABSTAIN"
+        else None
+    )
+    if selected_id != expected_selected:
+        raise ValueError("prompted-VLM decision differs from the bounded response")
+    inputs = value.get("inputs")
+    if not isinstance(inputs, Mapping) or set(inputs) != {"public_transition"}:
+        raise TypeError("prompted-VLM probe lacks closed public input provenance")
+    public_path = _referenced_path(
+        inputs["public_transition"],
+        "prompted-VLM public transition",
+        repository_root=repository_root,
+    )
+    public_rows = [
+        row
+        for row in load_public_transitions(public_path)
+        if row.sample_id == decision.get("sample_id")
+    ]
+    if (
+        len(public_rows) != 1
+        or public_rows[0].split.value != "development"
+        or public_rows[0].initial_state_group
+        != decision.get("initial_state_group")
+        or [dict(item) for item in public_rows[0].candidate_actions] != candidates
+        or value.get("initial_state_groups")
+        != [public_rows[0].initial_state_group]
+    ):
+        raise ValueError("prompted-VLM probe differs from its public transition")
+
+
+def _validate_development_episode_arm(
+    values: Sequence[Any],
+    rule: Mapping[str, Any],
+    *,
+    repository_root: Path,
+    split_manifest: Mapping[str, Any] | None,
+) -> None:
+    if split_manifest is None:
+        raise ValueError("development episode validation requires a split manifest")
+    method_id = str(rule.get("method_id", ""))
+    registry_path = _configured_path(
+        rule, "baseline_registry", repository_root=repository_root
+    )
+    registry = yaml.safe_load(registry_path.read_text())
+    identity_path = _resolve(
+        str(registry.get("shared_contract", {}).get("checkpoint_identity", "")),
+        repository_root=repository_root,
+    )
+    identity_digest = sha256(identity_path)
+    assignments = {
+        str(row["initial_state_group"]): int(row["seed"])
+        for row in split_manifest["assignments"]
+        if row["split_role"] == "development"
+    }
+    groups: set[str] = set()
+    source_hashes: set[str] = set()
+    for item in values:
+        if not isinstance(item, Mapping):
+            raise TypeError("development episode rows must be mappings")
+        row = validate_development_episode(
+            item, method_id=method_id, outcome="task_success"
+        )
+        group = str(row["initial_state_group"])
+        if group in groups:
+            raise ValueError("development episode arm duplicates a group")
+        source = item.get("source_state")
+        identity = item.get("policy_identity")
+        if not isinstance(source, Mapping) or not isinstance(identity, Mapping):
+            raise TypeError("development episode lacks source/policy provenance")
+        source_digest = str(source.get("sha256", ""))
+        if (
+            group not in assignments
+            or row["simulator_seed"] != assignments[group]
+            or identity.get("sha256") != identity_digest
+            or source_digest in source_hashes
+        ):
+            raise ValueError(
+                "development episode differs from its group, seed, policy, or state"
+            )
+        groups.add(group)
+        source_hashes.add(source_digest)
+    if groups != set(assignments):
+        raise ValueError("development episode arm differs from complete allocation")
+
+
+def _validate_scheduled_outcomes(
+    path: Path,
+    rule: Mapping[str, Any],
+    *, repository_root: Path,
+) -> None:
+    schedule_path = _configured_path(
+        rule, "formal_schedule", repository_root=repository_root
+    )
+    schedule = load_formal_schedule(schedule_path, repository_root=repository_root)
+    rows = load_formal_outcomes(path)
+    selected_method = rule.get("method_id")
+    entries = [
+        item
+        for item in schedule["entries"]
+        if selected_method is None or item["method_id"] == selected_method
+    ]
+    expected = {
+        (str(item["initial_state_group"]), str(item["method_id"])): item
+        for item in entries
+    }
+    observed = {
+        (str(item["initial_state_group"]), str(item["method_id"])): item
+        for item in rows
+    }
+    if observed.keys() != expected.keys() or len(rows) != len(expected):
+        raise ValueError("formal outcomes differ from the complete scheduled denominator")
+    policy = schedule["inputs"]["policy_identity"]["sha256"]
+    for key, row in observed.items():
+        entry = expected[key]
+        if (
+            row["simulator_seed"] != entry["simulator_seed"]
+            or row["source_state_sha256"] != entry["source_state"]["sha256"]
+            or row["policy_identity_sha256"] != policy
+        ):
+            raise ValueError("formal outcome identity differs from its schedule entry")
+        episode_path = _referenced_path(
+            row.get("episode"), "formal outcome episode", repository_root=repository_root
+        )
+        authorization_path = _referenced_path(
+            row.get("sealed_authorization"),
+            "formal row authorization",
+            repository_root=repository_root,
+        )
+        ticket_path = _referenced_path(
+            row.get("formal_attempt_ticket"),
+            "formal attempt ticket",
+            repository_root=repository_root,
+        )
+        close_path = _referenced_path(
+            row.get("formal_attempt_close"),
+            "formal attempt close",
+            repository_root=repository_root,
+        )
+        episode = json.loads(episode_path.read_text())
+        if (
+            episode.get("schema_version") != "piu.closed-loop-episode.v1"
+            or episode.get("method_id") != row["method_id"]
+            or episode.get("initial_state_group") != row["initial_state_group"]
+            or episode.get("simulator_seed") != row["simulator_seed"]
+            or episode.get("split") != "sealed_test"
+            or episode.get("evidence_class") != row["evidence_class"]
+            or episode.get("rollout_status") != row["rollout_status"]
+            or episode.get("outcomes") != row["outcomes"]
+        ):
+            raise ValueError("formal outcome row differs from its sealed episode")
+        source_path = _referenced_path(
+            episode.get("source_state"),
+            "formal episode source state",
+            repository_root=repository_root,
+        )
+        history_path = _referenced_path(
+            episode.get("public_action_history"),
+            "formal episode action history",
+            repository_root=repository_root,
+        )
+        identity_path = _referenced_path(
+            episode.get("policy_identity"),
+            "formal episode policy identity",
+            repository_root=repository_root,
+        )
+        if (
+            sha256(source_path) != row["source_state_sha256"]
+            or sha256(history_path) != row["action_history_sha256"]
+            or sha256(identity_path) != row["policy_identity_sha256"]
+        ):
+            raise ValueError("formal episode provenance differs from its outcome row")
+        ticket, ticket_schedule = validate_attempt_ticket(
+            ticket_path,
+            repository_root=repository_root,
+            method_id=str(row["method_id"]),
+            initial_state_group=str(row["initial_state_group"]),
+            simulator_seed=int(row["simulator_seed"]),
+            source_state=source_path,
+            output_dir=episode_path.parent,
+            allow_closed=True,
+        )
+        if (
+            ticket_schedule != schedule
+            or ticket.get("entry") != entry
+            or ticket.get("execution_index") != entry["execution_index"]
+        ):
+            raise ValueError("formal attempt ticket differs from the scheduled cell")
+        validate_attempt_close(
+            close_path, ticket_path=ticket_path, episode_path=episode_path
+        )
+        authorization = json.loads(authorization_path.read_text())
+        row_output = _resolve(
+            str(authorization.get("single_use_output", "")),
+            repository_root=repository_root,
+        )
+        if not row_output.is_file() or load_formal_outcomes(row_output) != [row]:
+            raise ValueError("formal matrix row differs from its single-use artifact")
+        expected_authorization = {
+            "episode_sha256": sha256(episode_path),
+            "source_state_sha256": row["source_state_sha256"],
+            "action_history_sha256": row["action_history_sha256"],
+            "policy_identity_sha256": row["policy_identity_sha256"],
+            "method_id": row["method_id"],
+            "formal_attempt_close_sha256": sha256(close_path),
+            "single_use_output": _portable(
+                row_output, repository_root=repository_root
+            ),
+        }
+        if (
+            authorization.get("schema_version")
+            != "piu.formal-row-sealed-authorization.v1"
+            or any(
+                authorization.get(name) != required
+                for name, required in expected_authorization.items()
+            )
+        ):
+            raise ValueError("formal row authorization differs from the scheduled row")
+
+
+def _validate_evidence_bound_svg(
+    value: str, rule: Mapping[str, Any], *, repository_root: Path
+) -> None:
+    table_path = _configured_path(
+        rule, "evidence_table", repository_root=repository_root
+    )
+    marker = f"evidence-table-sha256:{sha256(table_path)}"
+    if (
+        not value.startswith("<svg")
+        or not value.rstrip().endswith("</svg>")
+        or 'role="img"' not in value
+        or value.count(marker) != 1
+    ):
+        raise ValueError("paper SVG is not uniquely bound to the evidence table")
+
+
+def _validate_custom(
+    value: Any,
+    path: Path,
+    rule: Mapping[str, Any],
+    *,
+    repository_root: Path,
+    split_manifest: Mapping[str, Any] | None,
+) -> None:
+    validator = rule.get("validator")
+    if validator in {None, "learning_collection_budget"}:
+        return
+    if validator == "external_execution_risk_budget":
+        _validate_external_budget(value, rule, repository_root=repository_root)
+    elif validator == "external_pi05_endpoint":
+        _validate_external_pi05_endpoint(value, rule, repository_root=repository_root)
+    elif validator == "prompted_vlm_identity":
+        _validate_prompted_vlm_identity(value)
+    elif validator == "prompted_vlm_probe":
+        _validate_prompted_vlm_probe(value, repository_root=repository_root)
+    elif validator == "development_episode_arm":
+        _validate_development_episode_arm(
+            value,
+            rule,
+            repository_root=repository_root,
+            split_manifest=split_manifest,
+        )
+    elif validator == "formal_schedule":
+        load_formal_schedule(path, repository_root=repository_root)
+    elif validator == "scheduled_formal_outcomes":
+        _validate_scheduled_outcomes(path, rule, repository_root=repository_root)
+    elif validator == "evidence_bound_svg":
+        if not isinstance(value, str):
+            raise TypeError("evidence-bound SVG must be a text artifact")
+        _validate_evidence_bound_svg(value, rule, repository_root=repository_root)
+    else:
+        raise ValueError(f"unknown empirical artifact validator {validator!r}")
 
 
 def validate_artifact_rule(
@@ -191,6 +673,16 @@ def validate_artifact_rule(
                 errors.append(f"schema mismatch at row {index}")
     if rule.get("verify_references", True) and isinstance(value, (Mapping, list)):
         errors.extend(_verify_references(value, repository_root=repository_root))
+    try:
+        _validate_custom(
+            value,
+            path,
+            rule,
+            repository_root=repository_root,
+            split_manifest=split_manifest,
+        )
+    except (KeyError, OSError, TypeError, ValueError) as exc:
+        errors.append(str(exc))
     if isinstance(value, Mapping):
         if rule.get("validator") == "learning_collection_budget":
             try:

@@ -29,29 +29,39 @@ required_split_roles:
   - effect_calibration_conformal
 
 stages:
-  - id: S00_external_authority_and_endpoint
-    title: External task-owner risk contract and identified pi0.5 endpoint
+  - id: S00a_external_risk_authority
+    title: External task-owner risk and collection resource contract
     depends_on: []
-    claim_scope: RESOURCE_AND_IDENTITY_CONTRACT_NOT_PERFORMANCE_EVIDENCE
+    claim_scope: RESOURCE_CONTRACT_NOT_PERFORMANCE_EVIDENCE
     artifacts:
       - id: external_executor_risk_budget
         path: results/method/piu_external_execution_risk_budget_v1.yaml
         format: yaml
         schema_version: piu.external-execution-risk-budget.v1
+        validator: external_execution_risk_budget
+        baseline_registry: configs/experiments/piu_baselines_v1.yaml
         expected:
           status: FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES
           outcomes_loaded: false
+
+  - id: S00b_identified_pi05_endpoint
+    title: Identified external pi0.5 endpoint and finite action probe
+    depends_on: []
+    claim_scope: EXTERNAL_IDENTITY_CONTRACT_NOT_PERFORMANCE_EVIDENCE
+    artifacts:
       - id: external_pi05_identity_probe
         path: results/diagnostics/external_pi05_endpoint_check_v1.json
         format: json
         schema_version: piu.external-pi05-check.v1
+        validator: external_pi05_endpoint
+        checkpoint_identity: results/diagnostics/pi05_libero_checkpoint_identity_v1.json
         expected:
           status: PASS
           action_probe.finite: true
 
   - id: S02_open_primitive_qualification
     title: OPEN primitive plan, schedule, and formal certificate
-    depends_on: [S00_external_authority_and_endpoint]
+    depends_on: [S00a_external_risk_authority, S00b_identified_pi05_endpoint]
     claim_scope: EXECUTOR_RELIABILITY_ONLY_NOT_TASK_SUCCESS
     artifacts:
       - id: open_primitive_risk_contract
@@ -294,7 +304,7 @@ stages:
 
   - id: S09_task_primitive_qualification
     title: Binder-grounded PICK and PLACE executor qualification
-    depends_on: [S08_binder_calibration, S00_external_authority_and_endpoint]
+    depends_on: [S08_binder_calibration]
     claim_scope: EXECUTOR_RELIABILITY_ONLY_NOT_TASK_SUCCESS
     artifacts:
       - id: pick_primitive_risk_contract
@@ -463,12 +473,20 @@ stages:
       - id: external_prompted_vlm_router_identity
         path: results/diagnostics/external_prompted_vlm_router_identity_v1.json
         format: json
+        schema_version: piu.prompted-vlm-router-identity.v1
+        validator: prompted_vlm_identity
       - id: external_prompted_vlm_router_probe
         path: results/diagnostics/external_prompted_vlm_router_probe_v1.json
         format: json
+        schema_version: piu.prompted-vlm-router-report.v1
+        validator: prompted_vlm_probe
       - id: b2_frozen_heuristic_v0_results
         path: results/method/piu_fixed_drawer_b2_heuristic_v0_v1.jsonl
         format: jsonl
+        schema_version: piu.closed-loop-episode.v1
+        validator: development_episode_arm
+        method_id: B2
+        baseline_registry: configs/experiments/piu_baselines_v1.yaml
       - id: main_paired_pilot_plan
         path: results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json
         format: json
@@ -499,6 +517,7 @@ stages:
         path: results/method/piu_fixed_drawer_formal_schedule_v1.json
         format: json
         schema_version: piu.formal-execution-schedule.v1
+        validator: formal_schedule
 
   - id: S15_sealed_execution_and_analysis
     title: Complete sealed outcomes, component evaluations, and paired analysis
@@ -509,6 +528,8 @@ stages:
         path: results/method/piu_fixed_drawer_sealed_outcomes_v1.jsonl
         format: jsonl
         schema_version: piu.formal-outcome.v1
+        validator: scheduled_formal_outcomes
+        formal_schedule: results/method/piu_fixed_drawer_formal_schedule_v1.json
       - id: target_binding_sealed
         path: results/method/piu_fixed_drawer_binder_sealed_v1.json
         format: json
@@ -520,9 +541,17 @@ stages:
       - id: b6_oracle_effect_trace_results
         path: results/method/piu_fixed_drawer_b6_oracle_effect_v1.jsonl
         format: jsonl
+        schema_version: piu.formal-outcome.v1
+        validator: scheduled_formal_outcomes
+        formal_schedule: results/method/piu_fixed_drawer_formal_schedule_v1.json
+        method_id: B6
       - id: b7_oracle_binding_results
         path: results/method/piu_fixed_drawer_b7_oracle_binding_v1.jsonl
         format: jsonl
+        schema_version: piu.formal-outcome.v1
+        validator: scheduled_formal_outcomes
+        formal_schedule: results/method/piu_fixed_drawer_formal_schedule_v1.json
+        method_id: B7
       - id: sealed_full_loop_report
         path: results/method/piu_fixed_drawer_sealed_v1.json
         format: json
@@ -551,3 +580,13 @@ stages:
           status: PASS
           claim_boundary.missing_successor_evidence_imputed: false
           claim_boundary.audit_is_performance_evidence: false
+      - id: paper_method_figure
+        path: paper/generated/piu_method_pipeline_v1.svg
+        format: text
+        validator: evidence_bound_svg
+        evidence_table: paper/generated/piu_evidence_tables_v1.json
+      - id: paper_evidence_boundary_figure
+        path: paper/generated/piu_evidence_boundary_v1.svg
+        format: text
+        validator: evidence_bound_svg
+        evidence_table: paper/generated/piu_evidence_tables_v1.json

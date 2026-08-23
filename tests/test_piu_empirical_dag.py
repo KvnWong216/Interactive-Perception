@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
 
 import yaml
 
-from piu.empirical_dag import evaluate_empirical_dag
+from piu.empirical_dag import evaluate_empirical_dag, validate_artifact_rule
+from piu.policy_identity import expected_server_metadata, load_checkpoint_identity
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def _split(root: Path) -> Path:
@@ -159,3 +164,104 @@ def test_negative_gate_is_valid_terminal_evidence_not_corruption(tmp_path: Path)
     assert report["stages"][0]["artifacts"][0]["errors"] == []
     assert report["stages"][1]["status"] == "TERMINAL_BLOCKED"
     assert report["paper_claim_ready"] is False
+
+
+def test_external_budget_validator_rejects_infeasible_owner_values(
+    tmp_path: Path,
+) -> None:
+    registry = tmp_path / "registry.yaml"
+    registry.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": "piu.baseline-registry.v1",
+                "shared_contract": {"maximum_controller_decisions": 8},
+            }
+        )
+    )
+    budget = tmp_path / "budget.yaml"
+    budget.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": "piu.external-execution-risk-budget.v1",
+                "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES",
+                "maximum_episode_probability_of_any_primitive_failure": 0.08,
+                "design_alternative_per_dispatch_success_probability": 0.5,
+                "maximum_qualification_groups_per_primitive": 20,
+                "authority": "task owner",
+                "rationale": "prospective risk and collection resource decision",
+                "outcomes_loaded": False,
+            }
+        )
+    )
+    row = validate_artifact_rule(
+        {
+            "id": "budget",
+            "path": "budget.yaml",
+            "format": "yaml",
+            "schema_version": "piu.external-execution-risk-budget.v1",
+            "validator": "external_execution_risk_budget",
+            "baseline_registry": "registry.yaml",
+        },
+        repository_root=tmp_path,
+        split_manifest=None,
+    )
+    assert row["status"] == "INVALID"
+    assert "must exceed the derived" in row["errors"][0]
+
+
+def test_external_endpoint_validator_rechecks_identity_and_probe_provenance(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "source.json"
+    source.write_text("{}\n")
+    identity_path = (
+        ROOT / "results/diagnostics/pi05_libero_checkpoint_identity_v1.json"
+    )
+    identity = load_checkpoint_identity(identity_path)
+    value = {
+        "schema_version": "piu.external-pi05-check.v1",
+        "status": "PASS",
+        "endpoint": {"host": "pi05.internal", "port": 8002},
+        "identity": {
+            **expected_server_metadata(identity),
+            "capabilities": ["action_chunks"],
+            "server_session_id": "a" * 32,
+        },
+        "checkpoint_identity": {
+            "path": str(identity_path),
+            "sha256": hashlib.sha256(identity_path.read_bytes()).hexdigest(),
+        },
+        "action_probe": {
+            "source_report": {
+                "path": str(source),
+                "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+            },
+            "keyframe": "00_before",
+            "shape": [1, 7],
+            "finite": True,
+            "elapsed_seconds": 0.1,
+        },
+    }
+    endpoint = tmp_path / "endpoint.json"
+    endpoint.write_text(json.dumps(value))
+    rule = {
+        "id": "endpoint",
+        "path": "endpoint.json",
+        "format": "json",
+        "schema_version": "piu.external-pi05-check.v1",
+        "validator": "external_pi05_endpoint",
+        "checkpoint_identity": str(identity_path),
+    }
+    assert (
+        validate_artifact_rule(
+            rule, repository_root=tmp_path, split_manifest=None
+        )["status"]
+        == "VALID"
+    )
+    value["identity"]["policy_config"] = "another_policy"
+    endpoint.write_text(json.dumps(value))
+    rejected = validate_artifact_rule(
+        rule, repository_root=tmp_path, split_manifest=None
+    )
+    assert rejected["status"] == "INVALID"
+    assert "identity differs" in rejected["errors"][0]

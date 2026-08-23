@@ -160,7 +160,9 @@ This validator follows every `{path, sha256}` reference, checks schemas and
 prospective group roles, distinguishes missing from invalid artifacts, and
 treats a valid negative causal/qualification result as a terminal scientific
 outcome rather than as a corrupt file. The flat external inventory is
-informational only; `empirical_ready` comes from this DAG.
+informational only; `empirical_ready` comes from this DAG. Sealed rows are
+rechecked against the complete frozen schedule, and both release SVGs must
+contain the exact regenerated evidence-table hash.
 
 Regenerate a new version of the paper tables from admissible reports, or verify
 the retained v1 snapshot byte-for-byte:
@@ -330,6 +332,20 @@ prompt, public history, and registered candidate descriptions. A response is
 hash-bound to the exact request and may contain only one candidate ID; anything
 outside the registered set is retained as ABSTAIN.
 
+The identity artifact must retain an explicit `model_id`, immutable `revision`,
+and `public_candidate_routing_v1` capability in `server_metadata`; a provider
+name without a revision is rejected.  Run one development decision directly to
+the DAG's immutable probe path before any closed-loop B1 rollout:
+
+```bash
+python scripts/pipeline/run_piu_prompted_vlm_router.py \
+  --public-transition PATH/public_transition.jsonl --sample-id SAMPLE \
+  --expected-split development \
+  --router-identity results/diagnostics/external_prompted_vlm_router_identity_v1.json \
+  --host ROUTER_HOST --port ROUTER_PORT \
+  --output results/diagnostics/external_prompted_vlm_router_probe_v1.json
+```
+
 ```bash
 python scripts/pipeline/run_piu_prompted_vlm_closed_loop.py \
   --scenario-config configs/scenarios/original_drawer.yaml \
@@ -369,7 +385,16 @@ python scripts/pipeline/run_piu_heuristic_v0_once.py \
 
 Actual legacy perception/Qwen inference is prohibited on this workstation by
 the 1500 MiB cap. The attestation hashes all five legacy model trees and the
-exact frozen commit.
+exact frozen commit. After every frozen development group has one standard
+episode, assemble the DAG artifact with an exact cohort/seed/policy check (raw
+JSONL concatenation is not accepted):
+
+```bash
+python scripts/evaluation/assemble_piu_development_episode_arm.py \
+  --episode PATH/B2_*/episode.json --method-id B2 \
+  --split-manifest data/piu/mainline_v1/learning_split_manifest.json \
+  --output results/method/piu_fixed_drawer_b2_heuristic_v0_v1.jsonl
+```
 
 ### B7 same-source oracle target-binding upper bound
 
@@ -418,7 +443,7 @@ sealed groups, first freeze the exact opaque state that every method will load:
 
 ```bash
 python scripts/evaluation/build_piu_formal_initial_states.py \
-  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --split-manifest data/piu/mainline_v1/formal_split_manifest.json \
   --state GROUP_1 PATH/state_1.npz \
   --state GROUP_2 PATH/state_2.npz \
   --output data/piu/mainline_v1/formal_initial_states_v1.json
@@ -430,7 +455,7 @@ features. Then freeze the outcome-independent B0--B8 order:
 ```bash
 python scripts/evaluation/build_piu_formal_schedule.py \
   --formal-plan results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json \
-  --split-manifest data/piu/mainline_v1/split_manifest.json \
+  --split-manifest data/piu/mainline_v1/formal_split_manifest.json \
   --initial-state-manifest data/piu/mainline_v1/formal_initial_states_v1.json \
   --output results/method/piu_fixed_drawer_formal_schedule_v1.json
 ```

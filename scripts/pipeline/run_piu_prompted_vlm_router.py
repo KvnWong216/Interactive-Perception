@@ -294,7 +294,14 @@ def main() -> None:
         },
         "manual_confidence_threshold": None,
         "paper_method_claim_allowed": False,
+        "inputs": {
+            "public_transition": {
+                "path": portable(args.public_transition),
+                "sha256": sha256(args.public_transition),
+            }
+        },
     }
+    result["external_router"]["response"] = response
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))

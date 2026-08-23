@@ -52,7 +52,10 @@ def _episode(
                 "source_state": _artifact(source),
                 "policy_identity": _artifact(IDENTITY),
                 "public_action_history": _artifact(history),
-                "outcomes": {"target_grasp_contact": success},
+                "outcomes": {
+                    "target_grasp_contact": success,
+                    "task_success": success,
+                },
                 "online_oracle_inputs": [],
             }
         )
@@ -92,6 +95,67 @@ def test_conservative_design_blocks_five_perfect_pairs_but_sizes_ten() -> None:
     )
     assert interval[0] > 0.0
     assert interval[1] == 1.0
+
+
+def test_development_episode_arm_requires_exact_frozen_groups(tmp_path: Path) -> None:
+    episodes = [
+        _episode(
+            tmp_path,
+            method="B2",
+            group=f"development-{index}",
+            seed=100 + index,
+            success=False,
+        )
+        for index in range(2)
+    ]
+    split = tmp_path / "development_split.json"
+    split.write_text(
+        json.dumps(
+            {
+                "schema_version": "piu.group-split-manifest.v1",
+                "status": "FROZEN_BEFORE_COLLECTION",
+                "allocation_method": "prospective_without_outcome_access",
+                "scenario": "fixed drawer",
+                "required_roles": ["development"],
+                "assignments": [
+                    {
+                        "initial_state_group": f"development-{index}",
+                        "seed": 100 + index,
+                        "split_role": "development",
+                    }
+                    for index in range(2)
+                ],
+            }
+        )
+    )
+    output = tmp_path / "b2.jsonl"
+    command = [
+        sys.executable,
+        str(ROOT / "scripts/evaluation/assemble_piu_development_episode_arm.py"),
+        "--episode",
+        *(str(path) for path in episodes),
+        "--method-id",
+        "B2",
+        "--split-manifest",
+        str(split),
+        "--output",
+        str(output),
+    ]
+    subprocess.run(command, cwd=ROOT, check=True, capture_output=True, text=True)
+    rows = [json.loads(line) for line in output.read_text().splitlines()]
+    assert {row["initial_state_group"] for row in rows} == {
+        "development-0",
+        "development-1",
+    }
+    rejected = subprocess.run(
+        [*command[:3], str(episodes[0]), *command[5:-1], str(tmp_path / "bad.jsonl")],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert rejected.returncode != 0
+    assert "complete frozen allocation" in rejected.stderr
 
 
 def test_formal_state_archive_rejects_extra_keys_and_nonfinite_values(

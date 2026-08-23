@@ -3,8 +3,8 @@
   "status": "PASS",
   "registry": {
     "path": "configs/experiments/method_provenance_v1.yaml",
-    "sha256": "ba4d816d73678c1fb3e07aee1816c6d66c1863a3f4890fca66aa05eb8f328ebe",
-    "entry_count": 71,
+    "sha256": "9d048fcdd25ae5a37ba2eccac803f458f4a3ae5d1f882738ab2db9e1d6dfd286",
+    "entry_count": 73,
     "provenance_counts": {
       "baseline_only_heuristic": 3,
       "fit_on_isolated_calibration": 1,
@@ -13,17 +13,17 @@
       "learned_on_training_split": 6,
       "numerical_optimization": 2,
       "oracle_intervention": 4,
-      "protocol_identifier": 28,
+      "protocol_identifier": 30,
       "safety_or_resource_budget": 6,
       "simulator_or_physics_contract": 3,
       "unsupported_heuristic": 5,
       "user_risk_contract": 4
     },
     "claim_use_counts": {
-      "baseline_only": 6,
+      "baseline_only": 7,
       "diagnostic_only": 9,
       "historical_only": 3,
-      "main_evaluator": 20,
+      "main_evaluator": 21,
       "main_method_online": 21,
       "rejected_method_only": 4,
       "safety_only": 8
@@ -40,19 +40,19 @@
     },
     {
       "path": "README.md",
-      "sha256": "e453e749dae55aa867a8f49a7dfc0c210a2b23c54b790c10fcd6b1843234c3fc",
+      "sha256": "e91212f4a158b5a2892dc32e0641dbf90395b89a485d372ebbe4b5d9ea95c667",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     },
     {
       "path": "STATUS.md",
-      "sha256": "9996a7bfd0bf068d0132b77bc8ac679efc83020b8643db157141dc52680d7154",
+      "sha256": "6cce76a04c9cd65347e102997e4447bd861d78d273b23b4642e6a38e05324574",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     },
     {
       "path": "RESULTS.md",
-      "sha256": "58fb9b8153b6a7bf6f13c9c1208d105586452e78444265b8c26f61910fb9bdde",
+      "sha256": "29f81ab8df94c31209fe0c8c35c601e9af579b406a7307f738009ad3f9a51a5c",
       "required_fragments_verified": 2,
       "retired_fragments_matched": []
     }

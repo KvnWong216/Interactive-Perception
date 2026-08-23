@@ -78,6 +78,11 @@ New non-performance artifacts:
   legacy model trees, retains the original one-decision limit, and maps an
   unsupported option to abstention instead of inventing an implementation.
   No new B2 physical episode exists.
+- The empirical DAG now revalidates evidence semantics in addition to schemas
+  and hashes. External risk and endpoint gates are independent; B2 development
+  rows require an exact frozen cohort; and the sealed B0--B8 matrix plus B6/B7
+  columns must cover every scheduled group, seed, source state, and policy
+  identity. These are anti-selection protocol checks, not physical results.
 - Counterfactual collection now binds an immutable public-only execution plan.
   Contract tests show that an ineligible PLACE remains a route candidate, is
   not dispatched, and exports no invented effect targets. This is a leakage and

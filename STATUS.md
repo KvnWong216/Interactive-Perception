@@ -179,7 +179,7 @@ not bypass the causal oracle gate or fabricate those missing outcomes.
 Consequently no real B8/B0 development pilot, conservative formal group count,
 formal initial-state cohort, or sealed execution schedule exists yet; Phase 9
 and the Phase 10 cohort/one-shot execution freeze are software-ready only. The
-current CPU-only repository suite passes 241 tests; the existing approved
+current CPU-only repository suite passes 244 tests; the existing approved
 Python GPU process remains at 590 MiB, below the 1500 MiB cap (the GPU safety
 check refuses to interfere with it).
 
@@ -191,9 +191,16 @@ being rewritten when a later paired power calculation determines a new cohort
 size. Action-effect calibration has its own temperature/conformal groups; the
 collector rejects reuse of binder-calibration groups. Per-role public/binding
 and counterfactual rows have immutable exact-join assemblers. Running
-`scripts/repro/check_piu_empirical_dag.py` currently identifies only external
-authority plus the identified endpoint as unblocked work; downstream files,
+`scripts/repro/check_piu_empirical_dag.py` currently identifies exactly two
+independent root actions—external task-owner authority and the identified pi0.5
+endpoint—as unblocked work; downstream files,
 including stale generated paper tables, cannot unlock a predecessor.
+The root artifacts are now semantically revalidated: the risk alternative must
+be feasible under the derived `1-delta/8` reliability contract, while the
+endpoint must bind the frozen checkpoint identity, source report, host/session,
+and finite action shape. Later B2 development evidence must cover its complete
+prospective group/seed arm, and sealed/B6/B7 result files must exactly cover the
+frozen formal schedule; a schema-valid partial JSONL no longer counts as done.
 The PICK/PLACE-before-effect-data cycle is also closed without a hand box: a
 reserved qualification group runs the frozen binder and isolated calibration,
 then a stimulus builder binds the preregistered candidate. Schedule validation

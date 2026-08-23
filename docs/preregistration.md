@@ -488,3 +488,30 @@ executor reliability conditional on this exact preregistered binder-grounded
 stimulus only. It cannot be reported as route selection, learned effect-model
 performance, or end-to-end task success, and it cannot be collected into the
 action-effect dataset.
+
+## Amendment 14: semantic external and sealed artifact validation
+
+Frozen on 2026-08-23 before any external task-owner budget, identified pi0.5
+endpoint, prompted-VLM identity, B2 development arm, or sealed outcome existed.
+The task-owner risk declaration and the identified pi0.5 endpoint are two
+independent root gates. Neither may conceal the absence of the other. The risk
+artifact is re-derived against the frozen episode dispatch cap and must contain
+a nonempty external authority/rationale, a feasible per-dispatch design
+alternative, and a positive collection cap. The endpoint artifact must bind the
+exact checkpoint-identity file, exact server metadata, concrete host/port, a
+hash-bound retained source report, and a finite typed action sample.
+
+B1 identity requires an explicit model ID, immutable revision, and declared
+public routing capability. Its probe retains the exact bounded response and
+hash-bound public transition/identity; unknown candidates remain abstentions.
+B2 development evidence is assembled only from the complete prospectively
+assigned development arm, with one unique state and registered policy identity
+per group. Manual selection or JSONL concatenation is not admissible.
+
+For sealed evidence, schema-valid rows alone are insufficient. The DAG reloads
+the frozen formal schedule and requires exact coverage of every scheduled
+group-method pair, seed, source-state hash, and policy identity. The B6 and B7
+oracle files must separately cover their complete scheduled columns. Thus an
+incomplete but well-formed result file cannot unlock paper generation. Both
+release SVGs must additionally embed the exact regenerated evidence-table hash;
+an old figure cannot accompany a new result table.

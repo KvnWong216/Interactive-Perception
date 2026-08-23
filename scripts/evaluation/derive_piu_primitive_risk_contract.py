@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from piu.primitive_registry import (
     allocate_episode_primitive_risk,
     validate_derived_primitive_risk_contract,
+    validate_external_execution_risk_budget,
 )
 
 
@@ -116,16 +117,11 @@ def main() -> None:
     ):
         raise ValueError("primitive protocol references another risk allocation")
     budget = yaml.safe_load(budget_path.read_text())
-    if budget.get("schema_version") != "piu.external-execution-risk-budget.v1":
-        raise ValueError("unsupported external execution-risk budget")
-    if budget.get("status") != "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES":
-        raise ValueError("external risk budget is not prospectively frozen")
-    if budget.get("outcomes_loaded") is not False:
-        raise ValueError("external risk budget may not load qualification outcomes")
-    authority = " ".join(str(budget.get("authority", "")).split())
-    rationale = " ".join(str(budget.get("rationale", "")).split())
-    if not authority or not rationale:
-        raise ValueError("external risk budget requires an authority and rationale")
+    validate_external_execution_risk_budget(
+        budget, maximum_physical_dispatches=maximum_dispatches
+    )
+    authority = " ".join(str(budget["authority"]).split())
+    rationale = " ".join(str(budget["rationale"]).split())
     derived = allocate_episode_primitive_risk(
         maximum_episode_failure_probability=float(
             budget["maximum_episode_probability_of_any_primitive_failure"]

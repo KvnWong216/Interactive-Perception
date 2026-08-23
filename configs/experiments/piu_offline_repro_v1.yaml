@@ -121,6 +121,7 @@ required_files:
   - scripts/evaluation/aggregate_piu_closed_loop_episode.py
   - scripts/evaluation/export_piu_formal_outcome.py
   - scripts/evaluation/assemble_piu_formal_outcomes.py
+  - scripts/evaluation/assemble_piu_development_episode_arm.py
   - scripts/evaluation/plan_piu_formal_paired_test.py
   - scripts/evaluation/build_piu_formal_schedule.py
   - scripts/evaluation/build_piu_formal_initial_states.py
@@ -213,6 +214,7 @@ python_entrypoints:
   - scripts/evaluation/aggregate_piu_closed_loop_episode.py
   - scripts/evaluation/export_piu_formal_outcome.py
   - scripts/evaluation/assemble_piu_formal_outcomes.py
+  - scripts/evaluation/assemble_piu_development_episode_arm.py
   - scripts/evaluation/plan_piu_formal_paired_test.py
   - scripts/evaluation/build_piu_formal_schedule.py
   - scripts/evaluation/build_piu_formal_initial_states.py

@@ -11,6 +11,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
+from piu.empirical_dag import validate_artifact_rule
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -177,6 +179,20 @@ def test_prompted_vlm_router_uses_only_bound_public_candidate_response(
     assert report["online_oracle_inputs"] == []
     assert report["decisions"][0]["decision_kind"] == "INTERACT"
     assert report["manual_confidence_threshold"] is None
+    assert (
+        validate_artifact_rule(
+            {
+                "id": "b1-probe",
+                "path": str(tmp_path / "selected.json"),
+                "format": "json",
+                "schema_version": "piu.prompted-vlm-router-report.v1",
+                "validator": "prompted_vlm_probe",
+            },
+            repository_root=ROOT,
+            split_manifest=None,
+        )["status"]
+        == "VALID"
+    )
     dispatch = subprocess.run(
         [
             sys.executable,
@@ -218,6 +234,20 @@ def test_prompted_vlm_router_hallucinated_candidate_becomes_abstain(
     )
     assert report["decisions"][0]["decision_kind"] == "ABSTAIN"
     assert report["decisions"][0]["selected_candidate_id"] is None
+    assert (
+        validate_artifact_rule(
+            {
+                "id": "b1-hallucination-probe",
+                "path": str(tmp_path / "abstain.json"),
+                "format": "json",
+                "schema_version": "piu.prompted-vlm-router-report.v1",
+                "validator": "prompted_vlm_probe",
+            },
+            repository_root=ROOT,
+            split_manifest=None,
+        )["status"]
+        == "VALID"
+    )
 
 
 def test_prompted_vlm_closed_loop_plan_keeps_router_and_pi05_external(

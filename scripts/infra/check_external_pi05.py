@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import http.client
 import json
 import sys
@@ -24,6 +25,17 @@ from interactive_perception.policy_client import (
 from piu.policy_identity import validate_server_metadata
 
 SERVER_SCHEMA = "piu.identified-pi05-server.v1"
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def portable(path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(ROOT))
+    except ValueError:
+        return str(path.resolve())
 
 
 def wait_for_endpoint(host: str, port: int, timeout: float) -> None:
@@ -97,6 +109,10 @@ def main() -> None:
         "status": "PASS",
         "endpoint": {"host": args.host, "port": args.port},
         "identity": metadata,
+        "checkpoint_identity": {
+            "path": portable(identity_path),
+            "sha256": sha256(identity_path),
+        },
         "action_probe": None,
     }
     if args.probe_report is not None:
@@ -110,7 +126,10 @@ def main() -> None:
             packet_from_report(report_path, args.probe_keyframe), 1
         )[0]
         result["action_probe"] = {
-            "source_report": str(report_path.resolve().relative_to(ROOT)),
+            "source_report": {
+                "path": portable(report_path),
+                "sha256": sha256(report_path),
+            },
             "keyframe": args.probe_keyframe,
             "shape": list(action.shape),
             "finite": bool(np.isfinite(action).all()),
