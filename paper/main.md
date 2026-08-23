@@ -338,6 +338,13 @@ shapes, hashes, split firewalls, unsupported-label behavior, and immutability.
 It is not entered in the physical result table and cannot support a method
 claim.
 
+The successor result layout is generated directly from content-hashed reports
+in `paper/generated/piu_evidence_tables_v1.md`. At this freeze, only the
+retained fixed-scenario negative evidence is available; every real binder,
+effect, calibration, and sealed B0--B8 cell remains explicitly `PENDING`.
+The generator cannot promote development ablations to sealed evidence, keeps
+B6/B7 in oracle-only columns, and exposes no automatic success threshold.
+
 ## 7. Discussion
 
 ### Why effect prediction did not help

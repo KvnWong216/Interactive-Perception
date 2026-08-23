@@ -82,3 +82,9 @@ New non-performance artifacts:
   schedule rather than style-blocked command order. It binds exact post-OPEN
   states, report paths, policy identity, and the transitive offline release;
   no endpoint was contacted and no new oracle outcome was produced.
+- The paper-table pipeline now emits a hash-linked JSON/Markdown snapshot that
+  separates retained negative evidence, development-only binder/effect
+  ablations, public B0--B5/B8 rows, and oracle B6/B7 rows. All absent successor
+  values are literally `PENDING`; no zero or synthetic metric is inserted.
+  Same-scenario prompt paraphrases are frozen as a paired descriptive stress
+  test and explicitly cannot support a broad OOD claim.

@@ -252,3 +252,31 @@ safety/serving scripts are inside the content inventory. The release lock
 itself is the unavoidable self-hash exception; B2's current-tree legacy
 `infer.py` is excluded because the adapter executes only the separately
 attested detached tag worktree.
+
+## Amendment 6: robustness and automatic paper-table freeze
+
+Frozen on 2026-08-23 before any real successor training report, calibration
+artifact, or sealed outcome existed. The executable binder input ablations are
+reported only from development groups and retain the full, no-prompt,
+prompt-swap, last-frame, global-mean, no-action-history, per-camera,
+spatial-shuffle, and temporal-shuffle variants in their declared order. The
+effect comparison retains route-only, stop-gradient-effect, and joint-effect.
+These rows may diagnose component necessity but cannot be relabeled as sealed
+method evidence.
+
+Prompt robustness remains inside the unchanged hidden-butter drawer task. Four
+semantics-preserving prompt strings are fixed in the reporting protocol and
+crossed within each newly collected initial-state group, so the state is the
+cluster and prompt wording cannot select the model. This is a paired lexical
+stress test, not unseen-object, unseen-layout, unseen-scene, or broad OOD
+generalization.
+
+Paper tables are generated only from schema-checked, content-hashed artifacts.
+A missing artifact or metric is rendered as `PENDING`, never imputed as zero.
+The retained negative fixed-scenario matrix remains visibly separate from
+development ablations and the one-shot sealed B0--B8 table; B6/B7 remain oracle
+upper bounds. The formal report now emits descriptive rates and Wilson
+intervals for every prespecified binary outcome and every method so no table
+cell needs manual transcription. Even a complete table sets automatic method
+success to null: the preregistered multi-metric claim audit, rather than an
+invented score cutoff, determines permissible wording.

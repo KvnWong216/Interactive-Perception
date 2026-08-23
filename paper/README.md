@@ -10,3 +10,10 @@ histories, task-specific evaluator relabels, and grouped development CV. Before
 external submission, replace the anonymous placeholder, select a venue
 template, expand the seed/group and primitive coverage, and run a new untouched
 calibration/test split. Do not rewrite the current negative result.
+
+The successor's machine-generated table snapshot is
+[`generated/piu_evidence_tables_v1.md`](generated/piu_evidence_tables_v1.md).
+It is deliberately incomplete: every unavailable real training, calibration,
+or sealed artifact is `PENDING`, not zero. The corresponding JSON is generated
+from hash-checked sources by `scripts/evaluation/build_piu_paper_tables.py` and
+the v1 snapshot is immutable.

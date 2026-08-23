@@ -19,6 +19,8 @@
 | PIU-VLA improves full-loop success | no complete learned closed loop | untested | no positive claim |
 | Offline release is reproducible | hash inventory, transitive local-import/literal dependency closure, and syntax/executable preflight implemented; external gates remain absent | software verification | claim-critical executor/client/scenario dependencies can be locked and rechecked; empirical reproduction is pending |
 | Oracle screen order is outcome-independent | separate hash-keyed 9-cell schedule binds exact states, report paths, policy identity, and offline release before external outcomes | software/protocol verification | temporal/style blocking is controlled; no oracle performance result exists |
+| Paper tables cannot hide missing evidence | immutable generator checks schemas/hashes and renders absent values as `PENDING`, with development and oracle evidence visibly separated | software/protocol verification | current table is an honest readiness artifact, not a completed result table |
+| Same-scenario prompt robustness is prespecified | four fixed paraphrases are paired within new initial-state groups and cannot select the model | protocol only | this tests lexical stability in one task; no broad OOD claim |
 
 Every new numeric claim must link to raw reports or a machine-readable aggregate.
 Oracle, retrospective, development, calibration, and sealed evidence remain

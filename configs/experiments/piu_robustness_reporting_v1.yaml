@@ -1,0 +1,116 @@
+schema_version: piu.robustness-reporting.v1
+id: piu_fixed_drawer_robustness_and_paper_tables_v1
+status: frozen_before_real_mainline_data_or_sealed_outcomes
+frozen_date: 2026-08-23
+
+scope:
+  scenario: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+  interpretation: same_scenario_controlled_stress_not_broad_ood
+  scenario_expansion_allowed: false
+  unit: initial_state_group
+  counterfactual_branches_stay_in_one_group: true
+  calibration_groups_isolated: true
+  sealed_groups_opened_once: true
+
+claim_contract:
+  pending_marker: PENDING
+  missing_artifact_imputation: forbidden
+  missing_metric_imputation: forbidden
+  synthetic_fixture_is_performance_evidence: false
+  development_ablation_is_sealed_evidence: false
+  oracle_is_public_method: false
+  automatic_success_threshold: null
+  posthoc_subgroup_selection: forbidden
+  same_scenario_stress_is_ood_generalization: false
+
+development_only:
+  binding_input_ablations:
+    source: runs/piu_mainline_v1/binder/training_report.json
+    reference: full
+    order:
+      - full
+      - no_prompt
+      - prompt_swap
+      - last_frame_only
+      - mean_image_tokens
+      - no_action_history
+      - agent_view_only
+      - wrist_view_only
+      - shuffled_spatial_positions
+      - shuffled_temporal_order
+    metrics:
+      - spatial_nll
+      - point_hit
+      - target_probability_mass
+      - presence_brier
+      - sufficiency_brier
+      - holding_brier
+    training_rule: retrain_from_same_selected_full_model_hyperparameters
+    seed_rule: reuse_selected_trial_seed
+    labels_loaded_by_transform: false
+  effect_training_variants:
+    source: runs/piu_mainline_v1/effect/training_report.json
+    order: [route_only, stop_gradient_effect, joint_effect]
+    metrics: [route_nll, route_top1_accuracy, macro_supported_factor_brier]
+    model_selection_use: development_only
+
+same_scenario_prompt_stress:
+  role: descriptive_paired_robustness_only
+  source_prompt: Place the butter in the basket
+  variants:
+    - id: canonical
+      prompt: Place the butter in the basket
+    - id: put_into
+      prompt: Put the butter into the basket
+    - id: pick_and_place
+      prompt: Pick up the butter and place it in the basket
+    - id: move_to
+      prompt: Move the butter to the basket
+  allocation: cross_every_variant_within_each_new_initial_state_group
+  grouping: cluster_all_prompt_variants_by_initial_state_group
+  selection_use: none
+  inference: no_retraining_or_recalibration_after_sealed_open
+  report:
+    - per_variant_route_and_binding_metrics
+    - paired_change_from_canonical
+  limitation: >-
+    These fixed semantic paraphrases probe lexical stability in one task and
+    one scene. They are not evidence of unseen-object, unseen-layout, unseen-
+    scene, or open-ended language generalization.
+
+sealed_reports:
+  target_binding:
+    path: results/method/piu_fixed_drawer_binder_sealed_v1.json
+    schema_version: piu.target-binder-sealed-evaluation.v1
+  action_effect:
+    path: results/method/piu_fixed_drawer_effect_sealed_v1.json
+    schema_version: piu.action-effect-sealed-evaluation.v1
+  closed_loop:
+    path: results/method/piu_fixed_drawer_sealed_v1.json
+    schema_version: piu.formal-analysis.v1
+
+formal_method_table:
+  registry: configs/experiments/piu_baselines_v1.yaml
+  analysis: configs/experiments/piu_formal_analysis_v1.yaml
+  method_order: [B0, B1, B2, B3, B4, B5, B6, B7, B8]
+  public_methods: [B0, B1, B2, B3, B4, B5, B8]
+  oracle_methods: [B6, B7]
+  binary_columns:
+    - target_grasp_contact
+    - wrong_object_grasp_contact
+    - target_destination_final
+    - task_success
+    - abstention
+  continuous_columns: [interaction_count, executed_steps]
+  missing_or_failed_rollout: retain_as_observed_failure
+
+retained_negative_evidence:
+  path: results/method/original_drawer_paper_cycle_v2.json
+  schema_version: calibrated-interaction.paper-cycle-summary.v2
+  allowed_use: failure_motivation_and_fixed_scenario_qualification_only
+  forbidden_use: [successor_training, calibration, sealed_method_claim]
+
+outputs:
+  json: paper/generated/piu_evidence_tables_v1.json
+  markdown: paper/generated/piu_evidence_tables_v1.md
+  immutable: true

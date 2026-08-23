@@ -63,6 +63,7 @@ target-binding method is claimed or rejected.
 - [Original-drawer method cycle and negative-result report](docs/original_drawer_experiment_report.md)
 - [Executed counterfactual effect-label policy](docs/executed_effect_dataset.md)
 - [Submission-shaped internal paper draft](paper/main.md)
+- [Automatically generated evidence/readiness tables](paper/generated/piu_evidence_tables_v1.md)
 - [Learned-package contracts](src/calibrated_interaction/README.md)
 - [中文旧系统总览与复现教程](docs/TAKEAWAY_AND_TUTORIAL_CN.md), retained as
   Heuristic V0 documentation
@@ -133,6 +134,17 @@ python scripts/repro/check_piu_offline_pipeline.py \
 
 This command reports the external pi0.5/oracle/real-data gates as pending; it
 does not reinterpret software readiness as empirical readiness.
+
+Regenerate a new version of the paper tables from admissible reports, or verify
+the retained v1 snapshot byte-for-byte:
+
+```bash
+python scripts/evaluation/build_piu_paper_tables.py --verify
+```
+
+The v1 table intentionally shows real successor rows as `PENDING`. Missing
+artifacts are never printed as zero, development ablations stay separate from
+sealed evidence, and B6/B7 remain oracle upper bounds.
 
 Run the CPU-only, no-training closed-loop replay on the same original drawer
 scenario:

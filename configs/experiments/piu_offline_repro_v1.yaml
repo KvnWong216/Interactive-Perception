@@ -29,6 +29,7 @@ required_files:
   - configs/experiments/piu_action_effect_calibration_v1.yaml
   - configs/experiments/piu_baselines_v1.yaml
   - configs/experiments/piu_formal_analysis_v1.yaml
+  - configs/experiments/piu_robustness_reporting_v1.yaml
   - configs/experiments/method_provenance_v1.yaml
   - configs/experiments/piu_primitive_registry_v1.yaml
   - configs/scenarios/original_drawer.yaml
@@ -62,6 +63,7 @@ required_files:
   - src/piu/executor_bridge.py
   - src/piu/baselines.py
   - src/piu/statistics.py
+  - src/piu/paper_artifacts.py
   - src/piu/splits.py
   - src/piu/oracle_effect.py
   - src/piu/oracle_schedule.py
@@ -94,6 +96,7 @@ required_files:
   - scripts/evaluation/evaluate_piu_target_binding.py
   - scripts/evaluation/evaluate_piu_action_effect.py
   - scripts/evaluation/analyze_piu_formal_experiment.py
+  - scripts/evaluation/build_piu_paper_tables.py
   - scripts/evaluation/aggregate_piu_closed_loop_episode.py
   - scripts/evaluation/export_piu_formal_outcome.py
   - scripts/evaluation/assemble_piu_formal_outcomes.py
@@ -132,6 +135,8 @@ required_files:
   - scripts/pipeline/run_oracle_target_prompt_gate.py
   - docs/preregistration.md
   - docs/claim_evidence_ledger.md
+  - paper/generated/piu_evidence_tables_v1.json
+  - paper/generated/piu_evidence_tables_v1.md
 
 python_entrypoints:
   - scripts/data/export_piu_binding_labels.py
@@ -156,6 +161,7 @@ python_entrypoints:
   - scripts/evaluation/evaluate_piu_target_binding.py
   - scripts/evaluation/evaluate_piu_action_effect.py
   - scripts/evaluation/analyze_piu_formal_experiment.py
+  - scripts/evaluation/build_piu_paper_tables.py
   - scripts/evaluation/aggregate_piu_closed_loop_episode.py
   - scripts/evaluation/export_piu_formal_outcome.py
   - scripts/evaluation/assemble_piu_formal_outcomes.py

@@ -80,6 +80,12 @@ def test_complete_formal_matrix_is_paired_and_oracle_separated(tmp_path: Path) -
     assert report["groups"] == ["g0", "g1"]
     assert report["primary"]["paired_risk_difference"] == 1.0
     assert report["oracle_upper_bound_methods"] == ["B6", "B7"]
+    assert report["binary_descriptive_by_method"]["target_grasp_contact"]["B8"][
+        "successes"
+    ] == 2
+    assert report["binary_descriptive_by_method"]["target_grasp_contact"]["B0"][
+        "rate"
+    ] == 0.0
     assert report["oracle_binding_gap_descriptive_only"][
         "fraction_of_raw_to_oracle_gap_closed"
     ] == 1.0

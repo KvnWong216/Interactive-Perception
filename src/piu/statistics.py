@@ -308,6 +308,19 @@ def analyze_formal_outcomes(
     adjusted = holm_adjust(raw_secondary)
     for item in secondary:
         item["holm_adjusted_p"] = adjusted[item["id"]]
+    binary_descriptive: dict[str, Any] = {}
+    for outcome in REQUIRED_BINARY_OUTCOMES:
+        method_summary = {}
+        for method in methods:
+            values = [bool(matrix[method][group][outcome]) for group in groups]
+            successes = sum(values)
+            method_summary[method] = {
+                "successes": successes,
+                "trials": len(values),
+                "rate": successes / len(values),
+                "wilson_95": wilson_interval(successes, len(values)),
+            }
+        binary_descriptive[outcome] = method_summary
     continuous: dict[str, Any] = {}
     for outcome in config["descriptive_continuous"]["outcomes"]:
         method_summary = {}
@@ -363,6 +376,7 @@ def analyze_formal_outcomes(
         "groups": groups,
         "public_methods": [method for method in methods if method not in oracle_ids],
         "oracle_upper_bound_methods": [method for method in methods if method in oracle_ids],
+        "binary_descriptive_by_method": binary_descriptive,
         "primary": primary,
         "secondary_holm_family": secondary,
         "continuous_descriptive_only": continuous,

@@ -67,7 +67,13 @@ def test_repository_method_provenance_is_claim_safe() -> None:
     assert by_id["oracle_effect_branch_selection"]["provenance"] == (
         "oracle_intervention"
     )
-    assert len(registry["tracked_protocols"]) == 2
+    assert by_id["paper_table_missingness_contract"]["claim_use"] == (
+        "main_evaluator"
+    )
+    assert by_id["same_scenario_prompt_stress"]["provenance"] == (
+        "protocol_identifier"
+    )
+    assert len(registry["tracked_protocols"]) == 3
 
 
 def test_unsupported_heuristic_cannot_be_promoted_to_main_method(

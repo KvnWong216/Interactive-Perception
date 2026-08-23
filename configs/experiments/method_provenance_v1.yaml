@@ -477,6 +477,22 @@ entries:
     rationale: All named secondary comparisons form one predeclared family; no result-dependent endpoint selection is allowed.
     evidence: monotone Holm implementation and formal-analysis regression tests
 
+  - id: paper_table_missingness_contract
+    location: configs/experiments/piu_robustness_reporting_v1.yaml:claim_contract
+    value: absent artifacts and absent metrics render as PENDING, never zero; no automatic method-success threshold
+    provenance: protocol_identifier
+    claim_use: main_evaluator
+    rationale: A submission table must not turn an unavailable external experiment into a numerical failure or success, and component metrics cannot automatically establish the end-to-end claim.
+    evidence: the hash-checking table builder rejects schema/provenance drift, preserves oracle columns, and has immutable/verification regression tests
+
+  - id: same_scenario_prompt_stress
+    location: configs/experiments/piu_robustness_reporting_v1.yaml:same_scenario_prompt_stress
+    value: four prespecified semantics-preserving butter-to-basket prompts crossed within each new initial-state group
+    provenance: protocol_identifier
+    claim_use: main_evaluator
+    rationale: Pairing all variants within a state diagnoses lexical prompt dependence without conflating it with simulator state, choosing a model, or claiming broad OOD generalization.
+    evidence: the reporting validator requires selection_use none, cluster grouping by initial-state group, and an explicit same-scenario-only claim boundary
+
 tracked_protocols:
   - path: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
     numeric_controls:
@@ -499,6 +515,7 @@ tracked_protocols:
       prospective_design.conservative_joint_confidence: formal_pilot_confidence_levels
       prospective_design.numerical_search_limit: paired_power_search_limit
       secondary.alpha: formal_test_design_levels
+  - path: configs/experiments/piu_robustness_reporting_v1.yaml
 
 deprecated_protocols:
   - path: configs/experiments/candidate_interaction_stage1.yaml
