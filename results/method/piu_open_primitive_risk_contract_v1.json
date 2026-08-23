@@ -1,0 +1,49 @@
+{
+  "schema_version": "piu.primitive-risk-contract.v1",
+  "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES",
+  "claim_scope": "EXECUTOR_RELIABILITY_ONLY_NOT_TASK_SUCCESS",
+  "primitive": "OPEN",
+  "context": "middle_drawer",
+  "candidate_id": "open_middle_drawer",
+  "minimum_reliable_rate": 0.95,
+  "minimum_reliable_rate_provenance": "derived_union_bound_from_external_episode_budget",
+  "alpha": 0.05,
+  "target_power": 0.8,
+  "design_alternative_success_probability": 0.99,
+  "design_alternative_provenance": "external_task_owner_contract",
+  "maximum_qualification_groups": 150,
+  "maximum_qualification_groups_provenance": "external_task_owner_resource_contract",
+  "retrospective_pilot_used_for_effect_size": false,
+  "risk_allocation": {
+    "method": "bonferroni_union_bound_equal_per_dispatch",
+    "maximum_episode_failure_probability": 0.4,
+    "maximum_physical_dispatches": 8,
+    "per_dispatch_failure_probability": 0.05,
+    "minimum_reliable_rate": 0.95,
+    "dependence_assumption": "none",
+    "union_bound_maximum_episode_failure_probability": 0.4
+  },
+  "external_authority": "Yugong Wang, PIU task owner",
+  "external_rationale": "The executor-only risk contract covers episodes with at most eight dispatched physical primitives. An externally chosen episode-level primitive-failure budget of 0.40 is allocated equally by a union bound, producing a per-dispatch null reliability of 0.95 without assuming independent primitive outcomes. The 0.99 alternative is a prospective power-design target and is not estimated from retrospective qualification outcomes. The 150-group limit is a collection-resource cap that covers the exact one-sided binomial design at alpha 0.05 and target power 0.80; it is not a success threshold or a task-success guarantee.",
+  "inputs": {
+    "allocation_config": {
+      "path": "configs/experiments/piu_executor_risk_allocation_v1.yaml",
+      "sha256": "000668f14493ec92db8ccb9991044521c970a19762fafafef14bb0f33088c2e2"
+    },
+    "baseline_registry": {
+      "path": "configs/experiments/piu_baselines_v1.yaml",
+      "sha256": "0eec5728d71ddd7eea120e4d1160f204b408377d38119d3cf2a80aa8b3e60d7d"
+    },
+    "primitive_registry_protocol": {
+      "path": "configs/experiments/piu_primitive_registry_v2.yaml",
+      "sha256": "dcc2656a4fa20deb97faac55f93444d2d370e2ed106f1bb6a3287d36eeff494b"
+    },
+    "external_budget": {
+      "path": "results/method/piu_external_execution_risk_budget_v1.yaml",
+      "sha256": "70620f4bcae0bb32465beb7de0509b468da6a03beef6fe31599de44568923add"
+    }
+  },
+  "outcomes_loaded": false,
+  "paper_method_claim_allowed": false,
+  "warning": "This rate bounds primitive execution failure under the declared episode budget. It is not a probability or guarantee of task success."
+}

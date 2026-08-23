@@ -1,0 +1,46 @@
+{
+  "schema_version": "piu.primitive-qualification-plan.v1",
+  "status": "PROSPECTIVE_GROUP_COUNT_FROZEN",
+  "claim_scope": "DESIGN_ONLY_NO_FORMAL_OUTCOME_DATA",
+  "primitive": "OPEN",
+  "context": "middle_drawer",
+  "candidate_id": "open_middle_drawer",
+  "registry": {
+    "path": "results/method/piu_primitive_reliability_registry_v2.json",
+    "sha256": "299e469f2c86bd22523bb31476e29b6bfd365baa9b7e8f560f6660d14b3be903"
+  },
+  "risk_contract": {
+    "path": "results/method/piu_open_primitive_risk_contract_v1.json",
+    "sha256": "d0dd42325bbdca761c48e37e735cc115e0ca8f168474669bdb8341726345ea31",
+    "minimum_reliable_rate": 0.95,
+    "provenance": "derived_union_bound_from_external_episode_budget",
+    "external_budget": {
+      "path": "results/method/piu_external_execution_risk_budget_v1.yaml",
+      "sha256": "70620f4bcae0bb32465beb7de0509b468da6a03beef6fe31599de44568923add"
+    },
+    "risk_allocation": {
+      "method": "bonferroni_union_bound_equal_per_dispatch",
+      "maximum_episode_failure_probability": 0.4,
+      "maximum_physical_dispatches": 8,
+      "per_dispatch_failure_probability": 0.05,
+      "minimum_reliable_rate": 0.95,
+      "dependence_assumption": "none",
+      "union_bound_maximum_episode_failure_probability": 0.4
+    }
+  },
+  "retrospective_registry_role": "diagnostic_and_seed_exclusion_only",
+  "retrospective_pilot_used_for_effect_size": false,
+  "alternative_success_probability": 0.99,
+  "alternative_success_probability_provenance": "external_task_owner_contract",
+  "alpha": 0.05,
+  "target_power": 0.8,
+  "design": {
+    "trials": 124,
+    "rejection_success_count": 122,
+    "power": 0.8715535097463496
+  },
+  "maximum_qualification_groups": 150,
+  "maximum_qualification_groups_provenance": "external_task_owner_resource_contract",
+  "test": "exact_one_sided_binomial",
+  "warning": "Both the minimum reliable rate and design alternative come from an external downstream contract. The maximum group count is an external collection-resource bound, never a success threshold. The retrospective registry is used only to exclude old seeds; formal groups must be new."
+}
