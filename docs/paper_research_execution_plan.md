@@ -38,8 +38,8 @@ performance.
 
 | day | immutable deliverable |
 |---|---|
-| 0 | identified external pi0.5 endpoint and one finite action probe |
-| 1 | nine G1 reports: 3 prompt styles x 3 development groups |
+| 0 | frozen owner risk budget, identified out-of-process pi0.5 endpoint, and one finite action probe |
+| 1 | formal OPEN qualification only; Oracle remains blocked until `FORMALLY_QUALIFIED` |
 | 2 | frozen style choice and five G2 pilot reports; prospective G2F sample-size calculation |
 | 3-5 | collect formal oracle groups, then develop the supported executor-repair branch |
 | 6 | explicit placement gate and destination-binding diagnosis |
@@ -54,25 +54,34 @@ generalization. A true ICRA/RSS main-method claim ultimately requires additional
 tasks/scenes; those are deferred until G2-G4 pass so compute is not spent scaling
 a broken executor.
 
-## Supplying the external `host:port`
+## Supplying the identified `host:port`
 
-Use a remote NVIDIA machine with at least 16 GB VRAM (24 GB preferred), about
-20 GB free disk, the OpenPI checkout, and the exact official checkpoint. On the
-remote machine, clone/pull this repository and run:
+The retained offline/replay release remains CPU-only under its historical 1500
+MiB cap. Prospective empirical policy execution instead follows the versioned
+`identified_out_of_process_frozen_policy_endpoint` contract. It permits a
+remote server or an independent local server, while preserving the same exact
+checkpoint, public observation firewall, action interface, and frozen weights.
+
+For the authorized local RTX 4080 SUPER deployment, run only after the GPU
+preflight has no unapproved compute process:
 
 ```bash
-cd /path/to/Interactive-Perception
-EXPERIMENT_GPU_INDEX=0 PORT=8002 \
+cd /home/icon/InteractivePerception_yg/Interactive-Perception
+LAB_SERVER_MODE=0 EXPERIMENT_GPU_INDEX=0 CUDA_VISIBLE_DEVICES=0 \
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.85 \
+DEPLOYMENT_MODE=local_identified_server HOST=127.0.0.1 PORT=8002 \
   bash scripts/infra/serve_pi05.sh \
-  /path/to/openpi \
-  /path/to/checkpoints/checkpoints/pi05_libero
+  /home/icon/InteractivePerception_yg/openpi \
+  /home/icon/InteractivePerception_yg/checkpoints/checkpoints/pi05_libero
 ```
 
 The server hashes the complete checkpoint before loading it and exposes the
 identity in WebSocket metadata. The expected identity is retained in
 `results/diagnostics/pi05_libero_checkpoint_identity_v1.json`.
 
-The recommended connection is an SSH tunnel. Run this locally and keep it open:
+A remote NVIDIA host remains supported (24 GB or more is preferred). Set
+`DEPLOYMENT_MODE=remote_identified_server` on that host. The recommended
+connection is an SSH tunnel; run this locally and keep it open:
 
 ```bash
 ssh -N -L 8002:127.0.0.1:8002 USER@REMOTE_GPU_HOST
@@ -83,9 +92,11 @@ rule is needed. Validate identity and one action sample from a retained policy
 frame:
 
 ```bash
-/path/to/simulator-python scripts/infra/check_external_pi05.py \
+python scripts/infra/check_external_pi05.py \
   --host 127.0.0.1 --port 8002 \
+  --deployment-mode local_identified_server \
   --identity results/diagnostics/pi05_libero_checkpoint_identity_v1.json \
+  --compute-contract configs/experiments/piu_empirical_compute_contract_v1.yaml \
   --probe-report runs/paper_cycle_executor_v2/seed1400/open_butter/report.json \
   --output results/diagnostics/external_pi05_endpoint_check_v1.json
 ```
@@ -94,9 +105,23 @@ Do not expose port 8002 directly to the public internet. If direct networking is
 unavoidable, restrict the firewall to the local machine's source IP and use a
 private network or authenticated reverse proxy.
 
-## Oracle screen and confirmation
+## S00/S02 gate before Oracle screen and confirmation
 
-After the endpoint check passes:
+The endpoint probe completes only S00b. S00a freezes the task-owner execution
+risk contract independently. Both must validate before S02 becomes ready. Run
+the prospectively planned OPEN qualification and require a complete
+`FORMALLY_QUALIFIED` certificate before any S03 command below. The immutable
+order is:
+
+```text
+S00a risk authority + S00b identified endpoint
+  -> S02 formal OPEN qualification
+  -> S03 Oracle development screen and confirmation
+```
+
+An endpoint `PASS`, a qualification plan, and a qualification outcome are three
+different objects. None may be substituted for the next. Only after S02 is
+formally complete:
 
 ```bash
 /path/to/simulator-python \

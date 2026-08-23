@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract full frozen PIU prefix tokens through an identified external server."""
+"""Extract frozen PIU prefix tokens through an identified policy endpoint."""
 
 from __future__ import annotations
 
@@ -26,6 +26,7 @@ from interactive_perception.policy_client import (
     OpenPiWebsocketPolicy,
 )
 from piu.contracts import load_public_transitions, public_observation_sha256
+from piu.compute_provenance import validate_external_pi05_endpoint_artifact
 from piu.spatial_prefix import (
     PrefixLayout,
     candidate_conditioned_prompt,
@@ -124,10 +125,22 @@ def main() -> None:
         type=Path,
         default=ROOT / "results/diagnostics/pi05_libero_checkpoint_identity_v1.json",
     )
+    parser.add_argument(
+        "--endpoint-check",
+        type=Path,
+        default=ROOT / "results/diagnostics/external_pi05_endpoint_check_v1.json",
+    )
+    parser.add_argument(
+        "--compute-contract",
+        type=Path,
+        default=ROOT / "configs/experiments/piu_empirical_compute_contract_v1.yaml",
+    )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     public_path = resolve(args.public)
     identity_path = resolve(args.identity)
+    endpoint_check_path = resolve(args.endpoint_check)
+    compute_contract_path = resolve(args.compute_contract)
     output = resolve(args.output)
     report_path = output.with_suffix(".json")
     if output.exists() or report_path.exists():
@@ -136,8 +149,18 @@ def main() -> None:
     wait_for_endpoint(args.host, args.port, args.timeout)
     policy = OpenPiWebsocketPolicy(host=args.host, port=args.port, api_key=args.api_key)
     identity = json.loads(identity_path.read_text())
+    endpoint_check = validate_external_pi05_endpoint_artifact(
+        json.loads(endpoint_check_path.read_text()),
+        checkpoint_identity_path=identity_path,
+        compute_contract_path=compute_contract_path,
+        repository_root=ROOT,
+    )
+    if endpoint_check["endpoint"] != {"host": args.host, "port": args.port}:
+        raise ValueError("prefix extraction endpoint differs from canonical check")
     metadata = policy.server_metadata
     validate_metadata(metadata, identity)
+    if metadata != endpoint_check["identity"]:
+        raise ValueError("identified policy server restarted after endpoint check")
     if "spatial_prefix_v1" not in metadata.get("capabilities", []):
         raise ValueError("identified endpoint lacks spatial_prefix_v1 capability")
 
@@ -278,6 +301,10 @@ def main() -> None:
             "path": portable(identity_path),
             "sha256": sha256(identity_path),
         },
+        "endpoint_check": {
+            "path": portable(endpoint_check_path),
+            "sha256": sha256(endpoint_check_path),
+        },
         "layout": {
             "camera_names": list(layout.camera_names),
             "tokens_per_camera": list(layout.tokens_per_camera),
@@ -293,8 +320,9 @@ def main() -> None:
         },
         "pooling": None,
         "online_oracle_inputs": [],
-        "execution_location": "external_identified_server",
-        "local_gpu_used": False,
+        "execution_location": "identified_out_of_process_frozen_policy_endpoint",
+        "deployment_mode": endpoint_check["compute_provenance"]["deployment_mode"],
+        "local_gpu_used": endpoint_check["compute_provenance"]["local_gpu_used"],
     }
     report_path.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2))

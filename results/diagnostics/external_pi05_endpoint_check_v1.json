@@ -1,0 +1,94 @@
+{
+  "schema_version": "piu.external-pi05-check.v2",
+  "status": "PASS",
+  "endpoint": {
+    "host": "127.0.0.1",
+    "port": 8002
+  },
+  "identity": {
+    "schema_version": "piu.identified-pi05-server.v1",
+    "policy_config": "pi05_libero",
+    "environment": "LIBERO",
+    "checkpoint": {
+      "schema_version": "piu.checkpoint-tree-sha256.v1",
+      "sha256": "1325f4a3f76250f6bed2f53f53b49ec68c94f5fd12911f76d82dbca578fe9901",
+      "file_count": 16,
+      "total_bytes": 12439085481
+    },
+    "capabilities": [
+      "action_chunks",
+      "spatial_prefix_v1"
+    ],
+    "server_session_id": "e973ffd0b0574772aa739f12326af4c7",
+    "runtime_identity": {
+      "schema_version": "piu.identified-policy-runtime.v1",
+      "server_process_id": 2049143,
+      "python_version": "3.11.15",
+      "jax_version": "0.5.3",
+      "jaxlib_version": "0.5.3",
+      "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+      "cuda_visible_devices": "0",
+      "xla_python_client_mem_fraction": 0.85,
+      "jax_platform_version": "PJRT C API\ncuda 12030",
+      "gpu": {
+        "physical_index": 0,
+        "visible_index": 0,
+        "name": "NVIDIA GeForce RTX 4080 SUPER",
+        "memory_total_mib": 16376,
+        "driver_version": "595.84"
+      }
+    }
+  },
+  "checkpoint_identity": {
+    "path": "results/diagnostics/pi05_libero_checkpoint_identity_v1.json",
+    "sha256": "ad3bb21eb485cd60c0f19b31a51377949197d7e0eab58387ddb17d8239965152"
+  },
+  "compute_provenance": {
+    "schema_version": "piu.endpoint-compute-provenance.v1",
+    "compute_contract": {
+      "path": "configs/experiments/piu_empirical_compute_contract_v1.yaml",
+      "sha256": "920a01ff7e71b06083564548e47b53c69f2d78c9d63619ed8a0be1a87984bcfc"
+    },
+    "semantic_contract": "identified_out_of_process_frozen_policy_endpoint",
+    "deployment_mode": "local_identified_server",
+    "local_gpu_used": true,
+    "server_out_of_process": true,
+    "runtime_identity": {
+      "schema_version": "piu.identified-policy-runtime.v1",
+      "server_process_id": 2049143,
+      "python_version": "3.11.15",
+      "jax_version": "0.5.3",
+      "jaxlib_version": "0.5.3",
+      "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+      "cuda_visible_devices": "0",
+      "xla_python_client_mem_fraction": 0.85,
+      "jax_platform_version": "PJRT C API\ncuda 12030",
+      "gpu": {
+        "physical_index": 0,
+        "visible_index": 0,
+        "name": "NVIDIA GeForce RTX 4080 SUPER",
+        "memory_total_mib": 16376,
+        "driver_version": "595.84"
+      }
+    },
+    "policy_weights_modified": false,
+    "quantization_used": false,
+    "pruning_used": false,
+    "dtype_override_used": false,
+    "cpu_offload_used": false,
+    "qualification_outcomes_loaded": false
+  },
+  "action_probe": {
+    "source_report": {
+      "path": "runs/paper_cycle_executor_v2/seed1400/open_butter/report.json",
+      "sha256": "26e582e7a8fb3f20c35185f55afd4c2d50f364baa375280acddb1ccc45b3158b"
+    },
+    "keyframe": "00_before",
+    "shape": [
+      10,
+      7
+    ],
+    "finite": true,
+    "elapsed_seconds": 0.1183789330534637
+  }
+}

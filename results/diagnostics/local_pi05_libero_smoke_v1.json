@@ -1,0 +1,86 @@
+{
+  "schema_version": "piu.local-pi05-libero-smoke.v1",
+  "status": "PASS",
+  "recorded_at": "2026-08-23T12:40:39-07:00",
+  "claim_scope": "NONCANONICAL_INFRASTRUCTURE_SMOKE_NOT_PAPER_EVIDENCE",
+  "formal_qualification_groups_used": false,
+  "qualification_outcomes_loaded": false,
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8002,
+    "process_id": 2049143,
+    "session_id": "e973ffd0b0574772aa739f12326af4c7",
+    "deployment_mode": "local_identified_server",
+    "local_gpu_used": true,
+    "xla_python_client_mem_fraction": 0.85,
+    "checkpoint_sha256": "1325f4a3f76250f6bed2f53f53b49ec68c94f5fd12911f76d82dbca578fe9901",
+    "checkpoint_identity_match": true,
+    "policy_weights_modified": false,
+    "quantization_used": false,
+    "dtype_override_used": false,
+    "cpu_offload_used": false
+  },
+  "gpu_memory": {
+    "total_mib": 16376,
+    "used_before_server_mib": 1541,
+    "used_server_idle_mib": 15350,
+    "observed_coexistence_peak_mib": 15918,
+    "used_after_smoke_mib": 15354,
+    "repeated_inference_samples_mib": [15368, 15368, 15368, 15368, 15368],
+    "sustained_growth_observed": false
+  },
+  "action_probe": {
+    "source_report": "runs/paper_cycle_executor_v2/seed1400/open_butter/report.json",
+    "source_report_sha256": "26e582e7a8fb3f20c35185f55afd4c2d50f364baa375280acddb1ccc45b3158b",
+    "source_role": "retained_development_probe_not_formal_qualification",
+    "shape": [10, 7],
+    "finite": true,
+    "nan_or_inf_observed": false,
+    "first_compilation_and_inference_seconds": 8.892746892059222,
+    "warm_inference_seconds": 0.11670945212244987,
+    "five_repeat_elapsed_seconds": [
+      0.1282897531054914,
+      0.12762179085984826,
+      0.12134321290068328,
+      0.12374619813635945,
+      0.12113706395030022
+    ]
+  },
+  "libero_public_rgb": {
+    "environment": "OffScreenRenderEnv",
+    "egl_context_created": true,
+    "seed": 1400,
+    "source_state": "runs/paper_cycle_executor_v2/seed1400/open_butter/final_state.npz",
+    "agentview": {
+      "shape": [224, 224, 3],
+      "minimum": 0,
+      "maximum": 244,
+      "mean": 112.67186835671768,
+      "standard_deviation": 47.96112684236994,
+      "nonzero_fraction": 0.9751541241496599,
+      "all_black": false,
+      "finite": true
+    },
+    "wrist": {
+      "shape": [224, 224, 3],
+      "minimum": 0,
+      "maximum": 227,
+      "mean": 105.4703908907313,
+      "standard_deviation": 68.67447469318445,
+      "nonzero_fraction": 0.8819355867346939,
+      "all_black": false,
+      "finite": true
+    }
+  },
+  "diagnostics": [
+    {
+      "component": "SegmentationRenderEnv",
+      "status": "NOT_USED_FOR_PUBLIC_RGB_SMOKE",
+      "observation": "Legacy robosuite segmentation decoding overflowed on NumPy 2 uint8 multiplication by 256.",
+      "effect_on_smoke": "none; the public-input OffScreenRenderEnv path passed without privileged segmentation"
+    }
+  ],
+  "oom_observed": false,
+  "crash_observed": false,
+  "canonical_endpoint_artifact_created_after_smoke": true
+}

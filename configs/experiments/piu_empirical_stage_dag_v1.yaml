@@ -9,7 +9,9 @@ claim_contract:
   negative_qualification_may_dispatch: false
   development_or_calibration_is_test_evidence: false
   paper_claim_requires_all_stages: true
-  local_gpu_actions_performed: false
+  offline_replay_local_gpu_actions_performed: false
+  empirical_policy_endpoint_contract: identified_out_of_process_frozen_policy_endpoint
+  empirical_policy_deployment_modes: [remote_identified_server, local_identified_server]
 
 split_manifest:
   id: learning_split_manifest
@@ -45,19 +47,24 @@ stages:
           outcomes_loaded: false
 
   - id: S00b_identified_pi05_endpoint
-    title: Identified external pi0.5 endpoint and finite action probe
+    title: Identified out-of-process frozen pi0.5 endpoint and finite action probe
     depends_on: []
     claim_scope: EXTERNAL_IDENTITY_CONTRACT_NOT_PERFORMANCE_EVIDENCE
     artifacts:
       - id: external_pi05_identity_probe
         path: results/diagnostics/external_pi05_endpoint_check_v1.json
         format: json
-        schema_version: piu.external-pi05-check.v1
+        schema_version: piu.external-pi05-check.v2
         validator: external_pi05_endpoint
         checkpoint_identity: results/diagnostics/pi05_libero_checkpoint_identity_v1.json
+        compute_contract: configs/experiments/piu_empirical_compute_contract_v1.yaml
         expected:
           status: PASS
           action_probe.finite: true
+          compute_provenance.semantic_contract: identified_out_of_process_frozen_policy_endpoint
+          compute_provenance.deployment_mode: local_identified_server
+          compute_provenance.local_gpu_used: true
+          compute_provenance.qualification_outcomes_loaded: false
 
   - id: S02_open_primitive_qualification
     title: OPEN primitive plan, schedule, and formal certificate
@@ -240,37 +247,37 @@ stages:
         path: data/piu/mainline_v1/train/spatial_prefix_features.json
         format: json
         schema_version: piu.spatial-prefix-features.v1
-        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        expected: {pooling: null, execution_location: identified_out_of_process_frozen_policy_endpoint}
         npz_group_role: train
       - id: development_spatial_prefix
         path: data/piu/mainline_v1/development/spatial_prefix_features.json
         format: json
         schema_version: piu.spatial-prefix-features.v1
-        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        expected: {pooling: null, execution_location: identified_out_of_process_frozen_policy_endpoint}
         npz_group_role: development
       - id: binder_temperature_spatial_prefix
         path: data/piu/mainline_v1/calibration_temperature/spatial_prefix_features.json
         format: json
         schema_version: piu.spatial-prefix-features.v1
-        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        expected: {pooling: null, execution_location: identified_out_of_process_frozen_policy_endpoint}
         npz_group_role: calibration_temperature
       - id: binder_conformal_spatial_prefix
         path: data/piu/mainline_v1/calibration_conformal/spatial_prefix_features.json
         format: json
         schema_version: piu.spatial-prefix-features.v1
-        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        expected: {pooling: null, execution_location: identified_out_of_process_frozen_policy_endpoint}
         npz_group_role: calibration_conformal
       - id: effect_temperature_spatial_prefix
         path: data/piu/mainline_v1/effect_calibration_temperature/spatial_prefix_features.json
         format: json
         schema_version: piu.spatial-prefix-features.v1
-        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        expected: {pooling: null, execution_location: identified_out_of_process_frozen_policy_endpoint}
         npz_group_role: effect_calibration_temperature
       - id: effect_conformal_spatial_prefix
         path: data/piu/mainline_v1/effect_calibration_conformal/spatial_prefix_features.json
         format: json
         schema_version: piu.spatial-prefix-features.v1
-        expected: {pooling: null, execution_location: external_identified_server, local_gpu_used: false}
+        expected: {pooling: null, execution_location: identified_out_of_process_frozen_policy_endpoint}
         npz_group_role: effect_calibration_conformal
 
   - id: S07_binder_training
@@ -617,7 +624,7 @@ stages:
           artifacts.action_effect_sealed.status: AVAILABLE
           artifacts.closed_loop_sealed.status: AVAILABLE
       - id: public_claim_audit
-        path: results/diagnostics/piu_public_claim_audit_v1.json
+        path: results/diagnostics/piu_public_claim_audit_v3.json
         format: json
         schema_version: piu.public-claim-audit.v1
         expected:

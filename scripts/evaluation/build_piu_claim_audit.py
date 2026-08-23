@@ -28,7 +28,7 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "results/diagnostics/piu_public_claim_audit_v1.json",
+        default=ROOT / "results/diagnostics/piu_public_claim_audit_v3.json",
     )
     parser.add_argument("--verify", action="store_true")
     parser.add_argument("--force", action="store_true")

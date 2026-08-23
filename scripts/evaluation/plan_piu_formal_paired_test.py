@@ -101,12 +101,12 @@ def main() -> None:
     parser.add_argument(
         "--repro-manifest",
         type=Path,
-        default=ROOT / "configs/experiments/piu_offline_repro_v1.yaml",
+        default=ROOT / "configs/experiments/piu_offline_repro_v3.yaml",
     )
     parser.add_argument(
         "--repro-lock",
         type=Path,
-        default=ROOT / "results/diagnostics/piu_offline_repro_preflight_v1.json",
+        default=ROOT / "results/diagnostics/piu_offline_repro_preflight_v3.json",
     )
     parser.add_argument("--treatment-episodes", type=Path, nargs="+", required=True)
     parser.add_argument("--comparator-episodes", type=Path, nargs="+", required=True)

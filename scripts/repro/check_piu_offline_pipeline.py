@@ -19,7 +19,7 @@ def main() -> None:
     parser.add_argument(
         "--manifest",
         type=Path,
-        default=ROOT / "configs/experiments/piu_offline_repro_v1.yaml",
+        default=ROOT / "configs/experiments/piu_offline_repro_v3.yaml",
     )
     parser.add_argument("--reference", type=Path)
     parser.add_argument("--output", type=Path, required=True)
@@ -45,4 +45,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

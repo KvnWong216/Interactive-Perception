@@ -53,7 +53,7 @@ def load_formal_schedule(
     )
     if not lock_path.is_file() or sha256(lock_path) != lock_value.get("sha256"):
         raise ValueError("formal schedule offline release lock differs")
-    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v1.yaml"
+    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v3.yaml"
     if lock_value.get("manifest_sha256") != sha256(manifest_path):
         raise ValueError("formal schedule reproduction manifest differs")
     validate_repro_lock(

@@ -46,13 +46,19 @@ def validate_server_metadata(
         and len(session_id) == 32
         and all(character in "0123456789abcdef" for character in session_id)
     )
+    runtime_identity = metadata.get("runtime_identity")
     if (
         received != expected
         or not isinstance(capabilities, list)
         or any(not isinstance(item, str) for item in capabilities)
         or "action_chunks" not in capabilities
         or not session_valid
-        or set(metadata) - {*expected, "capabilities", "server_session_id"}
+        or (
+            runtime_identity is not None
+            and not isinstance(runtime_identity, Mapping)
+        )
+        or set(metadata)
+        - {*expected, "capabilities", "server_session_id", "runtime_identity"}
     ):
         raise ValueError("external pi0.5 server identity differs from frozen policy")
     return tuple(capabilities)

@@ -1,0 +1,68 @@
+{
+  "schema_version": "piu.local-pi05-smoke-blocker.v1",
+  "status": "BLOCKED_GPU_PREFLIGHT",
+  "recorded_at": "2026-08-23T12:05:32-07:00",
+  "claim_scope": "INFRASTRUCTURE_BLOCKER_NOT_EMPIRICAL_EVIDENCE",
+  "host_runtime": {
+    "os": "Ubuntu 22.04.5 LTS",
+    "kernel": "Linux 6.8.0-136-generic",
+    "virtualization": "native_linux_not_wsl",
+    "gpu": {
+      "physical_index": 0,
+      "name": "NVIDIA GeForce RTX 4080 SUPER",
+      "memory_total_mib": 16376,
+      "memory_used_at_initial_audit_mib": 1502,
+      "memory_used_at_failed_preflight_mib": 1180
+    },
+    "nvidia_driver_version": "595.84",
+    "nvidia_smi_cuda_version": "13.2",
+    "openpi_python_version": "3.11.15",
+    "jax_version": "0.5.3",
+    "jaxlib_version": "0.5.3",
+    "jax_platform_version": "cuda 12030",
+    "available_disk": "1.4 TiB",
+    "openpi_checkout": "/home/icon/InteractivePerception_yg/openpi",
+    "checkpoint_path": "/home/icon/InteractivePerception_yg/checkpoints/checkpoints/pi05_libero"
+  },
+  "checkpoint_identity": {
+    "policy_config": "pi05_libero",
+    "sha256": "1325f4a3f76250f6bed2f53f53b49ec68c94f5fd12911f76d82dbca578fe9901",
+    "file_count": 16,
+    "total_bytes": 12439085481,
+    "matches_expected": true
+  },
+  "requested_runtime": {
+    "host": "127.0.0.1",
+    "port": 8002,
+    "deployment_mode": "local_identified_server",
+    "xla_python_client_mem_fraction": 0.85
+  },
+  "preflight": {
+    "passed": false,
+    "unapproved_compute_processes": [
+      {
+        "pid": 3000905,
+        "owner": "icon",
+        "process_name": ".venv/bin/python",
+        "used_gpu_memory_mib": 590,
+        "command": "ros2_nodes/xarm_codiff_inference_node.py --on-request"
+      }
+    ],
+    "process_killed": false,
+    "process_allowlisted": false,
+    "preflight_bypassed": false
+  },
+  "smoke": {
+    "policy_server_started": false,
+    "model_loaded": false,
+    "action_probe_issued": false,
+    "libero_coexistence_tested": false,
+    "rendering_tested": false,
+    "oom_observed": false,
+    "canonical_endpoint_artifact_created": false
+  },
+  "formal_outcomes_loaded": false,
+  "s00a_created": false,
+  "s00b_created": false,
+  "recommended_next_resource": "ICON GPU1 48 GB with no unapproved compute process"
+}

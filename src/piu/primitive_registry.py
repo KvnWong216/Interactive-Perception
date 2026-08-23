@@ -1031,7 +1031,7 @@ def load_primitive_qualification_schedule(
         name="primitive qualification offline release lock",
         repository_root=repository_root,
     )
-    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v1.yaml"
+    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v3.yaml"
     if lock_reference.get("manifest_sha256") != _sha256(manifest_path):
         raise ValueError("qualification schedule uses another reproduction manifest")
     validate_repro_lock(

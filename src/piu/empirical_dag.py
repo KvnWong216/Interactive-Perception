@@ -42,6 +42,7 @@ from .learned_artifacts import (
     validate_effect_training_report,
 )
 from .policy_identity import load_checkpoint_identity, validate_server_metadata
+from .compute_provenance import validate_external_pi05_endpoint_artifact
 from .primitive_registry import (
     load_derived_primitive_risk_contract,
     load_primitive_qualification_certificate,
@@ -250,73 +251,18 @@ def _validate_external_budget(
 def _validate_external_pi05_endpoint(
     value: Mapping[str, Any], rule: Mapping[str, Any], *, repository_root: Path
 ) -> None:
-    if set(value) != {
-        "schema_version",
-        "status",
-        "endpoint",
-        "identity",
-        "checkpoint_identity",
-        "action_probe",
-    }:
-        raise ValueError("endpoint check fields are not closed")
     identity_path = _configured_path(
         rule, "checkpoint_identity", repository_root=repository_root
     )
-    identity = load_checkpoint_identity(identity_path)
-    reference = value.get("checkpoint_identity")
-    if not isinstance(reference, Mapping) or (
-        _resolve(str(reference.get("path", "")), repository_root=repository_root)
-        .resolve()
-        != identity_path.resolve()
-        or reference.get("sha256") != sha256(identity_path)
-    ):
-        raise ValueError("endpoint check uses another checkpoint identity")
-    metadata = value.get("identity")
-    if not isinstance(metadata, Mapping):
-        raise TypeError("endpoint check lacks server metadata")
-    validate_server_metadata(metadata, identity)
-    endpoint = value.get("endpoint")
-    if not isinstance(endpoint, Mapping):
-        raise TypeError("endpoint check lacks endpoint identity")
-    host = " ".join(str(endpoint.get("host", "")).split())
-    port = endpoint.get("port")
-    if (
-        not host
-        or not isinstance(port, int)
-        or isinstance(port, bool)
-        or not 1 <= port <= 65535
-    ):
-        raise ValueError("endpoint host/port are invalid")
-    probe = value.get("action_probe")
-    if not isinstance(probe, Mapping) or probe.get("finite") is not True:
-        raise ValueError("endpoint check lacks a finite action probe")
-    if set(probe) != {
-        "source_report",
-        "keyframe",
-        "shape",
-        "finite",
-        "elapsed_seconds",
-    }:
-        raise ValueError("endpoint action probe fields are not closed")
-    if not " ".join(str(probe.get("keyframe", "")).split()):
-        raise ValueError("endpoint action probe lacks a keyframe identity")
-    shape = probe.get("shape")
-    elapsed = probe.get("elapsed_seconds")
-    if (
-        not isinstance(shape, list)
-        or not shape
-        or any(
-            not isinstance(item, int) or isinstance(item, bool) or item < 1
-            for item in shape
-        )
-        or not isinstance(elapsed, (int, float))
-        or isinstance(elapsed, bool)
-        or not math.isfinite(float(elapsed))
-        or float(elapsed) < 0.0
-    ):
-        raise ValueError("endpoint action probe shape/timing are invalid")
-    if not isinstance(probe.get("source_report"), Mapping):
-        raise TypeError("endpoint action probe lacks hash-bound source report")
+    compute_contract_path = _configured_path(
+        rule, "compute_contract", repository_root=repository_root
+    )
+    validate_external_pi05_endpoint_artifact(
+        value,
+        checkpoint_identity_path=identity_path,
+        compute_contract_path=compute_contract_path,
+        repository_root=repository_root,
+    )
 
 
 def _validate_prompted_vlm_identity(value: Mapping[str, Any]) -> None:
@@ -947,6 +893,24 @@ def evaluate_empirical_dag(
             }
         )
     all_complete = bool(rows) and all(row["status"] == "COMPLETE" for row in rows)
+    endpoint_local_gpu_used = None
+    for stage, stage_row in zip(stages, rows, strict=True):
+        if (
+            stage_row["id"] == "S00b_identified_pi05_endpoint"
+            and stage_row["status"] == "COMPLETE"
+        ):
+            for artifact in stage.get("artifacts", ()):
+                if artifact.get("validator") == "external_pi05_endpoint":
+                    endpoint_value, endpoint_errors = _load_value(
+                        _resolve(
+                            str(artifact["path"]), repository_root=repository_root
+                        ),
+                        str(artifact.get("format", "json")),
+                    )
+                    if not endpoint_errors and isinstance(endpoint_value, Mapping):
+                        endpoint_local_gpu_used = endpoint_value.get(
+                            "compute_provenance", {}
+                        ).get("local_gpu_used")
     return {
         "schema_version": "piu.empirical-stage-status.v1",
         "dag": {"path": str(dag_path), "sha256": sha256(dag_path)},
@@ -960,5 +924,7 @@ def evaluate_empirical_dag(
         ),
         "next_actionable_stages": next_actionable,
         "stages": rows,
-        "local_gpu_actions_performed": False,
+        "offline_replay_local_gpu_actions_performed": False,
+        "empirical_policy_endpoint_local_gpu_used": endpoint_local_gpu_used,
+        "local_gpu_actions_performed": endpoint_local_gpu_used is True,
     }

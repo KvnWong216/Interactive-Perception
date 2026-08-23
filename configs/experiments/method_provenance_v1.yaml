@@ -106,8 +106,32 @@ entries:
     value: 1500 MiB
     provenance: safety_or_resource_budget
     claim_use: safety_only
-    rationale: This is the user's resource constraint and forces external pi0.5 serving.
-    evidence: external_only resource contract and GPU audit
+    rationale: This is the retained historical offline/replay resource constraint; it does not describe prospective empirical policy serving.
+    evidence: the immutable offline release manifest and reproduction lock both record CPU-only execution and no local pi0.5 load
+
+  - id: empirical_policy_gpu_index
+    location: configs/experiments/piu_empirical_compute_contract_v1.yaml:deployment_contracts.local_identified_server.gpu_physical_index
+    value: physical GPU0
+    provenance: safety_or_resource_budget
+    claim_use: safety_only
+    rationale: The task owner authorized only the enumerated local accelerator; this selects hardware and does not affect an action or evaluator threshold.
+    evidence: local hardware audit plus fail-closed scripts/infra/check_gpu.sh preflight
+
+  - id: empirical_policy_gpu_memory
+    location: configs/experiments/piu_empirical_compute_contract_v1.yaml:deployment_contracts.local_identified_server.gpu_memory_total_mib
+    value: 16376 MiB
+    provenance: safety_or_resource_budget
+    claim_use: safety_only
+    rationale: The value identifies the authorized RTX 4080 SUPER device and is checked against server runtime metadata; it is not a method hyperparameter.
+    evidence: nvidia-smi hardware identity captured before policy load
+
+  - id: empirical_policy_xla_fraction
+    location: configs/experiments/piu_empirical_compute_contract_v1.yaml:deployment_contracts.local_identified_server.xla_python_client_mem_fraction
+    value: 0.85
+    provenance: safety_or_resource_budget
+    claim_use: safety_only
+    rationale: The task owner fixed this allocator fraction to leave renderer headroom on the minimum-memory local deployment; it cannot change weights, dtype, or decisions.
+    evidence: serve_pi05.sh and endpoint runtime validation reject a different local value
 
   - id: formal_test_design_levels
     location: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:formal_followup and configs/experiments/piu_formal_analysis_v1.yaml
@@ -230,7 +254,7 @@ entries:
     evidence: the builder validates split groups/seeds, NPZ key/dtype/finiteness, and unique content; the schedule and matrix bind every state hash
 
   - id: formal_offline_release_lock
-    location: results/diagnostics/piu_offline_repro_preflight_v1.json
+    location: results/diagnostics/piu_offline_repro_preflight_v3.json
     value: content-addressed inventory of all required mainline code and configs
     provenance: protocol_identifier
     claim_use: main_evaluator
@@ -649,6 +673,12 @@ retired_claim_fragments:
     replacement: Retrospective artifacts executed DIRECT; prospective PLACE remains unevaluated.
 
 tracked_protocols:
+  - path: configs/experiments/piu_empirical_compute_contract_v1.yaml
+    numeric_controls:
+      offline_replay_contract.local_gpu_memory_mib_max: local_gpu_cap
+      deployment_contracts.local_identified_server.gpu_physical_index: empirical_policy_gpu_index
+      deployment_contracts.local_identified_server.gpu_memory_total_mib: empirical_policy_gpu_memory
+      deployment_contracts.local_identified_server.xla_python_client_mem_fraction: empirical_policy_xla_fraction
   - path: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
     numeric_controls:
       resource_contract.local_gpu_memory_mib_max: local_gpu_cap

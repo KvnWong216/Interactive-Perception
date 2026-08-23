@@ -5,11 +5,15 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
+import platform
+import subprocess
 import sys
 import uuid
 from pathlib import Path
 
 import jax
+import jaxlib
 import jax.numpy as jnp
 import numpy as np
 
@@ -27,6 +31,50 @@ from openpi.training import config as training_config
 
 SERVER_SCHEMA = "piu.identified-pi05-server.v1"
 LOGGER = logging.getLogger(__name__)
+
+
+def runtime_identity(physical_gpu_index: int) -> dict:
+    """Report the process and accelerator that actually loaded the policy."""
+
+    query = subprocess.run(
+        [
+            "nvidia-smi",
+            f"--id={physical_gpu_index}",
+            "--query-gpu=index,name,memory.total,driver_version",
+            "--format=csv,noheader,nounits",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    rows = [row for row in query.splitlines() if row.strip()]
+    if len(rows) != 1:
+        raise RuntimeError("identified policy server requires exactly one selected GPU")
+    fields = [field.strip() for field in rows[0].split(",")]
+    if len(fields) != 4 or int(fields[0]) != physical_gpu_index:
+        raise RuntimeError("nvidia-smi GPU identity differs from the selected GPU")
+    devices = jax.devices()
+    if len(devices) != 1 or devices[0].platform != "gpu":
+        raise RuntimeError("identified policy server requires one visible JAX GPU")
+    fraction = float(os.environ.get("XLA_PYTHON_CLIENT_MEM_FRACTION", ""))
+    return {
+        "schema_version": "piu.identified-policy-runtime.v1",
+        "server_process_id": os.getpid(),
+        "python_version": platform.python_version(),
+        "jax_version": jax.__version__,
+        "jaxlib_version": jaxlib.__version__,
+        "platform": platform.platform(),
+        "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES", ""),
+        "xla_python_client_mem_fraction": fraction,
+        "jax_platform_version": str(devices[0].client.platform_version),
+        "gpu": {
+            "physical_index": physical_gpu_index,
+            "visible_index": int(devices[0].id),
+            "name": fields[1],
+            "memory_total_mib": int(fields[2]),
+            "driver_version": fields[3],
+        },
+    }
 
 
 class IdentifiedSpatialPolicy:
@@ -129,6 +177,7 @@ def main() -> None:
     parser.add_argument("--policy-config", default="pi05_libero")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8002)
+    parser.add_argument("--physical-gpu-index", type=int, required=True)
     args = parser.parse_args()
     checkpoint = args.checkpoint.resolve()
     identity = checkpoint_identity(checkpoint)
@@ -143,6 +192,7 @@ def main() -> None:
         "checkpoint": identity,
         "capabilities": ["action_chunks", "spatial_prefix_v1"],
         "server_session_id": uuid.uuid4().hex,
+        "runtime_identity": runtime_identity(args.physical_gpu_index),
     }
     websocket_policy_server.WebsocketPolicyServer(
         policy=IdentifiedSpatialPolicy(policy),

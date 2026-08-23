@@ -31,6 +31,7 @@ from piu.oracle_formal import (
     validate_oracle_formal_execution_report,
 )
 from piu.policy_identity import load_checkpoint_identity
+from piu.compute_provenance import validate_external_pi05_endpoint_artifact
 
 
 def local(path: Path) -> Path:
@@ -41,9 +42,21 @@ def load_endpoint(
     path: Path, *, host: str, port: int, identity: dict[str, Any]
 ) -> dict[str, Any]:
     value = json.loads(path.read_text())
+    if value.get("schema_version") == "piu.external-pi05-check.v2":
+        value = validate_external_pi05_endpoint_artifact(
+            value,
+            checkpoint_identity_path=(
+                ROOT / "results/diagnostics/pi05_libero_checkpoint_identity_v1.json"
+            ),
+            compute_contract_path=(
+                ROOT / "configs/experiments/piu_empirical_compute_contract_v1.yaml"
+            ),
+            repository_root=ROOT,
+        )
     probe = value.get("action_probe")
     if (
-        value.get("schema_version") != "piu.external-pi05-check.v1"
+        value.get("schema_version")
+        not in {"piu.external-pi05-check.v1", "piu.external-pi05-check.v2"}
         or value.get("status") != "PASS"
         or value.get("endpoint") != {"host": host, "port": port}
         or not isinstance(probe, dict)
@@ -280,6 +293,12 @@ def main() -> None:
             str(args.server_timeout),
             "--identity",
             str(identity_path),
+            "--deployment-mode",
+            str(
+                endpoint.get("compute_provenance", {}).get(
+                    "deployment_mode", "remote_identified_server"
+                )
+            ),
         ],
         cwd=ROOT,
         check=True,

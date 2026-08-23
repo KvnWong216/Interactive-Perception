@@ -1,0 +1,47 @@
+schema_version: piu.empirical-compute-contract.v1
+id: piu_identified_out_of_process_policy_compute_v1
+status: FROZEN_BEFORE_EMPIRICAL_POLICY_EXECUTION
+semantic_contract: identified_out_of_process_frozen_policy_endpoint
+
+policy_contract:
+  policy_config: pi05_libero
+  environment: LIBERO
+  checkpoint_identity: results/diagnostics/pi05_libero_checkpoint_identity_v1.json
+  weights_frozen: true
+  quantization_allowed: false
+  pruning_allowed: false
+  dtype_override_allowed: false
+  cpu_offload_allowed: false
+  public_observation_contract_preserved: true
+  simulator_privileged_inputs_allowed: false
+  action_interface: action_chunks
+  finite_action_probe_required: true
+  endpoint_artifact_immutable: true
+
+# This is a retained historical contract. The empirical amendment below does
+# not reinterpret or rewrite the offline release as a local-GPU run.
+offline_replay_contract:
+  manifest: configs/experiments/piu_offline_repro_v1.yaml
+  historical_contract_retained: true
+  local_gpu_memory_mib_max: 1500
+  local_model_device: cpu
+  local_pi05_checkpoint_load_allowed: false
+  local_simulator_gpu_render_allowed: false
+  pi05_execution_location: identified_external_server_only
+  local_gpu_used: false
+
+deployment_contracts:
+  local_identified_server:
+    local_gpu_used: true
+    server_process: independent
+    endpoint_host: 127.0.0.1
+    gpu_physical_index: 0
+    gpu_name: NVIDIA GeForce RTX 4080 SUPER
+    gpu_memory_total_mib: 16376
+    xla_python_client_mem_fraction: 0.85
+  remote_identified_server:
+    local_gpu_used: false
+    server_process: independent
+    tunneled_loopback_allowed: true
+
+qualification_outcomes_loaded: false

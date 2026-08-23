@@ -274,10 +274,45 @@ def audit_repro_manifest(
     reference_report: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     manifest = yaml.safe_load(manifest_path.read_text())
-    if (
-        not isinstance(manifest, Mapping)
-        or manifest.get("schema_version") != "piu.offline-repro-manifest.v1"
-    ):
+    if not isinstance(manifest, Mapping):
+        raise ValueError("unsupported PIU reproducibility manifest")
+    if manifest.get("schema_version") == "piu.offline-repro-manifest-extension.v2":
+        base_relative = str(manifest.get("base_manifest", ""))
+        base_path = repository_root / base_relative
+        base = yaml.safe_load(base_path.read_text())
+        if (
+            not isinstance(base, Mapping)
+            or base.get("schema_version") != "piu.offline-repro-manifest.v1"
+        ):
+            raise ValueError("v2 offline extension lacks a valid retained v1 base")
+        if manifest.get("resource_contract") != base.get("resource_contract"):
+            raise ValueError("v2 offline extension rewrites the retained resource contract")
+        if manifest.get("claim_contract") != base.get("claim_contract"):
+            raise ValueError("v2 offline extension weakens the retained claim contract")
+        manifest = {
+            **base,
+            "schema_version": "piu.offline-repro-manifest.v1",
+            "id": str(manifest.get("id", "")),
+            "status": str(manifest.get("status", "")),
+            "empirical_stage_dag": str(manifest.get("empirical_stage_dag", "")),
+            "dependency_closure_exceptions": [
+                *base.get("dependency_closure_exceptions", ()),
+                *manifest.get("added_dependency_closure_exceptions", ()),
+            ],
+            "required_files": [
+                *base.get("required_files", ()),
+                *manifest.get("added_required_files", ()),
+            ],
+            "python_entrypoints": [
+                *base.get("python_entrypoints", ()),
+                *manifest.get("added_python_entrypoints", ()),
+            ],
+            "external_empirical_gates": [
+                *base.get("external_empirical_gates", ()),
+                *manifest.get("added_external_empirical_gates", ()),
+            ],
+        }
+    elif manifest.get("schema_version") != "piu.offline-repro-manifest.v1":
         raise ValueError("unsupported PIU reproducibility manifest")
     resource = manifest.get("resource_contract", {})
     if int(resource.get("local_gpu_memory_mib_max", -1)) != 1500:

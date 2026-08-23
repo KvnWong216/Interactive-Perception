@@ -216,14 +216,16 @@ pass the method-paper go gate.
 
 ## 14. Compute estimate
 
-Stage 0 replay and learned-head training are CPU-only after feature extraction.
-This workstation has a hard 1500 MiB GPU-use cap and therefore never loads
-π0.5 or a replacement Qwen stack locally. Feature collection calls an
-identified external `pi05_libero` service and retains the frozen PaliGemma
-multimodal-prefix patch tokens used by the downstream policy. Binder and effect
-heads train from those cached tensors with `CUDA_VISIBLE_DEVICES=''`; every
-external extraction report records checkpoint identity, protocol version, and
-public-input hashes. Measure and retain server-side peak allocation separately.
+Stage 0 offline replay and learned-head training remain CPU-only under the
+retained 1500 MiB offline contract. That historical release did not load π0.5
+locally. Prospective empirical execution has a separate v1 compute-provenance
+amendment: an `identified_out_of_process_frozen_policy_endpoint` may be remote
+or an independent local RTX 4080 SUPER server. A local empirical artifact must
+record `local_gpu_used=true`, XLA fraction 0.85, the exact runtime identity, and
+the exact official checkpoint; it may not reinterpret the offline release.
+Feature reports inherit and hash-bind that deployment provenance while retaining
+the frozen PaliGemma multimodal-prefix patch tokens. Binder and effect heads
+still train from cached tensors with `CUDA_VISIBLE_DEVICES=''`.
 
 Full π0.5 fine-tuning, multi-node training, video generation, and eight-H100
 ActiveVLA-scale experiments are out of scope.

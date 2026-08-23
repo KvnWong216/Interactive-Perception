@@ -9,7 +9,7 @@ import yaml
 from piu.reproducibility import audit_repro_manifest, validate_repro_lock
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = ROOT / "configs/experiments/piu_offline_repro_v1.yaml"
+MANIFEST = ROOT / "configs/experiments/piu_offline_repro_v3.yaml"
 
 
 def test_repository_offline_release_is_ready_but_empirical_gates_are_not() -> None:

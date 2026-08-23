@@ -1,0 +1,17 @@
+schema_version: piu.external-execution-risk-budget.v1
+status: FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES
+maximum_episode_probability_of_any_primitive_failure: 0.40
+design_alternative_per_dispatch_success_probability: 0.99
+maximum_qualification_groups_per_primitive: 150
+authority: "Yugong Wang, PIU task owner"
+rationale: >-
+  The executor-only risk contract covers episodes with at most eight
+  dispatched physical primitives. An externally chosen episode-level
+  primitive-failure budget of 0.40 is allocated equally by a union bound,
+  producing a per-dispatch null reliability of 0.95 without assuming
+  independent primitive outcomes. The 0.99 alternative is a prospective
+  power-design target and is not estimated from retrospective qualification
+  outcomes. The 150-group limit is a collection-resource cap that covers the
+  exact one-sided binomial design at alpha 0.05 and target power 0.80; it is
+  not a success threshold or a task-success guarantee.
+outcomes_loaded: false

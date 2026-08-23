@@ -1,0 +1,2298 @@
+{
+  "schema_version": "piu.offline-repro-audit.v1",
+  "manifest": {
+    "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_offline_repro_v3.yaml",
+    "sha256": "d53bc99ca1e6bd79934116dddcfd7e0dabc71dbd17a862e7d454c9f12bd2deee"
+  },
+  "mode": "CREATE_RELEASE_LOCK",
+  "offline_ready": true,
+  "empirical_ready": false,
+  "paper_claim_ready": false,
+  "paper_claim_ready_reason": "external artifacts require the empirical DAG's identity, split, authorization, hash-chain, and evaluator validation",
+  "local_gpu_actions_performed": false,
+  "offline_inventory": [
+    {
+      "path": "README.md",
+      "sha256": "3e6d1d792f72525e0d74894090b16348a60f3c3b91256d3409e10ff12b205853",
+      "bytes": "28632"
+    },
+    {
+      "path": "RESULTS.md",
+      "sha256": "10b7f8559cbb4fcfa0e6f3531bc50af3908cd856e0a325c675045998bd7232d9",
+      "bytes": "9261"
+    },
+    {
+      "path": "STATUS.md",
+      "sha256": "c70ced66de21e2a4c1438603af1a5fd6b9b56ab85603973fdb3dcda68c8f7dbe",
+      "bytes": "15278"
+    },
+    {
+      "path": "configs/experiments/method_provenance_v1.yaml",
+      "sha256": "5d8f5b1707e61cfbcbd108f1b232afa4b3a5c17d00aa6d178357cd90c70105b4",
+      "bytes": "56229"
+    },
+    {
+      "path": "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
+      "sha256": "6ec5c282ec8d431add40afb51e492822a6649e48345549c2cc762aebaa147996",
+      "bytes": "2845"
+    },
+    {
+      "path": "configs/experiments/original_drawer_oracle_target_prompt_schedule_v1.yaml",
+      "sha256": "f50492fb4689e0a21c596e611cc51111dd98254e589b8e0149f842a26950fdbd",
+      "bytes": "600"
+    },
+    {
+      "path": "configs/experiments/piu_action_effect_calibration_v1.yaml",
+      "sha256": "2113f7deab3c9dc841fdd3ed332a7b6fe0601d29a76ae486fc7523f5ac8dd2ff",
+      "bytes": "1832"
+    },
+    {
+      "path": "configs/experiments/piu_action_effect_v1.yaml",
+      "sha256": "bc0ccc4a25a92cd0521d03767adddcd62c563818164945aa92c1d4aa69bc1bc5",
+      "bytes": "3114"
+    },
+    {
+      "path": "configs/experiments/piu_baselines_v1.yaml",
+      "sha256": "0eec5728d71ddd7eea120e4d1160f204b408377d38119d3cf2a80aa8b3e60d7d",
+      "bytes": "6331"
+    },
+    {
+      "path": "configs/experiments/piu_binding_adapter_v1.yaml",
+      "sha256": "1d2d86ef9e8beef9bf2d63ed0719912449567cdd6f574f0096935842df3c1efb",
+      "bytes": "2813"
+    },
+    {
+      "path": "configs/experiments/piu_binding_calibration_v1.yaml",
+      "sha256": "cef89f7f5efe6d7c52dd26f20ab97d26db4868f5067703a2191d284af09a349b",
+      "bytes": "1216"
+    },
+    {
+      "path": "configs/experiments/piu_empirical_compute_contract_v1.yaml",
+      "sha256": "920a01ff7e71b06083564548e47b53c69f2d78c9d63619ed8a0be1a87984bcfc",
+      "bytes": "1644"
+    },
+    {
+      "path": "configs/experiments/piu_empirical_stage_dag_v1.yaml",
+      "sha256": "4f390bb0b9f0ca1216544f0da05f114f0b39029b286f74e10190f3283b3deda0",
+      "bytes": "32255"
+    },
+    {
+      "path": "configs/experiments/piu_executor_risk_allocation_v1.yaml",
+      "sha256": "000668f14493ec92db8ccb9991044521c970a19762fafafef14bb0f33088c2e2",
+      "bytes": "2139"
+    },
+    {
+      "path": "configs/experiments/piu_formal_analysis_v1.yaml",
+      "sha256": "d1c6e535a270728e9ef9e64ecd58bfa7a37acdf81888a86f56d26c9d58c7758d",
+      "bytes": "3923"
+    },
+    {
+      "path": "configs/experiments/piu_offline_repro_v1.yaml",
+      "sha256": "3c5575f1b0894777851ca420126ac6447e9f19ca01963300282540d5b104f111",
+      "bytes": "16952"
+    },
+    {
+      "path": "configs/experiments/piu_offline_repro_v2.yaml",
+      "sha256": "e9d1c7a52390eddbf214c1266d330751992ffccbb4243b44c59cf0111eaca451",
+      "bytes": "1512"
+    },
+    {
+      "path": "configs/experiments/piu_offline_repro_v3.yaml",
+      "sha256": "d53bc99ca1e6bd79934116dddcfd7e0dabc71dbd17a862e7d454c9f12bd2deee",
+      "bytes": "1913"
+    },
+    {
+      "path": "configs/experiments/piu_oracle_formal_v1.yaml",
+      "sha256": "2c51fa2c7b011adcc2a8931e8ac72d4eef9593669b11033b505b69713f9ce64c",
+      "bytes": "1376"
+    },
+    {
+      "path": "configs/experiments/piu_paper_figures_v1.yaml",
+      "sha256": "037f03ed684b85b343eaaabb6e24f3f18c762777b9bf12a54ea547105a86b8d7",
+      "bytes": "989"
+    },
+    {
+      "path": "configs/experiments/piu_primitive_registry_v1.yaml",
+      "sha256": "a1591fd22c709918cf5a2d9324960058b3a2008d09c0072dab594fe6752215a0",
+      "bytes": "1633"
+    },
+    {
+      "path": "configs/experiments/piu_primitive_registry_v2.yaml",
+      "sha256": "dcc2656a4fa20deb97faac55f93444d2d370e2ed106f1bb6a3287d36eeff494b",
+      "bytes": "2995"
+    },
+    {
+      "path": "configs/experiments/piu_robustness_reporting_v1.yaml",
+      "sha256": "96a25e5dc236f17df382fa316d9f9f53f55d209ac46c0fb602cfabe294180ffb",
+      "bytes": "4151"
+    },
+    {
+      "path": "configs/scenarios/original_drawer.yaml",
+      "sha256": "fa2d550a2fa9a17128dac9bae93bc06f9601fb2f6a5d16b8e09f890c329bbc67",
+      "bytes": "1361"
+    },
+    {
+      "path": "configs/templates/piu_external_execution_risk_budget_template.yaml",
+      "sha256": "e109021ecc8647c2e09e892deec818392506a51d0ef1de5c503d3d48ea60ea9b",
+      "bytes": "946"
+    },
+    {
+      "path": "configs/templates/piu_learning_collection_budget_template.yaml",
+      "sha256": "9fdb7af17dd93e47c171ac4cec541003aed71ccde09c18dc4e4dfc303698b656",
+      "bytes": "748"
+    },
+    {
+      "path": "docs/claim_evidence_ledger.md",
+      "sha256": "1bca9e98ddc630666e54b5bcb954b16cdf9ff224941e99e8a20a8262dd420be2",
+      "bytes": "8440"
+    },
+    {
+      "path": "docs/preregistration.md",
+      "sha256": "0811f49cec6d1fc3f384852e49e874262cb2c8ffc325416ef0c77a8bb239b2d4",
+      "bytes": "36312"
+    },
+    {
+      "path": "paper/generated/piu_evidence_boundary_v1.svg",
+      "sha256": "5f8e3ae87523a5e1be809345b524e491b1181cc1633fca19ee79011eefc51c77",
+      "bytes": "6924"
+    },
+    {
+      "path": "paper/generated/piu_evidence_tables_v1.json",
+      "sha256": "f7895908d46cd65e5680f1442fbb6a98ae363940d15b7cae6cd4610daa098af5",
+      "bytes": "11232"
+    },
+    {
+      "path": "paper/generated/piu_evidence_tables_v1.md",
+      "sha256": "a18695a3fee73fd5ac3474e6ff4f06170393a3804d5245750dab18726b4c9ccb",
+      "bytes": "3979"
+    },
+    {
+      "path": "paper/generated/piu_method_pipeline_v1.svg",
+      "sha256": "b0b1c96c76c67d5c096accd1d766c9ede2d093a01841826127d3a76f9776ee83",
+      "bytes": "11243"
+    },
+    {
+      "path": "paper/main.md",
+      "sha256": "778e9efda6201ac498074b93a522ad279ba10e1fcf52ff93e4649b80ceaa10b9",
+      "bytes": "31121"
+    },
+    {
+      "path": "results/diagnostics/pi05_libero_checkpoint_identity_v1.json",
+      "sha256": "ad3bb21eb485cd60c0f19b31a51377949197d7e0eab58387ddb17d8239965152",
+      "bytes": "408"
+    },
+    {
+      "path": "results/diagnostics/piu_offline_repro_preflight_v2.json",
+      "sha256": "8e98a642be359908d5bf2ff7f3a199ee7fd15e260f441951d30b62bbe90a981a",
+      "bytes": "78075"
+    },
+    {
+      "path": "results/diagnostics/piu_public_claim_audit_v1.json",
+      "sha256": "1c979670a20dc7f493c487f514d0db827faa21db61bea34695c95e2f7723d508",
+      "bytes": "13791"
+    },
+    {
+      "path": "results/diagnostics/piu_public_claim_audit_v2.json",
+      "sha256": "f545b501dc22849ece56c7cd228652eed034a53b1677347a802ee50a444d2cd1",
+      "bytes": "14797"
+    },
+    {
+      "path": "results/diagnostics/piu_public_claim_audit_v3.json",
+      "sha256": "90a82725f643ede8c49347eafa58edfd6c03d048d2e4e9aae04d6e490967ca0b",
+      "bytes": "14797"
+    },
+    {
+      "path": "results/method/piu_primitive_reliability_registry_v2.json",
+      "sha256": "299e469f2c86bd22523bb31476e29b6bfd365baa9b7e8f560f6660d14b3be903",
+      "bytes": "8200"
+    },
+    {
+      "path": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+      "sha256": "1aeb061e5f0b1565e4568e887136d9bdcec125e44e465c67059e81bab16de81b",
+      "bytes": "2290"
+    },
+    {
+      "path": "scripts/calibration/calibrate_piu_action_effect.py",
+      "sha256": "74f343261d837ee694bdf07a3713236863a4effc980e4b0c1d9fbf34f0ebe42d",
+      "bytes": "5149"
+    },
+    {
+      "path": "scripts/calibration/calibrate_piu_target_binding.py",
+      "sha256": "b64102399a639fc146d7cf2c3d5b0110457c4f7c0d606cd0835e5f0c150dda30",
+      "bytes": "6267"
+    },
+    {
+      "path": "scripts/data/assemble_piu_action_effect_role.py",
+      "sha256": "ab87ba04cef07fc15ac30aacec8163fdf8d3d99178dcdc3baa46dfa13a8732ab",
+      "bytes": "1620"
+    },
+    {
+      "path": "scripts/data/assemble_piu_public_binding_role.py",
+      "sha256": "69fbaf76e2ae16a31a8799cc5abebbfad8dd5a683fda85a643224f2c27424814",
+      "bytes": "1604"
+    },
+    {
+      "path": "scripts/data/build_piu_candidate_sets.py",
+      "sha256": "cd076248bb611dd48d99f6ef6d9def6049b0973cd08d89d89462ef3de6156ede",
+      "bytes": "4846"
+    },
+    {
+      "path": "scripts/data/build_piu_controller_public_states.py",
+      "sha256": "3a353b81ffddafb0c5ecd44c55920772ee9c09b96e881516fe5c7c64cc920826",
+      "bytes": "3113"
+    },
+    {
+      "path": "scripts/data/build_piu_counterfactual_execution_plan.py",
+      "sha256": "7c4766168d15b58b3356915f61c8eec07b16825297811c720b2c85342998fd6c",
+      "bytes": "8128"
+    },
+    {
+      "path": "scripts/data/build_piu_learning_split_manifest.py",
+      "sha256": "2ee6f0a41236c7729ec6f42e8881f76d10e5820c57672551a08a5ff76154b8ce",
+      "bytes": "4304"
+    },
+    {
+      "path": "scripts/data/build_piu_planned_split_manifest.py",
+      "sha256": "25dadea1a76508e5430f30b86026628a6cf26a3d6d35f3c2f3d9092e8a77c990",
+      "bytes": "5377"
+    },
+    {
+      "path": "scripts/data/capture_piu_initial_observation.py",
+      "sha256": "7676f5fbf6db3d73de9121b70adb7ea7f3372a92bfc507412bc82e8fe60efcc5",
+      "bytes": "6782"
+    },
+    {
+      "path": "scripts/data/collect_piu_counterfactual_branches.py",
+      "sha256": "d5c693f1566d587150e5ee6d80ad09cece4a0a6b7f32959bd1f25f20d199bbc9",
+      "bytes": "18514"
+    },
+    {
+      "path": "scripts/data/export_piu_action_effect_matrix.py",
+      "sha256": "2236d02ea53dfab08f18434cbff58bc92db9b33f5cf7698f4c5ae292dd57fb02",
+      "bytes": "10931"
+    },
+    {
+      "path": "scripts/data/export_piu_binding_labels.py",
+      "sha256": "862610f1a1a5f002d5e30bba99861db209ca95e5221ad2a398428c4f49ed8021",
+      "bytes": "9097"
+    },
+    {
+      "path": "scripts/data/export_piu_post_observation_labels.py",
+      "sha256": "94e108f84fa64c39d8bdb1798104da896e1f20be58a1d8ff35d1b2a88662ac3a",
+      "bytes": "12721"
+    },
+    {
+      "path": "scripts/data/export_piu_public_transition.py",
+      "sha256": "39b16042f412d0bedebed69326fb8e913fe368603d76b2e3686bebab966fefcb",
+      "bytes": "6544"
+    },
+    {
+      "path": "scripts/data/extract_piu_spatial_prefix_features.py",
+      "sha256": "b5449682a9a25c5283b5c2362314d887a779e1292c40544fd09951babbefdff7",
+      "bytes": "16736"
+    },
+    {
+      "path": "scripts/data/extract_piu_spatial_prefix_features_remote.py",
+      "sha256": "391a1df910ec9a068f9b6d8ac3308d630296d76b09c02855aeb103922853948a",
+      "bytes": "13698"
+    },
+    {
+      "path": "scripts/data/update_piu_temporal_memory.py",
+      "sha256": "eda8a336a57a040b6311602df5a86b48f8f1f4b6d3cc55237dfab78df2684e48",
+      "bytes": "9983"
+    },
+    {
+      "path": "scripts/data/validate_piu_split_manifest.py",
+      "sha256": "cfc3ca7ee4cc5ae991b9f790ca0f4733e7a1408fadae645523ac9093166077c0",
+      "bytes": "1834"
+    },
+    {
+      "path": "scripts/evaluation/aggregate_piu_closed_loop_episode.py",
+      "sha256": "16e3a9ca0624a29d0a6929f1b5bbb0447de31aa017e4b074848360d176cda869",
+      "bytes": "14110"
+    },
+    {
+      "path": "scripts/evaluation/analyze_oracle_formal_experiment.py",
+      "sha256": "faaaf6bbb8a5fa56c4d9cbbdb0bf035dd205c13107dd23b09bb532e93ed02539",
+      "bytes": "1881"
+    },
+    {
+      "path": "scripts/evaluation/analyze_piu_formal_experiment.py",
+      "sha256": "69ba174d8aa48c8bd08551fb598debb2e7820d57f2a1a144c49d7e57cdc52336",
+      "bytes": "2453"
+    },
+    {
+      "path": "scripts/evaluation/assemble_piu_development_episode_arm.py",
+      "sha256": "7dca84619082510fe8c9aa78e92708138edae89af6eec41d0592ebafc9f900a9",
+      "bytes": "4702"
+    },
+    {
+      "path": "scripts/evaluation/assemble_piu_formal_outcomes.py",
+      "sha256": "ca31be4a377f533b78760a0233c149ea4a9b3f9b645f0edecb654d365f1609d6",
+      "bytes": "9832"
+    },
+    {
+      "path": "scripts/evaluation/begin_piu_formal_attempt.py",
+      "sha256": "48c6bc9be7f5b9c4f79bcdf7d39b2857b34adb6def922418bb90bdcbef50fc17",
+      "bytes": "4581"
+    },
+    {
+      "path": "scripts/evaluation/build_oracle_formal_initial_states.py",
+      "sha256": "e65d3a30c845faecf197a1405ee03c49b75f29f656f516b19bb034ad2162b4bf",
+      "bytes": "4878"
+    },
+    {
+      "path": "scripts/evaluation/build_oracle_formal_schedule.py",
+      "sha256": "378c93427100b19473e9988d7abd10996be520eda17bac99ac5e96c9d428166c",
+      "bytes": "12659"
+    },
+    {
+      "path": "scripts/evaluation/build_oracle_target_prompt_schedule.py",
+      "sha256": "d0c490e4607ee74478a404f694afc231cb9e7ab8fc6810bf0c751016251adaf9",
+      "bytes": "6384"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_binding_qualification_stimulus.py",
+      "sha256": "989f382278608a89e861adcda02d455856f42bbb5dc743af5632246fb92cea9b",
+      "bytes": "6823"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_claim_audit.py",
+      "sha256": "eaee291dc53be7ff826b635a9566a98a9f1f3dd176f5110dbd10ac2afdcf76e7",
+      "bytes": "1828"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_formal_initial_states.py",
+      "sha256": "be4f94d8535866ae0ed170372cc2bf795325f7d19aa54965a0703fd6734c2bfb",
+      "bytes": "4297"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_formal_schedule.py",
+      "sha256": "331b803209358e49ed059b0e706e4d7adf065f8d22e9dc34a2ac8b33a35af543",
+      "bytes": "12231"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_paper_figures.py",
+      "sha256": "01dd2bc443afc630c7c0eca450839b77b7b1685788a4c26c2220cbf55c6bff21",
+      "bytes": "2263"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_paper_tables.py",
+      "sha256": "643c8aaf3696443261319e352f515272f47f2d187137dbf9f0473f6d9028916e",
+      "bytes": "3248"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_primitive_qualification_probe.py",
+      "sha256": "89ac681ca9172a80b72fc88a784d578631218537ec49aa36c83ce10a6c9d4e87",
+      "bytes": "6036"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_primitive_qualification_schedule.py",
+      "sha256": "4adb1bd79c28a13e16b4f797f4afc2b630cc4170de37067af557f41685fdb30e",
+      "bytes": "9555"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_primitive_registry.py",
+      "sha256": "1509c1508951017b0b5dc343fd7de2e577d707a1dcdafee53b32b5c260676e1d",
+      "bytes": "5767"
+    },
+    {
+      "path": "scripts/evaluation/build_piu_qualified_executor_map.py",
+      "sha256": "74a1f947b7d4789a30c7e37c1f476a6e04273ea899e08ed1ba8e82eb180887ed",
+      "bytes": "2521"
+    },
+    {
+      "path": "scripts/evaluation/close_oracle_formal_group_failure.py",
+      "sha256": "359bcf8fa33723b36202f88d8c0830a7598449b413f4617ad99892a3ba5fef60",
+      "bytes": "4436"
+    },
+    {
+      "path": "scripts/evaluation/close_piu_formal_attempt.py",
+      "sha256": "b3ada7daad129f84ebdf4d622abbb5681c1a5fbebcd35db8d52f52d4d362c7a6",
+      "bytes": "2811"
+    },
+    {
+      "path": "scripts/evaluation/close_piu_primitive_qualification_failure.py",
+      "sha256": "115f05933b2a58fdcfd858ffae610d8aa949af7030810adbf9ca8d388b347382",
+      "bytes": "3518"
+    },
+    {
+      "path": "scripts/evaluation/derive_piu_primitive_risk_contract.py",
+      "sha256": "13e4403e039fe4837c6fc6b2a1947d2ffe3ab06cb6c34d2ca4b8842168b4c24b",
+      "bytes": "8524"
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_action_effect.py",
+      "sha256": "fa797ae40188da6f792c6ccd06acc8c7af5c21ecc26b94527fd5e06baeebe37f",
+      "bytes": "6364"
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_primitive_qualification.py",
+      "sha256": "1e5ca65e3991ba9f876b9f98b24cbddcf46f1f648213e80fe6664b6ed06242b9",
+      "bytes": "5412"
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_target_binding.py",
+      "sha256": "ce1ce332c7c519f39b0fb88fcf58d623b33c2f71788f3534a9ad4e35272bc108",
+      "bytes": "9828"
+    },
+    {
+      "path": "scripts/evaluation/export_piu_formal_outcome.py",
+      "sha256": "0cc7fc499405a742904121ce06d7693f9a5bbb82f2b2697d0429fd92471e1c25",
+      "bytes": "6039"
+    },
+    {
+      "path": "scripts/evaluation/plan_piu_formal_paired_test.py",
+      "sha256": "a188d0fa2c1e1eee5d522924e41c5bc515f4d8c44418294de255b83c22c60831",
+      "bytes": "9537"
+    },
+    {
+      "path": "scripts/evaluation/plan_piu_primitive_qualification.py",
+      "sha256": "a70c302d077ccac0bfcd53cb66c459e48aa344af42de943efc07985d8e1188f9",
+      "bytes": "4709"
+    },
+    {
+      "path": "scripts/evaluation/preflight_oracle_target_prompt.py",
+      "sha256": "e3410f30591040c7d938b4944054797d2d826dd7459b95f5de6385751eb5d9b3",
+      "bytes": "5667"
+    },
+    {
+      "path": "scripts/evaluation/summarize_oracle_target_prompt_gate.py",
+      "sha256": "87d735ae2d9b5ed1628ad246ae3010de0d0a38e92b3a17e0ab9e92d367c79cbe",
+      "bytes": "18035"
+    },
+    {
+      "path": "scripts/infra/bootstrap.py",
+      "sha256": "b46470e84727f392062857574c234ea06c6c3f32ce733b02314ef0b46da0fc60",
+      "bytes": "904"
+    },
+    {
+      "path": "scripts/infra/check_external_pi05.py",
+      "sha256": "dfb7ad3d4520569b22d4b1f8405607f5c628344db5febba8214e8639651990d0",
+      "bytes": "7305"
+    },
+    {
+      "path": "scripts/infra/check_gpu.sh",
+      "sha256": "ff095085f74c51efc2bb96dd659d5729f97c6f618f8ea5d411b479a21a6a7dcc",
+      "bytes": "2299"
+    },
+    {
+      "path": "scripts/infra/checkpoint_identity.py",
+      "sha256": "8591ed6b8e6c7fe7136ee23ec6735b8ce41ba7e57abfab7be9ae7dc8e4851184",
+      "bytes": "1491"
+    },
+    {
+      "path": "scripts/infra/serve_identified_pi05.py",
+      "sha256": "11e2da2fa3521596e397515a21d94d26c0843e32cc8893c003ac2281982b6802",
+      "bytes": "8009"
+    },
+    {
+      "path": "scripts/infra/serve_pi05.sh",
+      "sha256": "99cd129747f584d54b8fb870ca1f0e193b22fb3da7e59826c27a13dcf6fa551b",
+      "bytes": "2867"
+    },
+    {
+      "path": "scripts/pipeline/execute.py",
+      "sha256": "62f0e445708ab5323948cf21aabf3cff25744b7b98b24d66edc6a02d46b04d05",
+      "bytes": "32657"
+    },
+    {
+      "path": "scripts/pipeline/execute_piu_controller_decision.py",
+      "sha256": "5c57ef7d995b535ed37c762bd35e818a2f987d05fbf974c3c56eee5b3d22e4b6",
+      "bytes": "12028"
+    },
+    {
+      "path": "scripts/pipeline/predict_piu_target_binding_online.py",
+      "sha256": "f6df6b104138f0473266770b86eadbba86cfa4325df71b24062e60b7457a21ca",
+      "bytes": "7788"
+    },
+    {
+      "path": "scripts/pipeline/replay_piu_oracle_effect_trace.py",
+      "sha256": "507a1883cfd4040d5d98efd6ed8de249c24330325ee656a666a328131106b4d3",
+      "bytes": "18658"
+    },
+    {
+      "path": "scripts/pipeline/run_oracle_formal_group.py",
+      "sha256": "bac05e58096237e29e1c8305fc8edc6f11e3d000da2e416cff3d7cb415af9cd0",
+      "bytes": "15965"
+    },
+    {
+      "path": "scripts/pipeline/run_oracle_target_prompt_gate.py",
+      "sha256": "a90a64c36fd4a82cf6b7998d2ba4958ca22785ac4e6ca99d57553df64727856e",
+      "bytes": "12876"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_b0_direct.py",
+      "sha256": "ea680491aff545ca2e6a70099bb7c7064143d179087eb57ebfeafff12102e691",
+      "bytes": "8054"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_calibrated_controller.py",
+      "sha256": "1b7db554178d7729007a260b2d1574d339d2bac3b1c824048361c7e39f88e694",
+      "bytes": "18090"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_closed_loop.py",
+      "sha256": "63c19d47daf99afacc62efc567787e37e59215084c7b1fe34b5d15241f38f6df",
+      "bytes": "23010"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_heuristic_v0_inference.py",
+      "sha256": "64ad72f5dc11cb63baaa9b58495690263f9b7e2ef3d22b07a1ed92b07170a025",
+      "bytes": "8553"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_heuristic_v0_once.py",
+      "sha256": "4ec05802f1b811799b6797dba99371108509563bb0e4ff55f59293ab53facae8",
+      "bytes": "14814"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_oracle_binding_full_loop.py",
+      "sha256": "762dd14ba9446a0f4f209ac02d4e985bcad9b3d4d83c76d5f386eab183a36ede",
+      "bytes": "13559"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_oracle_effect_controller.py",
+      "sha256": "ea00aa11701d8db10cb655f4c625670f918c7525571769027087f166cc01b1b0",
+      "bytes": "5371"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_primitive_qualification.py",
+      "sha256": "d3b92c4479b561c9bf95b16f2a0a88ec9f2d5d3dcdf4c595cdda85d81d215e33",
+      "bytes": "8914"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_prompted_vlm_closed_loop.py",
+      "sha256": "8d4fbf96d43de206ba56e14d7b545b95b9c778aa3f993bf194509e2d5ca0a47a",
+      "bytes": "14405"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_prompted_vlm_router.py",
+      "sha256": "bea4dbb2c222f37b6e2463817f6764a1cac0f5588541ac0b13e5018b44f595c2",
+      "bytes": "11285"
+    },
+    {
+      "path": "scripts/pipeline/run_piu_uncalibrated_ablation_controller.py",
+      "sha256": "d2aface4017c057bbc1840ede8e338c0c8ccfc1db13799ea10194ce9bb1d0180",
+      "bytes": "9601"
+    },
+    {
+      "path": "scripts/repro/check_piu_empirical_dag.py",
+      "sha256": "e1a4611a70d531133095dc16a6ce14562c24618b5d2253f8921bd9fa4e9f9869",
+      "bytes": "1589"
+    },
+    {
+      "path": "scripts/repro/check_piu_offline_pipeline.py",
+      "sha256": "9928bda4eace5e60ff1edf4a25e688450d4a324e91bd5b8bf44ce1fc0cf5ef7d",
+      "bytes": "1699"
+    },
+    {
+      "path": "scripts/training/train_piu_action_effect.py",
+      "sha256": "f6430101e8800164615617b0f4e4cc7cb3ba39aea232c3f87df9be2e29ede39e",
+      "bytes": "12430"
+    },
+    {
+      "path": "scripts/training/train_piu_target_binding.py",
+      "sha256": "052b3baf64ca33b9615f08368bb1f22e0b5c3b7914bf7329c72889de02579e9a",
+      "bytes": "17741"
+    },
+    {
+      "path": "src/calibrated_interaction/__init__.py",
+      "sha256": "b3b4dd9d89aec1c714c11285cfd375e72206c4ebfdbfbec9e41555a37fb887c2",
+      "bytes": "745"
+    },
+    {
+      "path": "src/calibrated_interaction/calibration.py",
+      "sha256": "ec32ac3bffd1b8205ec94fe47e05e3b92caac1fce4f1b1a34aef6b812f74244e",
+      "bytes": "10420"
+    },
+    {
+      "path": "src/calibrated_interaction/capabilities.py",
+      "sha256": "3546998fd829a049b73c02c55667b34f905d774e2d8059d6fc74e4183f8518e8",
+      "bytes": "4176"
+    },
+    {
+      "path": "src/calibrated_interaction/contracts.py",
+      "sha256": "aa5161561a0f3687170cf28fd4dc464379c08f3f9fd361d1085ec8d7f06eadc5",
+      "bytes": "5904"
+    },
+    {
+      "path": "src/calibrated_interaction/controller.py",
+      "sha256": "ee0d60b49bd5871f2f480a43756593dff75cf915ba8482dace266251bc040b01",
+      "bytes": "8467"
+    },
+    {
+      "path": "src/calibrated_interaction/paired_power.py",
+      "sha256": "ef36f8aad0045aab9917656c0ea676a81d5c8956141f76282570d9701d7fc032",
+      "bytes": "6203"
+    },
+    {
+      "path": "src/calibrated_interaction/provenance.py",
+      "sha256": "813587fdd94036a8d64f454c4dae4cf37e6a238cac084dc470037c111e211fe6",
+      "bytes": "14774"
+    },
+    {
+      "path": "src/interactive_perception/__init__.py",
+      "sha256": "e88f832060a458a57f1c9543ed78025c10fc5940f40c94b912da4523d9b7b65b",
+      "bytes": "156"
+    },
+    {
+      "path": "src/interactive_perception/action_options.py",
+      "sha256": "e56c740b592eaeaa5dd3779124d3ba3b95a9ef99274a545e1c4d176fd7e5cd3c",
+      "bytes": "7323"
+    },
+    {
+      "path": "src/interactive_perception/observation_option.py",
+      "sha256": "0d23a7cbd85a1d5406b6b538dcad943f5e78c40b8a136d2781625bda03f70cfa",
+      "bytes": "14423"
+    },
+    {
+      "path": "src/interactive_perception/oracle_visual_prompt.py",
+      "sha256": "dd77bbe3a4804f881ccffbe579ad41b7ff672abe4b9f62deff7a1f47864200e2",
+      "bytes": "8876"
+    },
+    {
+      "path": "src/interactive_perception/policy_client.py",
+      "sha256": "9b7989f7d79fc4c424352cbcbf1d8b32c1090f4f717beee926c2c933002ce054",
+      "bytes": "13621"
+    },
+    {
+      "path": "src/piu/__init__.py",
+      "sha256": "2aa59fa8b7762df488a2e63af1fa5a1a0c535264dcc5ec1db97a0628d70b8f79",
+      "bytes": "598"
+    },
+    {
+      "path": "src/piu/ablation_controller.py",
+      "sha256": "5e37d61c4b481584ff153ab899705f9848809964c996a6b22254854d713694a5",
+      "bytes": "2456"
+    },
+    {
+      "path": "src/piu/ablations.py",
+      "sha256": "ebc85ca9a7952fdf02723a6a2e236ed7b5ba6a2ceae04b6a111e1b84a3369614",
+      "bytes": "4070"
+    },
+    {
+      "path": "src/piu/action_effect.py",
+      "sha256": "684d0b35f1b34f775451db9ef7b7a44c05208166f78475615ac452d09c81515b",
+      "bytes": "24807"
+    },
+    {
+      "path": "src/piu/baselines.py",
+      "sha256": "8b7db67a0b0eeaff519f10bed95a533aef7300045d9b3fa35e990aab11a40824",
+      "bytes": "4933"
+    },
+    {
+      "path": "src/piu/binding_calibration.py",
+      "sha256": "274ab31c53fb88fe6b3542b070302d5d4c9e03cb81f9a65f22645499562dfda2",
+      "bytes": "28740"
+    },
+    {
+      "path": "src/piu/binding_data.py",
+      "sha256": "24e65a4bc994086b36f448ad0a376db8c332282a290f6f13403d6247e34cfe75",
+      "bytes": "17858"
+    },
+    {
+      "path": "src/piu/binding_training.py",
+      "sha256": "18eb06def911b2669135c236c3acfc5af4c23999f0662eae801b11128514f510",
+      "bytes": "13756"
+    },
+    {
+      "path": "src/piu/calibrated_controller.py",
+      "sha256": "8eec5301729d8e3029c6e8ab579f291836134e43f7c331405dec3c371024fa0d",
+      "bytes": "13113"
+    },
+    {
+      "path": "src/piu/candidate_generator.py",
+      "sha256": "bcfc98739cc3a1a397ed98e3278c88ba86f147586ad36ebe7a44e22b79f1198e",
+      "bytes": "4606"
+    },
+    {
+      "path": "src/piu/compute_provenance.py",
+      "sha256": "05aa0e62db302d3bd38a09de8ba2c1036578ee961cccdc78ebc12371f1dd094e",
+      "bytes": "16431"
+    },
+    {
+      "path": "src/piu/contracts.py",
+      "sha256": "c644416f7583250af8562163ff76b76a2121166527ebdb7f125ca4af326a0d3a",
+      "bytes": "13356"
+    },
+    {
+      "path": "src/piu/dataset_assembly.py",
+      "sha256": "47a0b834c01218943192a899bdb3e379058dfa7022d5fb9dee0539e090d4a794",
+      "bytes": "22009"
+    },
+    {
+      "path": "src/piu/effect_calibration.py",
+      "sha256": "54ab50f7f8d7a11d2cb4a621f3cd62593abd265da7b94ee0e9f7afb9afaf1b6f",
+      "bytes": "9214"
+    },
+    {
+      "path": "src/piu/effect_training.py",
+      "sha256": "75bdf2ea61582d6995dbce3891cdb55f4d22a719e514c6fbc39ca6e1db23c7da",
+      "bytes": "10078"
+    },
+    {
+      "path": "src/piu/empirical_dag.py",
+      "sha256": "79745024c00fdc33e5cd650a3cb754b7c94d82d1559ef96b78e577b849b6e4af",
+      "bytes": "37876"
+    },
+    {
+      "path": "src/piu/evaluation.py",
+      "sha256": "9869fba97c141a0b1e140d61f029c30871fcba22274c6fb14bfb781eaf9c01a0",
+      "bytes": "4105"
+    },
+    {
+      "path": "src/piu/execution_plan.py",
+      "sha256": "be18444828510926b92dc5c1dec53eb551f88157129f546ed78cdb4d32ad6061",
+      "bytes": "7463"
+    },
+    {
+      "path": "src/piu/executor_bridge.py",
+      "sha256": "367d0906f03366cb131cf4a17f8e85a015ebd7468c06c008d8b17c76d50a9e77",
+      "bytes": "5410"
+    },
+    {
+      "path": "src/piu/formal_attempt.py",
+      "sha256": "e8f8482323c95cd42ab430f6efa44f98c4d051829fcdc12da8d144dd69f11dfb",
+      "bytes": "12542"
+    },
+    {
+      "path": "src/piu/formal_design.py",
+      "sha256": "a1c8bca638e251a6983aad9d2325ecdf45fbf89402ecd420505292ad163523b0",
+      "bytes": "7518"
+    },
+    {
+      "path": "src/piu/formal_states.py",
+      "sha256": "674d38f1a5a2049b4dfcfc4c4b4a20025b464e5d27128ffbee18aa3ced0ad3d2",
+      "bytes": "1073"
+    },
+    {
+      "path": "src/piu/learned_artifacts.py",
+      "sha256": "623ca519b7d49c98dfbb6a2cf5f251f34359573046df5f4e44fb8ae6bbaea425",
+      "bytes": "44433"
+    },
+    {
+      "path": "src/piu/oracle_effect.py",
+      "sha256": "42e8f5d33903bed66309561baa3832580408e1fe8489e7cb09ce8d5292ad9e51",
+      "bytes": "2021"
+    },
+    {
+      "path": "src/piu/oracle_formal.py",
+      "sha256": "92a50375c42337600861722c874f9ee3835e200c5353b8c7d9ed5e67a72c242d",
+      "bytes": "43549"
+    },
+    {
+      "path": "src/piu/oracle_schedule.py",
+      "sha256": "c5fccd08ff2d51299c9188e033019f525105f79a3aa2cbb55307973be47213bb",
+      "bytes": "12036"
+    },
+    {
+      "path": "src/piu/paper_artifacts.py",
+      "sha256": "627061f6b26f4d0ed5edd3f60d75121a90025348112dc380de07d7b987d76cf6",
+      "bytes": "30310"
+    },
+    {
+      "path": "src/piu/paper_figures.py",
+      "sha256": "2ec65e16b211705982cbbb61793691a103fd4c38a12950086b923d4ef56509d1",
+      "bytes": "13570"
+    },
+    {
+      "path": "src/piu/policy_identity.py",
+      "sha256": "9be06630a3f0563811bcebf265caa3b042cba8f41c62fee25368c3d08138c327",
+      "bytes": "2320"
+    },
+    {
+      "path": "src/piu/primitive_registry.py",
+      "sha256": "07ac3f39185c3b22d97c2190f463de5e08d42b2bc94fce1f1bd4c69714b2f56a",
+      "bytes": "70222"
+    },
+    {
+      "path": "src/piu/reproducibility.py",
+      "sha256": "d66455bbfdf49a8af8d214cb08b8db192dac27c0373514947de97b54521c1fee",
+      "bytes": "18456"
+    },
+    {
+      "path": "src/piu/spatial_prefix.py",
+      "sha256": "1c55b924050917869553e8153fa1e8f7c3c65f7fc77e3cd92b29161b5a207ec9",
+      "bytes": "8732"
+    },
+    {
+      "path": "src/piu/splits.py",
+      "sha256": "444a87ffa3e54f75179072fab8e85ac1a53a7d23cea2a8ea296494832763729b",
+      "bytes": "7162"
+    },
+    {
+      "path": "src/piu/statistics.py",
+      "sha256": "4dcb0cdecea22490bc48d57fab22aa9aa57986821c40389ceb2d4404b681d608",
+      "bytes": "17724"
+    },
+    {
+      "path": "src/piu/target_binding.py",
+      "sha256": "ae85f287c038bb1c98632c8ce2f14bc38ac1040fca25774511fe35a1ffd26541",
+      "bytes": "14129"
+    },
+    {
+      "path": "src/piu/temporal_memory.py",
+      "sha256": "3b2dc5484fb265deadf3d0ddf0c7edc91d62ebc4edd26c41c1b2213bb6f5d935",
+      "bytes": "7609"
+    },
+    {
+      "path": "third_party/LIBERO/libero/libero/envs/objects/articulated_objects.py",
+      "sha256": "f5187b0381d69a2a8736c1dcb646e5fa7c138a42950f92e30c21c2efaed52faa",
+      "bytes": "8126"
+    }
+  ],
+  "offline_inventory_sha256": "440f6f0fa7e69a69fe2cd7a868e41b962c5aceb3a5477ac9e4dd61f594ef49ba",
+  "dependency_closure_exceptions": {
+    "results/diagnostics/piu_offline_repro_preflight_v1.json": "The release lock cannot contain its own content hash; it is validated as the output of this manifest and bound separately by every formal design.",
+    "scripts/pipeline/infer.py": "The B2 adapter executes this path only inside a detached worktree at the attested frozen tag commit, never from the current release checkout.",
+    "results/diagnostics/piu_offline_repro_preflight_v2.json": "The retained v2 extension lock is historical amendment evidence.",
+    "results/diagnostics/piu_offline_repro_preflight_v3.json": "The v3 release lock cannot contain its own content hash; it is validated as this extension's output and bound separately by formal designs.",
+    "results/diagnostics/external_pi05_endpoint_check_v1.json": "This is a prospective external empirical gate validated by the stage DAG, not an offline-release input; its later presence must not change the retained CPU-only inventory."
+  },
+  "reference_inventory_match": null,
+  "entrypoints": [
+    {
+      "path": "scripts/data/export_piu_binding_labels.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/assemble_piu_public_binding_role.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/assemble_piu_action_effect_role.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/build_piu_learning_split_manifest.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/build_piu_planned_split_manifest.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/export_piu_post_observation_labels.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/export_piu_action_effect_matrix.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/collect_piu_counterfactual_branches.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/build_piu_counterfactual_execution_plan.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/export_piu_public_transition.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/update_piu_temporal_memory.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/build_piu_controller_public_states.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/build_piu_candidate_sets.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/capture_piu_initial_observation.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/validate_piu_split_manifest.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/extract_piu_spatial_prefix_features.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/data/extract_piu_spatial_prefix_features_remote.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/training/train_piu_target_binding.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/training/train_piu_action_effect.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/calibration/calibrate_piu_target_binding.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/calibration/calibrate_piu_action_effect.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/predict_piu_target_binding.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/predict_piu_action_effect.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_target_binding.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_action_effect.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/analyze_piu_formal_experiment.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_paper_tables.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_paper_figures.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_claim_audit.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/aggregate_piu_closed_loop_episode.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/export_piu_formal_outcome.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/assemble_piu_formal_outcomes.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/assemble_piu_development_episode_arm.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/plan_piu_formal_paired_test.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_formal_schedule.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_formal_initial_states.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_oracle_target_prompt_schedule.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_oracle_formal_initial_states.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_oracle_formal_schedule.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/close_oracle_formal_group_failure.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/analyze_oracle_formal_experiment.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/begin_piu_formal_attempt.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/close_piu_formal_attempt.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/preflight_oracle_target_prompt.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/summarize_oracle_target_prompt_gate.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/repro/check_piu_offline_pipeline.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/repro/check_piu_empirical_dag.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/infra/check_external_pi05.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/infra/serve_identified_pi05.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/evaluate_piu_primitive_qualification.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_primitive_registry.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/derive_piu_primitive_risk_contract.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/plan_piu_primitive_qualification.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_primitive_qualification_schedule.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_primitive_qualification_probe.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_binding_qualification_stimulus.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/close_piu_primitive_qualification_failure.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/evaluation/build_piu_qualified_executor_map.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_calibrated_controller.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_uncalibrated_ablation_controller.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/predict_piu_target_binding_online.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/execute_piu_controller_decision.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_primitive_qualification.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_closed_loop.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_b0_direct.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_prompted_vlm_router.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_prompted_vlm_closed_loop.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_oracle_effect_controller.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/replay_piu_oracle_effect_trace.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_oracle_binding_full_loop.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_heuristic_v0_inference.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_piu_heuristic_v0_once.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/execute.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_oracle_target_prompt_gate.py",
+      "executable": true,
+      "syntax_valid": true
+    },
+    {
+      "path": "scripts/pipeline/run_oracle_formal_group.py",
+      "executable": true,
+      "syntax_valid": true
+    }
+  ],
+  "external_empirical_gates": [
+    {
+      "id": "external_executor_risk_budget",
+      "artifact": "results/method/piu_external_execution_risk_budget_v1.yaml",
+      "status": "PRESENT_UNVERIFIED",
+      "sha256": "70620f4bcae0bb32465beb7de0509b468da6a03beef6fe31599de44568923add"
+    },
+    {
+      "id": "open_primitive_risk_contract",
+      "artifact": "results/method/piu_open_primitive_risk_contract_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "open_primitive_qualification_plan",
+      "artifact": "results/method/piu_open_primitive_qualification_plan_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "open_primitive_qualification_schedule",
+      "artifact": "results/method/piu_open_primitive_qualification_schedule_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "pick_primitive_risk_contract",
+      "artifact": "results/method/piu_pick_primitive_risk_contract_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "pick_primitive_qualification_plan",
+      "artifact": "results/method/piu_pick_primitive_qualification_plan_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "pick_primitive_qualification_schedule",
+      "artifact": "results/method/piu_pick_primitive_qualification_schedule_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "place_primitive_risk_contract",
+      "artifact": "results/method/piu_place_primitive_risk_contract_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "place_primitive_qualification_plan",
+      "artifact": "results/method/piu_place_primitive_qualification_plan_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "place_primitive_qualification_schedule",
+      "artifact": "results/method/piu_place_primitive_qualification_schedule_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "external_prompted_vlm_router_identity",
+      "artifact": "results/diagnostics/external_prompted_vlm_router_identity_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "external_prompted_vlm_router_probe",
+      "artifact": "results/diagnostics/external_prompted_vlm_router_probe_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "external_pi05_identity_probe",
+      "artifact": "results/diagnostics/external_pi05_endpoint_check_v1.json",
+      "status": "PRESENT_UNVERIFIED",
+      "sha256": "097965f0980e627c2be29eccfebbf0e759c2e9e5b8d16f71654fbbcb830e62d3"
+    },
+    {
+      "id": "b2_frozen_heuristic_v0_results",
+      "artifact": "results/method/piu_fixed_drawer_b2_heuristic_v0_v1.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "oracle_prompt_screen",
+      "artifact": "results/method/original_drawer_oracle_prompt_screen_v2.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "oracle_prompt_pilot",
+      "artifact": "results/method/original_drawer_oracle_prompt_pilot_v2.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "prospective_oracle_plan",
+      "artifact": "results/method/original_drawer_oracle_formal_plan_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "prospective_oracle_initial_states",
+      "artifact": "data/piu/mainline_v1/oracle_formal_initial_states_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "prospective_oracle_schedule",
+      "artifact": "results/method/original_drawer_oracle_formal_schedule_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "prospective_oracle_formal_result",
+      "artifact": "results/method/original_drawer_oracle_formal_result_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "open_primitive_certificate",
+      "artifact": "results/method/piu_open_primitive_certificate_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "pick_primitive_certificate",
+      "artifact": "results/method/piu_pick_primitive_certificate_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "place_primitive_certificate",
+      "artifact": "results/method/piu_place_primitive_certificate_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "group_split_manifest",
+      "artifact": "data/piu/mainline_v1/learning_split_manifest.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "external_learning_collection_budget",
+      "artifact": "results/method/piu_learning_collection_budget_v1.yaml",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "real_spatial_prefix_cache",
+      "artifact": "data/piu/mainline_v1/spatial_prefix_features.npz",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "new_group_disjoint_binding_labels",
+      "artifact": "data/piu/mainline_v1/binding_labels.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "new_group_disjoint_effect_labels",
+      "artifact": "data/piu/mainline_v1/action_effect_labels.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "binder_training_report",
+      "artifact": "runs/piu_mainline_v1/binder/training_report.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "binder_calibration",
+      "artifact": "runs/piu_mainline_v1/binder/calibration.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "effect_training_report",
+      "artifact": "runs/piu_mainline_v1/effect/training_report.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "effect_calibration",
+      "artifact": "runs/piu_mainline_v1/effect/calibration.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "complete_sealed_outcome_matrix",
+      "artifact": "results/method/piu_fixed_drawer_sealed_outcomes_v1.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "main_paired_pilot_plan",
+      "artifact": "results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "formal_execution_schedule",
+      "artifact": "results/method/piu_fixed_drawer_formal_schedule_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "formal_initial_state_manifest",
+      "artifact": "data/piu/mainline_v1/formal_initial_states_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "sealed_full_loop_report",
+      "artifact": "results/method/piu_fixed_drawer_sealed_v1.json",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "b6_oracle_effect_trace_results",
+      "artifact": "results/method/piu_fixed_drawer_b6_oracle_effect_v1.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    },
+    {
+      "id": "b7_oracle_binding_results",
+      "artifact": "results/method/piu_fixed_drawer_b7_oracle_binding_v1.jsonl",
+      "status": "PENDING_EXTERNAL",
+      "sha256": null
+    }
+  ],
+  "empirical_stage_dag": {
+    "schema_version": "piu.empirical-stage-status.v1",
+    "dag": {
+      "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_empirical_stage_dag_v1.yaml",
+      "sha256": "4f390bb0b9f0ca1216544f0da05f114f0b39029b286f74e10190f3283b3deda0"
+    },
+    "status": "INCOMPLETE",
+    "empirical_pipeline_complete": false,
+    "paper_claim_ready": false,
+    "paper_claim_ready_reason": "one or more external empirical stages remain incomplete",
+    "next_actionable_stages": [
+      "S02_open_primitive_qualification"
+    ],
+    "stages": [
+      {
+        "id": "S00a_external_risk_authority",
+        "title": "External task-owner risk and collection resource contract",
+        "depends_on": [],
+        "dependency_status": {},
+        "status": "COMPLETE",
+        "artifacts": [
+          {
+            "id": "external_executor_risk_budget",
+            "path": "results/method/piu_external_execution_risk_budget_v1.yaml",
+            "status": "VALID",
+            "sha256": "70620f4bcae0bb32465beb7de0509b468da6a03beef6fe31599de44568923add",
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "RESOURCE_CONTRACT_NOT_PERFORMANCE_EVIDENCE"
+      },
+      {
+        "id": "S00b_identified_pi05_endpoint",
+        "title": "Identified out-of-process frozen pi0.5 endpoint and finite action probe",
+        "depends_on": [],
+        "dependency_status": {},
+        "status": "COMPLETE",
+        "artifacts": [
+          {
+            "id": "external_pi05_identity_probe",
+            "path": "results/diagnostics/external_pi05_endpoint_check_v1.json",
+            "status": "VALID",
+            "sha256": "097965f0980e627c2be29eccfebbf0e759c2e9e5b8d16f71654fbbcb830e62d3",
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "EXTERNAL_IDENTITY_CONTRACT_NOT_PERFORMANCE_EVIDENCE"
+      },
+      {
+        "id": "S02_open_primitive_qualification",
+        "title": "OPEN primitive plan, schedule, and formal certificate",
+        "depends_on": [
+          "S00a_external_risk_authority",
+          "S00b_identified_pi05_endpoint"
+        ],
+        "dependency_status": {
+          "S00a_external_risk_authority": "COMPLETE",
+          "S00b_identified_pi05_endpoint": "COMPLETE"
+        },
+        "status": "READY_FOR_EXTERNAL_WORK",
+        "artifacts": [
+          {
+            "id": "open_primitive_risk_contract",
+            "path": "results/method/piu_open_primitive_risk_contract_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "open_primitive_qualification_plan",
+            "path": "results/method/piu_open_primitive_qualification_plan_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "open_primitive_qualification_schedule",
+            "path": "results/method/piu_open_primitive_qualification_schedule_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "open_primitive_certificate",
+            "path": "results/method/piu_open_primitive_certificate_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "EXECUTOR_RELIABILITY_ONLY_NOT_TASK_SUCCESS"
+      },
+      {
+        "id": "S03_oracle_development_gate",
+        "title": "Independent development prompt screen and confirmation pilot",
+        "depends_on": [
+          "S02_open_primitive_qualification"
+        ],
+        "dependency_status": {
+          "S02_open_primitive_qualification": "READY_FOR_EXTERNAL_WORK"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "oracle_prompt_screen",
+            "path": "results/method/original_drawer_oracle_prompt_screen_v2.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "oracle_prompt_pilot",
+            "path": "results/method/original_drawer_oracle_prompt_pilot_v2.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "DEVELOPMENT_MECHANISM_EVIDENCE_NOT_METHOD_RESULT"
+      },
+      {
+        "id": "S04_oracle_formal_freeze",
+        "title": "Prospective oracle causal sample-size plan",
+        "depends_on": [
+          "S03_oracle_development_gate"
+        ],
+        "dependency_status": {
+          "S03_oracle_development_gate": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "prospective_oracle_plan",
+            "path": "results/method/original_drawer_oracle_formal_plan_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "PROSPECTIVE_DESIGN_ONLY"
+      },
+      {
+        "id": "S04b_mainline_split_and_oracle_schedule",
+        "title": "One-time mainline split freeze and prospective oracle schedule",
+        "depends_on": [
+          "S04_oracle_formal_freeze"
+        ],
+        "dependency_status": {
+          "S04_oracle_formal_freeze": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "oracle_formal_split_manifest",
+            "path": "data/piu/mainline_v1/oracle_formal_split_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "prospective_oracle_initial_states",
+            "path": "data/piu/mainline_v1/oracle_formal_initial_states_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "prospective_oracle_schedule",
+            "path": "results/method/original_drawer_oracle_formal_schedule_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "PROSPECTIVE_DESIGN_ONLY"
+      },
+      {
+        "id": "S05_oracle_formal_causal_gate",
+        "title": "Same-state prospective privileged target-binding causal test",
+        "depends_on": [
+          "S04b_mainline_split_and_oracle_schedule"
+        ],
+        "dependency_status": {
+          "S04b_mainline_split_and_oracle_schedule": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "prospective_oracle_formal_result",
+            "path": "results/method/original_drawer_oracle_formal_result_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "PRIVILEGED_CAUSAL_MECHANISM_ONLY_NOT_PUBLIC_METHOD"
+      },
+      {
+        "id": "S06_binding_role_data_and_prefixes",
+        "title": "New role-disjoint public/binding data and full frozen prefix caches",
+        "depends_on": [
+          "S05_oracle_formal_causal_gate"
+        ],
+        "dependency_status": {
+          "S05_oracle_formal_causal_gate": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "external_learning_collection_budget",
+            "path": "results/method/piu_learning_collection_budget_v1.yaml",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "learning_split_manifest",
+            "path": "data/piu/mainline_v1/learning_split_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "train_public_binding_dataset",
+            "path": "data/piu/mainline_v1/train/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "development_public_binding_dataset",
+            "path": "data/piu/mainline_v1/development/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_temperature_public_binding_dataset",
+            "path": "data/piu/mainline_v1/calibration_temperature/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_conformal_public_binding_dataset",
+            "path": "data/piu/mainline_v1/calibration_conformal/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_temperature_public_binding_dataset",
+            "path": "data/piu/mainline_v1/effect_calibration_temperature/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_conformal_public_binding_dataset",
+            "path": "data/piu/mainline_v1/effect_calibration_conformal/public_binding_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "train_spatial_prefix",
+            "path": "data/piu/mainline_v1/train/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "development_spatial_prefix",
+            "path": "data/piu/mainline_v1/development/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_temperature_spatial_prefix",
+            "path": "data/piu/mainline_v1/calibration_temperature/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_conformal_spatial_prefix",
+            "path": "data/piu/mainline_v1/calibration_conformal/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_temperature_spatial_prefix",
+            "path": "data/piu/mainline_v1/effect_calibration_temperature/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_conformal_spatial_prefix",
+            "path": "data/piu/mainline_v1/effect_calibration_conformal/spatial_prefix_features.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "TRAINING_AND_CALIBRATION_INPUTS_NOT_PERFORMANCE_EVIDENCE"
+      },
+      {
+        "id": "S07_binder_training",
+        "title": "CPU target-binder model selection on train/development only",
+        "depends_on": [
+          "S06_binding_role_data_and_prefixes"
+        ],
+        "dependency_status": {
+          "S06_binding_role_data_and_prefixes": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "binder_training_report",
+            "path": "runs/piu_mainline_v1/binder/training_report.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "DEVELOPMENT_MODEL_SELECTION_NOT_TEST_EVIDENCE"
+      },
+      {
+        "id": "S08_binder_calibration",
+        "title": "Independent binder temperature and conformal calibration",
+        "depends_on": [
+          "S07_binder_training"
+        ],
+        "dependency_status": {
+          "S07_binder_training": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "binder_temperature_predictions",
+            "path": "runs/piu_mainline_v1/binder/temperature_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_conformal_predictions",
+            "path": "runs/piu_mainline_v1/binder/conformal_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "binder_calibration",
+            "path": "runs/piu_mainline_v1/binder/calibration.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "CALIBRATION_ARTIFACT_NOT_TEST_EVIDENCE"
+      },
+      {
+        "id": "S09_task_primitive_qualification",
+        "title": "Binder-grounded PICK and PLACE executor qualification",
+        "depends_on": [
+          "S08_binder_calibration"
+        ],
+        "dependency_status": {
+          "S08_binder_calibration": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "pick_primitive_risk_contract",
+            "path": "results/method/piu_pick_primitive_risk_contract_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "pick_primitive_qualification_plan",
+            "path": "results/method/piu_pick_primitive_qualification_plan_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "pick_primitive_qualification_schedule",
+            "path": "results/method/piu_pick_primitive_qualification_schedule_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "pick_primitive_certificate",
+            "path": "results/method/piu_pick_primitive_certificate_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "place_primitive_risk_contract",
+            "path": "results/method/piu_place_primitive_risk_contract_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "place_primitive_qualification_plan",
+            "path": "results/method/piu_place_primitive_qualification_plan_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "place_primitive_qualification_schedule",
+            "path": "results/method/piu_place_primitive_qualification_schedule_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "place_primitive_certificate",
+            "path": "results/method/piu_place_primitive_certificate_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "qualified_executor_map",
+            "path": "results/method/piu_qualified_executor_map_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "EXECUTOR_RELIABILITY_ONLY_NOT_TASK_SUCCESS"
+      },
+      {
+        "id": "S10_action_effect_role_data",
+        "title": "Executed counterfactual matrices on train/development/effect-calibration roles",
+        "depends_on": [
+          "S09_task_primitive_qualification"
+        ],
+        "dependency_status": {
+          "S09_task_primitive_qualification": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "train_binder_online_predictions",
+            "path": "runs/piu_mainline_v1/binder/train_online_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "development_binder_online_predictions",
+            "path": "runs/piu_mainline_v1/binder/development_online_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_temperature_binder_online_predictions",
+            "path": "runs/piu_mainline_v1/binder/effect_temperature_online_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_conformal_binder_online_predictions",
+            "path": "runs/piu_mainline_v1/binder/effect_conformal_online_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "train_action_effect_dataset",
+            "path": "data/piu/mainline_v1/train/action_effect_labels.manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "development_action_effect_dataset",
+            "path": "data/piu/mainline_v1/development/action_effect_labels.manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_temperature_action_effect_dataset",
+            "path": "data/piu/mainline_v1/effect_calibration_temperature/action_effect_labels.manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_conformal_action_effect_dataset",
+            "path": "data/piu/mainline_v1/effect_calibration_conformal/action_effect_labels.manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "EXECUTED_COUNTERFACTUAL_DATA_NOT_PERFORMANCE_EVIDENCE"
+      },
+      {
+        "id": "S11_action_effect_training",
+        "title": "CPU route/effect model selection and preregistered ablations",
+        "depends_on": [
+          "S10_action_effect_role_data"
+        ],
+        "dependency_status": {
+          "S10_action_effect_role_data": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "effect_training_report",
+            "path": "runs/piu_mainline_v1/effect/training_report.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "DEVELOPMENT_ABLATION_NOT_TEST_EVIDENCE"
+      },
+      {
+        "id": "S12_action_effect_calibration",
+        "title": "Independent action-effect temperature and conformal calibration",
+        "depends_on": [
+          "S11_action_effect_training"
+        ],
+        "dependency_status": {
+          "S11_action_effect_training": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "effect_temperature_predictions",
+            "path": "runs/piu_mainline_v1/effect/temperature_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_conformal_predictions",
+            "path": "runs/piu_mainline_v1/effect/conformal_predictions.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "effect_calibration",
+            "path": "runs/piu_mainline_v1/effect/calibration.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "CALIBRATION_ARTIFACT_NOT_TEST_EVIDENCE"
+      },
+      {
+        "id": "S13_development_baselines_and_paired_design",
+        "title": "Frozen baselines, external prompted router, and paired formal design",
+        "depends_on": [
+          "S12_action_effect_calibration"
+        ],
+        "dependency_status": {
+          "S12_action_effect_calibration": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "external_prompted_vlm_router_identity",
+            "path": "results/diagnostics/external_prompted_vlm_router_identity_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "external_prompted_vlm_router_probe",
+            "path": "results/diagnostics/external_prompted_vlm_router_probe_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "b2_frozen_heuristic_v0_results",
+            "path": "results/method/piu_fixed_drawer_b2_heuristic_v0_v1.jsonl",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "main_paired_pilot_plan",
+            "path": "results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "DEVELOPMENT_DESIGN_NOT_SEALED_TEST_EVIDENCE"
+      },
+      {
+        "id": "S14_sealed_formal_freeze",
+        "title": "Sealed initial states and immutable B0-B8 schedule",
+        "depends_on": [
+          "S13_development_baselines_and_paired_design"
+        ],
+        "dependency_status": {
+          "S13_development_baselines_and_paired_design": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "formal_split_manifest",
+            "path": "data/piu/mainline_v1/formal_split_manifest.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "formal_initial_state_manifest",
+            "path": "data/piu/mainline_v1/formal_initial_states_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "formal_execution_schedule",
+            "path": "results/method/piu_fixed_drawer_formal_schedule_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "SEALED_DESIGN_ONLY_NO_OUTCOME_ACCESS"
+      },
+      {
+        "id": "S15_sealed_execution_and_analysis",
+        "title": "Complete sealed outcomes, component evaluations, and paired analysis",
+        "depends_on": [
+          "S14_sealed_formal_freeze"
+        ],
+        "dependency_status": {
+          "S14_sealed_formal_freeze": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "complete_sealed_outcome_matrix",
+            "path": "results/method/piu_fixed_drawer_sealed_outcomes_v1.jsonl",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "target_binding_sealed",
+            "path": "results/method/piu_fixed_drawer_binder_sealed_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "action_effect_sealed",
+            "path": "results/method/piu_fixed_drawer_effect_sealed_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "b6_oracle_effect_trace_results",
+            "path": "results/method/piu_fixed_drawer_b6_oracle_effect_v1.jsonl",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "b7_oracle_binding_results",
+            "path": "results/method/piu_fixed_drawer_b7_oracle_binding_v1.jsonl",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "sealed_full_loop_report",
+            "path": "results/method/piu_fixed_drawer_sealed_v1.json",
+            "status": "PENDING",
+            "sha256": null,
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "SEALED_EMPIRICAL_EVIDENCE"
+      },
+      {
+        "id": "S16_evidence_bound_paper_release",
+        "title": "Regenerated evidence tables, figures, and public claim audit",
+        "depends_on": [
+          "S15_sealed_execution_and_analysis"
+        ],
+        "dependency_status": {
+          "S15_sealed_execution_and_analysis": "WAITING_FOR_PREDECESSOR"
+        },
+        "status": "WAITING_FOR_PREDECESSOR",
+        "artifacts": [
+          {
+            "id": "paper_evidence_tables",
+            "path": "paper/generated/piu_evidence_tables_v1.json",
+            "status": "INVALID",
+            "sha256": "f7895908d46cd65e5680f1442fbb6a98ae363940d15b7cae6cd4610daa098af5",
+            "errors": [
+              "artifact.artifacts.binding_development has malformed SHA-256",
+              "artifact.artifacts.effect_development has malformed SHA-256",
+              "artifact.artifacts.target_binding_sealed has malformed SHA-256",
+              "artifact.artifacts.action_effect_sealed has malformed SHA-256",
+              "artifact.artifacts.closed_loop_sealed has malformed SHA-256",
+              "field artifacts.binding_development.status differs from frozen contract",
+              "field artifacts.effect_development.status differs from frozen contract",
+              "field artifacts.target_binding_sealed.status differs from frozen contract",
+              "field artifacts.action_effect_sealed.status differs from frozen contract",
+              "field artifacts.closed_loop_sealed.status differs from frozen contract"
+            ],
+            "terminal_reason": null
+          },
+          {
+            "id": "public_claim_audit",
+            "path": "results/diagnostics/piu_public_claim_audit_v3.json",
+            "status": "VALID",
+            "sha256": "90a82725f643ede8c49347eafa58edfd6c03d048d2e4e9aae04d6e490967ca0b",
+            "errors": [],
+            "terminal_reason": null
+          },
+          {
+            "id": "paper_method_figure",
+            "path": "paper/generated/piu_method_pipeline_v1.svg",
+            "status": "INVALID",
+            "sha256": "b0b1c96c76c67d5c096accd1d766c9ede2d093a01841826127d3a76f9776ee83",
+            "errors": [
+              "paper SVG is not uniquely bound to the evidence table"
+            ],
+            "terminal_reason": null
+          },
+          {
+            "id": "paper_evidence_boundary_figure",
+            "path": "paper/generated/piu_evidence_boundary_v1.svg",
+            "status": "VALID",
+            "sha256": "5f8e3ae87523a5e1be809345b524e491b1181cc1633fca19ee79011eefc51c77",
+            "errors": [],
+            "terminal_reason": null
+          }
+        ],
+        "claim_scope": "PAPER_RELEASE_BOUND_TO_VALIDATED_EVIDENCE"
+      }
+    ],
+    "offline_replay_local_gpu_actions_performed": false,
+    "empirical_policy_endpoint_local_gpu_used": true,
+    "local_gpu_actions_performed": true
+  },
+  "errors": []
+}

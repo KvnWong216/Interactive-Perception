@@ -559,3 +559,40 @@ admissible. These checks reject a co-edited prediction file and report hash as
 well as a hand-edited fitted temperature. They are reproducibility and leakage
 evidence only: replaying synthetic or development artifacts cannot create a
 sealed-test or physical-performance claim.
+
+## Amendment 17: identified endpoint compute provenance
+
+Frozen on 2026-08-23 before any primitive-qualification outcome, Oracle screen,
+Oracle pilot, learned-data collection, or sealed outcome was loaded. The
+retained offline/replay release remains governed by its historical 1500 MiB,
+CPU-only contract and its immutable reproduction lock. This amendment does not
+rewrite that release as a local-GPU experiment.
+The active v3 reproduction lock extends, rather than overwrites, the retained
+v1/v2 releases, binds the amendment's new code/config/prose files, and treats
+the later canonical endpoint as a DAG-validated external artifact rather than
+silently pulling it into the CPU-only offline inventory.
+
+Prospective empirical π0.5 execution is governed by the process-and-identity
+contract `identified_out_of_process_frozen_policy_endpoint`. It permits either
+`remote_identified_server` or `local_identified_server`. Both modes require an
+independent policy-server process, the exact content-addressed `pi05_libero`
+checkpoint, frozen unmodified weights, the same public observation and action
+interfaces, no simulator-privileged policy input, an identified runtime, and a
+finite action probe whose retained source is hash-bound. Quantization, pruning,
+dtype overrides, CPU offload, and checkpoint substitution are prohibited.
+
+The authorized local deployment is physical GPU0, NVIDIA GeForce RTX 4080
+SUPER with 16376 MiB, at `127.0.0.1:8002`, with
+`XLA_PYTHON_CLIENT_MEM_FRACTION=0.85`. Its canonical endpoint artifact must say
+`local_gpu_used=true`; a remote deployment must say false. Deployment mode is
+not inferred from a loopback hostname because a remote SSH tunnel may also use
+loopback. Instead it is an explicit closed field bound to the versioned compute
+contract and server-reported process/JAX/GPU runtime identity. The endpoint
+artifact is immutable and cannot be written without a finite probe.
+
+The empirical order is unchanged and machine-enforced: independent S00a risk
+authority plus S00b endpoint identity unlock only S02 OPEN formal
+qualification. S03 Oracle development remains predecessor-blocked until S02
+contains a replay-valid `FORMALLY_QUALIFIED` OPEN certificate. Endpoint PASS is
+not executor qualification; a prospective qualification plan is not an
+outcome; neither permits an Oracle run or a paper-performance claim.

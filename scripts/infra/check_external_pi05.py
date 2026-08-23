@@ -23,6 +23,12 @@ from interactive_perception.policy_client import (
     OpenPiWebsocketPolicy,
 )
 from piu.policy_identity import validate_server_metadata
+from piu.compute_provenance import (
+    DEPLOYMENT_MODES,
+    SEMANTIC_CONTRACT,
+    load_empirical_compute_contract,
+    validate_external_pi05_endpoint_artifact,
+)
 
 SERVER_SCHEMA = "piu.identified-pi05-server.v1"
 
@@ -90,6 +96,14 @@ def main() -> None:
     parser.add_argument("--timeout", type=float, default=30.0)
     parser.add_argument("--api-key")
     parser.add_argument("--identity", type=Path, required=True)
+    parser.add_argument(
+        "--compute-contract",
+        type=Path,
+        default=ROOT / "configs/experiments/piu_empirical_compute_contract_v1.yaml",
+    )
+    parser.add_argument(
+        "--deployment-mode", choices=sorted(DEPLOYMENT_MODES), required=True
+    )
     parser.add_argument("--probe-report", type=Path)
     parser.add_argument("--probe-keyframe", default="00_before")
     parser.add_argument("--output", type=Path)
@@ -100,18 +114,46 @@ def main() -> None:
         args.identity if args.identity.is_absolute() else ROOT / args.identity
     )
     identity = json.loads(identity_path.read_text())
+    compute_contract_path = (
+        args.compute_contract
+        if args.compute_contract.is_absolute()
+        else ROOT / args.compute_contract
+    )
+    compute_contract = load_empirical_compute_contract(
+        compute_contract_path, repository_root=ROOT
+    )
     wait_for_endpoint(args.host, args.port, args.timeout)
     policy = OpenPiWebsocketPolicy(host=args.host, port=args.port, api_key=args.api_key)
     metadata = policy.server_metadata
     validate_metadata(metadata, identity)
     result: dict[str, Any] = {
-        "schema_version": "piu.external-pi05-check.v1",
+        "schema_version": "piu.external-pi05-check.v2",
         "status": "PASS",
         "endpoint": {"host": args.host, "port": args.port},
         "identity": metadata,
         "checkpoint_identity": {
             "path": portable(identity_path),
             "sha256": sha256(identity_path),
+        },
+        "compute_provenance": {
+            "schema_version": "piu.endpoint-compute-provenance.v1",
+            "compute_contract": {
+                "path": portable(compute_contract_path),
+                "sha256": sha256(compute_contract_path),
+            },
+            "semantic_contract": SEMANTIC_CONTRACT,
+            "deployment_mode": args.deployment_mode,
+            "local_gpu_used": compute_contract["deployment_contracts"][
+                args.deployment_mode
+            ]["local_gpu_used"],
+            "server_out_of_process": True,
+            "runtime_identity": metadata.get("runtime_identity"),
+            "policy_weights_modified": False,
+            "quantization_used": False,
+            "pruning_used": False,
+            "dtype_override_used": False,
+            "cpu_offload_used": False,
+            "qualification_outcomes_loaded": False,
         },
         "action_probe": None,
     }
@@ -135,6 +177,17 @@ def main() -> None:
             "finite": bool(np.isfinite(action).all()),
             "elapsed_seconds": time.monotonic() - started,
         }
+        if result["action_probe"]["finite"] is not True:
+            raise ValueError("identified endpoint returned a non-finite action")
+    if args.output is not None and args.probe_report is None:
+        raise ValueError("canonical endpoint checks require one finite action probe")
+    if args.probe_report is not None:
+        validate_external_pi05_endpoint_artifact(
+            result,
+            checkpoint_identity_path=identity_path,
+            compute_contract_path=compute_contract_path,
+            repository_root=ROOT,
+        )
     output = None
     if args.output is not None:
         output = args.output if args.output.is_absolute() else ROOT / args.output

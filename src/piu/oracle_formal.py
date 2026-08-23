@@ -160,7 +160,7 @@ def load_oracle_formal_initial_states(
         name="oracle formal offline release lock",
         repository_root=repository_root,
     )
-    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v1.yaml"
+    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v3.yaml"
     if lock_reference.get("manifest_sha256") != sha256(manifest_path):
         raise ValueError("oracle formal states use another reproduction manifest")
     validate_repro_lock(
@@ -343,7 +343,7 @@ def load_oracle_formal_schedule(
         name="oracle formal offline release lock",
         repository_root=repository_root,
     )
-    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v1.yaml"
+    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v3.yaml"
     if (
         lock_reference.get("manifest_sha256") != sha256(manifest_path)
         or state_manifest["offline_repro_lock"]["sha256"] != sha256(lock_path)
@@ -764,7 +764,8 @@ def load_oracle_formal_group_receipt(
     session = value.get("server_session_id")
     endpoint_probe = endpoint.get("action_probe")
     if (
-        endpoint.get("schema_version") != "piu.external-pi05-check.v1"
+        endpoint.get("schema_version")
+        not in {"piu.external-pi05-check.v1", "piu.external-pi05-check.v2"}
         or endpoint.get("status") != "PASS"
         or not isinstance(endpoint_probe, Mapping)
         or endpoint_probe.get("finite") is not True

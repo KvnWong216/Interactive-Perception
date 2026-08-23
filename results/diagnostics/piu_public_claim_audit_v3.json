@@ -1,0 +1,508 @@
+{
+  "schema_version": "piu.public-claim-audit.v1",
+  "status": "PASS",
+  "registry": {
+    "path": "configs/experiments/method_provenance_v1.yaml",
+    "sha256": "5d8f5b1707e61cfbcbd108f1b232afa4b3a5c17d00aa6d178357cd90c70105b4",
+    "entry_count": 78,
+    "provenance_counts": {
+      "baseline_only_heuristic": 3,
+      "fit_on_isolated_calibration": 1,
+      "formal_statistical_procedure": 7,
+      "frozen_policy_contract": 2,
+      "learned_on_training_split": 6,
+      "numerical_optimization": 2,
+      "oracle_intervention": 4,
+      "protocol_identifier": 32,
+      "safety_or_resource_budget": 9,
+      "simulator_or_physics_contract": 3,
+      "unsupported_heuristic": 5,
+      "user_risk_contract": 4
+    },
+    "claim_use_counts": {
+      "baseline_only": 7,
+      "diagnostic_only": 9,
+      "historical_only": 3,
+      "main_evaluator": 22,
+      "main_method_online": 22,
+      "rejected_method_only": 4,
+      "safety_only": 11
+    },
+    "tracked_protocol_count": 12,
+    "deprecated_protocol_count": 3
+  },
+  "claim_surfaces": [
+    {
+      "path": "paper/main.md",
+      "sha256": "778e9efda6201ac498074b93a522ad279ba10e1fcf52ff93e4649b80ceaa10b9",
+      "required_fragments_verified": 4,
+      "retired_fragments_matched": []
+    },
+    {
+      "path": "README.md",
+      "sha256": "3e6d1d792f72525e0d74894090b16348a60f3c3b91256d3409e10ff12b205853",
+      "required_fragments_verified": 2,
+      "retired_fragments_matched": []
+    },
+    {
+      "path": "STATUS.md",
+      "sha256": "c70ced66de21e2a4c1438603af1a5fd6b9b56ab85603973fdb3dcda68c8f7dbe",
+      "required_fragments_verified": 2,
+      "retired_fragments_matched": []
+    },
+    {
+      "path": "RESULTS.md",
+      "sha256": "10b7f8559cbb4fcfa0e6f3531bc50af3908cd856e0a325c675045998bd7232d9",
+      "required_fragments_verified": 2,
+      "retired_fragments_matched": []
+    }
+  ],
+  "retired_fragments_checked": 7,
+  "numeric_protocols": [
+    {
+      "path": "configs/experiments/piu_empirical_compute_contract_v1.yaml",
+      "sha256": "920a01ff7e71b06083564548e47b53c69f2d78c9d63619ed8a0be1a87984bcfc",
+      "controls": [
+        {
+          "field": "offline_replay_contract.local_gpu_memory_mib_max",
+          "value": 1500,
+          "provenance_id": "local_gpu_cap"
+        },
+        {
+          "field": "deployment_contracts.local_identified_server.gpu_physical_index",
+          "value": 0,
+          "provenance_id": "empirical_policy_gpu_index"
+        },
+        {
+          "field": "deployment_contracts.local_identified_server.gpu_memory_total_mib",
+          "value": 16376,
+          "provenance_id": "empirical_policy_gpu_memory"
+        },
+        {
+          "field": "deployment_contracts.local_identified_server.xla_python_client_mem_fraction",
+          "value": 0.85,
+          "provenance_id": "empirical_policy_xla_fraction"
+        }
+      ],
+      "identifiers": [],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
+      "sha256": "6ec5c282ec8d431add40afb51e492822a6649e48345549c2cc762aebaa147996",
+      "controls": [
+        {
+          "field": "resource_contract.local_gpu_memory_mib_max",
+          "value": 1500,
+          "provenance_id": "local_gpu_cap"
+        },
+        {
+          "field": "execution.steps",
+          "value": 400,
+          "provenance_id": "rollout_step_limits"
+        },
+        {
+          "field": "execution.replan_steps",
+          "value": 5,
+          "provenance_id": "pi05_replan_chunk"
+        },
+        {
+          "field": "execution.target_presence_minimum_pixels",
+          "value": 1,
+          "provenance_id": "oracle_target_presence"
+        },
+        {
+          "field": "formal_followup.alpha",
+          "value": 0.05,
+          "provenance_id": "formal_test_design_levels"
+        },
+        {
+          "field": "formal_followup.target_power",
+          "value": 0.8,
+          "provenance_id": "formal_test_design_levels"
+        }
+      ],
+      "identifiers": [
+        {
+          "field": "preflight.source_seeds",
+          "value": [
+            1400,
+            1401,
+            1402,
+            1403,
+            1404,
+            1405,
+            1406,
+            1407,
+            1408,
+            1409
+          ],
+          "provenance_id": "oracle_prompt_phase_execution_order"
+        },
+        {
+          "field": "preflight.expected_eligible_seeds",
+          "value": [
+            1400,
+            1401,
+            1402,
+            1403,
+            1404,
+            1405,
+            1406,
+            1407
+          ],
+          "provenance_id": "oracle_prompt_phase_execution_order"
+        },
+        {
+          "field": "screen.seeds",
+          "value": [
+            1400,
+            1403,
+            1406
+          ],
+          "provenance_id": "oracle_prompt_phase_execution_order"
+        },
+        {
+          "field": "confirmation.seeds",
+          "value": [
+            1401,
+            1402,
+            1404,
+            1405,
+            1407
+          ],
+          "provenance_id": "oracle_prompt_phase_execution_order"
+        }
+      ],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/piu_oracle_formal_v1.yaml",
+      "sha256": "2c51fa2c7b011adcc2a8931e8ac72d4eef9593669b11033b505b69713f9ce64c",
+      "controls": [],
+      "identifiers": [],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/piu_formal_analysis_v1.yaml",
+      "sha256": "d1c6e535a270728e9ef9e64ecd58bfa7a37acdf81888a86f56d26c9d58c7758d",
+      "controls": [
+        {
+          "field": "primary.alpha",
+          "value": 0.05,
+          "provenance_id": "formal_test_design_levels"
+        },
+        {
+          "field": "prospective_design.target_power",
+          "value": 0.8,
+          "provenance_id": "formal_test_design_levels"
+        },
+        {
+          "field": "prospective_design.report_confidence",
+          "value": 0.95,
+          "provenance_id": "formal_pilot_confidence_levels"
+        },
+        {
+          "field": "prospective_design.conservative_joint_confidence",
+          "value": 0.95,
+          "provenance_id": "formal_pilot_confidence_levels"
+        },
+        {
+          "field": "prospective_design.numerical_search_limit",
+          "value": 200,
+          "provenance_id": "paired_power_search_limit"
+        },
+        {
+          "field": "secondary.alpha",
+          "value": 0.05,
+          "provenance_id": "formal_test_design_levels"
+        }
+      ],
+      "identifiers": [],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/piu_robustness_reporting_v1.yaml",
+      "sha256": "96a25e5dc236f17df382fa316d9f9f53f55d209ac46c0fb602cfabe294180ffb",
+      "controls": [],
+      "identifiers": [],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/piu_binding_adapter_v1.yaml",
+      "sha256": "1d2d86ef9e8beef9bf2d63ed0719912449567cdd6f574f0096935842df3c1efb",
+      "controls": [
+        {
+          "field": "compute.local_gpu_memory_mib_max",
+          "value": 1500,
+          "provenance_id": "local_gpu_cap"
+        },
+        {
+          "field": "compute.torch_threads",
+          "value": 2,
+          "provenance_id": "cpu_training_thread_budget"
+        },
+        {
+          "field": "model_search.batch_size",
+          "value": 8,
+          "provenance_id": "binding_architecture_search"
+        },
+        {
+          "field": "model_search.dropout",
+          "value": [
+            0.0,
+            0.1
+          ],
+          "provenance_id": "binding_architecture_search"
+        },
+        {
+          "field": "model_search.epochs",
+          "value": 20,
+          "provenance_id": "binding_architecture_search"
+        },
+        {
+          "field": "model_search.learning_rate",
+          "value": [
+            0.001,
+            0.0003
+          ],
+          "provenance_id": "binding_architecture_search"
+        },
+        {
+          "field": "model_search.maximum_parameter_count",
+          "value": 2000000,
+          "provenance_id": "training_parameter_resource_cap"
+        },
+        {
+          "field": "model_search.model_width",
+          "value": [
+            32,
+            64
+          ],
+          "provenance_id": "binding_architecture_search"
+        },
+        {
+          "field": "model_search.num_heads",
+          "value": [
+            4
+          ],
+          "provenance_id": "binding_architecture_search"
+        },
+        {
+          "field": "model_search.seeds",
+          "value": [
+            17,
+            29,
+            43
+          ],
+          "provenance_id": "binding_architecture_search"
+        }
+      ],
+      "identifiers": [],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/piu_binding_calibration_v1.yaml",
+      "sha256": "cef89f7f5efe6d7c52dd26f20ab97d26db4868f5067703a2191d284af09a349b",
+      "controls": [
+        {
+          "field": "compute.local_gpu_memory_mib_max",
+          "value": 1500,
+          "provenance_id": "local_gpu_cap"
+        },
+        {
+          "field": "risk_contract.primary_alpha",
+          "value": 0.1,
+          "provenance_id": "binding_conformal_risk_contract"
+        },
+        {
+          "field": "risk_contract.reported_alpha",
+          "value": [
+            0.05,
+            0.1,
+            0.2
+          ],
+          "provenance_id": "binding_conformal_risk_contract"
+        }
+      ],
+      "identifiers": [],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/piu_action_effect_v1.yaml",
+      "sha256": "bc0ccc4a25a92cd0521d03767adddcd62c563818164945aa92c1d4aa69bc1bc5",
+      "controls": [
+        {
+          "field": "compute.local_gpu_memory_mib_max",
+          "value": 1500,
+          "provenance_id": "local_gpu_cap"
+        },
+        {
+          "field": "compute.torch_threads",
+          "value": 2,
+          "provenance_id": "cpu_training_thread_budget"
+        },
+        {
+          "field": "model_search.batch_size",
+          "value": 8,
+          "provenance_id": "action_effect_architecture_search"
+        },
+        {
+          "field": "model_search.dropout",
+          "value": [
+            0.0,
+            0.1
+          ],
+          "provenance_id": "action_effect_architecture_search"
+        },
+        {
+          "field": "model_search.epochs",
+          "value": 20,
+          "provenance_id": "action_effect_architecture_search"
+        },
+        {
+          "field": "model_search.learning_rate",
+          "value": [
+            0.001,
+            0.0003
+          ],
+          "provenance_id": "action_effect_architecture_search"
+        },
+        {
+          "field": "model_search.maximum_parameter_count",
+          "value": 2000000,
+          "provenance_id": "training_parameter_resource_cap"
+        },
+        {
+          "field": "model_search.model_width",
+          "value": [
+            32,
+            64
+          ],
+          "provenance_id": "action_effect_architecture_search"
+        },
+        {
+          "field": "model_search.num_heads",
+          "value": [
+            4
+          ],
+          "provenance_id": "action_effect_architecture_search"
+        },
+        {
+          "field": "model_search.seeds",
+          "value": [
+            17,
+            29,
+            43
+          ],
+          "provenance_id": "action_effect_architecture_search"
+        }
+      ],
+      "identifiers": [],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/piu_action_effect_calibration_v1.yaml",
+      "sha256": "2113f7deab3c9dc841fdd3ed332a7b6fe0601d29a76ae486fc7523f5ac8dd2ff",
+      "controls": [
+        {
+          "field": "compute.local_gpu_memory_mib_max",
+          "value": 1500,
+          "provenance_id": "local_gpu_cap"
+        },
+        {
+          "field": "risk_contract.primary_alpha",
+          "value": 0.1,
+          "provenance_id": "action_effect_conformal_risk_contract"
+        },
+        {
+          "field": "risk_contract.reported_alpha",
+          "value": [
+            0.05,
+            0.1,
+            0.2
+          ],
+          "provenance_id": "action_effect_conformal_risk_contract"
+        }
+      ],
+      "identifiers": [],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/piu_baselines_v1.yaml",
+      "sha256": "0eec5728d71ddd7eea120e4d1160f204b408377d38119d3cf2a80aa8b3e60d7d",
+      "controls": [
+        {
+          "field": "shared_contract.maximum_controller_decisions",
+          "value": 8,
+          "provenance_id": "controller_decision_cap"
+        },
+        {
+          "field": "shared_contract.option_step_budgets",
+          "value": {
+            "DIRECT": 400,
+            "OPEN": 300,
+            "PICK": 400,
+            "PLACE": 400
+          },
+          "provenance_id": "rollout_step_limits"
+        },
+        {
+          "field": "shared_contract.replanning_steps",
+          "value": 5,
+          "provenance_id": "pi05_replan_chunk"
+        }
+      ],
+      "identifiers": [],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/piu_primitive_registry_v2.yaml",
+      "sha256": "dcc2656a4fa20deb97faac55f93444d2d370e2ed106f1bb6a3287d36eeff494b",
+      "controls": [
+        {
+          "field": "formal_qualification.alpha",
+          "value": 0.05,
+          "provenance_id": "formal_test_design_levels"
+        },
+        {
+          "field": "formal_qualification.target_power",
+          "value": 0.8,
+          "provenance_id": "formal_test_design_levels"
+        }
+      ],
+      "identifiers": [],
+      "unclassified_numeric_paths": []
+    },
+    {
+      "path": "configs/experiments/piu_drawer_binding_sprint_v1.yaml",
+      "sha256": "80f09815e7d2c2d22fc6ba623e714ca2c0e3e688db990c861807d100aafcc14e",
+      "controls": [
+        {
+          "field": "primary_estimand.alpha",
+          "value": 0.05,
+          "provenance_id": "formal_test_design_levels"
+        },
+        {
+          "field": "primary_estimand.target_power",
+          "value": 0.8,
+          "provenance_id": "formal_test_design_levels"
+        },
+        {
+          "field": "resource_contract.local_gpu_memory_mib_max",
+          "value": 1500,
+          "provenance_id": "local_gpu_cap"
+        }
+      ],
+      "identifiers": [],
+      "unclassified_numeric_paths": []
+    }
+  ],
+  "claim_boundary": {
+    "retired_interpretation_present": false,
+    "compound_direct_relabelled_as_pick_or_place": false,
+    "historical_visibility_marker_used_as_recognition_threshold": false,
+    "missing_successor_evidence_imputed": false,
+    "audit_is_performance_evidence": false
+  }
+}

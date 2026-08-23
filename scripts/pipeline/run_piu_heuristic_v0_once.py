@@ -87,6 +87,11 @@ def main() -> None:
     )
     parser.add_argument("--seed", type=int, required=True)
     parser.add_argument("--host", required=True)
+    parser.add_argument(
+        "--deployment-mode",
+        choices=("local_identified_server", "remote_identified_server"),
+        default="remote_identified_server",
+    )
     parser.add_argument("--port", type=int, default=8002)
     parser.add_argument("--server-timeout", type=float, default=30.0)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -263,6 +268,8 @@ def main() -> None:
             str(args.server_timeout),
             "--identity",
             str(identity),
+            "--deployment-mode",
+            args.deployment_mode,
         ]
     if args.dry_run:
         print(

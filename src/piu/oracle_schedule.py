@@ -178,7 +178,7 @@ def load_schedule(
     lock_path = resolve(
         Path(str(lock_value.get("path", ""))), repository_root=repository_root
     )
-    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v1.yaml"
+    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v3.yaml"
     if (
         not lock_path.is_file()
         or lock_value.get("sha256") != sha256(lock_path)

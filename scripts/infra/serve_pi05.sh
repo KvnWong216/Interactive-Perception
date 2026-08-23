@@ -18,6 +18,7 @@ OPENPI_DIR="${1:-${OPENPI_DIR:-$WORKSPACE/openpi}}"
 CHECKPOINT_DIR="${2:-${CHECKPOINT_DIR:-$WORKSPACE/checkpoints/checkpoints/pi05_libero}}"
 PORT="${PORT:-8002}"
 HOST="${HOST:-127.0.0.1}"
+DEPLOYMENT_MODE="${DEPLOYMENT_MODE:-local_identified_server}"
 
 if [ ! -d "$OPENPI_DIR" ]; then
   echo "openpi checkout not found at: $OPENPI_DIR" >&2
@@ -40,6 +41,16 @@ if [ "$CUDA_VISIBLE_DEVICES" != "$EXPERIMENT_GPU_INDEX" ]; then
   echo "Refusing to start: CUDA_VISIBLE_DEVICES must match physical GPU${EXPERIMENT_GPU_INDEX}." >&2
   exit 1
 fi
+if [ "$DEPLOYMENT_MODE" != "local_identified_server" ] \
+  && [ "$DEPLOYMENT_MODE" != "remote_identified_server" ]; then
+  echo "Refusing to start: DEPLOYMENT_MODE must identify local or remote serving." >&2
+  exit 1
+fi
+if [ "$DEPLOYMENT_MODE" = "local_identified_server" ] \
+  && [ "$XLA_PYTHON_CLIENT_MEM_FRACTION" != "0.85" ]; then
+  echo "Refusing to start: local empirical contract freezes XLA fraction at 0.85." >&2
+  exit 1
+fi
 if [ "${LAB_SERVER_MODE:-0}" = "1" ] && [ "$EXPERIMENT_GPU_INDEX" != "1" ]; then
   echo "Refusing to start: lab-server mode is authorized only on physical GPU1." >&2
   exit 1
@@ -50,6 +61,7 @@ echo "checkpoint: $CHECKPOINT_DIR"
 echo "port:       $PORT"
 echo "host:       $HOST"
 echo "device:     CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
+echo "deployment: $DEPLOYMENT_MODE"
 
 "$PROJECT_ROOT/scripts/infra/check_gpu.sh"
 
@@ -58,4 +70,5 @@ exec uv run python "$PROJECT_ROOT/scripts/infra/serve_identified_pi05.py" \
   --checkpoint "$CHECKPOINT_DIR" \
   --policy-config pi05_libero \
   --port "$PORT" \
-  --host "$HOST"
+  --host "$HOST" \
+  --physical-gpu-index "$EXPERIMENT_GPU_INDEX"

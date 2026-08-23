@@ -52,7 +52,7 @@ target-binding method is claimed or rejected.
 - [Architecture decision](docs/adr/0001_candidate_conditioned_calibrated_interaction.md)
 - [Research question, math, data, experiments, compute, and go/no-go plan](docs/research_plan.md)
 - [Internal ICRA-cadence schedule](docs/icra_cadence_plan.md)
-- [Paper research execution plan and external pi0.5 setup](docs/paper_research_execution_plan.md)
+- [Paper research execution plan and identified pi0.5 setup](docs/paper_research_execution_plan.md)
 - [Method and threshold provenance audit](docs/method_provenance_audit.md)
 - [Spatial-prefix successor contract](docs/spatial_prefix_successor_contract.md)
 - [Frozen PIU research charter](docs/research_charter.md)
@@ -145,10 +145,13 @@ against the retained lock:
 ```bash
 python scripts/repro/check_piu_offline_pipeline.py \
   --output runs/piu_offline_repro_check.json \
-  --reference results/diagnostics/piu_offline_repro_preflight_v1.json
+  --reference results/diagnostics/piu_offline_repro_preflight_v3.json
 ```
 
-This command reports the external pi0.5/oracle/real-data gates as pending; it
+The v1/v2 locks remain immutable historical evidence; the v3 lock binds this
+prospective compute-provenance amendment and the external-artifact boundary
+without changing the 1500 MiB offline contract. This command reports the
+pi0.5/oracle/real-data gates as pending; it
 does not reinterpret software readiness as empirical readiness. Inspect the
 first unblocked external work item with:
 
@@ -208,35 +211,72 @@ bash scripts/infra/check_gpu.sh
 bash scripts/infra/serve_pi05.sh
 ```
 
-### Oracle target-binding qualification
+### Empirical identified endpoint and OPEN qualification
 
-The 1.5 GB local GPU contract prohibits loading pi0.5 on this workstation, so
-the qualification runner accepts only an identified external frozen-policy
-server. The recommended `host:port` is an SSH tunnel:
+The retained offline/replay release still has its historical 1500 MiB cap and
+did not load pi0.5 locally. Prospective empirical execution has a separate,
+versioned compute contract:
+[`piu_empirical_compute_contract_v1.yaml`](configs/experiments/piu_empirical_compute_contract_v1.yaml).
+Its invariant is an
+`identified_out_of_process_frozen_policy_endpoint`, which may be either a
+`remote_identified_server` or an explicitly recorded `local_identified_server`.
+The local deployment must say `local_gpu_used=true`; it does not rewrite the
+offline release history.
+
+On this workstation, launch the exact checkpoint as an independent process
+only after the GPU preflight reports no unapproved compute process:
+
+```bash
+LAB_SERVER_MODE=0 EXPERIMENT_GPU_INDEX=0 CUDA_VISIBLE_DEVICES=0 \
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.85 \
+DEPLOYMENT_MODE=local_identified_server HOST=127.0.0.1 PORT=8002 \
+bash scripts/infra/serve_pi05.sh \
+  /home/icon/InteractivePerception_yg/openpi \
+  /home/icon/InteractivePerception_yg/checkpoints/checkpoints/pi05_libero
+```
+
+A remote deployment remains allowed. An SSH tunnel is recommended:
 
 ```bash
 ssh -N -L 8002:127.0.0.1:8002 USER@REMOTE_GPU_HOST
 ```
 
 This makes the local endpoint `127.0.0.1:8002` without exposing a public port.
-Complete remote-server commands and hardware expectations are in the
-[paper execution plan](docs/paper_research_execution_plan.md). First
-reproduce the policy-free preflight in the simulator environment:
+Complete local/remote commands and hardware expectations are in the
+[paper execution plan](docs/paper_research_execution_plan.md). Before any
+Oracle work, freeze the external task-owner risk declaration, create the v2
+endpoint check with an honest deployment mode, and verify the DAG:
+
+```bash
+python scripts/infra/check_external_pi05.py \
+  --host 127.0.0.1 --port 8002 \
+  --deployment-mode local_identified_server \
+  --identity results/diagnostics/pi05_libero_checkpoint_identity_v1.json \
+  --compute-contract configs/experiments/piu_empirical_compute_contract_v1.yaml \
+  --probe-report runs/paper_cycle_executor_v2/seed1400/open_butter/report.json \
+  --output results/diagnostics/external_pi05_endpoint_check_v1.json
+
+python scripts/repro/check_piu_empirical_dag.py
+```
+
+The only valid order is `S00a + S00b -> S02 OPEN formal qualification -> S03
+Oracle development`. Endpoint `PASS` is not executor qualification. The Oracle
+commands below remain blocked until the complete S02 certificate validates as
+`FORMALLY_QUALIFIED`; do not infer that certificate from the endpoint probe or
+from historical 9/10 evidence.
+
+After S02 is formally complete, reproduce the policy-free Oracle preflight in
+the simulator environment:
 
 ```bash
 python scripts/evaluation/preflight_oracle_target_prompt.py \
   --output runs/preflight/original_drawer_oracle_prompt.json
 ```
 
-Then inspect and run the nine screening jobs against an external service:
+Then inspect and run the nine screening jobs against the same identified
+service:
 
 ```bash
-python scripts/infra/check_external_pi05.py \
-  --host <external-pi05-host> --port 8002 \
-  --identity results/diagnostics/pi05_libero_checkpoint_identity_v1.json \
-  --probe-report runs/paper_cycle_executor_v2/seed1400/open_butter/report.json \
-  --output results/diagnostics/external_pi05_endpoint_check_v1.json
-
 python scripts/evaluation/build_oracle_target_prompt_schedule.py \
   --phase screen \
   --output results/method/original_drawer_oracle_prompt_screen_schedule_v1.json

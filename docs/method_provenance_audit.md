@@ -75,7 +75,7 @@ binary definitions are not inherited by new experiments.
 `README.md`, `STATUS.md`, and `RESULTS.md` under the machine-readable registry.
 Whitespace and case are normalized before checking seven retired semantic
 fragments. The current immutable report is
-`results/diagnostics/piu_public_claim_audit_v1.json`; it records each surface's
+`results/diagnostics/piu_public_claim_audit_v3.json`; it records each surface's
 SHA-256, all required boundary fragments, zero retired-fragment matches, and an
 explicit statement that the audit is not performance evidence.
 

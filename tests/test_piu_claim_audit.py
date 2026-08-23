@@ -7,7 +7,7 @@ from calibrated_interaction.provenance import build_claim_audit_report
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "configs/experiments/method_provenance_v1.yaml"
-REPORT = ROOT / "results/diagnostics/piu_public_claim_audit_v1.json"
+REPORT = ROOT / "results/diagnostics/piu_public_claim_audit_v3.json"
 
 
 def test_public_claim_audit_is_current_and_evidence_bound() -> None:
@@ -17,7 +17,7 @@ def test_public_claim_audit_is_current_and_evidence_bound() -> None:
     assert retained["status"] == "PASS"
     assert retained["retired_fragments_checked"] >= 7
     assert len(retained["claim_surfaces"]) == 4
-    assert len(retained["numeric_protocols"]) == 11
+    assert len(retained["numeric_protocols"]) == 12
     assert all(
         row["unclassified_numeric_paths"] == []
         for row in retained["numeric_protocols"]

@@ -20,6 +20,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from piu.oracle_schedule import load_schedule
 from piu.policy_identity import load_checkpoint_identity, validate_server_metadata
+from piu.compute_provenance import validate_external_pi05_endpoint_artifact
 
 SCHEMAS = frozenset(
     {
@@ -46,8 +47,18 @@ def validate_endpoint_check(
     require_session: bool,
 ) -> dict[str, Any]:
     value = json.loads(path.read_text())
+    if value.get("schema_version") == "piu.external-pi05-check.v2":
+        value = validate_external_pi05_endpoint_artifact(
+            value,
+            checkpoint_identity_path=identity_path,
+            compute_contract_path=(
+                ROOT / "configs/experiments/piu_empirical_compute_contract_v1.yaml"
+            ),
+            repository_root=ROOT,
+        )
     if (
-        value.get("schema_version") != "piu.external-pi05-check.v1"
+        value.get("schema_version")
+        not in {"piu.external-pi05-check.v1", "piu.external-pi05-check.v2"}
         or value.get("status") != "PASS"
         or value.get("endpoint") != {"host": host, "port": port}
     ):
@@ -274,6 +285,12 @@ def main() -> None:
                 str(args.server_timeout),
                 "--identity",
                 str(identity),
+                "--deployment-mode",
+                str(
+                    endpoint_check.get("compute_provenance", {}).get(
+                        "deployment_mode", "remote_identified_server"
+                    )
+                ),
             ],
             cwd=ROOT,
             check=True,

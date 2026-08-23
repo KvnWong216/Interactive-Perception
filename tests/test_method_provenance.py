@@ -82,7 +82,7 @@ def test_repository_method_provenance_is_claim_safe() -> None:
     assert by_id["oracle_formal_attempted_open_pairing"]["claim_use"] == (
         "diagnostic_only"
     )
-    assert len(registry["tracked_protocols"]) == 11
+    assert len(registry["tracked_protocols"]) == 12
 
 
 def test_claim_surface_audit_rejects_retired_direct_as_pick_semantics(
