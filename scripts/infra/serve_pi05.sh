@@ -16,7 +16,8 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 WORKSPACE="${WORKSPACE:-$(dirname "$PROJECT_ROOT")}"
 OPENPI_DIR="${1:-${OPENPI_DIR:-$WORKSPACE/openpi}}"
 CHECKPOINT_DIR="${2:-${CHECKPOINT_DIR:-$WORKSPACE/checkpoints/checkpoints/pi05_libero}}"
-PORT="${PORT:-8000}"
+PORT="${PORT:-8002}"
+HOST="${HOST:-127.0.0.1}"
 
 if [ ! -d "$OPENPI_DIR" ]; then
   echo "openpi checkout not found at: $OPENPI_DIR" >&2
@@ -47,12 +48,14 @@ fi
 echo "openpi:     $OPENPI_DIR"
 echo "checkpoint: $CHECKPOINT_DIR"
 echo "port:       $PORT"
+echo "host:       $HOST"
 echo "device:     CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
 
+"$PROJECT_ROOT/scripts/infra/check_gpu.sh"
+
 cd "$OPENPI_DIR"
-exec uv run scripts/serve_policy.py \
+exec uv run python "$PROJECT_ROOT/scripts/infra/serve_identified_pi05.py" \
+  --checkpoint "$CHECKPOINT_DIR" \
+  --policy-config pi05_libero \
   --port "$PORT" \
-  --env LIBERO \
-  policy:checkpoint \
-  --policy.config pi05_libero \
-  --policy.dir "$CHECKPOINT_DIR"
+  --host "$HOST"

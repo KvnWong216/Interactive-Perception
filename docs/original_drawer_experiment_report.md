@@ -134,7 +134,7 @@ The retained source artifacts are:
 - oracle gate protocol:
   `configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml`;
 - policy-free oracle packet preflight:
-  `results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json`.
+  `results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json`.
 
 Feature extraction uses the sibling openpi environment and a bounded JAX
 allocator:

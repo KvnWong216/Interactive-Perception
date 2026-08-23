@@ -10,7 +10,10 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml"
-PREFLIGHT = ROOT / "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json"
+PREFLIGHT = ROOT / "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json"
+CHECKPOINT_IDENTITY = (
+    ROOT / "results/diagnostics/pi05_libero_checkpoint_identity_v1.json"
+)
 RUNNER = ROOT / "scripts/pipeline/run_oracle_target_prompt_gate.py"
 SUMMARIZER = ROOT / "scripts/evaluation/summarize_oracle_target_prompt_gate.py"
 
@@ -30,11 +33,12 @@ def load_script(name: str, path: Path) -> ModuleType:
 
 def test_oracle_gate_is_external_only_and_group_partitioned() -> None:
     config = yaml.safe_load(CONFIG.read_text())
-    assert config["resource_contract"] == {
-        "policy_server": "external_only",
-        "local_policy_server_allowed": False,
-        "local_gpu_memory_mib_max": 1500,
-    }
+    contract = config["resource_contract"]
+    assert contract["policy_server"] == "external_only"
+    assert contract["local_policy_server_allowed"] is False
+    assert contract["local_gpu_memory_mib_max"] == 1500
+    assert contract["identified_server_schema"] == "piu.identified-pi05-server.v1"
+    assert ROOT / contract["checkpoint_identity"] == CHECKPOINT_IDENTITY
     screen = set(config["screen"]["seeds"])
     confirmation = set(config["confirmation"]["seeds"])
     eligible = set(config["preflight"]["expected_eligible_seeds"])
@@ -66,6 +70,17 @@ def test_retained_oracle_preflight_is_policy_free_and_source_hashed() -> None:
         assert row["packet"]["agentview_shape"] == [224, 224, 3]
         assert row["packet"]["wrist_shape"] == [224, 224, 3]
         assert row["packet"]["state_shape"] == [8]
+
+
+def test_frozen_pi05_checkpoint_has_a_content_identity() -> None:
+    identity = json.loads(CHECKPOINT_IDENTITY.read_text())
+    assert identity["policy_config"] == "pi05_libero"
+    assert identity["checkpoint"] == {
+        "schema_version": "piu.checkpoint-tree-sha256.v1",
+        "sha256": "1325f4a3f76250f6bed2f53f53b49ec68c94f5fd12911f76d82dbca578fe9901",
+        "file_count": 16,
+        "total_bytes": 12439085481,
+    }
 
 
 def test_runner_never_constructs_a_local_policy_server_command() -> None:

@@ -41,6 +41,7 @@ switches from target binding to a targeted grasp-and-place primitive.
 - [Architecture decision](docs/adr/0001_candidate_conditioned_calibrated_interaction.md)
 - [Research question, math, data, experiments, compute, and go/no-go plan](docs/research_plan.md)
 - [Internal ICRA-cadence schedule](docs/icra_cadence_plan.md)
+- [Paper research execution plan and external pi0.5 setup](docs/paper_research_execution_plan.md)
 - [Original-drawer method cycle and negative-result report](docs/original_drawer_experiment_report.md)
 - [Executed counterfactual effect-label policy](docs/executed_effect_dataset.md)
 - [Submission-shaped internal paper draft](paper/main.md)
@@ -114,7 +115,16 @@ bash scripts/infra/serve_pi05.sh
 ### Oracle target-binding qualification
 
 The 1.5 GB local GPU contract prohibits loading pi0.5 on this workstation, so
-the qualification runner accepts only an external frozen-policy server. First
+the qualification runner accepts only an identified external frozen-policy
+server. The recommended `host:port` is an SSH tunnel:
+
+```bash
+ssh -N -L 8002:127.0.0.1:8002 USER@REMOTE_GPU_HOST
+```
+
+This makes the local endpoint `127.0.0.1:8002` without exposing a public port.
+Complete remote-server commands and hardware expectations are in the
+[paper execution plan](docs/paper_research_execution_plan.md). First
 reproduce the policy-free preflight in the simulator environment:
 
 ```bash
@@ -171,8 +181,8 @@ Do not add rules or scores to these legacy entry points.
 
 | evidence | result | claim boundary |
 |---|---:|---|
-| full repository test suite | 67 passed | software and retained-artifact integrity |
-| oracle visual-prompt preflight | 8 eligible, 2 excluded; no policy calls | evaluator-only rendering/packet contract, not method performance |
+| full repository test suite | 71 passed | software and retained-artifact integrity |
+| oracle visual-prompt preflight v2 | 8 eligible, 2 excluded; no policy calls | evaluator-only rendering/packet and identified-server contract, not method performance |
 | same-RGB prompt router, held-out | B6 95.83% vs B7 93.75% mean accuracy | pilot only; proxy effects |
 | calibrated B7 pilot | 93.75% coverage, 68.75% abstain, 6.25% wrong execute | 16 held-out samples |
 | fresh 10-seed OPEN qualification | drawer 9/10; hidden-target evidence 8/10 | fixed scenario; physical acquisition works |

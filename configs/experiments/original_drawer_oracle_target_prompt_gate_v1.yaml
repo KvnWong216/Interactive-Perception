@@ -14,6 +14,8 @@ resource_contract:
   policy_server: external_only
   local_policy_server_allowed: false
   local_gpu_memory_mib_max: 1500
+  identified_server_schema: piu.identified-pi05-server.v1
+  checkpoint_identity: results/diagnostics/pi05_libero_checkpoint_identity_v1.json
 
 execution:
   role: DIRECT_ACT

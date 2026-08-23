@@ -14,10 +14,10 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import http.client
 import json
 import os
 import random
-import socket
 import subprocess
 import sys
 import time
@@ -71,9 +71,14 @@ def wait_for_port(host: str, port: int, timeout: float = 180.0) -> None:
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
         try:
-            with socket.create_connection((host, port), timeout=1.0):
+            connection = http.client.HTTPConnection(host, port, timeout=1.0)
+            connection.request("GET", "/healthz")
+            response = connection.getresponse()
+            response.read()
+            connection.close()
+            if response.status == 200:
                 return
-        except OSError:
+        except (OSError, http.client.HTTPException):
             time.sleep(1.0)
     raise TimeoutError(f"pi0.5 server did not become ready at {host}:{port}")
 

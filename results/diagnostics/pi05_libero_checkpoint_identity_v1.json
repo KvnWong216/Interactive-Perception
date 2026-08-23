@@ -1,0 +1,11 @@
+{
+  "schema_version": "piu.pi05-checkpoint-identity.v1",
+  "policy_config": "pi05_libero",
+  "checkpoint": {
+    "schema_version": "piu.checkpoint-tree-sha256.v1",
+    "sha256": "1325f4a3f76250f6bed2f53f53b49ec68c94f5fd12911f76d82dbca578fe9901",
+    "file_count": 16,
+    "total_bytes": 12439085481
+  },
+  "source_checkpoint_path": "/home/icon/InteractivePerception_yg/checkpoints/checkpoints/pi05_libero"
+}

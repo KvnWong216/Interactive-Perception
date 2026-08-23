@@ -357,7 +357,7 @@ oracle input is present in the retained main-method reports. The separate
 oracle qualification is configured in
 `configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml`; its
 policy-free packet preflight is
-`results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json`, and any
+`results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json`, and any
 future policy report must use the explicit oracle claim scope.
 
 The complete CPU analysis is:

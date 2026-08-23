@@ -125,6 +125,24 @@ def main() -> None:
     config_path = args.config if args.config.is_absolute() else ROOT / args.config
     config = load_config(config_path)
     specs = run_specs(config, phase=args.phase, selected_style=args.style)
+    if not args.dry_run:
+        identity = ROOT / config["resource_contract"]["checkpoint_identity"]
+        subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts/infra/check_external_pi05.py"),
+                "--host",
+                args.host,
+                "--port",
+                str(args.port),
+                "--timeout",
+                str(args.server_timeout),
+                "--identity",
+                str(identity),
+            ],
+            cwd=ROOT,
+            check=True,
+        )
     emitted = []
     for style, seed in specs:
         command, report = command_for(
