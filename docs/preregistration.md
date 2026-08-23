@@ -35,8 +35,7 @@ as continuous raw-camera pixels. Mask non-emptiness is only an oracle-rendering
 eligibility condition.
 
 The learned binder additionally requires a spatial metric on held-out public-RGB
-examples. Its exact metric is frozen after the training-label renderer is
-implemented and audited; no spatial result is inferred from grasp contact.
+examples. No spatial result is inferred from grasp contact.
 
 ## Development procedure
 
@@ -67,3 +66,25 @@ replace, a disjoint formal experiment.
 Effect-aware routing, information-value optimization, conformal action sets,
 multi-scenario generalization, and sealed full-loop success are not evaluated in
 this sprint. They cannot appear as positive claims based on these data.
+
+## Amendment 1: binder metric freeze
+
+Frozen on 2026-08-22 before any new real binding label, full-prefix feature
+cache, binder checkpoint, or calibration outcome existed. Simulator masks are
+resized with nearest-neighbor semantics and converted to the exact fraction of
+target pixels in every frozen image patch; no pixel-count threshold is used.
+
+Development selects the declared lightweight architecture by spatial negative
+log likelihood, then presence Brier score, then parameter count. Reported
+threshold-free spatial metrics are target-distribution NLL, argmax target-patch
+hit, and probability mass on all nonempty target patches. Task-sufficiency loss
+and metrics are unsupported whenever evaluator annotations are null.
+
+Calibration is split by initial-state group into a temperature role and a
+conformal role. Primary miscoverage is alpha 0.10; alpha 0.05 and 0.20 are
+reported without choosing among them from results. The spatial conformal event
+is that the returned patch set intersects at least one true target patch,
+conditional on a localizable target. If the finite calibration set cannot
+resolve an alpha, the set saturates conservatively instead of interpolating a
+smaller quantile. The sealed split requires a hash-bound single-use
+authorization manifest.

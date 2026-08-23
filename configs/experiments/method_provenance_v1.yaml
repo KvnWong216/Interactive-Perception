@@ -173,6 +173,46 @@ entries:
     rationale: This bounds computation only; failure to find a design blocks the experiment and never counts as evidence against the method.
     evidence: exact paired power is evaluated for every prospective count through the bound
 
+  - id: binding_mask_to_patch_target
+    location: src/piu/binding_data.py:mask_to_patch_coverage
+    value: exact target-pixel fraction per frozen patch
+    provenance: protocol_identifier
+    claim_use: main_evaluator
+    rationale: Every nonempty fraction is retained; no pixel-count or confidence boundary is introduced.
+    evidence: exact RLE round-trip and patch-alignment tests
+
+  - id: binding_multitask_weighting
+    location: src/piu/target_binding.py:LearnedMultiTaskObjective
+    value: learned homoscedastic log variances
+    provenance: learned_on_training_split
+    claim_use: main_method_online
+    rationale: Objective scales are optimized on training groups; unsupported label families are masked and no manual loss weights are accepted.
+    evidence: trainer contract and gradient tests
+
+  - id: binding_architecture_search
+    location: configs/experiments/piu_binding_adapter_v1.yaml:model_search
+    value: declared finite development-only grid
+    provenance: learned_on_training_split
+    claim_use: main_method_online
+    rationale: Width, dropout, learning rate, and seed are retained for every trial and selected without calibration or sealed data.
+    evidence: CPU trainer report schema and synthetic end-to-end test
+
+  - id: binding_conformal_risk_contract
+    location: configs/experiments/piu_binding_calibration_v1.yaml:risk_contract
+    value: primary alpha 0.10; report alpha 0.05, 0.10, 0.20
+    provenance: user_risk_contract
+    claim_use: main_method_online
+    rationale: Risk levels are frozen before real calibration data; order-statistic thresholds are fit on a group-disjoint conformal role.
+    evidence: preregistration amendment 1 and calibration pipeline tests
+
+  - id: primitive_absolute_reliability_contract
+    location: configs/experiments/piu_primitive_registry_v1.yaml:formal_qualification.minimum_reliable_rate
+    value: null
+    provenance: protocol_identifier
+    claim_use: safety_only
+    rationale: The historical 8/10 gate is not reused and an absolute pass rate is not inferred from the same pilot.
+    evidence: context-specific registry authorizes no paper-method action
+
 tracked_protocols:
   - path: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
     numeric_controls:

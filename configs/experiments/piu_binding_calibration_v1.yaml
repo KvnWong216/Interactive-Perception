@@ -1,0 +1,29 @@
+schema_version: piu.binding-calibration-experiment.v1
+id: piu_binding_isolated_calibration_v1
+status: software_ready_waiting_for_group_disjoint_calibration_predictions
+paper_method_claim_allowed: false
+
+split_contract:
+  temperature_role: calibration_temperature_only
+  conformal_role: calibration_conformal_only
+  require_group_disjoint_roles: true
+  reuse_for_model_selection: false
+  sealed_test_loaded: false
+
+risk_contract:
+  primary_alpha: 0.10
+  reported_alpha: [0.05, 0.10, 0.20]
+  spatial_coverage_event: prediction_set_intersects_a_true_target_patch
+  binary_method: class_conditional_LAC
+  spatial_method: target_intersection_split_conformal
+  interpolation: none_order_statistic
+
+compute:
+  device: cpu
+  local_gpu_memory_mib_max: 1500
+
+limitations:
+  - Coverage is marginal under exchangeability for the frozen score function.
+  - Spatial coverage is conditional on the target being localizable in a policy-view patch.
+  - Temperature fitting and conformal quantiles use separate group-disjoint subsets.
+  - Calibration-set empirical coverage is diagnostic, not sealed-test evidence.

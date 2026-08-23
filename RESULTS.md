@@ -14,3 +14,15 @@ successful PIU-VLA method:
 
 These observations motivate, but do not prove, target binding as the causal
 bottleneck. Oracle and learned-binding results remain pending.
+
+New non-performance artifacts:
+
+- The target-binding train/calibrate/sealed-evaluate pipeline passes a synthetic
+  CPU end-to-end regression. This proves schema, isolation, serialization, and
+  numerical execution only.
+- Temperature fitting and conformal quantiles use disjoint calibration groups.
+  The spatial coverage event is intersection with at least one evaluator-labeled
+  target patch; there is no pixel-count decision threshold.
+- The rebuilt primitive registry reports context-specific rates and Wilson
+  intervals but authorizes no paper-method primitive. Historical 8/10 and 7/10
+  engineering count gates are not reused.

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import dataclasses
 import math
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from typing import Any
 
 import numpy as np
@@ -111,3 +111,17 @@ def validate_feature_arrays(arrays: Mapping[str, Any]) -> None:
     for name in ("sample_id", "initial_state_group", "split"):
         if np.asarray(arrays[name]).shape != (count,):
             raise ValueError(f"{name} must have shape [N]")
+
+
+def libero_camera_to_label_view(camera_names: Sequence[str]) -> dict[str, str | None]:
+    """Map the official pi05 LIBERO image keys to evaluator camera names."""
+
+    contract = {
+        "base_0_rgb": "agentview",
+        "left_wrist_0_rgb": "robot0_eye_in_hand",
+        "right_wrist_0_rgb": None,
+    }
+    unknown = set(camera_names) - set(contract)
+    if unknown:
+        raise ValueError(f"unknown pi05 LIBERO camera keys: {sorted(unknown)}")
+    return {name: contract[name] for name in camera_names}

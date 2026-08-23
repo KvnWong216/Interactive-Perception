@@ -83,7 +83,11 @@ def main() -> None:
     from openpi.shared import nnx_utils
     from openpi.training import config as train_config
 
-    from piu.spatial_prefix import PrefixLayout, validate_feature_arrays
+    from piu.spatial_prefix import (
+        PrefixLayout,
+        libero_camera_to_label_view,
+        validate_feature_arrays,
+    )
 
     policy = policy_config.create_trained_policy(
         train_config.get_config("pi05_libero"), checkpoint
@@ -141,6 +145,7 @@ def main() -> None:
         discovered_counts[name] = int(image_tokens.shape[1])
     layout = PrefixLayout.from_counts(discovered_counts)
     camera_id, patch_xy = layout.patch_metadata()
+    camera_to_label_view = libero_camera_to_label_view(layout.camera_names)
     image_token_count = layout.total_image_tokens
 
     image_by_time: list[np.ndarray] = []
@@ -228,6 +233,7 @@ def main() -> None:
             "camera_names": list(layout.camera_names),
             "tokens_per_camera": list(layout.tokens_per_camera),
             "spans": {name: list(span) for name, span in layout.spans().items()},
+            "camera_to_label_view": camera_to_label_view,
             "spatial_coordinates_retained": True,
             "temporal_order": ["pre_interaction", "post_interaction"],
         },

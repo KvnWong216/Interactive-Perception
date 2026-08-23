@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Mapping
 from typing import Any
 
 try:
@@ -161,6 +162,7 @@ if nn is not None:
         target_present: torch.Tensor,
         task_sufficient: torch.Tensor,
         image_valid_mask: torch.Tensor,
+        task_sufficient_mask: torch.Tensor | None = None,
     ) -> dict[str, torch.Tensor]:
         """Return separate objectives; no hand-weighted total is hidden here."""
 
@@ -179,17 +181,73 @@ if nn is not None:
         spatial_loss = (
             per_row[localized].mean()
             if localized.any()
-            else logits.sum() * 0.0
+            else outputs["target_present_logit"].sum() * 0.0
         )
+        sufficiency_elementwise = functional.binary_cross_entropy_with_logits(
+            outputs["task_sufficiency_logit"],
+            task_sufficient.float(),
+            reduction="none",
+        )
+        if task_sufficient_mask is None:
+            sufficiency_loss = sufficiency_elementwise.mean()
+        else:
+            if task_sufficient_mask.shape != task_sufficient.shape:
+                raise ValueError("task_sufficient_mask shape mismatch")
+            supported = task_sufficient_mask.bool()
+            sufficiency_loss = (
+                sufficiency_elementwise[supported].mean()
+                if supported.any()
+                else outputs["task_sufficiency_logit"].sum() * 0.0
+            )
         return {
             "spatial_localization_loss": spatial_loss,
             "target_presence_loss": functional.binary_cross_entropy_with_logits(
                 outputs["target_present_logit"], target_present.float()
             ),
-            "task_sufficiency_loss": functional.binary_cross_entropy_with_logits(
-                outputs["task_sufficiency_logit"], task_sufficient.float()
-            ),
+            "task_sufficiency_loss": sufficiency_loss,
         }
+
+
+    class LearnedMultiTaskObjective(nn.Module):
+        """Learn task scales instead of hiding hand-selected loss weights."""
+
+        objective_names = (
+            "spatial_localization_loss",
+            "target_presence_loss",
+            "task_sufficiency_loss",
+        )
+
+        def __init__(self) -> None:
+            super().__init__()
+            self.log_variances = nn.Parameter(torch.zeros(len(self.objective_names)))
+
+        def forward(
+            self,
+            objectives: dict[str, torch.Tensor],
+            *,
+            supported: Mapping[str, bool] | None = None,
+        ) -> dict[str, torch.Tensor]:
+            if set(objectives) != set(self.objective_names):
+                raise ValueError("unexpected binding objective family")
+            enabled = (
+                {name: True for name in self.objective_names}
+                if supported is None
+                else dict(supported)
+            )
+            if set(enabled) != set(self.objective_names):
+                raise ValueError("support flags must cover every objective")
+            terms = []
+            for index, name in enumerate(self.objective_names):
+                if not enabled[name]:
+                    continue
+                precision = torch.exp(-self.log_variances[index])
+                terms.append(precision * objectives[name] + self.log_variances[index])
+            if not terms:
+                raise ValueError("at least one binding objective must be supported")
+            return {
+                "loss": torch.stack(terms).sum(),
+                "learned_log_variances": self.log_variances,
+            }
 
 else:
 
@@ -201,3 +259,9 @@ else:
 
     def binding_objectives(*_: Any, **__: Any) -> Any:
         raise RuntimeError("binding_objectives requires the learned dependencies")
+
+    class LearnedMultiTaskObjective:  # type: ignore[no-redef]
+        def __init__(self, *_: Any, **__: Any) -> None:
+            raise RuntimeError(
+                "LearnedMultiTaskObjective requires the learned dependencies"
+            )

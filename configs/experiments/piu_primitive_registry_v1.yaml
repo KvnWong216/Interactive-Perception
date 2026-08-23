@@ -1,0 +1,40 @@
+schema_version: piu.primitive-registry-protocol.v1
+id: piu_same_scenario_primitive_registry_v1
+scenario: configs/scenarios/original_drawer.yaml
+source: results/method/original_drawer_paper_cycle_v2.json
+claim_scope: retrospective_same_scenario_capability_evidence
+
+success_definitions:
+  OPEN.middle_drawer:
+    source: retained summary drawer_open
+    event: drawer joint enters the simulator-declared open interval
+    threshold_provenance: simulator_physics_contract
+  PICK.visible_work_surface:
+    source: raw evaluator object contact history
+    event: LIBERO gripper/object grasp contact occurs for the requested object
+    threshold_provenance: simulator_contact_predicate
+  PICK.post_open_middle_drawer:
+    source: raw evaluator object contact history
+    event: LIBERO gripper/object grasp contact occurs for the requested object
+    threshold_provenance: simulator_contact_predicate
+  PLACE.visible_work_surface:
+    source: retained task-specific relabel
+    event: requested object satisfies the terminal destination predicate
+    threshold_provenance: task_predicate
+
+formal_qualification:
+  minimum_reliable_rate: null
+  status: BLOCKED_AWAITING_DOWNSTREAM_RISK_CONTRACT
+  rationale: >-
+    An absolute primitive pass rate cannot be inferred from the same pilot and
+    cannot be copied from the historical 8/10 engineering rule. The controller
+    risk allocation must declare it before prospective groups are collected.
+  alpha: 0.05
+  target_power: 0.80
+  method: exact_one_sided_binomial
+
+unevaluated_contexts:
+  - REMOVE.occluder
+  - ROTATE.label
+  - MOVE_CLOSER.identification
+  - PLACE.post_open_middle_drawer

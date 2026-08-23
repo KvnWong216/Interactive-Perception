@@ -5,6 +5,7 @@ import pytest
 torch = pytest.importorskip("torch")
 
 from piu.target_binding import (
+    LearnedMultiTaskObjective,
     PromptConditionedTargetBinder,
     binding_objectives,
 )
@@ -56,5 +57,8 @@ def test_binder_preserves_patch_axis_and_masks_invalid_tokens() -> None:
         "task_sufficiency_loss",
     }
     assert all(torch.isfinite(loss) for loss in losses.values())
-    sum(losses.values()).backward()
+    learned_objective = LearnedMultiTaskObjective()
+    combined = learned_objective(losses)
+    combined["loss"].backward()
     assert model.patch_key.weight.grad is not None
+    assert learned_objective.log_variances.grad is not None

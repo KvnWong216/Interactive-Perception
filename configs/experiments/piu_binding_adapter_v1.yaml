@@ -1,0 +1,52 @@
+schema_version: piu.binding-adapter-experiment.v1
+id: piu_frozen_prefix_spatial_binder_v1
+status: software_ready_waiting_for_oracle_gate_and_training_labels
+paper_method_claim_allowed: false
+
+inputs:
+  backbone: frozen pi05_libero PaliGemma prefix
+  token_cache_schema: piu.spatial-prefix-features.v1
+  label_schema: piu.binding-label.v1
+  policy_visible: [RGB, prompt, public robot state, public action history]
+  evaluator_only: [target masks, target presence, task sufficiency labels]
+  action_vocabulary: [DIRECT, OPEN, REMOVE, ROTATE, MOVE_CLOSER]
+
+model_search:
+  model_width: [32, 64]
+  num_heads: [4]
+  dropout: [0.0, 0.1]
+  learning_rate: [0.001, 0.0003]
+  seeds: [17, 29, 43]
+  epochs: 20
+  batch_size: 8
+  maximum_parameter_count: 2000000
+  selection_order:
+    - minimize_development_spatial_nll
+    - minimize_development_presence_brier
+    - minimize_parameter_count
+  retained_trials: all
+
+objectives:
+  spatial: target-pixel fraction in each frozen SigLIP patch
+  target_presence: binary mask non-emptiness
+  task_sufficiency: evaluator annotation when supported, otherwise masked
+  weighting: learned_homoscedastic_log_variance
+  manual_loss_weights: null
+
+compute:
+  device: cpu
+  torch_threads: 2
+  local_gpu_memory_mib_max: 1500
+  cuda_visible_to_trainer: false
+
+split_contract:
+  train: train_only
+  architecture_selection: development_only
+  calibration: never_loaded_by_trainer
+  sealed_test: never_loaded_by_trainer
+  retrospective_development: forbidden_for_training
+
+activation_gate: >-
+  This software may be exercised on synthetic fixtures, but real training and a
+  paper-method claim require a positive prospective oracle target-binding
+  ceiling and newly collected group-disjoint train/development labels.
