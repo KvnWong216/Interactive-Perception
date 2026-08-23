@@ -245,6 +245,22 @@ entries:
     rationale: External authority and endpoint availability are independent prerequisites. A retained file can unlock a successor only after its schema, recursive hashes, frozen identity, complete prospective denominator, group/seed assignment, and method-specific firewall are revalidated.
     evidence: DAG tests reject infeasible task-owner risk values and endpoint identity drift; the sealed validator reloads the exact schedule and requires every scheduled group/method/seed/state/policy cell, including the complete B6 and B7 columns; release SVGs must embed the regenerated evidence-table hash exactly once
 
+  - id: empirical_predecessor_recomputation
+    location: src/piu/empirical_dag.py, src/piu/primitive_registry.py, src/piu/oracle_schedule.py, src/piu/oracle_formal.py, and src/piu/dataset_assembly.py
+    value: source-level recomputation of qualification, oracle, and role-dataset artifacts
+    provenance: protocol_identifier
+    claim_use: main_evaluator
+    rationale: A hash-consistent summary can still contain altered statistics or an incomplete source union. Primitive plans/certificates, oracle screen/pilot/formal results, public-binding joins, and action-effect candidate matrices therefore re-run their registered loaders and exact calculations before a successor is unlocked.
+    evidence: tests retain a resource-blocked primitive design as terminal evidence, reject altered role-manifest counts, and recompute phase/formal outcomes from their complete raw schedules and receipts
+
+  - id: learned_artifact_replay_validation
+    location: src/piu/learned_artifacts.py and configs/experiments/piu_empirical_stage_dag_v1.yaml:S07-S12
+    value: CPU checkpoint replay and exact isolated-calibration recomputation
+    provenance: protocol_identifier
+    claim_use: main_method_online
+    rationale: A report and matching content hash prove file identity, not that scores came from the frozen model or that calibration was fitted from the declared roles. Every learned stage therefore reloads its small adapter on CPU, replays predictions from hash-bound inputs, and recomputes proper scores and conformal artifacts.
+    evidence: synthetic end-to-end tests reject co-edited NPZ/report hashes and altered fitted temperatures; all development ablations retain checkpoint and raw prediction references
+
   - id: oracle_prompt_phase_execution_order
     location: configs/experiments/original_drawer_oracle_target_prompt_schedule_v1.yaml
     value: SHA-256-keyed permutation within screen and confirmation phases

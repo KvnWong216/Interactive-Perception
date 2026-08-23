@@ -179,7 +179,7 @@ not bypass the causal oracle gate or fabricate those missing outcomes.
 Consequently no real B8/B0 development pilot, conservative formal group count,
 formal initial-state cohort, or sealed execution schedule exists yet; Phase 9
 and the Phase 10 cohort/one-shot execution freeze are software-ready only. The
-current CPU-only repository suite passes 244 tests; the existing approved
+current CPU-only repository suite passes 245 tests; the existing approved
 Python GPU process remains at 590 MiB, below the 1500 MiB cap (the GPU safety
 check refuses to interfere with it).
 
@@ -206,3 +206,17 @@ reserved qualification group runs the frozen binder and isolated calibration,
 then a stimulus builder binds the preregistered candidate. Schedule validation
 recomputes its typed eligibility, current-frame boxes, and serializer output;
 the effect model and every outcome remain unavailable.
+Primitive risk/plan/schedule/certificate chains, oracle screen/pilot/formal
+summaries, and public-binding/action-effect role datasets are no longer accepted
+from schema and hash checks alone. Their registered loaders now recompute exact
+power designs, raw-report summaries, complete receipt denominators, source-row
+unions, and candidate matrices before the DAG advances. An externally
+resource-blocked design remains terminal negative evidence rather than an
+invalid artifact.
+S07--S12 learned artifacts now have the same standard. Binder/effect reports
+must retain the full search and all binder-ablation checkpoints/predictions;
+the DAG reloads the small models on CPU, replays their exact inputs, recomputes
+proper scores, and refits both isolated calibration roles. Regression tests
+show that updating a report hash after altering an NPZ does not bypass the
+gate. This adds no real learned or physical result; those stages still wait on
+their causal external predecessors.

@@ -20,6 +20,11 @@ from piu.action_effect import (
     join_effect_features,
 )
 from piu.effect_training import EffectHyperparameters, train_effect_predictor
+from piu.learned_artifacts import (
+    validate_effect_calibration_artifact,
+    validate_effect_prediction_report,
+    validate_effect_training_report,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -551,6 +556,9 @@ def test_action_effect_training_cli_retains_all_declared_ablations(
         text=True,
     )
     report = json.loads((output_dir / "training_report.json").read_text())
+    validate_effect_training_report(
+        output_dir / "training_report.json", repository_root=ROOT
+    )
     assert set(report["variants"]) == {
         "route_only",
         "stop_gradient_effect",
@@ -640,6 +648,28 @@ def test_action_effect_training_cli_retains_all_declared_ablations(
             text=True,
         )
         calibration_roles[role] = (predictions, predictions.with_suffix(".json"))
+        validate_effect_prediction_report(
+            predictions.with_suffix(".json"), repository_root=ROOT
+        )
+        if role == "temperature":
+            prediction_bytes = predictions.read_bytes()
+            report_text = predictions.with_suffix(".json").read_text()
+            with np.load(predictions, allow_pickle=False) as store:
+                altered = {key: np.asarray(store[key]) for key in store.files}
+            altered["route_logits"] = altered["route_logits"].copy()
+            altered["route_logits"][0, 0] += 1.0
+            np.savez_compressed(predictions, **altered)
+            altered_report = json.loads(report_text)
+            altered_report["output"]["sha256"] = hashlib.sha256(
+                predictions.read_bytes()
+            ).hexdigest()
+            predictions.with_suffix(".json").write_text(json.dumps(altered_report))
+            with pytest.raises(ValueError, match="exact replay"):
+                validate_effect_prediction_report(
+                    predictions.with_suffix(".json"), repository_root=ROOT
+                )
+            predictions.write_bytes(prediction_bytes)
+            predictions.with_suffix(".json").write_text(report_text)
     calibration_path = tmp_path / "effect_calibration.json"
     subprocess.run(
         [
@@ -664,6 +694,14 @@ def test_action_effect_training_cli_retains_all_declared_ablations(
         text=True,
     )
     calibration = json.loads(calibration_path.read_text())
+    validate_effect_calibration_artifact(calibration_path, repository_root=ROOT)
+    calibration_text = calibration_path.read_text()
+    calibration["route"]["temperature"] += 0.25
+    calibration_path.write_text(json.dumps(calibration))
+    with pytest.raises(ValueError, match="exact recomputation"):
+        validate_effect_calibration_artifact(calibration_path, repository_root=ROOT)
+    calibration_path.write_text(calibration_text)
+    calibration = json.loads(calibration_text)
     assert calibration["variant"] == "joint_effect"
     assert calibration["sealed_test_loaded"] is False
     assert calibration["manual_confidence_thresholds"] is None

@@ -21,8 +21,35 @@ from .formal_attempt import (
 )
 from .formal_design import validate_development_episode
 from .contracts import load_public_transitions
+from .dataset_assembly import (
+    validate_action_effect_role_dataset,
+    validate_public_binding_role_dataset,
+)
+from .oracle_formal import (
+    analyze_oracle_formal_schedule,
+    load_oracle_formal_initial_states,
+    load_oracle_formal_plan,
+    load_oracle_formal_schedule,
+)
+from .oracle_schedule import validate_phase_result, validate_screen_result
+from .learned_artifacts import (
+    validate_binder_calibration_artifact,
+    validate_binder_online_prediction_report,
+    validate_binder_prediction_report,
+    validate_binder_training_report,
+    validate_effect_calibration_artifact,
+    validate_effect_prediction_report,
+    validate_effect_training_report,
+)
 from .policy_identity import load_checkpoint_identity, validate_server_metadata
-from .primitive_registry import validate_external_execution_risk_budget
+from .primitive_registry import (
+    load_derived_primitive_risk_contract,
+    load_primitive_qualification_certificate,
+    load_primitive_qualification_plan,
+    load_primitive_qualification_schedule,
+    load_qualified_executor_map,
+    validate_external_execution_risk_budget,
+)
 from .splits import (
     load_split_manifest,
     role_to_split,
@@ -634,6 +661,85 @@ def _validate_custom(
         load_formal_schedule(path, repository_root=repository_root)
     elif validator == "scheduled_formal_outcomes":
         _validate_scheduled_outcomes(path, rule, repository_root=repository_root)
+    elif validator == "primitive_risk_contract":
+        load_derived_primitive_risk_contract(
+            path, repository_root=repository_root
+        )
+    elif validator == "primitive_qualification_plan":
+        load_primitive_qualification_plan(path, repository_root=repository_root)
+    elif validator == "primitive_qualification_schedule":
+        load_primitive_qualification_schedule(
+            path, repository_root=repository_root
+        )
+    elif validator == "primitive_qualification_certificate":
+        load_primitive_qualification_certificate(
+            path, repository_root=repository_root
+        )
+    elif validator == "qualified_executor_map":
+        load_qualified_executor_map(path, repository_root=repository_root)
+    elif validator == "oracle_prompt_screen_result":
+        experiment_path = _configured_path(
+            rule, "experiment", repository_root=repository_root
+        )
+        validate_screen_result(
+            path,
+            repository_root=repository_root,
+            experiment_path=experiment_path,
+        )
+    elif validator == "oracle_prompt_pilot_result":
+        experiment_path = _configured_path(
+            rule, "experiment", repository_root=repository_root
+        )
+        observed = validate_phase_result(
+            path,
+            phase="confirmation",
+            repository_root=repository_root,
+            experiment_path=experiment_path,
+        )
+        if observed.get("status") != "INDEPENDENT_DEVELOPMENT_PILOT_COMPLETE":
+            raise ValueError("oracle confirmation is not a completed v2 pilot")
+    elif validator == "oracle_formal_plan":
+        load_oracle_formal_plan(path, repository_root=repository_root)
+    elif validator == "oracle_formal_initial_states":
+        load_oracle_formal_initial_states(path, repository_root=repository_root)
+    elif validator == "oracle_formal_schedule":
+        load_oracle_formal_schedule(path, repository_root=repository_root)
+    elif validator == "oracle_formal_result":
+        schedule_path = _configured_path(
+            rule, "formal_schedule", repository_root=repository_root
+        )
+        if value != analyze_oracle_formal_schedule(
+            schedule_path, repository_root=repository_root
+        ):
+            raise ValueError("oracle formal result differs from exact recomputation")
+    elif validator == "public_binding_role_dataset":
+        validate_public_binding_role_dataset(
+            path, repository_root=repository_root
+        )
+    elif validator == "action_effect_role_dataset":
+        validate_action_effect_role_dataset(
+            path, repository_root=repository_root
+        )
+    elif validator == "binder_training_report":
+        validate_binder_training_report(path, repository_root=repository_root)
+    elif validator == "binder_prediction_report":
+        validate_binder_prediction_report(path, repository_root=repository_root)
+    elif validator == "binder_online_prediction_report":
+        validate_binder_online_prediction_report(
+            path, repository_root=repository_root
+        )
+    elif validator == "binder_calibration_artifact":
+        validate_binder_calibration_artifact(
+            path, repository_root=repository_root
+        )
+    elif validator == "effect_training_report":
+        validate_effect_training_report(path, repository_root=repository_root)
+    elif validator == "effect_prediction_report":
+        validate_effect_prediction_report(path, repository_root=repository_root)
+    elif validator == "effect_calibration_artifact":
+        validate_effect_calibration_artifact(
+            path, repository_root=repository_root
+        )
     elif validator == "evidence_bound_svg":
         if not isinstance(value, str):
             raise TypeError("evidence-bound SVG must be a text artifact")
@@ -681,7 +787,7 @@ def validate_artifact_rule(
             repository_root=repository_root,
             split_manifest=split_manifest,
         )
-    except (KeyError, OSError, TypeError, ValueError) as exc:
+    except Exception as exc:  # malformed external evidence is INVALID, not fatal
         errors.append(str(exc))
     if isinstance(value, Mapping):
         if rule.get("validator") == "learning_collection_budget":

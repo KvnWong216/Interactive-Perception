@@ -68,12 +68,14 @@ stages:
         path: results/method/piu_open_primitive_risk_contract_v1.json
         format: json
         schema_version: piu.primitive-risk-contract.v1
+        validator: primitive_risk_contract
         expected:
           paper_method_claim_allowed: false
       - id: open_primitive_qualification_plan
         path: results/method/piu_open_primitive_qualification_plan_v1.json
         format: json
         schema_version: piu.primitive-qualification-plan.v1
+        validator: primitive_qualification_plan
         state_field: status
         success_values: [PROSPECTIVE_GROUP_COUNT_FROZEN]
         terminal_values:
@@ -82,12 +84,14 @@ stages:
         path: results/method/piu_open_primitive_qualification_schedule_v1.json
         format: json
         schema_version: piu.primitive-qualification-schedule.v1
+        validator: primitive_qualification_schedule
         expected:
           status: FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES
       - id: open_primitive_certificate
         path: results/method/piu_open_primitive_certificate_v1.json
         format: json
         schema_version: piu.primitive-qualification-certificate.v1
+        validator: primitive_qualification_certificate
         state_field: status
         success_values: [FORMALLY_QUALIFIED]
         terminal_values:
@@ -102,10 +106,14 @@ stages:
         path: results/method/original_drawer_oracle_prompt_screen_v2.json
         format: json
         schema_version: calibrated-interaction.oracle-target-prompt-result.v1
+        validator: oracle_prompt_screen_result
+        experiment: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
       - id: oracle_prompt_pilot
         path: results/method/original_drawer_oracle_prompt_pilot_v2.json
         format: json
         schema_version: calibrated-interaction.oracle-target-prompt-result.v1
+        validator: oracle_prompt_pilot_result
+        experiment: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
         expected:
           status: INDEPENDENT_DEVELOPMENT_PILOT_COMPLETE
           formal_method_claim: false
@@ -119,6 +127,7 @@ stages:
         path: results/method/original_drawer_oracle_formal_plan_v1.json
         format: json
         schema_version: calibrated-interaction.oracle-formal-test-plan.v1
+        validator: oracle_formal_plan
         state_field: status
         success_values: [PROSPECTIVE_GROUP_COUNT_FROZEN]
         terminal_values:
@@ -138,10 +147,12 @@ stages:
         path: data/piu/mainline_v1/oracle_formal_initial_states_v1.json
         format: json
         schema_version: piu.oracle-formal-initial-state-manifest.v1
+        validator: oracle_formal_initial_states
       - id: prospective_oracle_schedule
         path: results/method/original_drawer_oracle_formal_schedule_v1.json
         format: json
         schema_version: piu.oracle-formal-execution-schedule.v1
+        validator: oracle_formal_schedule
 
   - id: S05_oracle_formal_causal_gate
     title: Same-state prospective privileged target-binding causal test
@@ -152,6 +163,8 @@ stages:
         path: results/method/original_drawer_oracle_formal_result_v1.json
         format: json
         schema_version: piu.oracle-formal-result.v1
+        validator: oracle_formal_result
+        formal_schedule: results/method/original_drawer_oracle_formal_schedule_v1.json
         expected:
           complete_frozen_denominator: true
           formal_method_claim: false
@@ -184,6 +197,7 @@ stages:
         path: data/piu/mainline_v1/train/public_binding_manifest.json
         format: json
         schema_version: piu.public-binding-role-dataset.v1
+        validator: public_binding_role_dataset
         expected: {split_role: train, sample_join_exact: true, evaluator_labels_in_public_output: false}
         group_bindings: [{field: initial_state_groups, split_role: train}]
       - &development_binding_data
@@ -191,30 +205,35 @@ stages:
         path: data/piu/mainline_v1/development/public_binding_manifest.json
         format: json
         schema_version: piu.public-binding-role-dataset.v1
+        validator: public_binding_role_dataset
         expected: {split_role: development, sample_join_exact: true, evaluator_labels_in_public_output: false}
         group_bindings: [{field: initial_state_groups, split_role: development}]
       - id: binder_temperature_public_binding_dataset
         path: data/piu/mainline_v1/calibration_temperature/public_binding_manifest.json
         format: json
         schema_version: piu.public-binding-role-dataset.v1
+        validator: public_binding_role_dataset
         expected: {split_role: calibration_temperature, sample_join_exact: true, evaluator_labels_in_public_output: false}
         group_bindings: [{field: initial_state_groups, split_role: calibration_temperature}]
       - id: binder_conformal_public_binding_dataset
         path: data/piu/mainline_v1/calibration_conformal/public_binding_manifest.json
         format: json
         schema_version: piu.public-binding-role-dataset.v1
+        validator: public_binding_role_dataset
         expected: {split_role: calibration_conformal, sample_join_exact: true, evaluator_labels_in_public_output: false}
         group_bindings: [{field: initial_state_groups, split_role: calibration_conformal}]
       - id: effect_temperature_public_binding_dataset
         path: data/piu/mainline_v1/effect_calibration_temperature/public_binding_manifest.json
         format: json
         schema_version: piu.public-binding-role-dataset.v1
+        validator: public_binding_role_dataset
         expected: {split_role: effect_calibration_temperature, sample_join_exact: true, evaluator_labels_in_public_output: false}
         group_bindings: [{field: initial_state_groups, split_role: effect_calibration_temperature}]
       - id: effect_conformal_public_binding_dataset
         path: data/piu/mainline_v1/effect_calibration_conformal/public_binding_manifest.json
         format: json
         schema_version: piu.public-binding-role-dataset.v1
+        validator: public_binding_role_dataset
         expected: {split_role: effect_calibration_conformal, sample_join_exact: true, evaluator_labels_in_public_output: false}
         group_bindings: [{field: initial_state_groups, split_role: effect_calibration_conformal}]
       - id: train_spatial_prefix
@@ -263,6 +282,7 @@ stages:
         path: runs/piu_mainline_v1/binder/training_report.json
         format: json
         schema_version: piu.target-binder-training.v1
+        validator: binder_training_report
         expected:
           claim_scope: DEVELOPMENT_MODEL_SELECTION_NOT_TEST_EVIDENCE
           cuda_visible_to_trainer: false
@@ -282,18 +302,21 @@ stages:
         path: runs/piu_mainline_v1/binder/temperature_predictions.json
         format: json
         schema_version: piu.target-binder-predictions.v1
+        validator: binder_prediction_report
         expected: {split: calibration, calibration_role: temperature, cuda_visible_to_predictor: false}
         group_bindings: [{field: initial_state_groups, split_role: calibration_temperature}]
       - id: binder_conformal_predictions
         path: runs/piu_mainline_v1/binder/conformal_predictions.json
         format: json
         schema_version: piu.target-binder-predictions.v1
+        validator: binder_prediction_report
         expected: {split: calibration, calibration_role: conformal, cuda_visible_to_predictor: false}
         group_bindings: [{field: initial_state_groups, split_role: calibration_conformal}]
       - id: binder_calibration
         path: runs/piu_mainline_v1/binder/calibration.json
         format: json
         schema_version: piu.target-binder-calibration.v1
+        validator: binder_calibration_artifact
         expected:
           sealed_test_loaded: false
           model_selection_groups_loaded: false
@@ -311,11 +334,13 @@ stages:
         path: results/method/piu_pick_primitive_risk_contract_v1.json
         format: json
         schema_version: piu.primitive-risk-contract.v1
+        validator: primitive_risk_contract
         expected: {paper_method_claim_allowed: false}
       - id: pick_primitive_qualification_plan
         path: results/method/piu_pick_primitive_qualification_plan_v1.json
         format: json
         schema_version: piu.primitive-qualification-plan.v1
+        validator: primitive_qualification_plan
         state_field: status
         success_values: [PROSPECTIVE_GROUP_COUNT_FROZEN]
         terminal_values:
@@ -324,11 +349,13 @@ stages:
         path: results/method/piu_pick_primitive_qualification_schedule_v1.json
         format: json
         schema_version: piu.primitive-qualification-schedule.v1
+        validator: primitive_qualification_schedule
         expected: {status: FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES}
       - id: pick_primitive_certificate
         path: results/method/piu_pick_primitive_certificate_v1.json
         format: json
         schema_version: piu.primitive-qualification-certificate.v1
+        validator: primitive_qualification_certificate
         state_field: status
         success_values: [FORMALLY_QUALIFIED]
         terminal_values: {NOT_QUALIFIED: PICK executor failed its prospective qualification}
@@ -336,11 +363,13 @@ stages:
         path: results/method/piu_place_primitive_risk_contract_v1.json
         format: json
         schema_version: piu.primitive-risk-contract.v1
+        validator: primitive_risk_contract
         expected: {paper_method_claim_allowed: false}
       - id: place_primitive_qualification_plan
         path: results/method/piu_place_primitive_qualification_plan_v1.json
         format: json
         schema_version: piu.primitive-qualification-plan.v1
+        validator: primitive_qualification_plan
         state_field: status
         success_values: [PROSPECTIVE_GROUP_COUNT_FROZEN]
         terminal_values:
@@ -349,11 +378,13 @@ stages:
         path: results/method/piu_place_primitive_qualification_schedule_v1.json
         format: json
         schema_version: piu.primitive-qualification-schedule.v1
+        validator: primitive_qualification_schedule
         expected: {status: FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES}
       - id: place_primitive_certificate
         path: results/method/piu_place_primitive_certificate_v1.json
         format: json
         schema_version: piu.primitive-qualification-certificate.v1
+        validator: primitive_qualification_certificate
         state_field: status
         success_values: [FORMALLY_QUALIFIED]
         terminal_values: {NOT_QUALIFIED: PLACE executor failed its prospective qualification}
@@ -361,6 +392,7 @@ stages:
         path: results/method/piu_qualified_executor_map_v1.json
         format: json
         schema_version: piu.qualified-executor-map.v1
+        validator: qualified_executor_map
         expected: {status: FORMALLY_QUALIFIED_CANDIDATES_ONLY}
 
   - id: S10_action_effect_role_data
@@ -372,48 +404,56 @@ stages:
         path: runs/piu_mainline_v1/binder/train_online_predictions.json
         format: json
         schema_version: piu.target-binder-online-predictions.v1
+        validator: binder_online_prediction_report
         expected: {split: train, evaluator_labels_loaded: false, cuda_visible_to_predictor: false}
         group_bindings: [{field: initial_state_groups, split_role: train}]
       - id: development_binder_online_predictions
         path: runs/piu_mainline_v1/binder/development_online_predictions.json
         format: json
         schema_version: piu.target-binder-online-predictions.v1
+        validator: binder_online_prediction_report
         expected: {split: development, evaluator_labels_loaded: false, cuda_visible_to_predictor: false}
         group_bindings: [{field: initial_state_groups, split_role: development}]
       - id: effect_temperature_binder_online_predictions
         path: runs/piu_mainline_v1/binder/effect_temperature_online_predictions.json
         format: json
         schema_version: piu.target-binder-online-predictions.v1
+        validator: binder_online_prediction_report
         expected: {split: calibration, evaluator_labels_loaded: false, cuda_visible_to_predictor: false}
         group_bindings: [{field: initial_state_groups, split_role: effect_calibration_temperature}]
       - id: effect_conformal_binder_online_predictions
         path: runs/piu_mainline_v1/binder/effect_conformal_online_predictions.json
         format: json
         schema_version: piu.target-binder-online-predictions.v1
+        validator: binder_online_prediction_report
         expected: {split: calibration, evaluator_labels_loaded: false, cuda_visible_to_predictor: false}
         group_bindings: [{field: initial_state_groups, split_role: effect_calibration_conformal}]
       - id: train_action_effect_dataset
         path: data/piu/mainline_v1/train/action_effect_labels.manifest.json
         format: json
         schema_version: piu.action-effect-role-dataset.v1
+        validator: action_effect_role_dataset
         expected: {split_role: train, exact_candidate_matrix: true, one_correct_route_per_sample: true}
         group_bindings: [{field: initial_state_groups, split_role: train}]
       - id: development_action_effect_dataset
         path: data/piu/mainline_v1/development/action_effect_labels.manifest.json
         format: json
         schema_version: piu.action-effect-role-dataset.v1
+        validator: action_effect_role_dataset
         expected: {split_role: development, exact_candidate_matrix: true, one_correct_route_per_sample: true}
         group_bindings: [{field: initial_state_groups, split_role: development}]
       - id: effect_temperature_action_effect_dataset
         path: data/piu/mainline_v1/effect_calibration_temperature/action_effect_labels.manifest.json
         format: json
         schema_version: piu.action-effect-role-dataset.v1
+        validator: action_effect_role_dataset
         expected: {split_role: effect_calibration_temperature, exact_candidate_matrix: true, one_correct_route_per_sample: true}
         group_bindings: [{field: initial_state_groups, split_role: effect_calibration_temperature}]
       - id: effect_conformal_action_effect_dataset
         path: data/piu/mainline_v1/effect_calibration_conformal/action_effect_labels.manifest.json
         format: json
         schema_version: piu.action-effect-role-dataset.v1
+        validator: action_effect_role_dataset
         expected: {split_role: effect_calibration_conformal, exact_candidate_matrix: true, one_correct_route_per_sample: true}
         group_bindings: [{field: initial_state_groups, split_role: effect_calibration_conformal}]
 
@@ -426,6 +466,7 @@ stages:
         path: runs/piu_mainline_v1/effect/training_report.json
         format: json
         schema_version: piu.action-effect-training.v1
+        validator: effect_training_report
         expected:
           claim_scope: DEVELOPMENT_ABLATION_NOT_TEST_EVIDENCE
           cuda_visible_to_trainer: false
@@ -445,18 +486,21 @@ stages:
         path: runs/piu_mainline_v1/effect/temperature_predictions.json
         format: json
         schema_version: piu.action-effect-predictions.v1
+        validator: effect_prediction_report
         expected: {split: calibration, calibration_role: temperature, cuda_visible_to_predictor: false}
         group_bindings: [{field: initial_state_groups, split_role: effect_calibration_temperature}]
       - id: effect_conformal_predictions
         path: runs/piu_mainline_v1/effect/conformal_predictions.json
         format: json
         schema_version: piu.action-effect-predictions.v1
+        validator: effect_prediction_report
         expected: {split: calibration, calibration_role: conformal, cuda_visible_to_predictor: false}
         group_bindings: [{field: initial_state_groups, split_role: effect_calibration_conformal}]
       - id: effect_calibration
         path: runs/piu_mainline_v1/effect/calibration.json
         format: json
         schema_version: piu.action-effect-calibration.v1
+        validator: effect_calibration_artifact
         expected:
           model_selection_loaded: false
           sealed_test_loaded: false

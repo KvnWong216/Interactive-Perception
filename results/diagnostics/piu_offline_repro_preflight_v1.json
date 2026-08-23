@@ -2,7 +2,7 @@
   "schema_version": "piu.offline-repro-audit.v1",
   "manifest": {
     "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_offline_repro_v1.yaml",
-    "sha256": "169b20df8c787cda8d5a428dcdeaf5a404e17d07c80c4639df2f1ccaa7b6f7c1"
+    "sha256": "3c5575f1b0894777851ca420126ac6447e9f19ca01963300282540d5b104f111"
   },
   "mode": "CREATE_RELEASE_LOCK",
   "offline_ready": true,
@@ -18,18 +18,18 @@
     },
     {
       "path": "RESULTS.md",
-      "sha256": "29f81ab8df94c31209fe0c8c35c601e9af579b406a7307f738009ad3f9a51a5c",
-      "bytes": "8448"
+      "sha256": "10b7f8559cbb4fcfa0e6f3531bc50af3908cd856e0a325c675045998bd7232d9",
+      "bytes": "9261"
     },
     {
       "path": "STATUS.md",
-      "sha256": "6cce76a04c9cd65347e102997e4447bd861d78d273b23b4642e6a38e05324574",
-      "bytes": "14300"
+      "sha256": "c70ced66de21e2a4c1438603af1a5fd6b9b56ab85603973fdb3dcda68c8f7dbe",
+      "bytes": "15278"
     },
     {
       "path": "configs/experiments/method_provenance_v1.yaml",
-      "sha256": "9d048fcdd25ae5a37ba2eccac803f458f4a3ae5d1f882738ab2db9e1d6dfd286",
-      "bytes": "52381"
+      "sha256": "c63f359f15679379aaac62d61f759cf25ca08d1e6e308b3aa6de206845929cdd",
+      "bytes": "54090"
     },
     {
       "path": "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
@@ -68,8 +68,8 @@
     },
     {
       "path": "configs/experiments/piu_empirical_stage_dag_v1.yaml",
-      "sha256": "901ede7ea265e6b3de557eb332c159749458cf864adac2e68634f08e4d8135ce",
-      "bytes": "29499"
+      "sha256": "e602b50ea1df80f41fe9c9d8825fae20f8c686b042e7f3f9bdff72ee199f38f7",
+      "bytes": "31689"
     },
     {
       "path": "configs/experiments/piu_executor_risk_allocation_v1.yaml",
@@ -83,8 +83,8 @@
     },
     {
       "path": "configs/experiments/piu_offline_repro_v1.yaml",
-      "sha256": "169b20df8c787cda8d5a428dcdeaf5a404e17d07c80c4639df2f1ccaa7b6f7c1",
-      "bytes": "16919"
+      "sha256": "3c5575f1b0894777851ca420126ac6447e9f19ca01963300282540d5b104f111",
+      "bytes": "16952"
     },
     {
       "path": "configs/experiments/piu_oracle_formal_v1.yaml",
@@ -128,13 +128,13 @@
     },
     {
       "path": "docs/claim_evidence_ledger.md",
-      "sha256": "b0697018d271e73cf97a4eca9896ed8dd7585991f05b2584dc3764f02196c42a",
-      "bytes": "7703"
+      "sha256": "1bca9e98ddc630666e54b5bcb954b16cdf9ff224941e99e8a20a8262dd420be2",
+      "bytes": "8440"
     },
     {
       "path": "docs/preregistration.md",
-      "sha256": "b9dc8d4764aefff121bc0760675b82cb95f28101ae7e41135bbf222784c9b899",
-      "bytes": "31293"
+      "sha256": "27c413d42a7a48aabd0ac1d8f3a32387bfbc250c573c7f54d3019135ffae64b0",
+      "bytes": "33957"
     },
     {
       "path": "paper/generated/piu_evidence_boundary_v1.svg",
@@ -168,7 +168,7 @@
     },
     {
       "path": "results/diagnostics/piu_public_claim_audit_v1.json",
-      "sha256": "00ae8ec21f33852d95234d3a2f5ece59410da2454676d91d62da505014cb54d6",
+      "sha256": "1c979670a20dc7f493c487f514d0db827faa21db61bea34695c95e2f7723d508",
       "bytes": "13791"
     },
     {
@@ -188,8 +188,8 @@
     },
     {
       "path": "scripts/calibration/calibrate_piu_target_binding.py",
-      "sha256": "62c430c007f1533c1f0395ee9c6bdf780dbddfb1392c631cc148741cdcb299ec",
-      "bytes": "14188"
+      "sha256": "b64102399a639fc146d7cf2c3d5b0110457c4f7c0d606cd0835e5f0c150dda30",
+      "bytes": "6267"
     },
     {
       "path": "scripts/data/assemble_piu_action_effect_role.py",
@@ -563,8 +563,8 @@
     },
     {
       "path": "scripts/training/train_piu_target_binding.py",
-      "sha256": "80bd98ff4f9a454685458394d69a2d9bfff3caa481af406584767903c9b43d37",
-      "bytes": "14136"
+      "sha256": "052b3baf64ca33b9615f08368bb1f22e0b5c3b7914bf7329c72889de02579e9a",
+      "bytes": "17741"
     },
     {
       "path": "src/calibrated_interaction/__init__.py",
@@ -653,8 +653,8 @@
     },
     {
       "path": "src/piu/binding_calibration.py",
-      "sha256": "272a32ba5ddbd90b4a572dbdeeac273ea7446c09257f2cc400c2d8f0bce0e014",
-      "bytes": "22590"
+      "sha256": "274ab31c53fb88fe6b3542b070302d5d4c9e03cb81f9a65f22645499562dfda2",
+      "bytes": "28740"
     },
     {
       "path": "src/piu/binding_data.py",
@@ -683,8 +683,8 @@
     },
     {
       "path": "src/piu/dataset_assembly.py",
-      "sha256": "1464673d5e2b4caca371e5c6f74fc12ead2da9424276f9c844194e20b07fe719",
-      "bytes": "11294"
+      "sha256": "47a0b834c01218943192a899bdb3e379058dfa7022d5fb9dee0539e090d4a794",
+      "bytes": "22009"
     },
     {
       "path": "src/piu/effect_calibration.py",
@@ -698,8 +698,8 @@
     },
     {
       "path": "src/piu/empirical_dag.py",
-      "sha256": "41352ce1a98d767efe8d8b60df72cebb78669b3ae19f5718fd05676f9cda8a5b",
-      "bytes": "34309"
+      "sha256": "eff43a8c030a97a2ebb0cb8dd4a487398e59dece8e253439d8b2dcc788c839ac",
+      "bytes": "38876"
     },
     {
       "path": "src/piu/evaluation.py",
@@ -732,6 +732,11 @@
       "bytes": "1073"
     },
     {
+      "path": "src/piu/learned_artifacts.py",
+      "sha256": "623ca519b7d49c98dfbb6a2cf5f251f34359573046df5f4e44fb8ae6bbaea425",
+      "bytes": "44433"
+    },
+    {
       "path": "src/piu/oracle_effect.py",
       "sha256": "42e8f5d33903bed66309561baa3832580408e1fe8489e7cb09ce8d5292ad9e51",
       "bytes": "2021"
@@ -743,8 +748,8 @@
     },
     {
       "path": "src/piu/oracle_schedule.py",
-      "sha256": "dc25734e022ba2b6567868f3dc36e08d0dd6e792c82efffbe072bc16559a2ce6",
-      "bytes": "11365"
+      "sha256": "1a921fdd38c0cc9d964e2abc3a30f1b360d2d7b3bff31dbb2c90b38ff08e164e",
+      "bytes": "12036"
     },
     {
       "path": "src/piu/paper_artifacts.py",
@@ -763,8 +768,8 @@
     },
     {
       "path": "src/piu/primitive_registry.py",
-      "sha256": "f2afeff071e333b8203e4adcb7927f2f0d3f2be3a765a286984833500536dfc8",
-      "bytes": "70176"
+      "sha256": "59b067d6abb7fedc16e10acf7dad0fbf5060cf74e4ddcb87566835bebd685ee1",
+      "bytes": "70222"
     },
     {
       "path": "src/piu/reproducibility.py",
@@ -802,7 +807,7 @@
       "bytes": "8126"
     }
   ],
-  "offline_inventory_sha256": "00ef9083d7e20965f8354f275dea6cdff814f8fded8301f45ddf2f0c88b0ebea",
+  "offline_inventory_sha256": "a85680754617b3c7a8b15355f007665a887f9da9df8d15c05e89e01701f00638",
   "dependency_closure_exceptions": {
     "results/diagnostics/piu_offline_repro_preflight_v1.json": "The release lock cannot contain its own content hash; it is validated as the output of this manifest and bound separately by every formal design.",
     "scripts/pipeline/infer.py": "The B2 adapter executes this path only inside a detached worktree at the attested frozen tag commit, never from the current release checkout."
@@ -1425,7 +1430,7 @@
     "schema_version": "piu.empirical-stage-status.v1",
     "dag": {
       "path": "/home/icon/InteractivePerception_yg/Interactive-Perception/configs/experiments/piu_empirical_stage_dag_v1.yaml",
-      "sha256": "901ede7ea265e6b3de557eb332c159749458cf864adac2e68634f08e4d8135ce"
+      "sha256": "e602b50ea1df80f41fe9c9d8825fae20f8c686b042e7f3f9bdff72ee199f38f7"
     },
     "status": "INCOMPLETE",
     "empirical_pipeline_complete": false,
@@ -2222,7 +2227,7 @@
             "id": "public_claim_audit",
             "path": "results/diagnostics/piu_public_claim_audit_v1.json",
             "status": "VALID",
-            "sha256": "00ae8ec21f33852d95234d3a2f5ece59410da2454676d91d62da505014cb54d6",
+            "sha256": "1c979670a20dc7f493c487f514d0db827faa21db61bea34695c95e2f7723d508",
             "errors": [],
             "terminal_reason": null
           },

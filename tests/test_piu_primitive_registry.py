@@ -16,6 +16,7 @@ from piu.primitive_registry import (
     reliability_record,
     load_primitive_qualification_certificate,
     load_primitive_qualification_execution_receipt,
+    load_primitive_qualification_plan,
     load_primitive_qualification_schedule,
     smallest_binomial_design,
     validate_derived_primitive_risk_contract,
@@ -278,6 +279,67 @@ def test_external_budget_cannot_omit_qualification_group_resource_cap(
     assert "resource cap" in completed.stderr
     planner = ROOT / "scripts/evaluation/plan_piu_primitive_qualification.py"
     assert "--search-limit" not in planner.read_text()
+
+
+def test_blocked_primitive_plan_is_recomputed_as_terminal_evidence(
+    tmp_path: Path,
+) -> None:
+    budget = tmp_path / "budget.yaml"
+    budget.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": "piu.external-execution-risk-budget.v1",
+                "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES",
+                "maximum_episode_probability_of_any_primitive_failure": 0.8,
+                "design_alternative_per_dispatch_success_probability": 1.0,
+                "maximum_qualification_groups_per_primitive": 1,
+                "authority": "synthetic fixture task owner",
+                "rationale": "exercise exact no-design terminal evidence",
+                "outcomes_loaded": False,
+            }
+        )
+    )
+    risk = tmp_path / "risk.json"
+    subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/evaluation/derive_piu_primitive_risk_contract.py"),
+            "--external-budget",
+            str(budget),
+            "--primitive",
+            "OPEN",
+            "--context",
+            "middle_drawer",
+            "--candidate-id",
+            "open_middle_drawer",
+            "--output",
+            str(risk),
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    plan = tmp_path / "plan.json"
+    subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/evaluation/plan_piu_primitive_qualification.py"),
+            "--registry",
+            str(ROOT / "results/method/piu_primitive_reliability_registry_v2.json"),
+            "--risk-contract",
+            str(risk),
+            "--output",
+            str(plan),
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    value = load_primitive_qualification_plan(plan, repository_root=ROOT)
+    assert value["status"] == "NO_PLAN_WITHIN_EXTERNAL_COLLECTION_RESOURCE_CAP"
+    assert value["design"] is None
 
 
 def test_frozen_primitive_design_requires_complete_boolean_denominator() -> None:

@@ -40,12 +40,17 @@ def artifact(path: Path, *, repository_root: Path) -> dict[str, str]:
     }
 
 
-def validate_screen_result(
+def validate_phase_result(
     path: Path,
     *,
+    phase: str,
     repository_root: Path,
     experiment_path: Path,
 ) -> dict[str, Any]:
+    """Recompute a retained screen/confirmation summary from raw reports."""
+
+    if phase not in {"screen", "confirmation"}:
+        raise ValueError("oracle result phase must be screen or confirmation")
     validator_path = (
         repository_root
         / "scripts/evaluation/summarize_oracle_target_prompt_gate.py"
@@ -58,9 +63,29 @@ def validate_screen_result(
     module = importlib.util.module_from_spec(specification)
     specification.loader.exec_module(module)
     observed = json.loads(path.read_text())
-    expected = module.summarize(experiment_path, "screen", None)
+    selected_style = (
+        None
+        if phase == "screen"
+        else observed.get("confirmation", {}).get("selected_style")
+    )
+    expected = module.summarize(experiment_path, phase, selected_style)
     if observed != expected:
-        raise ValueError("oracle screen result differs from validated phase reports")
+        raise ValueError("oracle result differs from validated phase reports")
+    return observed
+
+
+def validate_screen_result(
+    path: Path,
+    *,
+    repository_root: Path,
+    experiment_path: Path,
+) -> dict[str, Any]:
+    observed = validate_phase_result(
+        path,
+        phase="screen",
+        repository_root=repository_root,
+        experiment_path=experiment_path,
+    )
     if (
         observed.get("status") != "SCREEN_COMPLETE_AWAITING_CONFIRMATION"
         or not isinstance(observed.get("screen", {}).get("selected_style"), str)

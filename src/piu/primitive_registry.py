@@ -483,8 +483,6 @@ def load_primitive_qualification_plan(
     value = json.loads(path.read_text())
     if value.get("schema_version") != "piu.primitive-qualification-plan.v1":
         raise ValueError("unsupported primitive qualification plan")
-    if value.get("status") != "PROSPECTIVE_GROUP_COUNT_FROZEN":
-        raise ValueError("primitive qualification plan has no frozen design")
     if value.get("claim_scope") != "DESIGN_ONLY_NO_FORMAL_OUTCOME_DATA":
         raise ValueError("primitive qualification plan crossed its claim firewall")
     registry_path = _verified_reference(
@@ -573,7 +571,12 @@ def load_primitive_qualification_plan(
         target_power=float(risk["target_power"]),
         search_limit=int(value["maximum_qualification_groups"]),
     )
-    if expected is None or value.get("design") != expected:
+    expected_status = (
+        "PROSPECTIVE_GROUP_COUNT_FROZEN"
+        if expected is not None
+        else "NO_PLAN_WITHIN_EXTERNAL_COLLECTION_RESOURCE_CAP"
+    )
+    if value.get("status") != expected_status or value.get("design") != expected:
         raise ValueError("primitive plan design differs from exact recomputation")
     return value
 

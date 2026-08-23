@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import dataclasses
 import math
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Mapping, Sequence
 from typing import Any
 
 import numpy as np
@@ -464,6 +464,174 @@ def spatial_prediction_set_metrics(
         "target_intersection_coverage": float(intersects.mean()),
         "mean_set_size": float(sets[localized].sum(axis=1).mean()),
         "empty_rate": float((sets[localized].sum(axis=1) == 0).mean()),
+    }
+
+
+def _binary_calibration_section(
+    *,
+    name: str,
+    temperature_logits: np.ndarray,
+    temperature_truth: np.ndarray,
+    conformal_logits: np.ndarray,
+    conformal_truth: np.ndarray,
+    alphas: Sequence[float],
+) -> dict[str, Any]:
+    temperature = fit_binary_temperature(temperature_logits, temperature_truth)
+    conformal_probability = sigmoid(conformal_logits / temperature)
+    sets = {}
+    for alpha in alphas:
+        calibrator = MondrianBinaryLAC.fit(
+            conformal_probability, conformal_truth, alpha=float(alpha)
+        )
+        sets[str(float(alpha))] = {
+            "calibrator": calibrator.to_dict(),
+            "calibration_diagnostic": prediction_set_metrics(
+                calibrator.predict(conformal_probability), conformal_truth
+            ),
+        }
+    return {
+        "status": "SUPPORTED",
+        "name": name,
+        "temperature": temperature,
+        "temperature_fit_metrics": {
+            "before": binary_probability_metrics(
+                temperature_logits, temperature_truth, temperature=1.0
+            ),
+            "after": binary_probability_metrics(
+                temperature_logits, temperature_truth, temperature=temperature
+            ),
+        },
+        "conformal": sets,
+    }
+
+
+def _optional_binary_calibration_section(
+    *,
+    name: str,
+    temperature: Mapping[str, Any],
+    conformal: Mapping[str, Any],
+    alphas: Sequence[float],
+) -> dict[str, Any]:
+    temperature_mask = np.asarray(temperature[f"{name}_mask"], dtype=bool)
+    conformal_mask = np.asarray(conformal[f"{name}_mask"], dtype=bool)
+    temperature_truth = np.asarray(temperature[name])[temperature_mask]
+    conformal_truth = np.asarray(conformal[name])[conformal_mask]
+    if set(temperature_truth.tolist()) != {0.0, 1.0} or set(
+        conformal_truth.tolist()
+    ) != {0.0, 1.0}:
+        return {
+            "status": "UNSUPPORTED",
+            "reason": (
+                "both calibration roles require labeled positive and negative examples"
+            ),
+            "temperature_labeled": int(temperature_mask.sum()),
+            "conformal_labeled": int(conformal_mask.sum()),
+        }
+    return _binary_calibration_section(
+        name=name,
+        temperature_logits=np.asarray(temperature[f"{name}_logit"])[
+            temperature_mask
+        ],
+        temperature_truth=temperature_truth,
+        conformal_logits=np.asarray(conformal[f"{name}_logit"])[conformal_mask],
+        conformal_truth=conformal_truth,
+        alphas=alphas,
+    )
+
+
+def fit_binding_calibration(
+    *,
+    temperature_values: Mapping[str, Any],
+    conformal_values: Mapping[str, Any],
+    alphas: Sequence[float],
+) -> dict[str, Any]:
+    """Fit every binder calibrator from two already isolated score roles."""
+
+    risks = [float(alpha) for alpha in alphas]
+    if not risks or len(set(risks)) != len(risks) or any(
+        not 0.0 < alpha < 1.0 for alpha in risks
+    ):
+        raise ValueError("binding calibration alphas must be unique and valid")
+    temperature = {name: np.asarray(value) for name, value in temperature_values.items()}
+    conformal = {name: np.asarray(value) for name, value in conformal_values.items()}
+    spatial_temperature = fit_spatial_temperature(
+        temperature["spatial_logits"],
+        temperature["image_valid_mask"],
+        temperature["patch_target"],
+    )
+    conformal_spatial_probability = spatial_probabilities(
+        conformal["spatial_logits"],
+        conformal["image_valid_mask"],
+        temperature=spatial_temperature,
+    )
+    spatial_sets = {}
+    for alpha in risks:
+        fitted = spatial_conformal_fit(
+            conformal_spatial_probability,
+            conformal["patch_target"],
+            alpha=alpha,
+        )
+        predicted = spatial_prediction_sets(
+            conformal_spatial_probability,
+            conformal["image_valid_mask"],
+            fitted,
+        )
+        spatial_sets[str(alpha)] = {
+            "calibrator": fitted,
+            "calibration_diagnostic": spatial_prediction_set_metrics(
+                predicted, conformal["patch_target"]
+            ),
+        }
+
+    binary = {}
+    required = {
+        "target_presence": "target_present",
+        "task_sufficiency": "task_sufficient",
+        "holding_requested_target": "holding_requested_target",
+        "region_confirmed_empty": "region_confirmed_empty",
+        "task_complete": "task_complete",
+    }
+    for section_name, array_name in required.items():
+        if array_name == "target_present":
+            binary[section_name] = _binary_calibration_section(
+                name=section_name,
+                temperature_logits=temperature["target_present_logit"],
+                temperature_truth=temperature[array_name],
+                conformal_logits=conformal["target_present_logit"],
+                conformal_truth=conformal[array_name],
+                alphas=risks,
+            )
+        else:
+            binary[section_name] = _optional_binary_calibration_section(
+                name=array_name,
+                temperature=temperature,
+                conformal=conformal,
+                alphas=risks,
+            )
+            if binary[section_name].get("status") == "SUPPORTED":
+                binary[section_name]["name"] = section_name
+    return {
+        "spatial": {
+            "status": "SUPPORTED",
+            "temperature": spatial_temperature,
+            "temperature_fit_metrics": {
+                "before": spatial_probability_metrics(
+                    temperature["spatial_logits"],
+                    temperature["image_valid_mask"],
+                    temperature["patch_target"],
+                    temperature=1.0,
+                ),
+                "after": spatial_probability_metrics(
+                    temperature["spatial_logits"],
+                    temperature["image_valid_mask"],
+                    temperature["patch_target"],
+                    temperature=spatial_temperature,
+                ),
+            },
+            "conformal": spatial_sets,
+        },
+        **binary,
+        "temperature_conformal_groups_disjoint": True,
     }
 
 

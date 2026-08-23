@@ -89,6 +89,7 @@ required_files:
   - src/piu/primitive_registry.py
   - src/piu/reproducibility.py
   - src/piu/empirical_dag.py
+  - src/piu/learned_artifacts.py
   - src/piu/dataset_assembly.py
   - src/calibrated_interaction/paired_power.py
   - scripts/data/export_piu_binding_labels.py

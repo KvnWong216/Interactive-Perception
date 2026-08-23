@@ -141,6 +141,19 @@ def main() -> None:
     declared_ablations = [
         str(value) for value in config.get("development_ablations", ["full"])
     ]
+    for name in declared_ablations:
+        if name == "full":
+            continue
+        for artifact_path in (
+            args.output.with_name(f"{args.output.stem}.{name}{args.output.suffix}"),
+            args.output.with_name(
+                f"{args.output.stem}.{name}.development_predictions.npz"
+            ),
+        ):
+            if artifact_path.exists():
+                raise FileExistsError(
+                    f"training outputs are immutable: {artifact_path}"
+                )
     no_history_action_id = None
     if "no_action_history" in declared_ablations:
         if normalized_action_vocabulary.count("NO_HISTORY") != 1:
@@ -229,6 +242,7 @@ def main() -> None:
     if best_result is None or best_hyperparameters is None:
         raise RuntimeError("model search produced no trial")
     ablations = {}
+    ablation_results = {}
     for name in declared_ablations:
         if name == "full":
             result = best_result
@@ -265,7 +279,9 @@ def main() -> None:
         ablations[name] = {
             "best_epoch": result["best_epoch"],
             "development_metrics": result["development_metrics"],
+            "history": result["history"],
         }
+        ablation_results[name] = result
     args.output.parent.mkdir(parents=True, exist_ok=True)
     checkpoint = {
         "schema_version": "piu.target-binder-checkpoint.v1",
@@ -308,6 +324,67 @@ def main() -> None:
         task_complete=development.task_complete,
         task_complete_mask=development.task_complete_mask,
     )
+    for name, result in ablation_results.items():
+        if name == "full":
+            ablation_checkpoint_path = args.output
+            ablation_predictions_path = predictions_path
+        else:
+            ablation_checkpoint_path = args.output.with_name(
+                f"{args.output.stem}.{name}{args.output.suffix}"
+            )
+            ablation_predictions_path = args.output.with_name(
+                f"{args.output.stem}.{name}.development_predictions.npz"
+            )
+            torch.save(
+                {
+                    **checkpoint,
+                    "model_state": result["model_state"],
+                    "objective_state": result["objective_state"],
+                    "development_ablation": name,
+                },
+                ablation_checkpoint_path,
+            )
+            ablation_raw = result["raw_development_predictions"]
+            np.savez_compressed(
+                ablation_predictions_path,
+                sample_id=np.asarray(development.sample_id),
+                initial_state_group=np.asarray(development.initial_state_group),
+                image_valid_mask=development.image_valid_mask,
+                spatial_logits=ablation_raw["spatial_logits"],
+                spatial_attention=ablation_raw["spatial_attention"],
+                target_token=ablation_raw["target_token"],
+                target_present_logit=ablation_raw["target_present_logit"],
+                task_sufficiency_logit=ablation_raw["task_sufficiency_logit"],
+                holding_requested_target_logit=ablation_raw[
+                    "holding_requested_target_logit"
+                ],
+                region_confirmed_empty_logit=ablation_raw[
+                    "region_confirmed_empty_logit"
+                ],
+                task_complete_logit=ablation_raw["task_complete_logit"],
+                patch_target=development.patch_target,
+                target_present=development.target_present,
+                task_sufficient=development.task_sufficient,
+                task_sufficient_mask=development.task_sufficient_mask,
+                holding_requested_target=development.holding_requested_target,
+                holding_requested_target_mask=development.holding_requested_target_mask,
+                region_confirmed_empty=development.region_confirmed_empty,
+                region_confirmed_empty_mask=development.region_confirmed_empty_mask,
+                task_complete=development.task_complete,
+                task_complete_mask=development.task_complete_mask,
+            )
+        ablations[name].update(
+            {
+                "checkpoint": {
+                    "path": portable(ablation_checkpoint_path),
+                    "sha256": sha256(ablation_checkpoint_path),
+                },
+                "development_predictions": {
+                    "path": portable(ablation_predictions_path),
+                    "sha256": sha256(ablation_predictions_path),
+                },
+            }
+        )
     report = {
         "schema_version": "piu.target-binder-training.v1",
         "claim_scope": "DEVELOPMENT_MODEL_SELECTION_NOT_TEST_EVIDENCE",

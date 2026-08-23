@@ -83,6 +83,17 @@ New non-performance artifacts:
   rows require an exact frozen cohort; and the sealed B0--B8 matrix plus B6/B7
   columns must cover every scheduled group, seed, source state, and policy
   identity. These are anti-selection protocol checks, not physical results.
+- Primitive/oracle predecessor summaries and learned-data role manifests now
+  undergo exact source-level recomputation. In particular, an under-resourced
+  powered primitive test is retained as terminal negative design evidence, and
+  altered dataset counts or incomplete candidate matrices are rejected. This
+  closes evidence-integrity paths but adds no empirical success result.
+- Binder/effect training, prediction, and calibration artifacts are now
+  replay-verified on CPU. All binder development ablations retain a checkpoint
+  and raw scores; prediction arrays are regenerated from their hash-bound
+  inputs, and both calibration artifacts are refitted exactly. Tests reject
+  co-edited score/report hashes and fitted temperatures. This is software
+  evidence, not a positive model or controller result.
 - Counterfactual collection now binds an immutable public-only execution plan.
   Contract tests show that an ineligible PLACE remains a route candidate, is
   not dispatched, and exports no invented effect targets. This is a leakage and

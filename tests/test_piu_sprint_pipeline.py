@@ -30,6 +30,12 @@ from piu.contracts import (
     validate_public_sidecar_pair,
 )
 from piu.evaluation import aggregate_stage_evidence
+from piu.learned_artifacts import (
+    validate_binder_calibration_artifact,
+    validate_binder_online_prediction_report,
+    validate_binder_prediction_report,
+    validate_binder_training_report,
+)
 from piu.spatial_prefix import (
     PrefixLayout,
     candidate_conditioned_prompt,
@@ -572,6 +578,7 @@ def test_cpu_binding_trainer_is_split_safe_and_writes_frozen_artifacts(
         },
         "objectives": {"manual_loss_weights": None},
         "compute": {"device": "cpu", "torch_threads": 1},
+        "development_ablations": ["full", "no_prompt"],
     }
     config_path = tmp_path / "config.yaml"
     config_path.write_text(yaml.safe_dump(config))
@@ -603,6 +610,9 @@ def test_cpu_binding_trainer_is_split_safe_and_writes_frozen_artifacts(
         text=True,
     )
     report = json.loads(checkpoint_path.with_suffix(".json").read_text())
+    validate_binder_training_report(
+        checkpoint_path.with_suffix(".json"), repository_root=ROOT
+    )
     assert report["claim_scope"] == "DEVELOPMENT_MODEL_SELECTION_NOT_TEST_EVIDENCE"
     assert report["train_groups"] == report["development_groups"] == 4
     assert report["cuda_visible_to_trainer"] is False
@@ -610,6 +620,10 @@ def test_cpu_binding_trainer_is_split_safe_and_writes_frozen_artifacts(
     assert report["calibration_loaded"] is False
     assert len(report["trials"]) == 1
     assert checkpoint_path.is_file()
+    assert (tmp_path / "binder.no_prompt.pt").is_file()
+    assert (
+        tmp_path / "binder.no_prompt.development_predictions.npz"
+    ).is_file()
     with np.load(checkpoint_path.with_suffix(".development_predictions.npz")) as data:
         assert data["spatial_attention"].shape == (4, 24)
         assert data["task_sufficient_mask"].tolist() == [False] * 4
@@ -651,6 +665,26 @@ def test_cpu_binding_trainer_is_split_safe_and_writes_frozen_artifacts(
             text=True,
         )
         calibration_roles[role] = (output, output.with_suffix(".json"))
+        validate_binder_prediction_report(
+            output.with_suffix(".json"), repository_root=ROOT
+        )
+        if role == "temperature":
+            output_bytes = output.read_bytes()
+            report_text = output.with_suffix(".json").read_text()
+            with np.load(output, allow_pickle=False) as store:
+                altered = {key: np.asarray(store[key]) for key in store.files}
+            altered["spatial_logits"] = altered["spatial_logits"].copy()
+            altered["spatial_logits"][0, 0] += 1.0
+            np.savez_compressed(output, **altered)
+            altered_report = json.loads(report_text)
+            altered_report["output"]["sha256"] = _sha256(output)
+            output.with_suffix(".json").write_text(json.dumps(altered_report))
+            with pytest.raises(ValueError, match="exact replay"):
+                validate_binder_prediction_report(
+                    output.with_suffix(".json"), repository_root=ROOT
+                )
+            output.write_bytes(output_bytes)
+            output.with_suffix(".json").write_text(report_text)
     calibration_output = tmp_path / "calibrator.json"
     subprocess.run(
         [
@@ -675,6 +709,14 @@ def test_cpu_binding_trainer_is_split_safe_and_writes_frozen_artifacts(
         text=True,
     )
     calibration = json.loads(calibration_output.read_text())
+    validate_binder_calibration_artifact(calibration_output, repository_root=ROOT)
+    calibration_text = calibration_output.read_text()
+    calibration["spatial"]["temperature"] += 0.25
+    calibration_output.write_text(json.dumps(calibration))
+    with pytest.raises(ValueError, match="exact recomputation"):
+        validate_binder_calibration_artifact(calibration_output, repository_root=ROOT)
+    calibration_output.write_text(calibration_text)
+    calibration = json.loads(calibration_text)
     assert calibration["temperature_conformal_groups_disjoint"] is True
     assert calibration["sealed_test_loaded"] is False
     assert calibration["spatial"]["status"] == "SUPPORTED"
@@ -787,6 +829,9 @@ def test_cpu_binding_trainer_is_split_safe_and_writes_frozen_artifacts(
         text=True,
     )
     online_report = json.loads(online_output.with_suffix(".json").read_text())
+    validate_binder_online_prediction_report(
+        online_output.with_suffix(".json"), repository_root=ROOT
+    )
     assert online_report["evaluator_labels_loaded"] is False
     assert "labels" not in online_report["inputs"]
     with np.load(online_output) as online:

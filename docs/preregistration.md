@@ -515,3 +515,47 @@ oracle files must separately cover their complete scheduled columns. Thus an
 incomplete but well-formed result file cannot unlock paper generation. Both
 release SVGs must additionally embed the exact regenerated evidence-table hash;
 an old figure cannot accompany a new result table.
+
+## Amendment 15: predecessor results are recomputed, not trusted
+
+Frozen on 2026-08-23 before any new qualification, oracle, learned-data, or
+sealed artifact existed. Recursive file hashes establish provenance but do not
+establish that a summary was calculated correctly. Before advancing S02--S05,
+the DAG now invokes the registered primitive and oracle loaders. Risk contracts
+are re-derived; powered plans are recalculated; schedules and every certificate
+receipt are replay-validated; oracle screen and confirmation summaries are
+recomputed from raw reports; and the formal oracle result is recomputed from
+the complete intention-to-treat schedule.
+
+A powered primitive design that cannot fit the externally declared collection
+cap is retained as the legitimate terminal state
+`NO_PLAN_WITHIN_EXTERNAL_COLLECTION_RESOURCE_CAP`. It is neither silently
+replaced by a smaller test nor mislabeled as file corruption.
+
+Before advancing S06 or S10, every role dataset is also recomputed from its
+immutable source union. Public and binding rows must have exactly the same
+sample IDs and group/split assignment. Action-effect rows must equal the full
+public candidate matrix with exactly one selected route per sample. Output row
+order, counts, references, and claim firewalls must equal the assembler's exact
+result. This is integrity/protocol evidence only and creates no learned or
+physical performance claim.
+
+## Amendment 16: learned artifacts require checkpoint replay
+
+Frozen on 2026-08-23 before any real S07--S12 learned artifact existed. A
+training or prediction JSON file and a matching SHA-256 do not establish that
+the scores were produced by the declared model. The DAG therefore reloads each
+small binder/effect checkpoint with CPU-only placement, validates finite tensor
+state and the predeclared parameter cap, reconstructs the exact hash-bound
+feature/label join, replays inference, and compares every stored score and
+target array. The complete hyperparameter grid, epoch history, lexicographic
+development selection, group firewall, and selected proper scores are
+recomputed. Calibration artifacts are refitted from the separate temperature
+and conformal roles through the same shared implementation used by the writer.
+
+Every binder development ablation now retains its own checkpoint and raw
+development predictions. An ablation metric without those references is not
+admissible. These checks reject a co-edited prediction file and report hash as
+well as a hand-edited fitted temperature. They are reproducibility and leakage
+evidence only: replaying synthetic or development artifacts cannot create a
+sealed-test or physical-performance claim.

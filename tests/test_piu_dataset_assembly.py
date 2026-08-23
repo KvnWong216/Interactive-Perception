@@ -5,10 +5,13 @@ import json
 from pathlib import Path
 
 import yaml
+import pytest
 
 from piu.dataset_assembly import (
     assemble_action_effect_role,
     assemble_public_binding_role,
+    validate_action_effect_role_dataset,
+    validate_public_binding_role_dataset,
 )
 
 
@@ -143,6 +146,9 @@ def test_role_assemblers_bind_split_and_exact_candidate_matrix(tmp_path: Path) -
         repository_root=tmp_path,
     )
     assert report["sample_join_exact"] is True
+    assert validate_public_binding_role_dataset(
+        binding_manifest, repository_root=tmp_path
+    ) == report
     digest = hashlib.sha256(
         json.dumps(
             {
@@ -183,3 +189,11 @@ def test_role_assemblers_bind_split_and_exact_candidate_matrix(tmp_path: Path) -
     )
     assert result["exact_candidate_matrix"] is True
     assert result["one_correct_route_per_sample"] is True
+    assert validate_action_effect_role_dataset(
+        manifest, repository_root=tmp_path
+    ) == result
+    tampered = json.loads(manifest.read_text())
+    tampered["candidate_rows"] = 2
+    manifest.write_text(json.dumps(tampered))
+    with pytest.raises(ValueError, match="exact recomputation"):
+        validate_action_effect_role_dataset(manifest, repository_root=tmp_path)
