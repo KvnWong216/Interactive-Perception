@@ -38,6 +38,7 @@ from interactive_perception.policy_client import (
     OpenPiWebsocketPolicy,
     build_observation,
 )
+from piu.policy_identity import load_checkpoint_identity, validate_server_metadata
 
 
 class RecordingEnvironment:
@@ -87,15 +88,20 @@ def save_views(
     packet = build_observation(observation, prompt)
     paths: dict[str, str] = {}
     hashes: dict[str, str] = {}
+    pixel_hashes: dict[str, str] = {}
     for view, image in (("agentview", packet.image), ("wrist", packet.wrist_image)):
         path = directory / f"{name}_{view}.png"
         imageio.imwrite(path, image)
         paths[view] = portable_path(path)
         hashes[view] = digest(path)
+        pixel_hashes[view] = hashlib.sha256(
+            np.ascontiguousarray(image, dtype=np.uint8).tobytes()
+        ).hexdigest()
     return {
         "name": name,
         "image_paths": paths,
         "image_sha256": hashes,
+        "image_pixel_sha256": pixel_hashes,
         "public_robot_state": [float(value) for value in packet.state],
     }
 
@@ -246,6 +252,14 @@ def evaluator_replay(
                 ["in", target_object, target_destination_region]
             )
         )
+        target_grasp_contact_final = bool(
+            target_object
+            and target_object in env.env.objects_dict
+            and env.env._check_grasp(
+                env.env.robots[0].gripper,
+                env.env.objects_dict[target_object].contact_geoms,
+            )
+        )
         if metric_contract_version not in {"v1", "v2"}:
             raise ValueError("metric_contract_version must be v1 or v2")
         result = {
@@ -263,6 +277,7 @@ def evaluator_replay(
             "target_destination_region": target_destination_region,
             "target_reached_destination": first_target_destination_step is not None,
             "target_in_destination_final": target_in_destination_final,
+            "target_grasp_contact_final": target_grasp_contact_final,
             "first_target_destination_step": first_target_destination_step,
             "target_visibility_pixels": {
                 "initial": target_visibility_initial,
@@ -342,6 +357,11 @@ def main() -> None:
         help="connect to an already validated pi0.5 server and do not own its process",
     )
     parser.add_argument(
+        "--expected-policy-identity",
+        type=Path,
+        help="required checkpoint-tree identity for every external policy call",
+    )
+    parser.add_argument(
         "--oracle-target-visual-prompt",
         choices=("box", "point", "spotlight"),
         help=(
@@ -354,6 +374,14 @@ def main() -> None:
         type=int,
         default=1,
         help="fail before policy execution unless the oracle target reaches this count",
+    )
+    parser.add_argument(
+        "--oracle-target-allow-absent-until-visible",
+        action="store_true",
+        help=(
+            "full-loop oracle upper bound: keep RGB unchanged while the target mask "
+            "is empty, then render the declared visual prompt when it becomes visible"
+        ),
     )
     parser.add_argument("--assets", type=Path, required=True)
     parser.add_argument("--work", type=Path, required=True)
@@ -402,6 +430,17 @@ def main() -> None:
             "oracle visual-prompt qualification requires --external-server; "
             "the experiment runner must not start a local GPU model"
         )
+    if args.external_server and args.expected_policy_identity is None:
+        raise ValueError("external policy execution requires an expected identity")
+    if not args.external_server and args.expected_policy_identity is not None:
+        raise ValueError("owned policy execution cannot inject an external identity")
+    if (
+        args.oracle_target_allow_absent_until_visible
+        and not args.oracle_target_visual_prompt
+    ):
+        raise ValueError(
+            "allow-absent oracle mode requires --oracle-target-visual-prompt"
+        )
     if not args.external_server and args.host not in {"127.0.0.1", "localhost"}:
         raise ValueError("an owned policy server must use a loopback host")
     if args.oracle_minimum_visible_pixels < 1:
@@ -414,6 +453,7 @@ def main() -> None:
         "work",
         "output",
         "final_state",
+        "expected_policy_identity",
     ):
         value = getattr(args, name)
         if value is not None and not value.is_absolute():
@@ -487,6 +527,7 @@ def main() -> None:
             if (
                 max(initial_prompt_preview.diagnostics.visible_pixels.values())
                 < args.oracle_minimum_visible_pixels
+                and not args.oracle_target_allow_absent_until_visible
             ):
                 raise ValueError(
                     f"oracle target {args.target_object!r} is not sufficiently "
@@ -519,6 +560,10 @@ def main() -> None:
             wait_for_port(args.host, args.port, timeout=args.server_timeout)
         policy = OpenPiWebsocketPolicy(host=args.host, port=args.port)
         metadata = policy.server_metadata
+        if args.expected_policy_identity is not None:
+            validate_server_metadata(
+                metadata, load_checkpoint_identity(args.expected_policy_identity)
+            )
         writer = imageio.get_writer(args.assets / "public_wrist_agentview.mp4", fps=20)
         capture_steps = {
             max(0, round(args.steps * fraction) - 1): index
@@ -664,6 +709,14 @@ def main() -> None:
             "policy": "frozen pi05_libero",
             "server_mode": "external" if args.external_server else "owned",
             "server_metadata": metadata,
+            "expected_policy_identity": (
+                {
+                    "path": portable_path(args.expected_policy_identity),
+                    "sha256": digest(args.expected_policy_identity),
+                }
+                if args.expected_policy_identity is not None
+                else None
+            ),
             "online_inputs": [
                 "stock agentview RGB",
                 "wrist RGB",
@@ -685,6 +738,9 @@ def main() -> None:
                     "target_instance_id": target_instance_id,
                     "minimum_initial_visible_pixels": (
                         args.oracle_minimum_visible_pixels
+                    ),
+                    "allow_absent_until_visible": (
+                        args.oracle_target_allow_absent_until_visible
                     ),
                     "source_initial_state": (
                         {
@@ -712,6 +768,18 @@ def main() -> None:
             "opaque_state_transport": (
                 portable_path(args.final_state)
                 if args.final_state is not None
+                else None
+            ),
+            "opaque_state_transport_sha256": (
+                digest(args.final_state) if args.final_state is not None else None
+            ),
+            "source_initial_state_transport": (
+                {
+                    "path": portable_path(args.initial_state),
+                    "sha256": digest(args.initial_state),
+                    "state_key": args.state_key,
+                }
+                if args.initial_state is not None
                 else None
             ),
         },

@@ -17,10 +17,11 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from interactive_perception.policy_client import (  # noqa: E402
+from interactive_perception.policy_client import (
     ObservationPacket,
     OpenPiWebsocketPolicy,
 )
+from piu.policy_identity import validate_server_metadata
 
 SERVER_SCHEMA = "piu.identified-pi05-server.v1"
 
@@ -44,18 +45,14 @@ def wait_for_endpoint(host: str, port: int, timeout: float) -> None:
 def validate_metadata(
     metadata: dict[str, Any], expected_identity: dict[str, Any]
 ) -> None:
-    expected = {
-        "schema_version": SERVER_SCHEMA,
-        "policy_config": expected_identity["policy_config"],
-        "environment": "LIBERO",
-        "checkpoint": expected_identity["checkpoint"],
-    }
-    if metadata != expected:
+    try:
+        validate_server_metadata(metadata, expected_identity)
+    except ValueError as error:
         raise ValueError(
             "external policy identity mismatch:\n"
             f"received={json.dumps(metadata, sort_keys=True)}\n"
-            f"expected={json.dumps(expected, sort_keys=True)}"
-        )
+            f"expected={json.dumps(expected_identity, sort_keys=True)}"
+        ) from error
 
 
 def packet_from_report(path: Path, keyframe_name: str) -> ObservationPacket:

@@ -33,9 +33,7 @@ def _segmentation(observation: dict[str, Any], camera: str):
     import numpy as np
 
     keys = [
-        key
-        for key in observation
-        if key.startswith(camera) and "segmentation" in key
+        key for key in observation if key.startswith(camera) and "segmentation" in key
     ]
     if len(keys) != 1:
         raise KeyError(f"expected one {camera} segmentation image, got {keys}")
@@ -50,11 +48,14 @@ def _policy_mask(mask):
     from PIL import Image
 
     rotated = np.ascontiguousarray(mask[::-1, ::-1])
-    return np.asarray(
-        Image.fromarray(rotated.astype(np.uint8) * 255).resize(
-            (224, 224), Image.Resampling.NEAREST
+    return (
+        np.asarray(
+            Image.fromarray(rotated.astype(np.uint8) * 255).resize(
+                (224, 224), Image.Resampling.NEAREST
+            )
         )
-    ) > 0
+        > 0
+    )
 
 
 def main() -> None:
@@ -107,6 +108,7 @@ def main() -> None:
                     "simulator_started": False,
                     "gpu_used": False,
                     "task_sufficiency_labels": "unsupported_null",
+                    "holding_requested_target_labels": "simulator_grasp_predicate",
                 },
                 indent=2,
             )
@@ -146,6 +148,12 @@ def main() -> None:
                 state = np.asarray(store["state"], dtype=float)
             observation = environment.set_init_state(state)
             target_id = int(environment.instance_to_id[target_object])
+            holding_requested_target = bool(
+                environment.env._check_grasp(
+                    environment.env.robots[0].gripper,
+                    environment.env.objects_dict[target_object].contact_geoms,
+                )
+            )
             post_masks = {}
             raw_pixels = {}
             for camera in ("agentview", "robot0_eye_in_hand"):
@@ -172,10 +180,18 @@ def main() -> None:
                 },
                 "target_present_post": any(raw_pixels.values()),
                 "task_sufficient_post": None,
+                "holding_requested_target_post": holding_requested_target,
+                # The retained OPEN-only evidence lacks a validated region-empty
+                # and terminal-task teacher. Keep both explicitly unsupported.
+                "region_confirmed_empty_post": None,
+                "task_complete_post": None,
                 "executed_action": "OPEN",
                 "simulator_teacher_only": True,
                 "provenance": {
-                    "state": {"path": portable(state_path), "sha256": sha256(state_path)},
+                    "state": {
+                        "path": portable(state_path),
+                        "sha256": sha256(state_path),
+                    },
                     "open_report": sidecar.provenance["open_report"],
                     "raw_target_pixels": raw_pixels,
                 },
@@ -200,6 +216,9 @@ def main() -> None:
         "execution_location": args.execution_location,
         "policy_inputs_contain_masks": False,
         "task_sufficiency_supported": False,
+        "holding_requested_target_supported": True,
+        "region_confirmed_empty_supported": False,
+        "task_complete_supported": False,
     }
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
     print(json.dumps(manifest, indent=2))

@@ -74,9 +74,9 @@ def mask_to_patch_coverage(mask: np.ndarray, *, grid_side: int) -> np.ndarray:
         )
     patch_height = height // grid_side
     patch_width = width // grid_side
-    blocks = values.reshape(
-        grid_side, patch_height, grid_side, patch_width
-    ).transpose(0, 2, 1, 3)
+    blocks = values.reshape(grid_side, patch_height, grid_side, patch_width).transpose(
+        0, 2, 1, 3
+    )
     return blocks.mean(axis=(2, 3), dtype=np.float32).reshape(-1)
 
 
@@ -90,6 +90,9 @@ class BindingLabel:
     target_masks: Mapping[str, Mapping[str, Mapping[str, Any]]]
     target_present_post: bool
     task_sufficient_post: bool | None
+    holding_requested_target_post: bool | None
+    region_confirmed_empty_post: bool | None
+    task_complete_post: bool | None
     executed_action: str
     simulator_teacher_only: bool
 
@@ -111,11 +114,31 @@ class BindingLabel:
                 decoded[time_step][str(camera)] = encoded
         present = value.get("target_present_post")
         sufficient = value.get("task_sufficient_post")
+        required_nullable = {
+            "holding_requested_target_post",
+            "region_confirmed_empty_post",
+            "task_complete_post",
+        }
+        missing_nullable = required_nullable - set(value)
+        if missing_nullable:
+            raise ValueError(
+                f"binding label lacks post-observation verifier fields "
+                f"{sorted(missing_nullable)}"
+            )
+        holding = value.get("holding_requested_target_post")
+        region_empty = value.get("region_confirmed_empty_post")
+        task_complete = value.get("task_complete_post")
         teacher = value.get("simulator_teacher_only")
         if not isinstance(present, bool) or not isinstance(teacher, bool):
             raise TypeError("presence and teacher flags must be explicit booleans")
         if sufficient is not None and not isinstance(sufficient, bool):
             raise TypeError("task_sufficient_post must be boolean or null")
+        if holding is not None and not isinstance(holding, bool):
+            raise TypeError("holding_requested_target_post must be boolean or null")
+        if region_empty is not None and not isinstance(region_empty, bool):
+            raise TypeError("region_confirmed_empty_post must be boolean or null")
+        if task_complete is not None and not isinstance(task_complete, bool):
+            raise TypeError("task_complete_post must be boolean or null")
         observed_present = any(
             rle_decode(encoded).any()
             for encoded in decoded["post_interaction"].values()
@@ -136,6 +159,9 @@ class BindingLabel:
             target_masks=decoded,
             target_present_post=bool(present),
             task_sufficient_post=sufficient,
+            holding_requested_target_post=holding,
+            region_confirmed_empty_post=region_empty,
+            task_complete_post=task_complete,
             executed_action=action,
             simulator_teacher_only=True,
         )
@@ -161,8 +187,8 @@ def load_binding_labels(path: Path) -> list[BindingLabel]:
 
 
 @dataclasses.dataclass(frozen=True)
-class BindingArrays:
-    """CPU-ready joined features and evaluator-only training targets."""
+class BindingInputs:
+    """CPU-ready public inputs for label-free online binder inference."""
 
     sample_id: tuple[str, ...]
     initial_state_group: tuple[str, ...]
@@ -175,10 +201,22 @@ class BindingArrays:
     camera_id: np.ndarray
     temporal_id: np.ndarray
     executed_action_id: np.ndarray
+
+
+@dataclasses.dataclass(frozen=True)
+class BindingArrays(BindingInputs):
+    """Public inputs after a separate evaluator-label join."""
+
     patch_target: np.ndarray
     target_present: np.ndarray
     task_sufficient: np.ndarray
     task_sufficient_mask: np.ndarray
+    holding_requested_target: np.ndarray
+    holding_requested_target_mask: np.ndarray
+    region_confirmed_empty: np.ndarray
+    region_confirmed_empty_mask: np.ndarray
+    task_complete: np.ndarray
+    task_complete_mask: np.ndarray
 
 
 def _camera_patch_targets(
@@ -189,6 +227,11 @@ def _camera_patch_targets(
 ) -> np.ndarray:
     values = []
     for time_step in TIME_STEPS:
+        if time_step != "post_interaction":
+            values.extend(
+                np.zeros(count, dtype=np.float32) for count in layout.tokens_per_camera
+            )
+            continue
         time_masks = label.target_masks[time_step]
         for camera, count in zip(
             layout.camera_names, layout.tokens_per_camera, strict=True
@@ -210,15 +253,34 @@ def _camera_patch_targets(
     return np.concatenate(values)
 
 
-def join_binding_features(
+def build_binding_inputs(
     *,
     feature_arrays: Mapping[str, Any],
     feature_report: Mapping[str, Any],
-    labels: Sequence[BindingLabel],
     action_vocabulary: Sequence[str],
-) -> BindingArrays:
-    """Join by sample ID and flatten only the explicit time/token axes."""
+) -> BindingInputs:
+    """Build deployment tensors using only the public frozen feature cache."""
 
+    forbidden = {
+        "patch_target",
+        "target_present",
+        "task_sufficient",
+        "task_sufficient_mask",
+        "holding_requested_target",
+        "holding_requested_target_mask",
+        "region_confirmed_empty",
+        "region_confirmed_empty_mask",
+        "task_complete",
+        "task_complete_mask",
+        "route_target",
+        "effect_target",
+        "effect_support_mask",
+    }
+    leaked = forbidden & set(feature_arrays)
+    if leaked:
+        raise ValueError(
+            f"online binding inputs contain evaluator targets {sorted(leaked)}"
+        )
     validate_feature_arrays(feature_arrays)
     if feature_report.get("schema_version") != "piu.spatial-prefix-features.v1":
         raise ValueError("unsupported spatial-prefix report")
@@ -227,64 +289,51 @@ def join_binding_features(
         tuple(layout_value["camera_names"]),
         tuple(int(value) for value in layout_value["tokens_per_camera"]),
     )
-    camera_mapping = dict(layout_value["camera_to_label_view"])
     image = np.asarray(feature_arrays["image_tokens"], dtype=np.float32)
     image_mask = np.asarray(feature_arrays["image_valid_mask"], dtype=bool)
     prompt = np.asarray(feature_arrays["prompt_tokens"], dtype=np.float32)
     prompt_mask = np.asarray(feature_arrays["prompt_valid_mask"], dtype=bool)
+    if image.shape[2] != layout.total_image_tokens:
+        raise ValueError("feature image-token count differs from the reported layout")
+    expected_camera, expected_xy = layout.patch_metadata()
+    if not np.array_equal(
+        np.asarray(feature_arrays["camera_id"], dtype=np.int16), expected_camera
+    ) or not np.allclose(
+        np.asarray(feature_arrays["patch_xy"], dtype=np.float32), expected_xy
+    ):
+        raise ValueError("feature patch metadata differs from the reported layout")
     sample_ids = np.asarray(feature_arrays["sample_id"]).astype(str).tolist()
     groups = np.asarray(feature_arrays["initial_state_group"]).astype(str).tolist()
-    splits = [Split(value) for value in np.asarray(feature_arrays["split"]).astype(str)]
-    by_id = {label.sample_id: label for label in labels}
-    if set(sample_ids) != set(by_id):
-        raise ValueError("spatial features and binding-label sample IDs differ")
+    splits = tuple(
+        Split(value) for value in np.asarray(feature_arrays["split"]).astype(str)
+    )
     if len(set(sample_ids)) != len(sample_ids):
         raise ValueError("duplicate spatial-prefix sample_id")
     vocabulary = tuple(str(value).upper() for value in action_vocabulary)
     if len(set(vocabulary)) != len(vocabulary):
         raise ValueError("action vocabulary contains duplicates")
     action_to_id = {action: index for index, action in enumerate(vocabulary)}
-    targets = []
-    presence = []
-    sufficiency = []
-    sufficiency_mask = []
-    action_ids = []
-    for sample_id, group, split in zip(sample_ids, groups, splits, strict=True):
-        label = by_id[sample_id]
-        if label.initial_state_group != group or label.split is not split:
-            raise ValueError("feature/binding-label group or split mismatch")
-        if label.executed_action not in action_to_id:
-            raise ValueError(f"unknown executed action {label.executed_action!r}")
-        targets.append(
-            _camera_patch_targets(
-                label=label,
-                layout=layout,
-                camera_to_label_view=camera_mapping,
-            )
+    executed = np.char.upper(
+        np.asarray(feature_arrays["executed_action"]).astype(str)
+    ).tolist()
+    if "NO_HISTORY" in executed:
+        raise ValueError(
+            "NO_HISTORY is an ablation-only token, not a public executed action"
         )
-        presence.append(label.target_present_post)
-        sufficiency.append(bool(label.task_sufficient_post))
-        sufficiency_mask.append(label.task_sufficient_post is not None)
-        action_ids.append(action_to_id[label.executed_action])
+    unknown = set(executed) - set(action_to_id)
+    if unknown:
+        raise ValueError(f"unknown public executed actions {sorted(unknown)}")
     count, time_count, image_count, width = image.shape
     prompt_count = prompt.shape[2]
-    camera_id = np.tile(
-        np.asarray(feature_arrays["camera_id"], dtype=np.int64), time_count
-    )
-    patch_xy = np.tile(
-        np.asarray(feature_arrays["patch_xy"], dtype=np.float32), (time_count, 1)
-    )
+    camera_id = np.tile(expected_camera.astype(np.int64), time_count)
+    patch_xy = np.tile(expected_xy.astype(np.float32), (time_count, 1))
     temporal_id = np.repeat(np.arange(time_count, dtype=np.int64), image_count)
-    flattened_image_mask = image_mask.reshape(count, time_count * image_count)
-    patch_target = np.stack(targets).astype(np.float32)
-    if np.any((patch_target > 0) & ~flattened_image_mask):
-        raise ValueError("binding target occupies an invalid frozen-prefix token")
-    return BindingArrays(
+    return BindingInputs(
         sample_id=tuple(sample_ids),
         initial_state_group=tuple(groups),
-        split=tuple(splits),
+        split=splits,
         image_tokens=image.reshape(count, time_count * image_count, width),
-        image_valid_mask=flattened_image_mask,
+        image_valid_mask=image_mask.reshape(count, time_count * image_count),
         prompt_tokens=prompt.reshape(count, time_count * prompt_count, width),
         prompt_valid_mask=prompt_mask.reshape(count, time_count * prompt_count),
         patch_xy=np.broadcast_to(
@@ -296,9 +345,92 @@ def join_binding_features(
         temporal_id=np.broadcast_to(
             temporal_id[None], (count, time_count * image_count)
         ).copy(),
-        executed_action_id=np.asarray(action_ids, dtype=np.int64),
+        executed_action_id=np.asarray(
+            [action_to_id[value] for value in executed], dtype=np.int64
+        ),
+    )
+
+
+def join_binding_features(
+    *,
+    feature_arrays: Mapping[str, Any],
+    feature_report: Mapping[str, Any],
+    labels: Sequence[BindingLabel],
+    action_vocabulary: Sequence[str],
+) -> BindingArrays:
+    """Join by sample ID and flatten only the explicit time/token axes."""
+
+    inputs = build_binding_inputs(
+        feature_arrays=feature_arrays,
+        feature_report=feature_report,
+        action_vocabulary=action_vocabulary,
+    )
+    layout_value = feature_report["layout"]
+    layout = PrefixLayout(
+        tuple(layout_value["camera_names"]),
+        tuple(int(value) for value in layout_value["tokens_per_camera"]),
+    )
+    camera_mapping = dict(layout_value["camera_to_label_view"])
+    by_id = {label.sample_id: label for label in labels}
+    if set(inputs.sample_id) != set(by_id):
+        raise ValueError("spatial features and binding-label sample IDs differ")
+    vocabulary = tuple(str(value).upper() for value in action_vocabulary)
+    id_to_action = {index: action for index, action in enumerate(vocabulary)}
+    targets = []
+    presence = []
+    sufficiency = []
+    sufficiency_mask = []
+    holding = []
+    holding_mask = []
+    region_empty = []
+    region_empty_mask = []
+    task_complete = []
+    task_complete_mask = []
+    for index, (sample_id, group, split) in enumerate(
+        zip(
+            inputs.sample_id,
+            inputs.initial_state_group,
+            inputs.split,
+            strict=True,
+        )
+    ):
+        label = by_id[sample_id]
+        if label.initial_state_group != group or label.split is not split:
+            raise ValueError("feature/binding-label group or split mismatch")
+        if label.executed_action != id_to_action[inputs.executed_action_id[index]]:
+            raise ValueError("public executed action and evaluator label differ")
+        targets.append(
+            _camera_patch_targets(
+                label=label,
+                layout=layout,
+                camera_to_label_view=camera_mapping,
+            )
+        )
+        presence.append(label.target_present_post)
+        sufficiency.append(bool(label.task_sufficient_post))
+        sufficiency_mask.append(label.task_sufficient_post is not None)
+        holding.append(bool(label.holding_requested_target_post))
+        holding_mask.append(label.holding_requested_target_post is not None)
+        region_empty.append(bool(label.region_confirmed_empty_post))
+        region_empty_mask.append(label.region_confirmed_empty_post is not None)
+        task_complete.append(bool(label.task_complete_post))
+        task_complete_mask.append(label.task_complete_post is not None)
+    patch_target = np.stack(targets).astype(np.float32)
+    if np.any((patch_target > 0) & ~inputs.image_valid_mask):
+        raise ValueError("binding target occupies an invalid frozen-prefix token")
+    return BindingArrays(
+        **{
+            field.name: getattr(inputs, field.name)
+            for field in dataclasses.fields(BindingInputs)
+        },
         patch_target=patch_target,
         target_present=np.asarray(presence, dtype=np.float32),
         task_sufficient=np.asarray(sufficiency, dtype=np.float32),
         task_sufficient_mask=np.asarray(sufficiency_mask, dtype=bool),
+        holding_requested_target=np.asarray(holding, dtype=np.float32),
+        holding_requested_target_mask=np.asarray(holding_mask, dtype=bool),
+        region_confirmed_empty=np.asarray(region_empty, dtype=np.float32),
+        region_confirmed_empty_mask=np.asarray(region_empty_mask, dtype=bool),
+        task_complete=np.asarray(task_complete, dtype=np.float32),
+        task_complete_mask=np.asarray(task_complete_mask, dtype=bool),
     )

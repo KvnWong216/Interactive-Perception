@@ -38,9 +38,7 @@ def test_binder_preserves_patch_axis_and_masks_invalid_tokens() -> None:
     assert outputs["spatial_logits"].shape == (2, 12)
     assert outputs["target_token"].shape == (2, 16)
     assert torch.isneginf(outputs["spatial_logits"][:, -2:]).all()
-    torch.testing.assert_close(
-        outputs["spatial_attention"].sum(dim=-1), torch.ones(2)
-    )
+    torch.testing.assert_close(outputs["spatial_attention"].sum(dim=-1), torch.ones(2))
 
     target = torch.zeros(2, 12)
     target[:, 3] = 1.0
@@ -49,12 +47,18 @@ def test_binder_preserves_patch_axis_and_masks_invalid_tokens() -> None:
         patch_target_distribution=target,
         target_present=torch.ones(2),
         task_sufficient=torch.zeros(2),
+        holding_requested_target=torch.zeros(2),
+        region_confirmed_empty=torch.zeros(2),
+        task_complete=torch.zeros(2),
         image_valid_mask=valid,
     )
     assert set(losses) == {
         "spatial_localization_loss",
         "target_presence_loss",
         "task_sufficiency_loss",
+        "holding_requested_target_loss",
+        "region_confirmed_empty_loss",
+        "task_complete_loss",
     }
     assert all(torch.isfinite(loss) for loss in losses.values())
     learned_objective = LearnedMultiTaskObjective()

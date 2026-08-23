@@ -29,12 +29,15 @@ class BinderHyperparameters:
     seed: int
 
     def __post_init__(self) -> None:
-        if min(
-            self.model_width,
-            self.num_heads,
-            self.epochs,
-            self.batch_size,
-        ) < 1:
+        if (
+            min(
+                self.model_width,
+                self.num_heads,
+                self.epochs,
+                self.batch_size,
+            )
+            < 1
+        ):
             raise ValueError("binder hyperparameters must be positive")
         if self.model_width % self.num_heads:
             raise ValueError("model_width must be divisible by num_heads")
@@ -73,9 +76,21 @@ def tensor_batch(values: BindingArrays, index: Any | None = None) -> dict[str, A
         "patch_target_distribution": torch.as_tensor(values.patch_target[selected]),
         "target_present": torch.as_tensor(values.target_present[selected]),
         "task_sufficient": torch.as_tensor(values.task_sufficient[selected]),
-        "task_sufficient_mask": torch.as_tensor(
-            values.task_sufficient_mask[selected]
+        "task_sufficient_mask": torch.as_tensor(values.task_sufficient_mask[selected]),
+        "holding_requested_target": torch.as_tensor(
+            values.holding_requested_target[selected]
         ),
+        "holding_requested_target_mask": torch.as_tensor(
+            values.holding_requested_target_mask[selected]
+        ),
+        "region_confirmed_empty": torch.as_tensor(
+            values.region_confirmed_empty[selected]
+        ),
+        "region_confirmed_empty_mask": torch.as_tensor(
+            values.region_confirmed_empty_mask[selected]
+        ),
+        "task_complete": torch.as_tensor(values.task_complete[selected]),
+        "task_complete_mask": torch.as_tensor(values.task_complete_mask[selected]),
     }
 
 
@@ -123,7 +138,9 @@ def probability_metrics(
         spatial_nll = None
         point_hit = None
         target_mass = None
-    presence_probability = torch.sigmoid(outputs["target_present_logit"]).detach().cpu().numpy()
+    presence_probability = (
+        torch.sigmoid(outputs["target_present_logit"]).detach().cpu().numpy()
+    )
     presence_truth = batch["target_present"].detach().cpu().numpy()
     presence_brier = float(np.mean((presence_probability - presence_truth) ** 2))
     presence_nll = float(
@@ -150,6 +167,35 @@ def probability_metrics(
         )
     else:
         sufficiency_brier = None
+    holding_mask = (
+        batch["holding_requested_target_mask"].detach().cpu().numpy().astype(bool)
+    )
+    if holding_mask.any():
+        holding_probability = (
+            torch.sigmoid(outputs["holding_requested_target_logit"])
+            .detach()
+            .cpu()
+            .numpy()
+        )
+        holding_truth = batch["holding_requested_target"].detach().cpu().numpy()
+        holding_brier = float(
+            np.mean(
+                (holding_probability[holding_mask] - holding_truth[holding_mask]) ** 2
+            )
+        )
+    else:
+        holding_brier = None
+    verifier_brier = {}
+    for name in ("region_confirmed_empty", "task_complete"):
+        support = batch[f"{name}_mask"].detach().cpu().numpy().astype(bool)
+        if support.any():
+            probability = torch.sigmoid(outputs[f"{name}_logit"]).detach().cpu().numpy()
+            truth = batch[name].detach().cpu().numpy()
+            verifier_brier[f"{name}_brier"] = float(
+                np.mean((probability[support] - truth[support]) ** 2)
+            )
+        else:
+            verifier_brier[f"{name}_brier"] = None
     return {
         "samples": len(presence_truth),
         "localized_samples": int(localized.sum()),
@@ -159,14 +205,29 @@ def probability_metrics(
         "presence_brier": presence_brier,
         "presence_nll": presence_nll,
         "sufficiency_brier": sufficiency_brier,
+        "holding_brier": holding_brier,
+        **verifier_brier,
         "raw": {
             "spatial_logits": outputs["spatial_logits"].detach().cpu().numpy(),
             "spatial_attention": spatial,
+            "target_token": outputs["target_token"].detach().cpu().numpy(),
             "target_present_logit": outputs["target_present_logit"]
             .detach()
             .cpu()
             .numpy(),
             "task_sufficiency_logit": outputs["task_sufficiency_logit"]
+            .detach()
+            .cpu()
+            .numpy(),
+            "holding_requested_target_logit": outputs["holding_requested_target_logit"]
+            .detach()
+            .cpu()
+            .numpy(),
+            "region_confirmed_empty_logit": outputs["region_confirmed_empty_logit"]
+            .detach()
+            .cpu()
+            .numpy(),
+            "task_complete_logit": outputs["task_complete_logit"]
             .detach()
             .cpu()
             .numpy(),
@@ -223,15 +284,26 @@ def train_binder(
                 task_sufficient=batch["task_sufficient"],
                 image_valid_mask=batch["image_valid_mask"],
                 task_sufficient_mask=batch["task_sufficient_mask"],
+                holding_requested_target=batch["holding_requested_target"],
+                holding_requested_target_mask=batch["holding_requested_target_mask"],
+                region_confirmed_empty=batch["region_confirmed_empty"],
+                region_confirmed_empty_mask=batch["region_confirmed_empty_mask"],
+                task_complete=batch["task_complete"],
+                task_complete_mask=batch["task_complete_mask"],
             )
             support = {
                 "spatial_localization_loss": bool(
                     (batch["patch_target_distribution"].sum(dim=1) > 0).any()
                 ),
                 "target_presence_loss": True,
-                "task_sufficiency_loss": bool(
-                    batch["task_sufficient_mask"].any()
+                "task_sufficiency_loss": bool(batch["task_sufficient_mask"].any()),
+                "holding_requested_target_loss": bool(
+                    batch["holding_requested_target_mask"].any()
                 ),
+                "region_confirmed_empty_loss": bool(
+                    batch["region_confirmed_empty_mask"].any()
+                ),
+                "task_complete_loss": bool(batch["task_complete_mask"].any()),
             }
             combined = objective(separate, supported=support)
             optimizer.zero_grad(set_to_none=True)
@@ -241,7 +313,9 @@ def train_binder(
         model.eval()
         objective.eval()
         with torch.no_grad():
-            metrics = probability_metrics(_forward(model, development_batch), development_batch)
+            metrics = probability_metrics(
+                _forward(model, development_batch), development_batch
+            )
         spatial_nll = metrics["spatial_nll"]
         if spatial_nll is None or not math.isfinite(spatial_nll):
             raise RuntimeError("development spatial NLL is unavailable")
@@ -250,7 +324,9 @@ def train_binder(
             {
                 "epoch": epoch + 1,
                 "mean_train_loss": float(np.mean(epoch_losses)),
-                "development": {key: value for key, value in metrics.items() if key != "raw"},
+                "development": {
+                    key: value for key, value in metrics.items() if key != "raw"
+                },
             }
         )
         if best is None or rank < best:

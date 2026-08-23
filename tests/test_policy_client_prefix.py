@@ -1,7 +1,10 @@
 import numpy as np
 import pytest
 
-from interactive_perception.policy_client import OpenPiWebsocketPolicy, ObservationPacket
+from interactive_perception.policy_client import (
+    ObservationPacket,
+    OpenPiWebsocketPolicy,
+)
 
 
 class FakeClient:
@@ -52,3 +55,21 @@ def test_cognitive_spatial_v5_request_has_frozen_shape() -> None:
 def test_stock_server_is_rejected_for_prefix_request() -> None:
     with pytest.raises(RuntimeError, match="extended server"):
         policy_with(FakeClient({"actions": np.zeros((10, 7))})).encode_prefix(packet())
+
+
+def test_full_spatial_prefix_response_preserves_every_token_and_span() -> None:
+    response = {
+        "schema_version": "piu.spatial-prefix-response.v1",
+        "camera_names": ["base_0_rgb", "left_wrist_0_rgb"],
+        "tokens_per_camera": [4, 4],
+        "image_tokens": np.ones((8, 16), dtype=np.float16),
+        "image_valid_mask": np.ones(8, dtype=bool),
+        "prompt_tokens": np.ones((5, 16), dtype=np.float16),
+        "prompt_valid_mask": np.ones(5, dtype=bool),
+    }
+    fake = FakeClient(response)
+    value = policy_with(fake).encode_spatial_prefix(packet())
+    assert value["image_tokens"].shape == (8, 16)
+    assert value["prompt_tokens"].shape == (5, 16)
+    assert value["tokens_per_camera"] == (4, 4)
+    assert fake.payload["__feature_schema"] == "spatial_prefix_v1"

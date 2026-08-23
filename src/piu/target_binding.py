@@ -37,14 +37,17 @@ if nn is not None:
             dropout: float = 0.0,
         ) -> None:
             super().__init__()
-            if min(
-                vlm_width,
-                model_width,
-                num_heads,
-                maximum_cameras,
-                maximum_time_steps,
-                maximum_action_types,
-            ) < 1:
+            if (
+                min(
+                    vlm_width,
+                    model_width,
+                    num_heads,
+                    maximum_cameras,
+                    maximum_time_steps,
+                    maximum_action_types,
+                )
+                < 1
+            ):
                 raise ValueError("all binder dimensions must be positive")
             if model_width % num_heads:
                 raise ValueError("model_width must be divisible by num_heads")
@@ -72,6 +75,9 @@ if nn is not None:
             self.target_value = nn.Linear(model_width, model_width)
             self.present_head = nn.Linear(2 * model_width, 1)
             self.sufficiency_head = nn.Linear(2 * model_width, 1)
+            self.holding_head = nn.Linear(2 * model_width, 1)
+            self.region_empty_head = nn.Linear(2 * model_width, 1)
+            self.task_complete_head = nn.Linear(2 * model_width, 1)
 
         def forward(
             self,
@@ -116,9 +122,10 @@ if nn is not None:
                 + self.time_embedding(temporal_ids)
             )
             prompt = self.prompt_projection(self.input_norm(prompt_tokens))
-            seed = self.prompt_seed.expand(batch, -1, -1) + self.action_embedding(
-                executed_action_ids
-            )[:, None, :]
+            seed = (
+                self.prompt_seed.expand(batch, -1, -1)
+                + self.action_embedding(executed_action_ids)[:, None, :]
+            )
             prompt_query, _ = self.prompt_readout(
                 seed,
                 prompt,
@@ -152,8 +159,12 @@ if nn is not None:
                 "target_token": target_token,
                 "target_present_logit": self.present_head(joint).squeeze(-1),
                 "task_sufficiency_logit": self.sufficiency_head(joint).squeeze(-1),
+                "holding_requested_target_logit": self.holding_head(joint).squeeze(-1),
+                "region_confirmed_empty_logit": self.region_empty_head(joint).squeeze(
+                    -1
+                ),
+                "task_complete_logit": self.task_complete_head(joint).squeeze(-1),
             }
-
 
     def binding_objectives(
         outputs: dict[str, torch.Tensor],
@@ -163,6 +174,12 @@ if nn is not None:
         task_sufficient: torch.Tensor,
         image_valid_mask: torch.Tensor,
         task_sufficient_mask: torch.Tensor | None = None,
+        holding_requested_target: torch.Tensor,
+        holding_requested_target_mask: torch.Tensor | None = None,
+        region_confirmed_empty: torch.Tensor,
+        region_confirmed_empty_mask: torch.Tensor | None = None,
+        task_complete: torch.Tensor,
+        task_complete_mask: torch.Tensor | None = None,
     ) -> dict[str, torch.Tensor]:
         """Return separate objectives; no hand-weighted total is hidden here."""
 
@@ -174,9 +191,7 @@ if nn is not None:
         localized = denominator.squeeze(-1) > 0
         normalized = target / denominator.clamp_min(1.0)
         log_probabilities = functional.log_softmax(logits, dim=-1)
-        log_probabilities = log_probabilities.masked_fill(
-            ~image_valid_mask.bool(), 0.0
-        )
+        log_probabilities = log_probabilities.masked_fill(~image_valid_mask.bool(), 0.0)
         per_row = -(normalized * log_probabilities).sum(dim=-1)
         spatial_loss = (
             per_row[localized].mean()
@@ -199,14 +214,58 @@ if nn is not None:
                 if supported.any()
                 else outputs["task_sufficiency_logit"].sum() * 0.0
             )
+        holding_elementwise = functional.binary_cross_entropy_with_logits(
+            outputs["holding_requested_target_logit"],
+            holding_requested_target.float(),
+            reduction="none",
+        )
+        if holding_requested_target_mask is None:
+            holding_loss = holding_elementwise.mean()
+        else:
+            if holding_requested_target_mask.shape != holding_requested_target.shape:
+                raise ValueError("holding_requested_target_mask shape mismatch")
+            holding_supported = holding_requested_target_mask.bool()
+            holding_loss = (
+                holding_elementwise[holding_supported].mean()
+                if holding_supported.any()
+                else outputs["holding_requested_target_logit"].sum() * 0.0
+            )
+
+        def masked_binary_loss(
+            *, logit_name: str, target: torch.Tensor, mask: torch.Tensor | None
+        ) -> torch.Tensor:
+            elementwise = functional.binary_cross_entropy_with_logits(
+                outputs[logit_name], target.float(), reduction="none"
+            )
+            if mask is None:
+                return elementwise.mean()
+            if mask.shape != target.shape:
+                raise ValueError(f"{logit_name} support-mask shape mismatch")
+            supported = mask.bool()
+            return (
+                elementwise[supported].mean()
+                if supported.any()
+                else outputs[logit_name].sum() * 0.0
+            )
+
         return {
             "spatial_localization_loss": spatial_loss,
             "target_presence_loss": functional.binary_cross_entropy_with_logits(
                 outputs["target_present_logit"], target_present.float()
             ),
             "task_sufficiency_loss": sufficiency_loss,
+            "holding_requested_target_loss": holding_loss,
+            "region_confirmed_empty_loss": masked_binary_loss(
+                logit_name="region_confirmed_empty_logit",
+                target=region_confirmed_empty,
+                mask=region_confirmed_empty_mask,
+            ),
+            "task_complete_loss": masked_binary_loss(
+                logit_name="task_complete_logit",
+                target=task_complete,
+                mask=task_complete_mask,
+            ),
         }
-
 
     class LearnedMultiTaskObjective(nn.Module):
         """Learn task scales instead of hiding hand-selected loss weights."""
@@ -215,6 +274,9 @@ if nn is not None:
             "spatial_localization_loss",
             "target_presence_loss",
             "task_sufficiency_loss",
+            "holding_requested_target_loss",
+            "region_confirmed_empty_loss",
+            "task_complete_loss",
         )
 
         def __init__(self) -> None:

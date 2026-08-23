@@ -103,12 +103,22 @@ def main() -> None:
         "split",
         "image_valid_mask",
         "spatial_logits",
+        "target_token",
         "target_present_logit",
         "task_sufficiency_logit",
+        "holding_requested_target_logit",
         "patch_target",
         "target_present",
         "task_sufficient",
         "task_sufficient_mask",
+        "holding_requested_target",
+        "holding_requested_target_mask",
+        "region_confirmed_empty_logit",
+        "region_confirmed_empty",
+        "region_confirmed_empty_mask",
+        "task_complete_logit",
+        "task_complete",
+        "task_complete_mask",
     }
     if set(values) != required:
         raise ValueError("sealed prediction arrays differ from the frozen schema")
@@ -121,9 +131,7 @@ def main() -> None:
     )
     if sealed_groups & calibration_groups:
         raise ValueError("sealed-test groups overlap calibration groups")
-    alphas = [
-        float(value) for value in calibration["risk_contract"]["reported_alpha"]
-    ]
+    alphas = [float(value) for value in calibration["risk_contract"]["reported_alpha"]]
 
     spatial_temperature = float(calibration["spatial"]["temperature"])
     spatial_probability = spatial_probabilities(
@@ -165,6 +173,48 @@ def main() -> None:
             "reason": calibration["task_sufficiency"]["reason"],
             "sealed_labeled": int(sufficiency_mask.sum()),
         }
+    holding_mask = values["holding_requested_target_mask"].astype(bool)
+    if calibration["holding_requested_target"].get("status") == "SUPPORTED":
+        if not holding_mask.any():
+            raise ValueError("sealed test has no supported holding-state labels")
+        holding = {
+            "status": "SUPPORTED",
+            **evaluate_binary(
+                section=calibration["holding_requested_target"],
+                logits=values["holding_requested_target_logit"][holding_mask],
+                truth=values["holding_requested_target"][holding_mask],
+                alphas=alphas,
+            ),
+        }
+    else:
+        holding = {
+            "status": "UNSUPPORTED",
+            "reason": calibration["holding_requested_target"]["reason"],
+            "sealed_labeled": int(holding_mask.sum()),
+        }
+
+    def optional_verifier(name: str) -> dict:
+        mask = values[f"{name}_mask"].astype(bool)
+        if calibration[name].get("status") == "SUPPORTED":
+            if not mask.any():
+                raise ValueError(f"sealed test has no supported {name} labels")
+            return {
+                "status": "SUPPORTED",
+                **evaluate_binary(
+                    section=calibration[name],
+                    logits=values[f"{name}_logit"][mask],
+                    truth=values[name][mask],
+                    alphas=alphas,
+                ),
+            }
+        return {
+            "status": "UNSUPPORTED",
+            "reason": calibration[name]["reason"],
+            "sealed_labeled": int(mask.sum()),
+        }
+
+    region_empty = optional_verifier("region_confirmed_empty")
+    task_complete = optional_verifier("task_complete")
     result = {
         "schema_version": "piu.target-binder-sealed-evaluation.v1",
         "claim_scope": "SEALED_TARGET_BINDING_EVIDENCE",
@@ -190,6 +240,9 @@ def main() -> None:
         },
         "target_presence": presence,
         "task_sufficiency": sufficiency,
+        "holding_requested_target": holding,
+        "region_confirmed_empty": region_empty,
+        "task_complete": task_complete,
         "calibration_groups_loaded_for_model_selection": False,
         "sealed_test_opened": True,
         "paper_method_claim_allowed": False,

@@ -7,12 +7,17 @@ import argparse
 import hashlib
 import json
 import math
+import sys
 from pathlib import Path
 from typing import Any
 
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+
+from piu.policy_identity import load_checkpoint_identity, validate_server_metadata
+
 V1_SCHEMA = "calibrated-interaction.oracle-target-prompt-gate.v1"
 V2_SCHEMA = "calibrated-interaction.oracle-target-prompt-pilot.v2"
 SCHEMAS = frozenset((V1_SCHEMA, V2_SCHEMA))
@@ -117,15 +122,12 @@ def validate_oracle_report(
     if controller["server_mode"] != "external":
         raise ValueError(f"{path}: oracle run did not use an external server")
     identity_path = ROOT / config["resource_contract"]["checkpoint_identity"]
-    identity = json.loads(identity_path.read_text())
-    expected_server_metadata = {
-        "schema_version": config["resource_contract"]["identified_server_schema"],
-        "policy_config": identity["policy_config"],
-        "environment": "LIBERO",
-        "checkpoint": identity["checkpoint"],
-    }
-    if controller["server_metadata"] != expected_server_metadata:
-        raise ValueError(f"{path}: frozen policy server identity mismatch")
+    try:
+        validate_server_metadata(
+            controller["server_metadata"], load_checkpoint_identity(identity_path)
+        )
+    except ValueError as error:
+        raise ValueError(f"{path}: frozen policy server identity mismatch") from error
     if len(controller["online_oracle_inputs"]) != 2:
         raise ValueError(f"{path}: incomplete online oracle declaration")
     oracle = controller["oracle_visual_prompt"]

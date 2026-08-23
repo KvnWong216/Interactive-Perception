@@ -62,12 +62,22 @@ def load_predictions(path: Path, report_path: Path, *, role: str):
         "split",
         "image_valid_mask",
         "spatial_logits",
+        "target_token",
         "target_present_logit",
         "task_sufficiency_logit",
+        "holding_requested_target_logit",
         "patch_target",
         "target_present",
         "task_sufficient",
         "task_sufficient_mask",
+        "holding_requested_target",
+        "holding_requested_target_mask",
+        "region_confirmed_empty_logit",
+        "region_confirmed_empty",
+        "region_confirmed_empty_mask",
+        "task_complete_logit",
+        "task_complete",
+        "task_complete_mask",
     }
     if set(arrays) != required:
         raise ValueError(f"prediction arrays differ: {sorted(set(arrays) ^ required)}")
@@ -115,6 +125,40 @@ def binary_calibrator(
         },
         "conformal": sets,
     }
+
+
+def optional_binary_calibrator(
+    *,
+    name: str,
+    temperature: dict[str, np.ndarray],
+    conformal: dict[str, np.ndarray],
+    alphas: list[float],
+) -> dict:
+    """Fit one nullable verifier only when both isolated roles span both classes."""
+
+    temperature_mask = temperature[f"{name}_mask"].astype(bool)
+    conformal_mask = conformal[f"{name}_mask"].astype(bool)
+    supported = set(temperature[name][temperature_mask].tolist()) == {
+        0.0,
+        1.0,
+    } and set(conformal[name][conformal_mask].tolist()) == {0.0, 1.0}
+    if not supported:
+        return {
+            "status": "UNSUPPORTED",
+            "reason": (
+                "both calibration roles require labeled positive and negative examples"
+            ),
+            "temperature_labeled": int(temperature_mask.sum()),
+            "conformal_labeled": int(conformal_mask.sum()),
+        }
+    return binary_calibrator(
+        name=name,
+        temperature_logits=temperature[f"{name}_logit"][temperature_mask],
+        temperature_truth=temperature[name][temperature_mask],
+        conformal_logits=conformal[f"{name}_logit"][conformal_mask],
+        conformal_truth=conformal[name][conformal_mask],
+        alphas=alphas,
+    )
 
 
 def main() -> None:
@@ -201,12 +245,11 @@ def main() -> None:
     )
     temperature_sufficiency_mask = temperature["task_sufficient_mask"].astype(bool)
     conformal_sufficiency_mask = conformal["task_sufficient_mask"].astype(bool)
-    supported_sufficiency = (
-        set(temperature["task_sufficient"][temperature_sufficiency_mask].tolist())
-        == {0.0, 1.0}
-        and set(conformal["task_sufficient"][conformal_sufficiency_mask].tolist())
-        == {0.0, 1.0}
-    )
+    supported_sufficiency = set(
+        temperature["task_sufficient"][temperature_sufficiency_mask].tolist()
+    ) == {0.0, 1.0} and set(
+        conformal["task_sufficient"][conformal_sufficiency_mask].tolist()
+    ) == {0.0, 1.0}
     if supported_sufficiency:
         sufficiency = binary_calibrator(
             name="task_sufficiency",
@@ -219,9 +262,7 @@ def main() -> None:
             conformal_logits=conformal["task_sufficiency_logit"][
                 conformal_sufficiency_mask
             ],
-            conformal_truth=conformal["task_sufficient"][
-                conformal_sufficiency_mask
-            ],
+            conformal_truth=conformal["task_sufficient"][conformal_sufficiency_mask],
             alphas=alphas,
         )
     else:
@@ -231,6 +272,49 @@ def main() -> None:
             "temperature_labeled": int(temperature_sufficiency_mask.sum()),
             "conformal_labeled": int(conformal_sufficiency_mask.sum()),
         }
+    temperature_holding_mask = temperature["holding_requested_target_mask"].astype(bool)
+    conformal_holding_mask = conformal["holding_requested_target_mask"].astype(bool)
+    supported_holding = set(
+        temperature["holding_requested_target"][temperature_holding_mask].tolist()
+    ) == {0.0, 1.0} and set(
+        conformal["holding_requested_target"][conformal_holding_mask].tolist()
+    ) == {0.0, 1.0}
+    if supported_holding:
+        holding = binary_calibrator(
+            name="holding_requested_target",
+            temperature_logits=temperature["holding_requested_target_logit"][
+                temperature_holding_mask
+            ],
+            temperature_truth=temperature["holding_requested_target"][
+                temperature_holding_mask
+            ],
+            conformal_logits=conformal["holding_requested_target_logit"][
+                conformal_holding_mask
+            ],
+            conformal_truth=conformal["holding_requested_target"][
+                conformal_holding_mask
+            ],
+            alphas=alphas,
+        )
+    else:
+        holding = {
+            "status": "UNSUPPORTED",
+            "reason": "both calibration roles require labeled positive and negative examples",
+            "temperature_labeled": int(temperature_holding_mask.sum()),
+            "conformal_labeled": int(conformal_holding_mask.sum()),
+        }
+    region_empty = optional_binary_calibrator(
+        name="region_confirmed_empty",
+        temperature=temperature,
+        conformal=conformal,
+        alphas=alphas,
+    )
+    task_complete = optional_binary_calibrator(
+        name="task_complete",
+        temperature=temperature,
+        conformal=conformal,
+        alphas=alphas,
+    )
     artifact = {
         "schema_version": "piu.target-binder-calibration.v1",
         "claim_scope": "CALIBRATION_ARTIFACT_NOT_SEALED_TEST_EVIDENCE",
@@ -272,6 +356,9 @@ def main() -> None:
         },
         "target_presence": presence,
         "task_sufficiency": sufficiency,
+        "holding_requested_target": holding,
+        "region_confirmed_empty": region_empty,
+        "task_complete": task_complete,
         "temperature_conformal_groups_disjoint": True,
         "model_selection_groups_loaded": False,
         "sealed_test_loaded": False,

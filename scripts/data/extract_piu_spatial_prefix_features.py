@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from piu.contracts import load_public_transitions
+from piu.contracts import load_public_transitions, public_observation_sha256
 
 
 def sha256(path: Path) -> str:
@@ -27,6 +27,38 @@ def portable(path: Path) -> str:
         return str(resolved.relative_to(ROOT))
     except ValueError:
         return str(resolved)
+
+
+def public_executed_action(row) -> str:
+    """Read the semantic primitive from public history, never a teacher label."""
+
+    history = row.public_action_history
+    candidate = history.get("last_executed_candidate")
+    if history.get("initial_observation") is True:
+        if candidate is not None:
+            raise ValueError(
+                f"{row.sample_id}: initial observation cannot declare an executed candidate"
+            )
+        return "INITIAL_OBSERVATION"
+    if not isinstance(candidate, dict):
+        raise TypeError(
+            f"{row.sample_id}: public history lacks last_executed_candidate"
+        )
+    primitive = " ".join(str(candidate.get("primitive", "")).split()).upper()
+    candidate_id = " ".join(str(candidate.get("candidate_id", "")).split())
+    if not primitive or not candidate_id:
+        raise ValueError(
+            f"{row.sample_id}: public executed candidate identity is incomplete"
+        )
+    public_candidates = {
+        (str(item.get("candidate_id", "")), str(item.get("primitive", "")).upper())
+        for item in row.candidate_actions
+    }
+    if (candidate_id, primitive) not in public_candidates:
+        raise ValueError(
+            f"{row.sample_id}: executed candidate is absent from public candidates"
+        )
+    return primitive
 
 
 def main() -> None:
@@ -85,6 +117,7 @@ def main() -> None:
 
     from piu.spatial_prefix import (
         PrefixLayout,
+        candidate_conditioned_prompt,
         libero_camera_to_label_view,
         validate_feature_arrays,
     )
@@ -112,21 +145,44 @@ def main() -> None:
     encoder = FullPrefixEncoder(policy._model)
     encode = nnx_utils.module_jit(encoder.encode)
 
-    def transformed(row, time_step: str):
+    def transformed(row, time_step: str, *, prompt: str | None = None):
         observation = row.observations[time_step]
         images = observation["images"]
-        agentview = imageio.imread(ROOT / images["agentview"]["path"])
-        wrist_key = (
-            "wrist" if "wrist" in images else "robot0_eye_in_hand"
-        )
-        wrist = imageio.imread(ROOT / images[wrist_key]["path"])
+        agentview_path = ROOT / images["agentview"]["path"]
+        wrist_key = "wrist" if "wrist" in images else "robot0_eye_in_hand"
+        wrist_path = ROOT / images[wrist_key]["path"]
+        for path, expected in (
+            (agentview_path, images["agentview"]["sha256"]),
+            (wrist_path, images[wrist_key]["sha256"]),
+        ):
+            if sha256(path) != expected:
+                raise ValueError(
+                    f"public observation image differs from manifest: {path}"
+                )
+        agentview = imageio.imread(agentview_path)
+        wrist = imageio.imread(wrist_path)
+        for pixels, item, path in (
+            (agentview, images["agentview"], agentview_path),
+            (wrist, images[wrist_key], wrist_path),
+        ):
+            declared_pixel = item.get("pixel_sha256")
+            if (
+                declared_pixel is not None
+                and hashlib.sha256(
+                    np.ascontiguousarray(pixels, dtype=np.uint8).tobytes()
+                ).hexdigest()
+                != declared_pixel
+            ):
+                raise ValueError(
+                    f"public observation pixels differ from manifest: {path}"
+                )
         state = np.asarray(observation["public_robot_state"], dtype=np.float32)
         value = policy._input_transform(
             {
                 "observation/image": agentview,
                 "observation/wrist_image": wrist,
                 "observation/state": state,
-                "prompt": row.prompt,
+                "prompt": row.prompt if prompt is None else prompt,
             }
         )
         return jax.tree.map(jnp.asarray, value)
@@ -180,6 +236,89 @@ def main() -> None:
         prompt_by_time.append(np.concatenate(prompt_parts, axis=0))
         prompt_mask_by_time.append(np.concatenate(prompt_mask_parts, axis=0))
 
+    candidate_specs = [
+        (sample_index, candidate_index, row, candidate)
+        for sample_index, row in enumerate(rows)
+        for candidate_index, candidate in enumerate(row.candidate_actions)
+    ]
+    maximum_candidates = max(len(row.candidate_actions) for row in rows)
+    candidate_prompt_by_time: list[np.ndarray] = []
+    candidate_prompt_mask_by_time: list[np.ndarray] = []
+    for time_step in ("pre_interaction", "post_interaction"):
+        token_parts: list[np.ndarray] = []
+        mask_parts: list[np.ndarray] = []
+        for start in range(0, len(candidate_specs), args.batch_size):
+            real_specs = candidate_specs[start : start + args.batch_size]
+            real_size = len(real_specs)
+            padded = real_specs + [real_specs[-1]] * (args.batch_size - real_size)
+            values = [
+                transformed(
+                    row,
+                    time_step,
+                    prompt=candidate_conditioned_prompt(row.prompt, candidate),
+                )
+                for _, _, row, candidate in padded
+            ]
+            batch = jax.tree.map(lambda *items: jnp.stack(items), *values)
+            observation = model_lib.Observation.from_dict(batch)
+            prefix, mask = encode(observation)
+            token_parts.append(
+                np.asarray(prefix, dtype=np.float16)[:real_size, image_token_count:]
+            )
+            mask_parts.append(
+                np.asarray(mask, dtype=bool)[:real_size, image_token_count:]
+            )
+        candidate_prompt_by_time.append(np.concatenate(token_parts, axis=0))
+        candidate_prompt_mask_by_time.append(np.concatenate(mask_parts, axis=0))
+    flat_candidate_prompt = np.stack(candidate_prompt_by_time, axis=1)
+    flat_candidate_prompt_mask = np.stack(candidate_prompt_mask_by_time, axis=1)
+    candidate_prompt = np.zeros(
+        (
+            len(rows),
+            maximum_candidates,
+            *flat_candidate_prompt.shape[1:],
+        ),
+        dtype=np.float16,
+    )
+    candidate_prompt_mask = np.zeros(
+        (
+            len(rows),
+            maximum_candidates,
+            *flat_candidate_prompt_mask.shape[1:],
+        ),
+        dtype=bool,
+    )
+    candidate_valid = np.zeros((len(rows), maximum_candidates), dtype=bool)
+    candidate_id = np.full((len(rows), maximum_candidates), "", dtype="U256")
+    candidate_primitive = np.full((len(rows), maximum_candidates), "", dtype="U64")
+    serialized_candidates = [
+        json.dumps(dict(candidate), sort_keys=True, separators=(",", ":"))
+        for row in rows
+        for candidate in row.candidate_actions
+    ]
+    candidate_payload = np.full(
+        (len(rows), maximum_candidates),
+        "",
+        dtype=f"U{max(1, max(map(len, serialized_candidates)))}",
+    )
+    for flat_index, (sample_index, candidate_index, _, candidate) in enumerate(
+        candidate_specs
+    ):
+        candidate_prompt[sample_index, candidate_index] = flat_candidate_prompt[
+            flat_index
+        ]
+        candidate_prompt_mask[sample_index, candidate_index] = (
+            flat_candidate_prompt_mask[flat_index]
+        )
+        candidate_valid[sample_index, candidate_index] = True
+        candidate_id[sample_index, candidate_index] = str(candidate["candidate_id"])
+        candidate_primitive[sample_index, candidate_index] = str(
+            candidate["primitive"]
+        ).upper()
+        candidate_payload[sample_index, candidate_index] = json.dumps(
+            dict(candidate), sort_keys=True, separators=(",", ":")
+        )
+
     arrays = {
         "image_tokens": np.stack(image_by_time, axis=1),
         "image_valid_mask": np.stack(image_mask_by_time, axis=1),
@@ -188,10 +327,24 @@ def main() -> None:
         "patch_xy": patch_xy,
         "camera_id": camera_id,
         "sample_id": np.asarray([row.sample_id for row in rows]),
-        "initial_state_group": np.asarray(
-            [row.initial_state_group for row in rows]
-        ),
+        "initial_state_group": np.asarray([row.initial_state_group for row in rows]),
         "split": np.asarray([row.split.value for row in rows]),
+        "executed_action": np.asarray([public_executed_action(row) for row in rows]),
+        # Provenance-only alignment key. The effect model never consumes this
+        # array; the evaluator-label join uses it to prohibit post-outcome
+        # leakage and wrong-state counterfactuals.
+        "decision_observation_sha256": np.asarray(
+            [
+                public_observation_sha256(row.observations["post_interaction"])
+                for row in rows
+            ]
+        ),
+        "candidate_prompt_tokens": candidate_prompt,
+        "candidate_prompt_valid_mask": candidate_prompt_mask,
+        "candidate_valid_mask": candidate_valid,
+        "candidate_id": candidate_id,
+        "candidate_primitive": candidate_primitive,
+        "candidate_payload": candidate_payload,
     }
     validate_feature_arrays(arrays)
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -236,8 +389,12 @@ def main() -> None:
             "camera_to_label_view": camera_to_label_view,
             "spatial_coordinates_retained": True,
             "temporal_order": ["pre_interaction", "post_interaction"],
+            "candidate_prompt_serialization": "piu.public-candidate-prompt.v1",
+            "candidate_prompt_tokens_retained": True,
         },
-        "arrays": {name: list(np.asarray(value).shape) for name, value in arrays.items()},
+        "arrays": {
+            name: list(np.asarray(value).shape) for name, value in arrays.items()
+        },
         "pooling": None,
         "online_oracle_inputs": [],
         "execution_location": "external_gpu",

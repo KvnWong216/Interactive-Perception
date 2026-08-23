@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import dataclasses
+import json
 import math
 from collections.abc import Mapping, Sequence
 from typing import Any
 
 import numpy as np
+
+from .contracts import assert_public_policy_value
 
 
 @dataclasses.dataclass(frozen=True)
@@ -81,6 +84,7 @@ def validate_feature_arrays(arrays: Mapping[str, Any]) -> None:
         "sample_id",
         "initial_state_group",
         "split",
+        "executed_action",
     }
     missing = required - set(arrays)
     if missing:
@@ -108,9 +112,49 @@ def validate_feature_arrays(arrays: Mapping[str, Any]) -> None:
     if not np.isfinite(patch_xy).all() or np.any((patch_xy < 0) | (patch_xy > 1)):
         raise ValueError("patch coordinates must be finite and normalized")
     count = image.shape[0]
-    for name in ("sample_id", "initial_state_group", "split"):
+    for name in ("sample_id", "initial_state_group", "split", "executed_action"):
         if np.asarray(arrays[name]).shape != (count,):
             raise ValueError(f"{name} must have shape [N]")
+    executed = np.char.upper(np.asarray(arrays["executed_action"]).astype(str))
+    if any(not " ".join(value.split()) for value in executed.tolist()):
+        raise ValueError("executed_action must contain public semantic primitives")
+    candidate_names = {
+        "candidate_prompt_tokens",
+        "candidate_prompt_valid_mask",
+        "candidate_valid_mask",
+        "candidate_id",
+        "candidate_primitive",
+        "candidate_payload",
+    }
+    present_candidate_names = candidate_names & set(arrays)
+    if present_candidate_names and present_candidate_names != candidate_names:
+        raise ValueError(
+            "candidate-prefix arrays must be all present or all absent"
+        )
+    if present_candidate_names:
+        candidate = np.asarray(arrays["candidate_prompt_tokens"])
+        candidate_mask = np.asarray(arrays["candidate_prompt_valid_mask"])
+        candidate_valid = np.asarray(arrays["candidate_valid_mask"])
+        if candidate.ndim != 5:
+            raise ValueError(
+                "candidate_prompt_tokens must have shape [N,candidate,time,tokens,width]"
+            )
+        if candidate.shape[:1] != (count,) or candidate.shape[2] != image.shape[1]:
+            raise ValueError("candidate prefix batch/time shape mismatch")
+        if candidate.shape[-1] != image.shape[-1]:
+            raise ValueError("candidate/task prefix widths differ")
+        if candidate_mask.shape != candidate.shape[:-1]:
+            raise ValueError("candidate_prompt_valid_mask shape mismatch")
+        if candidate_valid.shape != candidate.shape[:2]:
+            raise ValueError("candidate_valid_mask shape mismatch")
+        for name in ("candidate_id", "candidate_primitive", "candidate_payload"):
+            if np.asarray(arrays[name]).shape != candidate.shape[:2]:
+                raise ValueError(f"{name} shape mismatch")
+        padded = ~candidate_valid.astype(bool)
+        if candidate_mask[padded].any():
+            raise ValueError("padded candidates contain valid prompt tokens")
+        if not np.isfinite(candidate).all():
+            raise ValueError("candidate prefix tensor contains non-finite values")
 
 
 def libero_camera_to_label_view(camera_names: Sequence[str]) -> dict[str, str | None]:
@@ -125,3 +169,35 @@ def libero_camera_to_label_view(camera_names: Sequence[str]) -> dict[str, str | 
     if unknown:
         raise ValueError(f"unknown pi05 LIBERO camera keys: {sorted(unknown)}")
     return {name: contract[name] for name in camera_names}
+
+
+def candidate_conditioned_prompt(
+    task_prompt: str, candidate: Mapping[str, Any]
+) -> str:
+    """Serialize only public candidate fields into the frozen text interface."""
+
+    assert_public_policy_value(candidate, path="spatial_prefix.candidate")
+    task = " ".join(str(task_prompt).split())
+    candidate_id = " ".join(str(candidate.get("candidate_id", "")).split())
+    primitive = " ".join(str(candidate.get("primitive", "")).split()).upper()
+    target = " ".join(str(candidate.get("target", "")).split())
+    if not task or not candidate_id or not primitive or not target:
+        raise ValueError("task and candidate identity/primitive/target are required")
+    lines = [
+        f"Task: {task}",
+        f"Candidate ID: {candidate_id}",
+        f"Candidate primitive: {primitive}",
+        f"Candidate target: {target}",
+    ]
+    for key, label in (("reference", "Reference"), ("purpose", "Purpose")):
+        value = " ".join(str(candidate.get(key, "") or "").split())
+        if value:
+            lines.append(f"{label}: {value}")
+    handled = {"candidate_id", "primitive", "target", "reference", "purpose"}
+    for key in sorted(set(candidate) - handled):
+        value = json.dumps(
+            candidate[key], sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        )
+        lines.append(f"Candidate public field {key}: {value}")
+    lines.append("Predict the task-relevant physical effect of executing this candidate.")
+    return "\n".join(lines)

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import dataclasses
+import hashlib
 import json
 import math
 from collections.abc import Mapping, Sequence
@@ -53,11 +54,64 @@ def assert_public_policy_value(value: Any, *, path: str = "policy_input") -> Non
             if any(fragment in normalized for fragment in _FORBIDDEN_POLICY_KEYS):
                 raise ValueError(f"evaluator-only policy field at {path}.{key}")
             assert_public_policy_value(child, path=f"{path}.{key}")
-    elif isinstance(value, Sequence) and not isinstance(
-        value, (str, bytes, bytearray)
-    ):
+    elif isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
         for index, child in enumerate(value):
             assert_public_policy_value(child, path=f"{path}[{index}]")
+
+
+def public_observation_sha256(value: Mapping[str, Any]) -> str:
+    """Hash one public observation without importing evaluator provenance.
+
+    The digest binds the image content digests and public robot state used at a
+    decision boundary. It is provenance only and is never tokenized by a model.
+    """
+
+    assert_public_policy_value(value, path="public_observation")
+    images = value.get("images")
+    state = value.get("public_robot_state")
+    if not isinstance(images, Mapping) or not images:
+        raise ValueError("public observation needs a non-empty image mapping")
+    normalized_images: dict[str, dict[str, str]] = {}
+    for camera, item in images.items():
+        if not isinstance(item, Mapping):
+            raise TypeError("public observation image entries must be mappings")
+        file_digest = str(item.get("sha256", ""))
+        pixel_digest = item.get("pixel_sha256")
+        for name, digest in (
+            ("file", file_digest),
+            ("pixel", pixel_digest),
+        ):
+            if digest is None:
+                continue
+            if (
+                not isinstance(digest, str)
+                or len(digest) != 64
+                or any(character not in "0123456789abcdef" for character in digest)
+            ):
+                raise ValueError(
+                    f"public observation image {name} digest must be lowercase SHA-256"
+                )
+        # Prospective captures carry a canonical decoded-RGB digest. Retained
+        # artifacts without it remain readable, but their file digest is tagged
+        # as a legacy representation so the two domains cannot collide.
+        normalized_images[str(camera)] = {
+            "kind": "decoded_rgb_u8" if pixel_digest is not None else "legacy_file",
+            "sha256": str(pixel_digest or file_digest),
+        }
+    if not isinstance(state, Sequence) or isinstance(state, (str, bytes)):
+        raise TypeError("public robot state must be a numeric sequence")
+    normalized_state = [float(item) for item in state]
+    if not normalized_state or any(
+        not math.isfinite(item) for item in normalized_state
+    ):
+        raise ValueError("public robot state must be finite and non-empty")
+    canonical = json.dumps(
+        {"images": normalized_images, "public_robot_state": normalized_state},
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
+    )
+    return hashlib.sha256(canonical.encode()).hexdigest()
 
 
 @dataclasses.dataclass(frozen=True)
@@ -90,11 +144,24 @@ class PublicTransition:
             online_oracle_inputs=tuple(value.get("online_oracle_inputs", ())),
         )
         if set(row.observations) != {"pre_interaction", "post_interaction"}:
-            raise ValueError("observations require pre_interaction and post_interaction")
+            raise ValueError(
+                "observations require pre_interaction and post_interaction"
+            )
         if not row.candidate_actions:
             raise ValueError("at least one public candidate action is required")
         if row.online_oracle_inputs:
             raise ValueError("public transition declares online oracle inputs")
+        initial_observation = row.public_action_history.get("initial_observation")
+        last_candidate = row.public_action_history.get("last_executed_candidate")
+        if initial_observation is True:
+            if last_candidate is not None:
+                raise ValueError(
+                    "initial public observation cannot have an executed candidate"
+                )
+        elif initial_observation not in (None, False):
+            raise TypeError("initial_observation history flag must be boolean")
+        public_observation_sha256(row.observations["pre_interaction"])
+        public_observation_sha256(row.observations["post_interaction"])
         assert_public_policy_value(row.policy_input())
         return row
 
@@ -201,9 +268,7 @@ class EvaluatorSidecar:
                 value.get("wrong_object_grasp_contact", False)
             ),
             target_maximum_lift_m=lift,
-            target_destination_final=bool(
-                value.get("target_destination_final", False)
-            ),
+            target_destination_final=bool(value.get("target_destination_final", False)),
             task_success=bool(value.get("task_success", False)),
             provenance=dict(value.get("provenance", {})),
         )

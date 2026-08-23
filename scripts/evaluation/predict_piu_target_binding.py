@@ -70,11 +70,11 @@ def main() -> None:
     parser.add_argument("--feature-report", type=Path, required=True)
     parser.add_argument("--labels", type=Path, required=True)
     parser.add_argument(
-        "--expected-split", choices=("calibration", "sealed_test"), required=True
+        "--expected-split",
+        choices=("train", "development", "calibration", "sealed_test"),
+        required=True,
     )
-    parser.add_argument(
-        "--calibration-role", choices=("temperature", "conformal")
-    )
+    parser.add_argument("--calibration-role", choices=("temperature", "conformal"))
     parser.add_argument("--sealed-authorization", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -95,9 +95,9 @@ def main() -> None:
     expected_split = Split(args.expected_split)
     if expected_split is Split.CALIBRATION and args.calibration_role is None:
         raise ValueError("calibration predictions require an isolated role")
+    if expected_split is not Split.CALIBRATION and args.calibration_role is not None:
+        raise ValueError("only calibration predictions have a calibration role")
     if expected_split is Split.SEALED_TEST:
-        if args.calibration_role is not None:
-            raise ValueError("sealed test cannot be assigned a calibration role")
         if args.sealed_authorization is None:
             raise ValueError("sealed test requires a frozen authorization manifest")
         authorization = verify_sealed_authorization(
@@ -109,7 +109,9 @@ def main() -> None:
         )
     else:
         if args.sealed_authorization is not None:
-            raise ValueError("calibration inference cannot consume sealed authorization")
+            raise ValueError(
+                "calibration inference cannot consume sealed authorization"
+            )
         authorization = None
 
     training_report = json.loads(args.training_report.read_text())
@@ -139,12 +141,17 @@ def main() -> None:
     observed_splits = set(bundle.split)
     if observed_splits != {expected_split}:
         raise ValueError("prediction bundle does not match its declared split")
-    prior_groups = set(
-        training_report["initial_state_groups"]["train"]
-        + training_report["initial_state_groups"]["development"]
-    )
-    if prior_groups & set(bundle.initial_state_group):
-        raise ValueError("evaluation groups overlap model-selection groups")
+    group_contract = training_report["initial_state_groups"]
+    bundle_groups = set(bundle.initial_state_group)
+    if expected_split in {Split.TRAIN, Split.DEVELOPMENT}:
+        if bundle_groups - set(group_contract[expected_split.value]):
+            raise ValueError(
+                "model-selection feature groups differ from training report"
+            )
+    else:
+        prior_groups = set(group_contract["train"] + group_contract["development"])
+        if prior_groups & bundle_groups:
+            raise ValueError("evaluation groups overlap model-selection groups")
     model = PromptConditionedTargetBinder(**checkpoint["model"])
     model.load_state_dict(checkpoint["model_state"], strict=True)
     model.cpu().eval()
@@ -168,19 +175,37 @@ def main() -> None:
         split=np.asarray([value.value for value in bundle.split]),
         image_valid_mask=bundle.image_valid_mask,
         spatial_logits=outputs["spatial_logits"].cpu().numpy(),
+        target_token=outputs["target_token"].cpu().numpy(),
         target_present_logit=outputs["target_present_logit"].cpu().numpy(),
         task_sufficiency_logit=outputs["task_sufficiency_logit"].cpu().numpy(),
+        holding_requested_target_logit=outputs["holding_requested_target_logit"]
+        .cpu()
+        .numpy(),
+        region_confirmed_empty_logit=outputs["region_confirmed_empty_logit"]
+        .cpu()
+        .numpy(),
+        task_complete_logit=outputs["task_complete_logit"].cpu().numpy(),
         patch_target=bundle.patch_target,
         target_present=bundle.target_present,
         task_sufficient=bundle.task_sufficient,
         task_sufficient_mask=bundle.task_sufficient_mask,
+        holding_requested_target=bundle.holding_requested_target,
+        holding_requested_target_mask=bundle.holding_requested_target_mask,
+        region_confirmed_empty=bundle.region_confirmed_empty,
+        region_confirmed_empty_mask=bundle.region_confirmed_empty_mask,
+        task_complete=bundle.task_complete,
+        task_complete_mask=bundle.task_complete_mask,
     )
     report = {
         "schema_version": "piu.target-binder-predictions.v1",
         "claim_scope": (
             "CALIBRATION_ONLY_NOT_EVALUATION_EVIDENCE"
             if expected_split is Split.CALIBRATION
-            else "SEALED_TEST_EVALUATION"
+            else (
+                "SEALED_TEST_EVALUATION"
+                if expected_split is Split.SEALED_TEST
+                else "MODEL_SELECTION_FEATURES_NOT_TEST_EVIDENCE"
+            )
         ),
         "split": expected_split.value,
         "calibration_role": args.calibration_role,

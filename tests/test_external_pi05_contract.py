@@ -49,6 +49,10 @@ def test_external_endpoint_metadata_requires_exact_checkpoint_identity() -> None
         "checkpoint": checkpoint,
     }
     checker.validate_metadata(metadata, identity)
+    checker.validate_metadata(
+        {**metadata, "capabilities": ["action_chunks", "spatial_prefix_v1"]},
+        identity,
+    )
     mismatched = {**metadata, "policy_config": "pi05_base"}
     try:
         checker.validate_metadata(mismatched, identity)

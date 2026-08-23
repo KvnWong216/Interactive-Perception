@@ -23,6 +23,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
+from piu.ablations import apply_binding_ablation
 from piu.binding_data import join_binding_features, load_binding_labels
 from piu.binding_training import BinderHyperparameters, train_binder
 from piu.contracts import Split
@@ -136,6 +137,18 @@ def main() -> None:
     if config["objectives"].get("manual_loss_weights") is not None:
         raise ValueError("manual loss weights are prohibited")
     action_vocabulary = [str(value) for value in config["inputs"]["action_vocabulary"]]
+    normalized_action_vocabulary = [value.upper() for value in action_vocabulary]
+    declared_ablations = [
+        str(value) for value in config.get("development_ablations", ["full"])
+    ]
+    no_history_action_id = None
+    if "no_action_history" in declared_ablations:
+        if normalized_action_vocabulary.count("NO_HISTORY") != 1:
+            raise ValueError(
+                "no_action_history requires exactly one dedicated NO_HISTORY "
+                "action-vocabulary token"
+            )
+        no_history_action_id = normalized_action_vocabulary.index("NO_HISTORY")
     train = load_bundle(
         feature_path=args.train_features,
         report_path=args.train_feature_report,
@@ -215,6 +228,44 @@ def main() -> None:
             best_hyperparameters = hyperparameters
     if best_result is None or best_hyperparameters is None:
         raise RuntimeError("model search produced no trial")
+    ablations = {}
+    for name in declared_ablations:
+        if name == "full":
+            result = best_result
+        else:
+            ablation_train = apply_binding_ablation(
+                train,
+                name=name,
+                seed=best_hyperparameters.seed,
+                no_history_action_id=no_history_action_id,
+            )
+            ablation_development = apply_binding_ablation(
+                development,
+                name=name,
+                seed=best_hyperparameters.seed,
+                no_history_action_id=no_history_action_id,
+            )
+            torch.manual_seed(best_hyperparameters.seed)
+            ablation_model = PromptConditionedTargetBinder(
+                vlm_width=input_width,
+                model_width=best_hyperparameters.model_width,
+                num_heads=best_hyperparameters.num_heads,
+                maximum_cameras=maximum_cameras,
+                maximum_time_steps=maximum_time_steps,
+                maximum_action_types=len(action_vocabulary),
+                dropout=best_hyperparameters.dropout,
+            )
+            result = train_binder(
+                model=ablation_model,
+                objective=LearnedMultiTaskObjective(),
+                train=ablation_train,
+                development=ablation_development,
+                hyperparameters=best_hyperparameters,
+            )
+        ablations[name] = {
+            "best_epoch": result["best_epoch"],
+            "development_metrics": result["development_metrics"],
+        }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     checkpoint = {
         "schema_version": "piu.target-binder-checkpoint.v1",
@@ -240,12 +291,22 @@ def main() -> None:
         image_valid_mask=development.image_valid_mask,
         spatial_logits=raw["spatial_logits"],
         spatial_attention=raw["spatial_attention"],
+        target_token=raw["target_token"],
         target_present_logit=raw["target_present_logit"],
         task_sufficiency_logit=raw["task_sufficiency_logit"],
+        holding_requested_target_logit=raw["holding_requested_target_logit"],
+        region_confirmed_empty_logit=raw["region_confirmed_empty_logit"],
+        task_complete_logit=raw["task_complete_logit"],
         patch_target=development.patch_target,
         target_present=development.target_present,
         task_sufficient=development.task_sufficient,
         task_sufficient_mask=development.task_sufficient_mask,
+        holding_requested_target=development.holding_requested_target,
+        holding_requested_target_mask=development.holding_requested_target_mask,
+        region_confirmed_empty=development.region_confirmed_empty,
+        region_confirmed_empty_mask=development.region_confirmed_empty_mask,
+        task_complete=development.task_complete,
+        task_complete_mask=development.task_complete_mask,
     )
     report = {
         "schema_version": "piu.target-binder-training.v1",
@@ -271,6 +332,7 @@ def main() -> None:
         "selection_order": config["model_search"]["selection_order"],
         "trials": trials,
         "selected_trial": int(best_rank[-1]),
+        "development_ablations": ablations,
         "checkpoint": {"path": portable(args.output), "sha256": sha256(args.output)},
         "development_predictions": {
             "path": portable(predictions_path),

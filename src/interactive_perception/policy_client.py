@@ -246,6 +246,55 @@ class OpenPiWebsocketPolicy:
             raise ValueError(f"unexpected prefix feature shape/value: {features.shape}")
         return features
 
+    def encode_spatial_prefix(self, packet: ObservationPacket) -> dict[str, Any]:
+        """Read every frozen image/prompt hidden token from the extended server."""
+
+        payload = {
+            **packet.to_openpi(),
+            "__request_type": "prefix",
+            "__feature_schema": "spatial_prefix_v1",
+        }
+        response = self._client.infer(payload)
+        if response.get("schema_version") != "piu.spatial-prefix-response.v1":
+            raise RuntimeError(
+                "policy server does not expose spatial_prefix_v1; restart it with "
+                "the repository's identified extended server"
+            )
+        camera_names = tuple(str(item) for item in response.get("camera_names", ()))
+        tokens_per_camera = tuple(
+            int(item) for item in response.get("tokens_per_camera", ())
+        )
+        image = np.asarray(response.get("image_tokens"), dtype=np.float16)
+        image_mask = np.asarray(response.get("image_valid_mask"), dtype=bool)
+        prompt = np.asarray(response.get("prompt_tokens"), dtype=np.float16)
+        prompt_mask = np.asarray(response.get("prompt_valid_mask"), dtype=bool)
+        if (
+            not camera_names
+            or len(camera_names) != len(tokens_per_camera)
+            or any(count < 1 for count in tokens_per_camera)
+        ):
+            raise ValueError("spatial-prefix response has invalid camera spans")
+        if image.ndim != 2 or image.shape[0] != sum(tokens_per_camera):
+            raise ValueError(
+                "spatial-prefix image token shape differs from camera spans"
+            )
+        if image_mask.shape != image.shape[:1]:
+            raise ValueError("spatial-prefix image mask shape mismatch")
+        if prompt.ndim != 2 or prompt.shape[-1] != image.shape[-1]:
+            raise ValueError("spatial-prefix prompt token shape/width mismatch")
+        if prompt_mask.shape != prompt.shape[:1]:
+            raise ValueError("spatial-prefix prompt mask shape mismatch")
+        if not np.isfinite(image).all() or not np.isfinite(prompt).all():
+            raise ValueError("spatial-prefix response contains non-finite values")
+        return {
+            "camera_names": camera_names,
+            "tokens_per_camera": tokens_per_camera,
+            "image_tokens": image,
+            "image_valid_mask": image_mask,
+            "prompt_tokens": prompt,
+            "prompt_valid_mask": prompt_mask,
+        }
+
 
 @dataclasses.dataclass
 class ScriptedStubPolicy:

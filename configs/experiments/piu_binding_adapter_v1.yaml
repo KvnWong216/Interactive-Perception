@@ -8,8 +8,22 @@ inputs:
   token_cache_schema: piu.spatial-prefix-features.v1
   label_schema: piu.binding-label.v1
   policy_visible: [RGB, prompt, public robot state, public action history]
-  evaluator_only: [target masks, target presence, task sufficiency labels]
-  action_vocabulary: [DIRECT, OPEN, REMOVE, ROTATE, MOVE_CLOSER]
+  evaluator_only: [target masks, target presence, task sufficiency labels, requested-target holding labels, inspected-region empty labels, task-completion labels]
+  action_vocabulary:
+    # Legitimate empty history at the first decision boundary.
+    - INITIAL_OBSERVATION
+    - DIRECT
+    - OPEN
+    - REMOVE
+    - ROTATE
+    - MOVE_CLOSER
+    - PICK_TO_INSPECT
+    - PICK
+    - PLACE
+    - STOP
+    # Dedicated learned null token used only by the no_action_history ablation.
+    # It is never a value in prospective public executed-action records.
+    - NO_HISTORY
 
 model_search:
   model_width: [32, 64]
@@ -26,10 +40,27 @@ model_search:
     - minimize_parameter_count
   retained_trials: all
 
+development_ablations:
+  - full
+  - no_prompt
+  - prompt_swap
+  - last_frame_only
+  - mean_image_tokens
+  - no_action_history
+  - agent_view_only
+  - wrist_view_only
+  - shuffled_spatial_positions
+  - shuffled_temporal_order
+
 objectives:
   spatial: target-pixel fraction in each frozen SigLIP patch
+  spatial_supervision_time: post_interaction_only
+  pre_interaction_role: public_context_only_never_positive_localization_target
   target_presence: binary mask non-emptiness
   task_sufficiency: evaluator annotation when supported, otherwise masked
+  holding_requested_target: evaluator post-action annotation, otherwise masked
+  region_confirmed_empty: evaluator post-observation annotation for the actually inspected public source, otherwise masked
+  task_complete: evaluator task-predicate annotation after reobservation, otherwise masked
   weighting: learned_homoscedastic_log_variance
   manual_loss_weights: null
 

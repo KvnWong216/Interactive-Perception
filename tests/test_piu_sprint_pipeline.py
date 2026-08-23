@@ -12,6 +12,7 @@ import yaml
 
 from piu.binding_data import (
     BindingLabel,
+    build_binding_inputs,
     join_binding_features,
     mask_to_patch_coverage,
     rle_decode,
@@ -24,12 +25,14 @@ from piu.contracts import (
     assert_public_policy_value,
     load_evaluator_sidecars,
     load_public_transitions,
+    public_observation_sha256,
     validate_group_splits,
     validate_public_sidecar_pair,
 )
 from piu.evaluation import aggregate_stage_evidence
 from piu.spatial_prefix import (
     PrefixLayout,
+    candidate_conditioned_prompt,
     libero_camera_to_label_view,
     validate_feature_arrays,
 )
@@ -109,11 +112,31 @@ def test_public_sidecar_firewall_and_group_split() -> None:
         validate_group_splits(
             [
                 public,
-                PublicTransition.from_mapping(
-                    _public(group="g1", split="calibration")
-                ),
+                PublicTransition.from_mapping(_public(group="g1", split="calibration")),
             ]
         )
+
+
+def test_public_observation_causal_digest_uses_decoded_pixels_when_available() -> None:
+    left = {
+        "images": {
+            "agentview": {
+                "sha256": "a" * 64,
+                "pixel_sha256": "c" * 64,
+            }
+        },
+        "public_robot_state": [0.0],
+    }
+    right = {
+        "images": {
+            "agentview": {
+                "sha256": "b" * 64,
+                "pixel_sha256": "c" * 64,
+            }
+        },
+        "public_robot_state": [0.0],
+    }
+    assert public_observation_sha256(left) == public_observation_sha256(right)
 
 
 def test_acquisition_requires_zero_pre_and_nonempty_post_mask() -> None:
@@ -172,10 +195,68 @@ def test_spatial_prefix_cache_contract() -> None:
         "sample_id": np.asarray(["a", "b"]),
         "initial_state_group": np.asarray(["g1", "g2"]),
         "split": np.asarray(["train", "development"]),
+        "executed_action": np.asarray(["OPEN", "OPEN"]),
     }
     validate_feature_arrays(arrays)
     arrays["prompt_valid_mask"] = np.ones((2, 2, 4), dtype=bool)
     with pytest.raises(ValueError, match="prompt_valid_mask"):
+        validate_feature_arrays(arrays)
+
+
+def test_candidate_prefix_contract_preserves_tokens_and_public_semantics() -> None:
+    prompt = candidate_conditioned_prompt(
+        "Place the butter in the basket",
+        {
+            "candidate_id": "open_middle",
+            "primitive": "OPEN",
+            "target": "middle drawer",
+            "purpose": "inspect for the requested object",
+            "required_capability": "OPEN",
+        },
+    )
+    assert "Task: Place the butter in the basket" in prompt
+    assert "Candidate primitive: OPEN" in prompt
+    assert 'Candidate public field required_capability: "OPEN"' in prompt
+    with pytest.raises(ValueError, match="evaluator-only"):
+        candidate_conditioned_prompt(
+            "Place the butter in the basket",
+            {
+                "candidate_id": "bad",
+                "primitive": "PICK",
+                "target": "butter",
+                "target_pose": [0.0, 0.0, 0.0],
+            },
+        )
+    arrays = {
+        "image_tokens": np.zeros((1, 2, 4, 8), dtype=np.float16),
+        "image_valid_mask": np.ones((1, 2, 4), dtype=bool),
+        "prompt_tokens": np.zeros((1, 2, 3, 8), dtype=np.float16),
+        "prompt_valid_mask": np.ones((1, 2, 3), dtype=bool),
+        "patch_xy": np.zeros((4, 2), dtype=np.float32),
+        "camera_id": np.zeros(4, dtype=np.int16),
+        "sample_id": np.asarray(["sample"]),
+        "initial_state_group": np.asarray(["group"]),
+        "split": np.asarray(["train"]),
+        "executed_action": np.asarray(["OPEN"]),
+        "candidate_prompt_tokens": np.zeros((1, 2, 2, 5, 8), dtype=np.float16),
+        "candidate_prompt_valid_mask": np.asarray(
+            [[[[True] * 5, [True] * 5], [[False] * 5, [False] * 5]]]
+        ),
+        "candidate_valid_mask": np.asarray([[True, False]]),
+        "candidate_id": np.asarray([["open_middle", ""]]),
+        "candidate_primitive": np.asarray([["OPEN", ""]]),
+        "candidate_payload": np.asarray(
+            [
+                [
+                    '{"candidate_id":"open_middle","primitive":"OPEN","target":"middle drawer"}',
+                    "",
+                ]
+            ]
+        ),
+    }
+    validate_feature_arrays(arrays)
+    arrays["candidate_prompt_valid_mask"][0, 1, 0, 0] = True
+    with pytest.raises(ValueError, match="padded candidates"):
         validate_feature_arrays(arrays)
 
 
@@ -204,6 +285,9 @@ def test_binding_rle_patch_alignment_and_join() -> None:
             },
             "target_present_post": True,
             "task_sufficient_post": None,
+            "holding_requested_target_post": None,
+            "region_confirmed_empty_post": None,
+            "task_complete_post": None,
             "executed_action": "OPEN",
             "simulator_teacher_only": True,
         }
@@ -213,11 +297,18 @@ def test_binding_rle_patch_alignment_and_join() -> None:
         "image_valid_mask": np.ones((1, 2, 12), dtype=bool),
         "prompt_tokens": np.zeros((1, 2, 3, 8), dtype=np.float16),
         "prompt_valid_mask": np.ones((1, 2, 3), dtype=bool),
-        "patch_xy": np.zeros((12, 2), dtype=np.float32),
+        "patch_xy": np.tile(
+            np.asarray(
+                [[0.25, 0.25], [0.75, 0.25], [0.25, 0.75], [0.75, 0.75]],
+                dtype=np.float32,
+            ),
+            (3, 1),
+        ),
         "camera_id": np.repeat(np.arange(3), 4),
         "sample_id": np.asarray(["sample"]),
         "initial_state_group": np.asarray(["group"]),
         "split": np.asarray(["train"]),
+        "executed_action": np.asarray(["OPEN"]),
     }
     report = {
         "schema_version": "piu.spatial-prefix-features.v1",
@@ -243,9 +334,18 @@ def test_binding_rle_patch_alignment_and_join() -> None:
     )
     assert joined.image_tokens.shape == (1, 24, 8)
     assert joined.prompt_tokens.shape == (1, 6, 8)
+    np.testing.assert_array_equal(joined.patch_target[0, :12], 0.0)
     np.testing.assert_allclose(joined.patch_target[0, 12:16], [1, 0, 0, 0])
     assert joined.executed_action_id.tolist() == [1]
     assert joined.task_sufficient_mask.tolist() == [False]
+    leaked = dict(arrays)
+    leaked["patch_target"] = joined.patch_target
+    with pytest.raises(ValueError, match="evaluator targets"):
+        build_binding_inputs(
+            feature_arrays=leaked,
+            feature_report=report,
+            action_vocabulary=("DIRECT", "OPEN"),
+        )
 
 
 def test_sprint_config_defers_modules_and_has_no_small_sample_gate() -> None:
@@ -296,9 +396,12 @@ def test_retrospective_dataset_rebuild_and_evaluation(tmp_path: Path) -> None:
     report = json.loads(report_path.read_text())
     assert report["stages"]["L2_primitive_execution"]["successes"] == 9
     assert report["stages"]["L3_information_acquisition"]["successes"] == 8
-    assert report["acquisition_to_utilization"][
-        "target_contact_after_acquisition"
-    ]["successes"] == 0
+    assert (
+        report["acquisition_to_utilization"]["target_contact_after_acquisition"][
+            "successes"
+        ]
+        == 0
+    )
 
 
 def test_prefix_extractor_dry_run_does_not_load_checkpoint_or_gpu() -> None:
@@ -376,6 +479,7 @@ def _write_synthetic_binding_bundle(
         "sample_id": np.asarray(sample_ids),
         "initial_state_group": np.asarray(groups),
         "split": np.asarray([split] * count),
+        "executed_action": np.asarray(["OPEN"] * count),
     }
     feature_path = directory / f"{stem}_features.npz"
     np.savez_compressed(feature_path, **arrays)
@@ -407,9 +511,7 @@ def _write_synthetic_binding_bundle(
     label_path = directory / f"{stem}_labels.jsonl"
     empty = rle_encode(np.zeros((4, 4), dtype=bool))
     rows = []
-    for index, (sample_id, group) in enumerate(
-        zip(sample_ids, groups, strict=True)
-    ):
+    for index, (sample_id, group) in enumerate(zip(sample_ids, groups, strict=True)):
         present = index % 2 == 0
         target = np.zeros((4, 4), dtype=bool)
         if present:
@@ -432,6 +534,9 @@ def _write_synthetic_binding_bundle(
                 },
                 "target_present_post": present,
                 "task_sufficient_post": None,
+                "holding_requested_target_post": None,
+                "region_confirmed_empty_post": None,
+                "task_complete_post": None,
                 "executed_action": "OPEN",
                 "simulator_teacher_only": True,
             }
@@ -443,9 +548,7 @@ def _write_synthetic_binding_bundle(
 def test_cpu_binding_trainer_is_split_safe_and_writes_frozen_artifacts(
     tmp_path: Path,
 ) -> None:
-    train = _write_synthetic_binding_bundle(
-        tmp_path, split="train", count=4, seed=7
-    )
+    train = _write_synthetic_binding_bundle(tmp_path, split="train", count=4, seed=7)
     development = _write_synthetic_binding_bundle(
         tmp_path, split="development", count=4, seed=11
     )
@@ -646,3 +749,47 @@ def test_cpu_binding_trainer_is_split_safe_and_writes_frozen_artifacts(
     assert sealed_result["sealed_test_opened"] is True
     assert sealed_result["spatial"]["proper_scores"]["samples"] == 2
     assert sealed_result["paper_method_claim_allowed"] is False
+
+    online_output = tmp_path / "sealed_online_binding.npz"
+    online_authorization = tmp_path / "sealed_online_binding_authorization.json"
+    online_authorization.write_text(
+        json.dumps(
+            {
+                "schema_version": "piu.binder-online-sealed-authorization.v1",
+                "checkpoint_sha256": _sha256(checkpoint_path),
+                "feature_sha256": _sha256(sealed_bundle[0]),
+                "single_use_output": str(online_output),
+            }
+        )
+    )
+    subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/pipeline/predict_piu_target_binding_online.py"),
+            "--checkpoint",
+            str(checkpoint_path),
+            "--training-report",
+            str(checkpoint_path.with_suffix(".json")),
+            "--features",
+            str(sealed_bundle[0]),
+            "--feature-report",
+            str(sealed_bundle[1]),
+            "--expected-split",
+            "sealed_test",
+            "--sealed-authorization",
+            str(online_authorization),
+            "--output",
+            str(online_output),
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    online_report = json.loads(online_output.with_suffix(".json").read_text())
+    assert online_report["evaluator_labels_loaded"] is False
+    assert "labels" not in online_report["inputs"]
+    with np.load(online_output) as online:
+        assert "target_token" in online
+        assert "patch_target" not in online
+        assert "target_present" not in online

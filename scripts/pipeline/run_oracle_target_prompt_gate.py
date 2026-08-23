@@ -97,6 +97,8 @@ def command_for(
         "--target-object",
         str(execution["target_object"]),
         "--external-server",
+        "--expected-policy-identity",
+        str(ROOT / config["resource_contract"]["checkpoint_identity"]),
         "--host",
         host,
         "--port",
