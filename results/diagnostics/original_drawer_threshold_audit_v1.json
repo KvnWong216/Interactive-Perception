@@ -55,7 +55,7 @@
     "interpretation": "Every integer threshold from one through the minimum positive visibility count selects the same eight seeds. Future oracle enrollment uses mask non-emptiness only; visibility is continuous.",
     "source": {
       "path": "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json",
-      "sha256": "31c37614a6747b2542c9f387a09e52c1ab4cac90ade07600990cab7fe97e814b"
+      "sha256": "6b785c434c5abfff01916c74c9d6315323e956fee8e5857bb29df987edbc8022"
     }
   },
   "target_manipulation": {

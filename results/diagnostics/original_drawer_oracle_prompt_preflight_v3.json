@@ -6,7 +6,7 @@
   "claim_scope": "EVALUATOR_ONLY_INPUT_AND_RENDERING_PREFLIGHT",
   "experiment": {
     "path": "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml",
-    "sha256": "a97fb5f1a18412272bb365881b2f040d410f32bbc060229ec79d1e66d9bdfaa1"
+    "sha256": "6ec5c282ec8d431add40afb51e492822a6649e48345549c2cc762aebaa147996"
   },
   "target_presence_minimum_pixels": 1,
   "eligible_seeds": [

@@ -45,6 +45,12 @@ following directly from hashed retained reports:
 The old results therefore remain numerically intact, but the unsupported
 binary definitions are not inherited by new experiments.
 
+The v3 policy-free oracle preflight originally recorded the hash of the same
+YAML payload with one extra trailing newline, while Git retained the canonical
+single-newline blob. Its experiment hash and the dependent threshold-audit
+source hash were repaired to the tracked bytes; no preflight row, eligibility
+decision, policy call, or metric changed.
+
 ## Rules for the successor method
 
 A number may affect a public-input online action only if it is learned on the

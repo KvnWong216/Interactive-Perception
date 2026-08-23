@@ -1,0 +1,111 @@
+schema_version: piu.drawer-binding-sprint.v1
+id: piu_original_drawer_acquisition_binding_utilization_v1
+status: active_offline_foundation_external_causal_gate_pending
+frozen_date: 2026-08-22
+claim_scope: >-
+  One-scenario feasibility and causal-mechanism sprint. It is not a benchmark,
+  a successful learned method, a calibrated controller, or a sealed test.
+
+research_question: >-
+  After OPEN exposes task-relevant evidence in the unchanged hidden-butter
+  drawer scene, can prompt-conditioned spatial target binding cause the frozen
+  executor to contact the requested butter rather than act on an unbound scene?
+main_hypothesis: >-
+  A target indication or learned public-RGB spatial binding that is conditioned
+  on the original prompt increases target grasp contact after actual OPEN.
+
+scope:
+  scenario: configs/scenarios/original_drawer.yaml
+  target: butter
+  destination: basket
+  interaction: OPEN middle drawer
+  post_interaction_action: target-conditioned PICK before PLACE
+  scenario_expansion_allowed_before_gate: false
+
+causal_chain:
+  - L2_primitive_execution
+  - L3_information_acquisition
+  - spatial_target_binding
+  - L4_information_utilization
+  - L5_task_completion
+
+primary_estimand:
+  outcome: LIBERO target grasp-contact predicate
+  comparison: paired intervention minus raw RGB on the same initial-state group
+  statistic: paired risk difference
+  test: exact two-sided paired binomial
+  alpha: 0.05
+  target_power: 0.80
+secondary_estimands:
+  - wrong-object grasp-contact paired risk difference
+  - continuous maximum target lift in meters
+  - target destination-final success
+  - final task success
+
+metric_boundaries:
+  target_mask_nonempty: oracle rendering eligibility only
+  visibility: continuous raw camera pixels
+  target_binding: spatial mask or point metric when labels exist
+  information_utilization: downstream target grasp contact
+  lift: continuous meters
+  forbidden_binary_thresholds: [visibility_pixels, lift_meters, belief_entropy]
+
+retrospective_evidence:
+  source: results/method/original_drawer_paper_cycle_v2.json
+  split: retrospective_development
+  allowed_use: [pipeline_validation, descriptive_failure_decomposition]
+  forbidden_use: [training, calibration, formal_test, architecture_selection]
+
+oracle_gate:
+  config: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
+  first_step: screen_three_marker_styles_on_three_development_groups
+  second_step: independent_five_group_development_pilot
+  activation_rule: >-
+    Use the completed pilot only to plan a disjoint prospective formal paired
+    test. Activate learned binding only after that formal causal test supports a
+    practically meaningful target-contact improvement.
+  arbitrary_small_sample_pass_rule: null
+
+learned_binding_successor:
+  contract: docs/spatial_prefix_successor_contract.md
+  inputs:
+    - full valid pre/post PaliGemma image tokens
+    - full valid prompt tokens
+    - camera spans
+    - row-major 2-D patch coordinates
+    - public OPEN action identity
+  supervision: evaluator-only target masks on training groups
+  deployment_inputs: [RGB, prompt, public robot state, public action history]
+  calibration: isolated calibration groups only
+  main_ablation: rejected four-token global-mean Stage 1
+
+deferred_until_binding_gate:
+  - action-effect model expansion
+  - information-value weights
+  - conformal action controller
+  - additional scenario families
+  - sealed test
+
+resource_contract:
+  local_gpu_memory_mib_max: 1500
+  local_full_pi05_loading_allowed: false
+  full_prefix_extraction: external_gpu_only
+  local_workloads: [CPU_validation, cached_float16_features, lightweight_head]
+
+two_day_exit_assets:
+  offline:
+    - frozen research charter and preregistration
+    - leakage-separated public/evaluator transition dataset
+    - six-stage retrospective evaluator
+    - external full-prefix extraction script and cache contract
+    - lightweight prompt-conditioned spatial binder skeleton
+    - tests and resource audit
+  external_if_endpoint_available:
+    - nine oracle screen rollouts
+    - selected-style report or exact-tie decision
+    - five independent pilot rollouts
+    - prospective paired sample-size plan
+  not_claimed_without_external_rollouts:
+    - oracle causal ceiling
+    - learned binding benefit
+    - successful PIU-VLA main method

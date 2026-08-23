@@ -19,6 +19,9 @@ The authoritative current-cycle artifacts are:
   task/terminal relabels of unchanged action histories;
 - `method/original_drawer_executed_effect_cv_v1.json` for the CPU-only grouped
   development comparison of route-only and executed-effect supervision.
+- `diagnostics/piu_drawer_sprint_stage_evaluation_v1.json` for the rebuilt
+  leakage-separated `L2 9/10 -> L3 8/9 -> L4 0/8` stage chain and the `3/8`
+  wrong-object-contact rate conditional on acquired evidence.
 
 The retained checkpoints are runnable evidence. New scenarios use the generic
 collection, training, evaluation, and rendering entry points under `scripts/`;

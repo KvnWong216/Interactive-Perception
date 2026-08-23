@@ -1,32 +1,37 @@
-# Prompt-Conditioned Calibrated Interaction Selection
+# Prompt-Conditioned Interaction Belief for VLA
 
-This repository studies which executable physical interaction should resolve
-the uncertainty relevant to a user's manipulation task before a frozen VLA
-continues execution.
+This repository studies whether a robot can recognize that the current
+observation is insufficient for a user's prompt, acquire the missing evidence
+through physical interaction, bind the new evidence to the requested target,
+and use it in the next manipulation.
 
-The reference method is deliberately small:
+The current falsifiable method line is deliberately restricted to one unchanged
+hidden-butter drawer scenario:
 
 ```text
-prompt + temporal first-person RGB + public action/observation history
-  -> one frozen shared VLM encoder
-  -> schema-validated candidates from the robot capability registry
-  -> one candidate-conditioned cross-attention decoder
-  -> factorized effect head + route head
-  -> temperature scaling + conformal prediction sets
-  -> short structured subtask -> frozen pi05_libero
-  -> post-action public RGB/history -> replan or abstain
+closed drawer -> OPEN -> new butter evidence
+  -> full frozen PaliGemma patch tokens + prompt + public OPEN history
+  -> learned prompt-conditioned spatial binding
+  -> target-conditioned PICK -> PLACE
 ```
+
+The spatial binder and full-prefix cache contract are implemented but not yet
+trained or validated. The evaluator-only oracle intervention must first show a
+positive causal executor ceiling on a prospectively sized paired experiment.
+Action-effect prediction, information-value weighting, conformal control, and
+scenario expansion are deferred until that gate.
 
 The former Grounding DINO/SAM/DINOv2/SigLIP/Qwen/manual-utility pipeline is
 frozen as [`B1 Heuristic V0`](baselines/heuristic_v0/README.md). It remains an
 engineering baseline and is not the proposed method.
 
 **Current decision (2026-08-22):** the broad effect-aware full-loop method is
-rejected for the fixed drawer experiment. OPEN exposes the hidden target in
-8/10 seeds, but the frozen executor grasps it in 0/10 post-OPEN runs; executed
-effect supervision adds 0.00 route macro F1 over route-only in all five grouped
-development folds. The retained paper result is a leakage-controlled failure
-decomposition and benchmark artifact, not a successful ICRA/RSS method claim.
+rejected for the fixed drawer experiment. The six-stage rebuild gives OPEN
+`9/10`, acquisition `8/9` conditional on OPEN, and target contact `0/8`
+conditional on acquisition; wrong-object contact occurs in `3/8` of those
+acquisition-success groups. Executed-effect supervision adds 0.00 route macro
+F1 over route-only in all five grouped development folds. This is a controlled
+failure decomposition, not a successful ICRA/RSS method claim.
 
 The next falsifiable repair test is implemented as an evaluator-only visual
 prompt that gives frozen pi0.5 the exact target region after OPEN. This is an
@@ -45,6 +50,9 @@ target-binding method is claimed or rejected.
 - [Paper research execution plan and external pi0.5 setup](docs/paper_research_execution_plan.md)
 - [Method and threshold provenance audit](docs/method_provenance_audit.md)
 - [Spatial-prefix successor contract](docs/spatial_prefix_successor_contract.md)
+- [Frozen PIU research charter](docs/research_charter.md)
+- [Drawer-binding preregistration](docs/preregistration.md)
+- [Claim--evidence ledger](docs/claim_evidence_ledger.md)
 - [Original-drawer method cycle and negative-result report](docs/original_drawer_experiment_report.md)
 - [Executed counterfactual effect-label policy](docs/executed_effect_dataset.md)
 - [Submission-shaped internal paper draft](paper/main.md)
@@ -60,6 +68,7 @@ configs/capabilities/         real executor primitive registry
 configs/experiments/          one-GPU learned-method configuration
 configs/scenarios/            scenario data; no Python scenario branches
 src/calibrated_interaction/   candidate schema, decoder, calibration, controller
+src/piu/                      current leakage firewall, evaluator, spatial binder
 src/interaction_uncertainty/  legacy heuristic implementation
 src/interactive_perception/   frozen pi0.5 execution bridge and legacy critics
 scripts/pipeline/             learned replay and legacy live runners
@@ -68,6 +77,11 @@ tests/                        unit, leakage, split, model-shape, integration tes
 benchmarks/                   protocols and gates
 results/                      retained component evidence and public RGB assets
 ```
+
+The current retrospective sprint dataset stores public transitions and
+privileged evaluator sidecars in separate JSONL files under
+`data/piu/drawer_binding_sprint_v1/`. It is development evidence only and is
+forbidden for training, calibration, or formal testing.
 
 Online learned-method inputs are limited to the complete prompt, agentview/wrist
 RGB history, and public action/observation history. Simulator segmentation,

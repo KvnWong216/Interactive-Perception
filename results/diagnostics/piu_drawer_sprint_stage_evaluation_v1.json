@@ -1,0 +1,162 @@
+{
+  "schema_version": "piu.stage-evaluation.v1",
+  "claim_scope": "RETROSPECTIVE_DESCRIPTIVE_EVIDENCE_ONLY",
+  "groups": 10,
+  "stages": {
+    "L0_information_sufficiency": {
+      "successes": 0,
+      "trials": 0,
+      "rate": null,
+      "wilson_95": null,
+      "unsupported": 10
+    },
+    "L1_interaction_selection": {
+      "successes": 0,
+      "trials": 0,
+      "rate": null,
+      "wilson_95": null,
+      "unsupported": 10
+    },
+    "L2_primitive_execution": {
+      "successes": 9,
+      "trials": 10,
+      "rate": 0.9,
+      "wilson_95": [
+        0.5958499732047615,
+        0.9821237869049271
+      ],
+      "unsupported": 0
+    },
+    "L3_information_acquisition": {
+      "successes": 8,
+      "trials": 10,
+      "rate": 0.8,
+      "wilson_95": [
+        0.49016247153664183,
+        0.9433178485456247
+      ],
+      "unsupported": 0
+    },
+    "L4_information_utilization": {
+      "successes": 0,
+      "trials": 10,
+      "rate": 0.0,
+      "wilson_95": [
+        0.0,
+        0.2775327998628892
+      ],
+      "unsupported": 0
+    },
+    "L5_task_completion": {
+      "successes": 0,
+      "trials": 10,
+      "rate": 0.0,
+      "wilson_95": [
+        0.0,
+        0.2775327998628892
+      ],
+      "unsupported": 0
+    }
+  },
+  "adjacent_stage_transitions": {
+    "L1_interaction_selection_given_L0_information_sufficiency": {
+      "successes": 0,
+      "trials": 0,
+      "rate": null,
+      "wilson_95": null
+    },
+    "L2_primitive_execution_given_L1_interaction_selection": {
+      "successes": 0,
+      "trials": 0,
+      "rate": null,
+      "wilson_95": null
+    },
+    "L3_information_acquisition_given_L2_primitive_execution": {
+      "successes": 8,
+      "trials": 9,
+      "rate": 0.8888888888888888,
+      "wilson_95": [
+        0.5650002944233439,
+        0.9801091123614551
+      ]
+    },
+    "L4_information_utilization_given_L3_information_acquisition": {
+      "successes": 0,
+      "trials": 8,
+      "rate": 0.0,
+      "wilson_95": [
+        0.0,
+        0.32440756488388023
+      ]
+    },
+    "L5_task_completion_given_L4_information_utilization": {
+      "successes": 0,
+      "trials": 0,
+      "rate": null,
+      "wilson_95": null
+    }
+  },
+  "first_observed_failure": {
+    "L2_primitive_execution": 1,
+    "L3_information_acquisition": 1,
+    "L4_information_utilization": 8
+  },
+  "acquisition_to_utilization": {
+    "acquisition_successes": 8,
+    "target_contact_after_acquisition": {
+      "successes": 0,
+      "trials": 8,
+      "rate": 0.0,
+      "wilson_95": [
+        0.0,
+        0.32440756488388023
+      ]
+    },
+    "wrong_object_contact_after_acquisition": {
+      "successes": 3,
+      "trials": 8,
+      "rate": 0.375,
+      "wilson_95": [
+        0.13684428582359742,
+        0.6942576053973727
+      ]
+    },
+    "interpretation": "Target grasp contact is a physical utilization endpoint, not a direct measurement of spatial binding accuracy."
+  },
+  "continuous_metrics": {
+    "target_visible_pixels_post": [
+      731,
+      855,
+      447,
+      813,
+      742,
+      818,
+      863,
+      630,
+      0,
+      0
+    ],
+    "target_maximum_lift_m": [
+      6.661338147750939e-16,
+      3.597278031008955e-11,
+      0.0,
+      2.932414311374032e-10,
+      5.078888807119597e-05,
+      2.220446049250313e-16,
+      0.0002495294003490578,
+      0.00010951977109474598,
+      6.257884512139711e-05,
+      0.0
+    ]
+  },
+  "inputs": {
+    "public": {
+      "path": "data/piu/drawer_binding_sprint_v1/public_transitions.jsonl",
+      "sha256": "7e98757716a2524c7dca03ff5131722deacf627e2ff6e7dee364f94cc0994ae6"
+    },
+    "evaluator": {
+      "path": "data/piu/drawer_binding_sprint_v1/evaluator_sidecars.jsonl",
+      "sha256": "d6fd184aad20c1886bc6b59a802c227a3e1af52e37f47ff2384c3f48c70466c7"
+    }
+  }
+}

@@ -17,6 +17,9 @@ data/*
 !data/calibrated_interaction/original_drawer_v1/**
 !data/calibrated_interaction/original_drawer_executed_v2/
 !data/calibrated_interaction/original_drawer_executed_v2/**
+!data/piu/
+!data/piu/drawer_binding_sprint_v1/
+!data/piu/drawer_binding_sprint_v1/**
 !data/calibration/
 !data/calibration/libero_intents_v1.jsonl
 !data/calibration/libero_intents_v1.manifest.json

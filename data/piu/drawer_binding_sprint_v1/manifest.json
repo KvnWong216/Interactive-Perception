@@ -1,0 +1,34 @@
+{
+  "schema_version": "piu.drawer-binding-dataset-manifest.v1",
+  "claim_scope": "RETROSPECTIVE_DEVELOPMENT_ONLY",
+  "scenario": "unchanged T01D hidden-butter drawer",
+  "groups": 10,
+  "splits": {
+    "retrospective_development": 10
+  },
+  "public_transitions": {
+    "path": "data/piu/drawer_binding_sprint_v1/public_transitions.jsonl",
+    "sha256": "7e98757716a2524c7dca03ff5131722deacf627e2ff6e7dee364f94cc0994ae6"
+  },
+  "evaluator_sidecars": {
+    "path": "data/piu/drawer_binding_sprint_v1/evaluator_sidecars.jsonl",
+    "sha256": "d6fd184aad20c1886bc6b59a802c227a3e1af52e37f47ff2384c3f48c70466c7"
+  },
+  "source_summary": {
+    "path": "results/method/original_drawer_paper_cycle_v2.json",
+    "sha256": "25e666cfcd23671957c99ba2157e98e65365e9667d6827ad8de4814b7bcb0eed"
+  },
+  "policy_evaluator_storage_separated": true,
+  "binding_training_labels_available": false,
+  "allowed_uses": [
+    "pipeline validation",
+    "descriptive six-stage failure decomposition",
+    "external frozen-prefix extraction rehearsal"
+  ],
+  "forbidden_uses": [
+    "formal method comparison",
+    "calibration",
+    "sealed evaluation",
+    "target-binding supervision"
+  ]
+}
