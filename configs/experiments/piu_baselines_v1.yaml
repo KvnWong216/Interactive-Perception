@@ -1,0 +1,168 @@
+schema_version: piu.baseline-registry.v1
+id: piu_fixed_drawer_fair_comparison_v1
+status: frozen_before_new_method_rollouts
+scenario: scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+
+shared_contract:
+  initial_state_unit: initial_state_group
+  paired_initial_states: required
+  frozen_policy: pi05_libero
+  checkpoint_identity: results/diagnostics/pi05_libero_checkpoint_identity_v1.json
+  policy_cameras: [agentview_rgb, wrist_rgb]
+  public_inputs:
+    - full_prompt
+    - stock_policy_rgb
+    - public_robot_state
+    - public_action_history
+    - public_candidate_descriptions
+  forbidden_online:
+    - segmentation
+    - semantic_instance_id
+    - target_pose
+    - object_pose
+    - contact_state
+    - articulated_joint_truth
+    - task_predicate
+    - evaluator_global_camera
+  option_step_budgets:
+    DIRECT: 400
+    OPEN: 300
+    PICK: 400
+    PLACE: 400
+  replanning_steps: 5
+  episode_interaction_budget: report_actual_and_use_same_cap
+  evaluator: piu_evaluator_sidecar_v1
+  outcomes:
+    - target_visible_pixels
+    - primitive_execution_success
+    - target_grasp_contact
+    - wrong_object_grasp_contact
+    - target_maximum_lift_m
+    - target_destination_final
+    - task_success
+    - abstention
+    - interaction_count
+    - executed_steps
+  randomization: same_group_method_order_randomized_and_retained
+  failure_accounting: timeouts_and_abstentions_remain_in_denominator
+
+methods:
+  - id: B0
+    name: raw_frozen_vla
+    family: baseline
+    status: retained_fixed_scenario_evidence_available
+    online_inputs: [full_prompt, stock_policy_rgb, public_robot_state]
+    policy_change: none
+    decision_rule: execute_the_original_task_prompt_directly
+    same_frozen_policy: true
+    same_option_budgets: true
+    same_evaluator: true
+    online_privileged_inputs: []
+
+  - id: B1
+    name: prompted_vlm_router
+    family: baseline
+    status: software_ready_external_prompted_vlm_endpoint_pending
+    online_inputs: [full_prompt, stock_policy_rgb, public_robot_state, public_action_history, public_candidate_descriptions]
+    policy_change: frozen_vlm_structured_candidate_selection
+    decision_rule: prompted_public_reasoning_without_learned_effect_or_calibration
+    same_frozen_policy: true
+    same_option_budgets: true
+    same_evaluator: true
+    online_privileged_inputs: []
+
+  - id: B2
+    name: heuristic_v0
+    family: baseline
+    status: frozen_one_step_adapter_ready_external_legacy_models_pending
+    online_inputs: [full_prompt, stock_policy_rgb, public_robot_state, public_action_history]
+    policy_change: frozen_legacy_public_rgb_router
+    decision_rule: immutable_baselines_heuristic_v0_one_decision_without_added_replanning
+    same_frozen_policy: true
+    same_option_budgets: true
+    same_evaluator: true
+    online_privileged_inputs: []
+
+  - id: B3
+    name: route_only
+    family: baseline
+    status: software_ready_real_data_pending
+    online_inputs: [full_prompt, stock_policy_rgb, public_robot_state, public_action_history, public_candidate_descriptions]
+    policy_change: shared_prefix_candidate_route_head_only
+    decision_rule: learned_route_without_effect_supervision_or_calibration
+    same_frozen_policy: true
+    same_option_budgets: true
+    same_evaluator: true
+    online_privileged_inputs: []
+
+  - id: B4
+    name: route_plus_effect
+    family: ablation
+    status: software_ready_real_data_pending
+    online_inputs: [full_prompt, stock_policy_rgb, public_robot_state, public_action_history, public_candidate_descriptions]
+    policy_change: shared_prefix_route_and_executed_effect_heads
+    decision_rule: uncalibrated_argmax_for_diagnostic_comparison
+    same_frozen_policy: true
+    same_option_budgets: true
+    same_evaluator: true
+    online_privileged_inputs: []
+
+  - id: B5
+    name: route_effect_calibrated
+    family: baseline
+    status: software_ready_real_data_pending
+    online_inputs: [full_prompt, stock_policy_rgb, public_robot_state, public_action_history, public_candidate_descriptions]
+    policy_change: route_effect_heads_and_isolated_prediction_sets_without_spatial_bridge
+    decision_rule: singleton_route_and_required_effect_sets
+    same_frozen_policy: true
+    same_option_budgets: true
+    same_evaluator: true
+    online_privileged_inputs: []
+
+  - id: B6
+    name: oracle_effect
+    family: upper_bound
+    status: pending_executed_counterfactual_matrix
+    online_inputs: [full_prompt, stock_policy_rgb, public_robot_state, public_action_history, public_candidate_descriptions]
+    policy_change: evaluator_effect_labels_replace_predicted_effects
+    decision_rule: separately_reported_perfect_effect_upper_bound
+    same_frozen_policy: true
+    same_option_budgets: true
+    same_evaluator: true
+    online_privileged_inputs: [executed_candidate_effect_labels]
+    separate_upper_bound_column: true
+    eligible_for_main_method_comparison: false
+
+  - id: B7
+    name: oracle_target_binding
+    family: upper_bound
+    status: software_ready_selected_style_and_external_endpoint_pending
+    online_inputs: [full_prompt, stock_policy_rgb, public_robot_state]
+    policy_change: evaluator_generated_target_marker
+    decision_rule: full_task_direct_rollout_with_noop_mask_when_hidden_and_selected_marker_when_visible
+    same_frozen_policy: true
+    same_option_budgets: true
+    same_evaluator: true
+    online_privileged_inputs: [target_instance_mask, target_identity]
+    separate_upper_bound_column: true
+    eligible_for_main_method_comparison: false
+
+  - id: B8
+    name: calibrated_action_causal_binding
+    family: proposed
+    status: software_ready_causal_gate_and_real_data_pending
+    online_inputs: [full_prompt, stock_policy_rgb, public_robot_state, public_action_history, public_candidate_descriptions]
+    policy_change: frozen_prefix_binding_route_effect_set_controller_and_spatial_subtask_bridge
+    decision_rule: singleton_route_belief_required_effect_and_current_spatial_reference
+    same_frozen_policy: true
+    same_option_budgets: true
+    same_evaluator: true
+    online_privileged_inputs: []
+
+selection_contract:
+  development_only: [B1, B3, B4, B5, B8]
+  calibration_only: [B5, B8]
+  sealed_once: [B0, B1, B2, B3, B4, B5, B6, B7, B8]
+  test_time_method_selection: forbidden
+  failed_or_missing_runs: never_dropped
+  oracle_used_for_method_selection: false
