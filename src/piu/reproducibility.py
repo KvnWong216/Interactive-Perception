@@ -6,11 +6,22 @@ import ast
 import hashlib
 import json
 import os
+import re
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
 import yaml
+
+_LOCAL_PACKAGE_ROOTS = frozenset(
+    ("calibrated_interaction", "interactive_perception", "piu")
+)
+_REPOSITORY_FILE_LITERAL = re.compile(
+    r"^(?:configs|results/diagnostics|scenarios|scripts|src)/[^\0]+$"
+)
+_SHELL_PROJECT_FILE = re.compile(
+    r"\$PROJECT_ROOT/(scripts/[A-Za-z0-9_./-]+\.(?:py|sh))"
+)
 
 
 def sha256_file(path: Path) -> str:
@@ -40,6 +51,186 @@ def _validate_parse(path: Path) -> None:
             raise ValueError(f"empty YAML artifact: {path}")
     elif path.suffix == ".json":
         json.loads(path.read_text())
+
+
+def _module_files(module: str, *, repository_root: Path) -> set[Path]:
+    parts = module.split(".")
+    if not parts or parts[0] not in _LOCAL_PACKAGE_ROOTS:
+        return set()
+    source_root = repository_root / "src"
+    stem = source_root.joinpath(*parts)
+    candidates = (stem.with_suffix(".py"), stem / "__init__.py")
+    result = {candidate for candidate in candidates if candidate.is_file()}
+    for depth in range(1, len(parts) + 1):
+        package_init = source_root.joinpath(*parts[:depth]) / "__init__.py"
+        if package_init.is_file():
+            result.add(package_init)
+    return result
+
+
+def _local_python_dependencies(
+    path: Path, *, repository_root: Path
+) -> set[Path]:
+    tree = ast.parse(path.read_text(), filename=str(path))
+    relative = path.relative_to(repository_root / "src")
+    current_package = list(relative.parent.parts)
+    dependencies: set[Path] = set()
+    for node in ast.walk(tree):
+        modules: list[str] = []
+        if isinstance(node, ast.Import):
+            modules.extend(alias.name for alias in node.names)
+        elif isinstance(node, ast.ImportFrom):
+            if node.level:
+                keep = len(current_package) - (node.level - 1)
+                if keep < 0:
+                    continue
+                base = current_package[:keep]
+                if node.module:
+                    modules.append(".".join((*base, *node.module.split("."))))
+                else:
+                    modules.extend(
+                        ".".join((*base, alias.name)) for alias in node.names
+                    )
+            elif node.module:
+                modules.append(node.module)
+                modules.extend(f"{node.module}.{alias.name}" for alias in node.names)
+        for module in modules:
+            dependencies.update(
+                _module_files(module, repository_root=repository_root)
+            )
+    return dependencies
+
+
+def _literal_repository_dependencies(
+    path: Path, *, repository_root: Path
+) -> set[Path]:
+    tree = ast.parse(path.read_text(), filename=str(path))
+    result = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Constant) or not isinstance(node.value, str):
+            continue
+        relative = node.value
+        if _REPOSITORY_FILE_LITERAL.fullmatch(relative):
+            candidate = repository_root / relative
+            if candidate.is_file():
+                result.add(candidate)
+    return result
+
+
+def _script_module_files(module: str, *, repository_root: Path) -> set[Path]:
+    if not module or "." in module:
+        return set()
+    candidates = list((repository_root / "scripts").glob(f"**/{module}.py"))
+    return set(candidates) if len(candidates) == 1 else set()
+
+
+def _shell_repository_dependencies(
+    path: Path, *, repository_root: Path
+) -> set[Path]:
+    result = set()
+    for line in path.read_text().splitlines():
+        if line.lstrip().startswith("#"):
+            continue
+        for relative in _SHELL_PROJECT_FILE.findall(line):
+            dependency = repository_root / relative
+            if dependency.is_file():
+                result.add(dependency)
+    return result
+
+
+def _audit_dependency_closure(
+    required: Sequence[str],
+    *,
+    repository_root: Path,
+    exceptions: Mapping[str, str],
+) -> list[str]:
+    required_set = set(required)
+    errors = []
+    for relative in required:
+        path = repository_root / relative
+        if not path.is_file():
+            continue
+        if path.suffix == ".sh":
+            dependencies = _shell_repository_dependencies(
+                path, repository_root=repository_root
+            )
+            for dependency in sorted(dependencies):
+                dependency_relative = str(dependency.relative_to(repository_root))
+                if (
+                    dependency_relative not in required_set
+                    and dependency_relative not in exceptions
+                ):
+                    errors.append(
+                        f"untracked claim-critical dependency: {relative} -> "
+                        f"{dependency_relative}"
+                    )
+            continue
+        if path.suffix != ".py":
+            continue
+        dependencies = set()
+        if (repository_root / "src") in path.parents:
+            dependencies.update(
+                _local_python_dependencies(path, repository_root=repository_root)
+            )
+        else:
+            tree = ast.parse(path.read_text(), filename=str(path))
+            for node in ast.walk(tree):
+                modules: list[str] = []
+                if isinstance(node, ast.Import):
+                    modules.extend(alias.name for alias in node.names)
+                elif (
+                    isinstance(node, ast.ImportFrom)
+                    and node.level == 0
+                    and node.module
+                ):
+                    modules.append(node.module)
+                    modules.extend(
+                        f"{node.module}.{alias.name}" for alias in node.names
+                    )
+                for module in modules:
+                    dependencies.update(
+                        _module_files(module, repository_root=repository_root)
+                    )
+                    dependencies.update(
+                        _script_module_files(
+                            module, repository_root=repository_root
+                        )
+                    )
+        dependencies.update(
+            _literal_repository_dependencies(path, repository_root=repository_root)
+        )
+        for dependency in sorted(dependencies):
+            dependency_relative = str(dependency.relative_to(repository_root))
+            if (
+                dependency_relative not in required_set
+                and dependency_relative not in exceptions
+            ):
+                errors.append(
+                    f"untracked claim-critical dependency: {relative} -> "
+                    f"{dependency_relative}"
+                )
+    return errors
+
+
+def _dependency_exceptions(value: Any) -> dict[str, str]:
+    if not isinstance(value, Sequence) or isinstance(value, (str, bytes)):
+        raise TypeError("dependency closure exceptions must be a sequence")
+    result = {}
+    for row in value:
+        if not isinstance(row, Mapping):
+            raise TypeError("dependency closure exception must be a mapping")
+        path = str(row.get("path", ""))
+        rationale = " ".join(str(row.get("rationale", "")).split())
+        if (
+            not path
+            or Path(path).is_absolute()
+            or ".." in Path(path).parts
+            or not rationale
+            or path in result
+        ):
+            raise ValueError("dependency closure exceptions are malformed")
+        result[path] = rationale
+    return result
 
 
 def _inventory_digest(inventory: Sequence[Mapping[str, str]]) -> str:
@@ -83,7 +274,10 @@ def audit_repro_manifest(
     reference_report: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     manifest = yaml.safe_load(manifest_path.read_text())
-    if not isinstance(manifest, Mapping) or manifest.get("schema_version") != "piu.offline-repro-manifest.v1":
+    if (
+        not isinstance(manifest, Mapping)
+        or manifest.get("schema_version") != "piu.offline-repro-manifest.v1"
+    ):
         raise ValueError("unsupported PIU reproducibility manifest")
     resource = manifest.get("resource_contract", {})
     if int(resource.get("local_gpu_memory_mib_max", -1)) != 1500:
@@ -105,6 +299,9 @@ def audit_repro_manifest(
     ):
         raise ValueError("repro manifest weakens a claim firewall")
     required = _files(manifest.get("required_files"), name="required files")
+    dependency_exceptions = _dependency_exceptions(
+        manifest.get("dependency_closure_exceptions", ())
+    )
     inventory = []
     errors = []
     for relative in sorted(required):
@@ -118,8 +315,19 @@ def audit_repro_manifest(
             errors.append(f"invalid required file {relative}: {exc}")
             continue
         inventory.append(
-            {"path": relative, "sha256": sha256_file(path), "bytes": str(path.stat().st_size)}
+            {
+                "path": relative,
+                "sha256": sha256_file(path),
+                "bytes": str(path.stat().st_size),
+            }
         )
+    errors.extend(
+        _audit_dependency_closure(
+            required,
+            repository_root=repository_root,
+            exceptions=dependency_exceptions,
+        )
+    )
     entrypoints = _files(manifest.get("python_entrypoints"), name="Python entrypoints")
     entrypoint_rows = []
     for relative in entrypoints:
@@ -145,7 +353,9 @@ def audit_repro_manifest(
             {
                 "id": str(gate["id"]),
                 "artifact": relative,
-                "status": "PRESENT_UNVERIFIED" if path.is_file() else "PENDING_EXTERNAL",
+                "status": (
+                    "PRESENT_UNVERIFIED" if path.is_file() else "PENDING_EXTERNAL"
+                ),
                 "sha256": sha256_file(path) if path.is_file() else None,
             }
         )
@@ -166,7 +376,11 @@ def audit_repro_manifest(
             "path": str(manifest_path),
             "sha256": sha256_file(manifest_path),
         },
-        "mode": "VERIFY_REFERENCE" if reference_report is not None else "CREATE_RELEASE_LOCK",
+        "mode": (
+            "VERIFY_REFERENCE"
+            if reference_report is not None
+            else "CREATE_RELEASE_LOCK"
+        ),
         "offline_ready": offline_ready,
         "empirical_ready": empirical_ready,
         "paper_claim_ready": False,
@@ -177,6 +391,7 @@ def audit_repro_manifest(
         "local_gpu_actions_performed": False,
         "offline_inventory": inventory,
         "offline_inventory_sha256": inventory_sha,
+        "dependency_closure_exceptions": dependency_exceptions,
         "reference_inventory_match": reference_match,
         "entrypoints": entrypoint_rows,
         "external_empirical_gates": external_rows,

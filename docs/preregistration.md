@@ -226,3 +226,29 @@ contract declares a noninferiority margin; no margin is inferred from results.
 Calibration efficiency requires separate sealed label-sidecar evaluation. Any
 "nonsaturated" effect subgroup must be declared on development data before the
 sealed split and cannot be selected after outcomes.
+
+## Amendment 5: oracle-gate execution order and runtime closure
+
+Frozen on 2026-08-23 before any external v2 oracle screen or confirmation
+outcome existed. The original v2 experiment file and its retained policy-free
+preflight remain byte-identical. A separate execution-order protocol now
+requires a SHA-256-keyed permutation of the nine style-by-group screen cells;
+after a unique screen result exists, it separately freezes the five confirmation
+groups. Each schedule binds the source-state hashes, expected immutable report
+paths, exact policy identity, and the complete offline release lock. The runner
+requires both this schedule and a matching external endpoint-check artifact.
+That endpoint artifact must include one finite action sample from the retained
+public policy frame; metadata-only reachability is insufficient.
+Resume may skip only a pre-existing report that passes the full oracle report
+validator; partial or invalid output cannot be overwritten. Newly started
+identified servers expose a random session ID. The endpoint check and every v2
+report in one phase must retain that same ID, so a server restart cannot reset
+policy sampling state unnoticed during a style comparison.
+
+The offline release audit now checks local Python imports and literal runtime
+file dependencies transitively. The unified executor, external policy client,
+oracle rendering transform, scenario YAML/BDDL, checkpoint identity, and GPU
+safety/serving scripts are inside the content inventory. The release lock
+itself is the unavoidable self-hash exception; B2's current-tree legacy
+`infer.py` is excluded because the adapter executes only the separately
+attested detached tag worktree.

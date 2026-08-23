@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+import uuid
 from pathlib import Path
 
 import jax
@@ -141,6 +142,7 @@ def main() -> None:
         "environment": "LIBERO",
         "checkpoint": identity,
         "capabilities": ["action_chunks", "spatial_prefix_v1"],
+        "server_session_id": uuid.uuid4().hex,
     }
     websocket_policy_server.WebsocketPolicyServer(
         policy=IdentifiedSpatialPolicy(policy),

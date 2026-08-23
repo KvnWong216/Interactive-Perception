@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
+import importlib.util
 import json
 import shlex
 import subprocess
@@ -14,12 +16,77 @@ from typing import Any
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+
+from piu.oracle_schedule import load_schedule
+from piu.policy_identity import load_checkpoint_identity, validate_server_metadata
+
 SCHEMAS = frozenset(
     {
         "calibrated-interaction.oracle-target-prompt-gate.v1",
         "calibrated-interaction.oracle-target-prompt-pilot.v2",
     }
 )
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def resolve(path: Path) -> Path:
+    return path if path.is_absolute() else ROOT / path
+
+
+def validate_endpoint_check(
+    path: Path,
+    *,
+    host: str,
+    port: int,
+    identity_path: Path,
+    require_session: bool,
+) -> dict[str, Any]:
+    value = json.loads(path.read_text())
+    if (
+        value.get("schema_version") != "piu.external-pi05-check.v1"
+        or value.get("status") != "PASS"
+        or value.get("endpoint") != {"host": host, "port": port}
+    ):
+        raise ValueError("external pi0.5 endpoint check differs from this run")
+    validate_server_metadata(
+        dict(value.get("identity", {})), load_checkpoint_identity(identity_path)
+    )
+    if require_session and not isinstance(
+        value.get("identity", {}).get("server_session_id"), str
+    ):
+        raise ValueError("v2 oracle endpoint check lacks a server session ID")
+    probe = value.get("action_probe")
+    if require_session and not isinstance(probe, dict):
+        raise ValueError("v2 oracle endpoint check lacks its finite action probe")
+    if probe is not None and (
+        not isinstance(probe, dict) or probe.get("finite") is not True
+    ):
+        raise ValueError("external pi0.5 action probe is invalid")
+    return value
+
+
+def validate_existing_report(
+    path: Path,
+    *,
+    config: dict[str, Any],
+    seed: int,
+    style: str,
+) -> None:
+    validator_path = (
+        ROOT / "scripts/evaluation/summarize_oracle_target_prompt_gate.py"
+    )
+    specification = importlib.util.spec_from_file_location(
+        "piu_oracle_prompt_report_validator", validator_path
+    )
+    if specification is None or specification.loader is None:
+        raise RuntimeError("cannot load the oracle report validator")
+    module = importlib.util.module_from_spec(specification)
+    specification.loader.exec_module(module)
+    module.validate_oracle_report(path, config=config, seed=seed, style=style)
 
 
 def load_config(path: Path) -> dict[str, Any]:
@@ -137,16 +204,65 @@ def main() -> None:
     parser.add_argument("--host", required=True)
     parser.add_argument("--port", type=int, default=8002)
     parser.add_argument("--server-timeout", type=float, default=30.0)
+    parser.add_argument("--schedule", type=Path)
+    parser.add_argument("--endpoint-check", type=Path)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--skip-existing", action="store_true")
     args = parser.parse_args()
 
-    config_path = args.config if args.config.is_absolute() else ROOT / args.config
+    config_path = resolve(args.config)
     config = load_config(config_path)
-    specs = run_specs(config, phase=args.phase, selected_style=args.style)
+    schedule_path = None if args.schedule is None else resolve(args.schedule)
+    endpoint_check_path = (
+        None if args.endpoint_check is None else resolve(args.endpoint_check)
+    )
+    schedule = None
+    scheduled_rows = None
+    if (
+        config["schema_version"]
+        == "calibrated-interaction.oracle-target-prompt-pilot.v2"
+    ):
+        if schedule_path is None:
+            raise ValueError("v2 oracle execution requires a frozen phase schedule")
+        schedule = load_schedule(
+            schedule_path,
+            repository_root=ROOT,
+            config_path=config_path,
+        )
+        if schedule.get("phase") != args.phase:
+            raise ValueError("oracle schedule phase differs from the requested phase")
+        if schedule.get("selected_style") != args.style:
+            raise ValueError("oracle schedule style differs from the requested style")
+        scheduled_rows = list(schedule["entries"])
+        specs = [(str(row["style"]), int(row["seed"])) for row in scheduled_rows]
+        observed_gap = False
+        for row in scheduled_rows:
+            exists = resolve(Path(str(row["expected_report"]))).is_file()
+            if exists and observed_gap:
+                raise ValueError(
+                    "oracle reports exist outside the frozen execution prefix"
+                )
+            if not exists:
+                observed_gap = True
+    else:
+        specs = run_specs(config, phase=args.phase, selected_style=args.style)
     if not args.dry_run:
         identity = ROOT / config["resource_contract"]["checkpoint_identity"]
-        subprocess.run(
+        if endpoint_check_path is None:
+            raise ValueError(
+                "live oracle execution requires an endpoint check artifact"
+            )
+        endpoint_check = validate_endpoint_check(
+            endpoint_check_path,
+            host=args.host,
+            port=args.port,
+            identity_path=identity,
+            require_session=(
+                config["schema_version"]
+                == "calibrated-interaction.oracle-target-prompt-pilot.v2"
+            ),
+        )
+        live_check = subprocess.run(
             [
                 sys.executable,
                 str(ROOT / "scripts/infra/check_external_pi05.py"),
@@ -161,9 +277,20 @@ def main() -> None:
             ],
             cwd=ROOT,
             check=True,
+            capture_output=True,
+            text=True,
         )
+        live_identity = json.loads(live_check.stdout)["identity"]
+        expected_session = endpoint_check["identity"].get("server_session_id")
+        if (
+            expected_session is not None
+            and live_identity.get("server_session_id") != expected_session
+        ):
+            raise ValueError(
+                "external pi0.5 server session differs from the endpoint check"
+            )
     emitted = []
-    for style, seed in specs:
+    for execution_index, (style, seed) in enumerate(specs):
         command, report = command_for(
             config=config,
             phase=args.phase,
@@ -173,28 +300,52 @@ def main() -> None:
             port=args.port,
             server_timeout=args.server_timeout,
         )
+        if scheduled_rows is not None and report.resolve() != resolve(
+            Path(scheduled_rows[execution_index]["expected_report"])
+        ).resolve():
+            raise ValueError("oracle runner report path differs from its schedule")
         if report.exists():
             if args.skip_existing:
-                emitted.append({"seed": seed, "style": style, "status": "SKIPPED"})
+                validate_existing_report(
+                    report,
+                    config=config,
+                    seed=seed,
+                    style=style,
+                )
+                emitted.append(
+                    {
+                        "execution_index": execution_index,
+                        "seed": seed,
+                        "style": style,
+                        "status": "VALIDATED_EXISTING",
+                        "report_sha256": sha256(report),
+                    }
+                )
                 continue
             raise FileExistsError(f"immutable report already exists: {report}")
         if args.dry_run:
             emitted.append(
                 {
+                    "execution_index": execution_index,
                     "seed": seed,
                     "style": style,
                     "status": "DRY_RUN",
                     "command": shlex.join(command),
+                    "schedule_sha256": (
+                        sha256(schedule_path) if schedule_path is not None else None
+                    ),
                 }
             )
             continue
         subprocess.run(command, cwd=ROOT, check=True)
         emitted.append(
             {
+                "execution_index": execution_index,
                 "seed": seed,
                 "style": style,
                 "status": "COMPLETE",
                 "report": str(report.relative_to(ROOT)),
+                "report_sha256": sha256(report),
             }
         )
     print(json.dumps(emitted, indent=2))

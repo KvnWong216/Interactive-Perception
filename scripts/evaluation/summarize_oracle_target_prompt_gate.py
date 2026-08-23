@@ -122,14 +122,20 @@ def validate_oracle_report(
     if controller["server_mode"] != "external":
         raise ValueError(f"{path}: oracle run did not use an external server")
     identity_path = ROOT / config["resource_contract"]["checkpoint_identity"]
+    server_metadata = controller["server_metadata"]
     try:
         validate_server_metadata(
-            controller["server_metadata"], load_checkpoint_identity(identity_path)
+            server_metadata, load_checkpoint_identity(identity_path)
         )
     except ValueError as error:
         raise ValueError(f"{path}: frozen policy server identity mismatch") from error
     if len(controller["online_oracle_inputs"]) != 2:
         raise ValueError(f"{path}: incomplete online oracle declaration")
+    server_session_id = server_metadata.get("server_session_id")
+    if config["schema_version"] == V2_SCHEMA and not isinstance(
+        server_session_id, str
+    ):
+        raise ValueError(f"{path}: v2 oracle report lacks a server session ID")
     oracle = controller["oracle_visual_prompt"]
     if oracle["style"] != style:
         raise ValueError(f"{path}: oracle style mismatch")
@@ -170,6 +176,7 @@ def validate_oracle_report(
     return {
         "seed": seed,
         "style": style,
+        "server_session_id": server_session_id,
         "target_pick": bool(evaluator.get("target_pick_success", target_contact)),
         "target_grasp_contact": target_contact,
         "target_maximum_lift_m": float(
@@ -203,6 +210,10 @@ def load_phase(
             rows.append(
                 validate_oracle_report(path, config=config, seed=seed, style=style)
             )
+    if config["schema_version"] == V2_SCHEMA and len(
+        {row["server_session_id"] for row in rows}
+    ) != 1:
+        raise ValueError(f"oracle {phase} reports span multiple server sessions")
     return rows
 
 

@@ -56,6 +56,10 @@ freezes group and within-group B0--B8 execution order without loading outcomes.
 Both pilot planning and schedule construction first verify every file in the
 offline release inventory, so the formal design also binds the code/config
 snapshot rather than only the outcome artifacts.
+That inventory now enforces a transitive dependency closure and includes the
+unified executor, policy client, oracle renderer, scenario YAML/BDDL, checkpoint
+identity, and runtime safety scripts; a high-level runner can no longer remain
+"locked" while a local imported dependency drifts.
 Before schedule construction, a separate manifest must freeze one unique,
 finite numeric opaque NPZ simulator state for every sealed group and bind it to
 the prospective seed. Those states are transport-only, never policy inputs.
@@ -86,6 +90,13 @@ runs one full-task DIRECT budget. Its evaluator mask is an audited pixel-exact
 no-op while the butter is hidden and applies only the uniquely
 development-selected marker after visibility. It emits a standard B7 oracle
 episode, but the selected-style artifact and external rollout remain absent.
+The preceding v2 oracle screen now has its own outcome-independent nine-cell
+execution schedule, with exact source states and report destinations bound to
+the offline release. Live execution requires the schedule plus a matching
+endpoint-check artifact, and resume validates completed reports before skipping
+them. New identified servers expose a session ID; the endpoint check and all
+reports in one phase must share it, preventing an unnoticed policy-RNG reset
+mid-comparison. The schedule is frozen; no oracle outcome has been collected.
 The frozen B2 tag was audited as a one-decision system rather than a complete
 closed loop. Its adapter now verifies the exact tag commit, paired public RGB,
 all legacy model-tree hashes, and inference report; it executes at most the one
@@ -128,5 +139,5 @@ not bypass the causal oracle gate or fabricate those missing outcomes.
 Consequently no real B8/B0 development pilot, conservative formal group count,
 formal initial-state cohort, or sealed execution schedule exists yet; Phase 9
 and the Phase 10 cohort/one-shot execution freeze are software-ready only. The
-current CPU-only repository suite passes 210 tests; observed GPU use remains
+current CPU-only repository suite passes 213 tests; observed GPU use remains
 590 MiB, below the 1500 MiB cap.

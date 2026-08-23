@@ -1,0 +1,12 @@
+schema_version: piu.oracle-target-prompt-schedule-protocol.v1
+id: original_drawer_oracle_target_prompt_schedule_v1
+status: frozen_before_external_oracle_outcomes
+target_protocol: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
+method: sha256_keyed_outcome_independent_permutation
+namespace: original_drawer_oracle_target_prompt_pilot_v2
+within_phase_order_randomized: true
+outcomes_loaded: false
+claim_scope: >-
+  Execution-order control only. This protocol cannot select a visual style,
+  change an endpoint, authorize a public-input method, or supply performance
+  evidence.

@@ -78,3 +78,7 @@ New non-performance artifacts:
   final matrix revalidates the full close chain. The common eight-decision cap
   is frozen as a resource budget. This prevents selective reruns and unequal
   controller horizons, but it is protocol evidence rather than task success.
+- The external oracle gate now has a frozen, hash-permuted nine-cell screen
+  schedule rather than style-blocked command order. It binds exact post-OPEN
+  states, report paths, policy identity, and the transitive offline release;
+  no endpoint was contacted and no new oracle outcome was produced.

@@ -99,8 +99,15 @@ private network or authenticated reverse proxy.
 After the endpoint check passes:
 
 ```bash
+/path/to/simulator-python \
+  scripts/evaluation/build_oracle_target_prompt_schedule.py \
+  --phase screen \
+  --output results/method/original_drawer_oracle_prompt_screen_schedule_v1.json
+
 /path/to/simulator-python scripts/pipeline/run_oracle_target_prompt_gate.py \
-  --phase screen --host 127.0.0.1 --port 8002
+  --phase screen --host 127.0.0.1 --port 8002 \
+  --schedule results/method/original_drawer_oracle_prompt_screen_schedule_v1.json \
+  --endpoint-check results/diagnostics/external_pi05_endpoint_check_v1.json
 
 /path/to/simulator-python scripts/evaluation/summarize_oracle_target_prompt_gate.py \
   --phase screen \
@@ -110,9 +117,17 @@ After the endpoint check passes:
 Read `screen.selected_style`, then run the disjoint confirmation:
 
 ```bash
+/path/to/simulator-python \
+  scripts/evaluation/build_oracle_target_prompt_schedule.py \
+  --phase confirmation \
+  --screen-result results/method/original_drawer_oracle_prompt_screen_v2.json \
+  --output results/method/original_drawer_oracle_prompt_confirmation_schedule_v1.json
+
 /path/to/simulator-python scripts/pipeline/run_oracle_target_prompt_gate.py \
   --phase confirmation --style SELECTED_STYLE \
-  --host 127.0.0.1 --port 8002
+  --host 127.0.0.1 --port 8002 \
+  --schedule results/method/original_drawer_oracle_prompt_confirmation_schedule_v1.json \
+  --endpoint-check results/diagnostics/external_pi05_endpoint_check_v1.json
 
 /path/to/simulator-python scripts/evaluation/summarize_oracle_target_prompt_gate.py \
   --phase confirmation --style SELECTED_STYLE \

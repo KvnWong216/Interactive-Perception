@@ -50,9 +50,21 @@ def test_external_endpoint_metadata_requires_exact_checkpoint_identity() -> None
     }
     checker.validate_metadata(metadata, identity)
     checker.validate_metadata(
-        {**metadata, "capabilities": ["action_chunks", "spatial_prefix_v1"]},
+        {
+            **metadata,
+            "capabilities": ["action_chunks", "spatial_prefix_v1"],
+            "server_session_id": "a" * 32,
+        },
         identity,
     )
+    try:
+        checker.validate_metadata(
+            {**metadata, "server_session_id": "not-a-session"}, identity
+        )
+    except ValueError as error:
+        assert "identity mismatch" in str(error)
+    else:
+        raise AssertionError("malformed server session identity was accepted")
     mismatched = {**metadata, "policy_config": "pi05_base"}
     try:
         checker.validate_metadata(mismatched, identity)

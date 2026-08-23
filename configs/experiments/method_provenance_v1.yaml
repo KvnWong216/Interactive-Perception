@@ -79,11 +79,11 @@ entries:
 
   - id: external_pi05_checkpoint_identity
     location: src/piu/policy_identity.py:validate_server_metadata
-    value: exact pi05_libero checkpoint-tree identity plus required action_chunks capability
+    value: exact pi05_libero checkpoint-tree identity plus required action_chunks capability and optional validated server-session ID
     provenance: frozen_policy_contract
     claim_use: main_method_online
-    rationale: Every prospective external execution validates the same content-addressed checkpoint before the first action. A capability list may add the registered spatial-prefix service, but policy config, environment, checkpoint tree, and metadata field closure cannot drift across B0--B8.
-    evidence: the unified executor, baseline/oracle adapters, counterfactual collector, and endpoint probe share one validator; regression tests accept declared capabilities and reject a mismatched checkpoint identity
+    rationale: Every prospective external execution validates the same content-addressed checkpoint before the first action. A capability list may add the registered spatial-prefix service, but policy config, environment, checkpoint tree, and metadata field closure cannot drift across B0--B8. New servers expose a random session ID so a phase can detect a mid-run restart without treating the ID as policy identity.
+    evidence: the unified executor, baseline/oracle adapters, counterfactual collector, and endpoint probe share one validator; the v2 oracle runner additionally requires a finite action probe, and regression tests accept declared capabilities/session IDs while rejecting a mismatched checkpoint or malformed session identity
 
   - id: rollout_step_limits
     location: configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:execution.steps
@@ -234,8 +234,16 @@ entries:
     value: content-addressed inventory of all required mainline code and configs
     provenance: protocol_identifier
     claim_use: main_evaluator
-    rationale: Pilot planning and schedule freezing validate every inventory hash before reading outcomes, so a schedule cannot silently use code that differs from the retained offline release.
-    evidence: reproduction-lock mutation tests reject a changed source file; the prospective plan and schedule retain the lock hash
+    rationale: Pilot planning and schedule freezing validate every inventory hash before reading outcomes, including local import and literal runtime dependencies, so a schedule cannot silently use changed transitive executor code.
+    evidence: reproduction tests reject source drift and an untracked local import; the inventory includes the executor, external client, scene config/BDDL, policy identity, oracle renderer, and runtime safety scripts
+
+  - id: oracle_prompt_phase_execution_order
+    location: configs/experiments/original_drawer_oracle_target_prompt_schedule_v1.yaml
+    value: SHA-256-keyed permutation within screen and confirmation phases
+    provenance: protocol_identifier
+    claim_use: diagnostic_only
+    rationale: The nine style-by-group screen cells and five confirmation groups execute in a content-bound order frozen before that phase's outcomes, preventing style-blocked temporal drift from becoming an unrecorded confound.
+    evidence: the schedule builder binds the unchanged v2 experiment, offline release, source-state hashes, expected report paths, and prior unique screen selection; the runner rejects reordered or incomplete schedules, endpoint-session drift, and phase reports spanning multiple sessions
 
   - id: binding_mask_to_patch_target
     location: src/piu/binding_data.py:mask_to_patch_coverage

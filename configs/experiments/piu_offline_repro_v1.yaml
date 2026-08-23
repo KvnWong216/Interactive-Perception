@@ -9,7 +9,20 @@ resource_contract:
   local_simulator_gpu_render_allowed: false
   pi05_execution_location: identified_external_server_only
 
+dependency_closure_exceptions:
+  - path: results/diagnostics/piu_offline_repro_preflight_v1.json
+    rationale: >-
+      The release lock cannot contain its own content hash; it is validated as
+      the output of this manifest and bound separately by every formal design.
+  - path: scripts/pipeline/infer.py
+    rationale: >-
+      The B2 adapter executes this path only inside a detached worktree at the
+      attested frozen tag commit, never from the current release checkout.
+
 required_files:
+  - configs/experiments/piu_offline_repro_v1.yaml
+  - configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml
+  - configs/experiments/original_drawer_oracle_target_prompt_schedule_v1.yaml
   - configs/experiments/piu_binding_adapter_v1.yaml
   - configs/experiments/piu_binding_calibration_v1.yaml
   - configs/experiments/piu_action_effect_v1.yaml
@@ -18,8 +31,24 @@ required_files:
   - configs/experiments/piu_formal_analysis_v1.yaml
   - configs/experiments/method_provenance_v1.yaml
   - configs/experiments/piu_primitive_registry_v1.yaml
+  - configs/scenarios/original_drawer.yaml
+  - scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl
+  - results/diagnostics/pi05_libero_checkpoint_identity_v1.json
+  - src/calibrated_interaction/__init__.py
+  - src/calibrated_interaction/calibration.py
+  - src/calibrated_interaction/capabilities.py
+  - src/calibrated_interaction/contracts.py
+  - src/calibrated_interaction/controller.py
+  - src/interactive_perception/__init__.py
+  - src/interactive_perception/action_options.py
+  - src/interactive_perception/observation_option.py
+  - src/interactive_perception/oracle_visual_prompt.py
+  - src/interactive_perception/policy_client.py
+  - src/piu/__init__.py
+  - src/piu/ablations.py
   - src/piu/spatial_prefix.py
   - src/piu/target_binding.py
+  - src/piu/binding_data.py
   - src/piu/binding_training.py
   - src/piu/binding_calibration.py
   - src/piu/action_effect.py
@@ -27,6 +56,7 @@ required_files:
   - src/piu/effect_calibration.py
   - src/piu/candidate_generator.py
   - src/piu/temporal_memory.py
+  - src/piu/contracts.py
   - src/piu/calibrated_controller.py
   - src/piu/ablation_controller.py
   - src/piu/executor_bridge.py
@@ -34,11 +64,14 @@ required_files:
   - src/piu/statistics.py
   - src/piu/splits.py
   - src/piu/oracle_effect.py
+  - src/piu/oracle_schedule.py
   - src/piu/execution_plan.py
   - src/piu/policy_identity.py
   - src/piu/formal_design.py
   - src/piu/formal_states.py
   - src/piu/formal_attempt.py
+  - src/piu/evaluation.py
+  - src/piu/primitive_registry.py
   - src/piu/reproducibility.py
   - src/calibrated_interaction/paired_power.py
   - scripts/data/export_piu_binding_labels.py
@@ -67,9 +100,18 @@ required_files:
   - scripts/evaluation/plan_piu_formal_paired_test.py
   - scripts/evaluation/build_piu_formal_schedule.py
   - scripts/evaluation/build_piu_formal_initial_states.py
+  - scripts/evaluation/build_oracle_target_prompt_schedule.py
   - scripts/evaluation/begin_piu_formal_attempt.py
   - scripts/evaluation/close_piu_formal_attempt.py
+  - scripts/evaluation/preflight_oracle_target_prompt.py
+  - scripts/evaluation/summarize_oracle_target_prompt_gate.py
   - scripts/repro/check_piu_offline_pipeline.py
+  - scripts/infra/check_external_pi05.py
+  - scripts/infra/bootstrap.py
+  - scripts/infra/check_gpu.sh
+  - scripts/infra/checkpoint_identity.py
+  - scripts/infra/serve_identified_pi05.py
+  - scripts/infra/serve_pi05.sh
   - scripts/evaluation/evaluate_piu_primitive_qualification.py
   - scripts/evaluation/plan_piu_primitive_qualification.py
   - scripts/evaluation/build_piu_qualified_executor_map.py
@@ -86,6 +128,8 @@ required_files:
   - scripts/pipeline/run_piu_oracle_binding_full_loop.py
   - scripts/pipeline/run_piu_heuristic_v0_inference.py
   - scripts/pipeline/run_piu_heuristic_v0_once.py
+  - scripts/pipeline/execute.py
+  - scripts/pipeline/run_oracle_target_prompt_gate.py
   - docs/preregistration.md
   - docs/claim_evidence_ledger.md
 
@@ -118,9 +162,14 @@ python_entrypoints:
   - scripts/evaluation/plan_piu_formal_paired_test.py
   - scripts/evaluation/build_piu_formal_schedule.py
   - scripts/evaluation/build_piu_formal_initial_states.py
+  - scripts/evaluation/build_oracle_target_prompt_schedule.py
   - scripts/evaluation/begin_piu_formal_attempt.py
   - scripts/evaluation/close_piu_formal_attempt.py
+  - scripts/evaluation/preflight_oracle_target_prompt.py
+  - scripts/evaluation/summarize_oracle_target_prompt_gate.py
   - scripts/repro/check_piu_offline_pipeline.py
+  - scripts/infra/check_external_pi05.py
+  - scripts/infra/serve_identified_pi05.py
   - scripts/evaluation/evaluate_piu_primitive_qualification.py
   - scripts/evaluation/plan_piu_primitive_qualification.py
   - scripts/evaluation/build_piu_qualified_executor_map.py
@@ -137,6 +186,8 @@ python_entrypoints:
   - scripts/pipeline/run_piu_oracle_binding_full_loop.py
   - scripts/pipeline/run_piu_heuristic_v0_inference.py
   - scripts/pipeline/run_piu_heuristic_v0_once.py
+  - scripts/pipeline/execute.py
+  - scripts/pipeline/run_oracle_target_prompt_gate.py
 
 external_empirical_gates:
   - id: external_prompted_vlm_router_identity

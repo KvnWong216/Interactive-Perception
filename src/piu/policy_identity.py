@@ -40,12 +40,19 @@ def validate_server_metadata(
     expected = expected_server_metadata(identity)
     received = {name: metadata.get(name) for name in expected}
     capabilities = metadata.get("capabilities", ["action_chunks"])
+    session_id = metadata.get("server_session_id")
+    session_valid = session_id is None or (
+        isinstance(session_id, str)
+        and len(session_id) == 32
+        and all(character in "0123456789abcdef" for character in session_id)
+    )
     if (
         received != expected
         or not isinstance(capabilities, list)
         or any(not isinstance(item, str) for item in capabilities)
         or "action_chunks" not in capabilities
-        or set(metadata) - {*expected, "capabilities"}
+        or not session_valid
+        or set(metadata) - {*expected, "capabilities", "server_session_id"}
     ):
         raise ValueError("external pi0.5 server identity differs from frozen policy")
     return tuple(capabilities)

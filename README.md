@@ -180,21 +180,50 @@ python scripts/evaluation/preflight_oracle_target_prompt.py \
 Then inspect and run the nine screening jobs against an external service:
 
 ```bash
-python scripts/pipeline/run_oracle_target_prompt_gate.py \
-  --phase screen --host <external-pi05-host> --dry-run
+python scripts/infra/check_external_pi05.py \
+  --host <external-pi05-host> --port 8002 \
+  --identity results/diagnostics/pi05_libero_checkpoint_identity_v1.json \
+  --probe-report runs/paper_cycle_executor_v2/seed1400/open_butter/report.json \
+  --output results/diagnostics/external_pi05_endpoint_check_v1.json
+
+python scripts/evaluation/build_oracle_target_prompt_schedule.py \
+  --phase screen \
+  --output results/method/original_drawer_oracle_prompt_screen_schedule_v1.json
 
 python scripts/pipeline/run_oracle_target_prompt_gate.py \
-  --phase screen --host <external-pi05-host>
+  --phase screen --host <external-pi05-host> \
+  --schedule results/method/original_drawer_oracle_prompt_screen_schedule_v1.json \
+  --dry-run
+
+python scripts/pipeline/run_oracle_target_prompt_gate.py \
+  --phase screen --host <external-pi05-host> \
+  --schedule results/method/original_drawer_oracle_prompt_screen_schedule_v1.json \
+  --endpoint-check results/diagnostics/external_pi05_endpoint_check_v1.json
 
 python scripts/evaluation/summarize_oracle_target_prompt_gate.py \
   --phase screen \
-  --output results/method/original_drawer_oracle_prompt_screen_v1.json
+  --output results/method/original_drawer_oracle_prompt_screen_v2.json
 ```
 
-Run the selected style on the five disjoint confirmation seeds with
-`--phase confirmation --style <selected-style>`, then summarize with the same
-phase and style. Every oracle report declares two online privileged inputs and
-uses the claim scope `EVALUATOR_ONLY_ORACLE_UPPER_BOUND`.
+Freeze the confirmation order from that screen result, then run the selected
+style on the five disjoint confirmation seeds:
+
+```bash
+python scripts/evaluation/build_oracle_target_prompt_schedule.py \
+  --phase confirmation \
+  --screen-result results/method/original_drawer_oracle_prompt_screen_v2.json \
+  --output results/method/original_drawer_oracle_prompt_confirmation_schedule_v1.json
+
+python scripts/pipeline/run_oracle_target_prompt_gate.py \
+  --phase confirmation --style <selected-style> \
+  --host <external-pi05-host> \
+  --schedule results/method/original_drawer_oracle_prompt_confirmation_schedule_v1.json \
+  --endpoint-check results/diagnostics/external_pi05_endpoint_check_v1.json
+```
+
+Then summarize with the same phase and style. Every oracle report declares two
+online privileged inputs and uses the claim scope
+`EVALUATOR_ONLY_ORACLE_UPPER_BOUND`.
 
 ### B1 prompted-VLM baseline
 
