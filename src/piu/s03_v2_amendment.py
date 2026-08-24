@@ -7,6 +7,7 @@ to the unchanged 620-record logical schedule.
 
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import subprocess
@@ -21,7 +22,6 @@ from interaction_uncertainty.grounding_dino_compat import (
 
 from .s03_execution import (
     build_s03_public_request,
-    validate_s03_model_identity_contract,
     validate_s03_no_legacy_oracle_dependency,
 )
 from .s03_preparation import (
@@ -43,9 +43,12 @@ PARENT_SCHEDULE_SHA256 = "26faff39586b8071a130253079f2cf3478c88649c6f08276ce7469
 LOGICAL_MANIFEST_PATH = Path("results/method/piu_s03_perception_decision_input_manifest_v1.json")
 LOGICAL_MANIFEST_SHA256 = "757a56c4848d66190b310ef21bd97db2ea954d13c6103f105f93db6868a27433"
 V2_IDENTITY_PATH = Path("configs/experiments/piu_s03_runner_identity_v2.json")
+V2_MODEL_IDENTITY_PATH = Path("configs/experiments/piu_s03_model_identity_v2.json")
 V2_PLAN_PATH = Path("results/method/piu_s03_perception_decision_execution_plan_v2.json")
 V2_OUTPUT_ROOT = Path("runs/piu_s03_perception_decision_v2")
 V2_CERTIFICATE_PATH = Path("results/method/piu_s03_perception_decision_certificate_v2.json")
+V1_MODEL_IDENTITY_PATH = Path("configs/experiments/piu_s03_model_identity_v1.json")
+V1_MODEL_IDENTITY_SHA256 = "16903c60054573ccb116dc0d6e544ab7b51178e763ea1b32fe64c65e4556ebda"
 
 _V1_FILE_SHA256 = {
     "_receipts/000.closed.json": "85cd3ffbb97a617b03c6b5fe663e8b31a67b93a18310edf27ca348b1cf2aebce",
@@ -207,6 +210,98 @@ def _validate_code_identity(
     return [dict(row) for row in artifacts]
 
 
+def _validate_s03_v2_model_identity(
+    path: Path, *, repository_root: Path
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Validate and expand the compact v2 amendment over frozen model v1."""
+
+    amendment = _load_mapping(path, "S03 v2 model identity amendment")
+    required = {
+        "schema_version",
+        "status",
+        "identity_id",
+        "model_id",
+        "base_model_identity",
+        "backend_id",
+        "backend_entrypoint",
+        "code",
+        "transformers_version",
+        "grounding_dino_processor_api",
+        "compatibility_wrapper_version",
+        "checkpoint_changed",
+        "calibrator_changed",
+        "policy_input_firewall_changed",
+        "legacy_oracle_dependency",
+        "outcomes_generated",
+        "paper_claim_ready",
+    }
+    if set(amendment) != required:
+        raise ValueError("S03 v2 model identity amendment fields differ")
+    if (
+        amendment["schema_version"] != "piu.s03-model-identity-amendment.v2"
+        or amendment["status"] != "FROZEN_BEFORE_S03_V2_OUTCOMES"
+        or amendment["identity_id"] != "piu_s03_public_perception_v2"
+        or amendment["model_id"] != "public_rgb_dino_sam_siglip_qwen25vl_pipeline_v0"
+        or amendment["checkpoint_changed"] is not False
+        or amendment["calibrator_changed"] is not False
+        or amendment["policy_input_firewall_changed"] is not False
+        or amendment["legacy_oracle_dependency"] is not False
+        or amendment["outcomes_generated"] != 0
+        or amendment["paper_claim_ready"] is not False
+    ):
+        raise ValueError("S03 v2 model identity crossed the pre-outcome amendment boundary")
+    base_path = _verify_reference(
+        amendment["base_model_identity"],
+        "S03 v1 base model identity",
+        repository_root=repository_root,
+    )
+    if (
+        _portable(base_path, repository_root=repository_root) != str(V1_MODEL_IDENTITY_PATH)
+        or sha256(base_path) != V1_MODEL_IDENTITY_SHA256
+    ):
+        raise ValueError("S03 v2 model amendment changed its frozen model/checkpoint parent")
+    base = _load_mapping(base_path, "S03 v1 base model identity")
+    checkpoint = base.get("checkpoint")
+    if not isinstance(checkpoint, Mapping) or checkpoint.get("algorithm") != (
+        "sha256_of_canonical_json_ordered_artifact_refs"
+    ) or checkpoint.get("digest") != canonical_sha256(checkpoint.get("artifacts")):
+        raise ValueError("S03 v1 checkpoint aggregate identity is malformed")
+    for row in checkpoint["artifacts"]:
+        _verify_reference(
+            {"path": row["path"], "sha256": row["sha256"]},
+            "S03 inherited checkpoint artifact",
+            repository_root=repository_root,
+        )
+    backend_entrypoint = _verify_reference(
+        amendment["backend_entrypoint"],
+        "S03 v2 backend entrypoint",
+        repository_root=repository_root,
+    )
+    _validate_code_identity(amendment["code"], repository_root=repository_root)
+    import transformers
+
+    installed_api = grounding_dino_post_process_identity(
+        transformers.GroundingDinoProcessor.post_process_grounded_object_detection
+    )
+    if (
+        amendment["transformers_version"] != transformers.__version__
+        or amendment["grounding_dino_processor_api"] != installed_api
+        or amendment["compatibility_wrapper_version"] != COMPATIBILITY_WRAPPER_VERSION
+    ):
+        raise ValueError("S03 v2 model amendment differs from the installed Grounding DINO API")
+    expanded = copy.deepcopy(base)
+    expanded["identity_id"] = amendment["identity_id"]
+    expanded["backend"]["backend_id"] = amendment["backend_id"]
+    expanded["backend"]["entrypoint"] = {
+        "path": _portable(backend_entrypoint, repository_root=repository_root),
+        "sha256": sha256(backend_entrypoint),
+    }
+    expanded["code"] = copy.deepcopy(amendment["code"])
+    expanded["paper_claim_ready"] = False
+    validate_s03_no_legacy_oracle_dependency(expanded)
+    return amendment, expanded
+
+
 def validate_s03_v2_runner_identity(
     path: Path, *, repository_root: Path
 ) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -282,7 +377,7 @@ def validate_s03_v2_runner_identity(
     model_path = _verify_reference(
         identity["model_identity"], "S03 v2 model identity", repository_root=repository_root
     )
-    model_identity = validate_s03_model_identity_contract(
+    _, model_identity = _validate_s03_v2_model_identity(
         model_path, repository_root=repository_root
     )
     validate_s03_no_legacy_oracle_dependency(model_identity)
