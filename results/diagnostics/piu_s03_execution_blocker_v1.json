@@ -1,0 +1,82 @@
+{
+  "schema_version": "piu.s03-execution-blocker.v1",
+  "status": "FORMAL_EXECUTION_STOPPED_INFRASTRUCTURE_FAILURE",
+  "created_at": "2026-08-24T07:32:46Z",
+  "frozen_inputs": {
+    "schedule": {
+      "path": "results/method/piu_s03_perception_decision_schedule_v1.json",
+      "sha256": "26faff39586b8071a130253079f2cf3478c88649c6f08276ce7469644123a701"
+    },
+    "manifest": {
+      "path": "results/method/piu_s03_perception_decision_input_manifest_v1.json",
+      "sha256": "757a56c4848d66190b310ef21bd97db2ea954d13c6103f105f93db6868a27433"
+    },
+    "runner_contract": {
+      "path": "configs/experiments/piu_s03_runner_contract_v1.json",
+      "sha256": "ce6b17065805791e2f355541e821f7e32b72e1f01d1eb50fa4d4e9f3d4200ea6"
+    },
+    "model_identity": {
+      "path": "configs/experiments/piu_s03_model_identity_v1.json",
+      "sha256": "16903c60054573ccb116dc0d6e544ab7b51178e763ea1b32fe64c65e4556ebda"
+    }
+  },
+  "ledger": {
+    "records_scheduled": 620,
+    "records_started": 1,
+    "records_closed": 1,
+    "records_with_outcome": 0,
+    "infrastructure_failures": 1,
+    "in_flight": null,
+    "next_execution_index": 1,
+    "reruns": 0,
+    "skips": 0,
+    "overwrites": 0
+  },
+  "partial_execution_tree": {
+    "algorithm": "sha256_of_canonical_json_ordered_relative_path_and_sha256_rows",
+    "file_count": 3,
+    "root_sha256": "eee3900ad0e490e027f18436f979bc72977c015ae27870e80d7d4ac278b265ad"
+  },
+  "failed_record": {
+    "execution_index": 0,
+    "record_id": "s03-a-000",
+    "started_receipt": {
+      "path": "runs/piu_s03_perception_decision_v1/_receipts/000.started.json",
+      "sha256": "24b8b5c72f15534217ca19ad5b0e5be20b5b1334089275a9923b9bc498e253a5"
+    },
+    "closed_receipt": {
+      "path": "runs/piu_s03_perception_decision_v1/_receipts/000.closed.json",
+      "sha256": "85cd3ffbb97a617b03c6b5fe663e8b31a67b93a18310edf27ca348b1cf2aebce"
+    },
+    "infrastructure_failure": {
+      "path": "runs/piu_s03_perception_decision_v1/records/000_s03-a-000/infrastructure_failure.json",
+      "sha256": "452226d3a8a514ececd2083466ecd436e77804f7ad3385d429200921e931ba55"
+    },
+    "prediction_generated": false,
+    "outcome_generated": false,
+    "index_consumed": true
+  },
+  "root_cause": {
+    "stage": "GROUNDING_DINO_POST_PROCESS",
+    "category": "FROZEN_BACKEND_DEPENDENCY_API_MISMATCH",
+    "exception_type": "TypeError",
+    "exception": "GroundingDinoProcessor.post_process_grounded_object_detection() got an unexpected keyword argument 'box_threshold'",
+    "frozen_call": "post_process_grounded_object_detection(..., box_threshold=0.25, text_threshold=0.20, ...)",
+    "installed_transformers_version": "4.57.6",
+    "installed_signature": "(outputs, input_ids=None, threshold=0.25, text_threshold=0.25, target_sizes=None, text_labels=None)",
+    "diagnostic_method": "model initialization plus non-S03 training-image frontend diagnostic after the formal index was closed",
+    "diagnostic_generated_s03_prediction": false,
+    "diagnostic_generated_s03_outcome": false
+  },
+  "stop_decision": {
+    "reason": "the frozen runner would reproduce the same infrastructure failure and may not be patched or rerun under the v1 contract",
+    "execution_indices_1_through_619_started": false,
+    "certificate_generated": false,
+    "required_follow_up": "prospectively freeze a new runner identity and new S03 execution version; never reuse or relabel v1 index 0"
+  },
+  "legacy_oracle_used": false,
+  "privileged_policy_input_used": false,
+  "s02_artifacts_modified": false,
+  "s03_pre_outcome_artifacts_modified": false,
+  "paper_claim_ready": false
+}

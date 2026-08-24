@@ -1,0 +1,54 @@
+{
+  "schema_version": "piu.s03-record-artifact.v1",
+  "record_id": "s03-a-000",
+  "schedule_index": 0,
+  "linked_s02_index": 0,
+  "subtest": "A_INFORMATION_EFFECT",
+  "stratum": "PAIRED_PRE_POST",
+  "schedule": {
+    "path": "results/method/piu_s03_perception_decision_schedule_v1.json",
+    "sha256": "26faff39586b8071a130253079f2cf3478c88649c6f08276ce7469644123a701"
+  },
+  "manifest": {
+    "path": "results/method/piu_s03_perception_decision_input_manifest_v1.json",
+    "sha256": "757a56c4848d66190b310ef21bd97db2ea954d13c6103f105f93db6868a27433"
+  },
+  "manifest_record_sha256": "1f0416b803787ad21faa1389700ea9c42d70f6f6c5a616cb3bc18d60abafde16",
+  "public_input_digest": "17f394c27d8ae94d7f5e45139c23512d615665fabc781fb7ebf5593b5b71aba7",
+  "request_sha256": "b12e80404533f02aba1d3e4aaf3c7fe90b18a6d8da7383a4cd685afc47b5a267",
+  "model_identity": {
+    "identity_id": "piu_s03_public_perception_v1",
+    "model_id": "public_rgb_dino_sam_siglip_qwen25vl_pipeline_v0",
+    "checkpoint_digest": "4a99edb33253d18a656924abf52f4dca7a816eda0e8a0859a394d79a877ea258",
+    "calibrator_id": "none_public_qwen_pipeline_v0",
+    "calibrator_version": "0",
+    "code_commit": "ced94cd300b4e1412d815b5c5908e9916d09f223",
+    "backend_id": "interaction_uncertainty_public_rgb_pipeline_v0",
+    "seed": 26082300,
+    "sampling": {
+      "do_sample": false,
+      "temperature": null,
+      "seed_base": 26082300,
+      "per_record_seed_rule": "seed_base_plus_schedule_index"
+    }
+  },
+  "status": "INFRASTRUCTURE_FAILURE",
+  "inference_executed": true,
+  "outcome_present": false,
+  "prediction": null,
+  "outcome": null,
+  "artifacts": [],
+  "infrastructure_failure": {
+    "stage": "BACKEND_OR_RECORD_CONSTRUCTION",
+    "category": "CalledProcessError",
+    "message": "Command '['/home/icon/InteractivePerception_yg/Interactive-Perception/.venv/bin/python', '/home/icon/InteractivePerception_yg/Interactive-Perception/scripts/pipeline/infer.py', '--agentview', '/home/icon/InteractivePerception_yg/Interactive-Perception/runs/piu_open_primitive_qualification_v1/00000_76d36dfa6c23/assets/00_before_agentview.png', '--wrist', '/home/icon/InteractivePerception_yg/Interactive-Perception/runs/piu_open_primitive_qualification_v1/00000_76d36dfa6c23/assets/00_before_wrist.png', '--prompt', 'Place the butter in the basket.', '--asset-dir', '/home/icon/InteractivePerception_yg/Interactive-Perception/runs/piu_s03_perception_decision_v1/records/000_s03-a-000/pre/assets', '--output', '/home/icon/InteractivePerception_yg/Interactive-Perception/runs/piu_s03_perception_decision_v1/records/000_s03-a-000/pre/report.json', '--device', 'cuda', '--max-proposals-per-view', '8', '--action-registry', '/home/icon/InteractivePerception_yg/Interactive-Perception/configs/action_registry.yaml', '--grounding-model', '/home/icon/InteractivePerception_yg/Interactive-Perception/checkpoints/perception/grounding-dino-tiny', '--sam-model', '/home/icon/InteractivePerception_yg/Interactive-Perception/checkpoints/perception/sam-vit-base', '--dino-model', '/home/icon/InteractivePerception_yg/Interactive-Perception/checkpoints/perception/dinov2-small', '--siglip-model', '/home/icon/InteractivePerception_yg/Interactive-Perception/checkpoints/perception/siglip-base-patch16-224', '--qwen-model', '/home/icon/InteractivePerception_yg/Interactive-Perception/checkpoints/perception/qwen2.5-vl-3b-instruct']' returned non-zero exit status 1.",
+    "consumes_execution_index": true,
+    "adjudication": "closed_without_rerun_or_replacement"
+  },
+  "privileged_input_violation": false,
+  "online_oracle_inputs": [],
+  "physical_dispatch_executed": false,
+  "s02_artifacts_modified": false,
+  "paper_claim_ready": false,
+  "created_at": "2026-08-24T07:27:18.103798Z"
+}

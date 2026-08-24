@@ -1,0 +1,28 @@
+{
+  "schema_version": "piu.s03-execution-receipt.v1",
+  "receipt_phase": "STARTED",
+  "status": "STARTED",
+  "execution_index": 0,
+  "record_id": "s03-a-000",
+  "schedule": {
+    "path": "results/method/piu_s03_perception_decision_schedule_v1.json",
+    "sha256": "26faff39586b8071a130253079f2cf3478c88649c6f08276ce7469644123a701"
+  },
+  "manifest": {
+    "path": "results/method/piu_s03_perception_decision_input_manifest_v1.json",
+    "sha256": "757a56c4848d66190b310ef21bd97db2ea954d13c6103f105f93db6868a27433"
+  },
+  "model_identity": {
+    "path": "configs/experiments/piu_s03_model_identity_v1.json",
+    "sha256": "16903c60054573ccb116dc0d6e544ab7b51178e763ea1b32fe64c65e4556ebda"
+  },
+  "public_input_digest": "17f394c27d8ae94d7f5e45139c23512d615665fabc781fb7ebf5593b5b71aba7",
+  "request_sha256": "b12e80404533f02aba1d3e4aaf3c7fe90b18a6d8da7383a4cd685afc47b5a267",
+  "single_use_output_dir": "/home/icon/InteractivePerception_yg/Interactive-Perception/runs/piu_s03_perception_decision_v1/records/000_s03-a-000",
+  "previous_close_sha256": null,
+  "record_artifact": null,
+  "outcome_present": false,
+  "inference_executed": false,
+  "consumes_execution_index": true,
+  "created_at": "2026-08-24T07:27:13.955608Z"
+}
