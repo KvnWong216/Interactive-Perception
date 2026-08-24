@@ -1,0 +1,42 @@
+schema_version: piu.primitive-qualification-input-allocation.v1
+status: FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_INPUT_CAPTURE
+primitive: OPEN
+context: middle_drawer
+candidate_id: open_middle_drawer
+
+repository_seed_snapshot:
+  commit: cd1d6ba1adade1bef8d2620b723b5ab1cf544c5f
+  roots: [configs, results, runs]
+  extraction: explicit_seed_fields_and_seed_tokens_in_tracked_paths
+
+allocation_rule:
+  method: contiguous_block_immediately_above_maximum_observed_seed
+  count_source: frozen_qualification_plan
+  outcome_access: prohibited
+  replacement_after_capture: prohibited
+  replacement_after_rollout: prohibited
+  rationale: >-
+    The cohort size comes only from the frozen exact-binomial plan. The first
+    seed is one greater than the maximum seed recorded in the declared
+    repository snapshot, and all remaining seeds are consecutive. No rollout,
+    evaluator label, controller score, or outcome may alter this allocation.
+
+identifiers:
+  group_prefix: open_middle_drawer_qualification
+  sample_suffix: initial
+
+public_candidate_context:
+  task_target_description: requested butter
+  destination_description: basket
+  affordance_entity:
+    entity_id: middle_drawer
+    description: the middle drawer below the countertop
+    capabilities: [OPEN]
+
+claim_contract:
+  rollout_executed: false
+  outcomes_loaded: false
+  pre_outcome_only: true
+  pi05_loaded_during_allocation: false
+  simulator_privileged_semantic_ids_allowed_as_controller_input: false
+

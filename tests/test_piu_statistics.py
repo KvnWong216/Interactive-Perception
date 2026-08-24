@@ -201,7 +201,7 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
     )
     matrix = tmp_path / "matrix.jsonl"
     formal_schedule = tmp_path / "formal_schedule.json"
-    repro_lock = ROOT / "results/diagnostics/piu_offline_repro_preflight_v3.json"
+    repro_lock = ROOT / "results/diagnostics/piu_offline_repro_preflight_v4.json"
     baseline_registry = ROOT / "configs/experiments/piu_baselines_v1.yaml"
     scenario_config = ROOT / "configs/scenarios/original_drawer.yaml"
     formal_schedule.write_text(
@@ -216,7 +216,7 @@ def test_authorized_episode_rows_assemble_only_as_complete_frozen_matrix(
                         "manifest_sha256": hashlib.sha256(
                             (
                                 ROOT
-                                / "configs/experiments/piu_offline_repro_v3.yaml"
+                                / "configs/experiments/piu_offline_repro_v4.yaml"
                             ).read_bytes()
                         ).hexdigest(),
                     },

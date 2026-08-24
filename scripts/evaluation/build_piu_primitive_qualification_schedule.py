@@ -75,12 +75,12 @@ def main() -> None:
     parser.add_argument(
         "--repro-manifest",
         type=Path,
-        default=ROOT / "configs/experiments/piu_offline_repro_v3.yaml",
+        default=ROOT / "configs/experiments/piu_offline_repro_v4.yaml",
     )
     parser.add_argument(
         "--repro-lock",
         type=Path,
-        default=ROOT / "results/diagnostics/piu_offline_repro_preflight_v3.json",
+        default=ROOT / "results/diagnostics/piu_offline_repro_preflight_v4.json",
     )
     parser.add_argument("--run-root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -148,6 +148,7 @@ def main() -> None:
         Path(baseline["shared_contract"]["checkpoint_identity"])
     )
     plan_digest = sha256(plan_path)
+    risk_path = resolve(Path(plan["risk_contract"]["path"]))
     namespace = f"{plan['candidate_id']}::{plan['primitive']}::{plan['context']}"
     rows = []
     state_digests = set()
@@ -193,11 +194,20 @@ def main() -> None:
                 "candidate_id": plan["candidate_id"],
                 "primitive": plan["primitive"],
                 "context": plan["context"],
+                "group_id": group,
+                "scenario": scenario["id"],
                 "state_key": state_key,
                 "controller_report": artifact(controller_path),
                 "structured_subtask_sha256": controller[
                     "structured_subtask_sha256"
                 ],
+                "subtask_prompt": controller["structured_subtask"],
+                "public_observation_sha256": controller[
+                    "public_observation_sha256"
+                ],
+                "rollout_executed": False,
+                "outcome_loaded": False,
+                "pre_outcome_only": True,
                 "source_state": {
                     "path": portable(state_path),
                     "sha256": digest,
@@ -218,19 +228,39 @@ def main() -> None:
         "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES",
         "claim_scope": "EXECUTOR_QUALIFICATION_ONLY_NOT_TASK_SUCCESS",
         "outcomes_loaded": False,
+        "rollout_executed": False,
+        "pre_outcome_only": True,
+        "execution_receipts_present_at_freeze": False,
         "permutation_namespace": namespace,
         "candidate_contract": candidate_contract,
         "inputs": {
             "plan": artifact(plan_path),
+            "risk_contract": artifact(risk_path),
             "split_manifest": artifact(split_path),
             "baseline_registry": artifact(baseline_path),
             "scenario_config": artifact(scenario_path),
             "policy_identity": artifact(identity_path),
             "offline_repro_lock": {
                 **artifact(repro_lock_path),
+                "manifest_path": portable(repro_manifest_path),
                 "manifest_sha256": sha256(repro_manifest_path),
             },
         },
+        "seed_allocation": split.get(
+            "allocation",
+            {
+                "rule": "preexisting_frozen_split_manifest",
+                "rationale": "synthetic or retained schedule fixture",
+                "seed_start": min(qualification.values()),
+                "seed_end": max(qualification.values()),
+                "count": len(qualification),
+                "replacement_after_capture": "prohibited",
+                "replacement_after_rollout": "prohibited",
+                "rollout_executed": False,
+                "outcomes_loaded": False,
+                "pre_outcome_only": True,
+            },
+        ),
         "run_root": portable(run_root),
         "entries": rows,
     }

@@ -160,7 +160,7 @@ def load_oracle_formal_initial_states(
         name="oracle formal offline release lock",
         repository_root=repository_root,
     )
-    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v3.yaml"
+    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v4.yaml"
     if lock_reference.get("manifest_sha256") != sha256(manifest_path):
         raise ValueError("oracle formal states use another reproduction manifest")
     validate_repro_lock(
@@ -343,7 +343,7 @@ def load_oracle_formal_schedule(
         name="oracle formal offline release lock",
         repository_root=repository_root,
     )
-    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v3.yaml"
+    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v4.yaml"
     if (
         lock_reference.get("manifest_sha256") != sha256(manifest_path)
         or state_manifest["offline_repro_lock"]["sha256"] != sha256(lock_path)

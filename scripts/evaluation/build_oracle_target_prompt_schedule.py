@@ -48,12 +48,12 @@ def main() -> None:
     parser.add_argument(
         "--repro-manifest",
         type=Path,
-        default=ROOT / "configs/experiments/piu_offline_repro_v3.yaml",
+        default=ROOT / "configs/experiments/piu_offline_repro_v4.yaml",
     )
     parser.add_argument(
         "--repro-lock",
         type=Path,
-        default=ROOT / "results/diagnostics/piu_offline_repro_preflight_v3.json",
+        default=ROOT / "results/diagnostics/piu_offline_repro_preflight_v4.json",
     )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()

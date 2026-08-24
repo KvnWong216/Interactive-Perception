@@ -659,6 +659,7 @@ def load_qualification_controller_decision(
         "piu.uncalibrated-ablation-controller-report.v1",
         "piu.prompted-vlm-router-report.v1",
         "piu.primitive-qualification-probe.v1",
+        "piu.primitive-qualification-probe.v2",
         "piu.binding-qualification-stimulus.v1",
     }:
         raise ValueError("unsupported qualification controller report")
@@ -679,7 +680,10 @@ def load_qualification_controller_decision(
         raise ValueError("qualification group/candidate does not select one decision")
     decision = dict(matches[0])
     normalized_primitive = " ".join(primitive.split()).upper()
-    if schema == "piu.primitive-qualification-probe.v1":
+    if schema in {
+        "piu.primitive-qualification-probe.v1",
+        "piu.primitive-qualification-probe.v2",
+    }:
         if repository_root is None:
             raise ValueError("qualification probe validation requires repository root")
         if (
@@ -701,6 +705,11 @@ def load_qualification_controller_decision(
             or normalized_primitive != "OPEN"
         ):
             raise ValueError("qualification probe crossed its selection firewall")
+        if schema == "piu.primitive-qualification-probe.v2" and (
+            report.get("rollout_executed") is not False
+            or report.get("pre_outcome_only") is not True
+        ):
+            raise ValueError("qualification probe loaded execution information")
         inputs = report.get("inputs")
         if not isinstance(inputs, Mapping):
             raise TypeError("qualification probe lacks input provenance")
@@ -745,6 +754,72 @@ def load_qualification_controller_decision(
             or source.get("candidates") != decision.get("public_candidates")
         ):
             raise ValueError("qualification probe candidate source is not public")
+        if schema == "piu.primitive-qualification-probe.v2":
+            if set(inputs) != {
+                "plan",
+                "candidate_set",
+                "capture_report",
+                "public_transition",
+            }:
+                raise ValueError("qualification probe inputs are not field-closed")
+            capture_path = _verified_reference(
+                inputs.get("capture_report"),
+                name="qualification initial capture",
+                repository_root=repository_root,
+            )
+            public_path = _verified_reference(
+                inputs.get("public_transition"),
+                name="qualification public transition",
+                repository_root=repository_root,
+            )
+            capture = json.loads(capture_path.read_text())
+            if (
+                capture.get("schema_version")
+                != "piu.initial-observation-capture.v1"
+                or capture.get("sample_id") != decision.get("sample_id")
+                or capture.get("initial_state_group") != initial_state_group
+                or capture.get("simulator_steps_executed") != 0
+                or capture.get("rollout_executed") is not False
+                or capture.get("outcomes_loaded") is not False
+                or capture.get("pre_outcome_only") is not True
+                or capture.get("state_reload_validated") is not True
+                or capture.get("evaluator_fields_copied") != []
+                or capture.get("online_oracle_inputs") != []
+                or capture.get("local_pi05_loaded") is not False
+                or capture.get("public_transition") != inputs["public_transition"]
+            ):
+                raise ValueError("qualification initial capture crossed its firewall")
+            source_state = capture.get("source_state")
+            _verified_reference(
+                source_state,
+                name="qualification captured source state",
+                repository_root=repository_root,
+            )
+            from .contracts import load_public_transitions, public_observation_sha256
+
+            public_rows = [
+                row
+                for row in load_public_transitions(public_path)
+                if row.sample_id == decision.get("sample_id")
+                and row.initial_state_group == initial_state_group
+            ]
+            if len(public_rows) != 1:
+                raise ValueError("qualification probe lacks one public observation")
+            public = public_rows[0]
+            observation = public.observations["pre_interaction"]
+            if (
+                public.split.value != "primitive_qualification"
+                or public.online_oracle_inputs
+                or [dict(row) for row in public.candidate_actions]
+                != decision.get("public_candidates")
+                or observation != public.observations["post_interaction"]
+                or decision.get("public_observation_sha256")
+                != public_observation_sha256(observation)
+                or decision.get("source_state_sha256")
+                != source_state.get("sha256")
+                or decision.get("simulator_seed") != capture.get("seed")
+            ):
+                raise ValueError("qualification decision differs from public capture")
     elif schema == "piu.binding-qualification-stimulus.v1":
         if repository_root is None:
             raise ValueError("binding qualification validation requires repository root")
@@ -950,7 +1025,49 @@ def load_qualification_controller_decision(
         "structured_subtask_sha256": hashlib.sha256(
             expected_subtask.encode()
         ).hexdigest(),
+        "controller_schema_version": schema,
+        "public_observation_sha256": decision.get("public_observation_sha256"),
+        "source_state_sha256": decision.get("source_state_sha256"),
+        "simulator_seed": decision.get("simulator_seed"),
     }
+
+
+def _reject_embedded_qualification_results(value: Any, *, path: str) -> None:
+    """Reject result-bearing fields while allowing explicit negative firewalls."""
+
+    forbidden = {
+        "outcome",
+        "outcomes",
+        "success",
+        "successes",
+        "failure",
+        "failures",
+        "reward",
+        "rewards",
+        "contact",
+        "contacts",
+        "revealed",
+        "empty",
+    }
+    allowed = {
+        "outcomes_loaded",
+        "outcome_loaded",
+        "pre_outcome_only",
+        "candidate_choice_outcome_dependent",
+    }
+    if isinstance(value, Mapping):
+        for key, child in value.items():
+            normalized = str(key).lower()
+            if normalized in forbidden and normalized not in allowed:
+                raise ValueError(f"qualification schedule embeds result field {path}.{key}")
+            _reject_embedded_qualification_results(child, path=f"{path}.{key}")
+    elif isinstance(value, Sequence) and not isinstance(
+        value, (str, bytes, bytearray)
+    ):
+        for index, child in enumerate(value):
+            _reject_embedded_qualification_results(
+                child, path=f"{path}[{index}]"
+            )
 
 
 def load_primitive_qualification_schedule(
@@ -964,8 +1081,12 @@ def load_primitive_qualification_schedule(
         or value.get("status")
         != "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES"
         or value.get("outcomes_loaded") is not False
+        or value.get("rollout_executed") is not False
+        or value.get("pre_outcome_only") is not True
+        or value.get("execution_receipts_present_at_freeze") is not False
     ):
         raise ValueError("unsupported primitive qualification schedule")
+    _reject_embedded_qualification_results(value, path="qualification_schedule")
     if value.get("claim_scope") != "EXECUTOR_QUALIFICATION_ONLY_NOT_TASK_SUCCESS":
         raise ValueError("primitive qualification schedule overclaims its scope")
     inputs = value.get("inputs")
@@ -975,6 +1096,20 @@ def load_primitive_qualification_schedule(
         inputs.get("plan"), name="primitive qualification plan", repository_root=repository_root
     )
     plan = load_primitive_qualification_plan(plan_path, repository_root=repository_root)
+    risk_path = _verified_reference(
+        inputs.get("risk_contract"),
+        name="primitive qualification risk contract",
+        repository_root=repository_root,
+    )
+    if (
+        risk_path.resolve()
+        != _resolve_artifact(
+            str(plan["risk_contract"]["path"]), repository_root=repository_root
+        ).resolve()
+        or inputs["risk_contract"].get("sha256")
+        != plan["risk_contract"].get("sha256")
+    ):
+        raise ValueError("qualification schedule risk contract differs from plan")
     split_path = _verified_reference(
         inputs.get("split_manifest"),
         name="primitive qualification split manifest",
@@ -1031,7 +1166,12 @@ def load_primitive_qualification_schedule(
         name="primitive qualification offline release lock",
         repository_root=repository_root,
     )
-    manifest_path = repository_root / "configs/experiments/piu_offline_repro_v3.yaml"
+    manifest_relative = lock_reference.get(
+        "manifest_path", "configs/experiments/piu_offline_repro_v3.yaml"
+    )
+    manifest_path = _resolve_artifact(
+        str(manifest_relative), repository_root=repository_root
+    )
     if lock_reference.get("manifest_sha256") != _sha256(manifest_path):
         raise ValueError("qualification schedule uses another reproduction manifest")
     validate_repro_lock(
@@ -1039,6 +1179,57 @@ def load_primitive_qualification_schedule(
         manifest_path=manifest_path,
         repository_root=repository_root,
     )
+    seed_allocation = value.get("seed_allocation")
+    split_allocation = split.get("allocation")
+    if not isinstance(seed_allocation, Mapping):
+        raise TypeError("qualification schedule lacks seed-allocation provenance")
+    if isinstance(split_allocation, Mapping) and dict(seed_allocation) != dict(
+        split_allocation
+    ):
+        raise ValueError("qualification schedule seed allocation differs from split")
+    qualification_seed_values = sorted(qualification_groups.values())
+    if (
+        seed_allocation.get("count") != len(qualification_groups)
+        or seed_allocation.get("seed_start") != qualification_seed_values[0]
+        or seed_allocation.get("seed_end") != qualification_seed_values[-1]
+        or seed_allocation.get("replacement_after_capture") != "prohibited"
+        or seed_allocation.get("replacement_after_rollout") != "prohibited"
+        or seed_allocation.get("rollout_executed") is not False
+        or seed_allocation.get("outcomes_loaded") is not False
+        or seed_allocation.get("pre_outcome_only") is not True
+    ):
+        raise ValueError("qualification seed-allocation firewall differs")
+    if seed_allocation.get("rule") == (
+        "contiguous_block_immediately_above_maximum_observed_seed"
+    ):
+        if qualification_seed_values != list(
+            range(qualification_seed_values[0], qualification_seed_values[-1] + 1)
+        ):
+            raise ValueError("qualification seed allocation is not contiguous")
+        inventory_path = _verified_reference(
+            seed_allocation.get("repository_seed_inventory"),
+            name="qualification repository seed inventory",
+            repository_root=repository_root,
+        )
+        inventory = json.loads(inventory_path.read_text())
+        observed = inventory.get("observed")
+        observed_seeds = {
+            row.get("seed") for row in observed if isinstance(row, Mapping)
+        } if isinstance(observed, list) else set()
+        if (
+            inventory.get("schema_version")
+            != "piu.repository-seed-usage-inventory.v1"
+            or inventory.get("status")
+            != "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_INPUT_CAPTURE"
+            or inventory.get("rollout_executed") is not False
+            or inventory.get("outcomes_loaded") is not False
+            or inventory.get("pre_outcome_only") is not True
+            or not observed_seeds
+            or seed_allocation["seed_start"]
+            != inventory.get("maximum_observed_seed") + 1
+            or observed_seeds & set(qualification_seed_values)
+        ):
+            raise ValueError("qualification seed inventory does not justify allocation")
     entries = value.get("entries")
     if not isinstance(entries, list) or len(entries) != len(qualification_groups):
         raise ValueError("qualification schedule has another cohort size")
@@ -1046,6 +1237,7 @@ def load_primitive_qualification_schedule(
     if not namespace:
         raise ValueError("qualification schedule lacks a permutation namespace")
     observed_groups = set()
+    observed_seeds = set()
     state_digests = set()
     report_paths = set()
     recomputed = []
@@ -1068,6 +1260,17 @@ def load_primitive_qualification_schedule(
         if group in observed_groups:
             raise ValueError("qualification schedule repeats a group")
         observed_groups.add(group)
+        if not isinstance(seed, int) or isinstance(seed, bool) or seed in observed_seeds:
+            raise ValueError("qualification schedule repeats or malforms a seed")
+        observed_seeds.add(seed)
+        if (
+            row.get("group_id") != group
+            or row.get("scenario") != scenario.get("id")
+            or row.get("rollout_executed") is not False
+            or row.get("outcome_loaded") is not False
+            or row.get("pre_outcome_only") is not True
+        ):
+            raise ValueError("qualification schedule entry crossed its input firewall")
         if any(str(row.get(name)) != str(plan[name]) for name in ("candidate_id", "primitive", "context")):
             raise ValueError("qualification schedule identity differs from plan")
         controller_path = _verified_reference(
@@ -1085,6 +1288,7 @@ def load_primitive_qualification_schedule(
         if (
             row.get("structured_subtask_sha256")
             != controller["structured_subtask_sha256"]
+            or row.get("subtask_prompt") != controller["structured_subtask"]
             or candidate_contract.get("selected_candidate")
             != controller["candidate"]
             or candidate_contract.get("spatial_reference_mode")
@@ -1104,6 +1308,15 @@ def load_primitive_qualification_schedule(
         )
         if source.get("shape") != shape or source.get("dtype") != dtype:
             raise ValueError("qualification source-state metadata differs")
+        if controller["controller_schema_version"] == (
+            "piu.primitive-qualification-probe.v2"
+        ) and (
+            controller["source_state_sha256"] != source.get("sha256")
+            or controller["simulator_seed"] != seed
+            or row.get("public_observation_sha256")
+            != controller["public_observation_sha256"]
+        ):
+            raise ValueError("qualification controller is not bound to its input state")
         if source["sha256"] in state_digests:
             raise ValueError("qualification groups reuse an opaque source state")
         state_digests.add(source["sha256"])

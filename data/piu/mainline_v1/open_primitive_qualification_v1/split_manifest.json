@@ -1,0 +1,652 @@
+{
+  "schema_version": "piu.group-split-manifest.v1",
+  "status": "FROZEN_BEFORE_COLLECTION",
+  "allocation_method": "prospective_without_outcome_access",
+  "scenario": "original_cluttered_drawer",
+  "required_roles": [
+    "primitive_qualification"
+  ],
+  "purpose": "OPEN_executor_qualification_only",
+  "allocation": {
+    "rule": "contiguous_block_immediately_above_maximum_observed_seed",
+    "rationale": "The cohort size comes only from the frozen exact-binomial plan. The first seed is one greater than the maximum seed recorded in the declared repository snapshot, and all remaining seeds are consecutive. No rollout, evaluator label, controller score, or outcome may alter this allocation.",
+    "seed_start": 26081812,
+    "seed_end": 26081935,
+    "count": 124,
+    "repository_seed_inventory": {
+      "path": "data/piu/mainline_v1/open_primitive_qualification_v1/seed_inventory.json",
+      "sha256": "881b68b8c777a93b933d088ae015339e351657be8d95eb6d537335ccf1fd16f4"
+    },
+    "frozen_plan": {
+      "path": "results/method/piu_open_primitive_qualification_plan_v1.json",
+      "sha256": "19779731dd733f334ddd31b97aadbeca24cb5ae357cf91db2789178e2d25b014"
+    },
+    "replacement_after_capture": "prohibited",
+    "replacement_after_rollout": "prohibited",
+    "rollout_executed": false,
+    "outcomes_loaded": false,
+    "pre_outcome_only": true
+  },
+  "assignments": [
+    {
+      "initial_state_group": "open_middle_drawer_qualification_000",
+      "seed": 26081812,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_001",
+      "seed": 26081813,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_002",
+      "seed": 26081814,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_003",
+      "seed": 26081815,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_004",
+      "seed": 26081816,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_005",
+      "seed": 26081817,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_006",
+      "seed": 26081818,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_007",
+      "seed": 26081819,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_008",
+      "seed": 26081820,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_009",
+      "seed": 26081821,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_010",
+      "seed": 26081822,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_011",
+      "seed": 26081823,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_012",
+      "seed": 26081824,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_013",
+      "seed": 26081825,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_014",
+      "seed": 26081826,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_015",
+      "seed": 26081827,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_016",
+      "seed": 26081828,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_017",
+      "seed": 26081829,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_018",
+      "seed": 26081830,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_019",
+      "seed": 26081831,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_020",
+      "seed": 26081832,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_021",
+      "seed": 26081833,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_022",
+      "seed": 26081834,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_023",
+      "seed": 26081835,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_024",
+      "seed": 26081836,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_025",
+      "seed": 26081837,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_026",
+      "seed": 26081838,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_027",
+      "seed": 26081839,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_028",
+      "seed": 26081840,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_029",
+      "seed": 26081841,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_030",
+      "seed": 26081842,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_031",
+      "seed": 26081843,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_032",
+      "seed": 26081844,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_033",
+      "seed": 26081845,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_034",
+      "seed": 26081846,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_035",
+      "seed": 26081847,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_036",
+      "seed": 26081848,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_037",
+      "seed": 26081849,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_038",
+      "seed": 26081850,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_039",
+      "seed": 26081851,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_040",
+      "seed": 26081852,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_041",
+      "seed": 26081853,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_042",
+      "seed": 26081854,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_043",
+      "seed": 26081855,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_044",
+      "seed": 26081856,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_045",
+      "seed": 26081857,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_046",
+      "seed": 26081858,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_047",
+      "seed": 26081859,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_048",
+      "seed": 26081860,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_049",
+      "seed": 26081861,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_050",
+      "seed": 26081862,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_051",
+      "seed": 26081863,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_052",
+      "seed": 26081864,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_053",
+      "seed": 26081865,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_054",
+      "seed": 26081866,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_055",
+      "seed": 26081867,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_056",
+      "seed": 26081868,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_057",
+      "seed": 26081869,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_058",
+      "seed": 26081870,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_059",
+      "seed": 26081871,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_060",
+      "seed": 26081872,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_061",
+      "seed": 26081873,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_062",
+      "seed": 26081874,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_063",
+      "seed": 26081875,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_064",
+      "seed": 26081876,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_065",
+      "seed": 26081877,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_066",
+      "seed": 26081878,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_067",
+      "seed": 26081879,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_068",
+      "seed": 26081880,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_069",
+      "seed": 26081881,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_070",
+      "seed": 26081882,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_071",
+      "seed": 26081883,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_072",
+      "seed": 26081884,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_073",
+      "seed": 26081885,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_074",
+      "seed": 26081886,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_075",
+      "seed": 26081887,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_076",
+      "seed": 26081888,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_077",
+      "seed": 26081889,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_078",
+      "seed": 26081890,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_079",
+      "seed": 26081891,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_080",
+      "seed": 26081892,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_081",
+      "seed": 26081893,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_082",
+      "seed": 26081894,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_083",
+      "seed": 26081895,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_084",
+      "seed": 26081896,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_085",
+      "seed": 26081897,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_086",
+      "seed": 26081898,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_087",
+      "seed": 26081899,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_088",
+      "seed": 26081900,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_089",
+      "seed": 26081901,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_090",
+      "seed": 26081902,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_091",
+      "seed": 26081903,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_092",
+      "seed": 26081904,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_093",
+      "seed": 26081905,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_094",
+      "seed": 26081906,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_095",
+      "seed": 26081907,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_096",
+      "seed": 26081908,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_097",
+      "seed": 26081909,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_098",
+      "seed": 26081910,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_099",
+      "seed": 26081911,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_100",
+      "seed": 26081912,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_101",
+      "seed": 26081913,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_102",
+      "seed": 26081914,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_103",
+      "seed": 26081915,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_104",
+      "seed": 26081916,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_105",
+      "seed": 26081917,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_106",
+      "seed": 26081918,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_107",
+      "seed": 26081919,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_108",
+      "seed": 26081920,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_109",
+      "seed": 26081921,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_110",
+      "seed": 26081922,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_111",
+      "seed": 26081923,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_112",
+      "seed": 26081924,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_113",
+      "seed": 26081925,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_114",
+      "seed": 26081926,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_115",
+      "seed": 26081927,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_116",
+      "seed": 26081928,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_117",
+      "seed": 26081929,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_118",
+      "seed": 26081930,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_119",
+      "seed": 26081931,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_120",
+      "seed": 26081932,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_121",
+      "seed": 26081933,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_122",
+      "seed": 26081934,
+      "split_role": "primitive_qualification"
+    },
+    {
+      "initial_state_group": "open_middle_drawer_qualification_123",
+      "seed": 26081935,
+      "split_role": "primitive_qualification"
+    }
+  ]
+}

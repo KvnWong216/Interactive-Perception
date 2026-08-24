@@ -101,7 +101,7 @@ def test_closed_loop_episode_requires_and_aggregates_a_state_hash_chain(
             }
         )
     )
-    repro_lock = ROOT / "results/diagnostics/piu_offline_repro_preflight_v3.json"
+    repro_lock = ROOT / "results/diagnostics/piu_offline_repro_preflight_v4.json"
     baseline_registry = ROOT / "configs/experiments/piu_baselines_v1.yaml"
     scenario_config = ROOT / "configs/scenarios/original_drawer.yaml"
     schedule = tmp_path / "schedule.json"
@@ -115,7 +115,7 @@ def test_closed_loop_episode_requires_and_aggregates_a_state_hash_chain(
                     "offline_repro_lock": {
                         **_artifact(repro_lock),
                         "manifest_sha256": _sha256(
-                            ROOT / "configs/experiments/piu_offline_repro_v3.yaml"
+                            ROOT / "configs/experiments/piu_offline_repro_v4.yaml"
                         ),
                     },
                     "policy_identity": _artifact(identity_path),

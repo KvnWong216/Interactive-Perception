@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from piu.contracts import assert_public_policy_value
+from piu.contracts import load_public_transitions, public_observation_sha256
 from piu.executor_bridge import serialize_pi05_subtask
 from piu.primitive_registry import (
     load_primitive_qualification_plan,
@@ -46,11 +47,23 @@ def main() -> None:
     parser.add_argument("--candidate-set", type=Path, required=True)
     parser.add_argument("--sample-id", required=True)
     parser.add_argument("--initial-state-group", required=True)
+    parser.add_argument("--capture-report", type=Path)
+    parser.add_argument("--public-transition", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     plan_path = resolve(args.plan)
     candidate_set_path = resolve(args.candidate_set)
     output = resolve(args.output)
+    capture_path = (
+        resolve(args.capture_report) if args.capture_report is not None else None
+    )
+    public_path = (
+        resolve(args.public_transition) if args.public_transition is not None else None
+    )
+    if (capture_path is None) != (public_path is None):
+        raise ValueError(
+            "capture report and public transition must be supplied together"
+        )
     if output.exists():
         raise FileExistsError("primitive qualification probes are immutable")
     plan = load_primitive_qualification_plan(plan_path, repository_root=ROOT)
@@ -103,8 +116,63 @@ def main() -> None:
     subtask = serialize_pi05_subtask(candidate, spatial_references=())
     if not subtask:
         raise ValueError("OPEN qualification probe lacks a serialized subtask")
+    observation_sha256 = None
+    source_state_sha256 = None
+    capture_seed = None
+    if capture_path is not None and public_path is not None:
+        capture = json.loads(capture_path.read_text())
+        if (
+            capture.get("schema_version") != "piu.initial-observation-capture.v1"
+            or capture.get("initial_state_group") != group
+            or capture.get("sample_id") != sample_id
+            or capture.get("simulator_steps_executed") != 0
+            or capture.get("rollout_executed") is not False
+            or capture.get("outcomes_loaded") is not False
+            or capture.get("pre_outcome_only") is not True
+            or capture.get("state_reload_validated") is not True
+            or capture.get("evaluator_fields_copied") != []
+            or capture.get("online_oracle_inputs") != []
+            or capture.get("local_pi05_loaded") is not False
+        ):
+            raise ValueError("qualification capture crossed its pre-outcome firewall")
+        if capture.get("public_transition") != reference(public_path):
+            raise ValueError("qualification capture differs from public transition")
+        source_state = capture.get("source_state")
+        if not isinstance(source_state, dict):
+            raise TypeError("qualification capture lacks its opaque source state")
+        source_path = resolve(Path(str(source_state.get("path", ""))))
+        if (
+            not source_path.is_file()
+            or source_state.get("sha256") != hashlib.sha256(source_path.read_bytes()).hexdigest()
+        ):
+            raise ValueError("qualification capture source state differs from its hash")
+        transitions = [
+            row
+            for row in load_public_transitions(public_path)
+            if row.sample_id == sample_id and row.initial_state_group == group
+        ]
+        if len(transitions) != 1:
+            raise ValueError("qualification probe requires one captured public observation")
+        transition = transitions[0]
+        if (
+            transition.split.value != "primitive_qualification"
+            or transition.online_oracle_inputs
+            or [dict(row) for row in transition.candidate_actions] != candidates
+            or transition.observations["pre_interaction"]
+            != transition.observations["post_interaction"]
+        ):
+            raise ValueError("qualification public observation crossed its firewall")
+        observation_sha256 = public_observation_sha256(
+            transition.observations["pre_interaction"]
+        )
+        source_state_sha256 = str(source_state["sha256"])
+        capture_seed = int(capture["seed"])
     result = {
-        "schema_version": "piu.primitive-qualification-probe.v1",
+        "schema_version": (
+            "piu.primitive-qualification-probe.v2"
+            if capture_path is not None
+            else "piu.primitive-qualification-probe.v1"
+        ),
         "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES",
         "claim_scope": "EXECUTOR_STIMULUS_ONLY_NOT_METHOD_SELECTION",
         "outcomes_loaded": False,
@@ -115,9 +183,19 @@ def main() -> None:
         "calibration_loaded": False,
         "evaluator_labels_loaded": False,
         "online_oracle_inputs": [],
+        "rollout_executed": False,
+        "pre_outcome_only": True,
         "inputs": {
             "plan": reference(plan_path),
             "candidate_set": reference(candidate_set_path),
+            **(
+                {
+                    "capture_report": reference(capture_path),
+                    "public_transition": reference(public_path),
+                }
+                if capture_path is not None and public_path is not None
+                else {}
+            ),
         },
         "decisions": [
             {
@@ -131,6 +209,15 @@ def main() -> None:
                 "reason": "predeclared executor-qualification stimulus",
                 "structured_pi05_subtask": subtask,
                 "spatial_references": [],
+                **(
+                    {
+                        "public_observation_sha256": observation_sha256,
+                        "source_state_sha256": source_state_sha256,
+                        "simulator_seed": capture_seed,
+                    }
+                    if observation_sha256 is not None
+                    else {}
+                ),
             }
         ],
     }

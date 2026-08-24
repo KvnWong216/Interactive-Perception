@@ -316,7 +316,7 @@ def test_schedule_rejects_reused_pilot_group(tmp_path: Path) -> None:
                 "offline_repro_lock": {
                     "sha256": _sha256(
                         ROOT
-                        / "results/diagnostics/piu_offline_repro_preflight_v3.json"
+                        / "results/diagnostics/piu_offline_repro_preflight_v4.json"
                     )
                 },
                 "comparison": {
@@ -371,7 +371,7 @@ def test_schedule_rejects_reused_pilot_group(tmp_path: Path) -> None:
                 "offline_repro_lock": {
                     "sha256": _sha256(
                         ROOT
-                        / "results/diagnostics/piu_offline_repro_preflight_v3.json"
+                        / "results/diagnostics/piu_offline_repro_preflight_v4.json"
                     )
                 },
                 "states": [

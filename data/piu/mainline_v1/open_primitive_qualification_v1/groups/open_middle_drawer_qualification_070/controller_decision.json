@@ -1,0 +1,94 @@
+{
+  "schema_version": "piu.primitive-qualification-probe.v2",
+  "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_OUTCOMES",
+  "claim_scope": "EXECUTOR_STIMULUS_ONLY_NOT_METHOD_SELECTION",
+  "outcomes_loaded": false,
+  "selection_source": "preregistered_executor_probe_not_method_decision",
+  "candidate_choice_outcome_dependent": false,
+  "paper_method_selection_claim_allowed": false,
+  "trained_model_loaded": false,
+  "calibration_loaded": false,
+  "evaluator_labels_loaded": false,
+  "online_oracle_inputs": [],
+  "rollout_executed": false,
+  "pre_outcome_only": true,
+  "inputs": {
+    "plan": {
+      "path": "results/method/piu_open_primitive_qualification_plan_v1.json",
+      "sha256": "19779731dd733f334ddd31b97aadbeca24cb5ae357cf91db2789178e2d25b014"
+    },
+    "candidate_set": {
+      "path": "data/piu/mainline_v1/open_primitive_qualification_v1/candidate_sets.jsonl",
+      "sha256": "f4a4c1274665ec310ee94e827d6b34854eeec3dfd2e2834197f2988536ec7535"
+    },
+    "capture_report": {
+      "path": "data/piu/mainline_v1/open_primitive_qualification_v1/groups/open_middle_drawer_qualification_070/capture.json",
+      "sha256": "7f75f0270da6b01ffc73b2855ffd5b5e8bb39116a1dc83adfb33360362c3d616"
+    },
+    "public_transition": {
+      "path": "data/piu/mainline_v1/open_primitive_qualification_v1/groups/open_middle_drawer_qualification_070/public_transition.jsonl",
+      "sha256": "3c9ac3d54e8e15de55514e5b3c670973699f03ea0bf0606985cdb2c1e4d84a55"
+    }
+  },
+  "decisions": [
+    {
+      "sample_id": "open_middle_drawer_qualification_070::initial",
+      "initial_state_group": "open_middle_drawer_qualification_070",
+      "decision_kind": "INTERACT",
+      "selected_candidate_id": "open_middle_drawer",
+      "selected_candidate_primitive": "OPEN",
+      "selected_candidate": {
+        "candidate_id": "open_middle_drawer",
+        "primitive": "OPEN",
+        "purpose": "inspect inside",
+        "required_capability": "OPEN",
+        "target": "the middle drawer below the countertop"
+      },
+      "public_candidates": [
+        {
+          "candidate_id": "pick_requested_butter",
+          "primitive": "PICK",
+          "purpose": "advance the requested task",
+          "reference": "basket",
+          "required_capability": "PICK",
+          "target": "requested butter"
+        },
+        {
+          "candidate_id": "place_requested_butter_in_basket",
+          "primitive": "PLACE",
+          "purpose": "advance the requested task",
+          "reference": "basket",
+          "required_capability": "PLACE",
+          "target": "requested butter"
+        },
+        {
+          "candidate_id": "open_middle_drawer",
+          "primitive": "OPEN",
+          "purpose": "inspect inside",
+          "required_capability": "OPEN",
+          "target": "the middle drawer below the countertop"
+        },
+        {
+          "candidate_id": "report_not_found",
+          "primitive": "REPORT_NOT_FOUND",
+          "purpose": "report evidence-backed search exhaustion",
+          "required_capability": "REPORT_NOT_FOUND",
+          "target": "requested butter"
+        },
+        {
+          "candidate_id": "stop",
+          "primitive": "STOP",
+          "purpose": "terminate a certified complete task",
+          "required_capability": "STOP",
+          "target": "current task"
+        }
+      ],
+      "reason": "predeclared executor-qualification stimulus",
+      "structured_pi05_subtask": "Open the middle drawer below the countertop.",
+      "spatial_references": [],
+      "public_observation_sha256": "187e695431e3405d57200739ab953a6a3043d5aa0f29dfcd68230d971597e29a",
+      "source_state_sha256": "7c287e413c94058a59b3040074e06baeecf40895a7a10ebe8769ac47ef1319dd",
+      "simulator_seed": 26081882
+    }
+  ]
+}

@@ -1,0 +1,2978 @@
+{
+  "schema_version": "piu.repository-seed-usage-inventory.v1",
+  "status": "FROZEN_BEFORE_PRIMITIVE_QUALIFICATION_INPUT_CAPTURE",
+  "snapshot_commit": "cd1d6ba1adade1bef8d2620b723b5ab1cf544c5f",
+  "scanned_roots": [
+    "configs",
+    "results",
+    "runs"
+  ],
+  "tracked_path_count": 1054,
+  "extraction": "explicit_seed_fields_and_seed_tokens_in_tracked_paths",
+  "observed_seed_count": 278,
+  "maximum_observed_seed": 26081811,
+  "observed": [
+    {
+      "seed": 17,
+      "sources": [
+        "configs/experiments/piu_action_effect_v1.yaml:seeds",
+        "configs/experiments/piu_binding_adapter_v1.yaml:seeds"
+      ]
+    },
+    {
+      "seed": 29,
+      "sources": [
+        "configs/experiments/piu_action_effect_v1.yaml:seeds",
+        "configs/experiments/piu_binding_adapter_v1.yaml:seeds"
+      ]
+    },
+    {
+      "seed": 43,
+      "sources": [
+        "configs/experiments/piu_action_effect_v1.yaml:seeds",
+        "configs/experiments/piu_binding_adapter_v1.yaml:seeds"
+      ]
+    },
+    {
+      "seed": 653,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 654,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 655,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 656,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 657,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 658,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 659,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 660,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 661,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 662,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 663,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 664,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 665,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 666,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 667,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 668,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 669,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 670,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 671,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 672,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 673,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 674,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 675,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 676,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 677,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 678,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 679,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 680,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 681,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 682,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 683,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 684,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 685,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 686,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 687,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 688,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 689,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 690,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 691,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 692,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 693,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 694,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 695,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 696,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 697,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 698,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 699,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 900,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 901,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 902,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 903,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 904,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 905,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 906,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 907,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 908,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 909,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 910,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 911,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 912,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 913,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 914,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 915,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 916,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 917,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 918,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 919,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 920,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 921,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 922,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 923,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 924,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 925,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 926,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 927,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 928,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 929,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 930,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 931,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 932,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 933,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 934,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 935,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 936,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 937,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 938,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 939,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 940,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 941,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 942,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 943,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 944,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 945,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 946,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 947,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 948,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 949,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 950,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 951,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 952,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 953,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 954,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 955,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 956,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 957,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 958,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 959,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 960,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 961,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 962,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 963,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 964,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 965,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 966,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 967,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 968,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 969,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 970,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 971,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 972,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 973,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 974,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 975,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 976,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 977,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 978,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 979,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 980,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 981,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 982,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 983,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 984,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 985,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 986,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 987,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 988,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 989,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 990,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 991,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 992,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 993,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 994,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 995,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 996,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 997,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 998,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 999,
+      "sources": [
+        "results/calibration/t01_open_and_observe_sealed_audit_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1399,
+      "sources": [
+        "configs/scenarios/original_drawer.yaml:seed",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/agentview_interaction_field.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/agentview_uncertainty_map.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/agentview_uncertainty_overlay.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/candidate_crops.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_bottle_00_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_bowl_04_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_butter_06_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_butter_07_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_butter_08_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_butter_11_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_cabinet_09_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_food_package_01_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_food_package_02_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_object_03_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_object_10_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_plate_05_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_12_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_13_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_14_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_15_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_16_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_17_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_18_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_19_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_20_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_21_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_22_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview/agentview_unknown_object_23_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/agentview_objects.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_bowl_02_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_butter_09_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_butter_10_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_butter_13_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_cabinet_04_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_cabinet_05_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_drawer_07_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_food_package_00_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_food_package_03_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_object_01_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_object_08_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_object_11_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_object_12_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_plate_06_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_14_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_15_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_16_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_17_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_18_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_19_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_20_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_21_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_22_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_23_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_24_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist/wrist_unknown_object_25_mask.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/current_observation/wrist_objects.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/dino_features.npz:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/qwen_raw.json:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/scene_packet.json:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/wrist_interaction_field.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/wrist_uncertainty_map.png:path_token",
+        "results/assets/piu_messy_corrected_initial_seed1399_v1/wrist_uncertainty_overlay.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/agentview_interaction_field.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/agentview_uncertainty_map.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/agentview_uncertainty_overlay.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/candidate_crops.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_bottle_03_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_bottle_05_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_box_06_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_box_13_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_butter_02_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_butter_08_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_butter_12_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_cabinet_09_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_container_04_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_food_package_00_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_food_package_07_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_object_01_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_object_11_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_plate_10_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_14_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_15_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_16_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_17_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_18_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_19_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_20_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_21_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_22_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_23_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_24_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview/agentview_unknown_object_25_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/agentview_objects.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_bottle_11_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_butter_06_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_butter_08_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_butter_09_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_butter_12_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_cabinet_03_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_cabinet_05_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_container_07_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_drawer_10_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_food_package_00_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_food_package_02_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_food_package_04_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_object_01_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_13_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_14_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_15_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_16_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_17_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_18_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_19_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_20_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_21_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_22_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_23_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist/wrist_unknown_object_24_mask.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/current_observation/wrist_objects.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/dino_features.npz:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/qwen_raw.json:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/scene_packet.json:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/wrist_interaction_field.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/wrist_uncertainty_map.png:path_token",
+        "results/assets/piu_messy_corrected_post_open_seed1399_v1/wrist_uncertainty_overlay.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/fresh_open_and_observe_wrist_agentview.mp4:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_action_history.json:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_agentview.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_wrist.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/01_quarter_agentview.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/01_quarter_wrist.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/02_half_agentview.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/02_half_wrist.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/03_three_quarters_agentview.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/03_three_quarters_wrist.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/04_open_end_agentview.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/04_open_end_wrist.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/05_returned_agentview.png:path_token",
+        "results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/05_returned_wrist.png:path_token",
+        "results/assets/t01_easy_handoff_states_seed1399_v1/closed_easy_agentview.png:path_token",
+        "results/assets/t01_easy_handoff_states_seed1399_v1/closed_easy_wrist.png:path_token",
+        "results/assets/t01_easy_handoff_states_seed1399_v1/open_easy_agentview.png:path_token",
+        "results/assets/t01_easy_handoff_states_seed1399_v1/open_easy_wrist.png:path_token",
+        "results/demos/piu_original_fresh_seed1399_v1/piu_information_acquisition.mp4:path_token",
+        "results/demos/piu_original_fresh_seed1399_v1/piu_information_acquisition_contact_sheet.png:path_token",
+        "results/demos/piu_original_fresh_seed1399_v1/piu_information_acquisition_trace.json:path_token",
+        "results/diagnostics/piu_messy_corrected_initial_seed1399_v1.json:path_token",
+        "results/diagnostics/piu_messy_corrected_post_open_seed1399_v1.json:path_token",
+        "results/diagnostics/piu_messy_fresh_e2e_seed1399_v1.json:path_token",
+        "results/diagnostics/piu_messy_fresh_e2e_seed1399_v1_public_rgb_outcome_v13.json:path_token",
+        "results/method/original_drawer_executor_qualification_v1.json:seed",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/00_before_agentview.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/00_before_wrist.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/01_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/01_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/02_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/02_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/03_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/03_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/04_subtask_end_agentview.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/04_subtask_end_wrist.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/05_returned_home_agentview.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/05_returned_home_wrist.png:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/public_action_history.json:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/assets/public_wrist_agentview.mp4:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/report.json:path_token",
+        "runs/icra_cadence/direct_closed_seed1399_v1/report.json:seed",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/00_before_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/00_before_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/01_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/01_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/02_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/02_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/03_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/03_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/04_subtask_end_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/04_subtask_end_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/05_returned_home_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/05_returned_home_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/public_action_history.json:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/assets/public_wrist_agentview.mp4:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/report.json:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v1/report.json:seed",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/00_before_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/00_before_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/01_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/01_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/02_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/02_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/03_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/03_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/04_subtask_end_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/04_subtask_end_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/05_returned_home_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/05_returned_home_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/public_action_history.json:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/assets/public_wrist_agentview.mp4:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/report.json:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v2_exact_prompt/report.json:seed",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/00_before_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/00_before_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/01_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/01_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/02_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/02_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/03_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/03_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/04_subtask_end_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/04_subtask_end_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/05_returned_home_agentview.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/05_returned_home_wrist.png:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/public_action_history.json:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/assets/public_wrist_agentview.mp4:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/report.json:path_token",
+        "runs/icra_cadence/direct_open_seed1399_v3_source_prompt/report.json:seed",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/00_before_agentview.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/00_before_wrist.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/01_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/01_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/02_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/02_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/03_subtask_agentview.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/03_subtask_wrist.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/04_subtask_end_agentview.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/04_subtask_end_wrist.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/05_returned_home_agentview.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/05_returned_home_wrist.png:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/public_action_history.json:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/assets/public_wrist_agentview.mp4:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/report.json:path_token",
+        "runs/icra_cadence/direct_visible_cream_cheese_seed1399_v1/report.json:seed",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/00_before_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/00_before_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/01_subtask_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/01_subtask_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/02_subtask_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/02_subtask_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/03_subtask_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/03_subtask_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/04_subtask_end_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/04_subtask_end_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/05_returned_home_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/05_returned_home_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/public_action_history.json:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/assets/public_wrist_agentview.mp4:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/report.json:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/direct/report.json:seed",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/00_before_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/00_before_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/01_subtask_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/01_subtask_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/02_subtask_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/02_subtask_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/03_subtask_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/03_subtask_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/04_subtask_end_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/04_subtask_end_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/05_returned_home_agentview.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/05_returned_home_wrist.png:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/public_action_history.json:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/assets/public_wrist_agentview.mp4:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/report.json:path_token",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open/report.json:seed",
+        "runs/icra_cadence/open_then_direct_seed1399_v1/open_state.npz:path_token"
+      ]
+    },
+    {
+      "seed": 1400,
+      "sources": [
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:source_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:source_seeds",
+        "configs/experiments/original_drawer_paper_cycle_v2.yaml:seeds",
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed",
+        "results/diagnostics/local_pi05_libero_smoke_v1.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:seed",
+        "results/diagnostics/original_drawer_threshold_audit_v1.json:seed",
+        "results/method/original_drawer_direct_cream_final_relabel_v2.json:seed",
+        "results/method/original_drawer_executed_effect_cv_v1.json:test_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:train_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:validation_seeds",
+        "results/method/original_drawer_open_cream_relabel_v2.json:seed",
+        "results/method/original_drawer_oracle_prompt_screen_schedule_v1.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v1.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v2.json:seeds",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_after_open/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_butter_closed/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/direct_cream_exact/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/final_state.npz:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1400/open_butter/report.json:seed"
+      ]
+    },
+    {
+      "seed": 1401,
+      "sources": [
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:source_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:source_seeds",
+        "configs/experiments/original_drawer_paper_cycle_v2.yaml:seeds",
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:seed",
+        "results/diagnostics/original_drawer_threshold_audit_v1.json:seed",
+        "results/method/original_drawer_direct_cream_final_relabel_v2.json:seed",
+        "results/method/original_drawer_executed_effect_cv_v1.json:test_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:train_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:validation_seeds",
+        "results/method/original_drawer_open_cream_relabel_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v1.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v2.json:seeds",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_after_open/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_butter_closed/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/direct_cream_exact/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/final_state.npz:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1401/open_butter/report.json:seed"
+      ]
+    },
+    {
+      "seed": 1402,
+      "sources": [
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:source_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:source_seeds",
+        "configs/experiments/original_drawer_paper_cycle_v2.yaml:seeds",
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:seed",
+        "results/diagnostics/original_drawer_threshold_audit_v1.json:seed",
+        "results/method/original_drawer_direct_cream_final_relabel_v2.json:seed",
+        "results/method/original_drawer_executed_effect_cv_v1.json:test_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:train_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:validation_seeds",
+        "results/method/original_drawer_open_cream_relabel_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v1.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v2.json:seeds",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_after_open/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_butter_closed/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/direct_cream_exact/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/final_state.npz:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1402/open_butter/report.json:seed"
+      ]
+    },
+    {
+      "seed": 1403,
+      "sources": [
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:source_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:source_seeds",
+        "configs/experiments/original_drawer_paper_cycle_v2.yaml:seeds",
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:seed",
+        "results/diagnostics/original_drawer_threshold_audit_v1.json:seed",
+        "results/method/original_drawer_direct_cream_final_relabel_v2.json:seed",
+        "results/method/original_drawer_executed_effect_cv_v1.json:test_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:train_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:validation_seeds",
+        "results/method/original_drawer_open_cream_relabel_v2.json:seed",
+        "results/method/original_drawer_oracle_prompt_screen_schedule_v1.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v1.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v2.json:seeds",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_after_open/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_butter_closed/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/direct_cream_exact/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/final_state.npz:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1403/open_butter/report.json:seed"
+      ]
+    },
+    {
+      "seed": 1404,
+      "sources": [
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:source_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:source_seeds",
+        "configs/experiments/original_drawer_paper_cycle_v2.yaml:seeds",
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:seed",
+        "results/diagnostics/original_drawer_threshold_audit_v1.json:seed",
+        "results/method/original_drawer_direct_cream_final_relabel_v2.json:seed",
+        "results/method/original_drawer_executed_effect_cv_v1.json:test_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:train_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:validation_seeds",
+        "results/method/original_drawer_open_cream_relabel_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v1.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v2.json:seeds",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_after_open/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_butter_closed/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/direct_cream_exact/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/final_state.npz:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1404/open_butter/report.json:seed"
+      ]
+    },
+    {
+      "seed": 1405,
+      "sources": [
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:source_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:source_seeds",
+        "configs/experiments/original_drawer_paper_cycle_v2.yaml:seeds",
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:seed",
+        "results/diagnostics/original_drawer_threshold_audit_v1.json:seed",
+        "results/method/original_drawer_direct_cream_final_relabel_v2.json:seed",
+        "results/method/original_drawer_executed_effect_cv_v1.json:test_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:train_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:validation_seeds",
+        "results/method/original_drawer_open_cream_relabel_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v1.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v2.json:seeds",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_after_open/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_butter_closed/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/direct_cream_exact/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/final_state.npz:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1405/open_butter/report.json:seed"
+      ]
+    },
+    {
+      "seed": 1406,
+      "sources": [
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:source_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:source_seeds",
+        "configs/experiments/original_drawer_paper_cycle_v2.yaml:seeds",
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:seed",
+        "results/diagnostics/original_drawer_threshold_audit_v1.json:seed",
+        "results/method/original_drawer_direct_cream_final_relabel_v2.json:seed",
+        "results/method/original_drawer_executed_effect_cv_v1.json:test_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:train_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:validation_seeds",
+        "results/method/original_drawer_open_cream_relabel_v2.json:seed",
+        "results/method/original_drawer_oracle_prompt_screen_schedule_v1.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v1.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v2.json:seeds",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_after_open/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_butter_closed/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/direct_cream_exact/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/final_state.npz:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1406/open_butter/report.json:seed"
+      ]
+    },
+    {
+      "seed": 1407,
+      "sources": [
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:source_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:expected_eligible_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:source_seeds",
+        "configs/experiments/original_drawer_paper_cycle_v2.yaml:seeds",
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:eligible_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:seed",
+        "results/diagnostics/original_drawer_threshold_audit_v1.json:seed",
+        "results/method/original_drawer_direct_cream_final_relabel_v2.json:seed",
+        "results/method/original_drawer_executed_effect_cv_v1.json:test_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:train_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:validation_seeds",
+        "results/method/original_drawer_open_cream_relabel_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v1.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v2.json:seeds",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_after_open/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_butter_closed/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/direct_cream_exact/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/final_state.npz:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1407/open_butter/report.json:seed"
+      ]
+    },
+    {
+      "seed": 1408,
+      "sources": [
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:source_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:source_seeds",
+        "configs/experiments/original_drawer_paper_cycle_v2.yaml:seeds",
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:excluded_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:excluded_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:excluded_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:seed",
+        "results/diagnostics/original_drawer_threshold_audit_v1.json:seed",
+        "results/method/original_drawer_direct_cream_final_relabel_v2.json:seed",
+        "results/method/original_drawer_executed_effect_cv_v1.json:test_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:train_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:validation_seeds",
+        "results/method/original_drawer_open_cream_relabel_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v1.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v2.json:seeds",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_after_open/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_butter_closed/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/direct_cream_exact/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/final_state.npz:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1408/open_butter/report.json:seed"
+      ]
+    },
+    {
+      "seed": 1409,
+      "sources": [
+        "configs/experiments/original_drawer_oracle_target_prompt_gate_v1.yaml:source_seeds",
+        "configs/experiments/original_drawer_oracle_target_prompt_pilot_v2.yaml:source_seeds",
+        "configs/experiments/original_drawer_paper_cycle_v2.yaml:seeds",
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:excluded_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v1.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:excluded_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v2.json:seed",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:excluded_seeds",
+        "results/diagnostics/original_drawer_oracle_prompt_preflight_v3.json:seed",
+        "results/diagnostics/original_drawer_threshold_audit_v1.json:seed",
+        "results/method/original_drawer_direct_cream_final_relabel_v2.json:seed",
+        "results/method/original_drawer_executed_effect_cv_v1.json:test_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:train_seeds",
+        "results/method/original_drawer_executed_effect_cv_v1.json:validation_seeds",
+        "results/method/original_drawer_open_cream_relabel_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seed",
+        "results/method/original_drawer_paper_cycle_v2.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v1.json:seeds",
+        "results/method/piu_primitive_reliability_registry_v2.json:seeds",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_after_open/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_butter_closed/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/direct_cream_exact/report.json:seed",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/00_before_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/00_before_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/01_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/01_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/02_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/02_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/03_subtask_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/03_subtask_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/04_subtask_end_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/04_subtask_end_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/05_returned_home_agentview.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/05_returned_home_wrist.png:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/public_action_history.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/assets/public_wrist_agentview.mp4:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/final_state.npz:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/report.json:path_token",
+        "runs/paper_cycle_executor_v2/seed1409/open_butter/report.json:seed"
+      ]
+    },
+    {
+      "seed": 1410,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1411,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1412,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1413,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1414,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1415,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1416,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1417,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1418,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1419,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1420,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1421,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1422,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1423,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1424,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1425,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1426,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1427,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1428,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1429,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1430,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1431,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1432,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1433,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1434,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1435,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1436,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1437,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1438,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1439,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:seed"
+      ]
+    },
+    {
+      "seed": 1440,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1441,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1442,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1443,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1444,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1445,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1446,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1447,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1448,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1449,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1450,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1451,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1452,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1453,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1454,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1455,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1456,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1457,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1458,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1459,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1460,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1461,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1462,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1463,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1464,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1465,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1466,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1467,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1468,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1469,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1470,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1471,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1472,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1473,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1474,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1475,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1476,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1477,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1478,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1479,
+      "sources": [
+        "results/calibration/t01_open_and_observe_v12b_model_selection_on_v11.json:seed"
+      ]
+    },
+    {
+      "seed": 1900,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1901,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1902,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1903,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1904,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1905,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1906,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1907,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1908,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1909,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1910,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1911,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1912,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1913,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1914,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1915,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1916,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1917,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1918,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1919,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1920,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1921,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1922,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1923,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1924,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1925,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1926,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1927,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1928,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1929,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1930,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1931,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1932,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1933,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1934,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1935,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1936,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1937,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1938,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 1939,
+      "sources": [
+        "results/calibration/t01_open_and_observe_clean_development_v12b.json:seed"
+      ]
+    },
+    {
+      "seed": 20260818,
+      "sources": [
+        "results/calibration/t01_rgb_coverage_evidence_v11_candidate.json:random_seed",
+        "results/calibration/t01_rgb_target_evidence_v2_candidate_agentview.json:random_seed",
+        "results/calibration/t01_rgb_wrist_target_evidence_v11b_candidate.json:random_seed"
+      ]
+    },
+    {
+      "seed": 20260822,
+      "sources": [
+        "results/method/original_drawer_executed_effect_cv_v1.json:seed",
+        "results/method/original_drawer_pilot_v1.json:seed",
+        "results/method/original_drawer_pilot_v1.json:selected_seed",
+        "results/method/original_drawer_pilot_v2_decision_calibration.json:seed",
+        "results/method/original_drawer_pilot_v2_decision_calibration.json:selected_seed",
+        "results/method/original_drawer_pilot_v4_reproducible.json:seed",
+        "results/method/original_drawer_pilot_v4_reproducible.json:selected_seed"
+      ]
+    },
+    {
+      "seed": 20260823,
+      "sources": [
+        "results/method/original_drawer_executed_effect_cv_v1.json:seed",
+        "results/method/original_drawer_pilot_v1.json:seed",
+        "results/method/original_drawer_pilot_v2_decision_calibration.json:seed",
+        "results/method/original_drawer_pilot_v4_reproducible.json:seed"
+      ]
+    },
+    {
+      "seed": 20260824,
+      "sources": [
+        "results/method/original_drawer_executed_effect_cv_v1.json:seed",
+        "results/method/original_drawer_pilot_v1.json:seed",
+        "results/method/original_drawer_pilot_v2_decision_calibration.json:seed",
+        "results/method/original_drawer_pilot_v4_reproducible.json:seed"
+      ]
+    },
+    {
+      "seed": 20270822,
+      "sources": [
+        "configs/experiments/candidate_interaction_stage1.yaml:seed"
+      ]
+    },
+    {
+      "seed": 26081801,
+      "sources": [
+        "results/training/piu_object_sidecar_v2.json:seed"
+      ]
+    },
+    {
+      "seed": 26081811,
+      "sources": [
+        "results/training/piu_object_sidecar_v2.json:prefix_projection_seed"
+      ]
+    }
+  ],
+  "rollout_executed": false,
+  "outcomes_loaded": false,
+  "pre_outcome_only": true
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": "piu.initial-observation-capture.v1",
+  "sample_id": "open_middle_drawer_qualification_092::initial",
+  "initial_state_group": "open_middle_drawer_qualification_092",
+  "split": "primitive_qualification",
+  "scenario": "configs/scenarios/original_drawer.yaml",
+  "seed": 26081904,
+  "pi05_loaded": false,
+  "external_simulator_required": true,
+  "online_oracle_inputs": [],
+  "simulator_steps_executed": 0,
+  "rollout_executed": false,
+  "outcomes_loaded": false,
+  "pre_outcome_only": true,
+  "source_state": {
+    "path": "data/piu/mainline_v1/open_primitive_qualification_v1/groups/open_middle_drawer_qualification_092/initial_state.npz",
+    "sha256": "f45167f3ac4e0fdf2e6e50e8a7eea1d7c00cd1f6e7fe1ae27448c2536516cb96",
+    "state_key": "state"
+  },
+  "inputs": {
+    "scenario": {
+      "path": "configs/scenarios/original_drawer.yaml",
+      "sha256": "fa2d550a2fa9a17128dac9bae93bc06f9601fb2f6a5d16b8e09f890c329bbc67"
+    },
+    "candidate_set": {
+      "path": "data/piu/mainline_v1/open_primitive_qualification_v1/candidate_sets.jsonl",
+      "sha256": "f4a4c1274665ec310ee94e827d6b34854eeec3dfd2e2834197f2988536ec7535"
+    }
+  },
+  "public_transition": {
+    "path": "data/piu/mainline_v1/open_primitive_qualification_v1/groups/open_middle_drawer_qualification_092/public_transition.jsonl",
+    "sha256": "c7e02a2435ce0e831842e7e4f8dbff1751bfc6e69e95e1849a15550ca267905e"
+  },
+  "evaluator_fields_copied": [],
+  "local_pi05_loaded": false,
+  "state_reload_validated": true,
+  "input_validity_contract": {
+    "accepted_checks": [
+      "reset_completed",
+      "numeric_state_nonempty",
+      "numeric_state_finite",
+      "state_reload_completed",
+      "public_observation_serialized"
+    ],
+    "action_or_terminal_result_may_reject_input": false
+  }
+}

@@ -84,14 +84,18 @@ def main() -> None:
         "pi05_loaded": False,
         "external_simulator_required": True,
         "online_oracle_inputs": [],
+        "simulator_steps_executed": 0,
+        "rollout_executed": False,
+        "outcomes_loaded": False,
+        "pre_outcome_only": True,
     }
     if args.dry_run:
         print(json.dumps(plan, indent=2))
         return
     if not args.external_simulator:
         raise ValueError(
-            "initial capture must run in the external simulator environment; "
-            "local GPU rendering is prohibited by the release contract"
+            "initial capture requires the explicit simulator-only mode; this "
+            "path never loads or calls pi0.5"
         )
     if output_dir.exists():
         raise FileExistsError("initial observation captures are immutable")
@@ -114,6 +118,14 @@ def main() -> None:
             observation = env.set_init_state(state)
         else:
             state = np.asarray(env.get_sim_state(), dtype=float)
+        if state.size == 0 or not np.all(np.isfinite(state)):
+            raise ValueError("captured initial simulator state is not finite")
+        # This is a loadability check, not an action or rollout: no env.step is
+        # called before or after the exact reset state is restored.
+        observation = env.set_init_state(state)
+        reloaded_state = np.asarray(env.get_sim_state(), dtype=float)
+        if reloaded_state.shape != state.shape or not np.all(np.isfinite(reloaded_state)):
+            raise ValueError("captured initial simulator state cannot be reloaded")
         state_path = output_dir / "initial_state.npz"
         np.savez_compressed(state_path, state=state)
         packet = build_observation(observation, prompt)
@@ -156,8 +168,8 @@ def main() -> None:
     transition_path = output_dir / "public_transition.jsonl"
     transition_path.write_text(json.dumps(transition, sort_keys=True) + "\n")
     report = {
-        "schema_version": "piu.initial-observation-capture.v1",
         **plan,
+        "schema_version": "piu.initial-observation-capture.v1",
         "source_state": {
             "path": portable(state_path),
             "sha256": sha256(state_path),
@@ -179,6 +191,17 @@ def main() -> None:
         },
         "evaluator_fields_copied": [],
         "local_pi05_loaded": False,
+        "state_reload_validated": True,
+        "input_validity_contract": {
+            "accepted_checks": [
+                "reset_completed",
+                "numeric_state_nonempty",
+                "numeric_state_finite",
+                "state_reload_completed",
+                "public_observation_serialized",
+            ],
+            "action_or_terminal_result_may_reject_input": False,
+        },
     }
     report_path = output_dir / "capture.json"
     report_path.write_text(json.dumps(report, indent=2) + "\n")
