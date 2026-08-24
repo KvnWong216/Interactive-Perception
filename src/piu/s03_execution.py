@@ -809,10 +809,27 @@ def validate_s03_receipts(
             closed_value["record_artifact"], "S03 close record artifact", repository_root=repository_root
         )
         record = validate_s03_outcome_schema(record_path, repository_root=repository_root, identity=identity)
+        expected_record_dir = _record_dir(
+            output_root, index, row["record_id"]
+        ).resolve()
+        expected_record_name = (
+            "record.json"
+            if record["status"] == "EVALUATED"
+            else "infrastructure_failure.json"
+        )
         if (
             record["schedule_index"] != index
             or record["record_id"] != row["record_id"]
+            or record["linked_s02_index"] != row["linked_s02_index"]
+            or record["subtest"] != row["subtest"]
+            or record["stratum"] != row["stratum"]
+            or record["schedule"] != schedule_ref
+            or record["manifest"] != manifest_ref
+            or record["manifest_record_sha256"] != row["manifest_record_sha256"]
+            or record["public_input_digest"] != row["public_input_digest"]
             or record["request_sha256"] != started["request_sha256"]
+            or record_path.parent.resolve() != expected_record_dir
+            or record_path.name != expected_record_name
         ):
             raise ValueError("S03 close receipt references another record")
         expected_status = "CLOSED_WITH_OUTCOME" if record["status"] == "EVALUATED" else "CLOSED_INFRASTRUCTURE_FAILURE"
