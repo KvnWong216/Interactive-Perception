@@ -1,0 +1,59 @@
+[robosuite WARNING] No private macro file found! (__init__.py:7)
+[robosuite WARNING] It is recommended to use a private macro file (__init__.py:8)
+[robosuite WARNING] To setup, run: python /home/icon/InteractivePerception_yg/Interactive-Perception/.venv/lib/python3.10/site-packages/robosuite/scripts/setup_macros.py (__init__.py:9)
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+WARNING:imageio_ffmpeg:IMAGEIO FFMPEG_WRITER WARNING: input image is not divisible by macro_block_size=16, resizing from (452, 224) to (464, 224) to ensure video compatibility with most codecs and players. To prevent resizing, make your input image divisible by the macro_block_size or set the macro_block_size to 1 (risking incompatibility).
+{
+  "output": "runs/piu_open_primitive_qualification_v1/00100_7b393318357c/semantic_report.json",
+  "seed": 26081929,
+  "role": "PIU_QUALIFY_OPEN",
+  "prompt": "Open the middle drawer below the countertop.",
+  "subtask_steps": 300,
+  "return_phase": "COMPLETE",
+  "task_success": false,
+  "target_reached_destination": false,
+  "target_visibility_pixels": {
+    "initial": {
+      "agentview": 0,
+      "robot0_eye_in_hand": 0
+    },
+    "after_subtask": {
+      "agentview": 323,
+      "robot0_eye_in_hand": 0
+    },
+    "final": {
+      "agentview": 323,
+      "robot0_eye_in_hand": 676
+    }
+  },
+  "target_grasp_contact_success": false,
+  "target_maximum_lift_m": 0.0
+}
+{
+  "schema_version": "piu.primitive-qualification-execution.v1",
+  "execution_index": 100,
+  "initial_state_group": "open_middle_drawer_qualification_117",
+  "simulator_seed": 26081929,
+  "candidate_id": "open_middle_drawer",
+  "primitive": "OPEN",
+  "context": "middle_drawer",
+  "source_state_sha256": "4e7f6c62f5e61d27400751509d2dc39f9e38a17c1801d2552a461dfbb4997a57",
+  "controller_report_sha256": "502b0e0d12ed25664c22b80b2a7d2dae42f73a8993fe5ceed7940beb48bf6c79",
+  "structured_subtask_sha256": "bcc877a023f12704bd2c27a454a9bb6f14be8ac74afd4132a72a7757c58f1fb7",
+  "schedule": {
+    "path": "results/method/piu_open_primitive_qualification_schedule_v1.json",
+    "sha256": "45d41b75fd982b977a0c9c5f82f63c2f33b686fd1512308cacf3cc690847e762"
+  },
+  "attempt": {
+    "path": "runs/piu_open_primitive_qualification_v1/00100_7b393318357c/started.json",
+    "sha256": "53447260568613fc9156846b7470ca469507ed5bd3c555f0c1d71b3eb9702594"
+  },
+  "status": "COMPLETED",
+  "semantic_report": {
+    "path": "runs/piu_open_primitive_qualification_v1/00100_7b393318357c/semantic_report.json",
+    "sha256": "19eddaf2cb5eb332aaf5c637e7c4d21b7ffc4ea98ba69ad133696b943b172cef"
+  },
+  "failure": null
+}

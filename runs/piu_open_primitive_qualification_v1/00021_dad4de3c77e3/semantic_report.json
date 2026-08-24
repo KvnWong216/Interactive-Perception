@@ -1,0 +1,329 @@
+{
+  "schema_version": "piu.semantic-option.v2",
+  "claim_scope": "PUBLIC_INPUT_EXECUTION",
+  "scenario": "scenarios/t01_stock_ladder_v1/T01D_hidden_butter_retrieval.bddl",
+  "seed": 26081904,
+  "role": "PIU_QUALIFY_OPEN",
+  "prompt": "Open the middle drawer below the countertop.",
+  "controller": {
+    "policy": "frozen pi05_libero",
+    "server_mode": "external",
+    "server_metadata": {
+      "schema_version": "piu.identified-pi05-server.v1",
+      "policy_config": "pi05_libero",
+      "environment": "LIBERO",
+      "checkpoint": {
+        "schema_version": "piu.checkpoint-tree-sha256.v1",
+        "sha256": "1325f4a3f76250f6bed2f53f53b49ec68c94f5fd12911f76d82dbca578fe9901",
+        "file_count": 16,
+        "total_bytes": 12439085481
+      },
+      "capabilities": [
+        "action_chunks",
+        "spatial_prefix_v1"
+      ],
+      "server_session_id": "e973ffd0b0574772aa739f12326af4c7",
+      "runtime_identity": {
+        "schema_version": "piu.identified-policy-runtime.v1",
+        "server_process_id": 2049143,
+        "python_version": "3.11.15",
+        "jax_version": "0.5.3",
+        "jaxlib_version": "0.5.3",
+        "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+        "cuda_visible_devices": "0",
+        "xla_python_client_mem_fraction": 0.85,
+        "jax_platform_version": "PJRT C API\ncuda 12030",
+        "gpu": {
+          "physical_index": 0,
+          "visible_index": 0,
+          "name": "NVIDIA GeForce RTX 4080 SUPER",
+          "memory_total_mib": 16376,
+          "driver_version": "595.84"
+        }
+      }
+    },
+    "expected_policy_identity": {
+      "path": "results/diagnostics/pi05_libero_checkpoint_identity_v1.json",
+      "sha256": "ad3bb21eb485cd60c0f19b31a51377949197d7e0eab58387ddb17d8239965152"
+    },
+    "online_inputs": [
+      "stock agentview RGB",
+      "wrist RGB",
+      "public proprioception",
+      "semantic subtask",
+      "public action history"
+    ],
+    "online_oracle_inputs": [],
+    "oracle_visual_prompt": null,
+    "subtask_steps": 300,
+    "policy_calls": 60,
+    "completion_source": "SAFETY_BUDGET",
+    "return_steps": 50,
+    "return_phase": "COMPLETE",
+    "keyframes": [
+      {
+        "name": "00_before",
+        "image_paths": {
+          "agentview": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/00_before_agentview.png",
+          "wrist": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/00_before_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "f06d0d3a6facfd87465c5c3fce04a26676d36594a10c386dd83fa244a2788f1d",
+          "wrist": "084e7fbac852684a3a808c01c66df39af64437171d8d4055dab5a1b55d227fa4"
+        },
+        "image_pixel_sha256": {
+          "agentview": "0dc9282770032e6d051db131715812d49d67665644958cf2490933c341861f5a",
+          "wrist": "e7d37d8945df532c2fc9b47ef392f3af65dfc71feddf61a2c93e2f667125408e"
+        },
+        "public_robot_state": [
+          -0.2084646605658236,
+          0.0,
+          1.1732794757296403,
+          3.140339335467866,
+          0.0007735038685599229,
+          -0.08922200721616234,
+          0.020833,
+          -0.020833
+        ]
+      },
+      {
+        "name": "01_subtask",
+        "image_paths": {
+          "agentview": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/01_subtask_agentview.png",
+          "wrist": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/01_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "939041356eed26ccce667c8e5997835b40e7c6cad3c57e689836af744a4cce09",
+          "wrist": "da042cf61f803db7d91129509ebc721443b585f8eb02ca26bf899d0fdd7ed001"
+        },
+        "image_pixel_sha256": {
+          "agentview": "3806730aa33754e144830d0245aa642e7f8776272df453a0946734f8ef8d2209",
+          "wrist": "5ddcf0fe2720de0ae7bb07373b605552a79d7cb82b4ba54cd878d26943ae630b"
+        },
+        "public_robot_state": [
+          0.0334494238650203,
+          -0.11829338239350104,
+          1.071841938688561,
+          1.5714900237367597,
+          1.6536712689539022,
+          -0.9669409502650872,
+          0.03992579741878129,
+          -0.039794208536704324
+        ]
+      },
+      {
+        "name": "02_subtask",
+        "image_paths": {
+          "agentview": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/02_subtask_agentview.png",
+          "wrist": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/02_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "60b8e147fa32368a6d488f0f1434f320ad9ff86eb9fccffa5362b9b9dd0c491c",
+          "wrist": "dc71573fd99ea5eab2e2513ebcd4463c3ec347708904a7b9bd3e6720c2b6417a"
+        },
+        "image_pixel_sha256": {
+          "agentview": "5f4e30b69483221b632fbdb562c8f40df1040bd498b132ec19445848f2a5c00f",
+          "wrist": "c9e2587d7af83be3ae86f22ad8dc6d82c79da156de386e2c0cc9bf62de86900b"
+        },
+        "public_robot_state": [
+          0.025239410591900227,
+          0.01944571237222875,
+          1.0281530763639282,
+          1.4566290547588279,
+          1.3574667047044169,
+          -0.9378259405648033,
+          0.04026446567981808,
+          -0.04000474159401663
+        ]
+      },
+      {
+        "name": "03_subtask",
+        "image_paths": {
+          "agentview": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/03_subtask_agentview.png",
+          "wrist": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/03_subtask_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "f6bdab285b6592ad53c4dba801d9dd1d842fea008f40b01fe8fcaa6fc821ca34",
+          "wrist": "5a888702af48f7f120a5e72ceaaa1496871e939feae5f44a01721ad7fcc15538"
+        },
+        "image_pixel_sha256": {
+          "agentview": "19f46cd1d6524086e3d7decf1ea526f4d017dee7df5eed690ea609f49edfd4b1",
+          "wrist": "52f3bf34a27be678b69b47007f106e545383cb8ff6fdc87812f8ef2bacc28267"
+        },
+        "public_robot_state": [
+          0.014238224158487082,
+          0.035545057686563686,
+          1.0370413279517874,
+          1.4044167817800715,
+          1.140715613212967,
+          -1.0600376366734832,
+          0.03983960364442888,
+          -0.040007216241098
+        ]
+      },
+      {
+        "name": "04_subtask_end",
+        "image_paths": {
+          "agentview": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/04_subtask_end_agentview.png",
+          "wrist": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/04_subtask_end_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "f7a8a7a5ef646dd5dd947c3dc7319a94ec3d149c1757a174fb7e165414a77f4d",
+          "wrist": "ca3f5bdce3df30728080f7796b10f3e88ca44022df77e02876abd994ad989643"
+        },
+        "image_pixel_sha256": {
+          "agentview": "a657e7bfffffca4b0f3efffc99f995f3b5d0552e6021613dc2478cd98f6d1b8e",
+          "wrist": "2ec84e40db2bd19640f27fca7d786832d7131c9743a6aa58ebc852c93f35dc88"
+        },
+        "public_robot_state": [
+          -0.02303487684612745,
+          0.048357052728798644,
+          1.055185394852283,
+          0.8906726446109233,
+          1.230029991286044,
+          -0.796733228510103,
+          0.03983930134696717,
+          -0.04000514441312561
+        ]
+      },
+      {
+        "name": "05_returned_home",
+        "image_paths": {
+          "agentview": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/05_returned_home_agentview.png",
+          "wrist": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/05_returned_home_wrist.png"
+        },
+        "image_sha256": {
+          "agentview": "21a75c85213d859f7c5d14f3538503f75df29cdee437013e8ca4e8b84c75f953",
+          "wrist": "0c76ca405c62b28b0b4fd6a7367c3f06b18ea9a4812e6e27796b5eb850d146dd"
+        },
+        "image_pixel_sha256": {
+          "agentview": "af0f87017de2503f658db7b77e23a41aaffc5709f202b7ec4065f0e8d145c57b",
+          "wrist": "3cb8d5c6a3d3012acc763f482cda0e5ab7f6aa2b0f1c3fab00699b5abb3c7282"
+        },
+        "public_robot_state": [
+          -0.2128261582361458,
+          -0.0023478944123845823,
+          1.169909957335031,
+          3.1400595675698146,
+          0.0014434997812784057,
+          -0.09330470859565004,
+          0.03978492850464601,
+          -0.04000007839118379
+        ]
+      }
+    ],
+    "video": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/public_wrist_agentview.mp4",
+    "action_history": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/assets/public_action_history.json",
+    "opaque_state_transport": "runs/piu_open_primitive_qualification_v1/00021_dad4de3c77e3/final_state.npz",
+    "opaque_state_transport_sha256": "d7190d80698f230356c6810cd0fa58b40dff46b418504dd8b63aa57624c9dbf5",
+    "source_initial_state_transport": {
+      "path": "data/piu/mainline_v1/open_primitive_qualification_v1/groups/open_middle_drawer_qualification_092/initial_state.npz",
+      "sha256": "f45167f3ac4e0fdf2e6e50e8a7eea1d7c00cd1f6e7fe1ae27448c2536516cb96",
+      "state_key": "state"
+    }
+  },
+  "evaluator": {
+    "timing": "separate replay after controller terminal",
+    "privileged_inputs": [
+      "declared evaluator object poses and contacts",
+      "declared evaluator joints",
+      "evaluator-only instance segmentation",
+      "task success predicate"
+    ],
+    "task_success": false,
+    "task_success_final": false,
+    "first_task_success_step": null,
+    "target_object": "butter_1",
+    "target_destination_region": "basket_1_contain_region",
+    "target_reached_destination": false,
+    "target_in_destination_final": false,
+    "target_grasp_contact_final": false,
+    "first_target_destination_step": null,
+    "target_visibility_pixels": {
+      "initial": {
+        "agentview": 0,
+        "robot0_eye_in_hand": 0
+      },
+      "after_subtask": {
+        "agentview": 323,
+        "robot0_eye_in_hand": 0
+      },
+      "final": {
+        "agentview": 323,
+        "robot0_eye_in_hand": 626
+      }
+    },
+    "target_grasp_contact_success": false,
+    "target_maximum_lift_m": 0.0,
+    "metric_contract": {
+      "target_grasp_contact_success": "LIBERO gripper/object contact predicate observed at least once",
+      "target_maximum_lift_m": "continuous maximum object-z displacement from replay initial state",
+      "target_pick_threshold": null,
+      "note": "No hand-selected lift threshold determines a v2 binary outcome"
+    },
+    "objects": {
+      "butter_1": {
+        "initial_position": [
+          0.02951026288280068,
+          -0.2464565680679145,
+          1.0419
+        ],
+        "minimum_eef_distance_m": 0.10530991074355395,
+        "minimum_eef_step": 89,
+        "eef_position_at_minimum": [
+          0.027227756260770758,
+          -0.14036512557544667,
+          1.0307482191848638
+        ],
+        "object_position_at_minimum": [
+          0.0295290166232047,
+          -0.24196832990810474,
+          1.0031498429482857
+        ],
+        "maximum_lift_m": 0.0,
+        "grasp_contact_steps": 0,
+        "grasp_contact_after_subtask_steps": 0,
+        "final_position": [
+          0.029530307595665807,
+          -0.08681626672234165,
+          1.0031498429484884
+        ]
+      },
+      "cream_cheese_1": {
+        "initial_position": [
+          -0.06794087017048439,
+          0.11139362923743398,
+          0.935
+        ],
+        "minimum_eef_distance_m": 0.15972785697392916,
+        "minimum_eef_step": 306,
+        "eef_position_at_minimum": [
+          -0.025285955050889562,
+          0.049549864847626204,
+          1.0498640227166072
+        ],
+        "object_position_at_minimum": [
+          -0.06794086959003388,
+          0.11139363231037681,
+          0.9089069548372153
+        ],
+        "maximum_lift_m": 0.0,
+        "grasp_contact_steps": 0,
+        "grasp_contact_after_subtask_steps": 0,
+        "final_position": [
+          -0.06794086959003388,
+          0.11139363231037681,
+          0.9089069548372153
+        ]
+      }
+    },
+    "joints": {
+      "wooden_cabinet_1_middle_level": {
+        "initial": 0.0,
+        "final": -0.15992146935119653,
+        "minimum": -0.1610282079291929,
+        "maximum": 0.0017180056492680242
+      }
+    }
+  }
+}

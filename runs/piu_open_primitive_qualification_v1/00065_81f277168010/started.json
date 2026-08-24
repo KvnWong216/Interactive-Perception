@@ -1,0 +1,43 @@
+{
+  "schema_version": "piu.primitive-qualification-attempt.v1",
+  "status": "STARTED_SINGLE_USE",
+  "outcomes_loaded": false,
+  "execution_index": 65,
+  "entry": {
+    "permutation_key": "83761e9c4d61d8a40e626df6a117a188756250d39d1d77f883dd23e6ef714ac7",
+    "initial_state_group": "open_middle_drawer_qualification_027",
+    "simulator_seed": 26081839,
+    "candidate_id": "open_middle_drawer",
+    "primitive": "OPEN",
+    "context": "middle_drawer",
+    "group_id": "open_middle_drawer_qualification_027",
+    "scenario": "original_cluttered_drawer",
+    "state_key": "state",
+    "controller_report": {
+      "path": "data/piu/mainline_v1/open_primitive_qualification_v1/groups/open_middle_drawer_qualification_027/controller_decision.json",
+      "sha256": "14a69dca269a48644fb16789ae74b5223ee569b10071c51e22dfe5943dcfb774"
+    },
+    "structured_subtask_sha256": "bcc877a023f12704bd2c27a454a9bb6f14be8ac74afd4132a72a7757c58f1fb7",
+    "subtask_prompt": "Open the middle drawer below the countertop.",
+    "public_observation_sha256": "a063c56d1e43a80a4663b262254cde91c68508c10fff64183319fbcec4483e06",
+    "rollout_executed": false,
+    "outcome_loaded": false,
+    "pre_outcome_only": true,
+    "source_state": {
+      "path": "data/piu/mainline_v1/open_primitive_qualification_v1/groups/open_middle_drawer_qualification_027/initial_state.npz",
+      "sha256": "caf972f9d8bd14c2dced3eded9a72c36495435576e7c9ce9be56b4f9f84e0ea6",
+      "shape": [
+        105
+      ],
+      "dtype": "float64"
+    },
+    "execution_index": 65,
+    "expected_execution_receipt": "runs/piu_open_primitive_qualification_v1/00065_81f277168010/report.json"
+  },
+  "schedule_sha256": "45d41b75fd982b977a0c9c5f82f63c2f33b686fd1512308cacf3cc690847e762",
+  "previous_receipt_sha256": "5d11ab86132906608fc3dc6c992c9daebba0f42d49ed407c719b7f658c270f55",
+  "endpoint": {
+    "host": "127.0.0.1",
+    "port": 8002
+  }
+}

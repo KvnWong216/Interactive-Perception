@@ -1,0 +1,26 @@
+{
+  "schema_version": "piu.primitive-qualification-execution.v1",
+  "execution_index": 105,
+  "initial_state_group": "open_middle_drawer_qualification_088",
+  "simulator_seed": 26081900,
+  "candidate_id": "open_middle_drawer",
+  "primitive": "OPEN",
+  "context": "middle_drawer",
+  "source_state_sha256": "df6abf456634987c62dd53d35fca94c518d8f09b6f4ef490a42620fd9ff2e427",
+  "controller_report_sha256": "e538ab2d668e82802eee7c55b1032ba3ca6be26632866c0cf037057750acb539",
+  "structured_subtask_sha256": "bcc877a023f12704bd2c27a454a9bb6f14be8ac74afd4132a72a7757c58f1fb7",
+  "schedule": {
+    "path": "results/method/piu_open_primitive_qualification_schedule_v1.json",
+    "sha256": "45d41b75fd982b977a0c9c5f82f63c2f33b686fd1512308cacf3cc690847e762"
+  },
+  "attempt": {
+    "path": "runs/piu_open_primitive_qualification_v1/00105_1d3572bf99b4/started.json",
+    "sha256": "18db2bdb9d8f0a97bea5108f22950366e1f430b063300dc4c3be7450f06bf633"
+  },
+  "status": "COMPLETED",
+  "semantic_report": {
+    "path": "runs/piu_open_primitive_qualification_v1/00105_1d3572bf99b4/semantic_report.json",
+    "sha256": "81da3ff824d821a63d9618975c8a052157fce610be91c0b386ece86d0f13624f"
+  },
+  "failure": null
+}
