@@ -1,0 +1,21 @@
+{
+  "schema_version": "piu.s03-model-identity-amendment.v3",
+  "status": "FROZEN_BEFORE_S03_V3_OUTCOMES",
+  "identity_id": "piu_s03_public_perception_v3",
+  "model_id": "public_rgb_dino_sam_siglip_qwen25vl_pipeline_v0",
+  "base_model_identity": {
+    "path": "configs/experiments/piu_s03_model_identity_v2.json",
+    "sha256": "87dc3c296560a688c6b334602ea7c6a937a749e9de8c5e36e215092af4f413d2"
+  },
+  "runtime_readiness": {
+    "path": "configs/experiments/piu_s03_runtime_readiness_v3.json",
+    "sha256": "b0064934ca96a618016495dd89f216d9c9233e49fa491753be36e37db6f8231d"
+  },
+  "backend_id": "interaction_uncertainty_public_rgb_pipeline_v0_grounding_dino_compat_runtime_ready_v3",
+  "checkpoint_changed": false,
+  "calibrator_changed": false,
+  "policy_input_firewall_changed": false,
+  "legacy_oracle_dependency": false,
+  "outcomes_generated": 0,
+  "paper_claim_ready": false
+}

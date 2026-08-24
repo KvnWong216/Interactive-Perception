@@ -1,0 +1,80 @@
+{
+  "schema_version": "piu.s03-runtime-readiness.v3",
+  "status": "FROZEN_READY_BEFORE_S03_V3_OUTCOMES",
+  "execution_version": "s03_public_v3",
+  "dependency_declarations": [
+    {
+      "path": "pyproject.toml",
+      "sha256": "9f3ce44b426d06e7fd848cdc0fdbe926cfcf9d3905d09ec889975a626081d423"
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "399d45eb72e3df7f6b5d54c93c98bf9ea323fe2d3fbe66ffdb00bb6766bb33b6"
+    }
+  ],
+  "backend_readiness": {
+    "python_version": "3.10.12",
+    "package_versions": {
+      "accelerate": "1.14.0",
+      "numpy": "2.2.6",
+      "pillow": "12.3.0",
+      "protobuf": "6.33.5",
+      "sentencepiece": "0.2.1",
+      "torch": "2.13.0",
+      "torchvision": "0.28.0",
+      "transformers": "4.57.6"
+    },
+    "runtime_build_versions": {
+      "torch": "2.13.0+cu130",
+      "torchvision": "0.28.0+cu130"
+    },
+    "sentencepiece_available": true,
+    "siglip_tokenizer": {
+      "processor_class": "SiglipProcessor",
+      "tokenizer_class": "SiglipTokenizer",
+      "local_files_only": true,
+      "initialized": true
+    },
+    "processor_classes": {
+      "grounding_dino": "GroundingDinoProcessor",
+      "sam": "SamProcessor",
+      "dinov2": "BitImageProcessor",
+      "siglip": "SiglipProcessor",
+      "qwen": "Qwen2_5_VLProcessor"
+    },
+    "config_classes": {
+      "grounding_dino": "GroundingDinoConfig",
+      "sam": "SamConfig",
+      "dinov2": "Dinov2Config",
+      "siglip": "SiglipConfig",
+      "qwen": "Qwen2_5_VLConfig"
+    },
+    "grounding_dino_processor_api": {
+      "compatibility_wrapper_version": "grounding_dino_post_process_signature_v1",
+      "score_threshold_keyword": "threshold",
+      "callable_signature": "(self, outputs: 'GroundingDinoObjectDetectionOutput', input_ids: Optional[transformers.utils.generic.TensorType] = None, threshold: float = 0.25, text_threshold: float = 0.25, target_sizes: Union[transformers.utils.generic.TensorType, list[tuple], NoneType] = None, text_labels: Optional[list[list[str]]] = None)"
+    },
+    "all_required_processors_and_configs_loaded": true,
+    "model_weights_loaded": false,
+    "model_prediction_executed": false,
+    "outcome_written": false
+  },
+  "model_checkpoint_calibrator_identity": {
+    "identity_id": "piu_s03_public_perception_v3",
+    "model_id": "public_rgb_dino_sam_siglip_qwen25vl_pipeline_v0",
+    "checkpoint_digest": "4a99edb33253d18a656924abf52f4dca7a816eda0e8a0859a394d79a877ea258",
+    "calibrator_id": "none_public_qwen_pipeline_v0",
+    "calibrator_version": "0",
+    "calibrator_status": "UNCALIBRATED_DEVELOPMENT_ONLY"
+  },
+  "execution_boundary": {
+    "output_root": "runs/piu_s03_perception_decision_v3",
+    "certificate": "results/method/piu_s03_perception_decision_certificate_v3.json",
+    "output_root_absent_at_freeze": true,
+    "certificate_absent_at_freeze": true,
+    "inference_executed": false,
+    "outcomes_generated": 0
+  },
+  "legacy_oracle_dependency": false,
+  "paper_claim_ready": false
+}

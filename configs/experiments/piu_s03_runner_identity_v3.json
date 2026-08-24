@@ -1,0 +1,137 @@
+{
+  "schema_version": "piu.s03-runner-identity.v3",
+  "status": "FROZEN_BEFORE_S03_V3_OUTCOMES",
+  "execution_version": "s03_public_v3",
+  "identity_id": "piu_s03_public_offline_single_use_v3",
+  "parent_logical_schedule": {
+    "path": "results/method/piu_s03_perception_decision_schedule_v1.json",
+    "sha256": "26faff39586b8071a130253079f2cf3478c88649c6f08276ce7469644123a701"
+  },
+  "logical_manifest": {
+    "path": "results/method/piu_s03_perception_decision_input_manifest_v1.json",
+    "sha256": "757a56c4848d66190b310ef21bd97db2ea954d13c6103f105f93db6868a27433"
+  },
+  "v1_seal": {
+    "blocker": {
+      "path": "results/diagnostics/piu_s03_execution_blocker_v1.json",
+      "sha256": "9e742a7a20cc28622da4b95c9e75079e1e8700d707aec4fa7d935952d89e6048"
+    },
+    "partial_execution_tree_sha256": "eee3900ad0e490e027f18436f979bc72977c015ae27870e80d7d4ac278b265ad",
+    "index_0_consumed": true,
+    "index_0_rerun_eligible": false,
+    "model_task_outcomes": 0,
+    "certificate_present": false
+  },
+  "v2_seal": {
+    "blocker": {
+      "path": "results/diagnostics/piu_s03_v2_execution_blocker_v1.json",
+      "sha256": "6bc48e54e0bb114fef8fffc3bcdf56144143c16842fc6b372cd429a341b710b8"
+    },
+    "partial_execution_tree_sha256": "017220a2c71d0378f8a6d21cfbab37896ada45e41410fc9bd6c4bb5dea236d25",
+    "index_0_consumed": true,
+    "index_0_rerun_eligible": false,
+    "model_task_outcomes": 0,
+    "certificate_present": false,
+    "metrics_status": "UNAVAILABLE_NOT_PASS_FAIL",
+    "ambiguous_generated": 0,
+    "ambiguous_rate_interpretable": false
+  },
+  "runtime_readiness": {
+    "path": "configs/experiments/piu_s03_runtime_readiness_v3.json",
+    "sha256": "b0064934ca96a618016495dd89f216d9c9233e49fa491753be36e37db6f8231d"
+  },
+  "model_identity": {
+    "path": "configs/experiments/piu_s03_model_identity_v3.json",
+    "sha256": "9a44bfab4e52833ab5257146dc6e279b4df30e3c13935ec7ed5fc6fb3641a433"
+  },
+  "model_checkpoint_calibrator_identity": {
+    "identity_id": "piu_s03_public_perception_v3",
+    "model_id": "public_rgb_dino_sam_siglip_qwen25vl_pipeline_v0",
+    "checkpoint_digest": "4a99edb33253d18a656924abf52f4dca7a816eda0e8a0859a394d79a877ea258",
+    "calibrator_id": "none_public_qwen_pipeline_v0",
+    "calibrator_version": "0",
+    "calibrator_status": "UNCALIBRATED_DEVELOPMENT_ONLY"
+  },
+  "code": {
+    "freeze_parent_commit": "6ebcfd092e6a7fe875c9c3f2d26a540490434590",
+    "algorithm": "sha256_of_canonical_json_ordered_artifact_refs",
+    "artifacts": [
+      {
+        "artifact_id": "public_inference_backend_v2",
+        "path": "scripts/pipeline/infer_v2.py",
+        "sha256": "de65d21592656e61e3bfc8a3607c7b627ec8a39294f82598e30bb9a180f487b2"
+      },
+      {
+        "artifact_id": "frozen_shared_execution_contract",
+        "path": "src/piu/s03_execution.py",
+        "sha256": "cc38d1d4d398f24a35134b023945f8fa6c39ac6d4b6a9e394a3d2b0b4b79fb21"
+      },
+      {
+        "artifact_id": "s03_v3_execution_amendment",
+        "path": "src/piu/s03_v3_amendment.py",
+        "sha256": "6b477f394b0067e3cbc3500dd1ee247898d68dbe1d32e4139e317b681ce82887"
+      },
+      {
+        "artifact_id": "s03_v3_runner",
+        "path": "scripts/pipeline/run_piu_s03_perception_decision_v3.py",
+        "sha256": "d1e6f95b7480e44ee8c5b11fadf4d793336e6afc065e80797c296600fa9bfc97"
+      },
+      {
+        "artifact_id": "s03_v3_validator",
+        "path": "scripts/repro/validate_piu_s03_v3_amendment.py",
+        "sha256": "f81fd0062a0dae0812005e8a0fd0dc935e8d4288adfa88badc09af5c982e5374"
+      },
+      {
+        "artifact_id": "s03_v3_backend_readiness_preflight",
+        "path": "scripts/repro/preflight_piu_s03_backend_v3.py",
+        "sha256": "0f7528fa7e096c857011bd3eebd556d6ec9a750009dded5779ffe1058911630f"
+      },
+      {
+        "artifact_id": "grounding_dino_compatibility_wrapper",
+        "path": "src/interaction_uncertainty/grounding_dino_compat.py",
+        "sha256": "9b797831546a71f8c8c864059157563989095f813491a89475641e2becd42111"
+      }
+    ],
+    "digest": "5db411bab24782634bb636de2fdc9fd3fee3728c91ba2c44e5fc6ef81e1d51ea"
+  },
+  "output": {
+    "root": "runs/piu_s03_perception_decision_v3",
+    "certificate": "results/method/piu_s03_perception_decision_certificate_v3.json",
+    "infrastructure_blocker": "results/diagnostics/piu_s03_v3_execution_blocker_v1.json",
+    "receipt_directory": "_receipts",
+    "record_directory": "records"
+  },
+  "lifecycle_states": [
+    "FROZEN_READY_BEFORE_OUTCOMES",
+    "EXECUTION_IN_PROGRESS",
+    "EXECUTION_BLOCKED_INFRA",
+    "EXECUTION_COMPLETE_PENDING_CERTIFICATE",
+    "CERTIFIED"
+  ],
+  "policies": {
+    "all_620_logical_records_once": true,
+    "ordered_execution": true,
+    "single_use": true,
+    "rerun": false,
+    "skip": false,
+    "replace": false,
+    "cherry_pick": false,
+    "v1_v2_index_0_reuse": false,
+    "outcome_write_requires_explicit_flag": true,
+    "valid_in_progress_receipts_allowed": true,
+    "certificate_requires_620_valid_closed_receipts": true
+  },
+  "execution_scope": {
+    "offline_public_input_inference_only": true,
+    "physical_rollout": false,
+    "pi05_action_calls": false,
+    "environment_steps": false,
+    "legacy_oracle": false,
+    "privileged_policy_inputs": false,
+    "formal_method_claim": false
+  },
+  "outcomes_generated": 0,
+  "certificate_present": false,
+  "legacy_oracle_actionable": false,
+  "paper_claim_ready": false
+}

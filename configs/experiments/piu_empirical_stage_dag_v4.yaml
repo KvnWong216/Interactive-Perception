@@ -1,0 +1,36 @@
+schema_version: piu.empirical-stage-dag-execution-amendment.v3
+id: piu_mainline_s03_public_execution_v3
+status: frozen_s03_public_v3_before_outcomes
+
+base_dag_v2:
+  path: configs/experiments/piu_empirical_stage_dag_v2.yaml
+  sha256: 2b9d83a289005d1a8bb56b1e4c15e1f6dffd31be3a13c83ff64708a05bf432e2
+
+# V3 is retained as immutable history but is not evaluated through its faulty
+# pre-outcome-only lifecycle validator after v2 created a legal receipt root.
+historical_dag_v3:
+  path: configs/experiments/piu_empirical_stage_dag_v3.yaml
+  sha256: bd7d70d83ea5f6b8c3b089e959a37a3ab8ff5851518f74e1a390feb943cfe1d5
+
+v3_amendment_note:
+  path: docs/s03_public_v3_execution_amendment.md
+  sha256: 67f2358524c263e43a9df69e3171cd4104bc1911e2f86453bbf44d1a5eb87799
+
+v2_blocker:
+  path: results/diagnostics/piu_s03_v2_execution_blocker_v1.json
+  sha256: 6bc48e54e0bb114fef8fffc3bcdf56144143c16842fc6b372cd429a341b710b8
+
+v3_runtime_readiness:
+  path: configs/experiments/piu_s03_runtime_readiness_v3.json
+  sha256: b0064934ca96a618016495dd89f216d9c9233e49fa491753be36e37db6f8231d
+
+v3_runner_identity:
+  path: configs/experiments/piu_s03_runner_identity_v3.json
+  sha256: 9fe1357d28b9c2bc80a52c04c05e68e01514aa320226ddba5f53aafd405d0112
+
+v3_execution_plan:
+  path: results/method/piu_s03_perception_decision_execution_plan_v3.json
+  sha256: 130bf3f51210519daed115b6dfa675cb9dbe57d4dafc5ae72c54789d25700eca
+
+legacy_oracle_actionable: false
+paper_claim_ready: false
