@@ -515,6 +515,13 @@ def build_s03_public_request(
     manifest_row = manifest["records"][execution_index]
     if row["record_id"] != manifest_row["record_id"]:
         raise ValueError("S03 schedule/manifest record IDs differ")
+    _scan_policy_input(row["input_artifacts"])
+    if set(row["input_artifacts"]) != {
+        "prompt",
+        "candidate_registry",
+        "observation_sequence",
+    }:
+        raise ValueError("S03 scheduled policy input contains an unknown field")
     policy_request = {
         "prompt": row["input_artifacts"]["prompt"],
         "candidate_registry": dict(row["input_artifacts"]["candidate_registry"]),
