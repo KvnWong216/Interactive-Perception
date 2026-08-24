@@ -20,6 +20,8 @@ from pathlib import Path
 from typing import Any
 
 from .s03_preparation import (
+    S02_OUTCOME_INDEX_PATH,
+    S02_OUTCOME_INDEX_SHA256,
     canonical_sha256,
     sha256,
     validate_s03_input_manifest,
@@ -980,15 +982,26 @@ def _private_s02_label(
     visibility = _mapping(evaluator.get("target_visibility_pixels"), "S02 target visibility")
     initial = sum(int(value) for value in _mapping(visibility.get("initial"), "initial visibility").values())
     final = sum(int(value) for value in _mapping(visibility.get("final"), "final visibility").values())
+    outcome_index_path = _resolve(S02_OUTCOME_INDEX_PATH, repository_root=repository_root)
+    if sha256(outcome_index_path) != S02_OUTCOME_INDEX_SHA256:
+        raise ValueError("S02 evaluator-only outcome index differs from its frozen bytes")
+    outcome_rows = [json.loads(line) for line in outcome_index_path.read_text().splitlines() if line.strip()]
+    linked_index = int(manifest_row["linked_s02_index"])
+    matching = [row for row in outcome_rows if row.get("execution_index") == linked_index]
+    if len(matching) != 1 or matching[0].get("execution_receipt", {}).get("sha256") != sha256(receipt_path):
+        raise ValueError("S02 evaluator-only outcome join is not one-to-one and hash-bound")
     return {
-        "source": _reference(semantic_path, repository_root=repository_root),
+        "sources": [
+            _reference(semantic_path, repository_root=repository_root),
+            _reference(outcome_index_path, repository_root=repository_root),
+        ],
         "joined_after_public_report_hashes_frozen": True,
         "pre_target_revealed": initial > 0,
         "post_target_revealed": final > 0,
         "pre_information_sufficient": None,
         "post_information_sufficient": None,
         "sufficiency_status": "UNAVAILABLE_NO_FROZEN_SCHEMA",
-        "open_execution_success": receipt.get("status") == "SUCCESS",
+        "open_execution_success": matching[0].get("success") is True,
     }
 
 
@@ -1032,7 +1045,7 @@ def execute_s03_record_backend(
         "online_oracle_inputs": [],
     }
     private = _private_s02_label(manifest_row, repository_root=repository_root)
-    report_refs.append(private["source"])
+    report_refs.extend(private["sources"])
     subtest = schedule_row["subtest"]
     failures: list[str] = []
     if subtest == "A_INFORMATION_EFFECT":

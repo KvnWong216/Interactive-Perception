@@ -74,6 +74,9 @@ def main() -> None:
         execution_index=args.execution_index,
         repository_root=ROOT,
     )
+    canonical_output_root = _resolve(Path(contract["output"]["root"]))
+    if output_root.resolve() != canonical_output_root.resolve():
+        raise ValueError("S03 runner output root must be the frozen canonical directory")
     manifest_path = _resolve(Path(request["manifest"]["path"]))
     identity_path = _resolve(Path(request["model_identity"]["path"]))
     ledger = validate_s03_receipts(
