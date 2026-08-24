@@ -1,0 +1,129 @@
+{
+  "schema_version": "piu.s03-v2-execution-blocker.v1",
+  "status": "FORMAL_EXECUTION_STOPPED_INFRASTRUCTURE_FAILURE",
+  "created_at": "2026-08-24T16:55:38Z",
+  "frozen_inputs": {
+    "execution_plan": {
+      "path": "results/method/piu_s03_perception_decision_execution_plan_v2.json",
+      "sha256": "b6ff3764f3ccb298f679a810e62613d9561ee0b9801d8258c6297bb3cbc8ca6c"
+    },
+    "runner_identity": {
+      "path": "configs/experiments/piu_s03_runner_identity_v2.json",
+      "sha256": "3c00bb8bbcf442ed173e67e6e461bb985c71fe44aba3c498e5e82b8bfcd508bd"
+    },
+    "model_identity": {
+      "path": "configs/experiments/piu_s03_model_identity_v2.json",
+      "sha256": "87dc3c296560a688c6b334602ea7c6a937a749e9de8c5e36e215092af4f413d2"
+    },
+    "logical_schedule": {
+      "path": "results/method/piu_s03_perception_decision_schedule_v1.json",
+      "sha256": "26faff39586b8071a130253079f2cf3478c88649c6f08276ce7469644123a701"
+    },
+    "logical_manifest": {
+      "path": "results/method/piu_s03_perception_decision_input_manifest_v1.json",
+      "sha256": "757a56c4848d66190b310ef21bd97db2ea954d13c6103f105f93db6868a27433"
+    },
+    "dag_v3": {
+      "path": "configs/experiments/piu_empirical_stage_dag_v3.yaml",
+      "sha256": "bd7d70d83ea5f6b8c3b089e959a37a3ab8ff5851518f74e1a390feb943cfe1d5"
+    },
+    "v1_blocker": {
+      "path": "results/diagnostics/piu_s03_execution_blocker_v1.json",
+      "sha256": "9e742a7a20cc28622da4b95c9e75079e1e8700d707aec4fa7d935952d89e6048"
+    }
+  },
+  "ledger": {
+    "records_scheduled": 620,
+    "records_started": 1,
+    "records_closed": 1,
+    "records_with_prediction": 0,
+    "records_with_outcome": 0,
+    "infrastructure_failures": 1,
+    "in_flight": null,
+    "next_execution_index_from_receipt_chain": 1,
+    "formal_indices_1_through_619_started": false,
+    "reruns": 0,
+    "skips": 0,
+    "replacements": 0,
+    "overwrites": 0
+  },
+  "partial_execution_tree": {
+    "algorithm": "sha256_of_canonical_json_ordered_relative_path_and_sha256_rows",
+    "file_count": 67,
+    "root_sha256": "017220a2c71d0378f8a6d21cfbab37896ada45e41410fc9bd6c4bb5dea236d25"
+  },
+  "failed_record": {
+    "execution_index": 0,
+    "record_id": "s03-a-000",
+    "subtest": "A_INFORMATION_EFFECT",
+    "started_receipt": {
+      "path": "runs/piu_s03_perception_decision_v2/_receipts/000.started.json",
+      "sha256": "73996810ac0762089054c75d1432c8fc6507ad278445f5a2ccb016ca3838414a"
+    },
+    "closed_receipt": {
+      "path": "runs/piu_s03_perception_decision_v2/_receipts/000.closed.json",
+      "sha256": "eaea85cbfcdd814126cb1186cd2c3ac10d377ab99cd4b680b28f0af2019efceb"
+    },
+    "infrastructure_failure": {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/infrastructure_failure.json",
+      "sha256": "5dd5e6cce98613d1b77d3b4be2f98c34e45b17ab9d489d9482eac2803dfb9ca2"
+    },
+    "partial_frontend_artifacts": 64,
+    "inference_attempted": true,
+    "prediction_generated": false,
+    "outcome_generated": false,
+    "index_consumed": true,
+    "rerun_eligible": false
+  },
+  "terminal_root_cause": {
+    "stage": "SIGLIP_TOKENIZER_INITIALIZATION",
+    "category": "MISSING_FROZEN_RUNTIME_DEPENDENCY",
+    "exception_type": "ImportError",
+    "missing_module": "sentencepiece",
+    "exception_summary": "SiglipTokenizer requires the SentencePiece library, but sentencepiece is not installed in the frozen runtime environment.",
+    "dependency_probe": {
+      "python": ".venv/bin/python",
+      "importlib_spec_present": false,
+      "direct_import_result": "ModuleNotFoundError: No module named 'sentencepiece'"
+    },
+    "diagnostic_method": "post-close non-S03 backend reproduction on development images plus direct runtime dependency probe",
+    "grounding_dino_compatibility_stage_completed": true,
+    "grounding_dino_compatibility_branch": "threshold",
+    "diagnostic_generated_s03_prediction": false,
+    "diagnostic_generated_s03_outcome": false
+  },
+  "secondary_runtime_observation": {
+    "category": "CUDA_ALLOCATION_WARNING_DURING_NON_S03_DIAGNOSTIC",
+    "terminal_cause": false,
+    "disposition": "must be included in a future prospective runtime and memory preflight; it does not authorize a v2 retry"
+  },
+  "continuation_blocker": {
+    "stage": "FROZEN_V2_PREFLIGHT_VALIDATION",
+    "probe": "execution index 1 with --validate-only; no inference and no write",
+    "category": "PRE_OUTCOME_VALIDATOR_REJECTS_ITS_OWN_EXISTING_OUTPUT_ROOT",
+    "exception_type": "ValueError",
+    "exception": "S03 v2 outcomes or certificate exist before the v2 freeze",
+    "lower_level_receipt_chain_status": {
+      "closed": 1,
+      "in_flight": null,
+      "next_execution_index": 1
+    },
+    "consequence": "the frozen canonical v2 runner cannot legally advance to execution index 1 after index 0 creates its output root"
+  },
+  "stop_decision": {
+    "reason": "index 0 encountered a frozen-runtime infrastructure failure, and the frozen preflight validator independently prevents continuation after any first write",
+    "certificate_generated": false,
+    "thresholds_evaluated": false,
+    "required_follow_up": "prospectively freeze a new execution version with an explicit SentencePiece/runtime dependency identity, a sufficient GPU-memory preflight, stderr-preserving backend failure capture, and a validator that separates immutable pre-outcome identity checks from append-only receipt-ledger continuation; never rerun, reuse, or relabel v2 index 0"
+  },
+  "s02_indices_101_and_104_remain_in_frozen_schedule": true,
+  "s02_indices_101_and_104_executed_under_v2": false,
+  "legacy_oracle_used": false,
+  "privileged_policy_input_used": false,
+  "physical_rollout_executed": false,
+  "pi05_action_calls_executed": false,
+  "s02_artifacts_modified": false,
+  "s03_v1_artifacts_modified": false,
+  "frozen_s03_v2_inputs_modified": false,
+  "paper_claim_ready": false
+}

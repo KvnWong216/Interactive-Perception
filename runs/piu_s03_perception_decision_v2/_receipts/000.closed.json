@@ -1,0 +1,31 @@
+{
+  "schema_version": "piu.s03-execution-receipt.v1",
+  "receipt_phase": "CLOSED",
+  "status": "CLOSED_INFRASTRUCTURE_FAILURE",
+  "execution_index": 0,
+  "record_id": "s03-a-000",
+  "schedule": {
+    "path": "results/method/piu_s03_perception_decision_schedule_v1.json",
+    "sha256": "26faff39586b8071a130253079f2cf3478c88649c6f08276ce7469644123a701"
+  },
+  "manifest": {
+    "path": "results/method/piu_s03_perception_decision_input_manifest_v1.json",
+    "sha256": "757a56c4848d66190b310ef21bd97db2ea954d13c6103f105f93db6868a27433"
+  },
+  "model_identity": {
+    "path": "configs/experiments/piu_s03_model_identity_v2.json",
+    "sha256": "87dc3c296560a688c6b334602ea7c6a937a749e9de8c5e36e215092af4f413d2"
+  },
+  "public_input_digest": "17f394c27d8ae94d7f5e45139c23512d615665fabc781fb7ebf5593b5b71aba7",
+  "request_sha256": "532ef4c39243e7c5918c4254ab964d4ea16c9c7f5525b4929cefa6a4b1590094",
+  "single_use_output_dir": "/home/icon/InteractivePerception_yg/Interactive-Perception/runs/piu_s03_perception_decision_v2/records/000_s03-a-000",
+  "previous_close_sha256": null,
+  "record_artifact": {
+    "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/infrastructure_failure.json",
+    "sha256": "5dd5e6cce98613d1b77d3b4be2f98c34e45b17ab9d489d9482eac2803dfb9ca2"
+  },
+  "outcome_present": false,
+  "inference_executed": true,
+  "consumes_execution_index": true,
+  "created_at": "2026-08-24T16:51:15.499694Z"
+}

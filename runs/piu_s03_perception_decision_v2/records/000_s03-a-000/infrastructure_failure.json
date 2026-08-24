@@ -1,0 +1,311 @@
+{
+  "schema_version": "piu.s03-record-artifact.v1",
+  "record_id": "s03-a-000",
+  "schedule_index": 0,
+  "linked_s02_index": 0,
+  "subtest": "A_INFORMATION_EFFECT",
+  "stratum": "PAIRED_PRE_POST",
+  "schedule": {
+    "path": "results/method/piu_s03_perception_decision_schedule_v1.json",
+    "sha256": "26faff39586b8071a130253079f2cf3478c88649c6f08276ce7469644123a701"
+  },
+  "manifest": {
+    "path": "results/method/piu_s03_perception_decision_input_manifest_v1.json",
+    "sha256": "757a56c4848d66190b310ef21bd97db2ea954d13c6103f105f93db6868a27433"
+  },
+  "manifest_record_sha256": "1f0416b803787ad21faa1389700ea9c42d70f6f6c5a616cb3bc18d60abafde16",
+  "public_input_digest": "17f394c27d8ae94d7f5e45139c23512d615665fabc781fb7ebf5593b5b71aba7",
+  "request_sha256": "532ef4c39243e7c5918c4254ab964d4ea16c9c7f5525b4929cefa6a4b1590094",
+  "model_identity": {
+    "identity_id": "piu_s03_public_perception_v2",
+    "model_id": "public_rgb_dino_sam_siglip_qwen25vl_pipeline_v0",
+    "checkpoint_digest": "4a99edb33253d18a656924abf52f4dca7a816eda0e8a0859a394d79a877ea258",
+    "calibrator_id": "none_public_qwen_pipeline_v0",
+    "calibrator_version": "0",
+    "code_commit": "c773da6294ed2b1a03f174550564b93586cd5384",
+    "backend_id": "interaction_uncertainty_public_rgb_pipeline_v0_grounding_dino_compat_v2",
+    "seed": 26082300,
+    "sampling": {
+      "do_sample": false,
+      "temperature": null,
+      "seed_base": 26082300,
+      "per_record_seed_rule": "seed_base_plus_schedule_index"
+    }
+  },
+  "status": "INFRASTRUCTURE_FAILURE",
+  "inference_executed": true,
+  "outcome_present": false,
+  "prediction": null,
+  "outcome": null,
+  "artifacts": [
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/candidate_crops.png",
+      "sha256": "49665916d751048497ff296a03ef7a59095c10740dab61089b9d5f8f96e8b4ad"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_bottle_00_mask.png",
+      "sha256": "8b03fc966f03d6a687cecb880f3bb7b60aa335e39677f3c8774e87ea31f0911a"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_bowl_03_mask.png",
+      "sha256": "bafb093323824b96f80e44e87f0b763e73022ab9ab67a85afe00c5c8e8b4115a"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_butter_06_mask.png",
+      "sha256": "0382c80889c57b21c5cdff91437eed765b861754551e32d799ec7c9b21c518a1"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_butter_08_mask.png",
+      "sha256": "c2aeeeba5a1aa1a4d6dd9b48849476f816d6524487627bd6fe5f9ff55c06f059"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_butter_09_mask.png",
+      "sha256": "8383ff4ff5e36bed501fe8185645db50f3be79cabf01810edebc4db6633c28ed"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_butter_10_mask.png",
+      "sha256": "e1f9d0a35ed16f2eb44f63988018d129700e4ee0be1970a0bd578d331f87cb76"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_cabinet_07_mask.png",
+      "sha256": "2bc63c668816cfa9761614f2a09134efbe534669c99821fad3fe34bf1a45c719"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_container_01_mask.png",
+      "sha256": "682f47be78648cc924eeb870b14d27921ecec2ccc6ea2e44380570eff0add6e4"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_food_package_02_mask.png",
+      "sha256": "d7b4d463bb07ddb29ca260a14d395e45c02e9301ca8f7ed6aa6e489be1d3fb5c"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_object_04_mask.png",
+      "sha256": "efcf70e0b2bd7d0c73440fe04c5161f7125ecfc6fb15a9965dcb151b80ae3d78"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_object_11_mask.png",
+      "sha256": "9c76521b0ae846539191d448c3cf3278592008fa01020d20b2198e1a6983f875"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_plate_05_mask.png",
+      "sha256": "4ca499589b03d133626d8318e740deda3d8bee25204006aada0bf3b58504b729"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_12_mask.png",
+      "sha256": "3eabed9eb4e414648b28b6787e577230aa38e75cfe24ede1f4a9dbc95d19ba77"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_13_mask.png",
+      "sha256": "01b52e41e46a40d8d49b6f26deebda535a0dcb2206cb08cba21a786586cd68fe"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_14_mask.png",
+      "sha256": "06018a01f005c9d177d2281c3c85014adedc5ca127319e6fec75ab02249a6ad1"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_15_mask.png",
+      "sha256": "5227d9e2ecd463672fa80c88d2385dd7b36781724bdbb909478fcab66995c75e"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_16_mask.png",
+      "sha256": "5fb023447f282493507b2b537603524c135a68155a12ec03d5be919c4373de19"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_17_mask.png",
+      "sha256": "2bedd3665e1325bbdb703bb7b0f128079afde7f259656068d3980c7282130b69"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_18_mask.png",
+      "sha256": "35f6654b5d2809c6eda0825a55eb8b5cbfb854cf22a01c3b93697e5a7209bb49"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_19_mask.png",
+      "sha256": "36d37cd916e52857768fcebe93bc6299934cd6b0c5039607c63932bb04a20151"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_20_mask.png",
+      "sha256": "d52dda59cf30267e883a1529d870d0a839cf754070d8be53028310f34645b54b"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_21_mask.png",
+      "sha256": "49c2a3b93ae0fa87ba91138668f25cfc8f863a511a4314739e2c5228b994a038"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_22_mask.png",
+      "sha256": "756fd626dfaedc4935ab250b860a984f24dfc4e8e8b9e335d081c2d965b2e9b2"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview/agentview_unknown_object_23_mask.png",
+      "sha256": "dbe5a3c71b58f720eaeede5385bb07fc02c95d6ca0e93dff0c0e89e3680a482c"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview_dinov2_norm.png",
+      "sha256": "a8963038ca7d4d018d0e1588bc7d5ca4c4e280019069a31ca11f3496b68a91d6"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview_dinov2_pca.png",
+      "sha256": "fdb9691052055c1b3ec715271fe491fb52848d6edfc1366cb56b4f330e2747ca"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview_grounding_dino.png",
+      "sha256": "d96d7dbc8774785092f5ee367c60518022c871299c381d417146fc7db4b852f1"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview_objects.png",
+      "sha256": "eb2f8e91b7ebce0437e91e15a19375e283794f7f1d9345fc36b3baa090b02ec9"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/agentview_sam_masks.png",
+      "sha256": "f92c83326d040335a24261187d9b2f9910b3e32f50f1191c4008bbc6b035fbcd"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_bowl_00_mask.png",
+      "sha256": "ba697f0dc7e294b8a21e1546c94f4955b2727814809a7c5a6d6f87bbc5703bba"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_butter_09_mask.png",
+      "sha256": "9993114fc03d8e65e5e31aa511f4aedc5081dcde0064aaf01b0757520be06b69"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_butter_13_mask.png",
+      "sha256": "a411f0224e5449834a656565ed31b14b369fbffb6419f823df1b98813a1e8302"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_butter_14_mask.png",
+      "sha256": "da524f855f7f9774708b085a35daae8259a48fdb7a556c50151ef976c84b77e8"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_cabinet_03_mask.png",
+      "sha256": "2ea3dbbdb16d9d0fd4a144c446cf281eea1b35268224a66521f913f49ff8047e"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_cabinet_04_mask.png",
+      "sha256": "d354effb9074e52b8462e4d8539a3754735b855660e52a05a6b34ee510a16644"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_drawer_02_mask.png",
+      "sha256": "5b7d552d6410b1b82e876de53367a550aa10c202b4e604cfab5088d0da35763b"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_food_package_05_mask.png",
+      "sha256": "a0d527c2db553939b3b835c8ddd375eda2dea158b99aa3b2a8278c81dd88e345"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_food_package_07_mask.png",
+      "sha256": "d8ffb0bd2b6e4c21b02c5a3e7df342d0d1bc22c494ddcfa9c936b8a6e545c89b"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_object_01_mask.png",
+      "sha256": "0955cd31c7689c8a68e476c08809a45497280639bdb6689b3793b23ddc7f3c06"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_object_08_mask.png",
+      "sha256": "d4ccbb60efc35b5b443b7c65ece93289201b7f9ba3bc6273bf50cf8fdad5a88a"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_object_10_mask.png",
+      "sha256": "4f0ac7169605475cf3b6bfc4a4d99718e439e2759bc2d88d5b115e84d5377534"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_object_11_mask.png",
+      "sha256": "5e661d80e34b5e37488d1233472aa722a0c615bfa7d5be575257d0ce80cc3391"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_object_12_mask.png",
+      "sha256": "6e52c769f567c4005e43349c16623e218c366de92464cd380b6c96597a8fe5e7"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_plate_06_mask.png",
+      "sha256": "92a5aafa2c0dcab49fa70e90863ea029e8a1f0908bbd11735ffd70bab1141753"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_15_mask.png",
+      "sha256": "c0b87571ce4a1a94af68e78dd19c374906bc993840a9bbcf4d5e454a2297bb5e"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_16_mask.png",
+      "sha256": "af00fe72ad6d057e88f7df262af45d213d45d6380c24fc2815f41857bce776e1"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_17_mask.png",
+      "sha256": "59eb4d84143ecb2e6a810f8ff0ae31f1f65dc345e4570ac7fd549ec25fef2310"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_18_mask.png",
+      "sha256": "8d52c8761ba8d1a21ef252a6b1634294805e43a526ff27096d997fabd2ca06d2"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_19_mask.png",
+      "sha256": "024d65c1b4417ba44c7a8c27b5d673995c325c223d8d6a553d4700da9b5c3212"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_20_mask.png",
+      "sha256": "b2dc43da28743baecd8e8ace263e55c51164b0b766e3c51252ddff7624d950b6"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_21_mask.png",
+      "sha256": "6d7850694c1602f52257d75fe55390bf2d402f45d5d6e52f5a6fb15773472603"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_22_mask.png",
+      "sha256": "018ff26f24868b86c46dc319e5334aee5aab570b430fdc3f235eb9518c554632"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_23_mask.png",
+      "sha256": "0bb4c5d772112f2df55f8e3f5628f9c220f30b34da9b49de9789ab8e655a2a49"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_24_mask.png",
+      "sha256": "88be3e683fbcdddc912325152943ba8224dc6cefceef0aa26e4008d85c534593"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_25_mask.png",
+      "sha256": "2cd37a52fa925ea4820842e8823fed252416826bbd2005fcda1df79da3a67b32"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist/wrist_unknown_object_26_mask.png",
+      "sha256": "f54925d4554c8bb0c3dd0c5d56d5646ba4a542ee00059bee6635b8032b3453e9"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist_dinov2_norm.png",
+      "sha256": "4419d955bab591eae9b5234a981f4946808ba3354bfe2a0c69cbcb9080f53dee"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist_dinov2_pca.png",
+      "sha256": "fa87732790cd5b3f1fc296ce172abb498a737bc524e34459ad907e1988680fd2"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist_grounding_dino.png",
+      "sha256": "1045b374699543063b789eb3282cf3211d0ded3c0c3a558e9d7b8f422d872092"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist_objects.png",
+      "sha256": "ed4d93be9130d7967f7df32c2f396081e343c2b2fd989f33f23901bebabfce7c"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/current_observation/wrist_sam_masks.png",
+      "sha256": "9f5af1e2844326f9ecdfa714376a403ef8e19e748c110b03028710fbea60ab4b"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/dino_features.npz",
+      "sha256": "6ee09c0b069d5909f9bd6390f5ca421d3f5cf5ab052fe0f2e00964d792109859"
+    },
+    {
+      "path": "runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets/scene_packet.json",
+      "sha256": "0bd2a95583627f0bc8ae8ce5bc53fbf6922e1f9c54f831dc81a3348a82091fdf"
+    }
+  ],
+  "infrastructure_failure": {
+    "stage": "BACKEND_OR_RECORD_CONSTRUCTION",
+    "category": "CalledProcessError",
+    "message": "Command '['/home/icon/InteractivePerception_yg/Interactive-Perception/.venv/bin/python', '/home/icon/InteractivePerception_yg/Interactive-Perception/scripts/pipeline/infer_v2.py', '--agentview', '/home/icon/InteractivePerception_yg/Interactive-Perception/runs/piu_open_primitive_qualification_v1/00000_76d36dfa6c23/assets/00_before_agentview.png', '--wrist', '/home/icon/InteractivePerception_yg/Interactive-Perception/runs/piu_open_primitive_qualification_v1/00000_76d36dfa6c23/assets/00_before_wrist.png', '--prompt', 'Place the butter in the basket.', '--asset-dir', '/home/icon/InteractivePerception_yg/Interactive-Perception/runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/assets', '--output', '/home/icon/InteractivePerception_yg/Interactive-Perception/runs/piu_s03_perception_decision_v2/records/000_s03-a-000/pre/report.json', '--device', 'cuda', '--max-proposals-per-view', '8', '--action-registry', '/home/icon/InteractivePerception_yg/Interactive-Perception/configs/action_registry.yaml', '--grounding-model', '/home/icon/InteractivePerception_yg/Interactive-Perception/checkpoints/perception/grounding-dino-tiny', '--sam-model', '/home/icon/InteractivePerception_yg/Interactive-Perception/checkpoints/perception/sam-vit-base', '--dino-model', '/home/icon/InteractivePerception_yg/Interactive-Perception/checkpoints/perception/dinov2-small', '--siglip-model', '/home/icon/InteractivePerception_yg/Interactive-Perception/checkpoints/perception/siglip-base-patch16-224', '--qwen-model', '/home/icon/InteractivePerception_yg/Interactive-Perception/checkpoints/perception/qwen2.5-vl-3b-instruct']' returned non-zero exit status 1.",
+    "consumes_execution_index": true,
+    "adjudication": "closed_without_rerun_or_replacement"
+  },
+  "privileged_input_violation": false,
+  "online_oracle_inputs": [],
+  "physical_dispatch_executed": false,
+  "s02_artifacts_modified": false,
+  "paper_claim_ready": false,
+  "created_at": "2026-08-24T16:51:15.486698Z"
+}
