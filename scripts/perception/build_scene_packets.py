@@ -27,11 +27,6 @@ from typing import Any
 import numpy as np
 from PIL import Image, ImageDraw
 
-from interaction_uncertainty.grounding_dino_compat import (
-    grounding_dino_post_process_identity,
-    post_process_grounded_object_detection_compat,
-)
-
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_QUERIES = (
@@ -219,9 +214,6 @@ class PublicObjectFrontend:
         self.grounding_processor = AutoProcessor.from_pretrained(
             grounding_model, local_files_only=True
         )
-        self.grounding_dino_post_process = grounding_dino_post_process_identity(
-            self.grounding_processor.post_process_grounded_object_detection
-        )
         self.grounding = AutoModelForZeroShotObjectDetection.from_pretrained(
             grounding_model,
             local_files_only=True,
@@ -273,8 +265,7 @@ class PublicObjectFrontend:
             )
             with self.torch.inference_mode():
                 outputs = self.grounding(**inputs)
-            results = post_process_grounded_object_detection_compat(
-                self.grounding_processor.post_process_grounded_object_detection,
+            results = self.grounding_processor.post_process_grounded_object_detection(
                 outputs,
                 inputs["input_ids"],
                 box_threshold=self.box_threshold,
@@ -775,7 +766,6 @@ def main() -> None:
                 "source_image_sha256": row["policy_inputs"].get("image_sha256", {}),
                 "backend": {
                     "grounding": "IDEA-Research/grounding-dino-tiny",
-                    "grounding_dino_post_process": frontend.grounding_dino_post_process,
                     "segmentation": "facebook/sam-vit-base",
                     "region_features": "facebook/dinov2-small",
                 },

@@ -1060,7 +1060,6 @@ def main() -> None:
         dense_min_iou=0.80,
         max_dense_proposals=12,
     )
-    grounding_dino_post_process = frontend.grounding_dino_post_process
     nodes: list[dict[str, Any]] = []
     feature_rows: list[np.ndarray] = []
     overlays: dict[str, Path] = {}
@@ -1129,7 +1128,6 @@ def main() -> None:
         },
         "online_oracle_inputs": [],
         "temporal_association": temporal_association,
-        "grounding_dino_post_process": grounding_dino_post_process,
     }
     scene_path.write_text(json.dumps(scene_packet, indent=2) + "\n")
     np.savez_compressed(
@@ -1282,9 +1280,6 @@ def main() -> None:
             "dinov2": str(args.dino_model.relative_to(ROOT)),
             "siglip": str(args.siglip_model.relative_to(ROOT)),
             "qwen": str(args.qwen_model.relative_to(ROOT)),
-        },
-        "backend_identity": {
-            "grounding_dino_post_process": grounding_dino_post_process,
         },
         "action_registry": {
             "path": str(args.action_registry.relative_to(ROOT)),
