@@ -1,0 +1,25 @@
+schema_version: piu.empirical-stage-dag-execution-amendment.v2
+id: piu_mainline_s03_public_execution_v2
+status: frozen_s03_public_v2_before_outcomes
+
+# The canonical public-input DAG v2 remains byte-for-byte frozen. This
+# additive amendment records the sealed v1 infrastructure stop and the new
+# public-v2 execution identity without completing the outcome gate.
+base_dag_v2:
+  path: configs/experiments/piu_empirical_stage_dag_v2.yaml
+  sha256: 2b9d83a289005d1a8bb56b1e4c15e1f6dffd31be3a13c83ff64708a05bf432e2
+
+v1_seal_note:
+  path: docs/s03_public_v2_execution_amendment.md
+  sha256: 747d3b4e4ab02a11918ddbeda3b3195b2cf0f7efc492ef78597e2db297710b7e
+
+v2_runner_identity:
+  path: configs/experiments/piu_s03_runner_identity_v2.json
+  sha256: 3c00bb8bbcf442ed173e67e6e461bb985c71fe44aba3c498e5e82b8bfcd508bd
+
+v2_execution_plan:
+  path: results/method/piu_s03_perception_decision_execution_plan_v2.json
+  sha256: b6ff3764f3ccb298f679a810e62613d9561ee0b9801d8258c6297bb3cbc8ca6c
+
+legacy_oracle_actionable: false
+paper_claim_ready: false

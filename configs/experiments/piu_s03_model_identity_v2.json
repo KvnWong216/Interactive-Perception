@@ -1,0 +1,45 @@
+{
+  "schema_version": "piu.s03-model-identity-amendment.v2",
+  "status": "FROZEN_BEFORE_S03_V2_OUTCOMES",
+  "identity_id": "piu_s03_public_perception_v2",
+  "model_id": "public_rgb_dino_sam_siglip_qwen25vl_pipeline_v0",
+  "base_model_identity": {
+    "path": "configs/experiments/piu_s03_model_identity_v1.json",
+    "sha256": "16903c60054573ccb116dc0d6e544ab7b51178e763ea1b32fe64c65e4556ebda"
+  },
+  "backend_id": "interaction_uncertainty_public_rgb_pipeline_v0_grounding_dino_compat_v2",
+  "backend_entrypoint": {
+    "path": "scripts/pipeline/infer_v2.py",
+    "sha256": "de65d21592656e61e3bfc8a3607c7b627ec8a39294f82598e30bb9a180f487b2"
+  },
+  "code": {
+    "commit": "c773da6294ed2b1a03f174550564b93586cd5384",
+    "algorithm": "sha256_of_canonical_json_ordered_artifact_refs",
+    "artifacts": [
+      {"artifact_id": "public_inference_backend_v2", "path": "scripts/pipeline/infer_v2.py", "sha256": "de65d21592656e61e3bfc8a3607c7b627ec8a39294f82598e30bb9a180f487b2"},
+      {"artifact_id": "frozen_public_inference_backend_v1", "path": "scripts/pipeline/infer.py", "sha256": "5d504d1f2ffaba6e212d7f29560e575050a333265ffc769a2ea49f5a50bcfdf0"},
+      {"artifact_id": "public_scene_frontend_v2", "path": "scripts/perception/build_scene_packets_v2.py", "sha256": "41a9334cb7e6c85d768d0c232b4eb5d8b85f1651577dc5a62f1b0c20f312287c"},
+      {"artifact_id": "frozen_public_scene_frontend_v1", "path": "scripts/perception/build_scene_packets.py", "sha256": "bc12eab6be544a905824cad043658da0da32d6ede000f0a304bb738b3a17ecf6"},
+      {"artifact_id": "grounding_dino_compatibility_wrapper", "path": "src/interaction_uncertainty/grounding_dino_compat.py", "sha256": "9b797831546a71f8c8c864059157563989095f813491a89475641e2becd42111"},
+      {"artifact_id": "s03_v2_runner", "path": "scripts/pipeline/run_piu_s03_perception_decision_v2.py", "sha256": "c3fbe2d46f2f2b414546869dae400adacef1fe504fd84b7b8e03b5ebc328a403"},
+      {"artifact_id": "s03_v2_execution_amendment", "path": "src/piu/s03_v2_amendment.py", "sha256": "cdd1c5d1c1cac2b67f2f086e07e9d7471e8dd73afce8f43cba4abe66a7db4d6e"},
+      {"artifact_id": "s03_v2_runner_validator", "path": "scripts/repro/validate_piu_s03_v2_amendment.py", "sha256": "c4b3eda7b9cb855342ab3c9cb2e4b36956768a53232fa1276008afd6db2c6656"},
+      {"artifact_id": "pre_vlm_belief", "path": "src/interaction_uncertainty/pre_vlm_belief.py", "sha256": "a85dd15b7d0639eed55d9d4743ed6c5e28b8b9b895c28b3e9282e05c3ced636b"},
+      {"artifact_id": "vlm_reasoner", "path": "src/interaction_uncertainty/vlm_reasoner.py", "sha256": "175fa063c1202562321467eb6de7d15f40a51cf0e161421045bbe8dbc2b73c31"}
+    ],
+    "digest": "226088a45c9e804dee9a1bfeb6ea918a5c5636a0cf63ba5d152f316c6ca34878"
+  },
+  "transformers_version": "4.57.6",
+  "grounding_dino_processor_api": {
+    "compatibility_wrapper_version": "grounding_dino_post_process_signature_v1",
+    "score_threshold_keyword": "threshold",
+    "callable_signature": "(self, outputs: 'GroundingDinoObjectDetectionOutput', input_ids: Optional[transformers.utils.generic.TensorType] = None, threshold: float = 0.25, text_threshold: float = 0.25, target_sizes: Union[transformers.utils.generic.TensorType, list[tuple], NoneType] = None, text_labels: Optional[list[list[str]]] = None)"
+  },
+  "compatibility_wrapper_version": "grounding_dino_post_process_signature_v1",
+  "checkpoint_changed": false,
+  "calibrator_changed": false,
+  "policy_input_firewall_changed": false,
+  "legacy_oracle_dependency": false,
+  "outcomes_generated": 0,
+  "paper_claim_ready": false
+}

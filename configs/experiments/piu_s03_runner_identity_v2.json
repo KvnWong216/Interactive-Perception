@@ -1,0 +1,98 @@
+{
+  "schema_version": "piu.s03-runner-identity.v2",
+  "status": "FROZEN_BEFORE_S03_V2_OUTCOMES",
+  "execution_version": "s03_public_v2",
+  "identity_id": "piu_s03_public_offline_single_use_v2",
+  "parent_logical_schedule": {
+    "path": "results/method/piu_s03_perception_decision_schedule_v1.json",
+    "sha256": "26faff39586b8071a130253079f2cf3478c88649c6f08276ce7469644123a701"
+  },
+  "logical_manifest": {
+    "path": "results/method/piu_s03_perception_decision_input_manifest_v1.json",
+    "sha256": "757a56c4848d66190b310ef21bd97db2ea954d13c6103f105f93db6868a27433"
+  },
+  "v1_seal": {
+    "blocker": {
+      "path": "results/diagnostics/piu_s03_execution_blocker_v1.json",
+      "sha256": "9e742a7a20cc28622da4b95c9e75079e1e8700d707aec4fa7d935952d89e6048"
+    },
+    "seal_note": {
+      "path": "docs/s03_public_v2_execution_amendment.md",
+      "sha256": "747d3b4e4ab02a11918ddbeda3b3195b2cf0f7efc492ef78597e2db297710b7e"
+    },
+    "partial_execution_tree_sha256": "eee3900ad0e490e027f18436f979bc72977c015ae27870e80d7d4ac278b265ad",
+    "execution_index_0_consumed": true,
+    "execution_index_0_rerun_eligible": false,
+    "model_task_outcomes": 0,
+    "certificate_present": false,
+    "paper_claim_eligible": false
+  },
+  "model_identity": {
+    "path": "configs/experiments/piu_s03_model_identity_v2.json",
+    "sha256": "87dc3c296560a688c6b334602ea7c6a937a749e9de8c5e36e215092af4f413d2"
+  },
+  "model_checkpoint_calibrator_identity": {
+    "identity_id": "piu_s03_public_perception_v2",
+    "model_id": "public_rgb_dino_sam_siglip_qwen25vl_pipeline_v0",
+    "checkpoint_digest": "4a99edb33253d18a656924abf52f4dca7a816eda0e8a0859a394d79a877ea258",
+    "calibrator_id": "none_public_qwen_pipeline_v0",
+    "calibrator_version": "0",
+    "calibrator_status": "UNCALIBRATED_DEVELOPMENT_ONLY"
+  },
+  "runtime": {
+    "transformers_version": "4.57.6",
+    "grounding_dino_processor_api": {
+      "compatibility_wrapper_version": "grounding_dino_post_process_signature_v1",
+      "score_threshold_keyword": "threshold",
+      "callable_signature": "(self, outputs: 'GroundingDinoObjectDetectionOutput', input_ids: Optional[transformers.utils.generic.TensorType] = None, threshold: float = 0.25, text_threshold: float = 0.25, target_sizes: Union[transformers.utils.generic.TensorType, list[tuple], NoneType] = None, text_labels: Optional[list[list[str]]] = None)"
+    },
+    "compatibility_wrapper_version": "grounding_dino_post_process_signature_v1"
+  },
+  "code": {
+    "commit": "c773da6294ed2b1a03f174550564b93586cd5384",
+    "algorithm": "sha256_of_canonical_json_ordered_artifact_refs",
+    "artifacts": [
+      {"artifact_id": "public_inference_backend_v2", "path": "scripts/pipeline/infer_v2.py", "sha256": "de65d21592656e61e3bfc8a3607c7b627ec8a39294f82598e30bb9a180f487b2"},
+      {"artifact_id": "frozen_public_inference_backend_v1", "path": "scripts/pipeline/infer.py", "sha256": "5d504d1f2ffaba6e212d7f29560e575050a333265ffc769a2ea49f5a50bcfdf0"},
+      {"artifact_id": "public_scene_frontend_v2", "path": "scripts/perception/build_scene_packets_v2.py", "sha256": "41a9334cb7e6c85d768d0c232b4eb5d8b85f1651577dc5a62f1b0c20f312287c"},
+      {"artifact_id": "frozen_public_scene_frontend_v1", "path": "scripts/perception/build_scene_packets.py", "sha256": "bc12eab6be544a905824cad043658da0da32d6ede000f0a304bb738b3a17ecf6"},
+      {"artifact_id": "grounding_dino_compatibility_wrapper", "path": "src/interaction_uncertainty/grounding_dino_compat.py", "sha256": "9b797831546a71f8c8c864059157563989095f813491a89475641e2becd42111"},
+      {"artifact_id": "s03_v2_runner", "path": "scripts/pipeline/run_piu_s03_perception_decision_v2.py", "sha256": "c3fbe2d46f2f2b414546869dae400adacef1fe504fd84b7b8e03b5ebc328a403"},
+      {"artifact_id": "s03_v2_execution_amendment", "path": "src/piu/s03_v2_amendment.py", "sha256": "cdd1c5d1c1cac2b67f2f086e07e9d7471e8dd73afce8f43cba4abe66a7db4d6e"},
+      {"artifact_id": "s03_v2_runner_validator", "path": "scripts/repro/validate_piu_s03_v2_amendment.py", "sha256": "c4b3eda7b9cb855342ab3c9cb2e4b36956768a53232fa1276008afd6db2c6656"},
+      {"artifact_id": "pre_vlm_belief", "path": "src/interaction_uncertainty/pre_vlm_belief.py", "sha256": "a85dd15b7d0639eed55d9d4743ed6c5e28b8b9b895c28b3e9282e05c3ced636b"},
+      {"artifact_id": "vlm_reasoner", "path": "src/interaction_uncertainty/vlm_reasoner.py", "sha256": "175fa063c1202562321467eb6de7d15f40a51cf0e161421045bbe8dbc2b73c31"}
+    ],
+    "digest": "226088a45c9e804dee9a1bfeb6ea918a5c5636a0cf63ba5d152f316c6ca34878"
+  },
+  "output": {
+    "root": "runs/piu_s03_perception_decision_v2",
+    "certificate": "results/method/piu_s03_perception_decision_certificate_v2.json",
+    "receipt_directory": "_receipts",
+    "record_directory": "records"
+  },
+  "policies": {
+    "all_620_logical_records_once": true,
+    "ordered_execution": true,
+    "single_use": true,
+    "rerun": false,
+    "skip": false,
+    "replace": false,
+    "cherry_pick": false,
+    "v1_index_0_reuse": false,
+    "outcome_write_requires_explicit_flag": true
+  },
+  "execution_scope": {
+    "offline_public_input_inference_only": true,
+    "physical_rollout": false,
+    "pi05_action_calls": false,
+    "environment_steps": false,
+    "legacy_oracle": false,
+    "privileged_policy_inputs": false,
+    "formal_method_claim": false
+  },
+  "outcomes_generated": 0,
+  "certificate_present": false,
+  "legacy_oracle_actionable": false,
+  "paper_claim_ready": false
+}
