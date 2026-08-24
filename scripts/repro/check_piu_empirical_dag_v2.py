@@ -36,6 +36,7 @@ def main() -> None:
             {
                 "status": report["status"],
                 "canonical_dag_version": report["canonical_dag_version"],
+                "s03_public_runner": report["s03_public_runner"],
                 "paper_claim_ready": report["paper_claim_ready"],
                 "next_actionable_stages": report["next_actionable_stages"],
                 "stages": [

@@ -1,0 +1,144 @@
+{
+  "schema_version": "piu.s03-model-identity.v1",
+  "status": "FROZEN_BEFORE_S03_OUTCOMES",
+  "identity_id": "piu_s03_public_perception_v1",
+  "model_id": "public_rgb_dino_sam_siglip_qwen25vl_pipeline_v0",
+  "backend": {
+    "backend_id": "interaction_uncertainty_public_rgb_pipeline_v0",
+    "entrypoint": {
+      "path": "scripts/pipeline/infer.py",
+      "sha256": "5d504d1f2ffaba6e212d7f29560e575050a333265ffc769a2ea49f5a50bcfdf0"
+    },
+    "report_schema": "interaction-uncertainty.qwen-observation-pipeline.v0",
+    "model_paths": {
+      "grounding_dino": "checkpoints/perception/grounding-dino-tiny",
+      "sam": "checkpoints/perception/sam-vit-base",
+      "dinov2": "checkpoints/perception/dinov2-small",
+      "siglip": "checkpoints/perception/siglip-base-patch16-224",
+      "qwen": "checkpoints/perception/qwen2.5-vl-3b-instruct"
+    },
+    "action_registry": {
+      "path": "configs/action_registry.yaml",
+      "sha256": "08adfa2a805673900d3417c784a402ecaa9d01128ae07e81f9acec0c05e96940"
+    },
+    "public_outcome_adapter": {
+      "adapter_id": "no_frozen_six_frame_critic_input_v1",
+      "status": "CONSERVATIVE_AMBIGUOUS_ONLY",
+      "prediction_set": [
+        "AMBIGUOUS"
+      ],
+      "rationale": "frozen_schedule_exposes_no_complete_calibrated_rgb_critic_input"
+    },
+    "legacy_oracle_dependency": false
+  },
+  "checkpoint": {
+    "algorithm": "sha256_of_canonical_json_ordered_artifact_refs",
+    "artifacts": [
+      {"artifact_id": "grounding_dino_weights", "path": "checkpoints/perception/grounding-dino-tiny/model.safetensors", "sha256": "1a2412ef99bd74bcd3c2a246fa1e48581f8889a1300c9051974741314fc042f3"},
+      {"artifact_id": "grounding_dino_config", "path": "checkpoints/perception/grounding-dino-tiny/config.json", "sha256": "eec82c5ab66e16df12a9a212e68ac011779927c2536cf9078658e35d85f0c67a"},
+      {"artifact_id": "grounding_dino_preprocessor", "path": "checkpoints/perception/grounding-dino-tiny/preprocessor_config.json", "sha256": "8454179ba95e2ad22947835aad7b45862a601fc0055ab88bf1ee70892d3aea60"},
+      {"artifact_id": "grounding_dino_added_tokens", "path": "checkpoints/perception/grounding-dino-tiny/added_tokens.json", "sha256": "909e96cb32d92ce728a01bc99850cbba26196d74115c17ebeb019275412588f2"},
+      {"artifact_id": "grounding_dino_special_tokens", "path": "checkpoints/perception/grounding-dino-tiny/special_tokens_map.json", "sha256": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3"},
+      {"artifact_id": "grounding_dino_tokenizer_config", "path": "checkpoints/perception/grounding-dino-tiny/tokenizer_config.json", "sha256": "d40ab645b68211910b9170d22433d43186a6ec8ee6fd10ba170524b25bf4fb56"},
+      {"artifact_id": "grounding_dino_tokenizer", "path": "checkpoints/perception/grounding-dino-tiny/tokenizer.json", "sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66"},
+      {"artifact_id": "grounding_dino_vocab", "path": "checkpoints/perception/grounding-dino-tiny/vocab.txt", "sha256": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"},
+      {"artifact_id": "sam_weights", "path": "checkpoints/perception/sam-vit-base/model.safetensors", "sha256": "892c410e496344e527255ccdcb2cb7244a609acb5389c7c4fdba1288f861c579"},
+      {"artifact_id": "sam_config", "path": "checkpoints/perception/sam-vit-base/config.json", "sha256": "5ebd0d8643b486f3a716bf17c2a15531eb818b2b96ff0c6c5dcc88fa015161af"},
+      {"artifact_id": "sam_preprocessor", "path": "checkpoints/perception/sam-vit-base/preprocessor_config.json", "sha256": "225545a743c654e3c495ec6f545a0eaba57c8ba3fbbd8483b3cb1c0fc58db517"},
+      {"artifact_id": "dinov2_weights", "path": "checkpoints/perception/dinov2-small/model.safetensors", "sha256": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1"},
+      {"artifact_id": "dinov2_config", "path": "checkpoints/perception/dinov2-small/config.json", "sha256": "1809f83e3bdb1609a501a610ad4a742f4fd8ae44d72ca4aa0df52d1f2ac8628d"},
+      {"artifact_id": "dinov2_preprocessor", "path": "checkpoints/perception/dinov2-small/preprocessor_config.json", "sha256": "14e780d86fa1861f8751f868d7f45425b5feb55c38ca26f152ca5097ab30f828"},
+      {"artifact_id": "siglip_weights", "path": "checkpoints/perception/siglip-base-patch16-224/model.safetensors", "sha256": "2c63cb7d1f2e95ba501893cbb8faeb4ea9a3af295498d35097126228659c2af8"},
+      {"artifact_id": "siglip_config", "path": "checkpoints/perception/siglip-base-patch16-224/config.json", "sha256": "cd85b3d28829722820bcb89a2cfbb4160e55fd359249a3044da724166a8d9688"},
+      {"artifact_id": "siglip_preprocessor", "path": "checkpoints/perception/siglip-base-patch16-224/preprocessor_config.json", "sha256": "d11ccb80f15d358a11bdb070e92e2d889005874b7db15823d5f10d9b2533b14a"},
+      {"artifact_id": "siglip_special_tokens", "path": "checkpoints/perception/siglip-base-patch16-224/special_tokens_map.json", "sha256": "2b6a1ff67a27e0df9ac0c7d93250fc0d87431c7b366b3d5669217104f9088a26"},
+      {"artifact_id": "siglip_sentencepiece", "path": "checkpoints/perception/siglip-base-patch16-224/spiece.model", "sha256": "1e5036bed065526c3c212dfbe288752391797c4bb1a284aa18c9a0b23fcaf8ec"},
+      {"artifact_id": "siglip_tokenizer_config", "path": "checkpoints/perception/siglip-base-patch16-224/tokenizer_config.json", "sha256": "d6423dae508cc3a129d22ea443841c111832a1a73125b8f25ea8736951698bcb"},
+      {"artifact_id": "siglip_tokenizer", "path": "checkpoints/perception/siglip-base-patch16-224/tokenizer.json", "sha256": "c6e405cb7c670d56636a9402c81023a55bc6c3c53d89cf02b92f5c5005bfe920"},
+      {"artifact_id": "qwen_weights_shard_1", "path": "checkpoints/perception/qwen2.5-vl-3b-instruct/model-00001-of-00002.safetensors", "sha256": "41a8895c164b4d32bae6b302f4603fcbc1797f32dafa45c7e9bcda23c6755df8"},
+      {"artifact_id": "qwen_weights_shard_2", "path": "checkpoints/perception/qwen2.5-vl-3b-instruct/model-00002-of-00002.safetensors", "sha256": "365531ff8752420e89dee707b79d021fb2d6e25abafe486f080555a4fe6972e4"},
+      {"artifact_id": "qwen_weights_index", "path": "checkpoints/perception/qwen2.5-vl-3b-instruct/model.safetensors.index.json", "sha256": "c7dd78a4c6bea60b51332f1baf37b8f8124ecab2c35395a29a29825bf2619768"},
+      {"artifact_id": "qwen_config", "path": "checkpoints/perception/qwen2.5-vl-3b-instruct/config.json", "sha256": "7ed3eed5be6924cc800e8a5e53fc405c1aab1aaf36bad65c33403b36c56827f5"},
+      {"artifact_id": "qwen_generation_config", "path": "checkpoints/perception/qwen2.5-vl-3b-instruct/generation_config.json", "sha256": "533f191cc257b7de37a4fccd0a7a1706d75e1aa660f93efaa54e5a2a9f9aace9"},
+      {"artifact_id": "qwen_preprocessor", "path": "checkpoints/perception/qwen2.5-vl-3b-instruct/preprocessor_config.json", "sha256": "f2058c716eef96ccaed1cc1e2d0c08306b62586d535b28d9d08e691b2fab7ca0"},
+      {"artifact_id": "qwen_chat_template", "path": "checkpoints/perception/qwen2.5-vl-3b-instruct/chat_template.json", "sha256": "ad60d90252ed0b0705ba14e2d0ad0fec0beac1ea955642b54059b36052d8bc96"},
+      {"artifact_id": "qwen_merges", "path": "checkpoints/perception/qwen2.5-vl-3b-instruct/merges.txt", "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"},
+      {"artifact_id": "qwen_tokenizer_config", "path": "checkpoints/perception/qwen2.5-vl-3b-instruct/tokenizer_config.json", "sha256": "4abd3520120e266da84c0864fee064d1fb10806f02225911a47253dd38dc5f56"},
+      {"artifact_id": "qwen_tokenizer", "path": "checkpoints/perception/qwen2.5-vl-3b-instruct/tokenizer.json", "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"},
+      {"artifact_id": "qwen_vocab", "path": "checkpoints/perception/qwen2.5-vl-3b-instruct/vocab.json", "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"}
+    ],
+    "digest": "4a99edb33253d18a656924abf52f4dca7a816eda0e8a0859a394d79a877ea258"
+  },
+  "calibrator": {
+    "calibrator_id": "none_public_qwen_pipeline_v0",
+    "version": "0",
+    "status": "UNCALIBRATED_DEVELOPMENT_ONLY",
+    "artifact": null,
+    "confidence_threshold": null
+  },
+  "code": {
+    "commit": "ced94cd300b4e1412d815b5c5908e9916d09f223",
+    "algorithm": "sha256_of_canonical_json_ordered_artifact_refs",
+    "artifacts": [
+      {"artifact_id": "public_inference_backend", "path": "scripts/pipeline/infer.py", "sha256": "5d504d1f2ffaba6e212d7f29560e575050a333265ffc769a2ea49f5a50bcfdf0"},
+      {"artifact_id": "s03_runner", "path": "scripts/pipeline/run_piu_s03_perception_decision.py", "sha256": "ab3828ed10720f46fc4a6013664c45123afd5f41b7b1790efacda8cf08126763"},
+      {"artifact_id": "s03_runner_validator", "path": "scripts/repro/validate_piu_s03_runner.py", "sha256": "b7ab80c766097c4a042dc721d2d4b32e60c39f82591185f7f1c5ff2079682b15"},
+      {"artifact_id": "public_scene_frontend", "path": "scripts/perception/build_scene_packets.py", "sha256": "bc12eab6be544a905824cad043658da0da32d6ede000f0a304bb738b3a17ecf6"},
+      {"artifact_id": "s03_execution_contract", "path": "src/piu/s03_execution.py", "sha256": "cc38d1d4d398f24a35134b023945f8fa6c39ac6d4b6a9e394a3d2b0b4b79fb21"},
+      {"artifact_id": "pre_vlm_belief", "path": "src/interaction_uncertainty/pre_vlm_belief.py", "sha256": "a85dd15b7d0639eed55d9d4743ed6c5e28b8b9b895c28b3e9282e05c3ced636b"},
+      {"artifact_id": "vlm_reasoner", "path": "src/interaction_uncertainty/vlm_reasoner.py", "sha256": "175fa063c1202562321467eb6de7d15f40a51cf0e161421045bbe8dbc2b73c31"}
+    ],
+    "digest": "afcf6117f98ca8512edfd4c291e91db8da380c39bded4c66b0aea58113e2c8c7"
+  },
+  "runtime": {
+    "device": "cuda",
+    "precision": "backend_frozen_defaults",
+    "max_proposals_per_view": 8,
+    "offline_only": true
+  },
+  "sampling": {
+    "do_sample": false,
+    "temperature": null,
+    "seed_base": 26082300,
+    "per_record_seed_rule": "seed_base_plus_schedule_index"
+  },
+  "policy_input_firewall": {
+    "allowed_fields": [
+      "prompt",
+      "candidate_registry",
+      "observation_sequence[].phase",
+      "observation_sequence[].rgb.agentview",
+      "observation_sequence[].rgb.wrist",
+      "observation_sequence[].public_action_history"
+    ],
+    "forbidden_fields": [
+      "simulator_semantic_id",
+      "simulator_instance_id",
+      "simulator_segmentation",
+      "target_mask",
+      "object_pose",
+      "oracle_target_marker",
+      "oracle_target_location",
+      "container_membership",
+      "evaluator_only_fields",
+      "task_predicate",
+      "reward",
+      "success",
+      "failure",
+      "expected_route",
+      "route_label",
+      "sufficiency_label",
+      "revealed_label"
+    ],
+    "online_oracle_inputs": []
+  },
+  "execution_scope": {
+    "physical_rollout": false,
+    "pi05_action_calls": false,
+    "environment_steps": false,
+    "post_decision_dispatch": false,
+    "legacy_oracle": false,
+    "formal_method_claim": false
+  },
+  "paper_claim_ready": false
+}

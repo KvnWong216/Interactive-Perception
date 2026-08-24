@@ -1,0 +1,86 @@
+{
+  "schema_version": "piu.s03-runner-contract.v1",
+  "status": "FROZEN_READY_BEFORE_S03_OUTCOMES",
+  "runner_id": "piu_s03_public_offline_single_use_v1",
+  "frozen_inputs": {
+    "schedule": {
+      "path": "results/method/piu_s03_perception_decision_schedule_v1.json",
+      "sha256": "26faff39586b8071a130253079f2cf3478c88649c6f08276ce7469644123a701"
+    },
+    "manifest": {
+      "path": "results/method/piu_s03_perception_decision_input_manifest_v1.json",
+      "sha256": "757a56c4848d66190b310ef21bd97db2ea954d13c6103f105f93db6868a27433"
+    },
+    "dag_v2": {
+      "path": "configs/experiments/piu_empirical_stage_dag_v2.yaml",
+      "sha256": "2b9d83a289005d1a8bb56b1e4c15e1f6dffd31be3a13c83ff64708a05bf432e2"
+    },
+    "runbook": {
+      "path": "docs/s03_perception_decision_runbook.md",
+      "sha256": "8e11538a64c5bd302c5d915c236862b78e44a8007de52eb33f9012f317c44afa"
+    },
+    "s02_schedule": {
+      "path": "results/method/piu_open_primitive_qualification_schedule_v1.json",
+      "sha256": "45d41b75fd982b977a0c9c5f82f63c2f33b686fd1512308cacf3cc690847e762"
+    },
+    "s02_certificate": {
+      "path": "results/method/piu_open_primitive_certificate_v1.json",
+      "sha256": "5291b6450230b5c8d36a28a805676cf61f655583431f2e9c53b0d548872cbd75"
+    },
+    "s02_outcome_index": {
+      "path": "results/method/piu_open_primitive_qualification_outcomes_v1.jsonl",
+      "sha256": "cdecdd72379d1425dd54dae32dcc38bdf4a9aad3e72c27810913de050d3f3ac3"
+    }
+  },
+  "model_identity": {
+    "path": "configs/experiments/piu_s03_model_identity_v1.json",
+    "sha256": "16903c60054573ccb116dc0d6e544ab7b51178e763ea1b32fe64c65e4556ebda"
+  },
+  "schemas": {
+    "model_identity": {
+      "path": "configs/schemas/piu_s03_model_identity_v1.schema.json",
+      "sha256": "d34a4a0cc2fcaca3c04ddaeda99ff9aab528bbbeb5b0f1ae50f6731aad99bbce"
+    },
+    "record_artifact": {
+      "path": "configs/schemas/piu_s03_outcome_v1.schema.json",
+      "sha256": "cad430fe1ba86d36f68a0c9e1dca8ab05f79615239505a451697a66766a730f4"
+    },
+    "receipt": {
+      "path": "configs/schemas/piu_s03_receipt_v1.schema.json",
+      "sha256": "c2426277e82e24d3662bf7c39a46e88eae5a45d20308ba22a10c79f8eca69387"
+    }
+  },
+  "runner": {
+    "entrypoint": {
+      "path": "scripts/pipeline/run_piu_s03_perception_decision.py",
+      "sha256": "ab3828ed10720f46fc4a6013664c45123afd5f41b7b1790efacda8cf08126763"
+    },
+    "implementation": {
+      "path": "src/piu/s03_execution.py",
+      "sha256": "cc38d1d4d398f24a35134b023945f8fa6c39ac6d4b6a9e394a3d2b0b4b79fb21"
+    },
+    "validator": {
+      "path": "scripts/repro/validate_piu_s03_runner.py",
+      "sha256": "b7ab80c766097c4a042dc721d2d4b32e60c39f82591185f7f1c5ff2079682b15"
+    }
+  },
+  "output": {
+    "root": "runs/piu_s03_perception_decision_v1",
+    "receipt_directory": "_receipts",
+    "record_directory": "records",
+    "record_artifact_name": "record.json",
+    "infrastructure_failure_artifact_name": "infrastructure_failure.json"
+  },
+  "policies": {
+    "ordered_execution": true,
+    "single_use": true,
+    "rerun": false,
+    "skip": false,
+    "replace": false,
+    "infrastructure_failure_consumes_index_after_started_receipt": true,
+    "validate_only_writes": false,
+    "dry_run_writes": false,
+    "outcome_write_requires_explicit_flag": true
+  },
+  "paper_claim_ready": false
+}
