@@ -532,11 +532,11 @@ def validate_s03_v2_execution_plan(
     if len(set(binding["ordered_record_ids"])) != 620:
         raise ValueError("S03 v2 record IDs are duplicated")
     for subtest, stratum in (
-        ("A_INFORMATION_EFFECT", None),
+        ("A_INFORMATION_EFFECT", "PAIRED_PRE_POST"),
         ("B_DECISION_ROUTING", "ACT"),
         ("B_DECISION_ROUTING", "OPEN"),
         ("B_DECISION_ROUTING", "STOP"),
-        ("C_CLOSED_LOOP_TRANSITION", None),
+        ("C_CLOSED_LOOP_TRANSITION", "OBSERVE_OPEN_REOBSERVE"),
     ):
         indices = [
             row["linked_s02_index"]
