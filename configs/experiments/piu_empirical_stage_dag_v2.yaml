@@ -1,0 +1,76 @@
+schema_version: piu.empirical-stage-dag-amendment.v1
+id: piu_mainline_external_experiment_v2_s03_public_input
+status: frozen_s03_public_input_amendment_before_outcomes
+
+# v1 is retained byte-for-byte because the completed S02 qualification schedule
+# binds its offline reproducibility lock. This file composes the new canonical
+# view without invalidating that historical input contract.
+base_dag:
+  path: configs/experiments/piu_empirical_stage_dag_v1.yaml
+  sha256: 4f390bb0b9f0ca1216544f0da05f114f0b39029b286f74e10190f3283b3deda0
+
+stage_updates:
+  - id: S03_oracle_development_gate
+    title: Legacy privileged Oracle prompt diagnostic (not the public S03 method)
+    claim_scope: PRIVILEGED_LEGACY_DIAGNOSTIC_NOT_PUBLIC_METHOD_RESULT
+    path_status: LEGACY_PRIVILEGED_ORACLE_DIAGNOSTIC
+    public_input_claim_eligible: false
+    execution_authorized_by_public_s03_design: false
+
+stage_insertions:
+  - after: S03_oracle_development_gate
+    stages:
+      - id: S03_public_perception_decision_input_freeze
+        title: Prospective public-input S03 manifest and offline schedule freeze
+        depends_on: [S02_open_primitive_qualification]
+        claim_scope: PRE_OUTCOME_INPUT_FREEZE_NOT_PERFORMANCE_EVIDENCE
+        artifacts:
+          - id: s03_public_input_manifest
+            path: results/method/piu_s03_perception_decision_input_manifest_v1.json
+            format: json
+            schema_version: piu.s03-perception-decision-input-manifest.v1
+            validator: s03_public_input_manifest
+            expected:
+              status: FROZEN_BEFORE_S03_OUTCOMES
+              outcome_present: false
+              inference_executed: false
+              rollout_executed: false
+              paper_claim_ready: false
+          - id: s03_public_offline_schedule
+            path: results/method/piu_s03_perception_decision_schedule_v1.json
+            format: json
+            schema_version: piu.s03-perception-decision-schedule.v1
+            validator: s03_public_offline_schedule
+            expected:
+              status: FROZEN_BEFORE_S03_OUTCOMES
+              outcome_present: false
+              inference_executed: false
+              rollout_executed: false
+              predictions_present: false
+              labels_present: false
+              certificate_present: false
+              paper_claim_ready: false
+
+      - id: S03_public_perception_decision_gate
+        title: Public-input information effect, routing, and closed-loop outcome gate
+        depends_on: [S03_public_perception_decision_input_freeze]
+        claim_scope: DEVELOPMENT_MECHANISM_EVIDENCE_NOT_PAPER_READY_METHOD_RESULT
+        artifacts:
+          - id: s03_public_outcome_certificate
+            path: results/method/piu_s03_perception_decision_certificate_v1.json
+            format: json
+            schema_version: piu.s03-perception-decision-certificate.v1
+            validator: s03_public_outcome_certificate
+            input_schedule: results/method/piu_s03_perception_decision_schedule_v1.json
+            expected:
+              complete_frozen_denominator: true
+              record_count: 620
+              formal_method_claim: false
+              paper_claim_ready: false
+              s02_artifacts_modified: false
+              new_physical_rollout_executed: false
+            state_field: status
+            success_values: [DEVELOPMENT_MECHANISM_SUPPORTED]
+            terminal_values:
+              DEVELOPMENT_MECHANISM_NOT_SUPPORTED: public perception-decision mechanism was not supported
+              INVALID_INPUT_FIREWALL: public/private input separation was violated
