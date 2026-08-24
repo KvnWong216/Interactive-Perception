@@ -18,6 +18,11 @@ from .s03_preparation import (
 )
 
 
+S03_RUNNER_CONTRACT_PATH = Path(
+    "configs/experiments/piu_s03_runner_contract_v1.json"
+)
+
+
 _CUSTOM_VALIDATORS = {
     "s03_public_input_manifest",
     "s03_public_offline_schedule",
@@ -266,4 +271,34 @@ def evaluate_empirical_dag_v2(
     ]
     report["dag"] = provenance
     report["canonical_dag_version"] = "v2_s03_public_input_amendment"
+    runner_path = repository_root / S03_RUNNER_CONTRACT_PATH
+    if runner_path.is_file():
+        try:
+            # Imported lazily so the historical DAG composition remains usable
+            # without introducing an execution-layer import cycle.
+            from .s03_execution import validate_s03_runner_contract
+
+            validate_s03_runner_contract(
+                runner_path, repository_root=repository_root
+            )
+        except Exception as exc:
+            report["s03_public_runner"] = {
+                "status": "INVALID",
+                "path": str(S03_RUNNER_CONTRACT_PATH),
+                "errors": [str(exc)],
+                "outcome_gate_changed": False,
+            }
+        else:
+            report["s03_public_runner"] = {
+                "status": "FROZEN_READY_BEFORE_S03_OUTCOMES",
+                "path": str(S03_RUNNER_CONTRACT_PATH),
+                "sha256": sha256(runner_path),
+                "outcome_gate_changed": False,
+            }
+    else:
+        report["s03_public_runner"] = {
+            "status": "MISSING",
+            "path": str(S03_RUNNER_CONTRACT_PATH),
+            "outcome_gate_changed": False,
+        }
     return report

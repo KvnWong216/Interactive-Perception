@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "piu.s03-execution-receipt.v1",
+  "title": "PIU S03 ordered single-use execution receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_phase",
+    "status",
+    "execution_index",
+    "record_id",
+    "schedule",
+    "manifest",
+    "model_identity",
+    "public_input_digest",
+    "request_sha256",
+    "single_use_output_dir",
+    "previous_close_sha256",
+    "record_artifact",
+    "outcome_present",
+    "inference_executed",
+    "consumes_execution_index",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "piu.s03-execution-receipt.v1"},
+    "receipt_phase": {"enum": ["STARTED", "CLOSED"]},
+    "status": {"enum": ["STARTED", "CLOSED_WITH_OUTCOME", "CLOSED_INFRASTRUCTURE_FAILURE"]},
+    "execution_index": {"type": "integer", "minimum": 0, "maximum": 619},
+    "record_id": {"type": "string", "minLength": 1},
+    "schedule": {"$ref": "#/$defs/artifactReference"},
+    "manifest": {"$ref": "#/$defs/artifactReference"},
+    "model_identity": {"$ref": "#/$defs/artifactReference"},
+    "public_input_digest": {"$ref": "#/$defs/sha256"},
+    "request_sha256": {"$ref": "#/$defs/sha256"},
+    "single_use_output_dir": {"type": "string", "minLength": 1},
+    "previous_close_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+    "record_artifact": {"oneOf": [{"$ref": "#/$defs/artifactReference"}, {"type": "null"}]},
+    "outcome_present": {"type": "boolean"},
+    "inference_executed": {"type": "boolean"},
+    "consumes_execution_index": {"type": "boolean"},
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

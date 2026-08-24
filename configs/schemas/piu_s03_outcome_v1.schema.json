@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "piu.s03-record-artifact.v1",
+  "title": "PIU S03 immutable per-record evaluation artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "schedule_index",
+    "linked_s02_index",
+    "subtest",
+    "stratum",
+    "schedule",
+    "manifest",
+    "manifest_record_sha256",
+    "public_input_digest",
+    "request_sha256",
+    "model_identity",
+    "status",
+    "inference_executed",
+    "outcome_present",
+    "prediction",
+    "outcome",
+    "artifacts",
+    "infrastructure_failure",
+    "privileged_input_violation",
+    "online_oracle_inputs",
+    "physical_dispatch_executed",
+    "s02_artifacts_modified",
+    "paper_claim_ready",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "piu.s03-record-artifact.v1"},
+    "record_id": {"type": "string", "minLength": 1},
+    "schedule_index": {"type": "integer", "minimum": 0, "maximum": 619},
+    "linked_s02_index": {"type": "integer", "minimum": 0, "maximum": 123},
+    "subtest": {"enum": ["A_INFORMATION_EFFECT", "B_DECISION_ROUTING", "C_CLOSED_LOOP_TRANSITION"]},
+    "stratum": {"type": "string", "minLength": 1},
+    "schedule": {"$ref": "#/$defs/artifactReference"},
+    "manifest": {"$ref": "#/$defs/artifactReference"},
+    "manifest_record_sha256": {"$ref": "#/$defs/sha256"},
+    "public_input_digest": {"$ref": "#/$defs/sha256"},
+    "request_sha256": {"$ref": "#/$defs/sha256"},
+    "model_identity": {"type": "object"},
+    "status": {"enum": ["EVALUATED", "INFRASTRUCTURE_FAILURE"]},
+    "inference_executed": {"type": "boolean"},
+    "outcome_present": {"type": "boolean"},
+    "prediction": {"type": ["object", "null"]},
+    "outcome": {"type": ["object", "null"]},
+    "artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifactReference"}},
+    "infrastructure_failure": {"type": ["object", "null"]},
+    "privileged_input_violation": {"const": false},
+    "online_oracle_inputs": {"const": []},
+    "physical_dispatch_executed": {"const": false},
+    "s02_artifacts_modified": {"const": false},
+    "paper_claim_ready": {"const": false},
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

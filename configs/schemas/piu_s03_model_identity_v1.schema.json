@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "piu.s03-model-identity.v1",
+  "title": "PIU S03 frozen public perception identity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "identity_id",
+    "model_id",
+    "backend",
+    "checkpoint",
+    "calibrator",
+    "code",
+    "runtime",
+    "sampling",
+    "policy_input_firewall",
+    "execution_scope",
+    "paper_claim_ready"
+  ],
+  "properties": {
+    "schema_version": {"const": "piu.s03-model-identity.v1"},
+    "status": {"const": "FROZEN_BEFORE_S03_OUTCOMES"},
+    "identity_id": {"type": "string", "minLength": 1},
+    "model_id": {"type": "string", "minLength": 1},
+    "backend": {"type": "object"},
+    "checkpoint": {"type": "object"},
+    "calibrator": {"type": "object"},
+    "code": {"type": "object"},
+    "runtime": {"type": "object"},
+    "sampling": {"type": "object"},
+    "policy_input_firewall": {"type": "object"},
+    "execution_scope": {"type": "object"},
+    "paper_claim_ready": {"const": false}
+  }
+}
