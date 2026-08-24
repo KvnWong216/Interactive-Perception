@@ -11,7 +11,7 @@ import copy
 import hashlib
 import json
 import subprocess
-from collections.abc import Mapping, Sequence
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
@@ -454,7 +454,7 @@ def build_s03_v2_execution_plan(
         identity["parent_logical_schedule"]["path"], repository_root=repository_root
     )
     schedule = validate_s03_offline_schedule(schedule_path, repository_root=repository_root)
-    records = [
+    record_bindings = [
         {
             "execution_index": index,
             "record_id": row["record_id"],
@@ -464,8 +464,6 @@ def build_s03_v2_execution_plan(
             "subtest": row["subtest"],
             "stratum": row["stratum"],
             "public_input_digest": row["public_input_digest"],
-            "inference_executed": False,
-            "outcome_present": False,
         }
         for index, row in enumerate(schedule["records"])
     ]
@@ -486,7 +484,13 @@ def build_s03_v2_execution_plan(
         "execution_rule": "all_620_logical_records_once_in_parent_order_under_v2_identity",
         "record_count": 620,
         "thresholds": _THRESHOLDS,
-        "records": records,
+        "logical_record_binding": {
+            "algorithm": "parent_schedule_sha256_plus_ordered_record_binding_sha256",
+            "ordered_record_ids": [row["record_id"] for row in record_bindings],
+            "ordered_record_binding_sha256": canonical_sha256(record_bindings),
+            "counts": copy.deepcopy(schedule["counts"]),
+            "each_s02_index_multiplicity": 5,
+        },
         "s02_indices_101_and_104_included": True,
         "record_filtering": False,
         "record_replacement": False,
@@ -515,12 +519,17 @@ def validate_s03_v2_execution_plan(
     )
     if plan != expected:
         raise ValueError("S03 v2 execution plan differs from its deterministic 620-record binding")
-    records = plan["records"]
-    if not isinstance(records, Sequence) or len(records) != 620:
-        raise ValueError("S03 v2 execution plan must contain exactly 620 records")
-    if [row["execution_index"] for row in records] != list(range(620)):
+    schedule_path = _resolve(
+        plan["parent_logical_schedule"]["path"], repository_root=repository_root
+    )
+    schedule = validate_s03_offline_schedule(schedule_path, repository_root=repository_root)
+    records = schedule["records"]
+    binding = plan["logical_record_binding"]
+    if not isinstance(binding, Mapping) or len(records) != 620:
+        raise ValueError("S03 v2 execution plan must bind exactly 620 parent records")
+    if binding["ordered_record_ids"] != [row["record_id"] for row in records]:
         raise ValueError("S03 v2 execution order changed")
-    if len({row["record_id"] for row in records}) != 620:
+    if len(set(binding["ordered_record_ids"])) != 620:
         raise ValueError("S03 v2 record IDs are duplicated")
     for subtest, stratum in (
         ("A_INFORMATION_EFFECT", None),
@@ -568,6 +577,6 @@ def validate_s03_v2_runner_preflight(
         execution_index=execution_index,
         repository_root=repository_root,
     )
-    if plan["records"][execution_index]["record_id"] != request["record_id"]:
+    if plan["logical_record_binding"]["ordered_record_ids"][execution_index] != request["record_id"]:
         raise ValueError("S03 v2 plan/request record binding differs")
     return plan, identity, model_identity, schedule, request
