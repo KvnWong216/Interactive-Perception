@@ -1,5 +1,11 @@
 # Prompt-Conditioned Interaction Belief for VLA
 
+> **RSS 2027 redesign branch.** The active successor is being rebuilt as a
+> prompt-conditioned latent interaction router with counterfactual future-evidence
+> prediction, split-conformal primitive sets, and a frozen MolmoAct2 executor. See
+> [the redesign contract](docs/rss2027_method_redesign.md). Everything below documents
+> the immutable historical line and must not be read as evidence for the new method.
+
 This repository studies whether a robot can recognize that the current
 observation is insufficient for a user's prompt, acquire the missing evidence
 through physical interaction, bind the new evidence to the requested target,
