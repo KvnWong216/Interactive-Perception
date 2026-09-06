@@ -9,7 +9,7 @@ validated.
 The v0.1 latent router remains useful as a reproducible baseline, but its defensible
 description is only:
 
-> a high-level primitive policy with an action-class-conditioned future-feature
+> a high-level primitive policy with an untyped action-description-conditioned future-feature
 > auxiliary path, followed by a frozen text-conditioned VLA executor.
 
 It is not yet a value-of-information learner, a complete counterfactual action model,
@@ -34,9 +34,9 @@ separate system variant and would require its own training and claim.
 
 | Intended claim | What v0.1 actually computes | Unsupported jump | Correction |
 | --- | --- | --- | --- |
-| compare physical interventions | one token per primitive class such as `OPEN` | `OPEN` does not say which drawer, object, direction, or executor contract | construct a complete grounded candidate before effect or outcome prediction |
+| compare physical interventions | the documented method uses one action-description token per registered branch; its tensor contract permits free text but does not type the referent or parameters | a phrase such as `open middle drawer` may distinguish language descriptions, but the predicted visual instance is not an input to the effect model | construct a complete grounded candidate before effect or outcome prediction |
 | learn task-relevant information value | route classification plus deterministic post-feature cosine similarity | future predictability is neither task usefulness nor uncertainty reduction | supervise candidate outcomes or task-risk reduction from actual branches |
-| ground an executed action | grounding is decoded after future prediction | the future predictor cannot know the intended referent | make grounding part of the candidate representation |
+| ground an executed action | learned grounding is decoded after future prediction | the predictor may read referent words, but it never receives its own visual referent distribution and therefore has no explicit, testable instance binding | make grounding part of the candidate representation |
 | constrain frozen MolmoAct2 | send only RGB, state, and serialized text | the predicted region never enters the stock action model | use instance-distinguishing text and measure end-to-end binding fidelity |
 | handle multiple acceptable actions | use a singleton-only conformal prediction set | two good actions can force an unnecessary abstention | remove conformal from the core; optionally calibrate false inclusion after learning |
 | prove the future module matters | call `lambda_J=0` “no predictor” | route gradients still traverse the predictor | separate no-path, path-without-target-loss, and path-with-target-loss ablations |

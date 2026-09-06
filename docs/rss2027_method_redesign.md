@@ -2,10 +2,11 @@
 
 > **Superseded as the active method contract.** The implementation below is retained as
 > a reproducible baseline and architectural hypothesis. The September 2026 alignment
-> audit found three unsupported jumps: the future predictor is conditioned on a
-> primitive class before target grounding, deterministic future-feature similarity is
-> not information value, and singleton conformal routing mishandles multiple acceptable
-> actions. See [the active alignment audit](rss2027_alignment_audit.md). Until its
+> audit found three unsupported jumps: the future predictor is conditioned on an
+> untyped action-description token before its learned visual grounding, deterministic
+> future-feature similarity is not information value, and singleton conformal routing
+> mishandles multiple acceptable actions. See
+> [the active alignment audit](rss2027_alignment_audit.md). Until its
 > decisive experiments are run, this package must be described only as a
 > **future-representation-regularized high-level primitive policy**.
 

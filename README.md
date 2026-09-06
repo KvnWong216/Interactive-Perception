@@ -2,9 +2,10 @@
 
 > **RSS 2027 alignment correction.** The first latent-router scaffold is retained as a
 > reproducible hypothesis/baseline, not as the active method claim. A code and theory
-> audit found that it predicts futures from primitive classes before target grounding,
-> does not learn information value from outcomes, and does not bind its grounding map
-> to the stock MolmoAct2 text interface. The active research contract is now
+> audit found that its future predictor consumes an untyped action-description token
+> before learned visual grounding, does not learn information value from outcomes, and
+> does not bind its grounding map to the stock MolmoAct2 text interface. The active
+> research contract is now
 > [the method-alignment audit](docs/rss2027_alignment_audit.md): complete grounded
 > interventions are proposed first, their outcomes are learned from reset-controlled
 > branches, the robot reobserves and branches, and future-latent prediction and
