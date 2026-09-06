@@ -1,17 +1,22 @@
 # Prompt-Conditioned Interaction Belief for VLA
 
-> **RSS 2027 redesign branch.** The active successor is being rebuilt as a
-> prompt-conditioned latent interaction router with counterfactual future-evidence
-> prediction, split-conformal primitive sets, and a frozen MolmoAct2 executor. See
-> [the redesign contract](docs/rss2027_method_redesign.md). Everything below documents
-> the immutable historical line and must not be read as evidence for the new method.
+> **RSS 2027 alignment correction.** The first latent-router scaffold is retained as a
+> reproducible hypothesis/baseline, not as the active method claim. A code and theory
+> audit found that it predicts futures from primitive classes before target grounding,
+> does not learn information value from outcomes, and does not bind its grounding map
+> to the stock MolmoAct2 text interface. The active research contract is now
+> [the method-alignment audit](docs/rss2027_alignment_audit.md): complete grounded
+> interventions are proposed first, their outcomes are learned from reset-controlled
+> branches, the robot reobserves and branches, and future-latent prediction and
+> calibration remain optional ablations. The superseded scaffold is documented in
+> [the v0.1 redesign note](docs/rss2027_method_redesign.md).
 
 This repository studies whether a robot can recognize that the current
 observation is insufficient for a user's prompt, acquire the missing evidence
 through physical interaction, bind the new evidence to the requested target,
 and use it in the next manipulation.
 
-The current falsifiable method line is deliberately restricted to one unchanged
+The historical empirical line is deliberately restricted to one unchanged
 hidden-butter drawer scenario:
 
 ```text
@@ -22,15 +27,14 @@ closed drawer -> OPEN -> new butter evidence
   -> separately qualified PLACE
 ```
 
-The full-prefix binder, candidate-conditioned action-effect model, isolated
-calibration, set-valued controller, current-patch-to-text bridge, and
-certificate-gated external dispatcher are implemented but not yet trained or
-validated on new real groups. The evaluator-only oracle intervention must first
-show a positive causal executor ceiling on a prospectively sized paired
-experiment. Real action-effect training, controller rollout, and scenario
-expansion remain empirically gated. There is no information-value weighting:
-multi-task scales are learned and decisions use typed singleton prediction-set
-conditions.
+On that historical line, the full-prefix binder, candidate-conditioned action-effect
+model, isolated calibration, set-valued controller, current-patch-to-text bridge, and
+certificate-gated external dispatcher are implemented but not yet trained or validated
+on new real groups. The evaluator-only oracle intervention must first show a positive
+causal executor ceiling on a prospectively sized paired experiment. Real action-effect
+training, controller rollout, and scenario expansion remain empirically gated. There is
+no information-value weighting: multi-task scales are learned and decisions use typed
+singleton prediction-set conditions.
 
 The former Grounding DINO/SAM/DINOv2/SigLIP/Qwen/manual-utility pipeline is
 frozen as [`B2 Heuristic V0`](baselines/heuristic_v0/README.md). It remains an
@@ -53,6 +57,8 @@ target-binding method is claimed or rejected.
 
 ## Research artifacts
 
+- [Active RSS 2027 method-alignment audit](docs/rss2027_alignment_audit.md)
+- [Superseded v0.1 latent-router hypothesis](docs/rss2027_method_redesign.md)
 - [Literature lineage](docs/literature_lineage.md), audited through 2026-08-22
 - [Novelty gate](docs/novelty_audit.md)
 - [Architecture decision](docs/adr/0001_candidate_conditioned_calibrated_interaction.md)

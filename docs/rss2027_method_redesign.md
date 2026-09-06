@@ -1,8 +1,17 @@
-# RSS 2027 method redesign: prompt-conditioned latent interaction routing
+# RSS 2027 v0.1 hypothesis: prompt-conditioned latent interaction routing
+
+> **Superseded as the active method contract.** The implementation below is retained as
+> a reproducible baseline and architectural hypothesis. The September 2026 alignment
+> audit found three unsupported jumps: the future predictor is conditioned on a
+> primitive class before target grounding, deterministic future-feature similarity is
+> not information value, and singleton conformal routing mishandles multiple acceptable
+> actions. See [the active alignment audit](rss2027_alignment_audit.md). Until its
+> decisive experiments are run, this package must be described only as a
+> **future-representation-regularized high-level primitive policy**.
 
 ## Status
 
-This document is a design freeze candidate, not an empirical claim.
+This document is a superseded design-freeze candidate, not an empirical claim.
 
 - Base revision: `origin/main@e987c680a71a140a4108a696202d3ace5b9a3795`.
 - Working branch: `rss2027/latent-router`.
