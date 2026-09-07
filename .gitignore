@@ -1,87 +1,28 @@
-# Local dependencies and environments
+# Python environments and build products
+.venv/
 .conda/
-.libero/
-.cache/
-third_party/
-checkpoints/*
-!checkpoints/calibrated_interaction/
-checkpoints/calibrated_interaction/*
-!checkpoints/calibrated_interaction/original_drawer_pilot_v4_reproducible.pt
-!checkpoints/calibrated_interaction/original_drawer_executed_effect_cv_v1.pt
+*.egg-info/
+build/
+dist/
 
-# Generated data
-data/*
-!data/.gitkeep
-!data/calibrated_interaction/
-!data/calibrated_interaction/original_drawer_v1/
-!data/calibrated_interaction/original_drawer_v1/**
-!data/calibrated_interaction/original_drawer_executed_v2/
-!data/calibrated_interaction/original_drawer_executed_v2/**
-!data/piu/
-!data/piu/drawer_binding_sprint_v1/
-!data/piu/drawer_binding_sprint_v1/**
-!data/calibration/
-!data/calibration/libero_intents_v1.jsonl
-!data/calibration/libero_intents_v1.manifest.json
-data/calibration/*_smoke*.jsonl
-data/calibration/*_smoke*.manifest.json
-outputs/*
-!outputs/.gitkeep
-!outputs/calibrated_interaction/
-!outputs/calibrated_interaction/original_drawer_v1/
-!outputs/calibrated_interaction/original_drawer_v1/**
-!outputs/t01_prompt_state_v1/
-outputs/t01_prompt_state_v1/*
-!outputs/t01_prompt_state_v1/pi05_prefix_embeddings.npz
-!outputs/t01_prompt_state_v1/pi05_prefix_embeddings.json
-!outputs/t01_prompt_state_v1_audit/
-outputs/t01_prompt_state_v1_audit/*
-!outputs/t01_prompt_state_v1_audit/pi05_prefix_embeddings.npz
-!outputs/t01_prompt_state_v1_audit/pi05_prefix_embeddings.json
-!outputs/t01_prompt_state_v1_audit_extension/
-outputs/t01_prompt_state_v1_audit_extension/*
-!outputs/t01_prompt_state_v1_audit_extension/pi05_prefix_embeddings.npz
-!outputs/t01_prompt_state_v1_audit_extension/pi05_prefix_embeddings.json
-!outputs/t01_action_effect_v1/
-outputs/t01_action_effect_v1/*
-!outputs/t01_action_effect_v1/pi05_transition_embeddings.npz
-!outputs/t01_action_effect_v1/pi05_transition_embeddings.json
-!outputs/t01_action_effect_v1_audit/
-outputs/t01_action_effect_v1_audit/*
-!outputs/t01_action_effect_v1_audit/pi05_transition_embeddings.npz
-!outputs/t01_action_effect_v1_audit/pi05_transition_embeddings.json
-!outputs/t01_action_effect_v2/
-outputs/t01_action_effect_v2/*
-!outputs/t01_action_effect_v2/pi05_transition_spatial_embeddings.npz
-!outputs/t01_action_effect_v2/pi05_transition_spatial_embeddings.json
-!outputs/t01_action_effect_v3/
-outputs/t01_action_effect_v3/*
-!outputs/t01_action_effect_v3/pi05_transition_target_query_spatial_embeddings.npz
-!outputs/t01_action_effect_v3/pi05_transition_target_query_spatial_embeddings.json
-!outputs/t01_action_effect_v4/
-outputs/t01_action_effect_v4/*
-!outputs/t01_action_effect_v4/pi05_transition_cognitive_query_embeddings.npz
-!outputs/t01_action_effect_v4/pi05_transition_cognitive_query_embeddings.json
-
-# Rebuildable object-frontend inspection assets
-results/assets/piu_v1_*object*/
-results/assets/piu_v1_object_frontend_smoke*/
-
-# Python
+# Python caches and test artifacts
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.coverage
+htmlcov/
+
+# Local model, simulator, and generated experiment state
+.cache/
+.libero/
+third_party/
+checkpoints/
+data/
+outputs/
+results/
+runs/
 
 # Editors and operating systems
 .DS_Store
 .idea/
 .vscode/
-
-# Editable-install build metadata
-*.egg-info/
-
-# Runtime server logs contain machine-local paths and are not evidence assets.
-runs/**/work/
-
-# Exploratory wording probe superseded by the frozen exact serializer.
-runs/paper_cycle_executor_v2/seed1400/direct_cream/

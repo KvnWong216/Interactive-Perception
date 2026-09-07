@@ -1,601 +1,249 @@
-# Prompt-Conditioned Interaction Belief for VLA
+# Interactive Perception
 
-> **RSS 2027 alignment correction.** The first latent-router scaffold is retained as a
-> reproducible hypothesis/baseline, not as the active method claim. A code and theory
-> audit found that its future predictor consumes an untyped action-description token
-> before learned visual grounding, does not learn information value from outcomes, and
-> does not bind its grounding map to the stock MolmoAct2 text interface. The active
-> research contract is now
-> [the method-alignment audit](docs/rss2027_alignment_audit.md): complete grounded
-> interventions are proposed first, their outcomes are learned from reset-controlled
-> branches, the robot reobserves and branches, and future-latent prediction and
-> calibration remain optional ablations. The superseded scaffold is documented in
-> [the v0.1 redesign note](docs/rss2027_method_redesign.md).
+Learning prompt-conditioned outcomes of grounded physical interventions for
+frozen VLA execution.
 
-This repository studies whether a robot can recognize that the current
-observation is insufficient for a user's prompt, acquire the missing evidence
-through physical interaction, bind the new evidence to the requested target,
-and use it in the next manipulation.
+> **Status — 2026-09-07.** This repository contains the first software
+> implementation of the formal-v1 pipeline. The release is verified only with
+> contract tests, synthetic tensors, and a deterministic replay. It does not
+> contain a trained formal-v1 checkpoint, an upstream candidate-proposal/
+> grounding adapter, a frozen-VLM adapter, a MolmoAct2 integration, a LIBERO
+> policy result, or a real-robot result.
 
-The historical empirical line is deliberately restricted to one unchanged
-hidden-butter drawer scenario:
+## Research objective
 
-```text
-closed drawer -> OPEN -> new butter evidence
-  -> full frozen PaliGemma patch tokens + prompt + public OPEN history
-  -> learned prompt-conditioned spatial binding
-  -> calibrated current-frame patch set -> structured target-conditioned PICK
-  -> separately qualified PLACE
-```
+A robot may know how to open, move, rotate, inspect, grasp, and place, yet still
+fail when the observation is insufficient for the user's request. The question
+here is:
 
-On that historical line, the full-prefix binder, candidate-conditioned action-effect
-model, isolated calibration, set-valued controller, current-patch-to-text bridge, and
-certificate-gated external dispatcher are implemented but not yet trained or validated
-on new real groups. The evaluator-only oracle intervention must first show a positive
-causal executor ceiling on a prospectively sized paired experiment. Real action-effect
-training, controller rollout, and scenario expansion remain empirically gated. There is
-no information-value weighting: multi-task scales are learned and decisions use typed
-singleton prediction-set conditions.
+> Under a fixed executor and interaction budget, can the robot choose the right
+> grounded physical intervention and use the newly revealed evidence to improve
+> its next action on the requested target?
 
-The former Grounding DINO/SAM/DINOv2/SigLIP/Qwen/manual-utility pipeline is
-frozen as [`B2 Heuristic V0`](baselines/heuristic_v0/README.md). It remains an
-engineering baseline and is not the proposed method.
-
-**Current decision (2026-08-22):** the broad effect-aware full-loop method is
-rejected for the fixed drawer experiment. The six-stage rebuild gives OPEN
-`9/10`, acquisition `8/9` conditional on OPEN, and target contact `0/8`
-conditional on acquisition; wrong-object contact occurs in `3/8` of those
-acquisition-success groups. Executed-effect supervision adds 0.00 route macro
-F1 over route-only in all five grouped development folds. This is a controlled
-failure decomposition, not a successful ICRA/RSS method claim.
-
-The next falsifiable repair test is implemented as an evaluator-only visual
-prompt that gives frozen pi0.5 the exact target region after OPEN. This is an
-oracle upper bound, never the proposed method. Its five disjoint groups are now
-an independent feasibility pilot, not an automatic `4/5` pass/fail rule. A
-separate prospective test will be sized from the pilot before any public-RGB
-target-binding method is claimed or rejected.
-
-## Research artifacts
-
-- [Active RSS 2027 method-alignment audit](docs/rss2027_alignment_audit.md)
-- [Superseded v0.1 latent-router hypothesis](docs/rss2027_method_redesign.md)
-- [Literature lineage](docs/literature_lineage.md), audited through 2026-08-22
-- [Novelty gate](docs/novelty_audit.md)
-- [Architecture decision](docs/adr/0001_candidate_conditioned_calibrated_interaction.md)
-- [Research question, math, data, experiments, compute, and go/no-go plan](docs/research_plan.md)
-- [Internal ICRA-cadence schedule](docs/icra_cadence_plan.md)
-- [Paper research execution plan and identified pi0.5 setup](docs/paper_research_execution_plan.md)
-- [Method and threshold provenance audit](docs/method_provenance_audit.md)
-- [Spatial-prefix successor contract](docs/spatial_prefix_successor_contract.md)
-- [Frozen PIU research charter](docs/research_charter.md)
-- [Drawer-binding preregistration](docs/preregistration.md)
-- [Target-binding train/calibration pipeline](docs/piu_binding_pipeline.md)
-- [Action-effect and calibrated-control pipeline](docs/piu_action_effect_pipeline.md)
-- [Claim--evidence ledger](docs/claim_evidence_ledger.md)
-- [Machine-verifiable external experiment DAG](configs/experiments/piu_empirical_stage_dag_v1.yaml)
-- [Original-drawer method cycle and negative-result report](docs/original_drawer_experiment_report.md)
-- [Executed counterfactual effect-label policy](docs/executed_effect_dataset.md)
-- [Submission-shaped internal paper draft](paper/main.md)
-- [Automatically generated evidence/readiness tables](paper/generated/piu_evidence_tables_v1.md)
-- [Automatically generated method and evidence-boundary figures](paper/generated/piu_method_pipeline_v1.svg)
-- [Learned-package contracts](src/calibrated_interaction/README.md)
-- [中文旧系统总览与复现教程](docs/TAKEAWAY_AND_TUTORIAL_CN.md), retained as
-  Heuristic V0 documentation
-
-## Repository
+Given a public prompt and visual/action history, Stage 1 compares complete
+grounded interventions
 
 ```text
-baselines/heuristic_v0/       immutable legacy baseline lock
-configs/capabilities/         real executor primitive registry
-configs/experiments/          one-GPU learned-method configuration
-configs/scenarios/            scenario data; no Python scenario branches
-src/calibrated_interaction/   candidate schema, decoder, calibration, controller
-src/piu/                      current leakage firewall, evaluator, spatial binder
-src/interaction_uncertainty/  legacy heuristic implementation
-src/interactive_perception/   frozen pi0.5 execution bridge and legacy critics
-scripts/pipeline/             learned replay and legacy live runners
-scripts/data/                 counterfactual/snapshot builders
-tests/                        unit, leakage, split, model-shape, integration tests
-benchmarks/                   protocols and gates
-results/                      retained component evidence and public RGB assets
+u = (primitive, referent, parameters, current-frame grounding)
 ```
 
-The current retrospective sprint dataset stores public transitions and
-privileged evaluator sidecars in separate JSONL files under
-`data/piu/drawer_binding_sprint_v1/`. It is development evidence only and is
-forbidden for training, calibration, or formal testing.
+by their predicted task outcomes. Stage 2 delegates the selected subtask to a
+separately frozen VLA. The robot then reobserves the real scene before deciding
+again.
 
-Online learned-method inputs are limited to the complete prompt, agentview/wrist
-RGB history, and public action/observation history. Simulator segmentation,
-semantic IDs, hidden object poses, articulated joint truth, depth by default,
-and task predicates are forbidden policy inputs. Privileged state is allowed
-only for offline labels, evaluator metrics, and oracle upper bounds.
-The online binder/effect/controller path accepts no evaluator-label argument.
-PICK/DIRECT can execute only with a nonempty current-frame conformal patch set,
-which is converted to exact normalized boxes in a deterministic pi0.5 subtask.
-Live dispatch additionally requires a prospective exact-binomial primitive
-qualification certificate; the existing retrospective registry authorizes none.
-Its minimum reliability and qualification scale are not repository constants:
-an external task owner must freeze an episode failure budget, a power-design
-alternative, and a maximum group count per primitive using
-`configs/templates/piu_external_execution_risk_budget_template.yaml`. The code
-derives the per-dispatch null as `1-delta/8`, freezes new state/controller
-groups, and recomputes every outcome from a scheduled execution receipt. A
-certificate covers the exact public candidate payload and spatial-serializer
-mode, not merely a primitive name.
-To avoid a pretraining cycle, OPEN qualification may use the model-free
-`build_piu_primitive_qualification_probe.py`: it reads the exact candidate from
-a public candidate-set row and the frozen qualification plan. This measures the
-executor stimulus only and cannot be reported as controller selection. The
-probe is deliberately forbidden for PICK/DIRECT, which still require learned,
-calibrated current-frame spatial references.
-The same-state collector first creates a hash-bound public execution plan from
-calibrated binder sets. Candidates outside their typed execution context remain
-in the route matrix but are not physically forked and receive no invented
-effect labels.
+## Method at a glance
 
-## Install and validate
+```text
+prompt + public RGB/action history
+                │                         externally supplied
+                ▼                       pre-bound interventions
+ frozen VLM token field (protocol)               │
+                └──────────────┬─────────────────┘
+                               ▼
+     support-constrained fusion → p(task outcome | context, intervention)
+                │
+                ▼
+       feasible finite-set argmax
+                │
+                ▼
+ referential adapter → frozen VLA
+                │
+                ▼
+      action → real reobservation → repeat
+```
 
-The core contracts and calibration tools require only NumPy and PyYAML. Run
-their focused tests with:
+- `x_t = (q, o_≤t, h_<t)` is the public prompt, observation, and action history.
+- `u_j = (m_j, ρ_j, η_j)` is one complete grounded intervention.
+- The primary output is the probability of a preregistered bounded task outcome
+  under a fixed serializer, executor, continuation policy, and horizon.
+- Internal tokens are predictive representations. They are not called a
+  calibrated belief or uncertainty distribution without additional evidence.
+
+The first learned model is deliberately small. `GroundedCandidateEncoder`
+receives candidate tokens with **pre-bound** `grounding_support`, attends only
+within those current-image patches, and passes the resulting representation to
+the outcome scorer. It does not propose candidates, discover referents, or
+predict grounding. `OutcomePrediction` contains one bounded task-success logit
+per candidate plus masks and immutable identities; it has no branch or
+`grounding_logits` output. There is no route head, hand-weighted uncertainty
+score, factor ontology, future-latent path, or conformal singleton rule in
+formal v1.
+
+## Scope and non-goals
+
+In scope:
+
+- interactive manipulation: `OPEN` and `REMOVE`;
+- information enrichment: `ROTATE` and `BRING_CLOSE`;
+- direct task execution and safe `STOP` in the same candidate set; and
+- receding-horizon decisions based on actual post-action observations.
+
+Outside the current release:
+
+- active viewpoint change;
+- continuous trajectory generation in Stage 1;
+- VLA weight updates;
+- multi-step tree search or a claim of solving a full POMDP;
+- calibration, EDL, JEPA, or future-latent prediction; and
+- benchmark, OOD, or real-robot performance claims.
+
+Online policy input is restricted to public observations, the complete prompt,
+public action history, and optional public proprioception. Simulator semantic or
+instance IDs, hidden poses or contents, ground-truth masks, task predicates,
+rewards, and evaluator labels are rejected. Post-action semantic branch labels
+remain audit/evaluation data and are not appended to policy history.
+Concrete adapters must additionally audit provenance; a type checker cannot
+detect private state deliberately encoded inside an otherwise public string or
+tensor.
+
+## Current release status
+
+| Component | Code | Empirical validation | Boundary |
+| --- | ---: | ---: | --- |
+| Public-input firewall and frame contract | Yes | No | Contract tests only |
+| Immutable grounded-intervention identity | Yes | No | Contract tests only |
+| Frozen-token metadata and pre-bound-support contracts | Yes | No | Synthetic tensors only |
+| Token-level outcome model and executed-only loss | Yes | No | Forward/backward smoke only |
+| Feasible finite-set selector | Yes | No | Deterministic unit tests only |
+| Serializer/request/receipt identity chain | Yes | No | Replay only; geometry is audit-only |
+| Reobserve-and-repeat runtime | Yes | No | Deterministic replay only |
+| Upstream candidate proposal / grounding adapter | No | No | Not implemented |
+| Concrete frozen VLM token provider | No | No | Protocol only |
+| Concrete MolmoAct2 executor | No | No | Interface only |
+| Reset-controlled formal-v1 dataset/checkpoint | No | No | Collection contract only |
+| LIBERO main experiment or real robot | No | No | Not released |
+
+## Inputs and outputs
+
+| Boundary | Main fields | Meaning |
+| --- | --- | --- |
+| Public context | `prompt`, content-addressed RGB frames, public history, optional proprioception | Deployment-available evidence |
+| Candidate | `candidate_id`, primitive, referent, parameters, camera/frame/box/point | One complete physical intention |
+| Frozen tokens | provider ID, token tensor, valid/current-patch masks, camera/frame IDs, patch boxes | Reversible public token provenance |
+| Model output | candidate/context identities, bounded task-success logits, valid mask | No grounding or branch prediction |
+| Decision | selected candidate or `ABSTAIN` | Feasible argmax; stable proposal-order tie break |
+| Stage-2 request | subtask text plus identity/audit payload | Text is consumed; exact region is not claimed as a native VLA input |
+| Receipt | candidate and request digests, status, actual post frames | Byte-matched execution record |
+| Next context | prior frames plus actual post-action frames; public subtask and execution status | Input to the next Stage-1 decision; hashes and evaluator labels stay in the audit trace |
+
+The supervised outcome contract has no defaults. Before collecting labels it
+must name the primary outcome, continuation policy, horizon, executor,
+serializer, and failure handling. Only the candidate actually executed in a
+reset-controlled branch receives an outcome label; unexecuted alternatives are
+never assigned fabricated counterfactual targets.
+
+Serializer and executor identity belong to this `OutcomeContract` and to the
+subsequent request/receipt chain. They are not fields of
+`GroundedIntervention`.
+
+## Repository structure
+
+```text
+src/grounded_interaction/   active formal-v1 package
+  contracts.py             public context and complete intervention schemas
+  tokens.py                frozen-token provenance and grounding support
+  model.py                 pre-bound-support fusion and outcome scorer
+  losses.py                executed-candidate Bernoulli NLL
+  selection.py             feasibility filtering and finite-set argmax
+  serialization.py         deterministic referential text adapter
+  execution.py             frozen-VLA request/receipt boundary and replay double
+  loop.py                  execute, reobserve, append history, repeat
+  adapters.py              protocols only; concrete providers remain pending
+  smoke.py                 canonical software-only smoke run
+tests/                      focused formal-v1 verification
+docs/formal_pipeline_v1.md  full method and data contract
+env/README.md               supported environment boundary
+```
+
+The pre-formal repository is intentionally absent from the active tree. It is
+recoverable from Git tag `archive/pre-formal-v1-2026-09-07` at commit
+`8c4be631`.
+
+## Quick start
+
+Install [uv](https://docs.astral.sh/uv/), then run:
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --extra dev \
-  pytest -q tests/test_calibrated_interaction.py
+git clone https://github.com/KvnWong216/Interactive-Perception.git
+cd Interactive-Perception
+uv sync --no-editable --extra learned --extra dev
+uv run --no-editable pytest -q
+uv run --no-editable ip-smoke --output runs/formal_v1_smoke.json
 ```
 
-Run the full repository suite (legacy tests need PyTorch and Pillow too):
+The smoke report must state:
 
-```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run --extra learned --extra vlm --extra dev \
-  pytest -q
+```text
+software_verification_only: true
+empirical_evidence: false
+selected sequence: OPEN → DIRECT → STOP
 ```
 
-Create the CPU-only hash lock for the offline mainline, or verify a checkout
-against the retained lock:
-
-```bash
-python scripts/repro/check_piu_offline_pipeline.py \
-  --output runs/piu_offline_repro_check.json \
-  --reference results/diagnostics/piu_offline_repro_preflight_v3.json
-```
-
-The v1/v2 locks remain immutable historical evidence; the v3 lock binds this
-prospective compute-provenance amendment and the external-artifact boundary
-without changing the 1500 MiB offline contract. This command reports the
-pi0.5/oracle/real-data gates as pending; it
-does not reinterpret software readiness as empirical readiness. Inspect the
-first unblocked external work item with:
-
-```bash
-python scripts/repro/check_piu_empirical_dag.py
-```
-
-This validator follows every `{path, sha256}` reference, checks schemas and
-prospective group roles, distinguishes missing from invalid artifacts, and
-treats a valid negative causal/qualification result as a terminal scientific
-outcome rather than as a corrupt file. The flat external inventory is
-informational only; `empirical_ready` comes from this DAG. Sealed rows are
-rechecked against the complete frozen schedule, and both release SVGs must
-contain the exact regenerated evidence-table hash.
-
-Regenerate a new version of the paper tables from admissible reports, or verify
-the retained v1 snapshot byte-for-byte:
-
-```bash
-python scripts/evaluation/build_piu_paper_tables.py --verify
-```
-
-The v1 table intentionally shows real successor rows as `PENDING`. Missing
-artifacts are never printed as zero, development ablations stay separate from
-sealed evidence, and B6/B7 remain oracle upper bounds.
-
-Verify that public prose has not restored a retired threshold or relabeled a
-compound DIRECT endpoint as a separately qualified PICK/PLACE primitive:
-
-```bash
-python scripts/evaluation/build_piu_claim_audit.py --verify
-```
-
-The retained JSON hashes the paper, README, status, and results surfaces. This
-is a claim-semantics check, not performance evidence.
-
-Run the CPU-only, no-training closed-loop replay on the same original drawer
-scenario:
-
-```bash
-uv run python scripts/pipeline/run_calibrated_replay.py \
-  --scenario configs/scenarios/original_drawer.yaml \
-  --replay tests/fixtures/original_drawer_calibrated_replay.json \
-  --output runs/original_drawer_calibrated_replay.json
-```
-
-This replay verifies candidate validation, calibrated set arbitration, the
-short text adapter, history updates, and `OPEN -> reobserve -> DIRECT` control
-flow. Its probabilities are explicitly fixture-only: it is not trained-model
-accuracy or robot task-success evidence.
-
-Check the full simulator/GPU installation and frozen π0.5 server separately:
-
-```bash
-python scripts/infra/check_install.py
-bash scripts/infra/check_gpu.sh
-bash scripts/infra/serve_pi05.sh
-```
-
-### Empirical identified endpoint and OPEN qualification
-
-The retained offline/replay release still has its historical 1500 MiB cap and
-did not load pi0.5 locally. Prospective empirical execution has a separate,
-versioned compute contract:
-[`piu_empirical_compute_contract_v1.yaml`](configs/experiments/piu_empirical_compute_contract_v1.yaml).
-Its invariant is an
-`identified_out_of_process_frozen_policy_endpoint`, which may be either a
-`remote_identified_server` or an explicitly recorded `local_identified_server`.
-The local deployment must say `local_gpu_used=true`; it does not rewrite the
-offline release history.
-
-On this workstation, launch the exact checkpoint as an independent process
-only after the GPU preflight reports no unapproved compute process:
-
-```bash
-LAB_SERVER_MODE=0 EXPERIMENT_GPU_INDEX=0 CUDA_VISIBLE_DEVICES=0 \
-XLA_PYTHON_CLIENT_MEM_FRACTION=0.85 \
-DEPLOYMENT_MODE=local_identified_server HOST=127.0.0.1 PORT=8002 \
-bash scripts/infra/serve_pi05.sh \
-  /home/icon/InteractivePerception_yg/openpi \
-  /home/icon/InteractivePerception_yg/checkpoints/checkpoints/pi05_libero
-```
-
-A remote deployment remains allowed. An SSH tunnel is recommended:
-
-```bash
-ssh -N -L 8002:127.0.0.1:8002 USER@REMOTE_GPU_HOST
-```
-
-This makes the local endpoint `127.0.0.1:8002` without exposing a public port.
-Complete local/remote commands and hardware expectations are in the
-[paper execution plan](docs/paper_research_execution_plan.md). Before any
-Oracle work, freeze the external task-owner risk declaration, create the v2
-endpoint check with an honest deployment mode, and verify the DAG:
-
-```bash
-python scripts/infra/check_external_pi05.py \
-  --host 127.0.0.1 --port 8002 \
-  --deployment-mode local_identified_server \
-  --identity results/diagnostics/pi05_libero_checkpoint_identity_v1.json \
-  --compute-contract configs/experiments/piu_empirical_compute_contract_v1.yaml \
-  --probe-report runs/paper_cycle_executor_v2/seed1400/open_butter/report.json \
-  --output results/diagnostics/external_pi05_endpoint_check_v1.json
-
-python scripts/repro/check_piu_empirical_dag.py
-```
-
-The only valid order is `S00a + S00b -> S02 OPEN formal qualification -> S03
-Oracle development`. Endpoint `PASS` is not executor qualification. The Oracle
-commands below remain blocked until the complete S02 certificate validates as
-`FORMALLY_QUALIFIED`; do not infer that certificate from the endpoint probe or
-from historical 9/10 evidence.
-
-After S02 is formally complete, reproduce the policy-free Oracle preflight in
-the simulator environment:
-
-```bash
-python scripts/evaluation/preflight_oracle_target_prompt.py \
-  --output runs/preflight/original_drawer_oracle_prompt.json
-```
-
-Then inspect and run the nine screening jobs against the same identified
-service:
-
-```bash
-python scripts/evaluation/build_oracle_target_prompt_schedule.py \
-  --phase screen \
-  --output results/method/original_drawer_oracle_prompt_screen_schedule_v1.json
-
-python scripts/pipeline/run_oracle_target_prompt_gate.py \
-  --phase screen --host <external-pi05-host> \
-  --schedule results/method/original_drawer_oracle_prompt_screen_schedule_v1.json \
-  --dry-run
-
-python scripts/pipeline/run_oracle_target_prompt_gate.py \
-  --phase screen --host <external-pi05-host> \
-  --schedule results/method/original_drawer_oracle_prompt_screen_schedule_v1.json \
-  --endpoint-check results/diagnostics/external_pi05_endpoint_check_v1.json
-
-python scripts/evaluation/summarize_oracle_target_prompt_gate.py \
-  --phase screen \
-  --output results/method/original_drawer_oracle_prompt_screen_v2.json
-```
-
-Freeze the confirmation order from that screen result, then run the selected
-style on the five disjoint confirmation seeds:
-
-```bash
-python scripts/evaluation/build_oracle_target_prompt_schedule.py \
-  --phase confirmation \
-  --screen-result results/method/original_drawer_oracle_prompt_screen_v2.json \
-  --output results/method/original_drawer_oracle_prompt_confirmation_schedule_v1.json
-
-python scripts/pipeline/run_oracle_target_prompt_gate.py \
-  --phase confirmation --style <selected-style> \
-  --host <external-pi05-host> \
-  --schedule results/method/original_drawer_oracle_prompt_confirmation_schedule_v1.json \
-  --endpoint-check results/diagnostics/external_pi05_endpoint_check_v1.json
-```
-
-Then summarize with the same phase and style. Every oracle report declares two
-online privileged inputs and uses the claim scope
-`EVALUATOR_ONLY_ORACLE_UPPER_BOUND`.
-
-If the independent pilot yields a prospective count within the frozen resource
-bound, allocate exactly that many new `oracle_formal` split groups, freeze their
-pre-OPEN states, and bind the qualified OPEN certificate before any formal
-outcome exists:
-
-```bash
-python scripts/evaluation/plan_oracle_paired_test.py \
-  --pilot results/method/original_drawer_oracle_prompt_pilot_v2.json \
-  --output results/method/original_drawer_oracle_formal_plan_v1.json
-
-python scripts/data/build_piu_planned_split_manifest.py \
-  --purpose oracle_formal \
-  --plan results/method/original_drawer_oracle_formal_plan_v1.json \
-  --seed-start EXTERNALLY_RESERVED_SEED_START \
-  --group-prefix oracle-formal \
-  --exclude-split PATH/open_qualification_split.json \
-  --output data/piu/mainline_v1/oracle_formal_split_manifest.json
-
-python scripts/evaluation/build_oracle_formal_initial_states.py \
-  --split-manifest data/piu/mainline_v1/oracle_formal_split_manifest.json \
-  --state GROUP_1 PATH/state_1.npz --state GROUP_2 PATH/state_2.npz \
-  --output data/piu/mainline_v1/oracle_formal_initial_states_v1.json
-
-python scripts/evaluation/build_oracle_formal_schedule.py \
-  --formal-plan results/method/original_drawer_oracle_formal_plan_v1.json \
-  --split-manifest data/piu/mainline_v1/oracle_formal_split_manifest.json \
-  --initial-state-manifest data/piu/mainline_v1/oracle_formal_initial_states_v1.json \
-  --open-certificate results/method/piu_open_primitive_certificate_v1.json \
-  --output results/method/original_drawer_oracle_formal_schedule_v1.json
-
-python scripts/pipeline/run_oracle_formal_group.py \
-  --schedule results/method/original_drawer_oracle_formal_schedule_v1.json \
-  --execution-index INDEX \
-  --endpoint-check results/diagnostics/external_pi05_endpoint_check_v1.json \
-  --host <external-pi05-host> --execution-location external_simulator
-
-python scripts/evaluation/analyze_oracle_formal_experiment.py \
-  --schedule results/method/original_drawer_oracle_formal_schedule_v1.json \
-  --output results/method/original_drawer_oracle_formal_result_v1.json
-```
-
-Indices must run in the frozen order. A process interruption leaves an open
-single-use ticket; close it with `close_oracle_formal_group_failure.py`, which
-retains both arms as false, instead of rerunning the group. This experiment is
-an evaluator-privileged causal mechanism test and never a public PIU result.
-
-### B1 prompted-VLM baseline
-
-B1 uses a separate identified external VLM router; it is not silently replaced
-by π0.5 prefix similarity or a local heuristic. The service exposes `GET
-/metadata` and `POST /route`, and its frozen identity is supplied as a
-`piu.prompted-vlm-router-identity.v1` artifact. The client sends only public RGB,
-prompt, public history, and registered candidate descriptions. A response is
-hash-bound to the exact request and may contain only one candidate ID; anything
-outside the registered set is retained as ABSTAIN.
-
-The identity artifact must retain an explicit `model_id`, immutable `revision`,
-and `public_candidate_routing_v1` capability in `server_metadata`; a provider
-name without a revision is rejected.  Run one development decision directly to
-the DAG's immutable probe path before any closed-loop B1 rollout:
-
-```bash
-python scripts/pipeline/run_piu_prompted_vlm_router.py \
-  --public-transition PATH/public_transition.jsonl --sample-id SAMPLE \
-  --expected-split development \
-  --router-identity results/diagnostics/external_prompted_vlm_router_identity_v1.json \
-  --host ROUTER_HOST --port ROUTER_PORT \
-  --output results/diagnostics/external_prompted_vlm_router_probe_v1.json
-```
-
-```bash
-python scripts/pipeline/run_piu_prompted_vlm_closed_loop.py \
-  --scenario-config configs/scenarios/original_drawer.yaml \
-  --candidate-set PATH/candidates.jsonl --initial-sample-id SAMPLE --seed SEED \
-  --router-identity PATH/router_identity.json \
-  --router-host ROUTER_HOST --router-port ROUTER_PORT \
-  --pi05-host PI05_HOST --pi05-port 8002 \
-  --qualification-map PATH/qualified_executor_map.json \
-  --output-dir PATH/b1_episode --dry-run
-```
-
-Remove `--dry-run` only after both external identities and every physical
-candidate certificate validate. No identified prompted-VLM router is currently
-available, so B1 has software coverage but no empirical result.
-
-### B2 frozen Heuristic V0
-
-B2 is executed from the immutable tag, never reconstructed on the current
-branch. Its tag contains only one inference decision, so the adapter does not
-grant it later replanning. First create the detached worktree, then generate the
-external-GPU plan from a paired initial capture:
-
-```bash
-git worktree add ../Interactive-Perception-heuristic-v0 baseline/heuristic-v0
-
-python scripts/pipeline/run_piu_heuristic_v0_inference.py \
-  --worktree ../Interactive-Perception-heuristic-v0 \
-  --capture-report PATH/capture.json \
-  --output-dir ../Interactive-Perception-heuristic-v0/runs/B2_GROUP --dry-run
-
-python scripts/pipeline/run_piu_heuristic_v0_once.py \
-  --attestation PATH/attestation.json \
-  --scenario-config configs/scenarios/original_drawer.yaml \
-  --seed SEED --host PI05_HOST --port 8002 \
-  --output-dir PATH/b2_episode --dry-run
-```
-
-Actual legacy perception/Qwen inference is prohibited on this workstation by
-the 1500 MiB cap. The attestation hashes all five legacy model trees and the
-exact frozen commit. After every frozen development group has one standard
-episode, assemble the DAG artifact with an exact cohort/seed/policy check (raw
-JSONL concatenation is not accepted):
-
-```bash
-python scripts/evaluation/assemble_piu_development_episode_arm.py \
-  --episode PATH/B2_*/episode.json --method-id B2 \
-  --split-manifest data/piu/mainline_v1/learning_split_manifest.json \
-  --output results/method/piu_fixed_drawer_b2_heuristic_v0_v1.jsonl
-```
-
-### B7 same-source oracle target-binding upper bound
-
-B7 is not the existing conditional post-OPEN pilot. It starts from the same
-paired hidden-target state as B0. The selected evaluator marker is a pixel-exact
-no-op while the target mask is empty, then activates if the frozen policy makes
-the target visible. A uniquely selected development screen artifact is required:
-
-```bash
-python scripts/pipeline/run_piu_oracle_binding_full_loop.py \
-  --scenario-config configs/scenarios/original_drawer.yaml \
-  --style-selection PATH/oracle_screen_result.json \
-  --initial-state PATH/source_state.npz --initial-state-group GROUP \
-  --split sealed_test --seed SEED --host PI05_HOST --port 8002 \
-  --output-dir PATH/b7_episode --dry-run
-```
-
-The runner records target identity and instance segmentation as online oracle
-inputs and cannot support a public-method claim.
-
-### Main paired pilot and formal schedule
-
-B8 and B0 pilot episodes must use the development split, the same opaque source
-state and simulator seed within each pair, and one registered pi0.5 identity.
-The public closed-loop aggregator accepts development episodes for this purpose;
-the formal-row exporter still accepts sealed episodes only.
-
-```bash
-python scripts/evaluation/aggregate_piu_closed_loop_episode.py \
-  --manifest PATH/b8_group/closed_loop_manifest.json \
-  --output PATH/b8_group/episode.json
-
-python scripts/evaluation/plan_piu_formal_paired_test.py \
-  --treatment-episodes PATH/B8_*/episode.json \
-  --comparator-episodes PATH/B0_*/episode.json \
-  --output results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json
-```
-
-The planner does not turn a small pilot p-value into a gate. It reports paired
-effect/discordance/variance and uses joint 95% lower exact-binomial bounds for a
-conservative exact-power operating point. A nonpositive or insufficiently
-identified directional effect produces no sample size, not a round-number
-fallback. Before loading the episodes it verifies every hash in the retained
-offline reproduction lock. After allocating exactly the planned number of new
-sealed groups, first freeze the exact opaque state that every method will load:
-
-```bash
-python scripts/evaluation/build_piu_formal_initial_states.py \
-  --split-manifest data/piu/mainline_v1/formal_split_manifest.json \
-  --state GROUP_1 PATH/state_1.npz \
-  --state GROUP_2 PATH/state_2.npz \
-  --output data/piu/mainline_v1/formal_initial_states_v1.json
-```
-
-The state files are validated numeric NPZ transport artifacts and never policy
-features. Then freeze the outcome-independent B0--B8 order:
-
-```bash
-python scripts/evaluation/build_piu_formal_schedule.py \
-  --formal-plan results/method/piu_fixed_drawer_b8_vs_b0_formal_plan_v1.json \
-  --split-manifest data/piu/mainline_v1/formal_split_manifest.json \
-  --initial-state-manifest data/piu/mainline_v1/formal_initial_states_v1.json \
-  --output results/method/piu_fixed_drawer_formal_schedule_v1.json
-```
-
-Formal matrix authorization must bind this schedule hash in addition to row and
-split hashes. Matrix assembly rejects pilot-group reuse, cohort-size drift,
-missing B0--B8 cells, seed drift, and policy-identity drift.
-It also rejects any row whose source-state hash differs from the state frozen
-before outcome collection.
-
-Sealed cells are run one at a time in the frozen order. Issue the next ticket,
-pass that exact ticket to the scheduled B0--B8 runner, aggregate its episode,
-and close it before requesting the next ticket:
-
-```bash
-python scripts/evaluation/begin_piu_formal_attempt.py \
-  --schedule results/method/piu_fixed_drawer_formal_schedule_v1.json \
-  --ledger-dir runs/piu_formal_v1/ledger \
-  --run-output-dir runs/piu_formal_v1/ENTRY_OUTPUT
-
-# Run the scheduled method with --formal-attempt-ticket
-# runs/piu_formal_v1/ledger/NNNNN.started.json, producing episode.json.
-
-python scripts/evaluation/close_piu_formal_attempt.py \
-  --ticket runs/piu_formal_v1/ledger/NNNNN.started.json \
-  --episode runs/piu_formal_v1/ENTRY_OUTPUT/episode.json
-```
-
-The ledger is deliberately fail-closed: an issued ticket without its bound
-episode and close receipt blocks later cells. Do not delete partial output or
-silently rerun it; retain the interruption for independent protocol review.
-
-## Legacy baseline entry points
-
-Public-RGB Heuristic V0 inference:
-
-```bash
-python scripts/pipeline/infer.py \
-  --agentview results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_agentview.png \
-  --wrist results/assets/piu_messy_fresh_e2e_seed1399_v1/public_keyframes/00_before_wrist.png \
-  --prompt "Place the butter in the basket" \
-  --asset-dir runs/heuristic_v0/inference_assets \
-  --output runs/heuristic_v0/inference.json
-```
-
-Execute a legacy registered semantic option:
-
-```bash
-python scripts/pipeline/execute.py \
-  --scenario-config configs/scenarios/original_drawer.yaml \
-  --role OPEN_CONTAINER \
-  --assets runs/heuristic_v0/option_assets \
-  --work runs/heuristic_v0/work \
-  --output runs/heuristic_v0/option.json
-```
-
-Do not add rules or scores to these legacy entry points.
-
-## Evidence status
-
-| evidence | result | claim boundary |
-|---|---:|---|
-| full repository test suite | see current CI/preflight report | software and retained-artifact integrity |
-| oracle visual-prompt preflight v2 | 8 eligible, 2 excluded; no policy calls | evaluator-only rendering/packet and identified-server contract, not method performance |
-| same-RGB prompt router, held-out | legacy route-only 95.83% vs legacy route+effect 93.75% mean accuracy | pilot only; proxy effects; old artifact names B6/B7 |
-| calibrated B7 pilot | 93.75% coverage, 68.75% abstain, 6.25% wrong execute | 16 held-out samples |
-| fresh 10-seed OPEN qualification | drawer 9/10; hidden-target evidence 8/10 | fixed scenario; physical acquisition works |
-| DIRECT after actual OPEN | nonempty butter mask initially 8/10; butter grasp contact 0/10; task 0/10 | retrospective information-utilization failure |
-| visible-object executor control | compound DIRECT contact 10/10; terminal destination predicate 3/10 | endpoint diagnostic, not separate PICK/PLACE qualification |
-| executed-effect grouped development CV | legacy route-only/route+effect macro F1 both 100%; effect accuracy 94.17% | CPU baseline; 10 inspected seed groups; old artifact names B6/B7; no formal calibration claim |
-| [original-drawer calibrated replay](results/diagnostics/original_drawer_calibrated_replay_v1.json) | OPEN -> reobserve -> DIRECT | wiring only; fixture probabilities |
-| six-frame RGB legacy outcome, clean development | 119/120 singleton-correct | legacy outcome component only |
-| six-frame RGB legacy outcome, sealed audit | 294/300 singleton-correct | legacy outcome component only |
-| legacy object PIU scene-disjoint | NOT-GO, 6 false singleton routes | Heuristic V0 is not paper-ready |
-| legacy current cluttered-drawer demo | OPEN_CONTAINER -> REVEALED -> MOVE_CLOSER | one disposable information trace |
-| legacy five-seed final butter retrieval | 0/5 | historical Heuristic V0 result |
-
-Current assets include the original frontend under
-`results/assets/original_drawer_frontend_v1/`, its public Scene Packet under
-`results/diagnostics/original_drawer_scene_packet_v1.jsonl`, and the legacy demo
-under `results/demos/piu_original_fresh_seed1399_v1/`.
-
-## Claim discipline
-
-Hidden representations are not called uncertainty. Entropy is a diagnostic,
-not the final decision definition. Conformal coverage is marginal under
-exchangeability, not a single-trial success probability. Primitive execution,
-information acquisition, post-action recognition, rerouting, and final task
-success are always reported separately. Any non-actionable calibrated set
-produces `ABSTAIN`; it is never collapsed to a convenient top-1.
+It checks schema validation, token shapes, finite model output/loss, backward
+propagation, candidate identity preservation, action execution plumbing, and
+post-observation insertion into the next synthetic context. Its scripted scores
+and replayed outcomes are fixtures, not model accuracy or robot success.
+
+See [the environment guide](env/README.md) for the exact supported boundary.
+The current release supports the CPU/PyTorch software checks on macOS and Linux.
+No LIBERO scene, runner, or VLA environment is claimed by this release.
+
+## Reproduction levels
+
+| Level | Reproduces | Availability |
+| --- | --- | ---: |
+| L0 | Schemas, firewall, identity, selector, serializer tests | Available |
+| L1 | One-batch outcome-model forward/backward and synthetic loop | Available |
+| L2 | Frozen-VLM extraction plus candidate proposal/grounding | Pending |
+| L3 | Qualified frozen-VLA execution in LIBERO | Pending |
+| L4 | Reset-controlled outcome training/evaluation | Pending |
+| L5 | Full hidden-result closed loop and benchmark table | Pending |
+| L6 | Real-robot transfer | Not part of this release |
+
+## Roadmap
+
+Dates are internal planning targets, not conference deadlines.
+
+| Milestone | Target | Required asset | Exit condition |
+| --- | --- | --- | --- |
+| M0 — formal-v1 software | 2026-09-07–09-14 | Current package, tests, smoke, docs | All released software checks pass |
+| M1 — execution-interface ceiling | 2026-09-15–09-28 | Same-primitive/different-referent scenes and paired report | Correct referent measurably controls intended first contact |
+| M2 — hidden-result branching | 2026-09-29–10-19 | Empty/target/distractor/exhausted reset groups | New evidence changes the second action |
+| M3 — outcome supervision | 2026-10-20–11-16 | Result-only checkpoints and matched baselines | Outcome supervision improves held-out routing/task outcome |
+| M4 — benchmark study | 2026-11-17–12-21 | Frozen splits, baselines, OOD tests, closed-loop table | Main simulation evidence is complete |
+| M5 — paper freeze | 2027-01 | Tables, demo, evidence ledger, draft | Every claim is backed by sealed evidence |
+
+## TODO
+
+- [x] Replace the old multi-pipeline tree with one formal-v1 package.
+- [x] Implement typed grounded candidates and candidate-conditioned outcome code.
+- [x] Preserve candidate identity through selection, serialization, receipt, and
+  reobservation.
+- [x] Add a deterministic software-only smoke run.
+- [ ] Implement and freeze an upstream candidate-proposal/grounding adapter.
+- [ ] Integrate and freeze one concrete VLM token provider.
+- [ ] Run the E1 referent-to-executor interface ceiling before large collection.
+- [ ] Build randomized hidden-result branching scenes and reset groups.
+- [ ] Collect actual candidate outcomes under one frozen outcome contract.
+- [ ] Train result-only and matched route/history baselines.
+- [ ] Add a future auxiliary only with no-path and equal-capacity controls.
+- [ ] Add calibration only after the uncalibrated behavior is useful.
+- [ ] Freeze benchmark splits and execute the simulation main study.
+
+## Evidence boundary
+
+The active tree contains no formal-v1 performance result. Passing software
+tests establishes interface consistency only. Missing artifacts are never
+printed as zero, and no prior primitive qualification transfers to a new
+executor, serializer, candidate, or task contract.
+
+The next valid scientific result is not another intermediate confidence score.
+It is a paired execution-interface ceiling followed by hidden-content trials in
+which identical initial public evidence leads to different second actions only
+after a physical intervention reveals different observations.
+
+## Documentation
+
+- [Formal-v1 method and data contract](docs/formal_pipeline_v1.md)
+- [Architecture decision record](docs/adr/0002_grounded_intervention_outcome_planning.md)
+- [Environment guide](env/README.md)

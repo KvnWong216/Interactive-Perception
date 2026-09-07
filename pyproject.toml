@@ -4,32 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "interactive-perception"
-version = "0.4.0"
-description = "Prompt-conditioned interaction uncertainty with a frozen VLA executor"
+version = "0.1.0"
+description = "Grounded intervention outcome planning for interactive perception"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { file = "LICENSE" }
 
-# Deliberately light. The simulation stack is pinned in
-# requirements-linux-gpu.txt (or requirements-macos-sim.txt) because those
-# versions are tied to a specific LIBERO commit and must not be resolved freely.
-dependencies = [
-  "numpy>=1.24",
-  "pyyaml>=6.0",
-]
+dependencies = []
 
 [project.optional-dependencies]
-plots = ["matplotlib>=3.7", "imageio>=2.31", "imageio-ffmpeg>=0.4.9"]
-learned = ["torch==2.13.0"]
-vlm = [
-  "transformers==4.57.6",
-  "accelerate==1.14.0",
-  "pillow==12.3.0",
-  "protobuf==6.33.5",
-  "sentencepiece==0.2.1",
-  "torchvision==0.28.0",
-]
-dev = ["pytest>=7.4"]
+learned = ["numpy>=1.26", "torch==2.13.0"]
+dev = ["pytest>=8.0", "ruff>=0.12"]
+
+[project.scripts]
+ip-smoke = "grounded_interaction.smoke:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
