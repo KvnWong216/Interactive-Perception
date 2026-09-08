@@ -1,249 +1,308 @@
 # Interactive Perception
 
-Learning prompt-conditioned outcomes of grounded physical interventions for
-frozen VLA execution.
+Prompt-conditioned prediction and selection of grounded physical interventions,
+with a separately frozen VLA as the low-level executor.
 
-> **Status — 2026-09-07.** This repository contains the first software
-> implementation of the formal-v1 pipeline. The release is verified only with
-> contract tests, synthetic tensors, and a deterministic replay. It does not
-> contain a trained formal-v1 checkpoint, an upstream candidate-proposal/
-> grounding adapter, a frozen-VLM adapter, a MolmoAct2 integration, a LIBERO
-> policy result, or a real-robot result.
+> **Status — 2026-09-08.** The formal-v1 software path and the first real
+> execution-interface pilot (`E1a`) are implemented. The exact LIBERO reset,
+> public RGB/state observations, frozen MolmoAct2 protocol, action application,
+> evaluator trace, immutable result record, and training-target loader are now
+> connected in code. Local software tests pass, and the real LIBERO reset
+> preflight was reproduced locally for both frozen states.
+> The released MolmoAct2 checkpoint has **not yet** completed the single-use
+> model canary, so scored E1a execution remains `0/6`. There is no trained
+> Stage-1 checkpoint, closed-loop method result, benchmark table, or real-robot
+> result in this revision.
 
-## Research objective
+## Research question
 
-A robot may know how to open, move, rotate, inspect, grasp, and place, yet still
-fail when the observation is insufficient for the user's request. The question
-here is:
+A robot can possess useful manipulation primitives and still fail because the
+current observation is insufficient for the user's request. The main question
+is:
 
-> Under a fixed executor and interaction budget, can the robot choose the right
-> grounded physical intervention and use the newly revealed evidence to improve
-> its next action on the requested target?
+> Under a fixed executor and interaction budget, which grounded action should
+> the robot execute now so that the requested task is most likely to succeed
+> after the resulting real observation?
 
-Given a public prompt and visual/action history, Stage 1 compares complete
-grounded interventions
-
-```text
-u = (primitive, referent, parameters, current-frame grounding)
-```
-
-by their predicted task outcomes. Stage 2 delegates the selected subtask to a
-separately frozen VLA. The robot then reobserves the real scene before deciding
-again.
-
-## Method at a glance
+The intended two-stage system is:
 
 ```text
-prompt + public RGB/action history
-                │                         externally supplied
-                ▼                       pre-bound interventions
- frozen VLM token field (protocol)               │
-                └──────────────┬─────────────────┘
-                               ▼
-     support-constrained fusion → p(task outcome | context, intervention)
-                │
-                ▼
-       feasible finite-set argmax
-                │
-                ▼
- referential adapter → frozen VLA
-                │
-                ▼
-      action → real reobservation → repeat
+public prompt + RGB/history + public robot state
+                         │
+          grounded candidate interventions
+                         │
+                         ▼
+ frozen VLM tokens → grounded outcome model → finite-set selection
+                                                 │
+                                      selected grounded subtask
+                                                 │
+                                                 ▼
+                            frozen VLA → action chunk → environment
+                                                 │
+                                                 ▼
+                                      real reobservation → repeat
 ```
 
-- `x_t = (q, o_≤t, h_<t)` is the public prompt, observation, and action history.
-- `u_j = (m_j, ρ_j, η_j)` is one complete grounded intervention.
-- The primary output is the probability of a preregistered bounded task outcome
-  under a fixed serializer, executor, continuation policy, and horizon.
-- Internal tokens are predictive representations. They are not called a
-  calibrated belief or uncertainty distribution without additional evidence.
+Stage 1 predicts a preregistered bounded outcome for each complete intervention
 
-The first learned model is deliberately small. `GroundedCandidateEncoder`
-receives candidate tokens with **pre-bound** `grounding_support`, attends only
-within those current-image patches, and passes the resulting representation to
-the outcome scorer. It does not propose candidates, discover referents, or
-predict grounding. `OutcomePrediction` contains one bounded task-success logit
-per candidate plus masks and immutable identities; it has no branch or
-`grounding_logits` output. There is no route head, hand-weighted uncertainty
-score, factor ontology, future-latent path, or conformal singleton rule in
-formal v1.
+```text
+u = (primitive, referent, high-level parameters, current-frame grounding).
+```
 
-## Scope and non-goals
+Stage 2 receives only the selected subtask, deployment RGB, and public robot
+state. It generates continuous robot actions; it does not receive simulator
+semantic IDs, hidden poses, predicates, rewards, or evaluator labels.
 
-In scope:
+The token-level outcome model is a software implementation, not yet an
+empirical result. Its internal tokens are predictive representations; they are
+not called a calibrated belief or uncertainty distribution without held-out
+calibration evidence.
 
-- interactive manipulation: `OPEN` and `REMOVE`;
-- information enrichment: `ROTATE` and `BRING_CLOSE`;
-- direct task execution and safe `STOP` in the same candidate set; and
-- receding-horizon decisions based on actual post-action observations.
+## Why E1a comes first
 
-Outside the current release:
+Before training Stage 1, we must establish that a chosen physical referent can
+actually survive the Stage-1-to-VLA interface. E1a therefore isolates one
+narrow question:
 
-- active viewpoint change;
-- continuous trajectory generation in Stage 1;
-- VLA weight updates;
-- multi-step tree search or a claim of solving a full POMDP;
-- calibration, EDL, JEPA, or future-latent prediction; and
-- benchmark, OOD, or real-robot performance claims.
+> With two similar moka pots in one real LIBERO RGB observation, can three
+> public referent interfaces make frozen MolmoAct2 first contact the intended
+> instance?
 
-Online policy input is restricted to public observations, the complete prompt,
-public action history, and optional public proprioception. Simulator semantic or
-instance IDs, hidden poses or contents, ground-truth masks, task predicates,
-rewards, and evaluator labels are rejected. Post-action semantic branch labels
-remain audit/evaluation data and are not appended to policy history.
-Concrete adapters must additionally audit provenance; a type checker cannot
-detect private state deliberately encoded inside an otherwise public string or
-tensor.
+The regions are manually annotated from public RGB. This is deliberately an
+interface diagnostic—not autonomous grounding and not the final method. E1a
+compares:
 
-## Current release status
+- coarse spatial language;
+- normalized coordinates rendered in language; and
+- a deterministic magenta box/cross rendered into the public agentview image.
 
-| Component | Code | Empirical validation | Boundary |
-| --- | ---: | ---: | --- |
-| Public-input firewall and frame contract | Yes | No | Contract tests only |
-| Immutable grounded-intervention identity | Yes | No | Contract tests only |
-| Frozen-token metadata and pre-bound-support contracts | Yes | No | Synthetic tensors only |
-| Token-level outcome model and executed-only loss | Yes | No | Forward/backward smoke only |
-| Feasible finite-set selector | Yes | No | Deterministic unit tests only |
-| Serializer/request/receipt identity chain | Yes | No | Replay only; geometry is audit-only |
-| Reobserve-and-repeat runtime | Yes | No | Deterministic replay only |
-| Upstream candidate proposal / grounding adapter | No | No | Not implemented |
-| Concrete frozen VLM token provider | No | No | Protocol only |
-| Concrete MolmoAct2 executor | No | No | Interface only |
-| Reset-controlled formal-v1 dataset/checkpoint | No | No | Collection contract only |
-| LIBERO main experiment or real robot | No | No | Not released |
+The current preregistered pilot is only
+`1 reset state × 2 referents × 3 interfaces = 6 single-use branches`. Its
+primary label is whether the first contact with either candidate object is
+exclusively the intended one within 300 simulator steps. Complete placement on
+the stove is logged only as a diagnostic.
 
-## Inputs and outputs
+## Implemented real chain
 
-| Boundary | Main fields | Meaning |
+```text
+frozen LIBERO state
+  → real agentview RGB + wrist RGB + 8-D public state
+  → human public-RGB region + deterministic referent interface
+  → official MolmoAct2 predict_action API over HTTP
+  → exactly 10 × 7 finite continuous actions per model call
+  → float32 conversion + official gripper binarization
+  → relative-control LIBERO steps
+  → per-step evaluator-only contact / grasp / predicate trace
+  → first-contact outcome recomputed from the lowest-level trace
+  → sealed ObservedBranch
+  → typed training record
+  → executed-candidate Bernoulli loss
+```
+
+Important guarantees:
+
+- MolmoAct2 input is exactly two RGB images in `[agentview, wrist]` order, an
+  8-D public state, text, and frozen inference settings.
+- Every replan state is linked to the preceding action-chunk milestone.
+- `actions_applied` stores the exact float32, gripper-binarized values passed to
+  LIBERO—not an approximation of the raw model output.
+- The outcome is assigned only to the candidate that was actually executed.
+  Alternatives receive no fabricated counterfactual labels.
+- Validation re-derives serializer output, request IDs, action prefixes,
+  temporal state/frame links, first contact, diagnostics, receipt, and training
+  label from the frozen plan and lowest-level traces.
+- The default training loader rejects software test-double evidence.
+- Learned tensor alignment uses candidate fingerprints, not semantic content in
+  `candidate_id` strings.
+
+The SHA-256 chain establishes byte integrity and internal reconstructibility.
+It is not a digital signature and does not independently prove that a simulator
+or HTTP server was honest. The current evaluator is structurally excluded from
+policy payloads, but it still runs in the same process; this is not a
+process-security boundary.
+
+## Current evidence
+
+| Asset | Current state | What it establishes |
 | --- | --- | --- |
-| Public context | `prompt`, content-addressed RGB frames, public history, optional proprioception | Deployment-available evidence |
-| Candidate | `candidate_id`, primitive, referent, parameters, camera/frame/box/point | One complete physical intention |
-| Frozen tokens | provider ID, token tensor, valid/current-patch masks, camera/frame IDs, patch boxes | Reversible public token provenance |
-| Model output | candidate/context identities, bounded task-success logits, valid mask | No grounding or branch prediction |
-| Decision | selected candidate or `ABSTAIN` | Feasible argmax; stable proposal-order tie break |
-| Stage-2 request | subtask text plus identity/audit payload | Text is consumed; exact region is not claimed as a native VLA input |
-| Receipt | candidate and request digests, status, actual post frames | Byte-matched execution record |
-| Next context | prior frames plus actual post-action frames; public subtask and execution status | Input to the next Stage-1 decision; hashes and evaluator labels stay in the audit trace |
+| Contracts, selector, serializer, runtime tests | Pass | Software invariants only |
+| Token outcome forward/backward | Pass locally | Tensor/loss wiring only |
+| E1 test-double full artifact → loss round trip | Pass | Result records are trainable, not robot performance |
+| Real LIBERO state 0 preflight | Reproduced locally; no sealed outcome | Exact scored reset/RGB/state/controller can be reproduced |
+| Real LIBERO state 49 preflight | Reproduced locally; no sealed outcome | Excluded canary reset/RGB/state can be reproduced |
+| Frozen MolmoAct2 model canary | Pending | No real checkpoint action has yet been admitted |
+| E1a scored branches | `0/6` executed | No empirical referent result yet |
+| Stage-1 learned model / closed loop | Pending | No method claim yet |
 
-The supervised outcome contract has no defaults. Before collecting labels it
-must name the primary outcome, continuation policy, horizon, executor,
-serializer, and failure handling. Only the candidate actually executed in a
-reset-controlled branch receives an outcome label; unexecuted alternatives are
-never assigned fabricated counterfactual targets.
-
-Serializer and executor identity belong to this `OutcomeContract` and to the
-subsequent request/receipt chain. They are not fields of
-`GroundedIntervention`.
+The frozen plan is
+[`experiments/e1_referent_ceiling/pilot_state0_v1.json`](experiments/e1_referent_ceiling/pilot_state0_v1.json).
+Its digest binds the runner source, assets, public observations, model identity,
+canary, execution order, and trial rows.
 
 ## Repository structure
 
 ```text
-src/grounded_interaction/   active formal-v1 package
-  contracts.py             public context and complete intervention schemas
-  tokens.py                frozen-token provenance and grounding support
-  model.py                 pre-bound-support fusion and outcome scorer
-  losses.py                executed-candidate Bernoulli NLL
-  selection.py             feasibility filtering and finite-set argmax
-  serialization.py         deterministic referential text adapter
-  execution.py             frozen-VLA request/receipt boundary and replay double
-  loop.py                  execute, reobserve, append history, repeat
-  adapters.py              protocols only; concrete providers remain pending
-  smoke.py                 canonical software-only smoke run
-tests/                      focused formal-v1 verification
-docs/formal_pipeline_v1.md  full method and data contract
-env/README.md               supported environment boundary
+src/grounded_interaction/
+  contracts.py          public contexts and grounded intervention contracts
+  tokens.py             frozen-token and current-patch support contracts
+  model.py              support-constrained candidate fusion + outcome scorer
+  losses.py             executed-candidate Bernoulli objective
+  selection.py          feasibility filter and finite-set argmax
+  serialization.py      coarse / precise / marker referent serializers
+  conditioning.py       deterministic public-RGB marker conditioning
+  molmoact2.py           pinned official MolmoAct2 client/server adapter
+  libero_runtime.py      exact-reset public observation and action runtime
+  e1.py                  E1 preflight, canary, runner, ledger, validator
+  e1_training.py         sealed live artifact → typed targets → loss
+  rgb.py                 content-addressed decoded-RGB store
+scripts/
+  freeze_e1_plan.py      regenerate the still-unexecuted frozen E1a plan
+experiments/e1_referent_ceiling/
+  pilot_state0_v1.json   six-row single-use E1a pilot
+tests/                   software and integration-contract verification
+docs/                    formal method and E1 runbook
+env/README.md            split local-LIBERO / GPU-model environments
 ```
 
-The pre-formal repository is intentionally absent from the active tree. It is
-recoverable from Git tag `archive/pre-formal-v1-2026-09-07` at commit
-`8c4be631`.
+The superseded pre-formal tree is recoverable from Git tag
+`archive/pre-formal-v1-2026-09-07` at commit `8c4be631`.
 
-## Quick start
+## Software verification
 
-Install [uv](https://docs.astral.sh/uv/), then run:
+Install [uv](https://docs.astral.sh/uv/), then:
 
 ```bash
 git clone https://github.com/KvnWong216/Interactive-Perception.git
 cd Interactive-Perception
-uv sync --no-editable --extra learned --extra dev
-uv run --no-editable pytest -q
-uv run --no-editable ip-smoke --output runs/formal_v1_smoke.json
+uv sync --extra dev --extra integration
+uv run pytest -q
+uv run ip-smoke --output runs/formal_v1_smoke.json
 ```
 
-The smoke report must state:
+The smoke run uses scripted scores and replayed outcomes. It must report
+`software_verification_only=true` and `empirical_evidence=false`.
 
-```text
-software_verification_only: true
-empirical_evidence: false
-selected sequence: OPEN → DIRECT → STOP
+On a supported PyTorch platform, the learned software checks can be installed
+with `--extra learned`. The MolmoAct2 extra intentionally resolves official
+CUDA 12.8 PyTorch wheels and belongs in the Linux GPU environment, not the
+legacy macOS LIBERO environment.
+
+## E1a reproduction
+
+E1 uses two environments joined by a localhost HTTP boundary:
+
+1. a Python 3.11 Linux/NVIDIA environment loads the frozen MolmoAct2
+   checkpoint; and
+2. the pinned legacy LIBERO environment runs simulation and evaluation.
+
+First inspect the model snapshot without loading it onto GPU:
+
+```bash
+uv sync --extra molmoact2 --extra dev
+uv run ip-serve-molmoact2 \
+  --inspect-only \
+  --checkpoint allenai/MolmoAct2-LIBERO \
+  --revision 0d24a92bd1faf321ef497c3bbd5681af97c65aa2
 ```
 
-It checks schema validation, token shapes, finite model output/loss, backward
-propagation, candidate identity preservation, action execution plumbing, and
-post-observation insertion into the next synthetic context. Its scripted scores
-and replayed outcomes are fixtures, not model accuracy or robot success.
+The hashes and parsed normalization/action semantics must match the frozen plan.
+Then, on the authorized GPU only:
 
-See [the environment guide](env/README.md) for the exact supported boundary.
-The current release supports the CPU/PyTorch software checks on macOS and Linux.
-No LIBERO scene, runner, or VLA environment is claimed by this release.
+```bash
+export CUDA_VISIBLE_DEVICES=1
+export XLA_PYTHON_CLIENT_PREALLOCATE=false
+uv run ip-serve-molmoact2 \
+  --identity-json experiments/e1_referent_ceiling/pilot_state0_v1.json \
+  --host 127.0.0.1 --port 8003
+```
 
-## Reproduction levels
+With a remote GPU, tunnel its localhost port:
 
-| Level | Reproduces | Availability |
-| --- | --- | ---: |
-| L0 | Schemas, firewall, identity, selector, serializer tests | Available |
-| L1 | One-batch outcome-model forward/backward and synthetic loop | Available |
-| L2 | Frozen-VLM extraction plus candidate proposal/grounding | Pending |
-| L3 | Qualified frozen-VLA execution in LIBERO | Pending |
-| L4 | Reset-controlled outcome training/evaluation | Pending |
-| L5 | Full hidden-result closed loop and benchmark table | Pending |
-| L6 | Real-robot transfer | Not part of this release |
+```bash
+ssh -N -L 8003:127.0.0.1:8003 USER@GPU_HOST
+```
 
-## Roadmap
+From the LIBERO environment, perform the outcome-free preflight:
 
-Dates are internal planning targets, not conference deadlines.
+```bash
+export LIBERO_REPO_ROOT=/absolute/path/to/LIBERO
+export LIBERO_CONFIG_PATH=/absolute/path/to/.libero
+export PYTHONPATH="$PWD/src:$LIBERO_REPO_ROOT"
+python -m grounded_interaction.e1 \
+  --plan experiments/e1_referent_ceiling/pilot_state0_v1.json \
+  --validate-only
+```
 
-| Milestone | Target | Required asset | Exit condition |
-| --- | --- | --- | --- |
-| M0 — formal-v1 software | 2026-09-07–09-14 | Current package, tests, smoke, docs | All released software checks pass |
-| M1 — execution-interface ceiling | 2026-09-15–09-28 | Same-primitive/different-referent scenes and paired report | Correct referent measurably controls intended first contact |
-| M2 — hidden-result branching | 2026-09-29–10-19 | Empty/target/distractor/exhausted reset groups | New evidence changes the second action |
-| M3 — outcome supervision | 2026-10-20–11-16 | Result-only checkpoints and matched baselines | Outcome supervision improves held-out routing/task outcome |
-| M4 — benchmark study | 2026-11-17–12-21 | Frozen splits, baselines, OOD tests, closed-loop table | Main simulation evidence is complete |
-| M5 — paper freeze | 2027-01 | Tables, demo, evidence ledger, draft | Every claim is backed by sealed evidence |
+The preflight must reproduce both state 0 and excluded canary state 49 and
+report `BLOCKED_PENDING_MODEL_CANARY`. That block is expected before the first
+real model call.
 
-## TODO
+After the repository is committed and clean, run exactly one outcome-free
+canary. It calls the real checkpoint once, requires a finite `10 × 7` action
+chunk, applies zero actions, and creates no training label:
 
-- [x] Replace the old multi-pipeline tree with one formal-v1 package.
-- [x] Implement typed grounded candidates and candidate-conditioned outcome code.
-- [x] Preserve candidate identity through selection, serialization, receipt, and
-  reobservation.
-- [x] Add a deterministic software-only smoke run.
-- [ ] Implement and freeze an upstream candidate-proposal/grounding adapter.
-- [ ] Integrate and freeze one concrete VLM token provider.
-- [ ] Run the E1 referent-to-executor interface ceiling before large collection.
-- [ ] Build randomized hidden-result branching scenes and reset groups.
-- [ ] Collect actual candidate outcomes under one frozen outcome contract.
-- [ ] Train result-only and matched route/history baselines.
-- [ ] Add a future auxiliary only with no-path and equal-capacity controls.
-- [ ] Add calibration only after the uncalibrated behavior is useful.
-- [ ] Freeze benchmark splits and execute the simulation main study.
+```bash
+python -m grounded_interaction.e1 \
+  --plan experiments/e1_referent_ceiling/pilot_state0_v1.json \
+  --endpoint http://127.0.0.1:8003 \
+  --run-model-canary --allow-model-canary
+```
 
-## Evidence boundary
+Only a validated canary unlocks the canonical ledger. Execute one frozen row at
+a time, in order, with no rerun or overwrite path:
 
-The active tree contains no formal-v1 performance result. Passing software
-tests establishes interface consistency only. Missing artifacts are never
-printed as zero, and no prior primitive qualification transfers to a new
-executor, serializer, candidate, or task contract.
+```bash
+python -m grounded_interaction.e1 \
+  --plan experiments/e1_referent_ceiling/pilot_state0_v1.json \
+  --endpoint http://127.0.0.1:8003 \
+  --execution-index 0 --allow-execution
+```
 
-The next valid scientific result is not another intermediate confidence score.
-It is a paired execution-interface ceiling followed by hidden-content trials in
-which identical initial public evidence leads to different second actions only
-after a physical intervention reveals different observations.
+See [`docs/e1_referent_executor_ceiling.md`](docs/e1_referent_executor_ceiling.md)
+for the exact contract, artifacts, outcome definition, and interpretation.
+
+## Scope and limitations
+
+In scope for the eventual method:
+
+- interactive manipulation: `OPEN`, `REMOVE`;
+- information enrichment: `ROTATE`, `BRING_CLOSE`;
+- direct execution and safe `STOP`; and
+- receding-horizon decisions from actual post-action observations.
+
+Explicitly outside formal v1:
+
+- active viewpoint change;
+- Stage-1 continuous trajectory generation;
+- VLA weight updates;
+- a claim of solving a full POMDP; and
+- hand-designed uncertainty factor sums or route labels.
+
+E1a has additional limitations: one scored initial state, a checkpoint trained
+on the LIBERO mixture that includes this task family, manual regions, a static
+marker/coordinate reused after motion, and no confirmatory sample size. It can
+show only whether the current executor interface is worth pursuing.
+
+## Next scientific steps
+
+1. Run the excluded-state real-model canary.
+2. If it passes, execute the six E1a branches once in their frozen order.
+3. If at least one referent interface controls intended first contact, freeze a
+   new E1b design with a stock-instruction positive control, a truly ambiguous
+   no-spatial control, multiple untouched reset states and seeds, balanced
+   target sides, and reset-group-paired analysis.
+4. Only after E1b validates the interface, integrate automatic public-RGB
+   proposal/grounding and a concrete frozen-VLM token provider.
+5. Collect reset-controlled outcomes and train/evaluate Stage 1.
+6. Then test the full interactive-perception loop on hidden-content and
+   information-enrichment scenarios.
+
+No large outcome-model training or RSS main table should begin before Steps 1–3
+establish that the frozen executor can act on the selected referent.
 
 ## Documentation
 
 - [Formal-v1 method and data contract](docs/formal_pipeline_v1.md)
+- [E1a execution-interface runbook](docs/e1_referent_executor_ceiling.md)
 - [Architecture decision record](docs/adr/0002_grounded_intervention_outcome_planning.md)
 - [Environment guide](env/README.md)

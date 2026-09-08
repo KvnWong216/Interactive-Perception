@@ -76,6 +76,18 @@ def _plain_private_value(value: Any) -> Any:
     return value
 
 
+def _exact_mapping(value: Any, *, keys: set[str], name: str) -> Mapping[str, Any]:
+    if not isinstance(value, Mapping):
+        raise TypeError(f"{name} must be a mapping")
+    observed = set(value)
+    if observed != keys:
+        raise ValueError(
+            f"{name} keys mismatch; missing={sorted(keys - observed)}, "
+            f"extra={sorted(observed - keys)}"
+        )
+    return value
+
+
 @dataclasses.dataclass(frozen=True)
 class ObservedBranch:
     """One real execution from an exact reset-controlled decision point.
@@ -246,6 +258,72 @@ class ObservedBranch:
         """Hash only public model input plus the observed training target."""
 
         return canonical_sha256(self.to_dict(include_private=False))
+
+    @classmethod
+    def from_public_mapping(cls, value: Any) -> ObservedBranch:
+        """Strictly reconstruct one public, label-bearing execution record."""
+
+        mapping = _exact_mapping(
+            value,
+            keys={
+                "branch_id",
+                "initial_state_group",
+                "decision_group_id",
+                "split",
+                "reset_state_sha256",
+                "repeat_index",
+                "model_input",
+                "supervision",
+            },
+            name="public observed branch",
+        )
+        model_input = _exact_mapping(
+            mapping["model_input"],
+            keys={"context", "candidate"},
+            name="observed branch model input",
+        )
+        supervision = _exact_mapping(
+            mapping["supervision"],
+            keys={
+                "executed_candidate_id",
+                "executed_candidate_fingerprint",
+                "outcome_contract",
+                "observed_outcome",
+                "post_action_frames",
+                "execution_status",
+                "execution_receipt_id",
+                "diagnostics",
+            },
+            name="observed branch supervision",
+        )
+        context = PolicyContext.from_mapping(model_input["context"])
+        candidate = GroundedIntervention.from_mapping(model_input["candidate"])
+        if supervision["executed_candidate_id"] != candidate.candidate_id:
+            raise ValueError("observed branch candidate ID is inconsistent")
+        if supervision["executed_candidate_fingerprint"] != candidate.fingerprint():
+            raise ValueError("observed branch candidate fingerprint is inconsistent")
+        return cls(
+            branch_id=str(mapping["branch_id"]),
+            initial_state_group=str(mapping["initial_state_group"]),
+            decision_group_id=str(mapping["decision_group_id"]),
+            split=str(mapping["split"]),
+            reset_state_sha256=str(mapping["reset_state_sha256"]),
+            repeat_index=int(mapping["repeat_index"]),
+            context=context,
+            executed_intervention=candidate,
+            post_action_frames=tuple(
+                PublicFrame.from_mapping(item)
+                for item in supervision["post_action_frames"]
+            ),
+            outcome_contract=OutcomeContract.from_mapping(
+                supervision["outcome_contract"]
+            ),
+            observed_outcome=supervision["observed_outcome"],
+            execution_status=ExecutionStatus(str(supervision["execution_status"])),
+            execution_receipt_id=str(supervision["execution_receipt_id"]),
+            diagnostics=supervision["diagnostics"],
+            private_evaluator_metadata={},
+        )
 
 
 def validate_group_splits(branches: Sequence[ObservedBranch]) -> None:

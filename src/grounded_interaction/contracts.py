@@ -72,6 +72,18 @@ def _normalized_key(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
 
 
+def _exact_mapping(value: Any, *, keys: set[str], name: str) -> Mapping[str, Any]:
+    if not isinstance(value, Mapping):
+        raise TypeError(f"{name} must be a mapping")
+    observed = set(value)
+    if observed != keys:
+        raise ValueError(
+            f"{name} keys mismatch; missing={sorted(keys - observed)}, "
+            f"extra={sorted(observed - keys)}"
+        )
+    return value
+
+
 def _freeze_json_value(value: Any, *, path: str) -> Any:
     """Validate and recursively freeze a JSON-compatible public value."""
 
@@ -210,6 +222,20 @@ class PublicActionEvent:
             "execution_status": self.execution_status.value,
         }
 
+    @classmethod
+    def from_mapping(cls, value: Any) -> PublicActionEvent:
+        mapping = _exact_mapping(
+            value,
+            keys={"step_index", "primitive", "subtask_text", "execution_status"},
+            name="public action event",
+        )
+        return cls(
+            step_index=int(mapping["step_index"]),
+            primitive=Primitive(str(mapping["primitive"])),
+            subtask_text=str(mapping["subtask_text"]),
+            execution_status=ExecutionStatus(str(mapping["execution_status"])),
+        )
+
 
 @dataclasses.dataclass(frozen=True)
 class PublicFrame:
@@ -260,6 +286,29 @@ class PublicFrame:
 
     def fingerprint(self) -> str:
         return canonical_sha256(self.to_dict())
+
+    @classmethod
+    def from_mapping(cls, value: Any) -> PublicFrame:
+        mapping = _exact_mapping(
+            value,
+            keys={
+                "frame_id",
+                "camera",
+                "frame_index",
+                "image_sha256",
+                "width",
+                "height",
+            },
+            name="public frame",
+        )
+        return cls(
+            frame_id=str(mapping["frame_id"]),
+            camera=str(mapping["camera"]),
+            frame_index=int(mapping["frame_index"]),
+            image_sha256=str(mapping["image_sha256"]),
+            width=int(mapping["width"]),
+            height=int(mapping["height"]),
+        )
 
 
 @dataclasses.dataclass(frozen=True)
@@ -327,6 +376,28 @@ class PolicyContext:
 
     def fingerprint(self) -> str:
         return canonical_sha256(self.to_dict())
+
+    @classmethod
+    def from_mapping(cls, value: Any) -> PolicyContext:
+        mapping = _exact_mapping(
+            value,
+            keys={"prompt", "frames", "public_history", "proprioception"},
+            name="policy context",
+        )
+        raw_proprioception = mapping["proprioception"]
+        return cls(
+            prompt=str(mapping["prompt"]),
+            frames=tuple(PublicFrame.from_mapping(item) for item in mapping["frames"]),
+            public_history=tuple(
+                PublicActionEvent.from_mapping(item)
+                for item in mapping["public_history"]
+            ),
+            proprioception=(
+                None
+                if raw_proprioception is None
+                else tuple(float(item) for item in raw_proprioception)
+            ),
+        )
 
 
 @dataclasses.dataclass(frozen=True)
@@ -396,6 +467,29 @@ class GroundingReference:
 
     def fingerprint(self) -> str:
         return canonical_sha256(self.to_dict())
+
+    @classmethod
+    def from_mapping(cls, value: Any) -> GroundingReference:
+        mapping = _exact_mapping(
+            value,
+            keys={
+                "camera",
+                "frame_id",
+                "frame_index",
+                "image_sha256",
+                "box_xyxy",
+                "point_xy",
+            },
+            name="grounding reference",
+        )
+        return cls(
+            camera=str(mapping["camera"]),
+            frame_id=str(mapping["frame_id"]),
+            frame_index=int(mapping["frame_index"]),
+            image_sha256=str(mapping["image_sha256"]),
+            box_xyxy=tuple(float(item) for item in mapping["box_xyxy"]),
+            point_xy=tuple(float(item) for item in mapping["point_xy"]),
+        )
 
 
 @dataclasses.dataclass(frozen=True)
@@ -476,6 +570,30 @@ class GroundedIntervention:
         if self.fingerprint() != expected_digest:
             raise ValueError("grounded intervention fingerprint mismatch")
 
+    @classmethod
+    def from_mapping(cls, value: Any) -> GroundedIntervention:
+        mapping = _exact_mapping(
+            value,
+            keys={"candidate_id", "primitive", "referent", "parameters", "grounding"},
+            name="grounded intervention",
+        )
+        raw_grounding = mapping["grounding"]
+        return cls(
+            candidate_id=str(mapping["candidate_id"]),
+            primitive=Primitive(str(mapping["primitive"])),
+            referent=(
+                None if mapping["referent"] is None else str(mapping["referent"])
+            ),
+            parameters=tuple(
+                (str(item[0]), str(item[1])) for item in mapping["parameters"]
+            ),
+            grounding=(
+                None
+                if raw_grounding is None
+                else GroundingReference.from_mapping(raw_grounding)
+            ),
+        )
+
 
 @dataclasses.dataclass(frozen=True)
 class OutcomeContract:
@@ -520,3 +638,26 @@ class OutcomeContract:
         expected_digest = _require_sha256(expected, name="outcome contract fingerprint")
         if self.fingerprint() != expected_digest:
             raise ValueError("outcome contract fingerprint mismatch")
+
+    @classmethod
+    def from_mapping(cls, value: Any) -> OutcomeContract:
+        mapping = _exact_mapping(
+            value,
+            keys={
+                "outcome_name",
+                "continuation_policy_id",
+                "horizon",
+                "executor_id",
+                "serializer_id",
+                "failure_handling",
+            },
+            name="outcome contract",
+        )
+        return cls(
+            outcome_name=str(mapping["outcome_name"]),
+            continuation_policy_id=str(mapping["continuation_policy_id"]),
+            horizon=int(mapping["horizon"]),
+            executor_id=str(mapping["executor_id"]),
+            serializer_id=str(mapping["serializer_id"]),
+            failure_handling=str(mapping["failure_handling"]),
+        )

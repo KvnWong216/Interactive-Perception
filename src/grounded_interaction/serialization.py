@@ -12,6 +12,7 @@ import dataclasses
 import json
 import re
 from collections.abc import Mapping
+from enum import Enum
 from types import MappingProxyType
 from typing import Any
 
@@ -24,6 +25,18 @@ from .contracts import (
 )
 
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+
+
+class SpatialConditioningMode(str, Enum):
+    """Stage-2 referent interfaces evaluated by the E1 ceiling experiment.
+
+    ``VISUAL_MARKER`` is an explicitly diagnostic, public-image intervention;
+    it is not native point/box support in the frozen VLA.
+    """
+
+    COARSE_TEXT = "coarse_text"
+    PRECISE_TEXT = "precise_text"
+    VISUAL_MARKER = "visual_marker"
 
 
 def _clean_text(value: object, *, name: str) -> str:
@@ -115,8 +128,16 @@ class SerializedSubtask:
 class GroundedTextSerializer:
     """Create deterministic, instance-distinguishing natural-language subtasks."""
 
-    def __init__(self, serializer_id: str = "grounded-text-v1") -> None:
+    def __init__(
+        self,
+        serializer_id: str = "grounded-text-v1",
+        *,
+        spatial_mode: SpatialConditioningMode = SpatialConditioningMode.COARSE_TEXT,
+    ) -> None:
         self.serializer_id = _clean_text(serializer_id, name="serializer_id")
+        if not isinstance(spatial_mode, SpatialConditioningMode):
+            raise TypeError("spatial_mode must be a SpatialConditioningMode")
+        self.spatial_mode = spatial_mode
 
     @staticmethod
     def _qualitative_location(intervention: GroundedIntervention) -> str:
@@ -128,6 +149,36 @@ class GroundedTextSerializer:
         vertical = "upper" if y < 1.0 / 3.0 else "lower" if y > 2.0 / 3.0 else "middle"
         location = horizontal if vertical == "middle" else f"{vertical}-{horizontal}"
         return f"the {location} of the current {grounding.camera} image"
+
+    @staticmethod
+    def _precise_location(intervention: GroundedIntervention) -> str:
+        grounding = intervention.grounding
+        if grounding is None:
+            return ""
+        x, y = grounding.point_xy
+        x0, y0, x1, y1 = grounding.box_xyxy
+        return (
+            f"normalized center (x={x:.3f}, y={y:.3f}) in the current "
+            f"{grounding.camera} image, inside normalized box "
+            f"(x0={x0:.3f}, y0={y0:.3f}, x1={x1:.3f}, y1={y1:.3f}); "
+            "x is measured from the left and y from the top"
+        )
+
+    def _identified_referent(self, intervention: GroundedIntervention) -> str:
+        referent = str(intervention.referent)
+        if intervention.grounding is None:
+            return referent
+        if self.spatial_mode is SpatialConditioningMode.COARSE_TEXT:
+            return f"{referent}, the instance near {self._qualitative_location(intervention)}"
+        if self.spatial_mode is SpatialConditioningMode.PRECISE_TEXT:
+            return f"{referent} at {self._precise_location(intervention)}"
+        if self.spatial_mode is SpatialConditioningMode.VISUAL_MARKER:
+            return (
+                f"{referent}, the instance enclosed by the magenta rectangle "
+                f"and centered on the magenta cross in the current "
+                f"{intervention.grounding.camera} image"
+            )
+        raise ValueError(f"unsupported spatial mode {self.spatial_mode!r}")
 
     @staticmethod
     def _parameter_sentence(intervention: GroundedIntervention) -> str:
@@ -152,9 +203,7 @@ class GroundedTextSerializer:
         if intervention.primitive is Primitive.STOP:
             text = "Stop without issuing a robot action."
         else:
-            referent = str(intervention.referent)
-            location = self._qualitative_location(intervention)
-            identified = f"{referent}, the instance near {location}"
+            identified = self._identified_referent(intervention)
             if intervention.primitive is Primitive.DIRECT:
                 text = f"Complete this task: {context.prompt} Use {identified}."
             elif intervention.primitive is Primitive.OPEN:
@@ -174,8 +223,20 @@ class GroundedTextSerializer:
             "candidate_id": intervention.candidate_id,
             "candidate_fingerprint": intervention.fingerprint(),
             "grounding": grounding.to_dict() if grounding is not None else None,
+            "spatial_conditioning_mode": self.spatial_mode.value,
             "exact_spatial_binding_sent_as_native_vla_input": False,
-            "qualitative_location_rendered_in_text": grounding is not None,
+            "qualitative_location_rendered_in_text": (
+                grounding is not None
+                and self.spatial_mode is SpatialConditioningMode.COARSE_TEXT
+            ),
+            "normalized_coordinates_rendered_in_text": (
+                grounding is not None
+                and self.spatial_mode is SpatialConditioningMode.PRECISE_TEXT
+            ),
+            "public_visual_marker_required": (
+                grounding is not None
+                and self.spatial_mode is SpatialConditioningMode.VISUAL_MARKER
+            ),
         }
         return SerializedSubtask(
             serializer_id=self.serializer_id,
