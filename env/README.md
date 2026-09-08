@@ -1,8 +1,8 @@
 # Environment guide
 
-The repository deliberately separates three dependency profiles. MolmoAct2 and
-the pinned legacy LIBERO stack cannot be placed in one clean environment
-without violating one side's version contract.
+The repository deliberately separates dependency profiles by process role.
+MolmoAct2, Qwen, and the pinned legacy LIBERO stack cannot be placed in one
+clean environment without violating at least one version contract.
 
 ## 1. Core software verification
 
@@ -19,6 +19,7 @@ From the repository root:
 
 ```bash
 uv sync --extra dev --extra integration
+export PYTHONPATH="$PWD/src${PYTHONPATH:+:$PYTHONPATH}"
 uv run pytest -q
 uv run ip-smoke --output runs/formal_v1_smoke.json
 ```
@@ -186,9 +187,121 @@ or other infrastructure exception occurs, the started row is sealed as an
 infrastructure failure and v1 cannot continue. Fixes require a new prospective
 execution version; never delete the failure and rerun the same row.
 
-## 5. What has and has not run
+## 5. Method-V1 Qwen environment
 
-As of 2026-09-08:
+Method V1 adds a fourth process because the frozen Qwen provider is audited
+against a modern Transformers stack while the simulator remains on the legacy
+LIBERO stack. Do not install Qwen into the LIBERO environment.
+
+Create the isolated environment from the repository root:
+
+```bash
+python3.11 -m venv .venv-qwen
+source .venv-qwen/bin/activate
+export PYTHONPATH="$PWD/src${PYTHONPATH:+:$PYTHONPATH}"
+python -m pip install --upgrade pip
+python -m pip install -r env/method_v1-qwen.txt
+python -m pip install -e . --no-deps
+```
+
+The requirement file pins:
+
+- Qwen/Qwen2.5-VL-3B-Instruct support through Transformers 4.57.6;
+- PyTorch 2.11.0;
+- the slow tokenizer dependency sentencepiece;
+- Accelerate for explicit device placement; and
+- Pillow/NumPy for public RGB transfer.
+
+The checkpoint revision and preprocessing identity are frozen in
+experiments/method_v1.yaml. The implementation additionally freezes BF16
+weights, no quantization, SDPA attention, the slow processor, a 256-token
+per-image target, and deterministic greedy proposal generation. Changing any
+of these fields creates a different provider identity and invalidates the
+existing caches; it is not an innocuous runtime flag.
+
+Initial candidate proposal and frozen feature extraction run in this Qwen
+environment during `collect_outcomes freeze`. Start the same provider as a
+localhost service for the one online post-OPEN continuation proposal:
+
+```bash
+python -m grounded_interaction.qwen_service \
+  --host 127.0.0.1 --port 8004 --device-map auto
+```
+
+Check the identity-bearing health endpoint, then force model loading through
+the readiness endpoint before outcome-bearing execution:
+
+```bash
+curl -s http://127.0.0.1:8004/health
+curl -s http://127.0.0.1:8004/ready
+```
+
+The collector performs the readiness call before consuming a single-use
+execution index; missing weights or an out-of-memory failure therefore closes
+as pre-execution infrastructure rather than after an OPEN action has changed
+the scene.
+
+The service accepts only the task, completed public action history, current
+public agentview RGB, camera/frame identities, and content hashes. It does not
+accept simulator object IDs, predicates, rewards, hidden state, or outcomes.
+Initial feature extraction and training can run sequentially, so the 3B VLM
+does not need to remain resident while the small outcome scorer trains.
+
+The scorer environment needs PyTorch but does not load Qwen or MolmoAct2: it
+reads detached, content-addressed Qwen tensors and writes small scorer
+checkpoints. Canonical training and formal evaluation must be given the
+pre-outcome global collection plan, its source config, and every freeze
+directory named by that plan. Training is given only train/validation
+`attempt.json` files and rejects held-out paths before opening them; formal
+evaluation is separately given the complete held-out attempts. Both stages
+also require the exact cache roots and checkpoint files, reopen their
+split-scoped receipt evidence, require exact whole-group and within-group
+schedule coverage, and replay model inputs. A
+self-contained dataset JSON or a JSON file
+containing user-supplied probabilities is diagnostic only. Before physical
+execution, a frozen learned selection is recomputed from its bound checkpoint
+and cache on CPU by an isolated verifier in this modern-PyTorch environment:
+
+```bash
+export PYTHONPATH="$PWD/src${PYTHONPATH:+:$PYTHONPATH}"
+mkdir -p runs/method_v1/secrets
+# Run this subshell exactly once; noclobber refuses an existing experiment key.
+(umask 077; set -C; openssl rand 32 > runs/method_v1/secrets/scorer-verifier.key)
+python -m grounded_interaction.scorer_verification_service \
+  --host 127.0.0.1 --port 8005 \
+  --auth-key-file runs/method_v1/secrets/scorer-verifier.key
+```
+
+The legacy LIBERO runner uses a standard-library-only HTTP client. It checks
+the verifier service source, the complete local replay-source digest, Python
+and PyTorch runtime identity, the three immutable input files, and an
+HMAC-SHA256-authenticated nonce-bound request and response before consuming a
+single-use row. The pre-outcome collection plan stores only the key's SHA-256
+identifier, never its bytes. Supply the same private key file to a learned
+selection run, keep it permission-restricted, and never commit it. A copied or
+compromised key defeats this authentication boundary: HMAC proves possession
+of the frozen shared secret, not hardware attestation or protection against a
+compromised host. The verifier refuses to start with PyTorch older than 2.11.
+The runner and verifier currently require the
+selection, manifest, schedule, checkpoint, and Qwen-cache paths to resolve on
+one shared filesystem; remote path translation is not implemented.
+
+Method-V1 therefore uses these process roles:
+
+| Process | Main responsibility | Default endpoint |
+| --- | --- | --- |
+| Qwen environment | candidate proposal and frozen token extraction | 8004 for online proposals |
+| MolmoAct2 GPU environment | frozen continuous action generation | 8003 |
+| Legacy LIBERO environment | exact reset, action application, public observation, private final evaluation | no public service |
+| Learned scorer environment | small PyTorch outcome training/evaluation and pre-execution checkpoint/cache replay | 8005 for selection verification |
+
+Use localhost bindings or authenticated SSH tunnels; do not expose any model
+or verification service publicly. Full Method-V1 commands and the exact data
+boundary are documented in docs/method_v1.md.
+
+## 6. What has and has not run
+
+As of 2026-09-09:
 
 - core and integration-contract tests pass locally;
 - the real pinned LIBERO reset preflight passes for states 0 and 49;
@@ -196,6 +309,9 @@ As of 2026-09-08:
 - the live MolmoAct2 canary has not yet completed;
 - no E1a scored branch has run (`0/6`); and
 - no empirical Stage-1 training or closed-loop method evaluation has run.
+
+In addition, the Method-V1 Qwen provider and live adapters are implemented but
+the complete Qwen-to-MolmoAct2-to-LIBERO rollout has not yet been executed.
 
 Do not infer robot performance from a successful package install, unit test,
 HTTP test double, checkpoint inspection, or reset preflight.

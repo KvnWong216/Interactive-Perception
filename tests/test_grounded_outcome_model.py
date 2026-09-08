@@ -119,6 +119,56 @@ def test_frozen_vlm_inputs_are_detached() -> None:
         dataclasses.replace(context, provider_id=" ")
 
 
+def test_optional_public_state_is_detached_but_projection_trains() -> None:
+    torch.manual_seed(13)
+    raw_state = torch.randn(1, 9, requires_grad=True)
+    field = dataclasses.replace(
+        _field(),
+        public_state_values=raw_state,
+        public_state_valid_mask=torch.tensor([True]),
+    )
+    model = GroundedOutcomeModel(
+        context_dim=8,
+        candidate_dim=8,
+        hidden_dim=8,
+        num_heads=2,
+        use_public_state=True,
+    )
+    with pytest.raises(RuntimeError, match="statistics"):
+        model(field)
+    model.set_public_state_statistics(mean=torch.zeros(9), scale=torch.ones(9))
+    model(field).task_success_logits.sum().backward()
+    assert raw_state.grad is None
+    assert model.outcomes.state_projection is not None
+    assert model.outcomes.state_projection.weight.grad is not None
+    assert torch.count_nonzero(model.outcomes.state_projection.weight.grad) > 0
+
+
+def test_missing_public_state_is_masked_explicitly() -> None:
+    torch.manual_seed(17)
+    base = _field()
+    model = GroundedOutcomeModel(
+        context_dim=8,
+        candidate_dim=8,
+        hidden_dim=8,
+        num_heads=2,
+        use_public_state=True,
+    ).eval()
+    missing_a = dataclasses.replace(
+        base,
+        public_state_values=torch.zeros(1, 9),
+        public_state_valid_mask=torch.tensor([False]),
+    )
+    missing_b = dataclasses.replace(
+        base,
+        public_state_values=torch.full((1, 9), 123.0),
+        public_state_valid_mask=torch.tensor([False]),
+    )
+    prediction_a = model(missing_a).task_success_logits
+    prediction_b = model(missing_b).task_success_logits
+    assert torch.allclose(prediction_a, prediction_b)
+
+
 def test_outcome_loss_never_reads_unexecuted_labels() -> None:
     logits = torch.tensor([[0.2, -0.4, 1.0], [0.1, 0.6, -0.2]])
     executed = torch.tensor([[True, False, False], [False, True, False]])
@@ -145,6 +195,37 @@ def test_candidate_fusion_does_not_mix_candidate_rows() -> None:
     changed_tokens[0, 0] += 5.0
     changed = model(dataclasses.replace(field, tokens=changed_tokens))
     assert torch.allclose(original[0, 1:], changed.task_success_logits.detach()[0, 1:])
+
+
+def test_candidate_permutation_only_permutes_predictions() -> None:
+    torch.manual_seed(19)
+    field = _field()
+    model = GroundedOutcomeModel(
+        context_dim=8,
+        candidate_dim=8,
+        hidden_dim=8,
+        num_heads=2,
+    ).eval()
+    permutation = (2, 0, 1)
+    original = model(field)
+    permuted_field = dataclasses.replace(
+        field,
+        tokens=field.tokens[:, permutation],
+        valid_mask=field.valid_mask[:, permutation],
+        candidate_ids=(tuple(field.candidate_ids[0][index] for index in permutation),),
+        candidate_fingerprints=(
+            tuple(field.candidate_fingerprints[0][index] for index in permutation),
+        ),
+        primitives=(tuple(field.primitives[0][index] for index in permutation),),
+        grounding_support=field.grounding_support[:, permutation],
+    )
+    permuted = model(permuted_field)
+    assert torch.allclose(
+        permuted.task_success_logits,
+        original.task_success_logits[:, permutation],
+    )
+    assert permuted.candidate_ids == permuted_field.candidate_ids
+    assert permuted.candidate_fingerprints == permuted_field.candidate_fingerprints
 
 
 def test_physical_candidate_cannot_ground_to_old_or_nonvisual_tokens() -> None:

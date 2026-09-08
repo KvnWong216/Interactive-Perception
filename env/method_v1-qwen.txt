@@ -1,0 +1,8 @@
+# Separate Stage-1 feature/proposal environment.  Deliberately not merged into
+# the E1-frozen root lock or the MolmoAct2 service environment.
+torch==2.11.0
+transformers==4.57.6
+accelerate==1.10.1
+sentencepiece==0.2.1
+pillow==11.3.0
+numpy==2.3.2

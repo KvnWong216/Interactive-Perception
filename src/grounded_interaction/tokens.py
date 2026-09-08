@@ -230,6 +230,8 @@ class CandidateTokenField:
     primitives: tuple[tuple[Primitive | str | None, ...], ...]
     grounding_support: Tensor
     public_context: FrozenTokenField
+    public_state_values: Tensor | None = None
+    public_state_valid_mask: Tensor | None = None
 
     def __post_init__(self) -> None:
         if not isinstance(self.public_context, FrozenTokenField):
@@ -265,6 +267,37 @@ class CandidateTokenField:
             )
         if not (tokens.device == valid_mask.device == support.device):
             raise ValueError("candidate and context tensors must share one device")
+
+        state_values = self.public_state_values
+        state_valid_mask = self.public_state_valid_mask
+        if (state_values is None) != (state_valid_mask is None):
+            raise ValueError(
+                "public_state_values and public_state_valid_mask must be provided together"
+            )
+        if state_values is None:
+            state_values = torch.zeros(
+                (batch_size, 9), dtype=tokens.dtype, device=tokens.device
+            )
+            state_valid_mask = torch.zeros(
+                (batch_size,), dtype=torch.bool, device=tokens.device
+            )
+        else:
+            state_values = _tensor(state_values, name="public_state_values")
+            state_valid_mask = _bool_tensor(
+                state_valid_mask, name="public_state_valid_mask"
+            )
+            if state_values.shape != (batch_size, 9):
+                raise ValueError("public_state_values must have shape [batch, 9]")
+            if state_valid_mask.shape != (batch_size,):
+                raise ValueError("public_state_valid_mask must have shape [batch]")
+            if not state_values.is_floating_point():
+                raise TypeError("public_state_values must use a floating dtype")
+            if not bool(torch.isfinite(state_values).all()):
+                raise ValueError("public_state_values must be finite")
+            if not (state_values.device == state_valid_mask.device == tokens.device):
+                raise ValueError(
+                    "public state and candidate tensors must share one device"
+                )
 
         ids = _metadata_grid(
             self.candidate_ids,
@@ -386,6 +419,8 @@ class CandidateTokenField:
         object.__setattr__(self, "candidate_fingerprints", tuple(fingerprints))
         object.__setattr__(self, "primitives", tuple(primitives))
         object.__setattr__(self, "grounding_support", support)
+        object.__setattr__(self, "public_state_values", state_values)
+        object.__setattr__(self, "public_state_valid_mask", state_valid_mask)
 
     @property
     def context_fingerprints(self) -> tuple[str, ...]:
@@ -420,6 +455,8 @@ class GroundedCandidateBatch:
     candidate_fingerprints: tuple[tuple[str | None, ...], ...]
     primitives: tuple[tuple[Primitive | None, ...], ...]
     context_fingerprints: tuple[str, ...]
+    public_state_values: Tensor | None = None
+    public_state_valid_mask: Tensor | None = None
 
     def __post_init__(self) -> None:
         _require_torch()
@@ -430,6 +467,10 @@ class GroundedCandidateBatch:
             "candidate_valid_mask": self.candidate_valid_mask,
             "grounding_attention": self.grounding_attention,
         }
+        if self.public_state_values is not None:
+            tensor_fields["public_state_values"] = self.public_state_values
+        if self.public_state_valid_mask is not None:
+            tensor_fields["public_state_valid_mask"] = self.public_state_valid_mask
         if any(not isinstance(value, torch.Tensor) for value in tensor_fields.values()):
             raise TypeError(
                 "every GroundedCandidateBatch tensor field must be a tensor"
@@ -464,6 +505,21 @@ class GroundedCandidateBatch:
             raise TypeError("candidate_valid_mask must have bool dtype")
         if bool((self.public_context_valid_mask.sum(dim=1) == 0).any()):
             raise ValueError("every grounded batch row requires public context")
+        if (self.public_state_values is None) != (self.public_state_valid_mask is None):
+            raise ValueError(
+                "public state values and validity mask must be provided together"
+            )
+        if self.public_state_values is not None:
+            if self.public_state_values.shape != (batch_size, 9):
+                raise ValueError("public_state_values must have shape [batch, 9]")
+            if self.public_state_valid_mask.shape != (batch_size,):
+                raise ValueError("public_state_valid_mask must have shape [batch]")
+            if self.public_state_valid_mask.dtype is not torch.bool:
+                raise TypeError("public_state_valid_mask must have bool dtype")
+            if not self.public_state_values.is_floating_point():
+                raise TypeError("public_state_values must use a floating dtype")
+            if not bool(torch.isfinite(self.public_state_values).all()):
+                raise ValueError("public_state_values must be finite")
         devices = {value.device for value in tensor_fields.values()}
         if len(devices) != 1:
             raise ValueError("all grounded-batch tensors must share one device")

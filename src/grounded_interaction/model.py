@@ -133,6 +133,8 @@ class GroundedCandidateEncoder(_Module):
             candidate_fingerprints=field.candidate_fingerprints,
             primitives=field.primitives,
             context_fingerprints=field.context_fingerprints,
+            public_state_values=field.public_state_values,
+            public_state_valid_mask=field.public_state_valid_mask,
         )
 
 
@@ -145,6 +147,8 @@ class OutcomePrediction:
     candidate_ids: tuple[tuple[str | None, ...], ...]
     candidate_fingerprints: tuple[tuple[str | None, ...], ...]
     context_fingerprints: tuple[str, ...]
+    grounded_candidate_states: Tensor | None = None
+    context_conditioned_states: Tensor | None = None
 
 
 class OutcomeScorer(_Module):
@@ -161,6 +165,7 @@ class OutcomeScorer(_Module):
         hidden_dim: int,
         num_heads: int,
         feedforward_dim: int | None = None,
+        public_state_dim: int | None = None,
     ) -> None:
         _require_torch()
         super().__init__()
@@ -183,15 +188,88 @@ class OutcomeScorer(_Module):
         )
         self.output_norm = nn.LayerNorm(hidden_dim)
         self.success_head = nn.Linear(hidden_dim, 1)
+        self.public_state_dim = public_state_dim
+        if public_state_dim is None:
+            self.state_projection = None
+            self.state_norm = None
+            self.register_buffer("state_mean", torch.empty(0), persistent=True)
+            self.register_buffer("state_scale", torch.empty(0), persistent=True)
+            self.register_buffer(
+                "state_statistics_ready", torch.tensor(False), persistent=True
+            )
+        else:
+            if public_state_dim < 1:
+                raise ValueError("public_state_dim must be positive when enabled")
+            self.state_projection = nn.Linear(public_state_dim, hidden_dim)
+            self.state_norm = nn.LayerNorm(hidden_dim)
+            self.register_buffer(
+                "state_mean", torch.zeros(public_state_dim), persistent=True
+            )
+            self.register_buffer(
+                "state_scale", torch.ones(public_state_dim), persistent=True
+            )
+            self.register_buffer(
+                "state_statistics_ready", torch.tensor(False), persistent=True
+            )
+
+    def set_public_state_statistics(self, *, mean: Tensor, scale: Tensor) -> None:
+        """Freeze train-split normalization used by the optional state token."""
+
+        if self.public_state_dim is None:
+            raise RuntimeError("public state is disabled for this scorer")
+        if not isinstance(mean, torch.Tensor) or not isinstance(scale, torch.Tensor):
+            raise TypeError("state mean and scale must be tensors")
+        if mean.shape != (self.public_state_dim,) or scale.shape != (
+            self.public_state_dim,
+        ):
+            raise ValueError("state statistics have the wrong shape")
+        if not bool(torch.isfinite(mean).all()) or not bool(
+            torch.isfinite(scale).all()
+        ):
+            raise ValueError("state statistics must be finite")
+        if bool((scale <= 0).any()):
+            raise ValueError("state scale must be strictly positive")
+        self.state_mean.copy_(mean.detach().to(self.state_mean))
+        self.state_scale.copy_(scale.detach().to(self.state_scale))
+        self.state_statistics_ready.fill_(True)
 
     def forward(self, batch: GroundedCandidateBatch) -> OutcomePrediction:
         if not isinstance(batch, GroundedCandidateBatch):
             raise TypeError("OutcomeScorer accepts GroundedCandidateBatch only")
+        context_tokens = batch.public_context_tokens
+        context_valid_mask = batch.public_context_valid_mask
+        if self.public_state_dim is not None:
+            if (
+                batch.public_state_values is None
+                or batch.public_state_valid_mask is None
+            ):
+                raise ValueError("public-state model requires explicit state tensors")
+            if batch.public_state_values.shape[1] != self.public_state_dim:
+                raise ValueError("public-state dimension does not match the model")
+            if bool(batch.public_state_valid_mask.any()) and not bool(
+                self.state_statistics_ready.item()
+            ):
+                raise RuntimeError(
+                    "train-split public-state statistics must be set before use"
+                )
+            if self.state_projection is None or self.state_norm is None:
+                raise RuntimeError("public-state projection was not constructed")
+            normalized_state = (
+                batch.public_state_values - self.state_mean
+            ) / self.state_scale
+            state_token = self.state_norm(self.state_projection(normalized_state))
+            context_tokens = torch.cat(
+                (context_tokens, state_token.unsqueeze(1)), dim=1
+            )
+            context_valid_mask = torch.cat(
+                (context_valid_mask, batch.public_state_valid_mask.unsqueeze(1)),
+                dim=1,
+            )
         attended, _ = self.context_attention(
             query=batch.grounded_tokens,
-            key=batch.public_context_tokens,
-            value=batch.public_context_tokens,
-            key_padding_mask=~batch.public_context_valid_mask,
+            key=context_tokens,
+            value=context_tokens,
+            key_padding_mask=~context_valid_mask,
             need_weights=False,
         )
         state = self.context_norm(batch.grounded_tokens + attended)
@@ -206,6 +284,8 @@ class OutcomeScorer(_Module):
             candidate_ids=batch.candidate_ids,
             candidate_fingerprints=batch.candidate_fingerprints,
             context_fingerprints=batch.context_fingerprints,
+            grounded_candidate_states=batch.grounded_tokens,
+            context_conditioned_states=state,
         )
 
 
@@ -219,6 +299,9 @@ class GroundedOutcomeModel(_Module):
         candidate_dim: int,
         hidden_dim: int,
         num_heads: int,
+        feedforward_dim: int | None = None,
+        use_public_state: bool = False,
+        public_state_dim: int = 9,
     ) -> None:
         _require_torch()
         super().__init__()
@@ -231,7 +314,14 @@ class GroundedOutcomeModel(_Module):
         self.outcomes = OutcomeScorer(
             hidden_dim=hidden_dim,
             num_heads=num_heads,
+            feedforward_dim=feedforward_dim,
+            public_state_dim=public_state_dim if use_public_state else None,
         )
+
+    def set_public_state_statistics(self, *, mean: Tensor, scale: Tensor) -> None:
+        """Set train-split statistics without exposing state to local grounding."""
+
+        self.outcomes.set_public_state_statistics(mean=mean, scale=scale)
 
     def forward(self, field: CandidateTokenField) -> OutcomePrediction:
         return self.outcomes(self.candidate_encoder(field))
