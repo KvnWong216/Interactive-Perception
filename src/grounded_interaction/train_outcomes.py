@@ -674,6 +674,7 @@ class ReceiptBackedMethodV1Dataset:
     evidence_sha256: str
     collection_plan_sha256: str
     scorer_verifier_auth_key_id: str
+    _proposal_population_summary: Mapping[str, Any]
     freeze_receipt_sha256s: tuple[str, ...]
     source_collection_plan_path: Path
     source_freeze_dirs: tuple[Path, ...]
@@ -722,9 +723,18 @@ class ReceiptBackedMethodV1Dataset:
                 "admission_evidence_sha256": self.evidence_sha256,
                 "collection_plan_sha256": self.collection_plan_sha256,
                 "scorer_verifier_auth_key_id": self.scorer_verifier_auth_key_id,
+                "proposal_population": self.proposal_population_summary,
             }
         )
         return summary
+
+    @property
+    def proposal_population_summary(self) -> dict[str, Any]:
+        """Return the plan-bound proposal denominator without terminal artifacts."""
+
+        return json.loads(
+            canonical_json_bytes(self._proposal_population_summary).decode("utf-8")
+        )
 
     def evidence_for_splits(self, splits: Iterable[str]) -> str:
         """Bind only the admitted source rows visible to one learning stage."""
@@ -762,6 +772,7 @@ def _new_receipt_backed_dataset(
     evidence_sha256: str,
     collection_plan_sha256: str,
     scorer_verifier_auth_key_id: str,
+    proposal_population_summary: Mapping[str, Any],
     freeze_receipt_sha256s: tuple[str, ...],
     source_collection_plan_path: Path,
     source_freeze_dirs: tuple[Path, ...],
@@ -774,6 +785,11 @@ def _new_receipt_backed_dataset(
     object.__setattr__(
         result, "scorer_verifier_auth_key_id", scorer_verifier_auth_key_id
     )
+    object.__setattr__(
+        result,
+        "_proposal_population_summary",
+        json.loads(canonical_json_bytes(proposal_population_summary).decode("utf-8")),
+    )
     object.__setattr__(result, "freeze_receipt_sha256s", freeze_receipt_sha256s)
     object.__setattr__(
         result, "source_collection_plan_path", source_collection_plan_path
@@ -783,6 +799,89 @@ def _new_receipt_backed_dataset(
     object.__setattr__(result, "_capability", _RECEIPT_ADMISSION_CAPABILITY)
     result._validated_payload()
     return result
+
+
+def _collection_plan_proposal_population_summary(
+    document: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Describe which pre-proposal resets are represented by the plan.
+
+    Version-1 plans were frozen only after successful proposal generation, so
+    they cannot establish an unconditional reset-population denominator.  The
+    legacy path remains readable for old software artifacts, but reports its
+    conditional scope instead of silently treating proposal-covered groups as
+    the whole study population.
+    """
+
+    raw_population = document.get("proposal_population")
+    if raw_population is None:
+        return {
+            "schema_version": "method-v1-proposal-population-summary-v1",
+            "preproposal_inventory": False,
+            "population_denominator_available": False,
+            "metric_scope": "POST_PROPOSAL_CONDITIONAL_LEGACY_PLAN",
+            "reset_inventory_sha256": None,
+            "overall": None,
+            "by_split": None,
+        }
+    if not isinstance(raw_population, Mapping):
+        raise TypeError("collection-plan proposal population must be a mapping")
+    raw_rows = raw_population.get("terminal_rows")
+    if not isinstance(raw_rows, list):
+        raise TypeError("collection-plan proposal terminal rows must be a list")
+
+    def summarize(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+        population = len(rows)
+        proposal_failures = sum(
+            row["terminal_status"] == "PROPOSAL_FAILURE" for row in rows
+        )
+        choice_eligible = sum(
+            row["terminal_status"] == "VALID_CHOICE_SET" for row in rows
+        )
+        single_primitive = sum(
+            row["terminal_status"] == "VALID_SINGLE_PRIMITIVE_SET" for row in rows
+        )
+        proposal_covered = choice_eligible + single_primitive
+        return {
+            "population_group_count": population,
+            "proposal_covered_group_count": proposal_covered,
+            "choice_eligible_group_count": choice_eligible,
+            "single_primitive_group_count": single_primitive,
+            "proposal_failure_group_count": proposal_failures,
+            "proposal_coverage": (
+                proposal_covered / population if population else None
+            ),
+            "choice_eligibility_rate": (
+                choice_eligible / population if population else None
+            ),
+        }
+
+    rows = tuple(dict(row) for row in raw_rows)
+    overall = summarize(rows)
+    expected_overall = {
+        "population_group_count": raw_population.get("population_group_count"),
+        "proposal_covered_group_count": raw_population.get(
+            "proposal_covered_group_count"
+        ),
+        "choice_eligible_group_count": raw_population.get(
+            "choice_eligible_group_count"
+        ),
+    }
+    if any(overall[name] != value for name, value in expected_overall.items()):
+        raise ValueError("collection-plan proposal population aggregate drifted")
+    by_split = {
+        split: summarize(tuple(row for row in rows if row["split"] == split))
+        for split in ("train", "validation", "calibration", "test")
+    }
+    return {
+        "schema_version": "method-v1-proposal-population-summary-v1",
+        "preproposal_inventory": True,
+        "population_denominator_available": True,
+        "metric_scope": "FULL_PREPROPOSAL_RESET_POPULATION",
+        "reset_inventory_sha256": raw_population["reset_inventory_sha256"],
+        "overall": overall,
+        "by_split": by_split,
+    }
 
 
 def _receipt_admission_evidence_sha256(
@@ -1007,6 +1106,9 @@ def build_method_v1_outcome_dataset(
         evidence_sha256=evidence_sha256,
         collection_plan_sha256=collection_plan.collection_plan_sha256,
         scorer_verifier_auth_key_id=collection_plan.scorer_verifier_auth_key_id,
+        proposal_population_summary=_collection_plan_proposal_population_summary(
+            collection_plan.document
+        ),
         freeze_receipt_sha256s=receipt_sha256s,
         source_collection_plan_path=collection_plan.plan_path,
         source_freeze_dirs=roots,
@@ -2085,6 +2187,7 @@ def _main(argv: Sequence[str] | None = None) -> int:
         "admission_evidence_sha256": dataset.evidence_sha256,
         "collection_plan_sha256": dataset.collection_plan_sha256,
         "scorer_verifier_auth_key_id": dataset.scorer_verifier_auth_key_id,
+        "proposal_population": dataset.proposal_population_summary,
         "training_admission_evidence_sha256": (training_admission_evidence_sha256),
         "primitive_outcome_coverage": outcome_coverage,
         "schedule_fully_consumed": True,

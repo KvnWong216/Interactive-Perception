@@ -1533,19 +1533,98 @@ class FormalProbabilityEvaluation:
 def _formal_primitive_outcome_coverage(
     dataset: object, *, split: str
 ) -> dict[str, Any]:
-    """Expose a held-out coverage validity gate only after test unblinding."""
+    """Describe held-out primitive/label support without gating on outcomes.
 
-    from .method_v1_data import validate_primitive_outcome_coverage
+    Formal reporting remains fail-closed on the frozen schedule, receipt
+    chain, checkpoint replay, and complete candidate-by-seed matrix in
+    :func:`_canonical_rows_for_split`.  Once those structural checks pass,
+    however, an all-success or all-failure primitive is a scientific result,
+    not a reason to suppress the report.  This function therefore annotates
+    one- versus two-sided label support instead of validating the observed
+    labels.
+    """
+
+    from .method_v1_data import primitive_outcome_coverage
     from .train_outcomes import require_receipt_backed_dataset
 
     split_name = _clean_text(split, name="split").lower()
     if split_name != "test":
         raise ValueError("formal outcome coverage is restricted to the test split")
     admitted = require_receipt_backed_dataset(dataset)
-    report = validate_primitive_outcome_coverage(
-        admitted, required_splits=(split_name,)
+    report = primitive_outcome_coverage(admitted)
+    split_report = dict(report["splits"][split_name])
+    primitive_counts = split_report["primitive_by_outcome"]
+    support: dict[str, dict[str, Any]] = {}
+    missing_cells: list[str] = []
+    for primitive in (Primitive.DIRECT.value, Primitive.OPEN.value):
+        failure_count = int(primitive_counts[primitive]["failure"])
+        success_count = int(primitive_counts[primitive]["success"])
+        missing_outcomes = [
+            outcome
+            for outcome, count in (
+                ("failure", failure_count),
+                ("success", success_count),
+            )
+            if count == 0
+        ]
+        missing_cells.extend(
+            f"{split_name}:{primitive}:{outcome}" for outcome in missing_outcomes
+        )
+        both_labels_observed = not missing_outcomes
+        if both_labels_observed:
+            label_support_status = "TWO_SIDED"
+        elif failure_count > 0:
+            label_support_status = "DEGENERATE_ALL_FAILURE"
+        elif success_count > 0:
+            label_support_status = "DEGENERATE_ALL_SUCCESS"
+        else:
+            label_support_status = "NO_OUTCOMES"
+        support[primitive] = {
+            "outcome_evaluated": failure_count + success_count,
+            "both_labels_observed": both_labels_observed,
+            "degenerate_label_support": not both_labels_observed,
+            "label_support_status": label_support_status,
+            "missing_outcomes": missing_outcomes,
+        }
+    split_report.update(
+        {
+            "all_primitives_have_both_labels": all(
+                item["both_labels_observed"] for item in support.values()
+            ),
+            "degenerate_label_support": bool(missing_cells),
+            "missing_outcome_cells": missing_cells,
+            "primitive_label_support": support,
+        }
     )
-    return dict(report["splits"][split_name])
+    proposal_summary = getattr(dataset, "proposal_population_summary", None)
+    if not isinstance(proposal_summary, Mapping):
+        proposal_summary = {
+            "preproposal_inventory": False,
+            "population_denominator_available": False,
+            "metric_scope": "POST_PROPOSAL_CONDITIONAL_LEGACY_PLAN",
+            "by_split": None,
+        }
+    raw_by_split = proposal_summary.get("by_split")
+    split_population = (
+        None if not isinstance(raw_by_split, Mapping) else raw_by_split.get(split_name)
+    )
+    split_report.update(
+        {
+            "proposal_population_denominator_available": bool(
+                proposal_summary.get("population_denominator_available", False)
+            ),
+            "proposal_population_metric_scope": proposal_summary.get(
+                "metric_scope", "POST_PROPOSAL_CONDITIONAL_LEGACY_PLAN"
+            ),
+            "proposal_population": split_population,
+            "probability_metric_scope": (
+                "CONDITIONAL_ON_VALID_PROPOSAL_SET"
+                if split_population is not None
+                else "CONDITIONAL_ON_POST_PROPOSAL_LEGACY_PLAN"
+            ),
+        }
+    )
+    return split_report
 
 
 def evaluate_formal_probabilities(
@@ -1560,7 +1639,11 @@ def evaluate_formal_probabilities(
     num_bins: int = 10,
     device: str = "cpu",
 ) -> FormalProbabilityEvaluation:
-    """Re-run real checkpoints, require full coverage, then score probabilities."""
+    """Re-run checkpoints and score every structurally complete test branch.
+
+    A primitive with only successes or only failures is retained and marked in
+    ``primitive_outcome_coverage``; it never makes the report disappear.
+    """
 
     verified_artifact = validate_canonical_prediction_artifact(
         artifact,
@@ -1942,6 +2025,7 @@ def _main(argv: Sequence[str] | None = None) -> int:
                     "scorer_verifier_auth_key_id": (
                         dataset.scorer_verifier_auth_key_id
                     ),
+                    "proposal_population": dataset.proposal_population_summary,
                     "checkpoint_count": len(artifact.checkpoints),
                     "record_count": len(artifact.records),
                 },
@@ -1982,6 +2066,7 @@ def _main(argv: Sequence[str] | None = None) -> int:
                 "artifact_sha256": verified.artifact_sha256,
                 "dataset_sha256": verified.dataset_sha256,
                 "admission_evidence_sha256": dataset.evidence_sha256,
+                "proposal_population": dataset.proposal_population_summary,
                 "checkpoint_count": len(verified.checkpoints),
                 "record_count": len(verified.records),
             }

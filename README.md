@@ -8,7 +8,11 @@ with a separately frozen VLA as the low-level executor.
 > concrete frozen Qwen2.5-VL provider, strict public-RGB candidate proposal,
 > processor-derived patch grounding, the trainable grounded outcome scorer,
 > exact-reset paired collection, fixed continuation, MolmoAct2/LIBERO runtime,
-> checkpointed training, calibration, and evaluation code. The E1a model
+> checkpointed training, calibration, and evaluation code. A pre-Qwen reset
+> inventory now fixes the unconditional proposal denominator: proposal failures
+> and single-primitive candidate sets cannot be silently dropped or replaced.
+> Held-out all-success/all-failure results are reported as degenerate label
+> support instead of being suppressed. The E1a model
 > canary and all Method-V1 empirical rollouts remain unexecuted: E1a is `0/6`,
 > there is no trained empirical Stage-1 checkpoint, and there is no closed-loop
 > method, benchmark-table, or real-robot result in this revision. The required
@@ -101,8 +105,10 @@ transitions, and the DIRECT or OPEN-to-DIRECT topology. This still does not
 turn an unexecuted rollout into empirical evidence.
 
 Self-contained dataset JSON is diagnostic only. Before any outcome-bearing
-run, an immutable global collection plan binds the exact decision-freeze
-population, split counts, candidate-by-seed schedules, source configuration,
+run, an immutable pre-proposal reset inventory binds every registered reset.
+The global collection plan then binds its proposal terminal—valid choice set,
+valid single-primitive set, or proposal failure—plus split counts,
+candidate-by-seed schedules, source configuration,
 infrastructure-failure policy, and scorer-verifier key identity. Every
 single-use execution claim binds that plan. Canonical training reopens the plan
 and every outcome-free decision freeze, but opens only train/validation
@@ -204,10 +210,17 @@ process-security boundary.
 | Stage-1 learned model / closed loop | Pending | No method claim yet |
 | Qwen proposal / patch-map / frozen-cache software tests | Pass locally | Public candidate and token contracts only |
 | Method-V1 data / continuation / training / selection / evaluation software tests | Pass locally | Code-path invariants only |
+| Pre-proposal reset inventory and proposal-population accounting | Pass locally | Fixes the registered denominator in software; no empirical coverage measured yet |
 | Method-V1 real Qwen + MolmoAct2 + LIBERO branch | Not run | No empirical Method-V1 outcome yet |
 | Semantic revealed-region masking intervention | Not implemented or run | Information use has not been isolated from physical affordance benefit |
 | Fresh held-out closed-loop policy episode collector | Not implemented or run | Offline paired-branch estimates are not deployment evidence |
 | Registered ablation launchers | Not implemented or run | Region, history, task-text and descriptor-binding contributions are not yet isolated |
+
+`T01_drawer_retrieval.bddl` is an integration and reachability smoke scene.
+Opening the drawer changes both visibility and physical accessibility, so T01
+alone cannot establish that a learned selector values information rather than
+access. The semantic masking intervention and information-sufficient/no-help
+strata are required for that causal claim.
 
 The frozen plan is
 [`experiments/e1_referent_ceiling/pilot_state0_v1.json`](experiments/e1_referent_ceiling/pilot_state0_v1.json).

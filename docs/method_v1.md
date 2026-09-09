@@ -398,19 +398,28 @@ sidecar after execution and never enter either model request.
 ## Data-generation stages
 
 The collector deliberately separates operations that need incompatible model
-environments and freezes the complete study population before any outcome:
+environments. The reset population is frozen before Qwen is allowed to
+propose candidates, and the executable branch population is frozen before any
+outcome:
 
-1. render runs in the pinned LIBERO environment and exports an exact public
+1. freeze-inventory reopens every registered scene spec and freezes the exact
+   reset denominator, including split, information stratum, prompt, asset
+   hashes, init-state index, environment seed, reset digest, and paired model
+   seeds; it copies no evaluator predicate into a policy input;
+2. render runs in the pinned LIBERO environment and exports an exact public
    reset context;
-2. freeze runs in the Qwen environment, proposes once, extracts frozen
-   features, and freezes the paired candidate schedule;
-3. freeze-plan reopens every decision freeze, checks the split counts declared
-   by the source config, and seals the exact group/schedule population plus the
-   scorer-verifier authentication-key identity while all rows are unused;
-4. run returns to LIBERO and executes exactly one single-use schedule row;
+3. freeze runs in the Qwen environment, verifies that the reset is an exact
+   inventory member, proposes once, extracts frozen features, and emits one
+   terminal status: a valid DIRECT/OPEN choice set, a valid single-primitive
+   set, or an immutable proposal failure;
+4. freeze-plan requires exactly one terminal for every inventory row. It seals
+   the full pre-proposal denominator, proposal and choice coverage, all valid
+   paired schedules, and the scorer-verifier authentication-key identity while
+   all schedule rows are unused;
+5. run returns to LIBERO and executes exactly one single-use schedule row;
    MolmoAct2 drives every physical branch, while the Qwen HTTP service is used
    only for a post-OPEN continuation proposal;
-5. finalize validates byte integrity, semantic execution traces, evaluator
+6. finalize validates byte integrity, semantic execution traces, evaluator
    separation, and schedule coverage, then produces a self-contained
    diagnostic snapshot. Canonical training and formal evaluation do not trust
    that snapshot: they reopen the freeze receipts and every source
@@ -444,9 +453,10 @@ The canonical file boundary is:
 
 | Command | Outcome-free inputs | Canonical outputs |
 | --- | --- | --- |
+| `freeze-inventory` | source config and every preregistered scene-reset spec with its BDDL/init-state assets | immutable pre-Qwen reset inventory and per-row identities |
 | `render` | scene-reset spec, BDDL, exact init-state file/index | `prepared_public_context.json` and content-addressed initial public RGB |
-| `freeze` | prepared context, Method-V1 config, frozen executor identity, Qwen checkpoint | decision manifest, paired branch schedule, resolved identity, raw proposal audit, grounding overlays, physical Qwen cache, freeze receipt |
-| `freeze-plan` | source config, every outcome-free decision freeze, private verifier key | immutable exact-population plan containing only the verifier key ID, never the secret |
+| `freeze` | reset inventory, prepared context, Method-V1 config, frozen executor identity, Qwen checkpoint | inventory-bound valid decision freeze and schedule, or an inventory-bound proposal-failure terminal |
+| `freeze-plan` | reset inventory, source config, every valid decision freeze, every proposal-failure directory, private verifier key | immutable plan containing the full pre-proposal denominator, proposal/choice coverage, valid schedules, and only the verifier key ID |
 | `selection_provenance` | one frozen manifest/schedule row, physical cache, real scorer checkpoint and identity, optional frozen calibrator | one immutable pre-execution selection artifact, accepted only after checkpoint replay |
 | `run` | global plan, source config, one member freeze, verifier key, one unused execution index, live MolmoAct2/Qwen services, and—for a learned decision—the authenticated scorer-verifier plus frozen selection | plan-bound claim and started receipts; per-chunk public RGB/state/action trace; public observed branch plus private final evaluator sidecar, or an unlabelled infrastructure-failure attempt |
 | `finalize` | global plan, source config, its exact freeze set and every immutable attempt | one self-contained diagnostic `MethodV1OutcomeDataset` snapshot |
@@ -462,6 +472,15 @@ later rejects a missing, substituted, duplicated, or differently split whole
 freeze group, not merely a missing candidate row inside one group. The plan
 must be archived or committed with its digest before the first execution;
 local hashes establish consistency but do not provide an external timestamp.
+
+The inventory-aware plan is the required schema for new formal experiments.
+The legacy plan remains readable only so historical software artifacts do not
+break; because it was assembled after proposal, its report is explicitly
+labelled `POST_PROPOSAL_CONDITIONAL_LEGACY_PLAN` and cannot establish proposal
+coverage over the registered reset population. Probability metrics are always
+conditional on a valid proposal set because no branch probability exists when
+proposal itself fails. The report therefore carries both that conditioning
+statement and the independent pre-proposal proposal/choice coverage counts.
 
 `run` without `--selection` executes the candidate already named by the
 schedule row. That is the data-collection path used to obtain the full paired
@@ -546,16 +565,28 @@ env/README.md.
 
 ## Collection commands
 
-Create one strict scene-reset specification from the provided example. Its
-prompt must state only the final task, not the desired exploratory action.
-Paths, reset digest, evaluator predicate, and both model seeds must be filled
-before use.
+Create all strict scene-reset specifications from the provided example. Their
+prompts must state only the final task, not the desired exploratory action.
+Paths, reset digests, evaluator predicates, and both model seeds must be filled
+before use. Then freeze the complete reset population **before the first Qwen
+proposal**. Repeat `--scene-spec` once for every registered reset; the two rows
+below are only an abbreviated illustration, and the command fails unless the
+counts exactly match the source config:
+
+~~~bash
+python -m grounded_interaction.collect_outcomes freeze-inventory \
+  --scene-spec runs/method_v1/scene_specs/group_000.json \
+  --scene-spec runs/method_v1/scene_specs/group_001.json \
+  --config experiments/method_v1.yaml \
+  --inventory-id method-v1-main-reset-population \
+  --output runs/method_v1/reset_inventory.json
+~~~
 
 Export the exact public reset:
 
 ~~~bash
 python -m grounded_interaction.collect_outcomes render \
-  --scene-spec experiments/method_v1/scene_reset_spec.json \
+  --scene-spec runs/method_v1/scene_specs/group_000.json \
   --output-dir runs/method_v1/prepared/group_000
 ~~~
 
@@ -563,21 +594,27 @@ In the Qwen environment, freeze candidates, features, and all paired branches:
 
 ~~~bash
 python -m grounded_interaction.collect_outcomes freeze \
-  --scene-spec experiments/method_v1/scene_reset_spec.json \
+  --scene-spec runs/method_v1/scene_specs/group_000.json \
   --prepared-dir runs/method_v1/prepared/group_000 \
   --config experiments/method_v1.yaml \
   --executor-identity experiments/e1_referent_ceiling/pilot_state0_v1.json \
+  --reset-inventory runs/method_v1/reset_inventory.json \
   --output-dir runs/method_v1/frozen/group_000
 ~~~
 
-Repeat `render` and `freeze` for every pre-registered decision group. Before
-executing any branch, freeze the **complete** group population into one global
-collection plan. Repeat `--freeze-dir` once per group; the abbreviated command
-below shows one occurrence only:
+Repeat `render` and `freeze` for every inventory row. A valid Qwen result leaves
+a decision freeze; a proposal failure leaves `proposal_failure.json` in that
+row's output directory. Neither may be replaced after inspecting the result.
+Before executing any branch, freeze the **complete** terminal population into
+one global collection plan. Repeat `--freeze-dir` for every valid result and
+`--proposal-failure-dir` for every failure; the abbreviated command below shows
+one of each:
 
 ~~~bash
 python -m grounded_interaction.collect_outcomes freeze-plan \
   --freeze-dir runs/method_v1/frozen/group_000 \
+  --proposal-failure-dir runs/method_v1/frozen/group_137 \
+  --reset-inventory runs/method_v1/reset_inventory.json \
   --config experiments/method_v1.yaml \
   --plan-id method-v1-dev-plan \
   --scorer-auth-key-file runs/method_v1/secrets/scorer-verifier.key \
@@ -585,15 +622,20 @@ python -m grounded_interaction.collect_outcomes freeze-plan \
 ~~~
 
 The plan must match the exact split and information-stratum counts in the
-source config. For a small integration diagnostic, first freeze a separate
-experiment config and its complete (smaller) population; do not silently use a
+source config and must contain exactly one terminal per inventory row. A reset
+with only one primitive remains proposal-covered but is not choice-eligible. A
+proposal failure remains in the denominator. If every reset fails proposal,
+`freeze-plan` accepts zero `--freeze-dir` arguments and still emits a valid 0%
+coverage plan; training and branch evaluation then correctly remain
+unavailable. For a small integration diagnostic, first freeze a separate
+experiment config and its complete smaller population; do not silently use a
 subset of the main study plan.
 
 Back in the LIBERO environment, run one previously unconsumed schedule index:
 
 ~~~bash
 python -m grounded_interaction.collect_outcomes run \
-  --scene-spec experiments/method_v1/scene_reset_spec.json \
+  --scene-spec runs/method_v1/scene_specs/group_000.json \
   --freeze-dir runs/method_v1/frozen/group_000 \
   --collection-freeze-dir runs/method_v1/frozen/group_000 \
   --collection-plan runs/method_v1/collection_plan.json \
@@ -830,10 +872,14 @@ python -m grounded_interaction.evaluate_policy formal-branch-matrix \
 ~~~
 
 The formal commands require complete candidate-by-seed coverage on the held-out
-split, observed test support for all four `DIRECT/OPEN x success/failure`
-cells, and replayed checkpoint outputs. The test coverage table is embedded in
-both formal reports; it is opened only for final reporting and never changes
-training. `diagnostic-probabilities` and
+split, immutable receipt/claim coverage, and replayed checkpoint outputs. They
+do **not** require the observed test set to contain both successes and failures
+for each primitive: all-success or all-failure is a scientific result and is
+reported as `DEGENERATE_ALL_SUCCESS` or `DEGENERATE_ALL_FAILURE`, not suppressed.
+The test coverage table is embedded in both reports; it is opened only for
+final reporting and never changes training. It also states that probability
+quality is conditional on valid proposal sets and separately reports the full
+pre-proposal proposal/choice coverage. `diagnostic-probabilities` and
 `diagnostic-branch-matrix` intentionally accept unverified JSONL for debugging;
 their reports are explicitly non-formal and must never populate a paper table.
 
