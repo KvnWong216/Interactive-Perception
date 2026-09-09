@@ -1,0 +1,19 @@
+{
+  "schema_version": "psr-v1-collection-plan-v1",
+  "component_factory": "YOUR_REAL_INTEGRATION_MODULE:build_psr_components",
+  "entries": [
+    {
+      "episode_id": "REPLACE_WITH_REGISTERED_EPISODE_ID",
+      "group_id": "REPLACE_WITH_REGISTERED_RESET_FAMILY_AND_DECISION_ID",
+      "split": "train",
+      "initial_reset_ref": "REPLACE_WITH_ABSOLUTE_REAL_RESET_ASSET_REFERENCE",
+      "public_history_path": "/REPLACE/WITH/ABSOLUTE/PATH/TO/public_history.json",
+      "episode_seed": 0,
+      "behavior_seed": 0,
+      "selection_mode": "all_candidates",
+      "candidate_generation_version": "REPLACE_WITH_FROZEN_S0_PROPOSAL_VERSION",
+      "continuation_id": "REPLACE_WITH_FROZEN_NATIVE_CONTINUATION_ID",
+      "target_encoder_id": "REPLACE_WITH_FROZEN_NATIVE_PATCH_ENCODER_ID"
+    }
+  ]
+}

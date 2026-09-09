@@ -5,11 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "interactive-perception"
 version = "0.1.0"
-description = "Grounded intervention outcome planning for interactive perception"
+description = "PSR-inspired predictive state conditioning for interactive perception"
 readme = "README.md"
 requires-python = ">=3.10"
 
-dependencies = []
+dependencies = ["PyYAML>=6,<7"]
 
 [project.optional-dependencies]
 learned = ["numpy>=1.26", "torch>=2.11,<2.14"]
@@ -31,9 +31,7 @@ molmoact2 = [
 dev = ["numpy>=1.26,<3", "Pillow>=10", "pytest>=8.0", "ruff>=0.12"]
 
 [project.scripts]
-ip-smoke = "grounded_interaction.smoke:main"
-ip-e1 = "grounded_interaction.e1:main"
-ip-serve-molmoact2 = "grounded_interaction.molmoact2:serve_main"
+ip-psr = "grounded_interaction.psr.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -1,0 +1,13 @@
+{
+  "schema_version": "psr-v1-evaluation-plan-v1",
+  "component_factory": "YOUR_REAL_INTEGRATION_MODULE:build_psr_components",
+  "trials": [
+    {
+      "trial_id": "REPLACE_WITH_REGISTERED_TRIAL_ID",
+      "reset_family": "REPLACE_WITH_HELD_OUT_RESET_FAMILY",
+      "initial_reset_ref": "/ABSOLUTE/PATH/TO/REAL/RESET_ASSET.npz",
+      "task": "REPLACE_WITH_REAL_USER_TASK",
+      "episode_seed": 170001
+    }
+  ]
+}

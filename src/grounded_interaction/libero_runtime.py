@@ -1,4 +1,4 @@
-"""Narrow LIBERO runtime used by the MolmoAct2 execution-interface ceiling."""
+"""Narrow public-observation LIBERO runtime used by PSR-VLA."""
 
 from __future__ import annotations
 
@@ -54,7 +54,7 @@ def canonical_libero_state_sha256(value: Any) -> str:
 
 
 def libero_runtime_identity() -> dict[str, str]:
-    """Return simulator library versions that can alter an E1 rollout."""
+    """Return simulator library versions that can alter a rollout."""
 
     np, torch, _, _ = _integration_dependencies()
     import mujoco
@@ -138,7 +138,7 @@ def normalize_libero_action(value: Any) -> Any:
     return action
 
 
-class LiberoE1Environment:
+class LiberoEnvironment:
     """One exact-reset LIBERO environment with an evaluator-only side channel."""
 
     def __init__(
@@ -158,11 +158,11 @@ class LiberoE1Environment:
         self.bddl_file = Path(bddl_file).expanduser().resolve()
         self.init_states_file = Path(init_states_file).expanduser().resolve()
         if not self.bddl_file.is_file() or not self.init_states_file.is_file():
-            raise FileNotFoundError("E1 BDDL and initial-state files must exist")
+            raise FileNotFoundError("LIBERO BDDL and initial-state files must exist")
         if init_state_index < 0 or settle_steps < 0:
             raise ValueError("init_state_index and settle_steps must be non-negative")
         if control_mode != "relative":
-            raise ValueError("MolmoAct2-LIBERO E1 requires relative control mode")
+            raise ValueError("MolmoAct2-LIBERO requires relative control mode")
         self.control_mode = control_mode
         try:
             states = torch.load(self.init_states_file, weights_only=False)
@@ -250,7 +250,7 @@ class LiberoE1Environment:
     def close(self) -> None:
         self.env.close()
 
-    def __enter__(self) -> LiberoE1Environment:  # noqa: PYI034 - Python 3.10 runtime
+    def __enter__(self) -> LiberoEnvironment:  # noqa: PYI034 - Python 3.10 runtime
         return self
 
     def __exit__(self, exc_type: object, exc: object, traceback: object) -> None:

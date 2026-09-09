@@ -13,7 +13,7 @@ import io
 from pathlib import Path
 from typing import Any
 
-from .contracts import PublicFrame
+from .psr.types import RGBReference
 
 
 def _require_image_dependencies() -> tuple[Any, Any]:
@@ -84,7 +84,7 @@ def decode_rgb_png(value: bytes) -> Any:
 
 
 class RGBFrameStore:
-    """Resolve :class:`PublicFrame` values against a content-addressed tree."""
+    """Resolve :class:`RGBReference` values against a content-addressed tree."""
 
     def __init__(self, root: str | Path) -> None:
         self.root = Path(root).expanduser().resolve()
@@ -101,8 +101,20 @@ class RGBFrameStore:
         frame_id: str,
         camera: str,
         frame_index: int,
-    ) -> PublicFrame:
+    ) -> RGBReference:
         """Store one public image and return the exact metadata contract."""
+
+        # Camera and temporal semantics belong to PublicObservation, not the
+        # content-addressed image identity. Retain the arguments so collectors
+        # must state provenance at the call site, then validate their shape.
+        if not " ".join(str(camera).split()):
+            raise ValueError("camera must be non-empty")
+        if (
+            not isinstance(frame_index, int)
+            or isinstance(frame_index, bool)
+            or frame_index < 0
+        ):
+            raise ValueError("frame_index must be a non-negative integer")
 
         array = canonical_rgb_array(value)
         digest = canonical_rgb_sha256(array)
@@ -116,32 +128,30 @@ class RGBFrameStore:
         else:
             path.write_bytes(encoded)
         height, width = array.shape[:2]
-        return PublicFrame(
+        return RGBReference(
             frame_id=frame_id,
-            camera=camera,
-            frame_index=frame_index,
             image_sha256=digest,
             width=int(width),
             height=int(height),
         )
 
-    def resolve(self, frame: PublicFrame) -> Any:
+    def resolve(self, frame: RGBReference) -> Any:
         """Load and fully revalidate the RGB pixels named by ``frame``."""
 
-        if not isinstance(frame, PublicFrame):
-            raise TypeError("frame must be a PublicFrame")
+        if not isinstance(frame, RGBReference):
+            raise TypeError("frame must be an RGBReference")
         path = self._path(frame.image_sha256)
         if not path.is_file():
             raise FileNotFoundError(f"public frame is absent from frame store: {path}")
         array = decode_rgb_png(path.read_bytes())
         height, width = array.shape[:2]
         if (int(width), int(height)) != (frame.width, frame.height):
-            raise ValueError("decoded frame dimensions do not match PublicFrame")
+            raise ValueError("decoded frame dimensions do not match RGBReference")
         if canonical_rgb_sha256(array) != frame.image_sha256:
-            raise ValueError("decoded RGB digest does not match PublicFrame")
+            raise ValueError("decoded RGB digest does not match RGBReference")
         return array
 
-    def path_for(self, frame: PublicFrame) -> Path:
+    def path_for(self, frame: RGBReference) -> Path:
         """Return a verified local path for reporting or visualization only."""
 
         self.resolve(frame)

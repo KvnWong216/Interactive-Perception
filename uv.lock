@@ -441,6 +441,9 @@ wheels = [
 name = "interactive-perception"
 version = "0.1.0"
 source = { editable = "." }
+dependencies = [
+    { name = "pyyaml" },
+]
 
 [package.optional-dependencies]
 dev = [
@@ -498,6 +501,7 @@ requires-dist = [
     { name = "pillow", marker = "extra == 'molmoact2'", specifier = ">=10" },
     { name = "protobuf", marker = "extra == 'molmoact2'", specifier = ">=4.25" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
+    { name = "pyyaml", specifier = ">=6,<7" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.12" },
     { name = "safetensors", marker = "extra == 'molmoact2'", specifier = ">=0.4" },
     { name = "sentencepiece", marker = "extra == 'molmoact2'", specifier = ">=0.2" },

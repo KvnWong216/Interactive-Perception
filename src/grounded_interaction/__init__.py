@@ -1,26 +1,5 @@
-"""Formal-v1 grounded intervention outcome planning."""
+"""PSR-inspired predictive state conditioning for interactive perception."""
 
-from .contracts import (
-    ExecutionStatus,
-    GroundedIntervention,
-    GroundingReference,
-    OutcomeContract,
-    PolicyContext,
-    Primitive,
-    PublicActionEvent,
-    PublicFrame,
-)
-from .selection import ExpectedSuccessSelector, ValuePrediction
+__version__ = "0.1.0"
 
-__all__ = [
-    "ExecutionStatus",
-    "ExpectedSuccessSelector",
-    "GroundedIntervention",
-    "GroundingReference",
-    "OutcomeContract",
-    "PolicyContext",
-    "Primitive",
-    "PublicActionEvent",
-    "PublicFrame",
-    "ValuePrediction",
-]
+__all__ = ["__version__"]

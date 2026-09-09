@@ -1,0 +1,53 @@
+schema_version: psr-v1-config-v1
+method: psr_v1
+base:
+  model_id: allenai/MolmoAct2-LIBERO
+  revision: 0d24a92bd1faf321ef497c3bbd5681af97c65aa2
+  upstream_revision: 66b87e64efd99dfd103241418113955cf64dfa9c
+  norm_tag: libero
+  inference_action_mode: continuous
+  enable_depth_reasoning: false
+  enable_cuda_graph: false
+state:
+  num_tokens: 6
+  previous_observation_bundles: 2
+  history_sampling: high_level_boundary
+intent:
+  generated_candidates: 2
+  include_native_candidate: true
+  max_new_tokens: 32
+  temperature: 0.7
+  top_p: 0.9
+  max_generation_attempts: 4
+  readout_dim: 512
+  readout_heads: 8
+  encoder_layers: 1
+  predictor_layers: 2
+evidence:
+  target: frozen_native_visual_patch_features
+  projection_dim: 128
+  projection_seed: 17
+  mixture_components: 4
+  min_log_std: -5.0
+  max_log_std: 2.0
+execution:
+  total_control_steps: 300
+  intent_window_steps: 50
+  execute_chunk_steps: 10
+  flow_steps: 10
+  continuation: native_molmoact2
+adaptation:
+  upper_vlm_layers: 8
+  lora_rank: 16
+  lora_alpha: 32
+  lora_dropout: 0.0
+  adapt_native_context_kv_projections: true
+training:
+  dtype: bfloat16
+  vlm_lr: 0.00002
+  new_parameters_lr: 0.0001
+  weight_decay: 0.01
+  grad_clip_norm: 1.0
+  microbatch: 1
+  effective_batch: 16
+  seed: 17
