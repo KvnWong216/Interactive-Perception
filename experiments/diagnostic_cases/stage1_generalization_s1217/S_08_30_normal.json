@@ -1,0 +1,15 @@
+{
+  "case_id": "S_08_30_normal",
+  "layout": "S_08_30",
+  "kind": "S",
+  "condition": "normal",
+  "source": "data/libero_raw/libero_goal/open_the_middle_drawer_of_the_cabinet_demo.hdf5",
+  "episode": "demo_30",
+  "manual_seed": 9247,
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0,
+  "max_policy_steps": 300,
+  "our_training_split": "train",
+  "task_index": 8
+}

@@ -1,0 +1,6 @@
+﻿case_id,native_success,best_success,file,selection
+G_0_10_shifted,True,False,G_0_10_shifted.mp4,all discordant cases; one seeded joint success
+G_0_12_shifted,False,True,G_0_12_shifted.mp4,all discordant cases; one seeded joint success
+G_0_14_shifted,True,False,G_0_14_shifted.mp4,all discordant cases; one seeded joint success
+G_0_16_normal,False,True,G_0_16_normal.mp4,all discordant cases; one seeded joint success
+G_1_12_normal,True,True,G_1_12_normal.mp4,all discordant cases; one seeded joint success

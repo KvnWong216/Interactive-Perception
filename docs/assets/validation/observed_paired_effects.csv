@@ -1,0 +1,5 @@
+﻿comparison,difference_pp,lower_95_pp,upper_95_pp,independent_layouts,manual_seed,source
+best_minus_native_difficult,-5.0,-20.0,10.0,20,317,runs/stage1_geometry_test_s217/analysis.json
+best_minus_native_difficulty_change,-10.0,-30.0,10.0,20,317,runs/stage1_geometry_test_s217/analysis.json
+best_minus_best_no_geometry_difficult,0.0,-15.0,15.0,20,317,runs/stage1_geometry_test_s217/analysis.json
+best_minus_best_no_geometry_difficulty_change,0.0,-15.0,15.0,20,317,runs/stage1_geometry_test_s217/analysis.json

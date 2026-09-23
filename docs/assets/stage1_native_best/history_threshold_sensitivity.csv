@@ -1,0 +1,13 @@
+﻿threshold_m,primary_threshold,policy,condition,episodes,correct,scope
+0.001,False,native,visible,12,12,post-hoc sensitivity; primary threshold stays 2 mm
+0.001,False,best,visible,12,12,post-hoc sensitivity; primary threshold stays 2 mm
+0.001,False,native,hidden,12,6,post-hoc sensitivity; primary threshold stays 2 mm
+0.001,False,best,hidden,12,11,post-hoc sensitivity; primary threshold stays 2 mm
+0.002,True,native,visible,12,12,post-hoc sensitivity; primary threshold stays 2 mm
+0.002,True,best,visible,12,11,post-hoc sensitivity; primary threshold stays 2 mm
+0.002,True,native,hidden,12,6,post-hoc sensitivity; primary threshold stays 2 mm
+0.002,True,best,hidden,12,10,post-hoc sensitivity; primary threshold stays 2 mm
+0.005,False,native,visible,12,7,post-hoc sensitivity; primary threshold stays 2 mm
+0.005,False,best,visible,12,7,post-hoc sensitivity; primary threshold stays 2 mm
+0.005,False,native,hidden,12,6,post-hoc sensitivity; primary threshold stays 2 mm
+0.005,False,best,hidden,12,7,post-hoc sensitivity; primary threshold stays 2 mm

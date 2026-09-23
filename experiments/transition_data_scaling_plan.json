@@ -1,0 +1,134 @@
+{
+  "schema": "transition-data-scaling-plan-v1",
+  "status": "250_state_scaling_completed_mechanism_gate_failed",
+  "manual_seed": 10227,
+  "current_run": "runs/transition_qualification_s8227",
+  "unit_rule": "Report full episodes, source episodes, initial states, branches, frames and sampled windows separately; overlapping windows do not count as independent trajectories.",
+  "stages": [
+    {
+      "purpose": "frozen predictor mechanism qualification",
+      "status": "completed; qualification failed",
+      "training_initial_states": 24,
+      "development_initial_states": 12,
+      "new_confirmation_initial_states": 24,
+      "branches_per_initial_state": 6,
+      "training_windows_h10": 144,
+      "source": "existing LIBERO replay plus new same-state simulator forks",
+      "trainable": "transport predictor only, VLM and AE frozen"
+    },
+    {
+      "purpose": "measure transition learning data scaling",
+      "status": "250-state rung complete: 346/346 collection and encoding, 18/18 fits; qualification failed; 1000/3000 not started",
+      "nested_training_initial_states": [
+        250,
+        1000,
+        3000
+      ],
+      "branches_per_initial_state": 6,
+      "horizons_steps_at_20hz": [
+        5,
+        10,
+        30
+      ],
+      "source_priority": [
+        "same-controller LIBERO procedural scene/object variations",
+        "separately audited fixed-base ManiSkill tasks"
+      ],
+      "split_grouping": [
+        "source_episode",
+        "scene_family",
+        "object_identity"
+      ],
+      "policy_action_loss_on_perturbation_branches": false,
+      "active_run": "runs/transition_scaling_no_msaa_s10227",
+      "active_object_split_limit": "held-out manipulated target categories, distractor assets may overlap; not object novelty for pretrained policy",
+      "render_profile": "no_msaa",
+      "previous_incomplete_runs_retained": true,
+      "qualification_report": "runs/transition_scaling_no_msaa_s10227/experiment_resume_1/qualification.json"
+    },
+    {
+      "purpose": "policy joint adaptation after predictive mechanism passes",
+      "status": "proposed, not downloaded or trained",
+      "nested_complete_episodes": [
+        1000,
+        3000,
+        10000
+      ],
+      "conditional_extension_complete_episodes": 30000,
+      "source_priority": [
+        "LIBERO additional training tasks with evaluation-family exclusion",
+        "verified successful same-controller simulated expert rollouts"
+      ],
+      "replay_existing_skill_data": true,
+      "matched_baselines": [
+        "stage1 checkpoint",
+        "action-only continued training",
+        "action plus qualified predictive loss"
+      ]
+    },
+    {
+      "purpose": "information acquisition and delayed use of evidence",
+      "status": "proposed, requires broader temporal context and explicit behavior data",
+      "target_complete_episodes_range": [
+        1000,
+        3000
+      ],
+      "tasks": [
+        "reveal an occluded object before choosing",
+        "search two possible containers and branch after observation",
+        "remember an earlier cue after viewpoint change",
+        "verify success and terminate"
+      ],
+      "source": "custom simulator demonstrations; CALVIN/RoboCasa are complementary long-horizon benchmarks",
+      "long_episode_alone_is_not_active_perception_supervision": true
+    }
+  ],
+  "real_robot_extension": {
+    "source": "DROID raw calibrated stereo subset; consider MolmoAct2 filtered subset only after sensor/action audit",
+    "initial_audit_complete_episodes": 100,
+    "candidate_scale_complete_episodes": [
+      2000,
+      5000,
+      10000
+    ],
+    "direct_mix_with_libero": false,
+    "reason": "Camera/depth availability, coordinate frames, robot state, actual command semantics, controller and sample rate must be adapted; same robot name does not imply same action space."
+  },
+  "storage_budget_decimal_bytes": {
+    "previous_measured_repository": 316925282224,
+    "operating_ceiling": 900000000000,
+    "hard_ceiling": 1000000000000,
+    "additional_source_subset_budget": 250000000000,
+    "additional_prepared_rgbd_budget": 180000000000,
+    "additional_latent_cache_budget": 40000000000,
+    "additional_checkpoints_reports_budget": 50000000000,
+    "additional_transient_budget": 60000000000,
+    "bulk_download_enabled": false,
+    "measurement_before_download": "Audit the actual selected files and 100-episode prepared bytes before admitting a larger subset; these category budgets are caps, not measured dataset sizes."
+  },
+  "required_fields": [
+    "task_language",
+    "episode_identity",
+    "source_family",
+    "timestamp_and_control_rate",
+    "synchronized_RGB",
+    "metric_depth_with_validity",
+    "camera_intrinsics",
+    "camera_to_world",
+    "robot_state",
+    "actual_ordered_action_commands",
+    "controller_and_action_normalization",
+    "future_observation",
+    "expert_or_perturbation_label"
+  ],
+  "references": [
+    "https://github.com/Lifelong-Robot-Learning/LIBERO",
+    "https://maniskill.readthedocs.io/en/latest/user_guide/datasets/demos.html",
+    "https://droid-dataset.github.io/droid/the-droid-dataset",
+    "https://github.com/mees/calvin",
+    "https://robocasa.ai/",
+    "https://arxiv.org/html/2602.04600v1",
+    "https://arxiv.org/html/2506.09985v1",
+    "https://arxiv.org/html/2605.02881v1"
+  ]
+}

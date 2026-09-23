@@ -1,0 +1,15 @@
+{
+  "case_id": "S_02_40_camera",
+  "layout": "S_02_40",
+  "kind": "S",
+  "condition": "camera",
+  "source": "data/libero_raw/libero_10/KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_demo.hdf5",
+  "episode": "demo_40",
+  "manual_seed": 3257,
+  "yaw_degrees": -20,
+  "pitch_degrees": 10,
+  "light_scale": 1.0,
+  "max_policy_steps": 500,
+  "our_training_split": "test",
+  "task_index": 2
+}

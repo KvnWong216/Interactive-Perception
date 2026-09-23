@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_10/LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket_demo.hdf5",
+  "episode": "demo_44",
+  "manual_seed": 8261,
+  "our_training_split": "validation",
+  "task_index": 5,
+  "max_policy_steps": 500,
+  "kind": "S",
+  "layout": "Sx_05_44",
+  "case_id": "Sx_05_44_normal",
+  "condition": "normal",
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0
+}

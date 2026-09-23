@@ -1,0 +1,15 @@
+{
+  "case_id": "S_02_30_normal",
+  "layout": "S_02_30",
+  "kind": "S",
+  "condition": "normal",
+  "source": "data/libero_raw/libero_10/KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_demo.hdf5",
+  "episode": "demo_30",
+  "manual_seed": 3247,
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0,
+  "max_policy_steps": 500,
+  "our_training_split": "test",
+  "task_index": 2
+}

@@ -1,0 +1,273 @@
+schema: predictive-vla-evaluation-design-v1
+status: design_only
+created: '2026-09-20'
+execute_new_experiments: false
+start_condition: stage_two_finished_and_protocol_admitted
+purpose: Determine what stages one and two learned, whether the proposed mechanisms explain it, and where it generalizes.
+manual_seeds:
+  trained_model: 17
+  future_training_repetitions: [17, 29, 43]
+  new_scene_development: 1117
+  new_scene_test: 1217
+  paired_policy_noise: [2217, 3217, 4217]
+  analysis: 1317
+  derivation: base_manual_seed_plus_explicit_case_ordinal
+  note: Scene/noise repetitions do not replace independent model-training seeds.
+selection:
+  stage_one: runs/stage1_s17_gpu7/best.pt
+  stage_one_update: 1500
+  stage_two: runs/stage2_s17_gpu4567/best.pt
+  stage_two_rule: best_fixed_weight_validation_objective_after_run_finishes
+  last_checkpoint: secondary_sensitivity_only_never_select_on_test
+  existing_G_and_H_cases: historical_exploratory_evidence_not_new_confirmatory_test
+  new_test_scene_rule: freeze_after_model_blind_admission_and_before_policy_results
+inference:
+  history_frames: 3
+  history_cadence_steps: 5
+  action_horizon: 10
+  execute_prefix: 5
+  flow_solver_steps: 10
+  common_episode_budget_steps: 300
+  control_hz: verify_from_environment_metadata_before_execution
+  image_size: [256, 256]
+  views: [agent, wrist]
+  success_judge: private_environment_predicate
+  language_termination: diagnostic_only_no_verified_training_labels
+  historical_predictor_at_deployment: absent
+methods:
+  - id: M0
+    label: Native MolmoAct2-LIBERO
+    status: available
+    purpose: Practical pretrained baseline; no claim of matched information or compute.
+  - id: M1
+    label: Stage-one best
+    status: available
+    purpose: Geometry/history adaptation before future supervision.
+  - id: M2
+    label: Stage-two best
+    status: training
+    purpose: Final proposed method before any IP-specific demonstrations.
+  - id: C2_action
+    label: Stage-one best plus matched action-only continuation
+    status: needs_implementation_and_training
+    purpose: Isolate future supervision from extra updates and different learning rates.
+    match: [initial_weights, data, windows, global_batch, updates, learning_rates, optimizer, scheduler, policy_noise_seeds]
+    change: prediction_loss_has_zero_weight
+  - id: C2_detach
+    label: Matched predictor with detached shared representation
+    status: needs_implementation_and_training
+    purpose: Separate predictor learning from predictive gradients improving the deployed policy.
+    change: stop_prediction_gradient_at_shared_hidden
+  - id: I_geometry
+    label: Same trained policy with geometry residual disabled
+    status: stage_one_supported_stage_two_adapter_needed
+    purpose: Input-dependence diagnostic, not a retrained architecture ablation.
+  - id: I_history
+    label: Same trained policy using only current observation
+    status: stage_one_supported_stage_two_adapter_needed
+    purpose: Test dependence on history; input distribution shift remains a confound.
+  - id: C1_native
+    label: Native interface with matched stage-one adaptation budget
+    status: not_trained
+    purpose: Isolate geometry/history interfaces from ordinary fine-tuning benefits.
+  - id: C1_no_geometry
+    label: Retrained stage one without geometry
+    status: not_trained
+    purpose: Confirm architecture contribution under matched training.
+  - id: C1_no_history
+    label: Retrained stage one without history
+    status: not_trained
+    purpose: Confirm history contribution under matched training.
+environments:
+  primary:
+    engine: existing_LIBERO_MuJoCo_adapter
+    status: base_available_new_scenes_not_built
+    reason: Preserve embodiment/control/observation interfaces while isolating information changes.
+    candidate_scene_families: [tabletop, kitchen_counter, cabinet, shelf, sorting_station, workbench]
+    proposed_development_scene_families: [tabletop, kitchen_counter, cabinet]
+    proposed_heldout_scene_families: [shelf, sorting_station, workbench]
+    family_split_note: Freeze audited asset families before testing; only compare skills physically executable in both paired strata.
+    model_environment: .venv
+    simulator_environment: .venv-sim
+    admission: [calibrated_RGBD, exact_actual_action_feedback, independent_goal_predicate, solvable_reference_trajectory, no_invalid_contacts, no_hidden_state_to_policy]
+  secondary:
+    engine: RoboCasa365
+    status: design_only_adapter_not_implemented_assets_not_downloaded
+    reason: Test transfer beyond familiar LIBERO assets and scene generation.
+    restrictions: [compatible_fixed_base_arm_tasks_only, verify_control_coordinates_and_frequency, no_mobile_or_bimanual_tasks_through_LIBERO_normalizer]
+    candidate_tasks: [open_drawer, pick_place, retrieve_from_cabinet, move_occluder_then_retrieve]
+    report: separate_cross_environment_table_no_pooling_with_primary
+object_inventory:
+  status: target_design_not_installed_inventory
+  categories: [bowl, cup, bottle, box, can, utensil, geometric_solid, cleaning_object]
+  identities_per_category: 6
+  total_target_identities: 48
+  development_per_category: 2
+  test_per_category: 4
+  total_development_identities: 16
+  total_test_identities: 32
+  identity_rule: same_mesh_source_or_shape_family_stays_in_one_split_even_after_recoloring
+  provenance_rule: record_asset_origin_license_path_family_and_presence_in_our_training
+  unseen_claim: held_out_from_our_training_and_development_not_proven_unseen_to_pretrained_base
+generalization_strata:
+  - {id: layout, held_out: positions_and_relations, preserve: object_and_scene_families}
+  - {id: object, held_out: mesh_identities_and_shape_families, preserve: skill_and_scene}
+  - {id: scene, held_out: fixture_and_scene_families, preserve: skill_and_object_category}
+  - {id: composition, held_out: object_scene_goal_combinations, preserve: individually_audited_factors}
+task_family_candidates:
+  shared_K_G_O: [pick_place, open_drawer, close_drawer, open_cabinet, close_cabinet, retrieve_from_container, move_occluder, place_into_container]
+  history: [target_side, target_identity, target_container, last_inspection_outcome]
+  recovery: [missed_grasp, slipped_object, incomplete_drawer_opening, displaced_target]
+  language: [color_referent, shape_referent, object_category, spatial_relation, destination_container, open_versus_close]
+  status: candidates_require_model_blind_feasibility_before_manifest_freeze
+suites:
+  - id: K
+    name: Basic skill retention
+    hypothesis: Additional objectives preserve executable manipulation.
+    task_families: 8
+    layouts_per_family: 12
+    conditions: [visible_reference]
+    target_worlds: 1
+    episodes_per_model: 96
+    primary_metric: task_macro_success
+    failure_interpretation: Skill degradation or interface/domain failure; diagnose before interpreting IP scores.
+  - id: G
+    name: Calibrated spatial transfer
+    hypothesis: Geometry supports control when projection changes.
+    task_families: 8
+    layouts_per_family: 12
+    conditions: [nominal, mild_camera_shift, stronger_camera_shift]
+    target_worlds: 1
+    episodes_per_model: 288
+    primary_metric: paired_robustness_drop_difference
+    secondary: [first_contact_localization_error, wrong_object_contact, success, steps_to_success]
+    candidate_yaw_degrees: [0, 10, 20]
+    candidate_pitch_magnitudes_degrees: [0, 5, 10]
+    note: Development feasibility may revise magnitudes before freezing test scenes.
+  - id: H
+    name: Evidence memory and its boundary
+    hypothesis: Identical current observations can produce correct different actions from different real histories.
+    task_families: 4
+    layouts_per_family: 12
+    conditions: [visible, blackout_last_evidence_5_steps, blackout_last_evidence_10_steps, blackout_last_evidence_20_steps]
+    target_worlds: 2
+    episodes_per_model: 384
+    primary_metric: first_prefix_correct_choice_before_reobservation
+    secondary: [no_choice_rate, wrong_direction_rate, recovery_after_vision_returns]
+    exact_pair_audit: [current_RGBD, camera_calibration, proprioception, task_text, remaining_budget, actual_prefix_controls]
+    boundary_note: Last evidence 20 steps ago is outside the current three-frame context; failure is a capacity boundary, not automatically a training failure.
+  - id: R
+    name: Execution feedback and recovery
+    hypothesis: Policies react to failed interaction rather than repeating the nominal sequence.
+    task_families: 4
+    layouts_per_family: 12
+    conditions: [successful_prefix, recoverable_failed_prefix]
+    target_worlds: 1
+    episodes_per_model: 96
+    primary_metric: corrective_action_within_prespecified_budget
+    secondary: [empty_gripper_transport, recovery_success, recovery_steps]
+    confound: Current visual or proprioceptive feedback may suffice; this alone does not establish memory.
+  - id: L
+    name: Language grounding versus action memorization
+    hypothesis: Equivalent instructions preserve goals and changed instructions change the selected goal.
+    task_families: 6
+    layouts_per_family: 8
+    conditions: [canonical_instruction, equivalent_paraphrase, changed_target_instruction]
+    target_worlds: 1
+    episodes_per_model: 144
+    primary_metric: correct_instruction_conditioned_target
+    secondary: [paraphrase_consistency, obsolete_target_selection]
+    note: A changed instruction must have a different valid goal in the same scene.
+  - id: O
+    name: Object scene and compositional transfer
+    hypothesis: Gains transfer beyond familiar images and asset identities.
+    task_families: 8
+    layouts_per_family: 12
+    conditions: [layout, object, scene, composition]
+    target_worlds: 1
+    episodes_per_model: 384
+    primary_metric: per_stratum_task_macro_success
+    secondary: [worst_family_success, failure_stage, paired_bootstrap_confidence_interval]
+  - id: X
+    name: Interactive information acquisition
+    hypothesis: Policy acquires missing evidence and then acts according to that evidence.
+    task_families: 4
+    layouts_per_family: 12
+    conditions: [evidence_visible, evidence_hidden]
+    target_worlds: 2
+    episodes_per_model: 192
+    primary_metric: reveal_then_evidence_correct_action_and_task_success
+    secondary: [time_to_first_evidence, redundant_reveal_when_visible, repeated_empty_location_visits, post_reveal_goal_selection]
+    proposed_reveal_mechanisms: [drawer, cabinet_door, removable_occluder, wrist_viewpoint]
+    eligibility: hidden_worlds_require_different_post_reveal_actions_and_no_public_leak_before_reveal
+    baselines: [M0, M1, M2, C2_action, fixed_search_then_native, scripted_reveal_then_policy]
+    note: Scripted reveal is a labelled capability upper bound, never a policy success or a train-time label.
+offline_prediction:
+  status: design_only
+  trajectories: 200
+  windows_per_trajectory: 3
+  independent_unit: trajectory_or_scene_family_not_window
+  actual_horizon: 10
+  conditions: [correct_actions, zero_actions, reversed_order, matched_other_real_action_segment]
+  window_condition_evaluations_per_predictor: 2400
+  baselines: [copy_current_teacher_features, train_only_mean_features, matched_capacity_no_action_predictor, frozen_M1_and_M2_with_equally_trained_probes]
+  primary_metric: normalized_future_loss_on_changed_object_patches
+  secondary: [all_patch_loss, changed_patch_loss, target_retrieval_among_same_scene_futures, action_condition_gain]
+  selection_rule: preregister_static_contact_motion_strata_on_development_data_not_model_errors
+  no_leakage: future_RGB_depth_state_success_or_object_pose_never_enter_policy_or_predictor_context
+  action_swap_limit: off_distribution_inputs_test_sensitivity_not_causal_dynamics_correctness
+physical_branch_prediction:
+  status: design_only
+  independent_initial_states: 48
+  valid_action_branches_per_state: 3
+  actual_branch_segments: 144
+  purpose: Test whether changing actions predicts the matching actually simulated future.
+  valid_branches: [approach_or_grasp, lateral_displacement, hold_or_withdraw]
+  supervision: privately_encoded_actual_endpoint_after_exact_executed_segment
+  no_generation_now: true
+statistics:
+  primary_comparisons: [M2_minus_C2_action, M1_minus_C1_native]
+  practical_comparisons: [M1_minus_M0, M2_minus_M1, M2_minus_M0]
+  mechanistic_comparisons: [M2_minus_C2_detach, full_minus_input_intervention]
+  unit: task_family_then_independent_paired_scene
+  bootstrap_repetitions: 10000
+  interval: 0.95
+  hypothesis_tests: paired_cluster_tests_with_Holm_correction_when_reporting_significance
+  practical_success_margin_pp: 5
+  retention_noninferiority_margin_pp: -5
+  warning: These margins are decision targets, not guaranteed detectable effects at this sample size.
+  failure_and_timeout: retain_in_denominator
+  insufficient_evidence: interval_crosses_decision_boundary_or_insufficient_independent_families
+  exclusions: model_blind_physical_invalidity_only_log_before_policy_test
+  repeated_seeds: report_as_nested_repetitions_not_new_independent_scenes
+assets:
+  existing_results_directory: docs/assets/validation
+  tables: [capability_summary, per_family_generalization, paired_effects, future_prediction, information_acquisition, cost, exclusions]
+  demos:
+    status: storyboard_only_new_recording_after_stage_two
+    selection: one_fixed_seed_case_plus_first_case_in_each_prespecified_outcome_stratum
+    outcome_strata: [all_succeed, M2_only_succeeds, baseline_only_succeeds, all_fail]
+    synchronization: same_simulation_step_not_video_length_or_wall_clock
+    required_panels: [native, stage_one, stage_two, action_only_control_when_available]
+    overlays: [case_id, seed, model, simulation_step, information_visible, true_executed_action, endpoint]
+    hidden_truth: separate_evaluator_only_panel_never_presented_as_policy_input
+    forbidden_interpretations: [attention_as_reasoning_proof, decoded_latent_as_actual_prediction_without_decoder_validation, edited_success_only_montage_as_metric]
+budget:
+  closed_loop_episodes_per_model: 1584
+  initial_three_models_total: 4752
+  total_with_two_controls_on_all_suites: 7920
+  illustrative_seconds_per_episode: [15, 45]
+  initial_three_models_gpu_hours: [19.8, 59.4]
+  ideal_four_gpu_wall_hours: [4.95, 14.85]
+  note: Planning arithmetic only; startup, rendering, long episodes, audits, and control training add cost. Profile on development scenes first.
+  download_hard_cap_bytes: 1000000000000
+  workspace_review_threshold_bytes: 800000000000
+  additional_evaluation_reservation_bytes: 100000000000
+  video_policy: compact_RGB_and_events_for_all_episodes_depth_only_for_audits_and_selected_diagnostics
+readiness:
+  new_scene_builders: not_implemented
+  inventory_and_group_splits: not_frozen
+  expanded_runner_and_metrics: not_implemented
+  matched_control_training: not_implemented_or_run
+  stage_two_completed: false
+  new_policy_rollouts_this_design_pass: 0

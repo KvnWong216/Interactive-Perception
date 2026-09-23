@@ -1,0 +1,18 @@
+{
+  "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+  "episode": "demo_26",
+  "manual_seed": 16243,
+  "our_training_split": "train",
+  "task_index": 13,
+  "target_object": "akita_black_bowl_1",
+  "kind": "P",
+  "layout": "Px_00_26",
+  "case_id": "Px_00_26_normal",
+  "condition": "normal",
+  "target_offset_m": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "max_policy_steps": 300
+}

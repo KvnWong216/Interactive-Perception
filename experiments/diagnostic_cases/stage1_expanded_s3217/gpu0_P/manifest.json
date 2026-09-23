@@ -1,0 +1,446 @@
+{
+  "manual_seed": 3217,
+  "split": "expanded_exploratory",
+  "modes": [
+    "native",
+    "best"
+  ],
+  "checkpoint": "runs/stage1_s17_gpu7/best.pt",
+  "physical_gpu": 0,
+  "kind": "P",
+  "cases": [
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 16239,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_22",
+      "case_id": "Px_00_22_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 16239,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_22",
+      "case_id": "Px_00_22_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 16239,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_22",
+      "case_id": "Px_00_22_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_26",
+      "manual_seed": 16243,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_26",
+      "case_id": "Px_00_26_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_26",
+      "manual_seed": 16243,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_26",
+      "case_id": "Px_00_26_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_26",
+      "manual_seed": 16243,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_26",
+      "case_id": "Px_00_26_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_34",
+      "manual_seed": 16251,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_34",
+      "case_id": "Px_00_34_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_34",
+      "manual_seed": 16251,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_34",
+      "case_id": "Px_00_34_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_34",
+      "manual_seed": 16251,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_34",
+      "case_id": "Px_00_34_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_44",
+      "manual_seed": 16261,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_44",
+      "case_id": "Px_00_44_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_44",
+      "manual_seed": 16261,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_44",
+      "case_id": "Px_00_44_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_44",
+      "manual_seed": 16261,
+      "our_training_split": "train",
+      "task_index": 13,
+      "target_object": "akita_black_bowl_1",
+      "kind": "P",
+      "layout": "Px_00_44",
+      "case_id": "Px_00_44_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 12239,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_22",
+      "case_id": "Px_05_22_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 500
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 12239,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_22",
+      "case_id": "Px_05_22_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 500
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 12239,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_22",
+      "case_id": "Px_05_22_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 500
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_26",
+      "manual_seed": 12243,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_26",
+      "case_id": "Px_05_26_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 500
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_26",
+      "manual_seed": 12243,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_26",
+      "case_id": "Px_05_26_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 500
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_26",
+      "manual_seed": 12243,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_26",
+      "case_id": "Px_05_26_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 500
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_34",
+      "manual_seed": 12251,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_34",
+      "case_id": "Px_05_34_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 500
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_34",
+      "manual_seed": 12251,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_34",
+      "case_id": "Px_05_34_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 500
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_34",
+      "manual_seed": 12251,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_34",
+      "case_id": "Px_05_34_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 500
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_44",
+      "manual_seed": 12261,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_44",
+      "case_id": "Px_05_44_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 500
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_44",
+      "manual_seed": 12261,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_44",
+      "case_id": "Px_05_44_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 500
+    },
+    {
+      "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "episode": "demo_44",
+      "manual_seed": 12261,
+      "our_training_split": "test",
+      "task_index": 9,
+      "target_object": "black_book_1",
+      "kind": "P",
+      "layout": "Px_05_44",
+      "case_id": "Px_05_44_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 500
+    }
+  ],
+  "status": "candidate scenes; model-blind audit before eligibility"
+}

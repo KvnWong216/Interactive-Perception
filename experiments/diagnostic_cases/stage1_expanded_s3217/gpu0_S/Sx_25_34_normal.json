@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_object/pick_up_the_ketchup_and_place_it_in_the_basket_demo.hdf5",
+  "episode": "demo_34",
+  "manual_seed": 28251,
+  "our_training_split": "train",
+  "task_index": 25,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_25_34",
+  "case_id": "Sx_25_34_normal",
+  "condition": "normal",
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0
+}

@@ -1,0 +1,2690 @@
+{
+  "complete": true,
+  "episodes_completed": 740,
+  "episodes_planned": 740,
+  "balanced_cases": 740,
+  "scores": [
+    {
+      "kind": "H",
+      "split": "all",
+      "condition": "hidden",
+      "policy": "native",
+      "successes": 7,
+      "episodes": 26,
+      "tasks": 4,
+      "macro_task_rate": 0.28125,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "all",
+      "condition": "hidden",
+      "policy": "best",
+      "successes": 25,
+      "episodes": 26,
+      "tasks": 4,
+      "macro_task_rate": 0.96875,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "all",
+      "condition": "hidden",
+      "policy": "stage2_best",
+      "successes": 25,
+      "episodes": 26,
+      "tasks": 4,
+      "macro_task_rate": 0.96875,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "all",
+      "condition": "visible",
+      "policy": "native",
+      "successes": 26,
+      "episodes": 26,
+      "tasks": 4,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "all",
+      "condition": "visible",
+      "policy": "best",
+      "successes": 24,
+      "episodes": 26,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "all",
+      "condition": "visible",
+      "policy": "stage2_best",
+      "successes": 24,
+      "episodes": 26,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "test",
+      "condition": "hidden",
+      "policy": "native",
+      "successes": 1,
+      "episodes": 14,
+      "tasks": 2,
+      "macro_task_rate": 0.0625,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "test",
+      "condition": "hidden",
+      "policy": "best",
+      "successes": 13,
+      "episodes": 14,
+      "tasks": 2,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "test",
+      "condition": "hidden",
+      "policy": "stage2_best",
+      "successes": 13,
+      "episodes": 14,
+      "tasks": 2,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "test",
+      "condition": "visible",
+      "policy": "native",
+      "successes": 14,
+      "episodes": 14,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "test",
+      "condition": "visible",
+      "policy": "best",
+      "successes": 12,
+      "episodes": 14,
+      "tasks": 2,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "test",
+      "condition": "visible",
+      "policy": "stage2_best",
+      "successes": 12,
+      "episodes": 14,
+      "tasks": 2,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "train",
+      "condition": "hidden",
+      "policy": "native",
+      "successes": 6,
+      "episodes": 12,
+      "tasks": 2,
+      "macro_task_rate": 0.5,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "train",
+      "condition": "hidden",
+      "policy": "best",
+      "successes": 12,
+      "episodes": 12,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "train",
+      "condition": "hidden",
+      "policy": "stage2_best",
+      "successes": 12,
+      "episodes": 12,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "train",
+      "condition": "visible",
+      "policy": "native",
+      "successes": 12,
+      "episodes": 12,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "train",
+      "condition": "visible",
+      "policy": "best",
+      "successes": 12,
+      "episodes": 12,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "H",
+      "split": "train",
+      "condition": "visible",
+      "policy": "stage2_best",
+      "successes": 12,
+      "episodes": 12,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "all",
+      "policy": "native",
+      "successes": 46,
+      "episodes": 48,
+      "tasks": 4,
+      "macro_task_rate": 0.9583333333333333,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "all",
+      "policy": "best",
+      "successes": 47,
+      "episodes": 48,
+      "tasks": 4,
+      "macro_task_rate": 0.9791666666666666,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "all",
+      "policy": "stage2_best",
+      "successes": 45,
+      "episodes": 48,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "minus_y",
+      "policy": "native",
+      "successes": 15,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "minus_y",
+      "policy": "best",
+      "successes": 15,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "minus_y",
+      "policy": "stage2_best",
+      "successes": 14,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "normal",
+      "policy": "native",
+      "successes": 15,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "normal",
+      "policy": "best",
+      "successes": 16,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "normal",
+      "policy": "stage2_best",
+      "successes": 16,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "plus_y",
+      "policy": "native",
+      "successes": 16,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "plus_y",
+      "policy": "best",
+      "successes": 16,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "plus_y",
+      "policy": "stage2_best",
+      "successes": 15,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "all",
+      "policy": "native",
+      "successes": 11,
+      "episodes": 12,
+      "tasks": 1,
+      "macro_task_rate": 0.9166666666666666,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "all",
+      "policy": "best",
+      "successes": 12,
+      "episodes": 12,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "all",
+      "policy": "stage2_best",
+      "successes": 11,
+      "episodes": 12,
+      "tasks": 1,
+      "macro_task_rate": 0.9166666666666666,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "minus_y",
+      "policy": "native",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "minus_y",
+      "policy": "best",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "minus_y",
+      "policy": "stage2_best",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "normal",
+      "policy": "native",
+      "successes": 3,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 0.75,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "normal",
+      "policy": "best",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "normal",
+      "policy": "stage2_best",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "plus_y",
+      "policy": "native",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "plus_y",
+      "policy": "best",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "plus_y",
+      "policy": "stage2_best",
+      "successes": 3,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 0.75,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "all",
+      "policy": "native",
+      "successes": 23,
+      "episodes": 24,
+      "tasks": 2,
+      "macro_task_rate": 0.9583333333333333,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "all",
+      "policy": "best",
+      "successes": 23,
+      "episodes": 24,
+      "tasks": 2,
+      "macro_task_rate": 0.9583333333333333,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "all",
+      "policy": "stage2_best",
+      "successes": 22,
+      "episodes": 24,
+      "tasks": 2,
+      "macro_task_rate": 0.9166666666666666,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "minus_y",
+      "policy": "native",
+      "successes": 7,
+      "episodes": 8,
+      "tasks": 2,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "minus_y",
+      "policy": "best",
+      "successes": 7,
+      "episodes": 8,
+      "tasks": 2,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "minus_y",
+      "policy": "stage2_best",
+      "successes": 6,
+      "episodes": 8,
+      "tasks": 2,
+      "macro_task_rate": 0.75,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "normal",
+      "policy": "native",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "normal",
+      "policy": "best",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "normal",
+      "policy": "stage2_best",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "plus_y",
+      "policy": "native",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "plus_y",
+      "policy": "best",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "plus_y",
+      "policy": "stage2_best",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "all",
+      "policy": "native",
+      "successes": 12,
+      "episodes": 12,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "all",
+      "policy": "best",
+      "successes": 12,
+      "episodes": 12,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "all",
+      "policy": "stage2_best",
+      "successes": 12,
+      "episodes": 12,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "minus_y",
+      "policy": "native",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "minus_y",
+      "policy": "best",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "minus_y",
+      "policy": "stage2_best",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "normal",
+      "policy": "native",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "normal",
+      "policy": "best",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "normal",
+      "policy": "stage2_best",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "plus_y",
+      "policy": "native",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "plus_y",
+      "policy": "best",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "plus_y",
+      "policy": "stage2_best",
+      "successes": 4,
+      "episodes": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "all",
+      "policy": "native",
+      "successes": 553,
+      "episodes": 640,
+      "tasks": 40,
+      "macro_task_rate": 0.8640625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "all",
+      "policy": "best",
+      "successes": 582,
+      "episodes": 640,
+      "tasks": 40,
+      "macro_task_rate": 0.909375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "all",
+      "policy": "stage2_best",
+      "successes": 578,
+      "episodes": 640,
+      "tasks": 40,
+      "macro_task_rate": 0.903125,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "camera",
+      "policy": "native",
+      "successes": 126,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.7875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "camera",
+      "policy": "best",
+      "successes": 138,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.8625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "camera",
+      "policy": "stage2_best",
+      "successes": 136,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.85,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "combined",
+      "policy": "native",
+      "successes": 124,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.775,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "combined",
+      "policy": "best",
+      "successes": 138,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.8625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "combined",
+      "policy": "stage2_best",
+      "successes": 134,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.8375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "lighting",
+      "policy": "native",
+      "successes": 149,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.93125,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "lighting",
+      "policy": "best",
+      "successes": 155,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.96875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "lighting",
+      "policy": "stage2_best",
+      "successes": 153,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.95625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "normal",
+      "policy": "native",
+      "successes": 154,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.9625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "normal",
+      "policy": "best",
+      "successes": 151,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.94375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "normal",
+      "policy": "stage2_best",
+      "successes": 155,
+      "episodes": 160,
+      "tasks": 40,
+      "macro_task_rate": 0.96875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "all",
+      "policy": "native",
+      "successes": 46,
+      "episodes": 64,
+      "tasks": 4,
+      "macro_task_rate": 0.71875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "all",
+      "policy": "best",
+      "successes": 49,
+      "episodes": 64,
+      "tasks": 4,
+      "macro_task_rate": 0.765625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "all",
+      "policy": "stage2_best",
+      "successes": 49,
+      "episodes": 64,
+      "tasks": 4,
+      "macro_task_rate": 0.765625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "camera",
+      "policy": "native",
+      "successes": 11,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.6875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "camera",
+      "policy": "best",
+      "successes": 10,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "camera",
+      "policy": "stage2_best",
+      "successes": 10,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "combined",
+      "policy": "native",
+      "successes": 11,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.6875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "combined",
+      "policy": "best",
+      "successes": 11,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.6875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "combined",
+      "policy": "stage2_best",
+      "successes": 10,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "lighting",
+      "policy": "native",
+      "successes": 11,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.6875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "lighting",
+      "policy": "best",
+      "successes": 14,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "lighting",
+      "policy": "stage2_best",
+      "successes": 15,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "normal",
+      "policy": "native",
+      "successes": 13,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.8125,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "normal",
+      "policy": "best",
+      "successes": 14,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "normal",
+      "policy": "stage2_best",
+      "successes": 14,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "all",
+      "policy": "native",
+      "successes": 457,
+      "episodes": 512,
+      "tasks": 32,
+      "macro_task_rate": 0.892578125,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "all",
+      "policy": "best",
+      "successes": 478,
+      "episodes": 512,
+      "tasks": 32,
+      "macro_task_rate": 0.93359375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "all",
+      "policy": "stage2_best",
+      "successes": 475,
+      "episodes": 512,
+      "tasks": 32,
+      "macro_task_rate": 0.927734375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "camera",
+      "policy": "native",
+      "successes": 104,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.8125,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "camera",
+      "policy": "best",
+      "successes": 115,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.8984375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "camera",
+      "policy": "stage2_best",
+      "successes": 113,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.8828125,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "combined",
+      "policy": "native",
+      "successes": 103,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.8046875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "combined",
+      "policy": "best",
+      "successes": 114,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.890625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "combined",
+      "policy": "stage2_best",
+      "successes": 112,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "lighting",
+      "policy": "native",
+      "successes": 124,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.96875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "lighting",
+      "policy": "best",
+      "successes": 126,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.984375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "lighting",
+      "policy": "stage2_best",
+      "successes": 124,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.96875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "normal",
+      "policy": "native",
+      "successes": 126,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.984375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "normal",
+      "policy": "best",
+      "successes": 123,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.9609375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "normal",
+      "policy": "stage2_best",
+      "successes": 126,
+      "episodes": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.984375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "all",
+      "policy": "native",
+      "successes": 50,
+      "episodes": 64,
+      "tasks": 4,
+      "macro_task_rate": 0.78125,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "all",
+      "policy": "best",
+      "successes": 55,
+      "episodes": 64,
+      "tasks": 4,
+      "macro_task_rate": 0.859375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "all",
+      "policy": "stage2_best",
+      "successes": 54,
+      "episodes": 64,
+      "tasks": 4,
+      "macro_task_rate": 0.84375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "camera",
+      "policy": "native",
+      "successes": 11,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.6875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "camera",
+      "policy": "best",
+      "successes": 13,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.8125,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "camera",
+      "policy": "stage2_best",
+      "successes": 13,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.8125,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "combined",
+      "policy": "native",
+      "successes": 10,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.625,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "combined",
+      "policy": "best",
+      "successes": 13,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.8125,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "combined",
+      "policy": "stage2_best",
+      "successes": 12,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.75,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "lighting",
+      "policy": "native",
+      "successes": 14,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "lighting",
+      "policy": "best",
+      "successes": 15,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "lighting",
+      "policy": "stage2_best",
+      "successes": 14,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "normal",
+      "policy": "native",
+      "successes": 15,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "normal",
+      "policy": "best",
+      "successes": 14,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.875,
+      "complete": true
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "normal",
+      "policy": "stage2_best",
+      "successes": 15,
+      "episodes": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "complete": true
+    }
+  ],
+  "effects": [
+    {
+      "kind": "H",
+      "split": "all",
+      "condition": "hidden",
+      "tasks": 4,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": -0.09375,
+      "ci_high": 0.09375
+    },
+    {
+      "kind": "H",
+      "split": "all",
+      "condition": "visible",
+      "tasks": 4,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "H",
+      "split": "test",
+      "condition": "hidden",
+      "tasks": 2,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": -0.1875,
+      "ci_high": 0.1875
+    },
+    {
+      "kind": "H",
+      "split": "test",
+      "condition": "visible",
+      "tasks": 2,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "H",
+      "split": "train",
+      "condition": "hidden",
+      "tasks": 2,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "H",
+      "split": "train",
+      "condition": "visible",
+      "tasks": 2,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "all",
+      "tasks": 4,
+      "stage2_minus_stage1": -0.041666666666666664,
+      "ci_low": -0.12499999999999999,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "minus_y",
+      "tasks": 4,
+      "stage2_minus_stage1": -0.0625,
+      "ci_low": -0.25,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "normal",
+      "tasks": 4,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "all",
+      "condition": "plus_y",
+      "tasks": 4,
+      "stage2_minus_stage1": -0.0625,
+      "ci_low": -0.25,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "all",
+      "tasks": 1,
+      "stage2_minus_stage1": -0.08333333333333333,
+      "ci_low": -0.25,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "minus_y",
+      "tasks": 1,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "normal",
+      "tasks": 1,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "test",
+      "condition": "plus_y",
+      "tasks": 1,
+      "stage2_minus_stage1": -0.25,
+      "ci_low": -0.75,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "all",
+      "tasks": 2,
+      "stage2_minus_stage1": -0.041666666666666664,
+      "ci_low": -0.16666666666666666,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "minus_y",
+      "tasks": 2,
+      "stage2_minus_stage1": -0.125,
+      "ci_low": -0.5,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "normal",
+      "tasks": 2,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "train",
+      "condition": "plus_y",
+      "tasks": 2,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "all",
+      "tasks": 1,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "minus_y",
+      "tasks": 1,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "normal",
+      "tasks": 1,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "P",
+      "split": "validation",
+      "condition": "plus_y",
+      "tasks": 1,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "all",
+      "tasks": 40,
+      "stage2_minus_stage1": -0.00625,
+      "ci_low": -0.04375,
+      "ci_high": 0.0296875
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "camera",
+      "tasks": 40,
+      "stage2_minus_stage1": -0.0125,
+      "ci_low": -0.09375,
+      "ci_high": 0.06875
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "combined",
+      "tasks": 40,
+      "stage2_minus_stage1": -0.025,
+      "ci_low": -0.1,
+      "ci_high": 0.05
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "lighting",
+      "tasks": 40,
+      "stage2_minus_stage1": -0.0125,
+      "ci_low": -0.05625,
+      "ci_high": 0.025
+    },
+    {
+      "kind": "S",
+      "split": "all",
+      "condition": "normal",
+      "tasks": 40,
+      "stage2_minus_stage1": 0.025,
+      "ci_low": -0.025,
+      "ci_high": 0.08125
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "all",
+      "tasks": 4,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": -0.203125,
+      "ci_high": 0.21875
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "camera",
+      "tasks": 4,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": -0.3125,
+      "ci_high": 0.375
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "combined",
+      "tasks": 4,
+      "stage2_minus_stage1": -0.0625,
+      "ci_low": -0.4375,
+      "ci_high": 0.375
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "lighting",
+      "tasks": 4,
+      "stage2_minus_stage1": 0.0625,
+      "ci_low": 0.0,
+      "ci_high": 0.25
+    },
+    {
+      "kind": "S",
+      "split": "test",
+      "condition": "normal",
+      "tasks": 4,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": -0.25,
+      "ci_high": 0.25
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "all",
+      "tasks": 32,
+      "stage2_minus_stage1": -0.005859375,
+      "ci_low": -0.043017578124999956,
+      "ci_high": 0.02734375
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "camera",
+      "tasks": 32,
+      "stage2_minus_stage1": -0.015625,
+      "ci_low": -0.09375,
+      "ci_high": 0.0546875
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "combined",
+      "tasks": 32,
+      "stage2_minus_stage1": -0.015625,
+      "ci_low": -0.0859375,
+      "ci_high": 0.0546875
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "lighting",
+      "tasks": 32,
+      "stage2_minus_stage1": -0.015625,
+      "ci_low": -0.0625,
+      "ci_high": 0.0234375
+    },
+    {
+      "kind": "S",
+      "split": "train",
+      "condition": "normal",
+      "tasks": 32,
+      "stage2_minus_stage1": 0.0234375,
+      "ci_low": -0.015625,
+      "ci_high": 0.0703125
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "all",
+      "tasks": 4,
+      "stage2_minus_stage1": -0.015625,
+      "ci_low": -0.140625,
+      "ci_high": 0.125
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "camera",
+      "tasks": 4,
+      "stage2_minus_stage1": 0.0,
+      "ci_low": -0.3125,
+      "ci_high": 0.375
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "combined",
+      "tasks": 4,
+      "stage2_minus_stage1": -0.0625,
+      "ci_low": -0.375,
+      "ci_high": 0.1875
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "lighting",
+      "tasks": 4,
+      "stage2_minus_stage1": -0.0625,
+      "ci_low": -0.25,
+      "ci_high": 0.0
+    },
+    {
+      "kind": "S",
+      "split": "validation",
+      "condition": "normal",
+      "tasks": 4,
+      "stage2_minus_stage1": 0.0625,
+      "ci_low": -0.25,
+      "ci_high": 0.375
+    }
+  ],
+  "prediction_by_task": [
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "actual",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36638879030942917
+    },
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "actual",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3654523181418578
+    },
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "copy_current",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.20718932865808407
+    },
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "copy_current",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.21281601674854755
+    },
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "reverse_time",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3663909087578456
+    },
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "reverse_time",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3654545955359936
+    },
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "same_task_other_episode",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3663981395463149
+    },
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "same_task_other_episode",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36546145876248676
+    },
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "zero_control",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.366329404215018
+    },
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "zero_control",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3653911290069421
+    },
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "zero_feature",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.41500035176674527
+    },
+    {
+      "split": "test",
+      "task": "pick up the book and place it in the back compartment of the caddy",
+      "variant": "zero_feature",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4149951736132304
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "actual",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3483223120371501
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "actual",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.34760648384690285
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "copy_current",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.25853934946159524
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "copy_current",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.26297763424615067
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "reverse_time",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.34832318872213364
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "reverse_time",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3476074126859506
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "same_task_other_episode",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.34831957270701724
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "same_task_other_episode",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.34760360419750214
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "zero_control",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3483278540273507
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "zero_control",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.34761129568020505
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "zero_feature",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4155523677666982
+    },
+    {
+      "split": "test",
+      "task": "pick up the orange juice and place it in the basket",
+      "variant": "zero_feature",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4154947064816952
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "actual",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36521051948269206
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "actual",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3646867709855239
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "copy_current",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.19312663888558745
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "copy_current",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.19793284808595976
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "reverse_time",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36520859226584435
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "reverse_time",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3646847407023112
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "same_task_other_episode",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3652146942913532
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "same_task_other_episode",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3646881803870201
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "zero_control",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3651905419925849
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "zero_control",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36466436957319576
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "zero_feature",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4153721208373706
+    },
+    {
+      "split": "test",
+      "task": "put both moka pots on the stove",
+      "variant": "zero_feature",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.41536953921119374
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "actual",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3683572821319103
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "actual",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3671780191361904
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "copy_current",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.2194111319258809
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "copy_current",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.23081980800877014
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "reverse_time",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36835651844739914
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "reverse_time",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36717716852823895
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "same_task_other_episode",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36836377903819084
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "same_task_other_episode",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3671865339080493
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "zero_control",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36835211515426636
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "zero_control",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3671763899425666
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "zero_feature",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.41527742768327397
+    },
+    {
+      "split": "test",
+      "task": "put the yellow and white mug in the microwave and close it",
+      "variant": "zero_feature",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4152798180778821
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "actual",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3446269656221072
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "actual",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.34393660351634026
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "copy_current",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.2449519963314136
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "copy_current",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.2504595387727022
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "reverse_time",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.34462933242321014
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "reverse_time",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.34393884241580963
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "same_task_other_episode",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.34466127306222916
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "same_task_other_episode",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.34397124002377194
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "zero_control",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3446306971212228
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "zero_control",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3439385009308656
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "zero_feature",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4154174489279588
+    },
+    {
+      "split": "validation",
+      "task": "pick up the cream cheese and place it in the basket",
+      "variant": "zero_feature",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4153652253250281
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "actual",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3557225565115611
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "actual",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3555300347507
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "copy_current",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.23049347568303347
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "copy_current",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.24041419693579277
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "reverse_time",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3557224137087663
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "reverse_time",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.35553039858738583
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "same_task_other_episode",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.35569952179988223
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "same_task_other_episode",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3555060500899951
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "zero_control",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3557327004770438
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "zero_control",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3555408405760924
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "zero_feature",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4148547363777955
+    },
+    {
+      "split": "validation",
+      "task": "put both the alphabet soup and the tomato sauce in the basket",
+      "variant": "zero_feature",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4148342323799928
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "actual",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36277752990523976
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "actual",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3622116136054198
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "copy_current",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.27298781446491677
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "copy_current",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.2773551605641842
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "reverse_time",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36277851834893227
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "reverse_time",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36221281563242275
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "same_task_other_episode",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3627985703448455
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "same_task_other_episode",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36223457381129265
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "zero_control",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.36278696606556576
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "zero_control",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3622204264005025
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "zero_feature",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4153771934409936
+    },
+    {
+      "split": "validation",
+      "task": "put both the cream cheese box and the butter in the basket",
+      "variant": "zero_feature",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4153657704591751
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "actual",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.35980422298113507
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "actual",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3593079286317031
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "copy_current",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.21514665397504965
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "copy_current",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.22123350792874893
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "reverse_time",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.35980401933193207
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "reverse_time",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.35930781563123065
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "same_task_other_episode",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3598061924179395
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "same_task_other_episode",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.35930902635057765
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "zero_control",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.35979656130075455
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "zero_control",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.3592984154820442
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "zero_feature",
+      "region": "all_valid",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.41493431230386096
+    },
+    {
+      "split": "validation",
+      "task": "put the black bowl in the bottom drawer of the cabinet and close it",
+      "variant": "zero_feature",
+      "region": "changed",
+      "windows": 24,
+      "trajectories": 12,
+      "loss": 0.4148971413572629
+    }
+  ],
+  "demos": [
+    {
+      "case_id": "Sx_27_22_camera",
+      "stage1_success": true,
+      "stage2_success": true,
+      "file": "Sx_27_22_camera.mp4"
+    },
+    {
+      "case_id": "Sx_33_44_camera",
+      "stage1_success": true,
+      "stage2_success": false,
+      "file": "Sx_33_44_camera.mp4"
+    },
+    {
+      "case_id": "Sx_01_34_normal",
+      "stage1_success": false,
+      "stage2_success": true,
+      "file": "Sx_01_34_normal.mp4"
+    },
+    {
+      "case_id": "Sx_12_34_combined",
+      "stage1_success": false,
+      "stage2_success": false,
+      "file": "Sx_12_34_combined.mp4"
+    },
+    {
+      "case_id": "Px_04_34_normal",
+      "stage1_success": true,
+      "stage2_success": true,
+      "file": "Px_04_34_normal.mp4"
+    },
+    {
+      "case_id": "Px_05_26_plus_y",
+      "stage1_success": true,
+      "stage2_success": false,
+      "file": "Px_05_26_plus_y.mp4"
+    },
+    {
+      "case_id": "Px_01_34_minus_y",
+      "stage1_success": false,
+      "stage2_success": false,
+      "file": "Px_01_34_minus_y.mp4"
+    }
+  ],
+  "limits": [
+    "Stage2 versus Stage1 includes extra optimization and changed LR; not a prediction-loss ablation.",
+    "Frozen test cases already observed in Stage1; this is exploratory, not a fresh confirmatory benchmark.",
+    "Different execution GPU from some baseline episodes; identical initial policy inputs required."
+  ],
+  "updated_utc": "2026-09-21T13:04:25.739064+00:00"
+}

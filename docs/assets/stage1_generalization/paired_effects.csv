@@ -1,0 +1,13 @@
+﻿our_training_split,condition,best_minus_native,ci_low,ci_high,manual_seed,bootstrap
+train,normal,0.0,0.0,0.0,1317,10000 hierarchical task-then-reset paired draws
+train,camera,0.125,-0.25,0.625,1317,10000 hierarchical task-then-reset paired draws
+train,lighting,0.0,0.0,0.0,1317,10000 hierarchical task-then-reset paired draws
+train,combined,-0.125,-0.625,0.25,1317,10000 hierarchical task-then-reset paired draws
+validation,normal,0.0,0.0,0.0,1317,10000 hierarchical task-then-reset paired draws
+validation,camera,0.125,0.0,0.5,1317,10000 hierarchical task-then-reset paired draws
+validation,lighting,0.0,0.0,0.0,1317,10000 hierarchical task-then-reset paired draws
+validation,combined,0.125,0.0,0.5,1317,10000 hierarchical task-then-reset paired draws
+test,normal,-0.125,-0.625,0.375,1317,10000 hierarchical task-then-reset paired draws
+test,camera,0.0,0.0,0.0,1317,10000 hierarchical task-then-reset paired draws
+test,lighting,-0.125,-0.625,0.375,1317,10000 hierarchical task-then-reset paired draws
+test,combined,0.0,0.0,0.0,1317,10000 hierarchical task-then-reset paired draws

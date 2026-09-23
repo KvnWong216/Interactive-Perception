@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_next_to_the_cookie_box_and_place_it_on_the_plate_demo.hdf5",
+  "episode": "demo_44",
+  "manual_seed": 36261,
+  "our_training_split": "train",
+  "task_index": 33,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_33_44",
+  "case_id": "Sx_33_44_combined",
+  "condition": "combined",
+  "yaw_degrees": -20,
+  "pitch_degrees": 10,
+  "light_scale": 0.55
+}

@@ -1,0 +1,281 @@
+{
+  "status": "COMPLETE",
+  "signal": "一阶段训练的系统评估：已完成",
+  "finished_utc": "2026-09-21T07:38:17.389660+00:00",
+  "manual_seed": 3217,
+  "analysis_manual_seed": 3317,
+  "checkpoint": "runs/stage1_s17_gpu7/best.pt",
+  "checkpoint_updates": 1500,
+  "completed_policy_episodes": 1480,
+  "eligible_policy_episodes": 1480,
+  "groups": [
+    {
+      "kind": "S",
+      "condition": "all",
+      "split": "all",
+      "episodes_per_model": 640,
+      "tasks": 40,
+      "layouts": 160,
+      "native_successes": 553,
+      "best_successes": 582,
+      "native_rate": 0.8640625,
+      "best_rate": 0.909375,
+      "paired_macro_task_delta": 0.0453125,
+      "exploratory_ci95": [
+        0.0,
+        0.0921875
+      ]
+    },
+    {
+      "kind": "S",
+      "condition": "normal",
+      "split": "all",
+      "episodes_per_model": 160,
+      "tasks": 40,
+      "layouts": 160,
+      "native_successes": 154,
+      "best_successes": 151,
+      "native_rate": 0.9625,
+      "best_rate": 0.94375,
+      "paired_macro_task_delta": -0.01875,
+      "exploratory_ci95": [
+        -0.075,
+        0.0375
+      ]
+    },
+    {
+      "kind": "S",
+      "condition": "camera",
+      "split": "all",
+      "episodes_per_model": 160,
+      "tasks": 40,
+      "layouts": 160,
+      "native_successes": 126,
+      "best_successes": 138,
+      "native_rate": 0.7875,
+      "best_rate": 0.8625,
+      "paired_macro_task_delta": 0.075,
+      "exploratory_ci95": [
+        -0.00625,
+        0.1625
+      ]
+    },
+    {
+      "kind": "S",
+      "condition": "lighting",
+      "split": "all",
+      "episodes_per_model": 160,
+      "tasks": 40,
+      "layouts": 160,
+      "native_successes": 149,
+      "best_successes": 155,
+      "native_rate": 0.93125,
+      "best_rate": 0.96875,
+      "paired_macro_task_delta": 0.0375,
+      "exploratory_ci95": [
+        -0.025,
+        0.10625
+      ]
+    },
+    {
+      "kind": "S",
+      "condition": "combined",
+      "split": "all",
+      "episodes_per_model": 160,
+      "tasks": 40,
+      "layouts": 160,
+      "native_successes": 124,
+      "best_successes": 138,
+      "native_rate": 0.775,
+      "best_rate": 0.8625,
+      "paired_macro_task_delta": 0.0875,
+      "exploratory_ci95": [
+        0.0,
+        0.175
+      ]
+    },
+    {
+      "kind": "S",
+      "condition": "all",
+      "split": "train",
+      "episodes_per_model": 512,
+      "tasks": 32,
+      "layouts": 128,
+      "native_successes": 457,
+      "best_successes": 478,
+      "native_rate": 0.892578125,
+      "best_rate": 0.93359375,
+      "paired_macro_task_delta": 0.041015625,
+      "exploratory_ci95": [
+        0.001953125,
+        0.0859375
+      ]
+    },
+    {
+      "kind": "S",
+      "condition": "all",
+      "split": "validation",
+      "episodes_per_model": 64,
+      "tasks": 4,
+      "layouts": 16,
+      "native_successes": 50,
+      "best_successes": 55,
+      "native_rate": 0.78125,
+      "best_rate": 0.859375,
+      "paired_macro_task_delta": 0.078125,
+      "exploratory_ci95": [
+        -0.0625,
+        0.21875
+      ]
+    },
+    {
+      "kind": "S",
+      "condition": "all",
+      "split": "test",
+      "episodes_per_model": 64,
+      "tasks": 4,
+      "layouts": 16,
+      "native_successes": 46,
+      "best_successes": 49,
+      "native_rate": 0.71875,
+      "best_rate": 0.765625,
+      "paired_macro_task_delta": 0.046875,
+      "exploratory_ci95": [
+        -0.21875,
+        0.296875
+      ]
+    },
+    {
+      "kind": "P",
+      "condition": "all",
+      "split": "all",
+      "episodes_per_model": 48,
+      "tasks": 4,
+      "layouts": 16,
+      "native_successes": 46,
+      "best_successes": 47,
+      "native_rate": 0.9583333333333334,
+      "best_rate": 0.9791666666666666,
+      "paired_macro_task_delta": 0.020833333333333332,
+      "exploratory_ci95": [
+        0.0,
+        0.08333333333333333
+      ]
+    },
+    {
+      "kind": "P",
+      "condition": "normal",
+      "split": "all",
+      "episodes_per_model": 16,
+      "tasks": 4,
+      "layouts": 16,
+      "native_successes": 15,
+      "best_successes": 16,
+      "native_rate": 0.9375,
+      "best_rate": 1.0,
+      "paired_macro_task_delta": 0.0625,
+      "exploratory_ci95": [
+        0.0,
+        0.25
+      ]
+    },
+    {
+      "kind": "P",
+      "condition": "minus_y",
+      "split": "all",
+      "episodes_per_model": 16,
+      "tasks": 4,
+      "layouts": 16,
+      "native_successes": 15,
+      "best_successes": 15,
+      "native_rate": 0.9375,
+      "best_rate": 0.9375,
+      "paired_macro_task_delta": 0.0,
+      "exploratory_ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "kind": "P",
+      "condition": "plus_y",
+      "split": "all",
+      "episodes_per_model": 16,
+      "tasks": 4,
+      "layouts": 16,
+      "native_successes": 16,
+      "best_successes": 16,
+      "native_rate": 1.0,
+      "best_rate": 1.0,
+      "paired_macro_task_delta": 0.0,
+      "exploratory_ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "kind": "H",
+      "condition": "visible",
+      "split": "all",
+      "episodes_per_model": 26,
+      "tasks": 4,
+      "layouts": 13,
+      "native_successes": 26,
+      "best_successes": 24,
+      "native_rate": 1.0,
+      "best_rate": 0.9230769230769231,
+      "paired_macro_task_delta": -0.0625,
+      "exploratory_ci95": [
+        -0.21875,
+        0.0
+      ]
+    },
+    {
+      "kind": "H",
+      "condition": "hidden",
+      "split": "all",
+      "episodes_per_model": 26,
+      "tasks": 4,
+      "layouts": 13,
+      "native_successes": 7,
+      "best_successes": 25,
+      "native_rate": 0.2692307692307692,
+      "best_rate": 0.9615384615384616,
+      "paired_macro_task_delta": 0.6875,
+      "exploratory_ci95": [
+        0.5,
+        0.90625
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "policy": "native",
+      "episodes": 740,
+      "recorded_rollout_hours": 5.520396108590325,
+      "median_episode_policy_median_seconds": 0.4377345098182559,
+      "max_allocated_gib": 12.52603006362915,
+      "max_reserved_gib": 13.68359375
+    },
+    {
+      "policy": "best",
+      "episodes": 740,
+      "recorded_rollout_hours": 7.950822568819082,
+      "median_episode_policy_median_seconds": 0.8862519368994981,
+      "max_allocated_gib": 12.962956428527832,
+      "max_reserved_gib": 14.43359375
+    }
+  ],
+  "initial_render_alignment_records": [
+    "runs/stage1_expanded_s3217/gpu5/S/evaluation/best/Sx_12_44_normal/demo_44/initial_render_alignment.json"
+  ],
+  "interpretation": {
+    "history": "局部支持：使用历史证据作短时方向决策；不等于完整任务成功或主动获取信息。",
+    "geometry": "未独立验证：当前两模型比较混合了训练、新增输入和接口差异。",
+    "retention": "未预设不劣界限，不能仅凭差异小或区间跨零判定原技能不退化。",
+    "generalization": "查看源任务test单独结果；train与validation不替代test。LIBERO物体与任务可能已被底座见过。",
+    "prediction_and_active_perception": "未检验：阶段一不含未来预测监督，阶段二权重未参加本次评测。",
+    "statistics": "探索性按任务、布局两层成对bootstrap，10000次；没有多重比较校正，只有4个test源任务。",
+    "runtime": "每回合策略中位耗时的中位数；非所有调用合并P50。累计回合墙钟不含加载、排队、审计和失败尝试，不能当作总GPU计费。"
+  }
+}

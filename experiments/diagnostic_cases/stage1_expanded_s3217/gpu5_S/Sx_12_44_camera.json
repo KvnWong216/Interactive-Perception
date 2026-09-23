@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_goal/push_the_plate_to_the_front_of_the_stove_demo.hdf5",
+  "episode": "demo_44",
+  "manual_seed": 15261,
+  "our_training_split": "train",
+  "task_index": 12,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_12_44",
+  "case_id": "Sx_12_44_camera",
+  "condition": "camera",
+  "yaw_degrees": -20,
+  "pitch_degrees": 10,
+  "light_scale": 1.0
+}

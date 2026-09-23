@@ -1,0 +1,230 @@
+{
+  "manual_seed": 3217,
+  "split": "expanded_exploratory",
+  "modes": [
+    "native",
+    "best"
+  ],
+  "checkpoint": "runs/stage1_s17_gpu7/best.pt",
+  "physical_gpu": 7,
+  "kind": "P",
+  "cases": [
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 27239,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_22",
+      "case_id": "Px_04_22_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 27239,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_22",
+      "case_id": "Px_04_22_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 27239,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_22",
+      "case_id": "Px_04_22_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_26",
+      "manual_seed": 27243,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_26",
+      "case_id": "Px_04_26_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_26",
+      "manual_seed": 27243,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_26",
+      "case_id": "Px_04_26_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_26",
+      "manual_seed": 27243,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_26",
+      "case_id": "Px_04_26_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_34",
+      "manual_seed": 27251,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_34",
+      "case_id": "Px_04_34_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_34",
+      "manual_seed": 27251,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_34",
+      "case_id": "Px_04_34_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_34",
+      "manual_seed": 27251,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_34",
+      "case_id": "Px_04_34_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_44",
+      "manual_seed": 27261,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_44",
+      "case_id": "Px_04_44_normal",
+      "condition": "normal",
+      "target_offset_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_44",
+      "manual_seed": 27261,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_44",
+      "case_id": "Px_04_44_minus_y",
+      "condition": "minus_y",
+      "target_offset_m": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    },
+    {
+      "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "episode": "demo_44",
+      "manual_seed": 27261,
+      "our_training_split": "validation",
+      "task_index": 24,
+      "target_object": "cream_cheese_1",
+      "kind": "P",
+      "layout": "Px_04_44",
+      "case_id": "Px_04_44_plus_y",
+      "condition": "plus_y",
+      "target_offset_m": [
+        0.0,
+        0.04,
+        0.0
+      ],
+      "max_policy_steps": 300
+    }
+  ],
+  "status": "candidate scenes; model-blind audit before eligibility"
+}

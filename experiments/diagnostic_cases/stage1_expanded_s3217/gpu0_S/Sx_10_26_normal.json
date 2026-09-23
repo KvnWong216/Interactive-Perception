@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_goal/open_the_middle_drawer_of_the_cabinet_demo.hdf5",
+  "episode": "demo_26",
+  "manual_seed": 13243,
+  "our_training_split": "train",
+  "task_index": 10,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_10_26",
+  "case_id": "Sx_10_26_normal",
+  "condition": "normal",
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0
+}

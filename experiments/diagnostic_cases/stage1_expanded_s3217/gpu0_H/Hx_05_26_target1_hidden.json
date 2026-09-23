@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+  "episode": "demo_26",
+  "manual_seed": 12243,
+  "our_training_split": "test",
+  "task_index": 9,
+  "target_object": "black_book_1",
+  "kind": "H",
+  "layout": "Hx_05_26",
+  "case_id": "Hx_05_26_target1_hidden",
+  "condition": "hidden",
+  "target_index": 1,
+  "history_setup": "single_object_position",
+  "max_policy_steps": 5
+}

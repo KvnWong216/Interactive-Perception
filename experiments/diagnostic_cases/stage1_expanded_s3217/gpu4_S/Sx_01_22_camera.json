@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_10/KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it_demo.hdf5",
+  "episode": "demo_22",
+  "manual_seed": 4239,
+  "our_training_split": "validation",
+  "task_index": 1,
+  "max_policy_steps": 500,
+  "kind": "S",
+  "layout": "Sx_01_22",
+  "case_id": "Sx_01_22_camera",
+  "condition": "camera",
+  "yaw_degrees": 20,
+  "pitch_degrees": -10,
+  "light_scale": 1.0
+}

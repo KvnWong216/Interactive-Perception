@@ -1,0 +1,5 @@
+﻿outcome_stratum,case_id,file,status
+both_success,S_05_40_lighting,S_05_40_lighting.mp4,generated; manual seed 1317
+native_only,S_05_30_lighting,S_05_30_lighting.mp4,generated; manual seed 1317
+best_only,S_02_30_normal,S_02_30_normal.mp4,generated; manual seed 1317
+both_failure,S_01_40_camera,S_01_40_camera.mp4,generated; manual seed 1317

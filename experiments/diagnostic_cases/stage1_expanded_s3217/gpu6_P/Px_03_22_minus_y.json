@@ -1,0 +1,18 @@
+{
+  "source": "data/libero_raw/libero_object/pick_up_the_orange_juice_and_place_it_in_the_basket_demo.hdf5",
+  "episode": "demo_22",
+  "manual_seed": 30239,
+  "our_training_split": "test",
+  "task_index": 27,
+  "target_object": "orange_juice_1",
+  "kind": "P",
+  "layout": "Px_03_22",
+  "case_id": "Px_03_22_minus_y",
+  "condition": "minus_y",
+  "target_offset_m": [
+    0.0,
+    -0.04,
+    0.0
+  ],
+  "max_policy_steps": 300
+}

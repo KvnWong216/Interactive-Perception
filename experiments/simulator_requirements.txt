@@ -1,0 +1,17 @@
+# Python 3.11; isolate from the torch 2.11 / numpy 2.x model environment.
+# Install cmake first and put this environment's bin directory on PATH for EGL.
+cmake>=3.25,<4
+numpy==1.26.4
+mujoco==2.3.7
+robosuite==1.4.1
+gym==0.26.2
+robomimic==0.2.0
+bddl==1.0.1
+future==1.0.0
+h5py==3.16.0
+easydict==1.13
+cloudpickle==3.1.2
+matplotlib==3.11.2
+termcolor==3.3.0
+imageio==2.37.4
+# LIBERO is installed --no-deps -e third_party/LIBERO at the revision in the log.

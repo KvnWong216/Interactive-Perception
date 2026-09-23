@@ -1,0 +1,202 @@
+[
+  {
+    "object": "akita_black_bowl_1",
+    "layout": "Hx_00_34",
+    "file": "history_akita_black_bowl_1.mp4",
+    "selection_manual_seed": 3317,
+    "selection": "one admissible layout per object; independent of policy scores",
+    "source": "runs/stage1_expanded_s3217/gpu0/H",
+    "decisions": [
+      {
+        "policy": "native",
+        "case_id": "Hx_00_34_target0_hidden",
+        "first_choice": {
+          "chosen_index": 0,
+          "correct": true,
+          "axis_displacement_m": -0.013386870661620946,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "best",
+        "case_id": "Hx_00_34_target0_hidden",
+        "first_choice": {
+          "chosen_index": 0,
+          "correct": true,
+          "axis_displacement_m": -0.0034891881334733407,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "native",
+        "case_id": "Hx_00_34_target1_hidden",
+        "first_choice": {
+          "chosen_index": 0,
+          "correct": false,
+          "axis_displacement_m": -0.013386870661620892,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "best",
+        "case_id": "Hx_00_34_target1_hidden",
+        "first_choice": {
+          "chosen_index": 1,
+          "correct": true,
+          "axis_displacement_m": 0.017266150310664113,
+          "measured_at_step": 45
+        }
+      }
+    ]
+  },
+  {
+    "object": "black_book_1",
+    "layout": "Hx_05_44",
+    "file": "history_black_book_1.mp4",
+    "selection_manual_seed": 3317,
+    "selection": "one admissible layout per object; independent of policy scores",
+    "source": "runs/stage1_expanded_s3217/gpu0/H",
+    "decisions": [
+      {
+        "policy": "native",
+        "case_id": "Hx_05_44_target0_hidden",
+        "first_choice": {
+          "chosen_index": null,
+          "correct": false,
+          "axis_displacement_m": -0.00021029584521353728,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "best",
+        "case_id": "Hx_05_44_target0_hidden",
+        "first_choice": {
+          "chosen_index": 0,
+          "correct": true,
+          "axis_displacement_m": -0.007736895198018845,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "native",
+        "case_id": "Hx_05_44_target1_hidden",
+        "first_choice": {
+          "chosen_index": null,
+          "correct": false,
+          "axis_displacement_m": 0.00033221525291565746,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "best",
+        "case_id": "Hx_05_44_target1_hidden",
+        "first_choice": {
+          "chosen_index": 1,
+          "correct": true,
+          "axis_displacement_m": 0.019514093806303007,
+          "measured_at_step": 45
+        }
+      }
+    ]
+  },
+  {
+    "object": "milk_1",
+    "layout": "Hx_02_22",
+    "file": "history_milk_1.mp4",
+    "selection_manual_seed": 3317,
+    "selection": "one admissible layout per object; independent of policy scores",
+    "source": "runs/stage1_expanded_s3217/gpu5/H",
+    "decisions": [
+      {
+        "policy": "native",
+        "case_id": "Hx_02_22_target0_hidden",
+        "first_choice": {
+          "chosen_index": 0,
+          "correct": true,
+          "axis_displacement_m": -0.002712651580618536,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "best",
+        "case_id": "Hx_02_22_target0_hidden",
+        "first_choice": {
+          "chosen_index": 0,
+          "correct": true,
+          "axis_displacement_m": -0.009404182037138026,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "native",
+        "case_id": "Hx_02_22_target1_hidden",
+        "first_choice": {
+          "chosen_index": 0,
+          "correct": false,
+          "axis_displacement_m": -0.002712651580618536,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "best",
+        "case_id": "Hx_02_22_target1_hidden",
+        "first_choice": {
+          "chosen_index": 1,
+          "correct": true,
+          "axis_displacement_m": 0.01119545622200352,
+          "measured_at_step": 45
+        }
+      }
+    ]
+  },
+  {
+    "object": "orange_juice_1",
+    "layout": "Hx_03_44",
+    "file": "history_orange_juice_1.mp4",
+    "selection_manual_seed": 3317,
+    "selection": "one admissible layout per object; independent of policy scores",
+    "source": "runs/stage1_expanded_s3217/gpu6/H",
+    "decisions": [
+      {
+        "policy": "native",
+        "case_id": "Hx_03_44_target0_hidden",
+        "first_choice": {
+          "chosen_index": null,
+          "correct": false,
+          "axis_displacement_m": -0.0005600964236964906,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "best",
+        "case_id": "Hx_03_44_target0_hidden",
+        "first_choice": {
+          "chosen_index": 0,
+          "correct": true,
+          "axis_displacement_m": -0.01576365679933253,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "native",
+        "case_id": "Hx_03_44_target1_hidden",
+        "first_choice": {
+          "chosen_index": null,
+          "correct": false,
+          "axis_displacement_m": -0.0005600964236964906,
+          "measured_at_step": 45
+        }
+      },
+      {
+        "policy": "best",
+        "case_id": "Hx_03_44_target1_hidden",
+        "first_choice": {
+          "chosen_index": 1,
+          "correct": true,
+          "axis_displacement_m": 0.00832766110795724,
+          "measured_at_step": 45
+        }
+      }
+    ]
+  }
+]

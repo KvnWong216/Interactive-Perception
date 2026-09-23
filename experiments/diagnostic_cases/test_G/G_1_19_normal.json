@@ -1,0 +1,12 @@
+{
+  "case_id": "G_1_19_normal",
+  "layout": "G_1_19",
+  "kind": "G",
+  "condition": "normal",
+  "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+  "episode": "demo_19",
+  "manual_seed": 1236,
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "max_policy_steps": 300
+}

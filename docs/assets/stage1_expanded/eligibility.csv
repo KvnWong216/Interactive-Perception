@@ -1,0 +1,16 @@
+﻿gpu,kind,candidate_cases,audited_candidate_cases,eligible_cases,passed
+0,H,32,32,24,True
+0,P,24,24,24,True
+0,S,128,128,128,True
+4,H,16,16,0,False
+4,P,12,12,12,True
+4,S,128,128,128,True
+5,H,16,16,16,True
+5,P,12,12,0,False
+5,S,128,128,128,True
+6,H,16,16,12,True
+6,P,12,12,0,False
+6,S,128,128,128,True
+7,H,16,16,0,False
+7,P,12,12,12,True
+7,S,128,128,128,True

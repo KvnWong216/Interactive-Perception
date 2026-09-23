@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_10/LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket_demo.hdf5",
+  "episode": "demo_22",
+  "manual_seed": 7239,
+  "our_training_split": "train",
+  "task_index": 4,
+  "max_policy_steps": 500,
+  "kind": "S",
+  "layout": "Sx_04_22",
+  "case_id": "Sx_04_22_camera",
+  "condition": "camera",
+  "yaw_degrees": -20,
+  "pitch_degrees": 10,
+  "light_scale": 1.0
+}

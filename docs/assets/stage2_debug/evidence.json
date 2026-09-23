@@ -1,0 +1,363 @@
+{
+  "complete": true,
+  "additional_fits": 99,
+  "counts": {
+    "query_convergence": 36,
+    "fork_fits": 30,
+    "effect_fits": 15,
+    "single_case_fits": 12,
+    "width_fits": 6
+  },
+  "initial_states": 48,
+  "distinct_action_rollouts": 288,
+  "repeated_hold_rollouts": 96,
+  "horizon_endpoints": 1152,
+  "confirmation": {
+    "stage2": {
+      "n_seeds": 1,
+      "mean": {
+        "mean_loss": 0.34981659551461536,
+        "copy_loss": 0.082514563575387,
+        "pair_assignment_accuracy": 0.6055555555555555,
+        "pair_tie_fraction": 0.05555555555555555,
+        "wrong_minus_correct": 5.606313546498617e-06,
+        "separation_ratio": 0.004466443962484353,
+        "explained_action_variance": 5.271132379358612e-05,
+        "mean_component_mse": 0.6670626501242319,
+        "action_component_mse": 0.13208168682952723,
+        "target_action_mse": 0.13208864939709505
+      },
+      "seed_std": {
+        "mean_loss": null,
+        "copy_loss": null,
+        "pair_assignment_accuracy": null,
+        "pair_tie_fraction": null,
+        "wrong_minus_correct": null,
+        "separation_ratio": null,
+        "explained_action_variance": null,
+        "mean_component_mse": null,
+        "action_component_mse": null,
+        "target_action_mse": null
+      }
+    },
+    "effect": {
+      "n_seeds": 3,
+      "mean": {
+        "mean_loss": 0.1005447610384888,
+        "copy_loss": 0.082514563575387,
+        "pair_assignment_accuracy": 0.8814814814814815,
+        "pair_tie_fraction": 0.0,
+        "wrong_minus_correct": 0.0036937230025176648,
+        "separation_ratio": 0.18872944912772427,
+        "explained_action_variance": 0.00642097000796978,
+        "mean_component_mse": 0.08999404704405202,
+        "action_component_mse": 0.13124051214092308,
+        "target_action_mse": 0.13208864939709505
+      },
+      "seed_std": {
+        "mean_loss": 0.0024215092615888557,
+        "copy_loss": 0.0,
+        "pair_assignment_accuracy": 0.011564811108145202,
+        "pair_tie_fraction": 0.0,
+        "wrong_minus_correct": 0.0005411493857521301,
+        "separation_ratio": 0.01722408827089944,
+        "explained_action_variance": 0.005367973872600258,
+        "mean_component_mse": 0.005131008093991581,
+        "action_component_mse": 0.0007090484188306604,
+        "target_action_mse": 0.0
+      }
+    },
+    "absolute": {
+      "n_seeds": 3,
+      "mean": {
+        "mean_loss": 0.09729786506957479,
+        "copy_loss": 0.082514563575387,
+        "pair_assignment_accuracy": 0.7888888888888889,
+        "pair_tie_fraction": 0.0,
+        "wrong_minus_correct": 0.0012287602587430565,
+        "separation_ratio": 0.09604442005492844,
+        "explained_action_variance": 0.004554861919011592,
+        "mean_component_mse": 0.0831984288783537,
+        "action_component_mse": 0.13148700383802256,
+        "target_action_mse": 0.13208864939709505
+      },
+      "seed_std": {
+        "mean_loss": 0.002381749015205291,
+        "copy_loss": 0.0,
+        "pair_assignment_accuracy": 0.02777777777777779,
+        "pair_tie_fraction": 0.0,
+        "wrong_minus_correct": 7.652863654548925e-05,
+        "separation_ratio": 0.0033392603804807915,
+        "explained_action_variance": 0.001211397298909544,
+        "mean_component_mse": 0.0048297177108146605,
+        "action_component_mse": 0.00016001183309625276,
+        "target_action_mse": 0.0
+      }
+    },
+    "blind": {
+      "n_seeds": 3,
+      "mean": {
+        "mean_loss": 0.09655978096028169,
+        "copy_loss": 0.082514563575387,
+        "pair_assignment_accuracy": 0.0,
+        "pair_tie_fraction": 1.0,
+        "wrong_minus_correct": -4.0702245853565354e-10,
+        "separation_ratio": 0.0,
+        "explained_action_variance": -3.1336617004977065e-09,
+        "mean_component_mse": 0.08149781367845005,
+        "action_component_mse": 0.1320886498110162,
+        "target_action_mse": 0.13208864939709505
+      },
+      "seed_std": {
+        "mean_loss": 0.0023637750953794294,
+        "copy_loss": 0.0,
+        "pair_assignment_accuracy": 0.0,
+        "pair_tie_fraction": 0.0,
+        "wrong_minus_correct": 1.0557694199311729e-09,
+        "separation_ratio": 0.0,
+        "explained_action_variance": 5.427661278994714e-09,
+        "mean_component_mse": 0.0049544825826423715,
+        "action_component_mse": 7.169324415257031e-10,
+        "target_action_mse": 0.0
+      }
+    }
+  },
+  "confirmation_models": [
+    {
+      "model": "original stage2 best",
+      "job": {
+        "variant": "original",
+        "blind": false,
+        "source": "stage2 best"
+      },
+      "mean_loss": 0.34981659551461536,
+      "copy_loss": 0.082514563575387,
+      "pair_assignment_accuracy": 0.6055555555555555,
+      "pair_tie_fraction": 0.05555555555555555,
+      "wrong_minus_correct": 5.606313546498617e-06,
+      "separation_ratio": 0.004466443962484353,
+      "explained_action_variance": 5.271132379358612e-05,
+      "mean_component_mse": 0.6670626501242319,
+      "action_component_mse": 0.13208168682952723,
+      "target_action_mse": 0.13208864939709505
+    },
+    {
+      "model": "effect_fits/jobs/job_003.pt",
+      "job": {
+        "job_id": 3,
+        "variant": "current_residual_separate",
+        "effect_weight": 1.0,
+        "manual_seed": 17,
+        "blind": false,
+        "steps": 600,
+        "lr": 0.0005
+      },
+      "mean_loss": 0.09781133259336154,
+      "copy_loss": 0.082514563575387,
+      "pair_assignment_accuracy": 0.8777777777777778,
+      "pair_tie_fraction": 0.0,
+      "wrong_minus_correct": 0.0032897821110155845,
+      "separation_ratio": 0.18621288725534169,
+      "explained_action_variance": 0.003821382955330521,
+      "mean_component_mse": 0.08407344296574593,
+      "action_component_mse": 0.13158388808369637,
+      "target_action_mse": 0.13208864939709505
+    },
+    {
+      "model": "effect_fits/jobs/job_007.pt",
+      "job": {
+        "job_id": 7,
+        "variant": "current_residual_separate",
+        "effect_weight": 0.0,
+        "manual_seed": 29,
+        "blind": false,
+        "steps": 600,
+        "lr": 0.0005
+      },
+      "mean_loss": 0.09922083715597789,
+      "copy_loss": 0.082514563575387,
+      "pair_assignment_accuracy": 0.8166666666666667,
+      "pair_tie_fraction": 0.0,
+      "wrong_minus_correct": 0.0012876524693436094,
+      "separation_ratio": 0.09980777967962187,
+      "explained_action_variance": 0.00348503450826676,
+      "mean_component_mse": 0.0871273238832752,
+      "action_component_mse": 0.13162831589579582,
+      "target_action_mse": 0.13208864939709505
+    },
+    {
+      "model": "effect_fits/jobs/job_009.pt",
+      "job": {
+        "job_id": 9,
+        "variant": "current_residual_separate",
+        "effect_weight": 1.0,
+        "manual_seed": 29,
+        "blind": true,
+        "steps": 600,
+        "lr": 0.0005
+      },
+      "mean_loss": 0.09886392888923486,
+      "copy_loss": 0.082514563575387,
+      "pair_assignment_accuracy": 0.0,
+      "pair_tie_fraction": 1.0,
+      "wrong_minus_correct": -1.3659397761027017e-09,
+      "separation_ratio": 0.0,
+      "explained_action_variance": 0.0,
+      "mean_component_mse": 0.08636684374262889,
+      "action_component_mse": 0.13208864939709505,
+      "target_action_mse": 0.13208864939709505
+    },
+    {
+      "model": "effect_fits/jobs/job_013.pt",
+      "job": {
+        "job_id": 13,
+        "variant": "current_residual_separate",
+        "effect_weight": 1.0,
+        "manual_seed": 43,
+        "blind": false,
+        "steps": 600,
+        "lr": 0.0005
+      },
+      "mean_loss": 0.10242136133213837,
+      "copy_loss": 0.082514563575387,
+      "pair_assignment_accuracy": 0.8944444444444445,
+      "pair_tie_fraction": 0.0,
+      "wrong_minus_correct": 0.004308569307128588,
+      "separation_ratio": 0.20707337913032764,
+      "explained_action_variance": 0.0028476994198197714,
+      "mean_component_mse": 0.09314690964917342,
+      "action_component_mse": 0.13171250062684217,
+      "target_action_mse": 0.13208864939709505
+    },
+    {
+      "model": "effect_fits/jobs/job_002.pt",
+      "job": {
+        "job_id": 2,
+        "variant": "current_residual_separate",
+        "effect_weight": 0.0,
+        "manual_seed": 17,
+        "blind": false,
+        "steps": 600,
+        "lr": 0.0005
+      },
+      "mean_loss": 0.09463362768292427,
+      "copy_loss": 0.082514563575387,
+      "pair_assignment_accuracy": 0.7611111111111111,
+      "pair_tie_fraction": 0.0,
+      "wrong_minus_correct": 0.001256370378865136,
+      "separation_ratio": 0.09488972245699222,
+      "explained_action_variance": 0.0058702148591868175,
+      "mean_component_mse": 0.077806298310558,
+      "action_component_mse": 0.1313132606446743,
+      "target_action_mse": 0.13208864939709505
+    },
+    {
+      "model": "effect_fits/jobs/job_004.pt",
+      "job": {
+        "job_id": 4,
+        "variant": "current_residual_separate",
+        "effect_weight": 1.0,
+        "manual_seed": 17,
+        "blind": true,
+        "steps": 600,
+        "lr": 0.0005
+      },
+      "mean_loss": 0.09414058054486911,
+      "copy_loss": 0.082514563575387,
+      "pair_assignment_accuracy": 0.0,
+      "pair_tie_fraction": 1.0,
+      "wrong_minus_correct": 7.243620024787055e-10,
+      "separation_ratio": 0.0,
+      "explained_action_variance": -9.40098510149312e-09,
+      "mean_component_mse": 0.07646208597968022,
+      "action_component_mse": 0.13208865063885847,
+      "target_action_mse": 0.13208864939709505
+    },
+    {
+      "model": "effect_fits/jobs/job_008.pt",
+      "job": {
+        "job_id": 8,
+        "variant": "current_residual_separate",
+        "effect_weight": 1.0,
+        "manual_seed": 29,
+        "blind": false,
+        "steps": 600,
+        "lr": 0.0005
+      },
+      "mean_loss": 0.10140158918996652,
+      "copy_loss": 0.082514563575387,
+      "pair_assignment_accuracy": 0.8722222222222222,
+      "pair_tie_fraction": 0.0,
+      "wrong_minus_correct": 0.0034828175894088217,
+      "separation_ratio": 0.17290208099750345,
+      "explained_action_variance": 0.012593827648759048,
+      "mean_component_mse": 0.09276178851723671,
+      "action_component_mse": 0.13042514771223068,
+      "target_action_mse": 0.13208864939709505
+    },
+    {
+      "model": "effect_fits/jobs/job_012.pt",
+      "job": {
+        "job_id": 12,
+        "variant": "current_residual_separate",
+        "effect_weight": 0.0,
+        "manual_seed": 43,
+        "blind": false,
+        "steps": 600,
+        "lr": 0.0005
+      },
+      "mean_loss": 0.09803913036982219,
+      "copy_loss": 0.082514563575387,
+      "pair_assignment_accuracy": 0.7888888888888889,
+      "pair_tie_fraction": 0.0,
+      "wrong_minus_correct": 0.0011422579280204242,
+      "separation_ratio": 0.09343575802817122,
+      "explained_action_variance": 0.004309336389581198,
+      "mean_component_mse": 0.08466166444122791,
+      "action_component_mse": 0.13151943497359753,
+      "target_action_mse": 0.13208864939709505
+    },
+    {
+      "model": "effect_fits/jobs/job_014.pt",
+      "job": {
+        "job_id": 14,
+        "variant": "current_residual_separate",
+        "effect_weight": 1.0,
+        "manual_seed": 43,
+        "blind": true,
+        "steps": 600,
+        "lr": 0.0005
+      },
+      "mean_loss": 0.0966748334467411,
+      "copy_loss": 0.082514563575387,
+      "pair_assignment_accuracy": 0.0,
+      "pair_tie_fraction": 1.0,
+      "wrong_minus_correct": -5.794896019829644e-10,
+      "separation_ratio": 0.0,
+      "explained_action_variance": 0.0,
+      "mean_component_mse": 0.08166451131304105,
+      "action_component_mse": 0.13208864939709505,
+      "target_action_mse": 0.13208864939709505
+    }
+  ],
+  "limitations": [
+    "Predictor diagnostics, not VLA task success",
+    "Confirmation: 2 task/scene groups, 6 source episodes, 12 takeover states; correlated branch pairs are not independent trials",
+    "No candidate passed overall future error improvement gate; no production weights changed"
+  ],
+  "teacher_confirmation_probe": {
+    "branch_accuracy": {
+      "future_minus_current": {
+        "train": 1.0,
+        "confirmation": 0.29166666666666663
+      },
+      "current_only": {
+        "train": 0.16666666666666666,
+        "confirmation": 0.16666666666666666
+      }
+    },
+    "chance": 0.16666666666666666,
+    "ridge": 0.01,
+    "feature": "teacher spatial moments by view; no actions or robot state input"
+  }
+}

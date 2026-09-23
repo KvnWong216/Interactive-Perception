@@ -1,0 +1,18 @@
+{
+  "source": "data/libero_raw/libero_goal/put_the_wine_bottle_on_the_rack_demo.hdf5",
+  "episode": "demo_26",
+  "manual_seed": 20243,
+  "our_training_split": "train",
+  "task_index": 17,
+  "target_object": "wine_bottle_1",
+  "kind": "P",
+  "layout": "Px_01_26",
+  "case_id": "Px_01_26_plus_y",
+  "condition": "plus_y",
+  "target_offset_m": [
+    0.0,
+    0.04,
+    0.0
+  ],
+  "max_policy_steps": 300
+}

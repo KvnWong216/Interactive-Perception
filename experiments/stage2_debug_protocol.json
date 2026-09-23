@@ -1,0 +1,275 @@
+{
+  "schema": "stage2-mechanism-debug-v1",
+  "created": "2026-09-22",
+  "status": "Mechanism diagnosis complete: 99 additional GPU fits, audited forks and locked confirmation; no policy candidate passed.",
+  "data_manual_seed": 6227,
+  "training_manual_seeds": [
+    17,
+    29,
+    43
+  ],
+  "baseline": {
+    "checkpoint": "runs/stage2_s17_gpu4567/best.pt",
+    "update": 1500,
+    "policy_frozen": true,
+    "native_interface_unchanged": true,
+    "formal_retraining_started": false
+  },
+  "decision_rules": {
+    "relative_copy_gain_min": 0.1,
+    "relative_wrong_action_gain_min": 0.05,
+    "paired_fork_assignment_min": 0.75,
+    "seeds_required_same_direction": 3,
+    "confidence_interval": "paired bootstrap by initial-state family, report per training seed; exploratory in development",
+    "claim_limit": "Engineering gates, not established literature constants or proof of causality in the real robot"
+  },
+  "experiments": [
+    {
+      "id": "D0",
+      "question": "Are observation/action/teacher paths trustworthy?",
+      "controls": [
+        "exact initial state and context equality across forks",
+        "identical no-op replay x3",
+        "future step equals current plus actually executed actions",
+        "frozen teacher deterministic encode",
+        "checkpoint strict restore and nonzero gradients"
+      ],
+      "stop_if": "time, reset, mask, crop alignment or teacher nondeterminism fails",
+      "status": "existing checkpoint/data probes done; replay noise and forks pending"
+    },
+    {
+      "id": "D1",
+      "question": "Can the original network learn known action-dependent transitions?",
+      "script": "scripts/predictor_diagnostic_lab.py",
+      "dataset": "synthetic features; 16 train and 8 unseen initial-state development families, 2 branches each",
+      "controls": [
+        "same initialization actual-action versus trained action-blind",
+        "action-required positive control",
+        "static-future negative control",
+        "exact oracle",
+        "empirical action-blind midpoint bound"
+      ],
+      "steps": 200,
+      "batch_windows": 8,
+      "learning_rate": 0.001,
+      "device": "cpu",
+      "dtype": "float32",
+      "claim_limit": "Small synthetic network only; neither robot dynamics nor production-scale capacity",
+      "status": "completed",
+      "report": "runs/predictor_controlled_s6227/report.json"
+    },
+    {
+      "id": "D2",
+      "question": "Is failure a learned output-space problem or a hard width bottleneck?",
+      "script": "scripts/audit_predictor_capacity.py",
+      "optimizer_steps": 0,
+      "dataset": "4 existing development windows; repeat later on 64 train/development windows",
+      "metrics": [
+        "optimal affine rank-256 MSE lower bound",
+        "fixed learned output-layer MSE lower bound",
+        "copy-current MSE"
+      ],
+      "claim_limit": "Per-window optimal subspace is an optimistic bound, not a global shared solution; MSE bounds are not SmoothL1 bounds",
+      "status": "completed on four diagnostic windows; expansion pending",
+      "report": "runs/stage2_predictor_capacity_s6227.json"
+    },
+    {
+      "id": "D3",
+      "question": "Can the real head memorize correctly aligned real transitions?",
+      "dataset": "1/8/32 training windows, one per reset family, 32 disjoint development families from original train split",
+      "head_initialization": [
+        "stage2 best",
+        "random"
+      ],
+      "backbone": "stage2 best frozen",
+      "learning_rates": [
+        0.0001,
+        0.0005
+      ],
+      "steps_checkpoints": [
+        0,
+        100,
+        300,
+        1000
+      ],
+      "microbatch": 1,
+      "accumulation": 8,
+      "dtype": "float32 head, cached bfloat16 backbone",
+      "controls": [
+        "copy current",
+        "train-only mean by position/view",
+        "oracle target",
+        "learnable per-sample target table pipeline control"
+      ],
+      "stop_if": "pipeline oracle or target-table sanity check fails",
+      "claim_limit": "Memorization is an optimization test, not evidence of dynamics or generalization",
+      "execution_status": "See final diagnosis for actual bounded experiments, amendments and limitations"
+    },
+    {
+      "id": "D4",
+      "question": "Does the same state require actions to predict its different actual futures?",
+      "dataset": "48 initial-state families across 8 task templates; 6 branches per family; endpoints 5/10/30",
+      "groups": {
+        "train_task_templates": 4,
+        "development_task_templates": 2,
+        "locked_confirmation_task_templates": 2,
+        "families_per_template": 6
+      },
+      "windows": 864,
+      "fork_rollouts": 288,
+      "max_steps_per_rollout": 30,
+      "actions": [
+        "hold pose with audited gripper convention",
+        "+x",
+        "-x",
+        "+y",
+        "-y",
+        "gripper change"
+      ],
+      "controls": [
+        "correct actions",
+        "same-state wrong actions with recorded true futures",
+        "trained action-blind",
+        "copy current",
+        "3 repeated no-op replays per initial state"
+      ],
+      "claim_limit": "Terminal-state branch tests do not identify action order; add contact-sensitive order forks separately",
+      "execution_status": "See final diagnosis for actual bounded experiments, amendments and limitations"
+    },
+    {
+      "id": "D5",
+      "question": "Does target parameterization or action fusion fix the deficit?",
+      "factorial": {
+        "current_patch_input": [
+          true
+        ],
+        "prediction_form": [
+          "absolute",
+          "residual"
+        ],
+        "action_fusion": [
+          "joint_memory",
+          "separate_normalization"
+        ]
+      },
+      "core_design": "2x2 prediction form x action fusion with current-patch input held present for all four; original no-current model is an extra reference",
+      "controls": [
+        "same common-weight initialization",
+        "same minibatches and optimizer steps",
+        "parameter-matched shared-weight dual readout with count/compute recorded",
+        "equal compute budget sensitivity",
+        "current-input absolute versus no-current absolute"
+      ],
+      "training": "fixed backbone, then independent confirmation using stage1 best backbone",
+      "claim_limit": "A gain from adding current features alone cannot be attributed to residual learning",
+      "extra_reference": "original architecture without current-patch input",
+      "execution_status": "See final diagnosis for actual bounded experiments, amendments and limitations"
+    },
+    {
+      "id": "D6",
+      "question": "Are static shortcuts, target blindness, or conditional averaging responsible?",
+      "changes_one_at_a_time": [
+        "background independent randomization",
+        "foreground fraction 5/20/50 percent in controlled data",
+        "horizon 5/10/30",
+        "object versus background probes",
+        "inverse dynamics probe on frozen true states",
+        "width 256/512 and depth 2/4 only after rank audit"
+      ],
+      "controls": [
+        "object visible but action-dependent",
+        "object occluded",
+        "same future irrelevant action label",
+        "time-order-sensitive contact sequences",
+        "held-out background/task identities"
+      ],
+      "metrics": [
+        "changed-patch error",
+        "object position/contact probes",
+        "cross-family feature variance and effective rank",
+        "current-state-only versus current-plus-future inverse dynamics"
+      ],
+      "execution_status": "See final diagnosis for actual bounded experiments, amendments and limitations"
+    },
+    {
+      "id": "D7",
+      "question": "Does auxiliary training help policy once the predictor demonstrably works?",
+      "gate": "D0 through D6 support a candidate on development; freeze choices before locked confirmation",
+      "controls": [
+        "equal-budget action-only continuation",
+        "prediction-head only frozen policy",
+        "joint action and prediction",
+        "joint with prediction gradient stopped at shared representation"
+      ],
+      "metrics": [
+        "gradient cosine and norm ratios on shared parameters",
+        "policy success and old-skill preservation",
+        "same-state correct-action advantage"
+      ],
+      "claim_limit": "Negative gradient cosine alone is not proof of harmful task interference; no expansion until behavioral gain is supported",
+      "execution_status": "Not launched: predictor has not passed the mechanism gate"
+    }
+  ],
+  "storage": {
+    "new_artifact_cap_bytes": 50000000000,
+    "total_project_cap_bytes": 1000000000000,
+    "download_new_teacher": false
+  },
+  "budget": {
+    "cpu_controls_minutes_estimate": [
+      2,
+      15
+    ],
+    "real_feature_cache_minutes_estimate": [
+      30,
+      90
+    ],
+    "head_only_per_run_minutes_estimate": [
+      2,
+      30
+    ],
+    "simulator_forks_hours_estimate": [
+      1,
+      4
+    ],
+    "note": "Planning estimates, not measured production timings. Feature-only head memory target 2-6 GiB; model cache extraction budget 40-48 GiB. Calibrate 20 steps before scheduling. No new GPU allocated in this turn."
+  },
+  "sources": [
+    "https://arxiv.org/abs/2211.10831",
+    "https://github.com/facebookresearch/eb_jepa/blob/main/examples/ac_video_jepa/README.md",
+    "https://arxiv.org/abs/2506.09985",
+    "https://arxiv.org/abs/2105.04906",
+    "https://arxiv.org/abs/2001.06782",
+    "https://arxiv.org/html/1511.05440v6"
+  ],
+  "active_run": "runs/stage2_real_debug_s6227",
+  "active_gpus": [
+    2,
+    3
+  ],
+  "launch_amendment": {
+    "reason": "actual original train manifest has 14 reset families, not 32; avoid impossible independent-family claim",
+    "train_families": 11,
+    "development_families": [
+      "scene_20",
+      "scene_11",
+      "scene_17"
+    ],
+    "train_windows": 32,
+    "development_windows": 32,
+    "unique_episodes": 64,
+    "development_scope": "held out from these head fits; seen by original stage2 training",
+    "first_wave_steps": 300,
+    "jobs": 48,
+    "head_workers_per_gpu": 4,
+    "optimizer": "AdamW FP32, betas 0.9/0.95, weight_decay 0, grad_clip 1",
+    "batch": "microbatch 1; accumulation min(8, training subset size); paired within equal-size comparisons"
+  },
+  "active_run_complete": true,
+  "final_diagnosis": "runs/stage2_forks_s7227/final_diagnosis.json",
+  "production_checkpoint_modified": false,
+  "gpus_released": [
+    2,
+    3
+  ]
+}

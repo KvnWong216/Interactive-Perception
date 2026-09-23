@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_goal/open_the_top_drawer_and_put_the_bowl_inside_demo.hdf5",
+  "episode": "demo_26",
+  "manual_seed": 14243,
+  "our_training_split": "train",
+  "task_index": 11,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_11_26",
+  "case_id": "Sx_11_26_normal",
+  "condition": "normal",
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0
+}

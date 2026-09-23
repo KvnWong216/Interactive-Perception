@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_object/pick_up_the_alphabet_soup_and_place_it_in_the_basket_demo.hdf5",
+  "episode": "demo_22",
+  "manual_seed": 23239,
+  "our_training_split": "train",
+  "task_index": 20,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_20_22",
+  "case_id": "Sx_20_22_camera",
+  "condition": "camera",
+  "yaw_degrees": -20,
+  "pitch_degrees": 10,
+  "light_scale": 1.0
+}

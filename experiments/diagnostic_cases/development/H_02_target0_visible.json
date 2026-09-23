@@ -1,0 +1,11 @@
+{
+  "case_id": "H_02_target0_visible",
+  "layout": "H_02",
+  "kind": "H",
+  "condition": "visible",
+  "source": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate_demo.hdf5",
+  "episode": "demo_2",
+  "manual_seed": 2119,
+  "target_index": 0,
+  "max_policy_steps": 300
+}

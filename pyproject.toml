@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "interactive-perception"
 version = "0.1.0"
-description = "PSR-inspired predictive state conditioning for interactive perception"
+description = "Geometry-aware predictive VLA policies for interactive perception"
 readme = "README.md"
 requires-python = ">=3.10"
 
@@ -31,7 +31,7 @@ molmoact2 = [
 dev = ["numpy>=1.26,<3", "Pillow>=10", "pytest>=8.0", "ruff>=0.12"]
 
 [project.scripts]
-ip-psr = "grounded_interaction.psr.cli:main"
+ip-vla = "grounded_interaction.predictive_vla.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

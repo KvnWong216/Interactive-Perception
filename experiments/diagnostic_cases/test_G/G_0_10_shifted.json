@@ -1,0 +1,12 @@
+{
+  "case_id": "G_0_10_shifted",
+  "layout": "G_0_10",
+  "kind": "G",
+  "condition": "shifted",
+  "source": "data/libero_raw/libero_goal/open_the_middle_drawer_of_the_cabinet_demo.hdf5",
+  "episode": "demo_10",
+  "manual_seed": 227,
+  "yaw_degrees": 10,
+  "pitch_degrees": -5,
+  "max_policy_steps": 300
+}

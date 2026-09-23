@@ -1,0 +1,588 @@
+{
+  "description": "Recorded explicit protocol; use fresh output paths for reruns. No confirmation-based selection.",
+  "phases": [
+    {
+      "name": "fit_and_collect",
+      "jobs": [
+        {
+          "name": "live_s29",
+          "gpu": 0,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/confirmation/live_s29",
+            "--steps",
+            "4000",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "29",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "1"
+          ],
+          "simulator": false
+        },
+        {
+          "name": "blind_s29",
+          "gpu": 5,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/confirmation/blind_s29",
+            "--steps",
+            "4000",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "29",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "1",
+            "--blind"
+          ],
+          "simulator": false
+        },
+        {
+          "name": "live_s43",
+          "gpu": 0,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/confirmation/live_s43",
+            "--steps",
+            "4000",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "43",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "1"
+          ],
+          "simulator": false
+        },
+        {
+          "name": "blind_s43",
+          "gpu": 5,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/confirmation/blind_s43",
+            "--steps",
+            "4000",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "43",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "1",
+            "--blind"
+          ],
+          "simulator": false
+        },
+        {
+          "name": "collect_0",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "0",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_1",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "1",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_2",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "2",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_3",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "3",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_4",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "4",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_5",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "5",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_6",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "6",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_7",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "7",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_8",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "8",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_9",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "9",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_10",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "10",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_11",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "11",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_12",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "12",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_13",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "13",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_14",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "14",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_15",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "15",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_16",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "16",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_17",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "17",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_18",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "18",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_19",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "19",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_20",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "20",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_21",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "21",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_22",
+          "gpu": 0,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "22",
+            "--physical-gpu",
+            "0"
+          ],
+          "simulator": true
+        },
+        {
+          "name": "collect_23",
+          "gpu": 5,
+          "script": "collect_predictor_forks.py",
+          "args": [
+            "collect",
+            "--output",
+            "runs/transition_confirmation_s13227",
+            "--workers",
+            "24",
+            "--shard",
+            "23",
+            "--physical-gpu",
+            "5"
+          ],
+          "simulator": true
+        }
+      ]
+    },
+    {
+      "name": "encoding",
+      "jobs": [
+        {
+          "name": "encode_0",
+          "gpu": 0,
+          "script": "encode_predictor_forks.py",
+          "args": [
+            "--shard",
+            "0",
+            "--physical-gpu",
+            "0",
+            "--source",
+            "runs/transition_confirmation_s13227",
+            "--features-directory",
+            "runs/transition_confirmation_s13227/features_stage1",
+            "--checkpoint",
+            "runs/stage1_s17_gpu7/best.pt"
+          ],
+          "simulator": false
+        },
+        {
+          "name": "encode_1",
+          "gpu": 5,
+          "script": "encode_predictor_forks.py",
+          "args": [
+            "--shard",
+            "1",
+            "--physical-gpu",
+            "5",
+            "--source",
+            "runs/transition_confirmation_s13227",
+            "--features-directory",
+            "runs/transition_confirmation_s13227/features_stage1",
+            "--checkpoint",
+            "runs/stage1_s17_gpu7/best.pt"
+          ],
+          "simulator": false
+        }
+      ]
+    },
+    {
+      "name": "qualification",
+      "jobs": [
+        {
+          "name": "qualification",
+          "gpu": 0,
+          "script": "qualify_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_confirmation_s13227",
+            "--features-directory",
+            "runs/transition_confirmation_s13227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/confirmation/qualification.json",
+            "--live",
+            "runs/predictor_iterations_s11227/refinement/local_effect1_live_s17/head.pt",
+            "runs/predictor_iterations_s11227/confirmation/live_s29/head.pt",
+            "runs/predictor_iterations_s11227/confirmation/live_s43/head.pt",
+            "--blind",
+            "runs/predictor_iterations_s11227/refinement/local_effect1_blind_s17/head.pt",
+            "runs/predictor_iterations_s11227/confirmation/blind_s29/head.pt",
+            "runs/predictor_iterations_s11227/confirmation/blind_s43/head.pt"
+          ],
+          "simulator": false
+        }
+      ]
+    }
+  ]
+}

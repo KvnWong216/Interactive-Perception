@@ -1,0 +1,74 @@
+{
+  "manual_seed": 3217,
+  "split": "expanded_exploratory",
+  "modes": [
+    "native",
+    "best"
+  ],
+  "checkpoint": "runs/stage1_s17_gpu7/best.pt",
+  "physical_gpu": 4,
+  "kind": "H",
+  "cases": [
+    {
+      "source": "data/libero_raw/libero_goal/put_the_wine_bottle_on_the_rack_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 20239,
+      "our_training_split": "train",
+      "task_index": 17,
+      "target_object": "wine_bottle_1",
+      "kind": "H",
+      "layout": "Hx_01_22",
+      "case_id": "Hx_01_22_target0_visible",
+      "condition": "visible",
+      "target_index": 0,
+      "history_setup": "single_object_position",
+      "max_policy_steps": 5
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_wine_bottle_on_the_rack_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 20239,
+      "our_training_split": "train",
+      "task_index": 17,
+      "target_object": "wine_bottle_1",
+      "kind": "H",
+      "layout": "Hx_01_22",
+      "case_id": "Hx_01_22_target0_hidden",
+      "condition": "hidden",
+      "target_index": 0,
+      "history_setup": "single_object_position",
+      "max_policy_steps": 5
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_wine_bottle_on_the_rack_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 20239,
+      "our_training_split": "train",
+      "task_index": 17,
+      "target_object": "wine_bottle_1",
+      "kind": "H",
+      "layout": "Hx_01_22",
+      "case_id": "Hx_01_22_target1_visible",
+      "condition": "visible",
+      "target_index": 1,
+      "history_setup": "single_object_position",
+      "max_policy_steps": 5
+    },
+    {
+      "source": "data/libero_raw/libero_goal/put_the_wine_bottle_on_the_rack_demo.hdf5",
+      "episode": "demo_22",
+      "manual_seed": 20239,
+      "our_training_split": "train",
+      "task_index": 17,
+      "target_object": "wine_bottle_1",
+      "kind": "H",
+      "layout": "Hx_01_22",
+      "case_id": "Hx_01_22_target1_hidden",
+      "condition": "hidden",
+      "target_index": 1,
+      "history_setup": "single_object_position",
+      "max_policy_steps": 5
+    }
+  ],
+  "status": "candidate scenes; model-blind audit before eligibility"
+}

@@ -1,0 +1,418 @@
+{
+  "limit_bytes": 110000000000,
+  "files": [
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/generation_config.json",
+      "size": 116,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/generation_config.json?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/tokenizer_config.json",
+      "size": 782,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/tokenizer_config.json?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/processor_config.json",
+      "size": 1853,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/processor_config.json?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/chat_template.jinja",
+      "size": 3169,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/chat_template.jinja?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/config.json",
+      "size": 4271,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/config.json?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/norm_stats.json",
+      "size": 5767,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/norm_stats.json?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/processing_molmoact2.py",
+      "size": 17254,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/processing_molmoact2.py?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/configuration_molmoact2.py",
+      "size": 20708,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/configuration_molmoact2.py?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/image_processing_molmoact2.py",
+      "size": 22359,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/image_processing_molmoact2.py?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/inference.py",
+      "size": 25938,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/inference.py?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/video_processing_molmoact2.py",
+      "size": 37191,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/video_processing_molmoact2.py?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/model.safetensors.index.json",
+      "size": 131529,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/model.safetensors.index.json?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/modeling_molmoact2.py",
+      "size": 190994,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/modeling_molmoact2.py?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_goal/open_the_middle_drawer_of_the_cabinet_demo.hdf5",
+      "size": 702223367,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_goal/open_the_middle_drawer_of_the_cabinet_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_in_the_top_drawer_of_the_wooden_cabinet_and_place_it_on_the_plate_demo.hdf5",
+      "size": 748271833,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_spatial/pick_up_the_black_bowl_in_the_top_drawer_of_the_wooden_cabinet_and_place_it_on_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_goal/open_the_top_drawer_and_put_the_bowl_inside_demo.hdf5",
+      "size": 1017886342,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_goal/open_the_top_drawer_and_put_the_bowl_inside_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_10/KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it_demo.hdf5",
+      "size": 1235470452,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_10/KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/tokenizer.json",
+      "size": 11983605,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/tokenizer.json?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_goal/turn_on_the_stove_demo.hdf5",
+      "size": 447509922,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_goal/turn_on_the_stove_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "size": 468246288,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_goal/put_the_bowl_on_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate_demo.hdf5",
+      "size": 507189857,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_spatial/pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate_demo.hdf5",
+      "size": 508779600,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_goal/put_the_bowl_on_the_stove_demo.hdf5",
+      "size": 509123820,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_goal/put_the_bowl_on_the_stove_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_goal/put_the_bowl_on_top_of_the_cabinet_demo.hdf5",
+      "size": 510414285,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_goal/put_the_bowl_on_top_of_the_cabinet_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_goal/put_the_cream_cheese_in_the_bowl_demo.hdf5",
+      "size": 535715512,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_goal/put_the_cream_cheese_in_the_bowl_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_goal/put_the_wine_bottle_on_top_of_the_cabinet_demo.hdf5",
+      "size": 540179470,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_goal/put_the_wine_bottle_on_top_of_the_cabinet_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate_demo.hdf5",
+      "size": 581087722,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_spatial/pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate_demo.hdf5",
+      "size": 589630943,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_spatial/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate_demo.hdf5",
+      "size": 597677074,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_spatial/pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_next_to_the_cookie_box_and_place_it_on_the_plate_demo.hdf5",
+      "size": 632345992,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_spatial/pick_up_the_black_bowl_next_to_the_cookie_box_and_place_it_on_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_object/pick_up_the_salad_dressing_and_place_it_in_the_basket_demo.hdf5",
+      "size": 664188039,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_object/pick_up_the_salad_dressing_and_place_it_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate_demo.hdf5",
+      "size": 671583385,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_spatial/pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_on_the_wooden_cabinet_and_place_it_on_the_plate_demo.hdf5",
+      "size": 688768764,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_spatial/pick_up_the_black_bowl_on_the_wooden_cabinet_and_place_it_on_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_object/pick_up_the_orange_juice_and_place_it_in_the_basket_demo.hdf5",
+      "size": 696180446,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_object/pick_up_the_orange_juice_and_place_it_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_on_the_stove_and_place_it_on_the_plate_demo.hdf5",
+      "size": 711715594,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_spatial/pick_up_the_black_bowl_on_the_stove_and_place_it_on_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+      "size": 718919781,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_object/pick_up_the_milk_and_place_it_in_the_basket_demo.hdf5",
+      "size": 727315202,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_object/pick_up_the_milk_and_place_it_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_object/pick_up_the_bbq_sauce_and_place_it_in_the_basket_demo.hdf5",
+      "size": 734212272,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_object/pick_up_the_bbq_sauce_and_place_it_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_object/pick_up_the_tomato_sauce_and_place_it_in_the_basket_demo.hdf5",
+      "size": 735593408,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_object/pick_up_the_tomato_sauce_and_place_it_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_goal/push_the_plate_to_the_front_of_the_stove_demo.hdf5",
+      "size": 762855139,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_goal/push_the_plate_to_the_front_of_the_stove_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_object/pick_up_the_alphabet_soup_and_place_it_in_the_basket_demo.hdf5",
+      "size": 780145352,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_object/pick_up_the_alphabet_soup_and_place_it_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_object/pick_up_the_butter_and_place_it_in_the_basket_demo.hdf5",
+      "size": 785532626,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_object/pick_up_the_butter_and_place_it_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_object/pick_up_the_chocolate_pudding_and_place_it_in_the_basket_demo.hdf5",
+      "size": 797322420,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_object/pick_up_the_chocolate_pudding_and_place_it_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_object/pick_up_the_ketchup_and_place_it_in_the_basket_demo.hdf5",
+      "size": 804674488,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_object/pick_up_the_ketchup_and_place_it_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_goal/put_the_wine_bottle_on_the_rack_demo.hdf5",
+      "size": 878958730,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_goal/put_the_wine_bottle_on_the_rack_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+      "size": 940528916,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_10/LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate_demo.hdf5",
+      "size": 1268066750,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_10/LIVING_ROOM_SCENE6_put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_10/LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate_demo.hdf5",
+      "size": 1285266594,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_10/LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_10/LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket_demo.hdf5",
+      "size": 1300335262,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_10/LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_10/KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it_demo.hdf5",
+      "size": 1319613988,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_10/KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_10/LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket_demo.hdf5",
+      "size": 1341166952,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_10/LIVING_ROOM_SCENE1_put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_10/LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket_demo.hdf5",
+      "size": 1467540242,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_10/LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_10/KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it_demo.hdf5",
+      "size": 1511189856,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_10/KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "data/libero_raw/libero_10/KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_demo.hdf5",
+      "size": 2061429892,
+      "url": "https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/libero_10/KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_demo.hdf5?download=true",
+      "source": "yifengzhu-hf/LIBERO-datasets",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/model-00005-of-00005.safetensors",
+      "size": 2282630240,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/model-00005-of-00005.safetensors?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/model-00002-of-00005.safetensors",
+      "size": 4844690992,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/model-00002-of-00005.safetensors?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/model-00003-of-00005.safetensors",
+      "size": 4844691024,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/model-00003-of-00005.safetensors?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/model-00004-of-00005.safetensors",
+      "size": 4877619536,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/model-00004-of-00005.safetensors?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    },
+    {
+      "path": "checkpoints/base/MolmoAct2-LIBERO/model-00001-of-00005.safetensors",
+      "size": 4919324120,
+      "url": "https://huggingface.co/allenai/MolmoAct2-LIBERO/resolve/main/model-00001-of-00005.safetensors?download=true",
+      "source": "allenai/MolmoAct2-LIBERO",
+      "revision": "main"
+    }
+  ]
+}

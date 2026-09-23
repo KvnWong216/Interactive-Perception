@@ -1,0 +1,210 @@
+{
+  "phases": [
+    {
+      "name": "affine",
+      "jobs": [
+        {
+          "name": "affine_effect0_live",
+          "gpu": 0,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/screen/affine_effect0_live",
+            "--steps",
+            "1500",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "affine",
+            "--effect-weight",
+            "0"
+          ]
+        },
+        {
+          "name": "affine_effect0_blind",
+          "gpu": 5,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/screen/affine_effect0_blind",
+            "--steps",
+            "1500",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "affine",
+            "--effect-weight",
+            "0",
+            "--blind"
+          ]
+        },
+        {
+          "name": "affine_effect1_live",
+          "gpu": 0,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/screen/affine_effect1_live",
+            "--steps",
+            "1500",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "affine",
+            "--effect-weight",
+            "1"
+          ]
+        },
+        {
+          "name": "affine_effect1_blind",
+          "gpu": 5,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/screen/affine_effect1_blind",
+            "--steps",
+            "1500",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "affine",
+            "--effect-weight",
+            "1",
+            "--blind"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "local",
+      "jobs": [
+        {
+          "name": "local_effect0_live",
+          "gpu": 0,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/screen/local_effect0_live",
+            "--steps",
+            "1500",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "0"
+          ]
+        },
+        {
+          "name": "local_effect0_blind",
+          "gpu": 5,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/screen/local_effect0_blind",
+            "--steps",
+            "1500",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "0",
+            "--blind"
+          ]
+        },
+        {
+          "name": "local_effect1_live",
+          "gpu": 0,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/screen/local_effect1_live",
+            "--steps",
+            "1500",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "1"
+          ]
+        },
+        {
+          "name": "local_effect1_blind",
+          "gpu": 5,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/screen/local_effect1_blind",
+            "--steps",
+            "1500",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "1",
+            "--blind"
+          ]
+        }
+      ]
+    }
+  ]
+}

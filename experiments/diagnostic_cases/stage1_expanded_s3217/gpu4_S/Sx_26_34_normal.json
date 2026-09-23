@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_object/pick_up_the_milk_and_place_it_in_the_basket_demo.hdf5",
+  "episode": "demo_34",
+  "manual_seed": 29251,
+  "our_training_split": "train",
+  "task_index": 26,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_26_34",
+  "case_id": "Sx_26_34_normal",
+  "condition": "normal",
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0
+}

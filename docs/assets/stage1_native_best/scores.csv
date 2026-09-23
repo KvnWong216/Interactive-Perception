@@ -1,0 +1,9 @@
+﻿suite,condition,policy,correct,episodes,independent_layouts,mean_penalized_steps
+camera,normal,native,19,20,20,113.0
+camera,normal,best,20,20,20,118.75
+camera,shifted,native,19,20,20,122.0
+camera,shifted,best,18,20,20,125.5
+history_direction,visible,native,12,12,6,not applicable
+history_direction,visible,best,11,12,6,not applicable
+history_direction,hidden,native,6,12,6,not applicable
+history_direction,hidden,best,10,12,6,not applicable

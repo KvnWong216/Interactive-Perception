@@ -1,0 +1,11 @@
+﻿id,method,status,purpose
+M0,Native MolmoAct2-LIBERO,available,Practical pretrained baseline; no claim of matched information or compute.
+M1,Stage-one best,available,Geometry/history adaptation before future supervision.
+M2,Stage-two best,training,Final proposed method before any IP-specific demonstrations.
+C2_action,Stage-one best plus matched action-only continuation,needs_implementation_and_training,Isolate future supervision from extra updates and different learning rates.
+C2_detach,Matched predictor with detached shared representation,needs_implementation_and_training,Separate predictor learning from predictive gradients improving the deployed policy.
+I_geometry,Same trained policy with geometry residual disabled,stage_one_supported_stage_two_adapter_needed,"Input-dependence diagnostic, not a retrained architecture ablation."
+I_history,Same trained policy using only current observation,stage_one_supported_stage_two_adapter_needed,Test dependence on history; input distribution shift remains a confound.
+C1_native,Native interface with matched stage-one adaptation budget,not_trained,Isolate geometry/history interfaces from ordinary fine-tuning benefits.
+C1_no_geometry,Retrained stage one without geometry,not_trained,Confirm architecture contribution under matched training.
+C1_no_history,Retrained stage one without history,not_trained,Confirm history contribution under matched training.

@@ -1,0 +1,15 @@
+{
+  "case_id": "S_05_40_camera",
+  "layout": "S_05_40",
+  "kind": "S",
+  "condition": "camera",
+  "source": "data/libero_raw/libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo.hdf5",
+  "episode": "demo_40",
+  "manual_seed": 6257,
+  "yaw_degrees": 20,
+  "pitch_degrees": -10,
+  "light_scale": 1.0,
+  "max_policy_steps": 500,
+  "our_training_split": "test",
+  "task_index": 5
+}

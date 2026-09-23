@@ -1,4 +1,4 @@
-"""PSR-inspired predictive state conditioning for interactive perception."""
+"""Geometry-aware predictive policies for interactive perception."""
 
 __version__ = "0.1.0"
 

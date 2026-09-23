@@ -1,5 +1,6 @@
 # Python environments and build products
 .venv/
+.venv-sim/
 .conda/
 *.egg-info/
 build/
@@ -26,3 +27,7 @@ runs/
 .DS_Store
 .idea/
 .vscode/
+
+# Transient asset writer locks and local CLI tools
+docs/assets/**/summary.lock
+.tools/

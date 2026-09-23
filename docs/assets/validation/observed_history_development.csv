@@ -1,0 +1,7 @@
+﻿policy,condition,first_prefix_correct,target_worlds,independent_layouts,final_success_after_vision_returns,scope,source
+native,visible,2,2,1,1,development only; first prefix is the memory endpoint,runs/stage1_history_single_bowl_dev_s117/report.json
+native,hidden,1,2,1,2,development only; first prefix is the memory endpoint,runs/stage1_history_single_bowl_dev_s117/report.json
+best,visible,2,2,1,1,development only; first prefix is the memory endpoint,runs/stage1_history_single_bowl_dev_s117/report.json
+best,hidden,2,2,1,1,development only; first prefix is the memory endpoint,runs/stage1_history_single_bowl_dev_s117/report.json
+best_current,visible,2,2,1,2,development only; first prefix is the memory endpoint,runs/stage1_history_single_bowl_dev_s117/report.json
+best_current,hidden,1,2,1,2,development only; first prefix is the memory endpoint,runs/stage1_history_single_bowl_dev_s117/report.json

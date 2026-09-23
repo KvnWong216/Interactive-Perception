@@ -1,146 +1,134 @@
-# Interactive Perception: PSR-VLA
+# Interactive Perception: Geometry-aware Predictive VLA
 
-Research code for **PSR-inspired predictive state conditioning in a vision-language-action model under partial observability**. This repository is the frozen software implementation of PSR-VLA V1 for the RSS 2027 project; it contains no claimed robot-performance result yet.
+Research implementation of a direct interactive policy built on pretrained
+MolmoAct2. Geometry and real observation/action history enter one VLM; the native
+per-layer K/V connection drives its continuous Action Expert. During training,
+a small action-conditioned predictor aligns shared states with frozen features
+of actual future observations. Deployment executes an action prefix, observes
+again, and uses the native language head to continue or answer and stop.
 
-## Question
+The combined architecture and information-seeking transfer are research
+hypotheses. The [unified experiment report](docs/experiment_log.md) covers
+architecture and evidence, training configuration and costs, then measured
+results and hypothesis tests. No IP transfer result is claimed.
 
-Given a task, current dual-camera observation, public robot state, and finite real interaction history, which open-vocabulary intention should a robot execute now to minimize final task failure?
+## Current route
 
-## Frozen PSR-VLA V1
+Read the [unified experiment report](docs/experiment_log.md) for the source
+mechanisms, implementation choices, scientific limits, and staged training plan.
+The old PSR candidate-ranking/branch-collection/calibration pipeline has been
+removed; its history remains in Git. It is not a second active method.
 
-```text
-H: task + current RGB + 8-D state + finite real history
-                         │
-              MolmoAct2 VLM + 6 soft positions
-                         ▼
-               predictive state tokens B
-                         │
-       two sampled intentions U + exact native option
-                         │
-         intent-only query  ×  cross-attention(B)
-                         ▼
-       p(C = failure | B,U) + p(E | B,U)
-                         │
-             argmin predicted failure probability
-                         ▼
- [H,B,selected U,trigger] → native per-layer KV → Action Expert
-                         │
-                  real action and reobservation
-```
+The core implementation is repository-owned PyTorch code. Referenced papers
+inform geometry binding, temporal causality, action-conditioned prediction and
+receding-horizon control; their complete model stacks are not dependencies.
+The pinned MolmoAct2 weights, processor, normalization and AE remain upstream.
 
-- `H` is the public input and bounded real history.
-- `B` is the contextual output at six trainable soft VLM positions; six is an engineering capacity, not six hand-authored concepts.
-- `U` is an ordinary open-vocabulary short robot intention. Two independent samples share the same `[H,B]` prefix; a third option is the unchanged native MolmoAct2 route.
-- `E` is a four-component diagonal Gaussian-mixture prediction of frozen, projected native visual patch features after the real 50-step intention window.
-- `C` is the Bernoulli failure outcome after that window and the fixed native continuation, under the original 300-step episode budget.
+The [native-versus-best results](docs/assets/stage1_native_best/index.html)
+contain completed stage-one history tests, paired geometry results, and real
+comparison videos. The [scene generalization run](docs/assets/stage1_generalization/index.html)
+extends this comparison to 12 tasks and 96 scene conditions on GPU 0.
+See section 2.12 of the unified report for its splits and limits.
+The [expanded evaluation](docs/assets/stage1_expanded/index.html) now covers
+40 candidate tasks plus cross-object position/history probes on GPUs 0/4/5/6/7.
+It retains both positive and negative results and all scene exclusions; see
+section 2.13 for the fixed protocol, budget and distinction between candidate
+and actually eligible scenes.
+The broader [evaluation protocol](experiments/evaluation_protocol.yaml) remains
+**design only** for stage-two mechanisms and training controls. Its
+[asset index](docs/assets/validation/index.html) retains the original plans.
 
-The online selector uses calibrated `P(C=1 | B,U)`. `E` is a training target for the predictive representation, not a generated image and not a hand-designed uncertainty score. Only actual observations return to history.
+| Source | Responsibility |
+| --- | --- |
+| `predictive_vla/geometry.py` | Native patch layout, metric backprojection, unknown-depth mask, residual injection |
+| `predictive_vla/backend.py` | Temporal input assembly, block-causal attention, native per-layer KV/AE and language head |
+| `predictive_vla/native.py` | Small native-API checks, switchable low-rank deltas, action postprocessing |
+| `predictive_vla/model.py` | Training-only cross-attention patch predictor conditioned on real controls |
+| `predictive_vla/types.py`, `data.py` | Public history, actual action alignment, trajectory loading and grouped splits |
+| `predictive_vla/training.py` | Joint flow/prediction/language losses and adapter checkpoints |
+| `predictive_vla/runtime.py` | Applied-prefix feedback and policy completion |
 
-The exact token order, tensors, losses, data firewall, stages, and scientific limits are specified in [docs/psr_v1.md](docs/psr_v1.md). Frozen defaults are in [experiments/psr_v1.yaml](experiments/psr_v1.yaml).
+All source paths above are under `src/grounded_interaction/`.
 
-## Status
-
-| Gate | Status | Meaning |
-| --- | --- | --- |
-| `IMPLEMENTED` | Yes | Source path, contracts, tests, CLI, runtime, collection, training primitives, and evaluation metrics exist |
-| `VERIFIED_WITH_REAL_MODEL` | No | The pinned MolmoAct2 GPU canary and real LIBERO closed loop have not been run for this version |
-| `TRAINED` | No | No Stage-A/S0/Stage-C/calibration artifact is claimed |
-| `EVALUATED` | No | No held-out benchmark result or paper table is claimed |
-
-These states are deliberately independent. CPU tests cannot establish that a real checkpoint loaded or that robot task success improved.
-
-## Repository layout
-
-```text
-experiments/psr_v1.yaml             frozen PSR-VLA V1 configuration
-docs/psr_v1.md                      complete method and reproduction contract
-src/grounded_interaction/psr/
-  config.py                          frozen configuration and architecture checks
-  types.py                           H, U, observation and history contracts
-  molmo_backend.py                   native embeddings, B, language U, KV and AE
-  model.py                           intent-only encoder, B readout, E/C heads
-  data.py                            strict real-record loading and split firewall
-  training.py                        Stage A/C losses, S0, calibration, checkpoints
-  collection.py                      same-reset real branches and immutable receipts
-  runtime.py                         300/50/10 closed-loop execution
-  libero.py                          public LIBERO RGB/state adapter
-  evaluation.py                      calibration, ranking, bootstrap, execution metrics
-  preflight.py                       weight-free and real-checkpoint canaries
-  cli.py                             command line entry
-tests/test_psr_*.py                 software-contract tests only
-```
-
-## Environment
-
-Python 3.10+ is required.
+## Local verification
 
 ```bash
 uv sync --extra dev --extra learned
+uv run pytest -q
+uv run ruff check src tests
+uv run python -m grounded_interaction.predictive_vla check
 ```
 
-For the real MolmoAct2 checkpoint on Linux/NVIDIA:
+`check` validates configuration and reports dependency availability. It does not
+load weights or establish real-model compatibility. The configuration is
+[experiments/predictive_vla.yaml](experiments/predictive_vla.yaml): by default,
+10-step training targets, 5-step execution prefixes and three observed frames.
+
+## Existing real data and training
+
+Prepare the [trajectory manifest and arrays](docs/trajectory_format.md), then:
 
 ```bash
-uv sync --extra dev --extra molmoact2
+ip-vla check-data --data /absolute/path/to/manifest.json
+ip-vla train --config experiments/stage1_policy.yaml --data /absolute/path/to/manifest.json --output /absolute/path/to/new-run --device cuda
 ```
 
-The real-model environment is pinned in `pyproject.toml` to Torch 2.11.0, torchvision 0.26.0, and Transformers 4.57.6. LIBERO/robosuite remain external simulator dependencies and must use the project's existing simulator environment.
+Commands use the in-repository loader/backend/trainer; no external factory is
+required. Train and validation reset families must be disjoint. The output
+contains `best.pt`, `last.pt`, configuration, optimizer/scheduler/RNG state and
+per-update performance logs. Stage one uses
+[stage1_policy.yaml](experiments/stage1_policy.yaml): VLM LoRA plus the full AE,
+8 flow samples per real action chunk, and action supervision alone.
 
-## Verify the software implementation
+The checked stage-one entry point is `bash scripts/run_stage1.sh`; it requires
+finalized data and current real-model checks. Read the experiment log before
+using another configuration.
 
-```bash
-uv run pytest -q tests/test_psr_*.py
-uv run ruff check src/grounded_interaction/psr tests/test_psr_*.py
-uv run ip-psr preflight --config experiments/psr_v1.yaml --device cpu
-```
+Stage two now starts with **frozen predictor qualification**, following the
+September 23 diagnosis in [the experiment log](docs/experiment_log.md).
+`train_transition_predictor.py` fits only the transport head on frozen caches;
+`qualify_transition_predictor.py` tests three seeds and action-blind controls on
+fresh, disjoint task families. Cached features must identify their source policy.
+The existing diagnostic caches use stage-two weights and cannot qualify a head
+for a stage-one warm start.
 
-CPU preflight does not download weights. On a suitable GPU host, the real interface canary is:
+The joint entry point remains `scripts/run_stage2.sh` on GPUs **4–7**, global
+batch 32, but now uses [stage2_transition.yaml](experiments/stage2_transition.yaml)
+and requires `--predictor-init` and `--qualification-report` for both preflight
+and the main run. It restores stage-one **best**, imports only a qualified head,
+and uses new output directories. No new production training has started.
+The old absolute predictor and its configuration remain for historical
+checkpoint evaluation and explicit reproduction, not as the default next run.
 
-```bash
-uv run ip-psr preflight \
-  --config experiments/psr_v1.yaml --device cuda --load-model
-```
+For the pinned real model environment use `uv sync --extra dev --extra molmoact2`.
+LIBERO and robosuite run in a separate `.venv-sim`. The repository-owned
+`scripts/prepare_assets.py` enforces a pinned download allowlist;
+`scripts/prepare_libero.py` reconstructs calibrated RGB-D from recorded states.
+`scripts/preflight_stage1.py` checks the real pretrained model, gradients,
+small-set fitting and checkpoint recovery. `scripts/check_native_rollout.py`
+checks two ordinary LIBERO control episodes through an isolated simulator.
+The full IP benchmark remains to be constructed and evaluated.
 
-The canary uses synthetic pixels/actions only to inspect interfaces and gradients. It is never admitted as training or evaluation evidence.
+## Evidence status
 
-## Real workflow
+- Tensor/runtime contract tests exist; see `tests/test_predictive_vla.py`.
+- Real checkpoint forward/gradient/native-parity and recovery: **passed**;
+  see `data/preparation/preflight.json` for this local run's evidence.
+- LIBERO RGB-D reconstruction and calibration: **checked**; full control-loop
+  check and data preparation status are recorded in the experiment log.
+- Stage-one action training: **completed**, 2,000 updates in 12.25 hours; best
+  fixed-window validation loss 0.09225 at update 1,500. See the unified report.
+- Post-training paired development checks: **passed**, 4/4 ordinary rollouts
+  for native, best and last; these training starts are not a benchmark estimate.
+- Initial geometry diagnostic: **120 episodes completed**, no aggregate evidence
+  for a geometry-specific improvement. History has a positive signal on **one
+  development layout only**. Broader transfer and active-perception tests remain
+  pending; see the validation asset index.
 
-All paths below must point to real user-provided assets or data; no command invents reset states, labels, checkpoints, or success outcomes.
+Frozen future features are supervision, not calibrated uncertainty. Neither
+attention magnitude nor a lower prediction loss demonstrates information-seeking
+behavior. That claim requires paired evidence-history tasks and controlled
+training ablations described in the unified experiment report.
 
-```bash
-ip-psr import-data --source /data/real-source --output /data/psr-warmup
-
-ip-psr train-warmup \
-  --config experiments/psr_v1.yaml --data /data/psr-warmup --output /runs/S0
-
-ip-psr collect \
-  --config experiments/psr_v1.yaml --snapshot /runs/S0 \
-  --plan experiments/psr_v1/collection_plan.example.json --output /data/S0-rollouts
-
-ip-psr train-outcomes \
-  --config experiments/psr_v1.yaml --snapshot /runs/S0 \
-  --data /data/S0-rollouts --output /runs/predictor
-
-ip-psr calibrate \
-  --snapshot /runs/S0 --predictor /runs/predictor \
-  --data /data/calibration --output /runs/calibrated-predictor
-
-ip-psr evaluate \
-  --config experiments/psr_v1.yaml --mode psr --snapshot /runs/S0 \
-  --predictor /runs/calibrated-predictor \
-  --plan experiments/psr_v1/evaluation_plan.example.json --output /runs/psr-eval
-```
-
-Run `ip-psr <subcommand> --help` before execution. Commands that require a real environment/model fail closed when their concrete integration driver or assets are absent.
-
-## Next scientific gates
-
-1. Run native-bypass, token/KV/AE, cache-equivalence, gradient, and proposal canaries with the pinned real model.
-2. Run one real LIBERO trace with at least two high-level decision boundaries.
-3. Verify that the native continuation can exploit newly exposed evidence and that the sampled candidate set has same-reset oracle headroom.
-4. Collect Stage-A demonstrations; freeze `S0`; collect real same-reset outcome branches; train `C/E`; fit temperature on a separate calibration split.
-5. Evaluate native MolmoAct2, uniform selection, same-set rollout oracle, and the preregistered retraining ablations on untouched reset families.
-
-## License and upstream models
-
-This research repository does not redistribute MolmoAct2 or LIBERO weights/assets. Follow the upstream licenses and dataset terms when downloading or executing them.
+Follow upstream model, simulator and dataset licenses. This repository does not
+redistribute their weights or assets.

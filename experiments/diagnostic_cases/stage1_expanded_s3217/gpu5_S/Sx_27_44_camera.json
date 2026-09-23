@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_object/pick_up_the_orange_juice_and_place_it_in_the_basket_demo.hdf5",
+  "episode": "demo_44",
+  "manual_seed": 30261,
+  "our_training_split": "test",
+  "task_index": 27,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_27_44",
+  "case_id": "Sx_27_44_camera",
+  "condition": "camera",
+  "yaw_degrees": -20,
+  "pitch_degrees": 10,
+  "light_scale": 1.0
+}

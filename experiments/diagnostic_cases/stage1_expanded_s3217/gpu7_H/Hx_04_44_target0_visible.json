@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+  "episode": "demo_44",
+  "manual_seed": 27261,
+  "our_training_split": "validation",
+  "task_index": 24,
+  "target_object": "cream_cheese_1",
+  "kind": "H",
+  "layout": "Hx_04_44",
+  "case_id": "Hx_04_44_target0_visible",
+  "condition": "visible",
+  "target_index": 0,
+  "history_setup": "single_object_position",
+  "max_policy_steps": 5
+}

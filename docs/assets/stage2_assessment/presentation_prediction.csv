@@ -1,0 +1,9 @@
+﻿split,variant,changed_patch_task_macro_loss
+validation,copy_current,0.24736560105035704
+validation,actual,0.3552465451260408
+validation,same_task_other_episode,0.35525522256890935
+validation,zero_control,0.35524954584737617
+test,copy_current,0.22613657677235702
+test,actual,0.36123089802761876
+test,same_task_other_episode,0.36123494431376457
+test,zero_control,0.36121079605072737

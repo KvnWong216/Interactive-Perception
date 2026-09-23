@@ -1,0 +1,12 @@
+{
+  "case_id": "G_1_11_shifted",
+  "layout": "G_1_11",
+  "kind": "G",
+  "condition": "shifted",
+  "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+  "episode": "demo_11",
+  "manual_seed": 1228,
+  "yaw_degrees": 10,
+  "pitch_degrees": -5,
+  "max_policy_steps": 300
+}

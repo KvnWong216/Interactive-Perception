@@ -1,0 +1,15 @@
+{
+  "case_id": "S_04_30_normal",
+  "layout": "S_04_30",
+  "kind": "S",
+  "condition": "normal",
+  "source": "data/libero_raw/libero_10/LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket_demo.hdf5",
+  "episode": "demo_30",
+  "manual_seed": 5247,
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0,
+  "max_policy_steps": 500,
+  "our_training_split": "validation",
+  "task_index": 4
+}

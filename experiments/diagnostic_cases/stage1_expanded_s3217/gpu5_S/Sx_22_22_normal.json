@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_object/pick_up_the_butter_and_place_it_in_the_basket_demo.hdf5",
+  "episode": "demo_22",
+  "manual_seed": 25239,
+  "our_training_split": "train",
+  "task_index": 22,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_22_22",
+  "case_id": "Sx_22_22_normal",
+  "condition": "normal",
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0
+}

@@ -1,0 +1,15 @@
+{
+  "case_id": "S_11_30_normal",
+  "layout": "S_11_30",
+  "kind": "S",
+  "condition": "normal",
+  "source": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_next_to_the_cookie_box_and_place_it_on_the_plate_demo.hdf5",
+  "episode": "demo_30",
+  "manual_seed": 12247,
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0,
+  "max_policy_steps": 300,
+  "our_training_split": "train",
+  "task_index": 11
+}

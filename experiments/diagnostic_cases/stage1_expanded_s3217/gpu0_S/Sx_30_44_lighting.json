@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate_demo.hdf5",
+  "episode": "demo_44",
+  "manual_seed": 33261,
+  "our_training_split": "train",
+  "task_index": 30,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_30_44",
+  "case_id": "Sx_30_44_lighting",
+  "condition": "lighting",
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 0.55
+}

@@ -1,0 +1,8 @@
+﻿case_id,stage1_success,stage2_success,file
+Sx_27_22_camera,True,True,Sx_27_22_camera.mp4
+Sx_33_44_camera,True,False,Sx_33_44_camera.mp4
+Sx_01_34_normal,False,True,Sx_01_34_normal.mp4
+Sx_12_34_combined,False,False,Sx_12_34_combined.mp4
+Px_04_34_normal,True,True,Px_04_34_normal.mp4
+Px_05_26_plus_y,True,False,Px_05_26_plus_y.mp4
+Px_01_34_minus_y,False,False,Px_01_34_minus_y.mp4

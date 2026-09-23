@@ -1,0 +1,13 @@
+﻿kind,split,condition,policy,successes,episodes,tasks,macro_task_rate,complete
+S,all,normal,native,154,160,40,0.9625,True
+S,all,camera,native,126,160,40,0.7875,True
+S,all,lighting,native,149,160,40,0.93125,True
+S,all,combined,native,124,160,40,0.775,True
+S,all,normal,best,151,160,40,0.94375,True
+S,all,camera,best,138,160,40,0.8625,True
+S,all,lighting,best,155,160,40,0.96875,True
+S,all,combined,best,138,160,40,0.8625,True
+S,all,normal,stage2_best,155,160,40,0.96875,True
+S,all,camera,stage2_best,136,160,40,0.85,True
+S,all,lighting,stage2_best,153,160,40,0.95625,True
+S,all,combined,stage2_best,134,160,40,0.8375,True

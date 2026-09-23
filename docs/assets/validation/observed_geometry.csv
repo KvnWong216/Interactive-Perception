@@ -1,0 +1,7 @@
+﻿policy,condition,successes,episodes,success_rate,independent_layouts,task_families,source,scope
+native,normal,19,20,0.95,20,2,runs/stage1_geometry_test_s217/report.json,completed historical diagnostic; not new confirmatory test
+native,shifted,19,20,0.95,20,2,runs/stage1_geometry_test_s217/report.json,completed historical diagnostic; not new confirmatory test
+best,normal,20,20,1.0,20,2,runs/stage1_geometry_test_s217/report.json,completed historical diagnostic; not new confirmatory test
+best,shifted,18,20,0.9,20,2,runs/stage1_geometry_test_s217/report.json,completed historical diagnostic; not new confirmatory test
+best_no_geometry,normal,20,20,1.0,20,2,runs/stage1_geometry_test_s217/report.json,completed historical diagnostic; not new confirmatory test
+best_no_geometry,shifted,18,20,0.9,20,2,runs/stage1_geometry_test_s217/report.json,completed historical diagnostic; not new confirmatory test

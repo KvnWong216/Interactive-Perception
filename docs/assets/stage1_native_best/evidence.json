@@ -1,0 +1,144 @@
+{
+  "models": [
+    "native",
+    "best"
+  ],
+  "checkpoint": "runs/stage1_s17_gpu7/best.pt",
+  "checkpoint_update": 1500,
+  "analysis_manual_seed": 1317,
+  "bootstrap_replicates": 10000,
+  "geometry_source": "runs/stage1_geometry_test_s217",
+  "geometry_existing_episodes_reanalyzed": 80,
+  "history_source": "runs/stage1_native_best_history_s217_gpu0/evaluation",
+  "history_complete": true,
+  "new_history_episodes": 48,
+  "scores": [
+    {
+      "suite": "camera",
+      "condition": "normal",
+      "policy": "native",
+      "correct": 19,
+      "episodes": 20,
+      "independent_layouts": 20,
+      "mean_penalized_steps": 113.0
+    },
+    {
+      "suite": "camera",
+      "condition": "normal",
+      "policy": "best",
+      "correct": 20,
+      "episodes": 20,
+      "independent_layouts": 20,
+      "mean_penalized_steps": 118.75
+    },
+    {
+      "suite": "camera",
+      "condition": "shifted",
+      "policy": "native",
+      "correct": 19,
+      "episodes": 20,
+      "independent_layouts": 20,
+      "mean_penalized_steps": 122.0
+    },
+    {
+      "suite": "camera",
+      "condition": "shifted",
+      "policy": "best",
+      "correct": 18,
+      "episodes": 20,
+      "independent_layouts": 20,
+      "mean_penalized_steps": 125.5
+    },
+    {
+      "suite": "history_direction",
+      "condition": "visible",
+      "policy": "native",
+      "correct": 12,
+      "episodes": 12,
+      "independent_layouts": 6,
+      "mean_penalized_steps": "not applicable"
+    },
+    {
+      "suite": "history_direction",
+      "condition": "visible",
+      "policy": "best",
+      "correct": 11,
+      "episodes": 12,
+      "independent_layouts": 6,
+      "mean_penalized_steps": "not applicable"
+    },
+    {
+      "suite": "history_direction",
+      "condition": "hidden",
+      "policy": "native",
+      "correct": 6,
+      "episodes": 12,
+      "independent_layouts": 6,
+      "mean_penalized_steps": "not applicable"
+    },
+    {
+      "suite": "history_direction",
+      "condition": "hidden",
+      "policy": "best",
+      "correct": 10,
+      "episodes": 12,
+      "independent_layouts": 6,
+      "mean_penalized_steps": "not applicable"
+    }
+  ],
+  "effects": [
+    {
+      "suite": "camera",
+      "condition": "normal",
+      "difference": 0.05,
+      "ci_low": 0.0,
+      "ci_high": 0.15,
+      "independent_layouts": 20,
+      "paired_sign_flip_p_two_sided": 1.0
+    },
+    {
+      "suite": "camera",
+      "condition": "shifted",
+      "difference": -0.05,
+      "ci_low": -0.2,
+      "ci_high": 0.1,
+      "independent_layouts": 20,
+      "paired_sign_flip_p_two_sided": 1.0
+    },
+    {
+      "suite": "history_direction",
+      "condition": "visible",
+      "difference": -0.08333333333333333,
+      "ci_low": -0.25,
+      "ci_high": 0.0,
+      "independent_layouts": 6,
+      "paired_sign_flip_p_two_sided": 1.0
+    },
+    {
+      "suite": "history_direction",
+      "condition": "hidden",
+      "difference": 0.3333333333333333,
+      "ci_low": 0.16666666666666666,
+      "ci_high": 0.5,
+      "independent_layouts": 6,
+      "paired_sign_flip_p_two_sided": 0.125
+    },
+    {
+      "suite": "history_direction",
+      "condition": "hidden_minus_visible_gain",
+      "difference": 0.4166666666666667,
+      "ci_low": 0.25,
+      "ci_high": 0.5,
+      "independent_layouts": 6,
+      "paired_sign_flip_p_two_sided": 0.0625
+    }
+  ],
+  "limits": [
+    "Only native versus best: no separate causal attribution to geometry, history, or fine-tuning.",
+    "History is a five-step direction diagnostic, not task completion or active exploration.",
+    "Geometry: two tasks; history: one task, six admissible layouts. No unseen object/category claim.",
+    "Exploratory multiple endpoints; bootstrap intervals are not simultaneous significance tests.",
+    "Sampled path is a 5-step lower bound; latency is from different runs/hardware and not a speed benchmark.",
+    "No joint failure exists in the observed geometry pairs; do not fabricate one."
+  ]
+}

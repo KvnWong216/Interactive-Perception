@@ -1,0 +1,15 @@
+{
+  "case_id": "S_07_30_lighting",
+  "layout": "S_07_30",
+  "kind": "S",
+  "condition": "lighting",
+  "source": "data/libero_raw/libero_object/pick_up_the_orange_juice_and_place_it_in_the_basket_demo.hdf5",
+  "episode": "demo_30",
+  "manual_seed": 8247,
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 0.55,
+  "max_policy_steps": 300,
+  "our_training_split": "test",
+  "task_index": 7
+}

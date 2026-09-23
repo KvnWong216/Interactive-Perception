@@ -1,0 +1,15 @@
+{
+  "case_id": "S_03_30_lighting",
+  "layout": "S_03_30",
+  "kind": "S",
+  "condition": "lighting",
+  "source": "data/libero_raw/libero_10/LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket_demo.hdf5",
+  "episode": "demo_30",
+  "manual_seed": 4247,
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 0.55,
+  "max_policy_steps": 500,
+  "our_training_split": "validation",
+  "task_index": 3
+}

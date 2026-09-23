@@ -1,0 +1,100 @@
+{
+  "manual_seed": 117,
+  "split": "development",
+  "weight": "runs/stage1_s17_gpu7/best.pt",
+  "cases": [
+    {
+      "case_id": "G_0_02_normal",
+      "layout": "G_0_02",
+      "kind": "G",
+      "condition": "normal",
+      "source": "data/libero_raw/libero_goal/open_the_middle_drawer_of_the_cabinet_demo.hdf5",
+      "episode": "demo_2",
+      "manual_seed": 119,
+      "yaw_degrees": 0,
+      "pitch_degrees": 0,
+      "max_policy_steps": 300
+    },
+    {
+      "case_id": "G_0_02_shifted",
+      "layout": "G_0_02",
+      "kind": "G",
+      "condition": "shifted",
+      "source": "data/libero_raw/libero_goal/open_the_middle_drawer_of_the_cabinet_demo.hdf5",
+      "episode": "demo_2",
+      "manual_seed": 119,
+      "yaw_degrees": -10,
+      "pitch_degrees": 5,
+      "max_policy_steps": 300
+    },
+    {
+      "case_id": "G_1_02_normal",
+      "layout": "G_1_02",
+      "kind": "G",
+      "condition": "normal",
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_2",
+      "manual_seed": 1119,
+      "yaw_degrees": 0,
+      "pitch_degrees": 0,
+      "max_policy_steps": 300
+    },
+    {
+      "case_id": "G_1_02_shifted",
+      "layout": "G_1_02",
+      "kind": "G",
+      "condition": "shifted",
+      "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+      "episode": "demo_2",
+      "manual_seed": 1119,
+      "yaw_degrees": 10,
+      "pitch_degrees": -5,
+      "max_policy_steps": 300
+    },
+    {
+      "case_id": "H_02_target0_visible",
+      "layout": "H_02",
+      "kind": "H",
+      "condition": "visible",
+      "source": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate_demo.hdf5",
+      "episode": "demo_2",
+      "manual_seed": 2119,
+      "target_index": 0,
+      "max_policy_steps": 300
+    },
+    {
+      "case_id": "H_02_target0_hidden",
+      "layout": "H_02",
+      "kind": "H",
+      "condition": "hidden",
+      "source": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate_demo.hdf5",
+      "episode": "demo_2",
+      "manual_seed": 2119,
+      "target_index": 0,
+      "max_policy_steps": 300
+    },
+    {
+      "case_id": "H_02_target1_visible",
+      "layout": "H_02",
+      "kind": "H",
+      "condition": "visible",
+      "source": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate_demo.hdf5",
+      "episode": "demo_2",
+      "manual_seed": 2119,
+      "target_index": 1,
+      "max_policy_steps": 300
+    },
+    {
+      "case_id": "H_02_target1_hidden",
+      "layout": "H_02",
+      "kind": "H",
+      "condition": "hidden",
+      "source": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate_demo.hdf5",
+      "episode": "demo_2",
+      "manual_seed": 2119,
+      "target_index": 1,
+      "max_policy_steps": 300
+    }
+  ],
+  "status": "development feasibility pending"
+}

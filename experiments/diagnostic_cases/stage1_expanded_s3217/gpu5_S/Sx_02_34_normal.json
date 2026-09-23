@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_10/KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it_demo.hdf5",
+  "episode": "demo_34",
+  "manual_seed": 5251,
+  "our_training_split": "test",
+  "task_index": 2,
+  "max_policy_steps": 500,
+  "kind": "S",
+  "layout": "Sx_02_34",
+  "case_id": "Sx_02_34_normal",
+  "condition": "normal",
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0
+}

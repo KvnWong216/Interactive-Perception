@@ -1,0 +1,13 @@
+﻿policy,task,condition,successes,episodes
+native,G_0,normal,9,10
+native,G_0,shifted,9,10
+native,G_1,normal,10,10
+native,G_1,shifted,10,10
+best,G_0,normal,10,10
+best,G_0,shifted,8,10
+best,G_1,normal,10,10
+best,G_1,shifted,10,10
+best_no_geometry,G_0,normal,10,10
+best_no_geometry,G_0,shifted,8,10
+best_no_geometry,G_1,normal,10,10
+best_no_geometry,G_1,shifted,10,10

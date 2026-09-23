@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+  "episode": "demo_22",
+  "manual_seed": 16239,
+  "our_training_split": "train",
+  "task_index": 13,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_13_22",
+  "case_id": "Sx_13_22_normal",
+  "condition": "normal",
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 1.0
+}

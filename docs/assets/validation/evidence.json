@@ -1,0 +1,187 @@
+{
+  "generated_utc": "2026-09-20T12:07:29.024765+00:00",
+  "new_experiments_run": 0,
+  "protocol_status": "design_only",
+  "source_reports": [
+    "runs/stage1_geometry_test_s217/report.json",
+    "runs/stage1_geometry_test_s217/analysis.json",
+    "runs/stage1_history_single_bowl_dev_s117/report.json",
+    "runs/stage1_paired_precheck_s117/report.json"
+  ],
+  "observed_geometry": [
+    {
+      "policy": "native",
+      "condition": "normal",
+      "successes": 19,
+      "episodes": 20,
+      "success_rate": 0.95,
+      "independent_layouts": 20,
+      "task_families": 2,
+      "source": "runs/stage1_geometry_test_s217/report.json",
+      "scope": "completed historical diagnostic; not new confirmatory test"
+    },
+    {
+      "policy": "native",
+      "condition": "shifted",
+      "successes": 19,
+      "episodes": 20,
+      "success_rate": 0.95,
+      "independent_layouts": 20,
+      "task_families": 2,
+      "source": "runs/stage1_geometry_test_s217/report.json",
+      "scope": "completed historical diagnostic; not new confirmatory test"
+    },
+    {
+      "policy": "best",
+      "condition": "normal",
+      "successes": 20,
+      "episodes": 20,
+      "success_rate": 1.0,
+      "independent_layouts": 20,
+      "task_families": 2,
+      "source": "runs/stage1_geometry_test_s217/report.json",
+      "scope": "completed historical diagnostic; not new confirmatory test"
+    },
+    {
+      "policy": "best",
+      "condition": "shifted",
+      "successes": 18,
+      "episodes": 20,
+      "success_rate": 0.9,
+      "independent_layouts": 20,
+      "task_families": 2,
+      "source": "runs/stage1_geometry_test_s217/report.json",
+      "scope": "completed historical diagnostic; not new confirmatory test"
+    },
+    {
+      "policy": "best_no_geometry",
+      "condition": "normal",
+      "successes": 20,
+      "episodes": 20,
+      "success_rate": 1.0,
+      "independent_layouts": 20,
+      "task_families": 2,
+      "source": "runs/stage1_geometry_test_s217/report.json",
+      "scope": "completed historical diagnostic; not new confirmatory test"
+    },
+    {
+      "policy": "best_no_geometry",
+      "condition": "shifted",
+      "successes": 18,
+      "episodes": 20,
+      "success_rate": 0.9,
+      "independent_layouts": 20,
+      "task_families": 2,
+      "source": "runs/stage1_geometry_test_s217/report.json",
+      "scope": "completed historical diagnostic; not new confirmatory test"
+    }
+  ],
+  "observed_paired_effects": [
+    {
+      "comparison": "best_minus_native_difficult",
+      "difference_pp": -5.0,
+      "lower_95_pp": -20.0,
+      "upper_95_pp": 10.0,
+      "independent_layouts": 20,
+      "manual_seed": 317,
+      "source": "runs/stage1_geometry_test_s217/analysis.json"
+    },
+    {
+      "comparison": "best_minus_native_difficulty_change",
+      "difference_pp": -10.0,
+      "lower_95_pp": -30.0,
+      "upper_95_pp": 10.0,
+      "independent_layouts": 20,
+      "manual_seed": 317,
+      "source": "runs/stage1_geometry_test_s217/analysis.json"
+    },
+    {
+      "comparison": "best_minus_best_no_geometry_difficult",
+      "difference_pp": 0.0,
+      "lower_95_pp": -15.0,
+      "upper_95_pp": 15.0,
+      "independent_layouts": 20,
+      "manual_seed": 317,
+      "source": "runs/stage1_geometry_test_s217/analysis.json"
+    },
+    {
+      "comparison": "best_minus_best_no_geometry_difficulty_change",
+      "difference_pp": 0.0,
+      "lower_95_pp": -15.0,
+      "upper_95_pp": 15.0,
+      "independent_layouts": 20,
+      "manual_seed": 317,
+      "source": "runs/stage1_geometry_test_s217/analysis.json"
+    }
+  ],
+  "observed_history_development": [
+    {
+      "policy": "native",
+      "condition": "visible",
+      "first_prefix_correct": 2,
+      "target_worlds": 2,
+      "independent_layouts": 1,
+      "final_success_after_vision_returns": 1,
+      "scope": "development only; first prefix is the memory endpoint",
+      "source": "runs/stage1_history_single_bowl_dev_s117/report.json"
+    },
+    {
+      "policy": "native",
+      "condition": "hidden",
+      "first_prefix_correct": 1,
+      "target_worlds": 2,
+      "independent_layouts": 1,
+      "final_success_after_vision_returns": 2,
+      "scope": "development only; first prefix is the memory endpoint",
+      "source": "runs/stage1_history_single_bowl_dev_s117/report.json"
+    },
+    {
+      "policy": "best",
+      "condition": "visible",
+      "first_prefix_correct": 2,
+      "target_worlds": 2,
+      "independent_layouts": 1,
+      "final_success_after_vision_returns": 1,
+      "scope": "development only; first prefix is the memory endpoint",
+      "source": "runs/stage1_history_single_bowl_dev_s117/report.json"
+    },
+    {
+      "policy": "best",
+      "condition": "hidden",
+      "first_prefix_correct": 2,
+      "target_worlds": 2,
+      "independent_layouts": 1,
+      "final_success_after_vision_returns": 1,
+      "scope": "development only; first prefix is the memory endpoint",
+      "source": "runs/stage1_history_single_bowl_dev_s117/report.json"
+    },
+    {
+      "policy": "best_current",
+      "condition": "visible",
+      "first_prefix_correct": 2,
+      "target_worlds": 2,
+      "independent_layouts": 1,
+      "final_success_after_vision_returns": 2,
+      "scope": "development only; first prefix is the memory endpoint",
+      "source": "runs/stage1_history_single_bowl_dev_s117/report.json"
+    },
+    {
+      "policy": "best_current",
+      "condition": "hidden",
+      "first_prefix_correct": 1,
+      "target_worlds": 2,
+      "independent_layouts": 1,
+      "final_success_after_vision_returns": 2,
+      "scope": "development only; first prefix is the memory endpoint",
+      "source": "runs/stage1_history_single_bowl_dev_s117/report.json"
+    }
+  ],
+  "new_planned_episodes_per_model": 1584,
+  "new_planned_initial_three_models_episodes": 4752,
+  "limits": [
+    "Historical G cases have already been inspected.",
+    "H has only one development layout.",
+    "No stage-two final capabilities evaluated.",
+    "No new scene assets downloaded or instantiated."
+  ]
+}

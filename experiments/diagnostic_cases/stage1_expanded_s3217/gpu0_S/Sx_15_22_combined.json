@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_goal/put_the_bowl_on_top_of_the_cabinet_demo.hdf5",
+  "episode": "demo_22",
+  "manual_seed": 18239,
+  "our_training_split": "train",
+  "task_index": 15,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_15_22",
+  "case_id": "Sx_15_22_combined",
+  "condition": "combined",
+  "yaw_degrees": -20,
+  "pitch_degrees": 10,
+  "light_scale": 0.55
+}

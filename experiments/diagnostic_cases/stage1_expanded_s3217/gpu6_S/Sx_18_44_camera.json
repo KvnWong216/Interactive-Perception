@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_goal/put_the_wine_bottle_on_top_of_the_cabinet_demo.hdf5",
+  "episode": "demo_44",
+  "manual_seed": 21261,
+  "our_training_split": "train",
+  "task_index": 18,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_18_44",
+  "case_id": "Sx_18_44_camera",
+  "condition": "camera",
+  "yaw_degrees": -20,
+  "pitch_degrees": 10,
+  "light_scale": 1.0
+}

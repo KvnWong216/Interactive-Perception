@@ -1,0 +1,7 @@
+﻿id,purpose,pair,required_views,endpoint,status
+geometry,Projection changes and contact errors,"same state, different camera",normal/shifted; agent + wrist,contact and goal,storyboard only
+history,History changes the first decision,"identical current input, opposite real evidence","real past, current blackout, first five steps",choice before reobservation,storyboard only
+consequence,Actions predict their own observed consequences,"same initial state, three actual action branches",observed endpoints and latent error; no invented RGB future,matching future branch,storyboard only
+language,Same image and different valid goal,canonical/paraphrase/changed target,instruction + chosen object,goal conditioned on language,storyboard only
+generalization,Transfer to held-out object/scene families,separate layout/object/scene/composition strata,asset identity and scene family,success and failure stage,storyboard only
+active_perception,Acquire evidence only when needed and use it,"visible/hidden, two hidden worlds",policy input and separately marked evaluator truth,reveal then correct evidence-dependent action,storyboard only

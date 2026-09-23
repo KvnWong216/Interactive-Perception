@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_10/KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it_demo.hdf5",
+  "episode": "demo_22",
+  "manual_seed": 3239,
+  "our_training_split": "train",
+  "task_index": 0,
+  "max_policy_steps": 500,
+  "kind": "S",
+  "layout": "Sx_00_22",
+  "case_id": "Sx_00_22_camera",
+  "condition": "camera",
+  "yaw_degrees": -20,
+  "pitch_degrees": 10,
+  "light_scale": 1.0
+}

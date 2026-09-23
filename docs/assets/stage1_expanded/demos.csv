@@ -1,0 +1,8 @@
+﻿kind,native_success,best_success,case_id,file
+S,True,True,Sx_27_22_normal,Sx_27_22_normal.mp4
+S,True,False,Sx_21_44_camera,Sx_21_44_camera.mp4
+S,False,True,Sx_03_22_lighting,Sx_03_22_lighting.mp4
+S,False,False,Sx_12_26_camera,Sx_12_26_camera.mp4
+P,True,True,Px_04_34_normal,Px_04_34_normal.mp4
+P,False,True,Px_05_22_normal,Px_05_22_normal.mp4
+P,False,False,Px_01_34_minus_y,Px_01_34_minus_y.mp4

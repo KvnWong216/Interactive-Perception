@@ -1,0 +1,12 @@
+{
+  "case_id": "H_17_target0_visible",
+  "layout": "H_17",
+  "kind": "H",
+  "condition": "visible",
+  "source": "data/libero_raw/libero_goal/put_the_bowl_on_the_plate_demo.hdf5",
+  "episode": "demo_17",
+  "manual_seed": 2234,
+  "target_index": 0,
+  "history_setup": "single_bowl_position",
+  "max_policy_steps": 5
+}

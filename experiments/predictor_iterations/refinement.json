@@ -1,0 +1,112 @@
+{
+  "description": "Recorded explicit protocol; use fresh output paths for reruns. No confirmation-based selection.",
+  "phases": [
+    {
+      "name": "refinement",
+      "jobs": [
+        {
+          "name": "local_effect1_live_s17",
+          "gpu": 0,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/refinement/local_effect1_live_s17",
+            "--steps",
+            "4000",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "1"
+          ],
+          "simulator": false
+        },
+        {
+          "name": "local_effect1_blind_s17",
+          "gpu": 5,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/refinement/local_effect1_blind_s17",
+            "--steps",
+            "4000",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "1",
+            "--blind"
+          ],
+          "simulator": false
+        },
+        {
+          "name": "local_effect3_live_s17",
+          "gpu": 0,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/refinement/local_effect3_live_s17",
+            "--steps",
+            "4000",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "3"
+          ],
+          "simulator": false
+        },
+        {
+          "name": "local_effect3_blind_s17",
+          "gpu": 5,
+          "script": "train_transition_predictor.py",
+          "args": [
+            "--source",
+            "runs/transition_scaling_no_msaa_s10227",
+            "--features-directory",
+            "runs/transition_scaling_no_msaa_s10227/features_stage1",
+            "--output",
+            "runs/predictor_iterations_s11227/refinement/local_effect3_blind_s17",
+            "--steps",
+            "4000",
+            "--training-cases",
+            "250",
+            "--include-id-development",
+            "--manual-seed",
+            "17",
+            "--model-kind",
+            "local",
+            "--effect-weight",
+            "3",
+            "--blind"
+          ],
+          "simulator": false
+        }
+      ]
+    }
+  ]
+}

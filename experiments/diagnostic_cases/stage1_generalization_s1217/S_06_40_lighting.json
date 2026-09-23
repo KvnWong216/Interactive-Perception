@@ -1,0 +1,15 @@
+{
+  "case_id": "S_06_40_lighting",
+  "layout": "S_06_40",
+  "kind": "S",
+  "condition": "lighting",
+  "source": "data/libero_raw/libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo.hdf5",
+  "episode": "demo_40",
+  "manual_seed": 7257,
+  "yaw_degrees": 0,
+  "pitch_degrees": 0,
+  "light_scale": 0.55,
+  "max_policy_steps": 300,
+  "our_training_split": "validation",
+  "task_index": 6
+}

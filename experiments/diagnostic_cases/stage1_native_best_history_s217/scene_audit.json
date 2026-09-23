@@ -1,0 +1,187 @@
+{
+  "manual_seed": 217,
+  "passed": true,
+  "manifest": "experiments/diagnostic_cases/stage1_native_best_history_s217/manifest.json",
+  "cases": 24,
+  "candidate_layouts": 10,
+  "accepted_layouts": [
+    "H_12",
+    "H_13",
+    "H_15",
+    "H_16",
+    "H_18",
+    "H_19"
+  ],
+  "source_fixtures": "runs/stage1_history_test_scene_audit_s217",
+  "audits": [
+    {
+      "layout": "H_10",
+      "passed": false,
+      "checks": {
+        "fixture_case_exact": true,
+        "only_target_state_excluded": true,
+        "same_manual_seed": true,
+        "historical_steps": true,
+        "non_target_physics_equal": false,
+        "hidden_current_all_arrays_equal": true,
+        "task_and_controls_equal": true,
+        "past_visual_evidence_differs": true
+      },
+      "non_target_max_abs_state_difference": 0.32826977548830866,
+      "exclusion_reasons": [
+        "non_target_physics_equal"
+      ]
+    },
+    {
+      "layout": "H_11",
+      "passed": false,
+      "checks": {
+        "fixture_case_exact": true,
+        "only_target_state_excluded": true,
+        "same_manual_seed": true,
+        "historical_steps": true,
+        "non_target_physics_equal": false,
+        "hidden_current_all_arrays_equal": true,
+        "task_and_controls_equal": true,
+        "past_visual_evidence_differs": true
+      },
+      "non_target_max_abs_state_difference": 0.8999854774186703,
+      "exclusion_reasons": [
+        "non_target_physics_equal"
+      ]
+    },
+    {
+      "layout": "H_12",
+      "passed": true,
+      "checks": {
+        "fixture_case_exact": true,
+        "only_target_state_excluded": true,
+        "same_manual_seed": true,
+        "historical_steps": true,
+        "non_target_physics_equal": true,
+        "hidden_current_all_arrays_equal": true,
+        "task_and_controls_equal": true,
+        "past_visual_evidence_differs": true
+      },
+      "non_target_max_abs_state_difference": 1.0626628600574788e-14,
+      "exclusion_reasons": []
+    },
+    {
+      "layout": "H_13",
+      "passed": true,
+      "checks": {
+        "fixture_case_exact": true,
+        "only_target_state_excluded": true,
+        "same_manual_seed": true,
+        "historical_steps": true,
+        "non_target_physics_equal": true,
+        "hidden_current_all_arrays_equal": true,
+        "task_and_controls_equal": true,
+        "past_visual_evidence_differs": true
+      },
+      "non_target_max_abs_state_difference": 3.3832381185096306e-16,
+      "exclusion_reasons": []
+    },
+    {
+      "layout": "H_14",
+      "passed": false,
+      "checks": {
+        "fixture_case_exact": true,
+        "only_target_state_excluded": true,
+        "same_manual_seed": true,
+        "historical_steps": true,
+        "non_target_physics_equal": false,
+        "hidden_current_all_arrays_equal": true,
+        "task_and_controls_equal": true,
+        "past_visual_evidence_differs": true
+      },
+      "non_target_max_abs_state_difference": 0.06419496670140037,
+      "exclusion_reasons": [
+        "non_target_physics_equal"
+      ]
+    },
+    {
+      "layout": "H_15",
+      "passed": true,
+      "checks": {
+        "fixture_case_exact": true,
+        "only_target_state_excluded": true,
+        "same_manual_seed": true,
+        "historical_steps": true,
+        "non_target_physics_equal": true,
+        "hidden_current_all_arrays_equal": true,
+        "task_and_controls_equal": true,
+        "past_visual_evidence_differs": true
+      },
+      "non_target_max_abs_state_difference": 4.395789288125229e-15,
+      "exclusion_reasons": []
+    },
+    {
+      "layout": "H_16",
+      "passed": true,
+      "checks": {
+        "fixture_case_exact": true,
+        "only_target_state_excluded": true,
+        "same_manual_seed": true,
+        "historical_steps": true,
+        "non_target_physics_equal": true,
+        "hidden_current_all_arrays_equal": true,
+        "task_and_controls_equal": true,
+        "past_visual_evidence_differs": true
+      },
+      "non_target_max_abs_state_difference": 1.1767726742099694e-14,
+      "exclusion_reasons": []
+    },
+    {
+      "layout": "H_17",
+      "passed": false,
+      "checks": {
+        "fixture_case_exact": true,
+        "only_target_state_excluded": true,
+        "same_manual_seed": true,
+        "historical_steps": true,
+        "non_target_physics_equal": false,
+        "hidden_current_all_arrays_equal": true,
+        "task_and_controls_equal": true,
+        "past_visual_evidence_differs": true
+      },
+      "non_target_max_abs_state_difference": 0.2059674199520679,
+      "exclusion_reasons": [
+        "non_target_physics_equal"
+      ]
+    },
+    {
+      "layout": "H_18",
+      "passed": true,
+      "checks": {
+        "fixture_case_exact": true,
+        "only_target_state_excluded": true,
+        "same_manual_seed": true,
+        "historical_steps": true,
+        "non_target_physics_equal": true,
+        "hidden_current_all_arrays_equal": true,
+        "task_and_controls_equal": true,
+        "past_visual_evidence_differs": true
+      },
+      "non_target_max_abs_state_difference": 6.5066959287224655e-15,
+      "exclusion_reasons": []
+    },
+    {
+      "layout": "H_19",
+      "passed": true,
+      "checks": {
+        "fixture_case_exact": true,
+        "only_target_state_excluded": true,
+        "same_manual_seed": true,
+        "historical_steps": true,
+        "non_target_physics_equal": true,
+        "hidden_current_all_arrays_equal": true,
+        "task_and_controls_equal": true,
+        "past_visual_evidence_differs": true
+      },
+      "non_target_max_abs_state_difference": 1.1500628019572976e-14,
+      "exclusion_reasons": []
+    }
+  ],
+  "limits": "Model-blind array audit, not a visual-feasibility or policy-success guarantee. One task only."
+}

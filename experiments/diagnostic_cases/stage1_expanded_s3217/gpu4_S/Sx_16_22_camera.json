@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_goal/put_the_cream_cheese_in_the_bowl_demo.hdf5",
+  "episode": "demo_22",
+  "manual_seed": 19239,
+  "our_training_split": "train",
+  "task_index": 16,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_16_22",
+  "case_id": "Sx_16_22_camera",
+  "condition": "camera",
+  "yaw_degrees": 20,
+  "pitch_degrees": -10,
+  "light_scale": 1.0
+}

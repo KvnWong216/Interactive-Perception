@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_10/LIVING_ROOM_SCENE5_put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate_demo.hdf5",
+  "episode": "demo_34",
+  "manual_seed": 10251,
+  "our_training_split": "train",
+  "task_index": 7,
+  "max_policy_steps": 500,
+  "kind": "S",
+  "layout": "Sx_07_34",
+  "case_id": "Sx_07_34_camera",
+  "condition": "camera",
+  "yaw_degrees": 20,
+  "pitch_degrees": -10,
+  "light_scale": 1.0
+}

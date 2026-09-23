@@ -1,0 +1,97 @@
+﻿split,task,variant,region,windows,trajectories,loss
+test,pick up the book and place it in the back compartment of the caddy,actual,all_valid,24,12,0.36638879030942917
+test,pick up the book and place it in the back compartment of the caddy,actual,changed,24,12,0.3654523181418578
+test,pick up the book and place it in the back compartment of the caddy,copy_current,all_valid,24,12,0.20718932865808407
+test,pick up the book and place it in the back compartment of the caddy,copy_current,changed,24,12,0.21281601674854755
+test,pick up the book and place it in the back compartment of the caddy,reverse_time,all_valid,24,12,0.3663909087578456
+test,pick up the book and place it in the back compartment of the caddy,reverse_time,changed,24,12,0.3654545955359936
+test,pick up the book and place it in the back compartment of the caddy,same_task_other_episode,all_valid,24,12,0.3663981395463149
+test,pick up the book and place it in the back compartment of the caddy,same_task_other_episode,changed,24,12,0.36546145876248676
+test,pick up the book and place it in the back compartment of the caddy,zero_control,all_valid,24,12,0.366329404215018
+test,pick up the book and place it in the back compartment of the caddy,zero_control,changed,24,12,0.3653911290069421
+test,pick up the book and place it in the back compartment of the caddy,zero_feature,all_valid,24,12,0.41500035176674527
+test,pick up the book and place it in the back compartment of the caddy,zero_feature,changed,24,12,0.4149951736132304
+test,pick up the orange juice and place it in the basket,actual,all_valid,24,12,0.3483223120371501
+test,pick up the orange juice and place it in the basket,actual,changed,24,12,0.34760648384690285
+test,pick up the orange juice and place it in the basket,copy_current,all_valid,24,12,0.25853934946159524
+test,pick up the orange juice and place it in the basket,copy_current,changed,24,12,0.26297763424615067
+test,pick up the orange juice and place it in the basket,reverse_time,all_valid,24,12,0.34832318872213364
+test,pick up the orange juice and place it in the basket,reverse_time,changed,24,12,0.3476074126859506
+test,pick up the orange juice and place it in the basket,same_task_other_episode,all_valid,24,12,0.34831957270701724
+test,pick up the orange juice and place it in the basket,same_task_other_episode,changed,24,12,0.34760360419750214
+test,pick up the orange juice and place it in the basket,zero_control,all_valid,24,12,0.3483278540273507
+test,pick up the orange juice and place it in the basket,zero_control,changed,24,12,0.34761129568020505
+test,pick up the orange juice and place it in the basket,zero_feature,all_valid,24,12,0.4155523677666982
+test,pick up the orange juice and place it in the basket,zero_feature,changed,24,12,0.4154947064816952
+test,put both moka pots on the stove,actual,all_valid,24,12,0.36521051948269206
+test,put both moka pots on the stove,actual,changed,24,12,0.3646867709855239
+test,put both moka pots on the stove,copy_current,all_valid,24,12,0.19312663888558745
+test,put both moka pots on the stove,copy_current,changed,24,12,0.19793284808595976
+test,put both moka pots on the stove,reverse_time,all_valid,24,12,0.36520859226584435
+test,put both moka pots on the stove,reverse_time,changed,24,12,0.3646847407023112
+test,put both moka pots on the stove,same_task_other_episode,all_valid,24,12,0.3652146942913532
+test,put both moka pots on the stove,same_task_other_episode,changed,24,12,0.3646881803870201
+test,put both moka pots on the stove,zero_control,all_valid,24,12,0.3651905419925849
+test,put both moka pots on the stove,zero_control,changed,24,12,0.36466436957319576
+test,put both moka pots on the stove,zero_feature,all_valid,24,12,0.4153721208373706
+test,put both moka pots on the stove,zero_feature,changed,24,12,0.41536953921119374
+test,put the yellow and white mug in the microwave and close it,actual,all_valid,24,12,0.3683572821319103
+test,put the yellow and white mug in the microwave and close it,actual,changed,24,12,0.3671780191361904
+test,put the yellow and white mug in the microwave and close it,copy_current,all_valid,24,12,0.2194111319258809
+test,put the yellow and white mug in the microwave and close it,copy_current,changed,24,12,0.23081980800877014
+test,put the yellow and white mug in the microwave and close it,reverse_time,all_valid,24,12,0.36835651844739914
+test,put the yellow and white mug in the microwave and close it,reverse_time,changed,24,12,0.36717716852823895
+test,put the yellow and white mug in the microwave and close it,same_task_other_episode,all_valid,24,12,0.36836377903819084
+test,put the yellow and white mug in the microwave and close it,same_task_other_episode,changed,24,12,0.3671865339080493
+test,put the yellow and white mug in the microwave and close it,zero_control,all_valid,24,12,0.36835211515426636
+test,put the yellow and white mug in the microwave and close it,zero_control,changed,24,12,0.3671763899425666
+test,put the yellow and white mug in the microwave and close it,zero_feature,all_valid,24,12,0.41527742768327397
+test,put the yellow and white mug in the microwave and close it,zero_feature,changed,24,12,0.4152798180778821
+validation,pick up the cream cheese and place it in the basket,actual,all_valid,24,12,0.3446269656221072
+validation,pick up the cream cheese and place it in the basket,actual,changed,24,12,0.34393660351634026
+validation,pick up the cream cheese and place it in the basket,copy_current,all_valid,24,12,0.2449519963314136
+validation,pick up the cream cheese and place it in the basket,copy_current,changed,24,12,0.2504595387727022
+validation,pick up the cream cheese and place it in the basket,reverse_time,all_valid,24,12,0.34462933242321014
+validation,pick up the cream cheese and place it in the basket,reverse_time,changed,24,12,0.34393884241580963
+validation,pick up the cream cheese and place it in the basket,same_task_other_episode,all_valid,24,12,0.34466127306222916
+validation,pick up the cream cheese and place it in the basket,same_task_other_episode,changed,24,12,0.34397124002377194
+validation,pick up the cream cheese and place it in the basket,zero_control,all_valid,24,12,0.3446306971212228
+validation,pick up the cream cheese and place it in the basket,zero_control,changed,24,12,0.3439385009308656
+validation,pick up the cream cheese and place it in the basket,zero_feature,all_valid,24,12,0.4154174489279588
+validation,pick up the cream cheese and place it in the basket,zero_feature,changed,24,12,0.4153652253250281
+validation,put both the alphabet soup and the tomato sauce in the basket,actual,all_valid,24,12,0.3557225565115611
+validation,put both the alphabet soup and the tomato sauce in the basket,actual,changed,24,12,0.3555300347507
+validation,put both the alphabet soup and the tomato sauce in the basket,copy_current,all_valid,24,12,0.23049347568303347
+validation,put both the alphabet soup and the tomato sauce in the basket,copy_current,changed,24,12,0.24041419693579277
+validation,put both the alphabet soup and the tomato sauce in the basket,reverse_time,all_valid,24,12,0.3557224137087663
+validation,put both the alphabet soup and the tomato sauce in the basket,reverse_time,changed,24,12,0.35553039858738583
+validation,put both the alphabet soup and the tomato sauce in the basket,same_task_other_episode,all_valid,24,12,0.35569952179988223
+validation,put both the alphabet soup and the tomato sauce in the basket,same_task_other_episode,changed,24,12,0.3555060500899951
+validation,put both the alphabet soup and the tomato sauce in the basket,zero_control,all_valid,24,12,0.3557327004770438
+validation,put both the alphabet soup and the tomato sauce in the basket,zero_control,changed,24,12,0.3555408405760924
+validation,put both the alphabet soup and the tomato sauce in the basket,zero_feature,all_valid,24,12,0.4148547363777955
+validation,put both the alphabet soup and the tomato sauce in the basket,zero_feature,changed,24,12,0.4148342323799928
+validation,put both the cream cheese box and the butter in the basket,actual,all_valid,24,12,0.36277752990523976
+validation,put both the cream cheese box and the butter in the basket,actual,changed,24,12,0.3622116136054198
+validation,put both the cream cheese box and the butter in the basket,copy_current,all_valid,24,12,0.27298781446491677
+validation,put both the cream cheese box and the butter in the basket,copy_current,changed,24,12,0.2773551605641842
+validation,put both the cream cheese box and the butter in the basket,reverse_time,all_valid,24,12,0.36277851834893227
+validation,put both the cream cheese box and the butter in the basket,reverse_time,changed,24,12,0.36221281563242275
+validation,put both the cream cheese box and the butter in the basket,same_task_other_episode,all_valid,24,12,0.3627985703448455
+validation,put both the cream cheese box and the butter in the basket,same_task_other_episode,changed,24,12,0.36223457381129265
+validation,put both the cream cheese box and the butter in the basket,zero_control,all_valid,24,12,0.36278696606556576
+validation,put both the cream cheese box and the butter in the basket,zero_control,changed,24,12,0.3622204264005025
+validation,put both the cream cheese box and the butter in the basket,zero_feature,all_valid,24,12,0.4153771934409936
+validation,put both the cream cheese box and the butter in the basket,zero_feature,changed,24,12,0.4153657704591751
+validation,put the black bowl in the bottom drawer of the cabinet and close it,actual,all_valid,24,12,0.35980422298113507
+validation,put the black bowl in the bottom drawer of the cabinet and close it,actual,changed,24,12,0.3593079286317031
+validation,put the black bowl in the bottom drawer of the cabinet and close it,copy_current,all_valid,24,12,0.21514665397504965
+validation,put the black bowl in the bottom drawer of the cabinet and close it,copy_current,changed,24,12,0.22123350792874893
+validation,put the black bowl in the bottom drawer of the cabinet and close it,reverse_time,all_valid,24,12,0.35980401933193207
+validation,put the black bowl in the bottom drawer of the cabinet and close it,reverse_time,changed,24,12,0.35930781563123065
+validation,put the black bowl in the bottom drawer of the cabinet and close it,same_task_other_episode,all_valid,24,12,0.3598061924179395
+validation,put the black bowl in the bottom drawer of the cabinet and close it,same_task_other_episode,changed,24,12,0.35930902635057765
+validation,put the black bowl in the bottom drawer of the cabinet and close it,zero_control,all_valid,24,12,0.35979656130075455
+validation,put the black bowl in the bottom drawer of the cabinet and close it,zero_control,changed,24,12,0.3592984154820442
+validation,put the black bowl in the bottom drawer of the cabinet and close it,zero_feature,all_valid,24,12,0.41493431230386096
+validation,put the black bowl in the bottom drawer of the cabinet and close it,zero_feature,changed,24,12,0.4148971413572629

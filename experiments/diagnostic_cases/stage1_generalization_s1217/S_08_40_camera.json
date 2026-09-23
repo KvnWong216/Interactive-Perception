@@ -1,0 +1,15 @@
+{
+  "case_id": "S_08_40_camera",
+  "layout": "S_08_40",
+  "kind": "S",
+  "condition": "camera",
+  "source": "data/libero_raw/libero_goal/open_the_middle_drawer_of_the_cabinet_demo.hdf5",
+  "episode": "demo_40",
+  "manual_seed": 9257,
+  "yaw_degrees": 20,
+  "pitch_degrees": -10,
+  "light_scale": 1.0,
+  "max_policy_steps": 300,
+  "our_training_split": "train",
+  "task_index": 8
+}

@@ -1,0 +1,456 @@
+{
+  "complete": true,
+  "planned_episodes": 192,
+  "completed_episodes": 192,
+  "scene_audit_passed": true,
+  "tasks": [
+    {
+      "task_index": 0,
+      "source": "libero_10/KITCHEN_SCENE4_put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it_demo",
+      "our_training_split": "validation"
+    },
+    {
+      "task_index": 1,
+      "source": "libero_10/KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it_demo",
+      "our_training_split": "test"
+    },
+    {
+      "task_index": 2,
+      "source": "libero_10/KITCHEN_SCENE8_put_both_moka_pots_on_the_stove_demo",
+      "our_training_split": "test"
+    },
+    {
+      "task_index": 3,
+      "source": "libero_10/LIVING_ROOM_SCENE2_put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket_demo",
+      "our_training_split": "validation"
+    },
+    {
+      "task_index": 4,
+      "source": "libero_10/LIVING_ROOM_SCENE2_put_both_the_cream_cheese_box_and_the_butter_in_the_basket_demo",
+      "our_training_split": "validation"
+    },
+    {
+      "task_index": 5,
+      "source": "libero_10/STUDY_SCENE1_pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy_demo",
+      "our_training_split": "test"
+    },
+    {
+      "task_index": 6,
+      "source": "libero_object/pick_up_the_cream_cheese_and_place_it_in_the_basket_demo",
+      "our_training_split": "validation"
+    },
+    {
+      "task_index": 7,
+      "source": "libero_object/pick_up_the_orange_juice_and_place_it_in_the_basket_demo",
+      "our_training_split": "test"
+    },
+    {
+      "task_index": 8,
+      "source": "libero_goal/open_the_middle_drawer_of_the_cabinet_demo",
+      "our_training_split": "train"
+    },
+    {
+      "task_index": 9,
+      "source": "libero_goal/put_the_wine_bottle_on_the_rack_demo",
+      "our_training_split": "train"
+    },
+    {
+      "task_index": 10,
+      "source": "libero_object/pick_up_the_milk_and_place_it_in_the_basket_demo",
+      "our_training_split": "train"
+    },
+    {
+      "task_index": 11,
+      "source": "libero_spatial/pick_up_the_black_bowl_next_to_the_cookie_box_and_place_it_on_the_plate_demo",
+      "our_training_split": "train"
+    }
+  ],
+  "scores": [
+    {
+      "our_training_split": "train",
+      "condition": "normal",
+      "policy": "native",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.48125
+    },
+    {
+      "our_training_split": "train",
+      "condition": "normal",
+      "policy": "best",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.42083333333333334
+    },
+    {
+      "our_training_split": "train",
+      "condition": "camera",
+      "policy": "native",
+      "successes": 5,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.6520833333333333
+    },
+    {
+      "our_training_split": "train",
+      "condition": "camera",
+      "policy": "best",
+      "successes": 6,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.5645833333333334
+    },
+    {
+      "our_training_split": "train",
+      "condition": "lighting",
+      "policy": "native",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.41875
+    },
+    {
+      "our_training_split": "train",
+      "condition": "lighting",
+      "policy": "best",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.43333333333333335
+    },
+    {
+      "our_training_split": "train",
+      "condition": "combined",
+      "policy": "native",
+      "successes": 7,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.58125
+    },
+    {
+      "our_training_split": "train",
+      "condition": "combined",
+      "policy": "best",
+      "successes": 6,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.5833333333333334
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "normal",
+      "policy": "native",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.5387500000000001
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "normal",
+      "policy": "best",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.51
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "camera",
+      "policy": "native",
+      "successes": 7,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.58875
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "camera",
+      "policy": "best",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.5208333333333334
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "lighting",
+      "policy": "native",
+      "successes": 7,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.5866666666666667
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "lighting",
+      "policy": "best",
+      "successes": 7,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.5625
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "combined",
+      "policy": "native",
+      "successes": 7,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.5904166666666666
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "combined",
+      "policy": "best",
+      "successes": 8,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.5458333333333333
+    },
+    {
+      "our_training_split": "test",
+      "condition": "normal",
+      "policy": "native",
+      "successes": 7,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.59125
+    },
+    {
+      "our_training_split": "test",
+      "condition": "normal",
+      "policy": "best",
+      "successes": 6,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.71625
+    },
+    {
+      "our_training_split": "test",
+      "condition": "camera",
+      "policy": "native",
+      "successes": 6,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.6579166666666667
+    },
+    {
+      "our_training_split": "test",
+      "condition": "camera",
+      "policy": "best",
+      "successes": 6,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.6216666666666667
+    },
+    {
+      "our_training_split": "test",
+      "condition": "lighting",
+      "policy": "native",
+      "successes": 7,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.5587500000000001
+    },
+    {
+      "our_training_split": "test",
+      "condition": "lighting",
+      "policy": "best",
+      "successes": 6,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.6837500000000001
+    },
+    {
+      "our_training_split": "test",
+      "condition": "combined",
+      "policy": "native",
+      "successes": 7,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.59125
+    },
+    {
+      "our_training_split": "test",
+      "condition": "combined",
+      "policy": "best",
+      "successes": 7,
+      "episodes": 8,
+      "tasks": 4,
+      "layouts": 8,
+      "mean_penalized_horizon_fraction": 0.6100000000000001
+    }
+  ],
+  "effects": [
+    {
+      "our_training_split": "train",
+      "condition": "normal",
+      "best_minus_native": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    },
+    {
+      "our_training_split": "train",
+      "condition": "camera",
+      "best_minus_native": 0.125,
+      "ci_low": -0.25,
+      "ci_high": 0.625,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    },
+    {
+      "our_training_split": "train",
+      "condition": "lighting",
+      "best_minus_native": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    },
+    {
+      "our_training_split": "train",
+      "condition": "combined",
+      "best_minus_native": -0.125,
+      "ci_low": -0.625,
+      "ci_high": 0.25,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "normal",
+      "best_minus_native": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "camera",
+      "best_minus_native": 0.125,
+      "ci_low": 0.0,
+      "ci_high": 0.5,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "lighting",
+      "best_minus_native": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    },
+    {
+      "our_training_split": "validation",
+      "condition": "combined",
+      "best_minus_native": 0.125,
+      "ci_low": 0.0,
+      "ci_high": 0.5,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    },
+    {
+      "our_training_split": "test",
+      "condition": "normal",
+      "best_minus_native": -0.125,
+      "ci_low": -0.625,
+      "ci_high": 0.375,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    },
+    {
+      "our_training_split": "test",
+      "condition": "camera",
+      "best_minus_native": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    },
+    {
+      "our_training_split": "test",
+      "condition": "lighting",
+      "best_minus_native": -0.125,
+      "ci_low": -0.625,
+      "ci_high": 0.375,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    },
+    {
+      "our_training_split": "test",
+      "condition": "combined",
+      "best_minus_native": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "manual_seed": 1317,
+      "bootstrap": "10000 hierarchical task-then-reset paired draws"
+    }
+  ],
+  "demos": [
+    {
+      "outcome_stratum": "both_success",
+      "case_id": "S_05_40_lighting",
+      "file": "S_05_40_lighting.mp4",
+      "status": "generated; manual seed 1317"
+    },
+    {
+      "outcome_stratum": "native_only",
+      "case_id": "S_05_30_lighting",
+      "file": "S_05_30_lighting.mp4",
+      "status": "generated; manual seed 1317"
+    },
+    {
+      "outcome_stratum": "best_only",
+      "case_id": "S_02_30_normal",
+      "file": "S_02_30_normal.mp4",
+      "status": "generated; manual seed 1317"
+    },
+    {
+      "outcome_stratum": "both_failure",
+      "case_id": "S_01_40_camera",
+      "file": "S_01_40_camera.mp4",
+      "status": "generated; manual seed 1317"
+    }
+  ],
+  "limits": [
+    "4 tasks withheld from our optimizer and checkpoint selection; 4 validation tasks influenced best selection; 4 trained task controls.",
+    "Native pretrained model may have seen every LIBERO task and object; no pretrained-unseen claim.",
+    "Objects are existing meshes; novel views/lighting and compositions do not constitute novel object identities.",
+    "Train-control initial states were in our training dataset, not unseen-layout evidence.",
+    "Only two resets per task in this first breadth pass; no strong per-task statistics.",
+    "Camera views are world-frame transformations with recomputed extrinsics, not image warps.",
+    "No individual attribution to geometry or history from this two-system comparison."
+  ],
+  "report": "runs/stage1_generalization_s1217_gpu0/evaluation/report.json"
+}

@@ -1,0 +1,15 @@
+{
+  "source": "data/libero_raw/libero_spatial/pick_up_the_black_bowl_on_the_wooden_cabinet_and_place_it_on_the_plate_demo.hdf5",
+  "episode": "demo_26",
+  "manual_seed": 42243,
+  "our_training_split": "train",
+  "task_index": 39,
+  "max_policy_steps": 300,
+  "kind": "S",
+  "layout": "Sx_39_26",
+  "case_id": "Sx_39_26_combined",
+  "condition": "combined",
+  "yaw_degrees": 20,
+  "pitch_degrees": -10,
+  "light_scale": 0.55
+}

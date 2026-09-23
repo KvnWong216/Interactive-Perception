@@ -1,0 +1,15 @@
+{
+  "case_id": "S_01_30_camera",
+  "layout": "S_01_30",
+  "kind": "S",
+  "condition": "camera",
+  "source": "data/libero_raw/libero_10/KITCHEN_SCENE6_put_the_yellow_and_white_mug_in_the_microwave_and_close_it_demo.hdf5",
+  "episode": "demo_30",
+  "manual_seed": 2247,
+  "yaw_degrees": -20,
+  "pitch_degrees": 10,
+  "light_scale": 1.0,
+  "max_policy_steps": 500,
+  "our_training_split": "test",
+  "task_index": 1
+}

@@ -1,0 +1,1204 @@
+{
+  "complete": true,
+  "manual_seed": 3217,
+  "analysis_manual_seed": 3317,
+  "models": [
+    "native",
+    "best"
+  ],
+  "candidate_cases": 808,
+  "maximum_policy_episodes": 1616,
+  "completed_policy_episodes": 1480,
+  "balanced_completed_cases": 740,
+  "worker_status": [
+    {
+      "physical_gpu": 0,
+      "pid": 304514,
+      "manual_seed": 3217,
+      "models": [
+        "native",
+        "best"
+      ],
+      "complete": true,
+      "phases": {
+        "H": "complete",
+        "P": "complete",
+        "S": "complete"
+      },
+      "updated_utc": "2026-09-20T18:42:56.401273+00:00",
+      "current_kind": "S",
+      "eligible_cases": 128
+    },
+    {
+      "physical_gpu": 4,
+      "pid": 330235,
+      "manual_seed": 3217,
+      "models": [
+        "native",
+        "best"
+      ],
+      "complete": true,
+      "phases": {
+        "H": "not_evaluated_no_valid_paired_layout",
+        "P": "complete",
+        "S": "complete"
+      },
+      "updated_utc": "2026-09-20T19:42:52.812380+00:00",
+      "current_kind": "S",
+      "eligible_cases": 128,
+      "gpu_availability": {
+        "free_mib": 48498,
+        "minimum_free_mib": 18432,
+        "compute_processes_present": false,
+        "consecutive_idle_checks": 3
+      }
+    },
+    {
+      "physical_gpu": 5,
+      "execution_gpu": 0,
+      "pid": 987842,
+      "manual_seed": 3217,
+      "models": [
+        "native",
+        "best"
+      ],
+      "complete": true,
+      "phases": {
+        "H": "complete",
+        "P": "not_evaluated_no_valid_paired_layout",
+        "S": "complete"
+      },
+      "updated_utc": "2026-09-21T07:37:52.717367+00:00",
+      "current_kind": "S",
+      "eligible_cases": 128,
+      "gpu_availability": {
+        "free_mib": 48500,
+        "minimum_free_mib": 18432,
+        "compute_processes_present": false,
+        "consecutive_idle_checks": 3
+      }
+    },
+    {
+      "physical_gpu": 6,
+      "pid": 304517,
+      "manual_seed": 3217,
+      "models": [
+        "native",
+        "best"
+      ],
+      "complete": true,
+      "phases": {
+        "H": "complete",
+        "P": "not_evaluated_no_valid_paired_layout",
+        "S": "complete"
+      },
+      "updated_utc": "2026-09-20T18:52:44.631330+00:00",
+      "current_kind": "S",
+      "eligible_cases": 128
+    },
+    {
+      "physical_gpu": 7,
+      "pid": 311330,
+      "manual_seed": 3217,
+      "models": [
+        "native",
+        "best"
+      ],
+      "complete": true,
+      "phases": {
+        "H": "not_evaluated_no_valid_paired_layout",
+        "P": "complete",
+        "S": "complete"
+      },
+      "updated_utc": "2026-09-20T18:38:43.654712+00:00",
+      "current_kind": "S",
+      "eligible_cases": 128
+    }
+  ],
+  "eligibility": [
+    {
+      "gpu": 0,
+      "kind": "H",
+      "candidate_cases": 32,
+      "audited_candidate_cases": 32,
+      "eligible_cases": 24,
+      "passed": true
+    },
+    {
+      "gpu": 0,
+      "kind": "P",
+      "candidate_cases": 24,
+      "audited_candidate_cases": 24,
+      "eligible_cases": 24,
+      "passed": true
+    },
+    {
+      "gpu": 0,
+      "kind": "S",
+      "candidate_cases": 128,
+      "audited_candidate_cases": 128,
+      "eligible_cases": 128,
+      "passed": true
+    },
+    {
+      "gpu": 4,
+      "kind": "H",
+      "candidate_cases": 16,
+      "audited_candidate_cases": 16,
+      "eligible_cases": 0,
+      "passed": false
+    },
+    {
+      "gpu": 4,
+      "kind": "P",
+      "candidate_cases": 12,
+      "audited_candidate_cases": 12,
+      "eligible_cases": 12,
+      "passed": true
+    },
+    {
+      "gpu": 4,
+      "kind": "S",
+      "candidate_cases": 128,
+      "audited_candidate_cases": 128,
+      "eligible_cases": 128,
+      "passed": true
+    },
+    {
+      "gpu": 5,
+      "kind": "H",
+      "candidate_cases": 16,
+      "audited_candidate_cases": 16,
+      "eligible_cases": 16,
+      "passed": true
+    },
+    {
+      "gpu": 5,
+      "kind": "P",
+      "candidate_cases": 12,
+      "audited_candidate_cases": 12,
+      "eligible_cases": 0,
+      "passed": false
+    },
+    {
+      "gpu": 5,
+      "kind": "S",
+      "candidate_cases": 128,
+      "audited_candidate_cases": 128,
+      "eligible_cases": 128,
+      "passed": true
+    },
+    {
+      "gpu": 6,
+      "kind": "H",
+      "candidate_cases": 16,
+      "audited_candidate_cases": 16,
+      "eligible_cases": 12,
+      "passed": true
+    },
+    {
+      "gpu": 6,
+      "kind": "P",
+      "candidate_cases": 12,
+      "audited_candidate_cases": 12,
+      "eligible_cases": 0,
+      "passed": false
+    },
+    {
+      "gpu": 6,
+      "kind": "S",
+      "candidate_cases": 128,
+      "audited_candidate_cases": 128,
+      "eligible_cases": 128,
+      "passed": true
+    },
+    {
+      "gpu": 7,
+      "kind": "H",
+      "candidate_cases": 16,
+      "audited_candidate_cases": 16,
+      "eligible_cases": 0,
+      "passed": false
+    },
+    {
+      "gpu": 7,
+      "kind": "P",
+      "candidate_cases": 12,
+      "audited_candidate_cases": 12,
+      "eligible_cases": 12,
+      "passed": true
+    },
+    {
+      "gpu": 7,
+      "kind": "S",
+      "candidate_cases": 128,
+      "audited_candidate_cases": 128,
+      "eligible_cases": 128,
+      "passed": true
+    }
+  ],
+  "scores": [
+    {
+      "kind": "H",
+      "our_training_split": "test",
+      "condition": "hidden",
+      "policy": "best",
+      "correct_or_successful": 13,
+      "episodes": 14,
+      "independent_layouts": 7,
+      "tasks": 2,
+      "macro_task_rate": 0.9375,
+      "scope_complete": true
+    },
+    {
+      "kind": "H",
+      "our_training_split": "test",
+      "condition": "hidden",
+      "policy": "native",
+      "correct_or_successful": 1,
+      "episodes": 14,
+      "independent_layouts": 7,
+      "tasks": 2,
+      "macro_task_rate": 0.0625,
+      "scope_complete": true
+    },
+    {
+      "kind": "H",
+      "our_training_split": "test",
+      "condition": "visible",
+      "policy": "best",
+      "correct_or_successful": 12,
+      "episodes": 14,
+      "independent_layouts": 7,
+      "tasks": 2,
+      "macro_task_rate": 0.875,
+      "scope_complete": true
+    },
+    {
+      "kind": "H",
+      "our_training_split": "test",
+      "condition": "visible",
+      "policy": "native",
+      "correct_or_successful": 14,
+      "episodes": 14,
+      "independent_layouts": 7,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "H",
+      "our_training_split": "train",
+      "condition": "hidden",
+      "policy": "best",
+      "correct_or_successful": 12,
+      "episodes": 12,
+      "independent_layouts": 6,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "H",
+      "our_training_split": "train",
+      "condition": "hidden",
+      "policy": "native",
+      "correct_or_successful": 6,
+      "episodes": 12,
+      "independent_layouts": 6,
+      "tasks": 2,
+      "macro_task_rate": 0.5,
+      "scope_complete": true
+    },
+    {
+      "kind": "H",
+      "our_training_split": "train",
+      "condition": "visible",
+      "policy": "best",
+      "correct_or_successful": 12,
+      "episodes": 12,
+      "independent_layouts": 6,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "H",
+      "our_training_split": "train",
+      "condition": "visible",
+      "policy": "native",
+      "correct_or_successful": 12,
+      "episodes": 12,
+      "independent_layouts": 6,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "test",
+      "condition": "minus_y",
+      "policy": "best",
+      "correct_or_successful": 4,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "test",
+      "condition": "minus_y",
+      "policy": "native",
+      "correct_or_successful": 4,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "test",
+      "condition": "normal",
+      "policy": "best",
+      "correct_or_successful": 4,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "test",
+      "condition": "normal",
+      "policy": "native",
+      "correct_or_successful": 3,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 0.75,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "test",
+      "condition": "plus_y",
+      "policy": "best",
+      "correct_or_successful": 4,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "test",
+      "condition": "plus_y",
+      "policy": "native",
+      "correct_or_successful": 4,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "train",
+      "condition": "minus_y",
+      "policy": "best",
+      "correct_or_successful": 7,
+      "episodes": 8,
+      "independent_layouts": 8,
+      "tasks": 2,
+      "macro_task_rate": 0.875,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "train",
+      "condition": "minus_y",
+      "policy": "native",
+      "correct_or_successful": 7,
+      "episodes": 8,
+      "independent_layouts": 8,
+      "tasks": 2,
+      "macro_task_rate": 0.875,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "train",
+      "condition": "normal",
+      "policy": "best",
+      "correct_or_successful": 8,
+      "episodes": 8,
+      "independent_layouts": 8,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "train",
+      "condition": "normal",
+      "policy": "native",
+      "correct_or_successful": 8,
+      "episodes": 8,
+      "independent_layouts": 8,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "train",
+      "condition": "plus_y",
+      "policy": "best",
+      "correct_or_successful": 8,
+      "episodes": 8,
+      "independent_layouts": 8,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "train",
+      "condition": "plus_y",
+      "policy": "native",
+      "correct_or_successful": 8,
+      "episodes": 8,
+      "independent_layouts": 8,
+      "tasks": 2,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "validation",
+      "condition": "minus_y",
+      "policy": "best",
+      "correct_or_successful": 4,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "validation",
+      "condition": "minus_y",
+      "policy": "native",
+      "correct_or_successful": 4,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "validation",
+      "condition": "normal",
+      "policy": "best",
+      "correct_or_successful": 4,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "validation",
+      "condition": "normal",
+      "policy": "native",
+      "correct_or_successful": 4,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "validation",
+      "condition": "plus_y",
+      "policy": "best",
+      "correct_or_successful": 4,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "P",
+      "our_training_split": "validation",
+      "condition": "plus_y",
+      "policy": "native",
+      "correct_or_successful": 4,
+      "episodes": 4,
+      "independent_layouts": 4,
+      "tasks": 1,
+      "macro_task_rate": 1.0,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "camera",
+      "policy": "best",
+      "correct_or_successful": 10,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.625,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "camera",
+      "policy": "native",
+      "correct_or_successful": 11,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.6875,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "combined",
+      "policy": "best",
+      "correct_or_successful": 11,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.6875,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "combined",
+      "policy": "native",
+      "correct_or_successful": 11,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.6875,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "lighting",
+      "policy": "best",
+      "correct_or_successful": 14,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.875,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "lighting",
+      "policy": "native",
+      "correct_or_successful": 11,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.6875,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "normal",
+      "policy": "best",
+      "correct_or_successful": 14,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.875,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "normal",
+      "policy": "native",
+      "correct_or_successful": 13,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.8125,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "camera",
+      "policy": "best",
+      "correct_or_successful": 115,
+      "episodes": 128,
+      "independent_layouts": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.8984375,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "camera",
+      "policy": "native",
+      "correct_or_successful": 104,
+      "episodes": 128,
+      "independent_layouts": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.8125,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "combined",
+      "policy": "best",
+      "correct_or_successful": 114,
+      "episodes": 128,
+      "independent_layouts": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.890625,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "combined",
+      "policy": "native",
+      "correct_or_successful": 103,
+      "episodes": 128,
+      "independent_layouts": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.8046875,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "lighting",
+      "policy": "best",
+      "correct_or_successful": 126,
+      "episodes": 128,
+      "independent_layouts": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.984375,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "lighting",
+      "policy": "native",
+      "correct_or_successful": 124,
+      "episodes": 128,
+      "independent_layouts": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.96875,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "normal",
+      "policy": "best",
+      "correct_or_successful": 123,
+      "episodes": 128,
+      "independent_layouts": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.9609375,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "normal",
+      "policy": "native",
+      "correct_or_successful": 126,
+      "episodes": 128,
+      "independent_layouts": 128,
+      "tasks": 32,
+      "macro_task_rate": 0.984375,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "camera",
+      "policy": "best",
+      "correct_or_successful": 13,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.8125,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "camera",
+      "policy": "native",
+      "correct_or_successful": 11,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.6875,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "combined",
+      "policy": "best",
+      "correct_or_successful": 13,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.8125,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "combined",
+      "policy": "native",
+      "correct_or_successful": 10,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.625,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "lighting",
+      "policy": "best",
+      "correct_or_successful": 15,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "lighting",
+      "policy": "native",
+      "correct_or_successful": 14,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.875,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "normal",
+      "policy": "best",
+      "correct_or_successful": 14,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.875,
+      "scope_complete": true
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "normal",
+      "policy": "native",
+      "correct_or_successful": 15,
+      "episodes": 16,
+      "independent_layouts": 16,
+      "tasks": 4,
+      "macro_task_rate": 0.9375,
+      "scope_complete": true
+    }
+  ],
+  "effects": [
+    {
+      "kind": "H",
+      "our_training_split": "test",
+      "condition": "hidden",
+      "best_minus_native_macro_task": 0.875,
+      "ci_low": 0.625,
+      "ci_high": 1.0,
+      "tasks": 2,
+      "independent_layouts": 7,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "H",
+      "our_training_split": "test",
+      "condition": "visible",
+      "best_minus_native_macro_task": -0.125,
+      "ci_low": -0.375,
+      "ci_high": 0.0,
+      "tasks": 2,
+      "independent_layouts": 7,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "H",
+      "our_training_split": "train",
+      "condition": "hidden",
+      "best_minus_native_macro_task": 0.5,
+      "ci_low": 0.5,
+      "ci_high": 0.5,
+      "tasks": 2,
+      "independent_layouts": 6,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "H",
+      "our_training_split": "train",
+      "condition": "visible",
+      "best_minus_native_macro_task": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "tasks": 2,
+      "independent_layouts": 6,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "P",
+      "our_training_split": "test",
+      "condition": "minus_y",
+      "best_minus_native_macro_task": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "tasks": 1,
+      "independent_layouts": 4,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "P",
+      "our_training_split": "test",
+      "condition": "normal",
+      "best_minus_native_macro_task": 0.25,
+      "ci_low": 0.0,
+      "ci_high": 0.75,
+      "tasks": 1,
+      "independent_layouts": 4,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "P",
+      "our_training_split": "test",
+      "condition": "plus_y",
+      "best_minus_native_macro_task": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "tasks": 1,
+      "independent_layouts": 4,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "P",
+      "our_training_split": "train",
+      "condition": "minus_y",
+      "best_minus_native_macro_task": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "tasks": 2,
+      "independent_layouts": 8,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "P",
+      "our_training_split": "train",
+      "condition": "normal",
+      "best_minus_native_macro_task": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "tasks": 2,
+      "independent_layouts": 8,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "P",
+      "our_training_split": "train",
+      "condition": "plus_y",
+      "best_minus_native_macro_task": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "tasks": 2,
+      "independent_layouts": 8,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "P",
+      "our_training_split": "validation",
+      "condition": "minus_y",
+      "best_minus_native_macro_task": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "tasks": 1,
+      "independent_layouts": 4,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "P",
+      "our_training_split": "validation",
+      "condition": "normal",
+      "best_minus_native_macro_task": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "tasks": 1,
+      "independent_layouts": 4,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "P",
+      "our_training_split": "validation",
+      "condition": "plus_y",
+      "best_minus_native_macro_task": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "tasks": 1,
+      "independent_layouts": 4,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "camera",
+      "best_minus_native_macro_task": -0.0625,
+      "ci_low": -0.375,
+      "ci_high": 0.25,
+      "tasks": 4,
+      "independent_layouts": 16,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "combined",
+      "best_minus_native_macro_task": 0.0,
+      "ci_low": -0.375,
+      "ci_high": 0.375,
+      "tasks": 4,
+      "independent_layouts": 16,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "lighting",
+      "best_minus_native_macro_task": 0.1875,
+      "ci_low": -0.25,
+      "ci_high": 0.625,
+      "tasks": 4,
+      "independent_layouts": 16,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "test",
+      "condition": "normal",
+      "best_minus_native_macro_task": 0.0625,
+      "ci_low": -0.25,
+      "ci_high": 0.3125,
+      "tasks": 4,
+      "independent_layouts": 16,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "camera",
+      "best_minus_native_macro_task": 0.0859375,
+      "ci_low": 0.0,
+      "ci_high": 0.1796875,
+      "tasks": 32,
+      "independent_layouts": 128,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "combined",
+      "best_minus_native_macro_task": 0.0859375,
+      "ci_low": 0.0,
+      "ci_high": 0.1796875,
+      "tasks": 32,
+      "independent_layouts": 128,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "lighting",
+      "best_minus_native_macro_task": 0.015625,
+      "ci_low": -0.03125,
+      "ci_high": 0.0625,
+      "tasks": 32,
+      "independent_layouts": 128,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "train",
+      "condition": "normal",
+      "best_minus_native_macro_task": -0.0234375,
+      "ci_low": -0.078125,
+      "ci_high": 0.0234375,
+      "tasks": 32,
+      "independent_layouts": 128,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "camera",
+      "best_minus_native_macro_task": 0.125,
+      "ci_low": 0.0,
+      "ci_high": 0.375,
+      "tasks": 4,
+      "independent_layouts": 16,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "combined",
+      "best_minus_native_macro_task": 0.1875,
+      "ci_low": -0.125,
+      "ci_high": 0.5,
+      "tasks": 4,
+      "independent_layouts": 16,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "lighting",
+      "best_minus_native_macro_task": 0.0625,
+      "ci_low": -0.1875,
+      "ci_high": 0.3125,
+      "tasks": 4,
+      "independent_layouts": 16,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    },
+    {
+      "kind": "S",
+      "our_training_split": "validation",
+      "condition": "normal",
+      "best_minus_native_macro_task": -0.0625,
+      "ci_low": -0.375,
+      "ci_high": 0.25,
+      "tasks": 4,
+      "independent_layouts": 16,
+      "analysis_manual_seed": 3317,
+      "interpretation": "exploratory hierarchical interval, not a multiplicity-corrected significance claim"
+    }
+  ],
+  "demos": [
+    {
+      "kind": "S",
+      "native_success": true,
+      "best_success": true,
+      "case_id": "Sx_27_22_normal",
+      "file": "Sx_27_22_normal.mp4"
+    },
+    {
+      "kind": "S",
+      "native_success": true,
+      "best_success": false,
+      "case_id": "Sx_21_44_camera",
+      "file": "Sx_21_44_camera.mp4"
+    },
+    {
+      "kind": "S",
+      "native_success": false,
+      "best_success": true,
+      "case_id": "Sx_03_22_lighting",
+      "file": "Sx_03_22_lighting.mp4"
+    },
+    {
+      "kind": "S",
+      "native_success": false,
+      "best_success": false,
+      "case_id": "Sx_12_26_camera",
+      "file": "Sx_12_26_camera.mp4"
+    },
+    {
+      "kind": "P",
+      "native_success": true,
+      "best_success": true,
+      "case_id": "Px_04_34_normal",
+      "file": "Px_04_34_normal.mp4"
+    },
+    {
+      "kind": "P",
+      "native_success": false,
+      "best_success": true,
+      "case_id": "Px_05_22_normal",
+      "file": "Px_05_22_normal.mp4"
+    },
+    {
+      "kind": "P",
+      "native_success": false,
+      "best_success": false,
+      "case_id": "Px_01_34_minus_y",
+      "file": "Px_01_34_minus_y.mp4"
+    }
+  ],
+  "limits": [
+    "Stage-one weights and thresholds remain fixed; no training or checkpoint selection from test outcomes.",
+    "New resets are new to this evaluation, not necessarily absent from our training corpus.",
+    "Only 4 source tasks are in the original test split; expansion does not create 40 held-out tasks.",
+    "Pretrained MolmoAct2 may know all existing LIBERO meshes and tasks; no novel identity claim.",
+    "Previous 192 outcomes already inspected. This is a declared exploratory extension, not independent confirmatory replication.",
+    "Keep original and expanded rounds separate; additionally label any pooled analysis explicitly.",
+    "Only two systems; no component-specific causal attribution."
+  ]
+}

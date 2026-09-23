@@ -1,0 +1,9 @@
+﻿task,condition,policy,successes,episodes
+drawer,normal,native,9,10
+drawer,normal,best,10,10
+drawer,shifted,native,9,10
+drawer,shifted,best,8,10
+bowl_on_plate,normal,native,10,10
+bowl_on_plate,normal,best,10,10
+bowl_on_plate,shifted,native,10,10
+bowl_on_plate,shifted,best,10,10
