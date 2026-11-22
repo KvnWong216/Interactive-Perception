@@ -41,3 +41,7 @@ eval/activearena/external/*
 .vscode/
 .idea/
 .DS_Store
+
+# Presentation binaries
+*.pptx
+docs/figures/

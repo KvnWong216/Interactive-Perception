@@ -70,6 +70,7 @@ for pair in "embodiments.zip:embodiments" "objects.zip:objects" "background_text
 done
 
 SIM_PY="${ACTIVEARENA_PYTHON:-python}"
+"${SIM_PY}" -m pip install --quiet "websockets>=12.0" msgpack || true
 (cd "${AA_SIM}" && "${SIM_PY}" ./script/update_embodiment_config_path.py)
 (cd "${AA_SIM}" && env -u ALL_PROXY -u all_proxy "${SIM_PY}" ./script/download_activearena_assets.py)
 

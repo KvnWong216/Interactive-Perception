@@ -1,6 +1,6 @@
 # IP-VLA: Evidence-Gated Active Perception & Continuous Cerebellum Switching
 
-A clean, plug-and-play research codebase for **evidence-gated active perception subtask planning** (Stage-1 open-video training & calibrated confidence readout) and **closed-loop embodied evaluation on ActiveArena** (Stage-2 continuous cerebellum inertia, non-oracle `inspect`-keyframe visual memory, and two-stage confidence-gated switching).
+A clean, plug-and-play research codebase for **IP-VLA** — featuring **Stage-1 zero-simulation causal open-video active perception & calibrated decision confidence** and **Stage-2 closed-loop embodied evaluation on ActiveArena** with unified plug-and-play reproductions of key active-perception baselines (**ASA**, **ZS-IP**, **AAWR**, and official **ActiveArena-VLA OFT**).
 
 ---
 
@@ -14,92 +14,59 @@ ip-vla/
 │   └── stage2_activearena.yaml       # Stage-2 cerebellum inertia, memory & switching hyperparameters
 ├── ipvla/
 │   ├── config.py                     # Unified env-var + YAML path loader
-│   ├── stage1/
-│   │   ├── data_builder.py           # 100% English open-video causal suite builder (0 ActiveArena rows)
-│   │   ├── train_vlm.py              # Qwen3-VL-2B LoRA r=32 + Softplus Ridge-Temp confidence training
-│   │   └── confidence.py             # Standalone calibrated confidence head inference module
-│   ├── stage2/
-│   │   ├── cerebellum.py             # Continuous cerebellum inertia: phi_t = max(phi_kin, phi_grip, phi_dw)
-│   │   ├── memory.py                 # Non-oracle inspect-keyframe memory buffer (pins reveal frames)
-│   │   ├── switching.py              # Two-stage wake (novelty r_t + T_lock) & relative confidence commit gate
-│   │   └── planner_server.py         # Localhost HTTP server for Qwen3-VL-2B (+ LoRA + confidence head)
+│   ├── stage1/                       # Stage-1 open-video suite builder, LoRA trainer & Ridge-Temp confidence head
+│   ├── stage2/                       # Stage-2 continuous cerebellum inertia, inspect-keyframe memory & switching
 │   └── data_pipeline/                # Open-video Teacher A/B causal annotation queue (zero-leak cleanup)
 ├── eval/
 │   ├── open_video/                   # Stage-1 2x2 Jump-Cut vs. Evidence-Removal & Experiment E probes
-│   └── activearena/                  # ActiveArena integrated as first-class closed-loop eval suite
-│       ├── setup_activearena.sh      # One-command install of ActiveArena + ActiveArena-VLA + assets + weights
-│       ├── autonomous_policy.py      # Drop-in zero-oracle policy adapter for unmodified ActiveArena eval
-│       └── run_eval.py               # Unified CLI for baselines, IP-VLA planner, and ablations
+│   └── activearena/                  # Unified zero-patch ActiveArena closed-loop evaluation suite
+│       ├── run_eval.py               # Single CLI for IP-VLA + all 5 baseline modes on identical paired seeds
+│       ├── autonomous_policy.py      # IP-VLA Stage-2 zero-oracle closed-loop policy adapter
+│       ├── asa_{policy,server}.py    # Baseline [1]: Embodiment-aligned ASA (EgoActiveFlowModelv2)
+│       ├── zsip_{policy,server}.py   # Baseline [2]: Zero-Shot Interactive Perception (frozen VLM + EO + memory)
+│       ├── aawr_{network,policy,server}.py # Baseline [3]: Asymmetric AWR (privileged Q/V -> unprivileged actor)
+│       └── setup_activearena.sh      # One-command bootstrap for ActiveArena, assets, and official checkpoints
 ├── scripts/
-│   └── eval_stage2_activearena.sh    # One-command Stage-2 ActiveArena evaluation launcher
+│   ├── eval_stage2_activearena.sh    # Unified ActiveArena evaluation wrapper
+│   ├── run_asa_stage3_formal.sh      # End-to-end [Collect -> Train -> Eval] pipeline for ASA [1]
+│   ├── run_zsip_formal.sh            # End-to-end [Smoke -> Eval] pipeline for ZS-IP [2]
+│   └── run_aawr_formal.sh            # End-to-end [Collect -> Train -> Eval] pipeline for AAWR [3]
 ├── docs/
-│   └── METHOD_SPEC.md                # Unified Stage-1 & Stage-2 mathematical specification
-└── tests/
-    └── test_cerebellum_and_switching.py
+│   ├── METHOD_SPEC.md                # Unified Stage-1 & Stage-2 mathematical specification
+│   └── COLLABORATOR_AAWR_GUIDE.md    # Collaborator step-by-step guide (including AAWR on 8GB 4060 / 24GB 3090)
+└── tests/                            # Full pytest suite covering IP-VLA, ASA, ZS-IP, and AAWR
 ```
 
 ---
 
-## Quickstart
-
-### 1. Install `ipvla`
+## 3-Step Quickstart
 
 ```bash
+# 1. Install package & run unit tests
 pip install -e ".[dev]"
 pytest -q
-```
 
-Configure local checkpoint/environment paths by copying `configs/paths.example.yaml` to `configs/paths.local.yaml` (git-ignored) or setting environment variables (`IPVLA_BASE_VLM`, `IPVLA_STAGE1_LORA`, `IPVLA_STAGE1_CONF_HEAD`, `ACTIVEARENA_ROOT`, etc.).
-
-### 2. Setup ActiveArena Evaluation Suite
-
-ActiveArena and ActiveArena-VLA are integrated cleanly under `eval/activearena/` without patching upstream simulator code:
-
-```bash
+# 2. Bootstrap ActiveArena simulator, assets & official checkpoints (resumable)
+cp configs/paths.example.yaml configs/paths.local.yaml   # edit local venv/checkpoint paths if needed
 bash eval/activearena/setup_activearena.sh
+
+# 3. Verify readiness (0 GPU usage)
+bash scripts/eval_stage2_activearena.sh --mode ipvla_planner --setting id --tasks check_block_color --dry-run
 ```
-
-Verify readiness (0 GPU usage):
-
-```bash
-bash scripts/eval_stage2_activearena.sh \
-  --mode oracle_subtask_oft \
-  --tasks check_block_color check_cola_date \
-  --episodes 5 \
-  --dry-run
-```
-
-### 3. Run Closed-Loop ActiveArena Evaluation (Paired Seeds)
-
-All modes evaluate on the exact same official ActiveArena seed lists (`id` = `info_gathering_demo`, `ood` = `info_gathering_randomized`):
-
-```bash
-# Tier-1A: Official End-to-End Instruction Baseline (oft_instruction_action_12_ws)
-bash scripts/eval_stage2_activearena.sh \
-  --mode instruction_oft --setting ood \
-  --tasks check_block_color check_cola_date --episodes 10
-
-# Tier-1B: Official Subtask Executor + Privileged Env Oracle (Upper Bound)
-bash scripts/eval_stage2_activearena.sh \
-  --mode oracle_subtask_oft --setting ood \
-  --tasks check_block_color check_cola_date --episodes 10
-
-# Tier-2: Autonomous IP-VLA Stage-2 Planner (0 Oracle!) -> Frozen oft_subtask_action_12_ws
-bash scripts/eval_stage2_activearena.sh \
-  --mode ipvla_planner --setting ood \
-  --tasks check_block_color check_cola_date --episodes 10 \
-  --cerebellum-mode physical_cerebellum \
-  --memory-mode inspect_keyframe_pin
-```
-
-### 4. Cerebellum & Memory Ablations
-
-Swap `--cerebellum-mode` (`physical_cerebellum` | `no_inertia_k0` | `fixed_period`), `--memory-mode` (`inspect_keyframe_pin` | `sliding_window`), or add `--no-lora` (Base `Qwen3-VL-2B` zero-shot planner) on the exact same seeds.
 
 ---
 
-## Stage-1 Open-Video Summary (`Qwen3-VL-2B`, 0 ActiveArena rows)
+## Unified Closed-Loop Evaluation Modes (Identical Official Seeds)
 
-- **Cross-goal counterfactual (`goal_cross`)**: **`2/2` (4/4 exact)** on held-out open-video recordings.
-- **Calibrated Confidence Readout (`Ridge + Softplus Temp`)**: Strictly improves both Brier ($\downarrow$) and AUROC ($\uparrow$) over constant baseline and calibrated token log-probability across all 4 slices (`all`, `os_ost_part3`, `roboturk`, `triplet`).
-- **Controlled ActiveArena `check_block_color` 2×2 + Color-Swap (E1)**: **`36/36` (100%)** across `full`, `jump_keep_slot1`, `jump_keep_slot2`, `smooth_no_evidence`, `masked`, and `color_swap`.
+All 6 modes run through the exact same `eval/activearena/run_eval.py` harness on identical official `ID` (`info_gathering_demo`) and `OOD` (`info_gathering_randomized`) seed lists:
+
+| Mode Flag (`--mode`) | Method | Training Requirement | Privileged Info at Eval? | One-Command Pipeline |
+| --- | --- | --- | :---: | --- |
+| `asa_baseline` | **ASA / CoMe-VLA [1]** | Stage-3 Astribot Flow finetune | No (`instruction` mode) | `bash scripts/run_asa_stage3_formal.sh` |
+| `zsip_baseline` | **ZS-IP [2]** | **Zero training** (frozen 2B VLM) | No | `bash scripts/run_zsip_formal.sh` |
+| `aawr_baseline` | **AAWR [3]** | Offline privileged-$Q/V$ AWR (~1.2 GB VRAM) | **No** (critics discarded) | **`bash scripts/run_aawr_formal.sh`** |
+| `instruction_oft` | **ActiveArena-OFT (Instr.)** | Official released 100k-step ckpt | No | `bash scripts/eval_stage2_activearena.sh --mode instruction_oft` |
+| `oracle_subtask_oft` | **ActiveArena-OFT + Oracle** | Official released 100k-step ckpt | **Yes (Upper Bound)** | `bash scripts/eval_stage2_activearena.sh --mode oracle_subtask_oft` |
+| **`ipvla_planner`** | **IP-VLA (Ours)** | Stage-1 open-video LoRA + frozen OFT | **No** | `bash scripts/eval_stage2_activearena.sh --mode ipvla_planner` |
+
+For detailed collaborator onboarding and customizing **AAWR** on `8 GB RTX 4060` or `24 GB RTX 3090` GPUs, see **[docs/COLLABORATOR_AAWR_GUIDE.md](docs/COLLABORATOR_AAWR_GUIDE.md)**.
