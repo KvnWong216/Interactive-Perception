@@ -1,0 +1,43 @@
+# Stage-2 ActiveArena Closed-Loop Switching & Evaluation Configuration
+# Implements the unified continuous cerebellum inertia & two-stage confidence-gated interface.
+
+eval:
+  default_setting: "ood"   # "id" -> info_gathering_demo, "ood" -> info_gathering_randomized
+  pilot_tasks:
+    - "check_block_color"
+    - "check_cola_date"
+  default_episodes: 10
+  action_server_base_port: 19000
+  planner_server_port: 19100
+
+cerebellum:
+  # Modes: "physical_cerebellum" | "no_inertia_k0" | "fixed_period"
+  mode: "physical_cerebellum"
+  ema_alpha: 0.35
+  left_gripper_idx: 7
+  right_gripper_idx: 15
+  gripper_vel_scale: 0.15
+  kin_vel_scale: 0.25
+  horizon_steps: 16          # H_e: action chunk execution horizon
+  dwell_tau0: 0.55           # Exponential decay scale for commit-anchored dwell phi_dw
+
+switching:
+  # Stage-1 Wake Gate: r_t > b + kappa * phi_t  AND  (t - t_v) >= t_lock
+  wake_bias: 0.12
+  wake_inertia_kappa: 0.35
+  t_lock_steps: 16           # Minimum cooldown steps between consecutive VLM calls
+  max_idle_steps: 96         # Safety upper bound so the planner never starves on static scenes
+  fixed_period_steps: 32     # Only used when cerebellum.mode == "fixed_period"
+
+  # Stage-2 Commit Gate: not Eq(u', u_k) AND c(u') >= c_min AND (c(u') - c(u_k)) >= delta_0 + kappa_c * phi_t
+  c_min: 0.45
+  commit_delta0: 0.05
+  commit_kappa_c: 0.20
+
+memory:
+  # Modes: "inspect_keyframe_pin" | "sliding_window"
+  mode: "inspect_keyframe_pin"
+  num_frames: 4
+  max_pinned_inspect_frames: 2
+  sliding_stride_steps: 16
+  novelty_pin_threshold: 0.32

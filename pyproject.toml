@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ipvla"
+version = "0.2.0"
+description = "IP-VLA: Evidence-Gated Active Perception Subtask Planning and Continuous Cerebellum Switching for Embodied VLAs"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.24",
+    "pillow>=10.0",
+    "pyyaml>=6.0",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+train = [
+    "torch>=2.4",
+    "transformers>=4.50",
+    "peft>=0.13",
+    "safetensors>=0.4",
+    "scikit-learn>=1.4",
+]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.scripts]
+ipvla-eval-activearena = "eval.activearena.run_eval:main"
+ipvla-planner-server = "ipvla.stage2.planner_server:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ipvla*", "eval*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

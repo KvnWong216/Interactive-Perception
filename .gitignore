@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+.venvs/
+venv/
+env/
+
+# Local machine bindings, secrets, and heavy runtime artifacts
+configs/paths.local.yaml
+checkpoints/
+data/
+logs/
+runs/
+outputs/
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.ckpt
+*.h5
+*.hdf5
+*.mp4
+*.zip
+*.tar.gz
+
+# External vendored/cloned eval engines (installed via eval/activearena/setup_activearena.sh)
+eval/activearena/external/*
+!eval/activearena/external/.gitkeep
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store

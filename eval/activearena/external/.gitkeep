@@ -1,0 +1,2 @@
+# External ActiveArena & ActiveArena-VLA checkouts live here (git-ignored).
+# Run `bash eval/activearena/setup_activearena.sh` to install or link them.

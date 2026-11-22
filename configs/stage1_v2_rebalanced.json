@@ -1,0 +1,51 @@
+{
+  "model_path": "/home/ubuntu/ygwang/IP-VLA/asa-iteration/checkpoints/Qwen3-VL-2B-Instruct",
+  "model_revision": "89644892e4d85e24eaac8bacfd4f463576704203",
+  "output_root": "/home/ubuntu/ygwang/IP-VLA/asa-iteration/reports/rss2027_autoresearch/results/stage1_v2_rebalanced_6ep_r32_448x336",
+  "parent_run_dir": "/home/ubuntu/ygwang/IP-VLA/asa-iteration/reports/rss2027_autoresearch/results/stage1_full_6ep_r32_highres448_v1/725c7958-3dbf-4e3d-9b14-70ce5c9c02f3",
+  "canonical_ref_dir": "/home/ubuntu/ygwang/IP-VLA/asa-iteration/reports/rss2027_autoresearch/results/stage1_bs16_nogc_rank32_highres448_v1/ea40ef8b-e862-4827-b435-5d0334d17559",
+  "additional_holdout_path": "/home/ubuntu/ygwang/IP-VLA/asa-iteration/reports/rss2027_autoresearch/results/stage1_closeout_20261121/additional_holdout.jsonl",
+  "visibility_audit_csv": "/home/ubuntu/ygwang/IP-VLA/asa-iteration/reports/rss2027_autoresearch/results/stage1_closeout_20261121/current_frame_audit.csv",
+  "dashboard_tracker_script": "/home/ubuntu/ygwang/IP-VLA/asa-iteration/scripts/live_wandb_tracker.py",
+  "image_width": 448,
+  "image_height": 336,
+  "max_prompt_tokens": 1152,
+  "seed": 17,
+  "gradient_checkpointing": false,
+  "batch_size": 16,
+  "micro_batch_size": 4,
+  "batch_mix_4_2_4_4_2": {
+    "specific_pos": 4,
+    "gmismatch_neg": 2,
+    "roboturk_generic": 4,
+    "os_generic": 4,
+    "activity_description": 2
+  },
+  "epochs": 6,
+  "lora_r32": {
+    "rank": 32,
+    "alpha": 64,
+    "projections": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "expected_adapters": 196,
+    "learning_rate": 0.00015,
+    "min_learning_rate": 0.000015,
+    "warmup_ratio": 0.05
+  },
+  "val_eval_per_source": 120,
+  "test_eval_per_source": 45,
+  "budget": {
+    "hard_wall_seconds": 14400,
+    "hard_gpu_hours": 4.0,
+    "min_free_mib": 14000,
+    "torch_allocator_mib": 18944,
+    "hard_process_mib": 19968
+  }
+}

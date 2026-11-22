@@ -1,0 +1,15 @@
+# Copy to configs/paths.local.yaml (git-ignored) or override via environment variables.
+# Relative paths resolve against the IP-VLA repository root.
+
+base_vlm_dir: "checkpoints/Qwen3-VL-2B-Instruct"
+stage1_lora_path: "checkpoints/stage1_v2/stage1_lora_r32_448x336_best.safetensors"
+stage1_confidence_head_path: "checkpoints/stage1_v2/stage1_v2_confidence_head_ridge_temp.pt"
+
+activearena:
+  sim_repo: "eval/activearena/external/ActiveArena"
+  vla_repo: "eval/activearena/external/ActiveArena-VLA"
+  weights_root: "eval/activearena/external/ActiveArena-VLA-weights"
+  sim_python: "python"
+  vla_python: "python"
+  planner_python: "python"
+  output_root: "runs/activearena"
