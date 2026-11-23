@@ -52,6 +52,7 @@ from eval.activearena.zsip_eo_and_memory import (
 # Canonical wrist-inspection joint postures on Astribot S1 (`envs/_GLOBAL_CONFIGS.py`)
 LEFT_CHECK_POSE = np.array([-1.5, -0.7, 0.4, 1.8, 2.6, -0.76, -0.7], dtype=np.float64)
 RIGHT_CHECK_POSE = np.array([1.5, -0.7, -0.4, 1.8, -2.6, -0.76, 0.7], dtype=np.float64)
+CLOSED_GRIP_VAL = 0.18  # Firm grasp avoiding 0-gap PhysX rigid-cylinder interpenetration impulse
 
 # Straight top-down EE orientation at azimuth=0 (`X_ee=[0,0,-1]`, `Y_ee=[-1,0,0]`, `Z_ee=[0,1,0]`)
 R_TOP_DOWN_ZERO = Rotation.from_quat([-0.5, 0.5, -0.5, -0.5], scalar_first=True).as_matrix()
@@ -224,7 +225,7 @@ class ZSIPAstribotPolicyClient:
             else:
                 h1, t_yaw = 0.0, 0.0
             arm = self.memory.holding_arm if self.memory.holding else "left"
-            grip = 0.0 if self.memory.holding else 1.0
+            grip = CLOSED_GRIP_VAL if self.memory.holding else 1.0
             hold_q = (
                 self._carry_qpos7
                 if (self.memory.holding and self._carry_qpos7 is not None)
@@ -289,9 +290,9 @@ class ZSIPAstribotPolicyClient:
             t_yaw = float(np.clip(theta, -0.92, 0.92))
             h1 = float(np.clip(theta - t_yaw, -0.55, 0.55))
             home_q = left_home if arm == "left" else right_home
-            pre_xyz = np.array([kp.grasp_xyz[0], kp.grasp_xyz[1], 0.885], dtype=np.float64)
+            pre_xyz = np.array([kp.grasp_xyz[0], kp.grasp_xyz[1], 0.915], dtype=np.float64)
             grasp_xyz = kp.grasp_xyz.copy()
-            lift_xyz = np.array([kp.grasp_xyz[0], kp.grasp_xyz[1], 0.895], dtype=np.float64)
+            lift_xyz = np.array([kp.grasp_xyz[0], kp.grasp_xyz[1], 0.915], dtype=np.float64)
 
             self.memory.holding_arm = arm
             self.memory.origin_xyz = [round(float(v), 3) for v in grasp_xyz]
@@ -299,17 +300,17 @@ class ZSIPAstribotPolicyClient:
 
             self._stage_queue.extend(
                 [
-                    _PrimitiveStage(f"GRASP:{kid}:align", 12, arm=arm, joint_tgt7=home_q, grip_tgt=1.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
-                    _PrimitiveStage(f"GRASP:{kid}:pre", 12, arm=arm, tcp_tgt_xyz=pre_xyz, ee_quat_wxyz=ee_quat, grip_tgt=1.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
-                    _PrimitiveStage(f"GRASP:{kid}:descend", 12, arm=arm, tcp_tgt_xyz=grasp_xyz, ee_quat_wxyz=ee_quat, grip_tgt=1.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
-                    _PrimitiveStage(f"GRASP:{kid}:close", 10, arm=arm, tcp_tgt_xyz=grasp_xyz, ee_quat_wxyz=ee_quat, grip_tgt=0.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
+                    _PrimitiveStage(f"GRASP:{kid}:align", 16, arm=arm, joint_tgt7=home_q, grip_tgt=1.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
+                    _PrimitiveStage(f"GRASP:{kid}:pre", 32, arm=arm, tcp_tgt_xyz=pre_xyz, ee_quat_wxyz=ee_quat, grip_tgt=1.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
+                    _PrimitiveStage(f"GRASP:{kid}:descend", 22, arm=arm, tcp_tgt_xyz=grasp_xyz, ee_quat_wxyz=ee_quat, grip_tgt=1.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
+                    _PrimitiveStage(f"GRASP:{kid}:close", 12, arm=arm, tcp_tgt_xyz=grasp_xyz, ee_quat_wxyz=ee_quat, grip_tgt=CLOSED_GRIP_VAL, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
                     _PrimitiveStage(
                         f"GRASP:{kid}:lift",
-                        12,
+                        20,
                         arm=arm,
                         tcp_tgt_xyz=lift_xyz,
                         ee_quat_wxyz=ee_quat,
-                        grip_tgt=0.0,
+                        grip_tgt=CLOSED_GRIP_VAL,
                         q_head_tgt=np.array([0.0, 0.96]),
                         q_torso_tgt=t_yaw,
                         save_carry_qpos_at_end=True,
@@ -328,18 +329,18 @@ class ZSIPAstribotPolicyClient:
             ret_q = self._carry_qpos7 if self._carry_qpos7 is not None else (left_home if arm == "left" else right_home)
             self._stage_queue.extend(
                 [
-                    _PrimitiveStage("INSPECT:move_to_cam", 16, arm=arm, joint_tgt7=check_q, grip_tgt=0.0, q_head_tgt=np.array([0.0, 0.98])),
+                    _PrimitiveStage("INSPECT:move_to_cam", 42, arm=arm, joint_tgt7=check_q, grip_tgt=CLOSED_GRIP_VAL, q_head_tgt=np.array([0.0, 0.98])),
                     _PrimitiveStage(
                         "INSPECT:hold_and_pin",
                         8,
                         arm=arm,
                         joint_tgt7=check_q,
-                        grip_tgt=0.0,
+                        grip_tgt=CLOSED_GRIP_VAL,
                         q_head_tgt=np.array([0.0, 0.98]),
                         pin_reveal_at_end=True,
                         set_inspected_at_end=True,
                     ),
-                    _PrimitiveStage("INSPECT:restore_carry", 14, arm=arm, joint_tgt7=ret_q, grip_tgt=0.0, q_head_tgt=np.array([0.0, 0.96]), q_torso_tgt=0.0),
+                    _PrimitiveStage("INSPECT:restore_carry", 38, arm=arm, joint_tgt7=ret_q, grip_tgt=CLOSED_GRIP_VAL, q_head_tgt=np.array([0.0, 0.96]), q_torso_tgt=0.0),
                 ]
             )
             return "Rotated held object in front of head camera and pinned clean backside reveal image in memory"
@@ -365,18 +366,18 @@ class ZSIPAstribotPolicyClient:
             h1 = float(np.clip(theta - t_yaw, -0.55, 0.55))
             home_q = left_home if arm == "left" else right_home
             hold_q = self._carry_qpos7 if self._carry_qpos7 is not None else home_q
-            pre_xyz = np.array([place_xyz[0], place_xyz[1], 0.895], dtype=np.float64)
-            retreat_xyz = np.array([place_xyz[0], place_xyz[1], 0.910], dtype=np.float64)
+            pre_xyz = np.array([place_xyz[0], place_xyz[1], 0.915], dtype=np.float64)
+            retreat_xyz = np.array([place_xyz[0], place_xyz[1], 0.925], dtype=np.float64)
 
             self._placed_at_least_once = True
             self._stage_queue.extend(
                 [
-                    _PrimitiveStage(f"PLACE:{key}:align", 12, arm=arm, joint_tgt7=hold_q, grip_tgt=0.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
-                    _PrimitiveStage(f"PLACE:{key}:pre", 14, arm=arm, tcp_tgt_xyz=pre_xyz, ee_quat_wxyz=ee_quat, grip_tgt=0.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
-                    _PrimitiveStage(f"PLACE:{key}:lower", 12, arm=arm, tcp_tgt_xyz=place_xyz, ee_quat_wxyz=ee_quat, grip_tgt=0.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
-                    _PrimitiveStage(f"PLACE:{key}:open", 10, arm=arm, tcp_tgt_xyz=place_xyz, ee_quat_wxyz=ee_quat, grip_tgt=1.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw, set_holding_at_end=False),
-                    _PrimitiveStage(f"PLACE:{key}:retreat", 10, arm=arm, tcp_tgt_xyz=retreat_xyz, ee_quat_wxyz=ee_quat, grip_tgt=1.0, q_head_tgt=np.array([0.0, 0.96]), q_torso_tgt=0.0),
-                    _PrimitiveStage(f"PLACE:{key}:home", 12, arm=arm, joint_tgt7=home_q, grip_tgt=1.0, q_head_tgt=np.array([0.0, 0.96]), q_torso_tgt=0.0),
+                    _PrimitiveStage(f"PLACE:{key}:align", 18, arm=arm, joint_tgt7=hold_q, grip_tgt=CLOSED_GRIP_VAL, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
+                    _PrimitiveStage(f"PLACE:{key}:pre", 28, arm=arm, tcp_tgt_xyz=pre_xyz, ee_quat_wxyz=ee_quat, grip_tgt=CLOSED_GRIP_VAL, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
+                    _PrimitiveStage(f"PLACE:{key}:lower", 22, arm=arm, tcp_tgt_xyz=place_xyz, ee_quat_wxyz=ee_quat, grip_tgt=CLOSED_GRIP_VAL, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
+                    _PrimitiveStage(f"PLACE:{key}:open", 12, arm=arm, tcp_tgt_xyz=place_xyz, ee_quat_wxyz=ee_quat, grip_tgt=1.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw, set_holding_at_end=False),
+                    _PrimitiveStage(f"PLACE:{key}:retreat", 20, arm=arm, tcp_tgt_xyz=retreat_xyz, ee_quat_wxyz=ee_quat, grip_tgt=1.0, q_head_tgt=np.array([h1, 0.98]), q_torso_tgt=t_yaw),
+                    _PrimitiveStage(f"PLACE:{key}:home", 26, arm=arm, joint_tgt7=home_q, grip_tgt=1.0, q_head_tgt=np.array([0.0, 0.96]), q_torso_tgt=0.0),
                 ]
             )
             return f"Placed held object onto {desc} at xy=({place_xyz[0]:+.2f}, {place_xyz[1]:+.2f})"
@@ -412,36 +413,61 @@ class ZSIPAstribotPolicyClient:
             left_grip_cmd = 1.0
             right_grip_cmd = float(stg.grip_tgt)
 
+        converged_early = False
+        # Lazily solve exact Pinocchio DLS IK once at the start of each Cartesian stage (after torso alignment!)
+        if stg.joint_tgt7 is None and stg.tcp_tgt_xyz is not None and stg.ee_quat_wxyz is not None:
+            ee_pose7 = _tcp_to_ee_pose7(stg.tcp_tgt_xyz, stg.ee_quat_wxyz)
+            if stg.arm == "left":
+                stg.joint_tgt7 = solve_sapien_arm_dls_ik(
+                    robot.left_entity,
+                    robot.left_arm_joints,
+                    robot.left_ee_link,
+                    ee_pose7,
+                    current_ee_pose7=kin["left_ee7"],
+                    q_homestate=np.asarray(robot.left_homestate, dtype=np.float64),
+                    iters=36,
+                )
+            else:
+                stg.joint_tgt7 = solve_sapien_arm_dls_ik(
+                    robot.right_entity,
+                    robot.right_arm_joints,
+                    robot.right_ee_link,
+                    ee_pose7,
+                    current_ee_pose7=kin["right_ee7"],
+                    q_homestate=np.asarray(robot.right_homestate, dtype=np.float64),
+                    iters=36,
+                )
+
         if stg.joint_tgt7 is not None:
             cur_q = kin["q_left7"] if stg.arm == "left" else kin["q_right7"]
-            step_q = cur_q + np.clip(stg.joint_tgt7 - cur_q, -0.15, 0.15)
+            err_q = stg.joint_tgt7 - cur_q
+            step_q = cur_q + np.clip(err_q, -0.12, 0.12)
+            hold_stage = stg.pin_reveal_at_end or (":close" in stg.name) or (":open" in stg.name)
+            torso_settled = stg.q_torso_tgt is None or (
+                abs(kin["q_torso"] - float(np.clip(stg.q_torso_tgt, *TORSO_JOINT4_LIMITS))) < 0.035
+            )
+            head_settled = stg.q_head_tgt is None or (
+                float(
+                    np.max(
+                        np.abs(
+                            kin["q_head"]
+                            - np.array(
+                                [
+                                    np.clip(stg.q_head_tgt[0], *HEAD_JOINT1_LIMITS),
+                                    np.clip(stg.q_head_tgt[1], *HEAD_JOINT2_LIMITS),
+                                ]
+                            )
+                        )
+                    )
+                )
+                < 0.05
+            )
+            if float(np.max(np.abs(err_q))) < 0.045 and torso_settled and head_settled and not hold_stage:
+                converged_early = True
             if stg.arm == "left":
                 q_left_cmd = step_q
             else:
                 q_right_cmd = step_q
-        elif stg.tcp_tgt_xyz is not None and stg.ee_quat_wxyz is not None:
-            cur_tcp = kin["left_tcp7"][:3] if stg.arm == "left" else kin["right_tcp7"][:3]
-            delta = stg.tcp_tgt_xyz - cur_tcp
-            dist = float(np.linalg.norm(delta))
-            step_tcp = cur_tcp + (delta * (0.024 / dist) if dist > 0.024 else delta)
-            ee_pose7 = _tcp_to_ee_pose7(step_tcp, stg.ee_quat_wxyz)
-            endlink = robot._trans_from_gripper_to_endlink(ee_pose7, arm_tag=stg.arm)
-            if stg.arm == "left":
-                q_left_cmd = solve_sapien_arm_dls_ik(
-                    robot.left_entity,
-                    robot.left_arm_joints,
-                    robot.left_ee_link,
-                    np.concatenate([endlink.p, endlink.q]),
-                    q_homestate=np.asarray(robot.left_homestate, dtype=np.float64),
-                )
-            else:
-                q_right_cmd = solve_sapien_arm_dls_ik(
-                    robot.right_entity,
-                    robot.right_arm_joints,
-                    robot.right_ee_link,
-                    np.concatenate([endlink.p, endlink.q]),
-                    q_homestate=np.asarray(robot.right_homestate, dtype=np.float64),
-                )
 
         # Head & Torso smooth deltas relative to current drive targets
         head_drive_now = np.asarray(robot.get_head_jointState(), dtype=np.float64)
@@ -474,6 +500,8 @@ class ZSIPAstribotPolicyClient:
         task_env.take_action(action19, action_type="qpos")
 
         stg.steps_remaining -= 1
+        if converged_early:
+            stg.steps_remaining = 0
         if stg.steps_remaining <= 0:
             kin_after = self._read_robot_state(task_env)
             if stg.save_carry_qpos_at_end:

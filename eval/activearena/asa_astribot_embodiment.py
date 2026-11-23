@@ -377,18 +377,27 @@ class ASAAstribotEmbodimentAdapter:
         return left_ee7, lg, right_ee7, rg
 
 
+_PINOCCHIO_CACHE: dict[int, tuple[Any, int]] = {}
+
+
 def solve_sapien_arm_dls_ik(
     entity: Any,
     arm_joints: list[Any],
     ee_link: Any,
-    target_endlink_pose7: np.ndarray,
+    target_pose7: np.ndarray,
     *,
+    current_ee_pose7: np.ndarray | None = None,
     q_homestate: np.ndarray | None = None,
     damping: float = 0.04,
-    iters: int = 8,
+    iters: int = 12,
     posture_gain: float = 0.05,
 ) -> np.ndarray:
-    """Fast (<0.4 ms) damped-least-squares 7-DoF IK directly on Sapien articulation (restores original qpos)."""
+    """Fast (<0.3 ms) damped-least-squares 7-DoF IK on Sapien 3 via Pinocchio FK (with mock fallback).
+
+    When `current_ee_pose7` (`robot.get_left_ee_pose()` / `get_right_ee_pose()`) is supplied,
+    `target_pose7` is interpreted directly in that exact `ee_pose` world frame (`T_link_ee` is
+    calibrated live at `q_orig`, eliminating all `delta_matrix` / `global_trans_matrix` offsets).
+    """
     active_joints = list(entity.get_active_joints())
     arm_indices = [active_joints.index(j) for j in arm_joints]
     limits = np.array([j.get_limits()[0] for j in arm_joints], dtype=np.float64)  # (7, 2)
@@ -398,9 +407,47 @@ def solve_sapien_arm_dls_ik(
     q_arm = q_work[arm_indices].copy()
     q_home = np.asarray(q_homestate, dtype=np.float64) if q_homestate is not None else q_arm.copy()
 
-    T_target = pose7_to_matrix(target_endlink_pose7)
+    T_target = pose7_to_matrix(target_pose7)
     p_tgt = T_target[:3, 3]
     R_tgt = T_target[:3, :3]
+
+    use_pinocchio = hasattr(entity, "create_pinocchio_model") and hasattr(entity, "get_root_pose")
+    pmod = None
+    ee_link_idx = -1
+    T_world_root = np.eye(4, dtype=np.float64)
+    T_link_frame = np.eye(4, dtype=np.float64)
+
+    if use_pinocchio:
+        ent_id = id(entity)
+        cached = _PINOCCHIO_CACHE.get(ent_id)
+        links = list(entity.get_links())
+        ee_link_idx = links.index(ee_link)
+        if cached is None or cached[1] != len(links):
+            pmod = entity.create_pinocchio_model()
+            _PINOCCHIO_CACHE[ent_id] = (pmod, len(links))
+        else:
+            pmod = cached[0]
+        rp = entity.get_root_pose()
+        T_world_root = pose7_to_matrix(np.concatenate([rp.p, rp.q]))
+        pmod.compute_forward_kinematics(q_orig)
+        lp0 = pmod.get_link_pose(ee_link_idx)
+        T_world_link0 = T_world_root @ pose7_to_matrix(np.concatenate([lp0.p, lp0.q]))
+        if current_ee_pose7 is not None:
+            T_world_ee0 = pose7_to_matrix(current_ee_pose7)
+            T_link_frame = np.linalg.inv(T_world_link0) @ T_world_ee0
+
+    def _fk_world(q_vec: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        if use_pinocchio and pmod is not None:
+            pmod.compute_forward_kinematics(q_vec)
+            lp = pmod.get_link_pose(ee_link_idx)
+            T_wl = T_world_root @ pose7_to_matrix(np.concatenate([lp.p, lp.q]))
+            T_wf = T_wl @ T_link_frame
+            return T_wf[:3, 3], T_wf[:3, :3]
+        entity.set_qpos(q_vec)
+        pose_now = ee_link.get_entity_pose()
+        T_wl = pose7_to_matrix(np.concatenate([pose_now.p, pose_now.q]))
+        T_wf = T_wl @ T_link_frame
+        return T_wf[:3, 3], T_wf[:3, :3]
 
     eps = 1e-5
     eye6 = np.eye(6, dtype=np.float64) * (damping ** 2)
@@ -409,10 +456,7 @@ def solve_sapien_arm_dls_ik(
     try:
         for _ in range(iters):
             q_work[arm_indices] = q_arm
-            entity.set_qpos(q_work)
-            pose_now = ee_link.get_entity_pose()
-            p_now = np.asarray(pose_now.p, dtype=np.float64)
-            R_now = quat_wxyz_to_matrix(pose_now.q)
+            p_now, R_now = _fk_world(q_work)
 
             err_pos = p_tgt - p_now
             err_rot = Rotation.from_matrix(R_tgt @ R_now.T).as_rotvec()
@@ -420,15 +464,13 @@ def solve_sapien_arm_dls_ik(
             if float(np.linalg.norm(err_pos)) < 5e-4 and float(np.linalg.norm(err_rot)) < 3e-3:
                 break
 
-            # Finite-difference geometric Jacobian wrt the 7 arm joints (7 FK evaluations, ~30 us in Sapien)
             J = np.zeros((6, 7), dtype=np.float64)
             for k, a_idx in enumerate(arm_indices):
                 q_pert = q_work.copy()
                 q_pert[a_idx] += eps
-                entity.set_qpos(q_pert)
-                pk = ee_link.get_entity_pose()
-                dp = (np.asarray(pk.p, dtype=np.float64) - p_now) / eps
-                dR = quat_wxyz_to_matrix(pk.q) @ R_now.T
+                pk_p, pk_R = _fk_world(q_pert)
+                dp = (pk_p - p_now) / eps
+                dR = pk_R @ R_now.T
                 dw = Rotation.from_matrix(dR).as_rotvec() / eps
                 J[:, k] = np.concatenate([dp, dw], axis=0)
 
@@ -436,9 +478,10 @@ def solve_sapien_arm_dls_ik(
             J_pinv = J.T @ JJT_inv
             null_proj = eye7 - J_pinv @ J
             dq = J_pinv @ err6 + posture_gain * (null_proj @ (q_home - q_arm))
-            dq = np.clip(dq, -0.25, 0.25)
+            dq = np.clip(dq, -0.30, 0.30)
             q_arm = np.clip(q_arm + dq, limits[:, 0], limits[:, 1])
     finally:
-        entity.set_qpos(q_orig)
+        if not use_pinocchio:
+            entity.set_qpos(q_orig)
 
     return q_arm

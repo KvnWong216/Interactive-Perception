@@ -98,6 +98,8 @@ class ASAAstribotPolicyClient:
         self._pending_chunk: deque[tuple[np.ndarray, np.ndarray]] = deque()
         self._last_instruction: str | None = None
         self._last_p_complete: float = 0.0
+        self._oracle_stage: int = 1
+        self._oracle_inspect_hold: int = 0
 
     def reset(self) -> None:
         self.adapter.reset()
@@ -105,6 +107,8 @@ class ASAAstribotPolicyClient:
         self._pending_chunk.clear()
         self._last_instruction = None
         self._last_p_complete = 0.0
+        self._oracle_stage = 1
+        self._oracle_inspect_hold = 0
         self.episode_idx += 1
 
     def _read_astribot_kinematics(self, task_env: Any) -> dict[str, Any]:
@@ -157,22 +161,75 @@ class ASAAstribotPolicyClient:
             [x[3] for x in selected],
         )
 
+    def _resolve_oracle_subtask_prompt(self, task_env: Any) -> str:
+        """Privileged ground-truth subtask switcher (ONLY used when `--asa-subtask-mode oracle_subtask`
+        to measure the upper bound of ASA when non-Markovian stage switching & memory are provided by an oracle).
+        """
+        obj = getattr(task_env, "block", None) or getattr(task_env, "can", None)
+        if obj is None:
+            return str(task_env.get_instruction())
+
+        obj_z = float(obj.get_pose().p[2])
+        q_left7 = np.asarray(task_env.robot.get_left_arm_real_jointState()[:-1], dtype=np.float64)
+        lg, _ = task_env.robot.get_normal_real_gripper_val()
+
+        if self._oracle_stage == 1:
+            if obj_z > 0.798 and float(lg) < 0.80:
+                self._oracle_stage = 2
+                self._oracle_inspect_hold = 0
+        elif self._oracle_stage == 2:
+            if obj_z < 0.775 and float(lg) > 0.85:
+                self._oracle_stage = 1
+                self._oracle_inspect_hold = 0
+            elif q_left7[4] > 1.65 and obj_z > 0.81:
+                self._oracle_inspect_hold += 1
+                if self._oracle_inspect_hold >= 4:
+                    self._oracle_stage = 3
+        elif self._oracle_stage == 3:
+            if obj_z < 0.775 and float(lg) > 0.85:
+                self._oracle_stage = 1
+            elif q_left7[4] < 0.85 and q_left7[0] > -1.15 and obj_z > 0.785:
+                self._oracle_stage = 4
+        elif self._oracle_stage == 4:
+            if obj_z < 0.772 and float(lg) > 0.85 and not task_env.check_success():
+                self._oracle_stage = 1
+
+        if hasattr(task_env, "block"):
+            return {
+                1: "pick up the gray target block with left",
+                2: "inspect the back-side pad color on the gray target block",
+                3: "restore the gray target block to the carried pose after inspection",
+                4: f"place the gray target block on {task_env.target_color_name} pad according to the back-side pad color",
+            }[self._oracle_stage]
+
+        if hasattr(task_env, "label_color"):
+            return {
+                1: "pick up can with left",
+                2: "inspect the backside color label on can",
+                3: "restore can to the carried pose after inspection",
+                4: f"place the can in {task_env.label_color} area",
+            }[self._oracle_stage]
+
+        place_str = "place the can in red expired area" if bool(getattr(task_env, "can_expired", False)) else "place the can in blue valid area"
+        return {
+            1: "pick up can with left",
+            2: "inspect the backside production date on can",
+            3: "restore can to the carried pose after inspection",
+            4: place_str,
+        }[self._oracle_stage]
+
     def _resolve_text_prompt(self, task_env: Any) -> str:
-        base_instr = str(task_env.get_instruction())
         if self.subtask_mode == "oracle_subtask":
-            for attr in ("get_current_subtask_instruction", "current_subtask_instruction", "subtask_instruction"):
-                val = getattr(task_env, attr, None)
-                text = val() if callable(val) else val
-                if isinstance(text, str) and text.strip():
-                    return text.strip()
-        return base_instr
+            return self._resolve_oracle_subtask_prompt(task_env)
+        return str(task_env.get_instruction())
 
     def step_action(self, task_env: Any, observation: dict[str, Any]) -> None:
         prompt = self._resolve_text_prompt(task_env)
         if self._last_instruction is not None and prompt != self._last_instruction:
-            # Re-anchor `step_base` when subtask prompt changes (matching ASA `pose_in_step_base`!)
+            # Re-anchor `step_base` & reset causal history when subtask prompt changes (matching `sub_*` training!)
             self.adapter.reset()
             self._pending_chunk.clear()
+            self._history_buffer.clear()
         self._last_instruction = prompt
 
         step = int(getattr(task_env, "take_action_cnt", 0))
@@ -253,26 +310,26 @@ class ASAAstribotPolicyClient:
             )
             task_env.take_action(action19, action_type="ee")
         else:
-            left_endlink = robot._trans_from_gripper_to_endlink(left_ee_tgt7, arm_tag="left")
-            right_endlink = robot._trans_from_gripper_to_endlink(right_ee_tgt7, arm_tag="right")
             q_left7 = solve_sapien_arm_dls_ik(
                 robot.left_entity,
                 robot.left_arm_joints,
                 robot.left_ee_link,
-                np.concatenate([left_endlink.p, left_endlink.q]),
+                left_ee_tgt7,
+                current_ee_pose7=kin["left_ee7"],
                 q_homestate=np.asarray(robot.left_homestate, dtype=np.float64),
                 damping=self.adapter.cfg.ik_damping,
-                iters=self.adapter.cfg.ik_iters,
+                iters=12,
                 posture_gain=self.adapter.cfg.ik_posture_gain,
             )
             q_right7 = solve_sapien_arm_dls_ik(
                 robot.right_entity,
                 robot.right_arm_joints,
                 robot.right_ee_link,
-                np.concatenate([right_endlink.p, right_endlink.q]),
+                right_ee_tgt7,
+                current_ee_pose7=kin["right_ee7"],
                 q_homestate=np.asarray(robot.right_homestate, dtype=np.float64),
                 damping=self.adapter.cfg.ik_damping,
-                iters=self.adapter.cfg.ik_iters,
+                iters=12,
                 posture_gain=self.adapter.cfg.ik_posture_gain,
             )
             action19 = np.concatenate(
@@ -288,6 +345,7 @@ class ASAAstribotPolicyClient:
                         {
                             "episode_idx": self.episode_idx,
                             "step": step,
+                            "oracle_stage": self._oracle_stage if self.subtask_mode == "oracle_subtask" else None,
                             "prompt": prompt,
                             "queried_server": queried_server,
                             "server_latency_ms": server_latency_ms,

@@ -62,11 +62,19 @@ All 6 modes run through the exact same `eval/activearena/run_eval.py` harness on
 
 | Mode Flag (`--mode`) | Method | Training Requirement | Privileged Info at Eval? | One-Command Pipeline |
 | --- | --- | --- | :---: | --- |
-| `asa_baseline` | **ASA / CoMe-VLA [1]** | Stage-3 Astribot Flow finetune | No (`instruction` mode) | `bash scripts/run_asa_stage3_formal.sh` |
+| `asa_baseline` | **ASA / CoMe-VLA [1]** | Stage-3 Astribot Flow finetune | No (`instruction`) / Yes (`oracle_subtask`) | `bash scripts/run_asa_stage3_formal.sh` |
 | `zsip_baseline` | **ZS-IP [2]** | **Zero training** (frozen 2B VLM) | No | `bash scripts/run_zsip_formal.sh` |
 | `aawr_baseline` | **AAWR [3]** | Offline privileged-$Q/V$ AWR (~1.2 GB VRAM) | **No** (critics discarded) | **`bash scripts/run_aawr_formal.sh`** |
 | `instruction_oft` | **ActiveArena-OFT (Instr.)** | Official released 100k-step ckpt | No | `bash scripts/eval_stage2_activearena.sh --mode instruction_oft` |
-| `oracle_subtask_oft` | **ActiveArena-OFT + Oracle** | Official released 100k-step ckpt | **Yes (Upper Bound)** | `bash scripts/eval_stage2_activearena.sh --mode oracle_subtask_oft` |
+| `oracle_subtask_oft` | **ActiveArena-OFT (Subtask CoT)** | Official released 100k-step ckpt | Subtask CoT | `bash scripts/eval_stage2_activearena.sh --mode oracle_subtask_oft` |
 | **`ipvla_planner`** | **IP-VLA (Ours)** | Stage-1 open-video LoRA + frozen OFT | **No** | `bash scripts/eval_stage2_activearena.sh --mode ipvla_planner` |
+
+### Verified ActiveArena Closed-Loop Baseline Benchmark (`info_gathering_demo`, Paired Official ID Seeds)
+
+| Method (`--mode`) | Training Steps | Eval Oracle | `check_block_color` | `check_cola_date` | `check_cola_color` | Mean SR |
+| --- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **ASA [1]** (`asa_baseline`, `instruction`) | `1,500` (Stage-3) | None | `0 / 10` (`0%`) | `0 / 10` (`0%`) | `0 / 10` (`0%`) | `0.0%` |
+| **ZS-IP [2]** (`zsip_baseline`, frozen `Qwen3-VL-2B`) | **`0` (Zero-Shot)** | None | `1 / 10` (`10%`) | `3 / 10` (`30%`) | `3 / 10` (`30%`) | **`23.3%`** |
+| **ActiveArena-OFT** (`instruction_oft`) | `100,000` | None | `2 / 10` (`20%`) | `5 / 10` (`50%`) | `9 / 10` (`90%`) | **`53.3%`** |
 
 For detailed collaborator onboarding and customizing **AAWR** on `8 GB RTX 4060` or `24 GB RTX 3090` GPUs, see **[docs/COLLABORATOR_AAWR_GUIDE.md](docs/COLLABORATOR_AAWR_GUIDE.md)**.

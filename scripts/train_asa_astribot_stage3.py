@@ -237,9 +237,51 @@ def make_collate_fn(pad_token_id: int):
     return _collate
 
 
+def _classify_pad_color_rgb(patch: np.ndarray) -> str:
+    arr = patch.astype(np.float32) / 255.0
+    r, g, b = float(np.median(arr[..., 0])), float(np.median(arr[..., 1])), float(np.median(arr[..., 2]))
+    cmax, cmin = max(r, g, b), min(r, g, b)
+    delta = cmax - cmin
+    if delta < 0.14:
+        return "gray"
+    if cmax == r:
+        hue_deg = (60.0 * ((g - b) / delta)) % 360.0
+    elif cmax == g:
+        hue_deg = 60.0 * (((b - r) / delta) + 2.0)
+    else:
+        hue_deg = 60.0 * (((r - g) / delta) + 4.0)
+    if hue_deg < 18.0 or hue_deg >= 336.0:
+        return "red"
+    if hue_deg < 44.0:
+        return "orange"
+    if hue_deg < 72.0:
+        return "yellow"
+    if hue_deg < 170.0:
+        return "green"
+    if hue_deg < 264.0:
+        return "blue"
+    return "purple"
+
+
+def _resolve_oracle_subtask4_instruction(ep: dict[str, Any], raw_sub_instr: str) -> str:
+    task_name = str(ep["meta"]["task_name"])
+    if task_name == "check_block_color":
+        return raw_sub_instr
+    is_left = float(ep["ep_left_wrist9"][-1, 1]) > 0.0
+    if task_name == "check_cola_date":
+        return "place the can in red expired area" if is_left else "place the can in blue valid area"
+    if task_name == "check_cola_color":
+        with Image.open(ep["frame_paths"][0]) as im0:
+            arr0 = np.asarray(im0.convert("RGB"), dtype=np.uint8)
+        patch = arr0[150:195, 45:85] if is_left else arr0[150:195, 140:180]
+        return f"place the can in {_classify_pad_color_rgb(patch)} area"
+    return raw_sub_instr
+
+
 def load_episode_bank_and_split(
     data_root: Path,
     *,
+    recipe_mode: str = "mixed",
     val_ratio: float = 0.1,
     history_stride: int = 12,
     future_stride: int = 2,
@@ -281,10 +323,15 @@ def load_episode_bank_and_split(
     loaded_train = [_load_ep(e) for e in train_eps]
     loaded_val = [_load_ep(e) for e in val_eps]
 
-    # Compute empirical normalization stats strictly from TRAIN episodes
-    head_xyz = np.concatenate([ep["ep_head9"][:, :3] for ep in loaded_train] + [ep["sub_head9"][:, :3] for ep in loaded_train], axis=0)
-    left_xyz = np.concatenate([ep["ep_left_wrist9"][:, :3] for ep in loaded_train] + [ep["sub_left_wrist9"][:, :3] for ep in loaded_train], axis=0)
-    right_xyz = np.concatenate([ep["ep_right_wrist9"][:, :3] for ep in loaded_train] + [ep["sub_right_wrist9"][:, :3] for ep in loaded_train], axis=0)
+    # Compute empirical normalization stats strictly from TRAIN episodes matching `recipe_mode`
+    if recipe_mode == "subtask_only":
+        head_xyz = np.concatenate([ep["sub_head9"][:, :3] for ep in loaded_train], axis=0)
+        left_xyz = np.concatenate([ep["sub_left_wrist9"][:, :3] for ep in loaded_train], axis=0)
+        right_xyz = np.concatenate([ep["sub_right_wrist9"][:, :3] for ep in loaded_train], axis=0)
+    else:
+        head_xyz = np.concatenate([ep["ep_head9"][:, :3] for ep in loaded_train] + [ep["sub_head9"][:, :3] for ep in loaded_train], axis=0)
+        left_xyz = np.concatenate([ep["ep_left_wrist9"][:, :3] for ep in loaded_train] + [ep["sub_left_wrist9"][:, :3] for ep in loaded_train], axis=0)
+        right_xyz = np.concatenate([ep["ep_right_wrist9"][:, :3] for ep in loaded_train] + [ep["sub_right_wrist9"][:, :3] for ep in loaded_train], axis=0)
 
     def _stats(xyz: np.ndarray) -> dict[str, list[float]]:
         mean = xyz.mean(axis=0)
@@ -309,25 +356,28 @@ def load_episode_bank_and_split(
             n_f = int(meta["num_frames"])
             task_instr = str(meta["task_instruction"])
             # 1) Full-episode non-Markovian task-instruction view (`ep_*` poses anchored at t=0)
-            for t in range(0, n_f, stride_step):
-                out.append(
-                    {
-                        "ep_data": ep,
-                        "t": t,
-                        "start_t": 0,
-                        "end_t": n_f - 1,
-                        "history_stride": history_stride,
-                        "future_stride": future_stride,
-                        "pose_prefix": "ep",
-                        "instruction": task_instr,
-                    }
-                )
+            if recipe_mode != "subtask_only":
+                for t in range(0, n_f, stride_step):
+                    out.append(
+                        {
+                            "ep_data": ep,
+                            "t": t,
+                            "start_t": 0,
+                            "end_t": n_f - 1,
+                            "history_stride": history_stride,
+                            "future_stride": future_stride,
+                            "pose_prefix": "ep",
+                            "instruction": task_instr,
+                        }
+                    )
             # 2) Subtask-segmented view (`sub_*` poses anchored at each subtask start)
             for seg in meta.get("subtask_segments", []):
                 s0, s1 = int(seg["start_frame"]), int(seg["end_frame"])
                 sub_instr = str(seg.get("instruction", "")).strip()
                 if not sub_instr or s1 <= s0:
                     continue
+                if recipe_mode == "subtask_only" and int(seg.get("subtask_id", 0)) == 4:
+                    sub_instr = _resolve_oracle_subtask4_instruction(ep, sub_instr)
                 for t in range(s0, s1 + 1, stride_step):
                     out.append(
                         {
@@ -407,6 +457,12 @@ def main() -> None:
     parser.add_argument("--eval-every", type=int, default=250)
     parser.add_argument("--log-every", type=int, default=10)
     parser.add_argument("--sample-stride", type=int, default=2)
+    parser.add_argument(
+        "--recipe-mode",
+        choices=("mixed", "subtask_only"),
+        default="mixed",
+        help="mixed: ep_* + sub_* (autonomous); subtask_only: pure sub_* oracle subtask recipe",
+    )
     parser.add_argument("--tune-mm-mlp", action="store_true", help="Also tune vlm.visual.merger (uses grad checkpointing)")
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
@@ -425,8 +481,10 @@ def main() -> None:
     args.output_dir.mkdir(parents=True, exist_ok=True)
     train_samples, val_samples, norm_stats, split_info = load_episode_bank_and_split(
         args.data_root.resolve(),
+        recipe_mode=args.recipe_mode,
         sample_stride=args.sample_stride,
     )
+    split_info["recipe_mode"] = args.recipe_mode
     (args.output_dir / "astribot_norm_stats.json").write_text(json.dumps(norm_stats, indent=2) + "\n", encoding="utf-8")
     (args.output_dir / "split_info.json").write_text(json.dumps(split_info, indent=2) + "\n", encoding="utf-8")
     print(f"[stage3] Dataset ready: {split_info}", flush=True)
